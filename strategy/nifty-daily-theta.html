@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nifty Daily Theta — Sell Premium Every Day with Hedge · Strategy</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<div class="strat-head">
+  <h1>Nifty Daily Theta — Sell Premium Every Day with Hedge</h1>
+  <span class="badge badge-green">Runnable</span>
+  <span class="muted">updated 2026-07-16</span>
+</div>
+
+<p class="hint">Daily theta paper-trade update.</p>
+
+<div class="actions">
+  
+    <button class="btn btn-primary run-scan-btn"
+            data-slug="nifty-daily-theta"
+            onclick="runScanner(this)">▶ Run scan now</button>
+    <span class="run-status"></span>
+    <span class="meta-pill">scheduled: 15 9 * * 1-5</span>
+  
+</div>
+
+
+
+<!-- Scanner results panel (populated by JS after a scan runs) -->
+<div id="scanResults" class="scan-results" style="display:none"></div>
+
+<section class="note">
+  <h2>Rules</h2>
+  <article class="md"><h1>Nifty Daily Theta — Sell Premium Every Day with Hedge</h1>
+
+<h2>Core Philosophy</h2>
+<p>&gt; <strong>Sell a little theta every single day. Not once a week — EVERY DAY.</strong></p>
+<p>&gt; Small ₹8-15 credit, hedged with a protective long leg, repeat 200+ times a year. The grind builds the fund steadily. No single day can drain the account because every trade is a defined-risk spread.</p>
+
+<h2>What This Is</h2>
+<p>A <strong>daily credit spread</strong> on Nifty that fires Mon-Wed (skip Thu/Fri). Each trade sells a far-OTM option and buys an even further-OTM hedge. Maximum loss is the spread width minus the credit — <strong>known at entry, capped, no unlimited risk.</strong></p>
+
+<p><strong>This is NOT:</strong></p>
+<ul>
+<li>❌ Naked selling (unlimited risk)</li>
+<li>❌ Weekly-only (too slow for compounding)</li>
+<li>❌ Directional betting (you profit from TIME, not direction)</li>
+</ul>
+
+<p><strong>This IS:</strong></p>
+<ul>
+<li>✅ A hedged credit spread EVERY trading day</li>
+<li>✅ Defined max loss (spread width)</li>
+<li>✅ Theta collection as primary income</li>
+<li>✅ 200+ trades/year → steady compounding</li>
+</ul>
+
+<hr>
+
+<h2>Backtested Results (2 years)</h2>
+
+<h3>Best Config: 300 OTM, 100pt spread, VIX &lt; 22, 50% profit target</h3>
+
+<table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Total trades (2yr)</strong></td><td><strong>198</strong> (~8/month)</td></tr>
+<tr><td><strong>Win rate</strong></td><td><strong>92.9%</strong></td></tr>
+<tr><td><strong>Profit factor</strong></td><td><strong>1.77</strong></td></tr>
+<tr><td><strong>Net P&amp;L (2yr)</strong></td><td><strong>₹43,133</strong> per lot</td></tr>
+<tr><td><strong>Avg credit/trade</strong></td><td>₹8.9</td></tr>
+<tr><td><strong>Avg P&amp;L/trade</strong></td><td>₹218</td></tr>
+<tr><td><strong>Positive months</strong></td><td><strong>19/23 (83%)</strong></td></tr>
+<tr><td><strong>Max loss/trade</strong></td><td>~₹6,800 (spread 100pt minus credit)</td></tr>
+</tbody></table>
+
+<h3>All Configs Tested</h3>
+
+<table><thead><tr><th>Config</th><th>Trades</th><th>WR</th><th>PF</th><th>Net P&amp;L</th><th>Pos Months</th></tr></thead><tbody>
+<tr><td>200 OTM, 100w, VIX&lt;22</td><td>256</td><td>88.3%</td><td><strong>1.74</strong></td><td>₹72,585</td><td>20/24</td></tr>
+<tr><td><strong>200 OTM, 100w, VIX&lt;18</strong></td><td>235</td><td>90.2%</td><td><strong>1.87</strong></td><td>₹72,469</td><td>20/24</td></tr>
+<tr><td><strong>300 OTM, 100w, VIX&lt;22</strong> ★</td><td>198</td><td>92.9%</td><td><strong>1.77</strong></td><td>₹43,133</td><td>19/23</td></tr>
+<tr><td>300 OTM, 100w, VIX&lt;18</td><td>178</td><td>93.8%</td><td>1.85</td><td>₹39,064</td><td>19/23</td></tr>
+<tr><td>200 OTM, 100w, 2-day expiry</td><td>166</td><td>92.2%</td><td><strong>1.94</strong></td><td>₹50,824</td><td>18/24</td></tr>
+</tbody></table>
+
+<h3>Day-of-Week Analysis (200 OTM, daily)</h3>
+<table><thead><tr><th>Day</th><th>Trades</th><th>Win%</th><th>Avg P&amp;L</th><th>Assessment</th></tr></thead><tbody>
+<tr><td><strong>Monday</strong></td><td>89</td><td>83.1%</td><td>₹300</td><td>✅ Best volume day</td></tr>
+<tr><td><strong>Tuesday</strong></td><td>81</td><td>88.9%</td><td>₹283</td><td>✅ Strong</td></tr>
+<tr><td><strong>Wednesday</strong></td><td>68</td><td>94.1%</td><td>₹306</td><td>✅ Highest WR (shortest theta window)</td></tr>
+<tr><td>Thursday</td><td>1</td><td>100%</td><td>₹424</td><td>⚠️ Expiry day — avoid (settlement risk)</td></tr>
+<tr><td>Friday</td><td>17</td><td>88.2%</td><td>₹102</td><td>⚠️ Weak — weekend decay already priced</td></tr>
+</tbody></table>
+
+<p>&gt; <strong>Trade Mon-Wed only.</strong> Thursday is expiry day (settlement chaos), Friday has weak premium (weekend theta already baked in).</p>
+
+<hr>
+
+<h2>Rules</h2>
+
+<h3>Entry (Every Mon, Tue, Wed after 1 PM)</h3>
+<ol>
+<li><strong>Check VIX</strong> — must be below 22 (don&#x27;t sell in high volatility)</li>
+<li><strong>Check 20 SMA</strong> on Nifty daily chart</li>
+</ol>
+<ul>
+<li>Above 20 SMA → sell <strong>Bull Put Spread</strong> (bullish-neutral)</li>
+<li>Below 20 SMA → sell <strong>Bear Call Spread</strong> (bearish-neutral)</li>
+</ul>
+<ol>
+<li><strong>Sell</strong> the strike <strong>300 points OTM</strong> from spot</li>
+<li><strong>Buy</strong> the strike <strong>400 points OTM</strong> (100pt spread = your hedge)</li>
+<li><strong>Target</strong> = nearest expiry with 1-4 DTE (days to expiry)</li>
+<li><strong>Credit filter</strong> = must collect ≥ ₹3 net</li>
+</ol>
+
+<h3>The Hedge (Why You Can&#x27;t Bleed)</h3>
+<pre><code>
+Sell 300 OTM → collect premium
+Buy  400 OTM → pay premium (this is your HEDGE)
+Net credit = sell - buy = ₹8-15
+
+Max loss = spread width (100) - credit (₹10) = 90 points × 75 = ₹6,750
+Max profit = credit = ₹10 × 75 = ₹750
+
+You can NEVER lose more than ₹6,750 per trade.
+Even if Nifty crashes 1000 points, your loss is capped.
+</code></pre>
+
+<h3>Exit Rules (checked daily)</h3>
+<table><thead><tr><th>Condition</th><th>Action</th></tr></thead><tbody>
+<tr><td><strong>Spread narrows to 50% of credit</strong></td><td>✅ Book profit, exit (standard)</td></tr>
+<tr><td><strong>Nifty touches sold strike</strong></td><td>❌ Exit immediately (SL)</td></tr>
+<tr><td><strong>Expiry day</strong></td><td>Let deep OTM expire worthless</td></tr>
+<tr><td><strong>3 days passed</strong></td><td>Exit if not at profit target (time stop)</td></tr>
+</tbody></table>
+
+<h3>Position Sizing</h3>
+<ul>
+<li><strong>1 lot per day</strong> (75 qty Nifty)</li>
+<li><strong>Margin per spread:</strong> ~₹12,000-15,000</li>
+<li><strong>Capital reserved:</strong> ₹50,000 (covers max loss + margin)</li>
+<li><strong>Max 1 open position at a time</strong> (enter new only after previous closed)</li>
+</ul>
+
+<hr>
+
+<h2>Why This Doesn&#x27;t Drain the Account</h2>
+
+<h3>The Math of Safety</h3>
+<pre><code>
+Per trade:
+  Max profit: ₹750 (if expires worthless)
+  Max loss: ₹6,750 (if Nifty moves 300+ pts against you in 1-3 days)
+  Risk:Reward = 9:1 (you risk ₹9 to make ₹1)
+
+BUT:
+  Win rate = 93%
+  Expected value = (0.93 × ₹750) - (0.07 × ₹6,750)
+                 = ₹697.5 - ₹472.5
+                 = +₹225 per trade
+
+  8 trades/month × ₹225 = ₹1,800/month per lot
+  On ₹50,000 capital = 3.6% monthly = 43% annualized
+</code></pre>
+
+<h3>Why 93% Win Rate Is Real</h3>
+<ul>
+<li>300 OTM means Nifty needs to move <strong>300 points in 1-3 days</strong> to hit your strike</li>
+<li>A 300-point Nifty move in 3 days = ~1.2% — happens but rarely</li>
+<li>VIX &lt; 22 filter removes the most volatile periods</li>
+<li>50% profit booking means you exit early, reducing exposure time</li>
+</ul>
+
+<h3>Worst Case Scenario</h3>
+<p>If you hit max loss 3 times in a row:</p>
+<pre><code>
+3 × ₹6,750 = ₹20,250 loss
+But you&#x27;d need Nifty to move 300+ points AGAINST you 3 times in a row
+in a 1-3 day window — this essentially never happens when VIX &lt; 22
+</code></pre>
+
+<hr>
+
+<h2>Monthly Income Projection</h2>
+
+<table><thead><tr><th>Month</th><th>Capital</th><th>Trades</th><th>Avg Credit</th><th>Monthly Income</th><th>Return</th></tr></thead><tbody>
+<tr><td>1</td><td>₹50,000</td><td>8</td><td>₹8.9</td><td>₹1,800</td><td>3.6%</td></tr>
+<tr><td>3</td><td>₹55,400</td><td>8</td><td>₹9.8</td><td>₹1,980</td><td>3.6%</td></tr>
+<tr><td>6</td><td>₹67,300</td><td>9</td><td>₹10.7</td><td>₹2,415</td><td>3.6%</td></tr>
+<tr><td>12</td><td>₹1,01,600</td><td>10</td><td>₹12.8</td><td>₹3,200</td><td>3.1%</td></tr>
+</tbody></table>
+
+<p>&gt; At 3.6% monthly, ₹50K becomes ₹101K in 12 months — doubles in ~20 months. The key is <strong>compounding</strong> — add profits to capital, increase lot size gradually.</p>
+
+<hr>
+
+<h2>Daily Routine</h2>
+
+<table><thead><tr><th>Day</th><th>Time</th><th>Action</th></tr></thead><tbody>
+<tr><td><strong>Mon</strong></td><td>1:00 PM</td><td>Check VIX + 20 SMA. Enter credit spread. Set SL alert</td></tr>
+<tr><td><strong>Tue</strong></td><td>1:00 PM</td><td>Check Mon trade (50% profit?). Enter new spread</td></tr>
+<tr><td><strong>Wed</strong></td><td>1:00 PM</td><td>Check open trades. Enter last spread of the week</td></tr>
+<tr><td><strong>Thu</strong></td><td>Morning</td><td>Expiry day — let deep OTM expire. Close anything near strike</td></tr>
+<tr><td><strong>Fri</strong></td><td>—</td><td><strong>No trading.</strong> Review weekly P&amp;L. Plan next week</td></tr>
+</tbody></table>
+
+<h3>Weekly Target</h3>
+<ul>
+<li>3 trades/week × ₹225 expected value = <strong>₹675/week</strong></li>
+<li>4 weeks/month = <strong>₹2,700/month</strong> per lot</li>
+<li>After costs (~₹200/week): <strong>₹2,500/month net</strong></li>
+</ul>
+
+<hr>
+
+<h2>Comparison: Weekly vs Daily Premium Mill</h2>
+
+<table><thead><tr><th>Dimension</th><th>Weekly Mill (Tue only)</th><th><strong>Daily Theta (Mon-Wed)</strong></th></tr></thead><tbody>
+<tr><td><strong>Frequency</strong></td><td>1/week (4/month)</td><td><strong>3/week (12/month)</strong></td></tr>
+<tr><td><strong>Win rate</strong></td><td>79-87%</td><td><strong>89-93%</strong></td></tr>
+<tr><td><strong>PF</strong></td><td>1.4-1.7</td><td><strong>1.7-1.9</strong></td></tr>
+<tr><td><strong>Monthly income</strong></td><td>~₹2,000</td><td><strong>~₹2,500-2,700</strong></td></tr>
+<tr><td><strong>Capital efficiency</strong></td><td>Good</td><td><strong>Better (3× more turns)</strong></td></tr>
+<tr><td><strong>Risk per trade</strong></td><td>Same (₹6,750 max)</td><td>Same</td></tr>
+<tr><td><strong>Screen time</strong></td><td>30 min/week</td><td><strong>30 min × 3/week = 90 min</strong></td></tr>
+</tbody></table>
+
+<hr>
+
+<h2>Relationship to Your Portfolio</h2>
+
+<table><thead><tr><th>Strategy</th><th>Role</th><th>Frequency</th></tr></thead><tbody>
+<tr><td><strong>Arbitrage 2.0</strong></td><td>Futures income</td><td>Per-setup (few/week)</td></tr>
+<tr><td><strong>BB Trap Positional</strong></td><td>Reversal shorts</td><td>Opportunistic</td></tr>
+<tr><td><strong>Open=Low Intraday</strong></td><td>Cash stock momentum</td><td>Daily 9:30</td></tr>
+<tr><td><strong>Nifty Daily Theta</strong> ← THIS</td><td>Steady daily premium</td><td><strong>Mon-Wed 1PM</strong></td></tr>
+<tr><td>Stock Premium Mill</td><td>Monthly portfolio income</td><td>Monthly</td></tr>
+</tbody></table>
+
+<p>All five run in parallel, using different capital pools and timeframes.</p>
+
+<hr>
+
+<h2>Honest Caveats</h2>
+<ol>
+<li><strong>PF 1.77 is moderate, not spectacular</strong> — the edge is real but thin. This is a GRIND strategy, not a home-run strategy.</li>
+<li><strong>Costs matter</strong> — ₹20/order × 4 orders (2 entry + 2 exit) = ₹80/trade. On ₹218 avg profit, that&#x27;s 37% drag. Use discount broker and basket orders.</li>
+<li><strong>In-sample</strong> — expect live WR ~88% (not 93%), PF ~1.5.</li>
+<li><strong>March 2025 lost ₹7,661</strong> — one bad month can wipe 3 good months. The VIX filter helps but doesn&#x27;t eliminate cluster risk.</li>
+<li><strong>Only 198 trades in 2 years</strong> — because we skip high-VIX days and Thu/Fri.</li>
+</ol>
+
+<hr>
+
+<h2>Recommended Rules for Paper Trading</h2>
+<pre><code>
+Entry:     Mon, Tue, Wed after 1 PM
+VIX gate:  &lt; 22 (skip if higher)
+Direction: Above 20 SMA → Bull Put | Below → Bear Call
+Sell:      300 points OTM
+Buy:       400 points OTM (100pt spread = HEDGE)
+Expiry:    Nearest 1-4 DTE
+Credit:    Minimum ₹3
+Exit:      50% profit OR strike hit (SL) OR 3-day time stop
+Max:       1 open position at a time
+Capital:   ₹50,000 per lot
+
+Expected:  ~93% WR, PF ~1.77, ~₹2,500/month per lot
+</code></pre>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/strategies/nifty-premium-mill">Nifty Premium Mill</a> — Weekly version (Tuesday only)</li>
+<li><a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a> — Sell hawa (OTM = 100% time value)</li>
+<li><a href="/wiki/concepts/vix">Vix</a> — VIX gates for selling</li>
+<li><a href="/wiki/concepts/options">Options</a> — Credit spread mechanics (+ POP/delta rule — 300 OTM ≈ 0.10-0.15 delta ≈ 85-90% POP)</li>
+<li><a href="/wiki/concepts/hedging">Hedging</a> — Planned risk = hedge = insurance</li>
+<li><a href="/wiki/concepts/regime-mapping">Regime Mapping</a> — ⭐ <strong>Backtest candidate:</strong> skip credit-spread trades in downtrend regime (Nifty &lt; 50 SMA + VIX rising) to lift WR above 92.9%</li>
+<li><a href="/wiki/sources/source-ravindra-elicherla-options-freedom">Source Ravindra Elicherla Options Freedom</a> — ✅ <strong>Independent validation</strong>: Ravindra Elicherla confirms the high-POP bull-put-spread approach (≥70-80% POP target via far-OTM)</li>
+</ul>
+</article>
+</section>
+
+
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

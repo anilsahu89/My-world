@@ -1,0 +1,225 @@
+name: Refresh O=L Alerts
+
+on:
+  schedule:
+    # NSE market hours: 9:00–15:30 IST = 3:30–10:00 UTC, Mon–Fri
+    # Run every 15 minutes during market hours
+    - cron: "3,18,33,48 3-9 * * 1-5"
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Needed to commit updated alerts.json
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install yfinance
+
+      - name: Run alerts scanner
+        env:
+          TZ: Asia/Kolkata
+        run: |
+          python3 -c "
+          import json, warnings
+          from datetime import datetime
+          warnings.filterwarnings('ignore')
+          import yfinance as yf
+
+          # Load NSE 200 symbols
+          with open('data/nse200_symbols.csv') as f:
+              next(f)
+              symbols = [line.strip() for line in f if line.strip()]
+
+          if not symbols:
+              print('No symbols found')
+              exit(1)
+
+          # Config
+          OL_DIFF_MAX = 0.10
+          SL_PCT = 0.5
+          MIN_VOL_MULT = 1.5
+          PRICE_MIN = 50
+          INVESTMENT = 10000
+          VOL_LOOKBACK = 20
+
+          # Pass 1: Quick O=L scan (2-day data)
+          tickers = [f'{s}.NS' for s in symbols]
+          print(f'Scanning {len(tickers)} tickers for O=L...')
+          df = yf.download(tickers, period='2d', interval='1d',
+                          group_by='ticker', progress=False, threads=True)
+
+          candidates = []
+          candidate_data = {}
+
+          for sym in symbols:
+              tkr = f'{sym}.NS'
+              try:
+                  if hasattr(df.columns, 'nlevels') and df.columns.nlevels > 1:
+                      if tkr not in df.columns.get_level_values(0):
+                          continue
+                      sym_df = df[tkr].copy()
+                  elif hasattr(df.index, 'nlevels') and df.index.nlevels > 1:
+                      sym_df = None
+                      for level in range(df.index.nlevels):
+                          try:
+                              sym_df = df.xs(tkr, level=level, axis=0).copy()
+                              break
+                          except (KeyError, IndexError):
+                              continue
+                      if sym_df is None:
+                          continue
+                  else:
+                      continue
+
+                  sym_df = sym_df.reset_index()
+                  if len(sym_df) < 2:
+                      continue
+                  latest = sym_df.iloc[-1]
+                  prev = sym_df.iloc[-2]
+                  o, l, c, h = float(latest['Open']), float(latest['Low']), float(latest['Close']), float(latest['High'])
+                  v = int(latest['Volume'])
+                  prev_c = float(prev['Close'])
+                  ol_diff = abs(o - l)
+                  if ol_diff <= OL_DIFF_MAX:
+                      candidates.append(sym)
+                      candidate_data[sym] = {
+                          'open': round(o, 2), 'high': round(h, 2),
+                          'low': round(l, 2), 'close': round(c, 2),
+                          'volume': v, 'prev_close': round(prev_c, 2),
+                          'ol_diff': round(ol_diff, 2), 'date': str(latest.get('Date', '')),
+                      }
+              except Exception:
+                  continue
+
+          print(f'Found {len(candidates)} O=L candidates')
+
+          if not candidates:
+              # Write empty result
+              result = {
+                  'fetched_at': datetime.now().isoformat(),
+                  'with_volume': [],
+                  'without_volume': [],
+                  'with_vol_count': 0,
+                  'without_vol_count': 0,
+              }
+              with open('data/alerts.json', 'w') as f:
+                  json.dump(result, f, indent=2)
+              print('No O=L stocks today')
+              exit(0)
+
+          # Pass 2: Volume analysis
+          cand_tickers = [f'{s}.NS' for s in candidates]
+          avg_vols = {}
+          try:
+              df_vol = yf.download(cand_tickers, period='30d', interval='1d',
+                                   group_by='ticker', progress=False, threads=True)
+              for sym in candidates:
+                  tkr = f'{sym}.NS'
+                  try:
+                      if hasattr(df_vol.columns, 'nlevels') and df_vol.columns.nlevels > 1:
+                          if tkr in df_vol.columns.get_level_values(0):
+                              sym_df = df_vol[tkr].copy()
+                          else:
+                              continue
+                      else:
+                          continue
+                      if len(sym_df) > VOL_LOOKBACK + 1:
+                          avg_vols[sym] = int(sym_df['Volume'].iloc[-(VOL_LOOKBACK+1):-1].mean())
+                      elif len(sym_df) > 1:
+                          avg_vols[sym] = int(sym_df['Volume'].iloc[:-1].mean())
+                  except Exception:
+                      avg_vols[sym] = 0
+          except Exception as e:
+              print(f'Volume fetch error: {e}')
+              for sym in candidates:
+                  avg_vols[sym] = 0
+
+          # Build enriched results
+          with_volume = []
+          without_volume = []
+
+          for sym in candidates:
+              d = candidate_data[sym]
+              o, l, c, h = d['open'], d['low'], d['close'], d['high']
+              v, prev_c = d['volume'], d['prev_close']
+              avg_v = avg_vols.get(sym, 0)
+
+              vol_ratio = round(v / avg_v, 2) if avg_v > 0 else 0
+              ol_diff = d['ol_diff']
+              sl_price = round(o * (1 - SL_PCT / 100), 2)
+              gap_pct = round((o - prev_c) / prev_c * 100, 2) if prev_c > 0 else 0
+              shares = int(INVESTMENT / o) if o > 0 else 0
+              pnl = round(shares * (c - o), 2)
+              pnl_pct = round((c - o) / o * 100, 2) if o > 0 else 0
+              day_high_pct = round((h - o) / o * 100, 2) if o > 0 else 0
+
+              # Estimated full-day volume
+              est_full = round(v / 0.6, 0) if v > 0 else 0  # rough 60% session
+              est_full_vol_ratio = round(est_full / avg_v, 2) if avg_v > 0 else 0
+
+              stock = {
+                  'symbol': sym,
+                  'yf_open': o, 'yf_high': h, 'yf_low': l, 'yf_close': c,
+                  'yf_volume': v, 'avg_vol_20d': avg_v,
+                  'ol_diff': ol_diff, 'vol_ratio': vol_ratio,
+                  'sl_price': sl_price, 'shares': shares,
+                  'pnl': pnl, 'pnl_pct': pnl_pct,
+                  'gap_pct': gap_pct, 'day_high_pct': day_high_pct,
+                  'pct_change': round((c - prev_c) / prev_c * 100, 2) if prev_c > 0 else 0,
+                  'price': c,
+                  'est_full_vol_ratio': est_full_vol_ratio,
+                  'date': d['date'],
+                  'in_nse200': True,
+              }
+
+              if o >= PRICE_MIN and vol_ratio >= MIN_VOL_MULT:
+                  with_volume.append(stock)
+              else:
+                  without_volume.append(stock)
+
+          # Sort by volume ratio desc
+          with_volume.sort(key=lambda x: x['vol_ratio'], reverse=True)
+          without_volume.sort(key=lambda x: x['vol_ratio'], reverse=True)
+
+          result = {
+              'fetched_at': datetime.now().isoformat(),
+              'with_volume': with_volume,
+              'without_volume': without_volume,
+              'with_vol_count': len(with_volume),
+              'without_vol_count': len(without_volume),
+              'chartink_raw_count': len(candidates),
+          }
+
+          with open('data/alerts.json', 'w') as f:
+              json.dump(result, f, indent=2, default=str)
+
+          print(f'Tradeable: {len(with_volume)}, Watch: {len(without_volume)}')
+          "
+
+      - name: Check for changes
+        id: check
+        run: |
+          if git diff --quiet data/alerts.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit updated alerts
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/alerts.json
+          git commit -m "refresh alerts $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push

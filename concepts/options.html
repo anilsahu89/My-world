@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Options</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>Options</h1>
+<article class="md"><h1>Options</h1>
+
+<h2>Definition</h2>
+<p>A <strong>derivative</strong> contract giving the holder the <strong>right, but not the obligation</strong>, to buy (Call) or sell (Put) an underlying at a fixed <strong>strike price</strong> on/before <strong>expiry</strong>. You pay a <strong>premium</strong> for this right; the premium decays to zero by expiry. Calls = &quot;चढेगा&quot; (up view); Puts = &quot;पडेगा&quot; (down view).</p>
+
+<h2>What you actually pay for</h2>
+<p>Option premium = <a href="/wiki/concepts/chips-and-hawa">Intrinsic Value (chips)</a> + Time Value (hawa). See that page for the formulas and the NK house rule: <strong>buy chips (ITM), sell hawa (OTM)</strong>.</p>
+
+<h2>Strike classification (relative to current price)</h2>
+<table><thead><tr><th>Type</th><th>CE</th><th>PE</th><th>Contains</th></tr></thead><tbody>
+<tr><td><strong>ATM</strong></td><td>strike ≈ spot</td><td>strike ≈ spot</td><td>mostly hawa</td></tr>
+<tr><td><strong>ITM</strong></td><td>strike <em>below</em> spot</td><td>strike <em>above</em> spot</td><td>chips + hawa (deeper = more chips)</td></tr>
+<tr><td><strong>OTM</strong></td><td>strike <em>above</em> spot</td><td>strike <em>below</em> spot</td><td><strong>only hawa</strong> → goes to 0 on expiry</td></tr>
+</tbody></table>
+
+<p>&gt; ⚠️ <strong>Critical:</strong> the option price is driven by the <strong>future price</strong> of the underlying, NOT the spot — except on expiry day after 12 noon, when spot takes over.</p>
+
+<h2>Key mechanics</h2>
+<ul>
+<li><strong>Expiry:</strong> index options — weekly (every Thursday) + monthly (last Thursday); stock options — monthly only. If last Thursday is a holiday → previous trading day.</li>
+<li><strong>Premium decay:</strong> from purchase to expiry the premium keeps declining toward zero (theta). Weekly OTM ≈ <code>premium / 5</code> per day (the <strong>18-hour game</strong>).</li>
+<li><strong>European-style</strong> in India (NSE symbols end in &quot;E&quot;, e.g. <code>NIFTY 14TH JAN 13000 CE</code>) — exercisable only on expiry.</li>
+<li><strong>Buying vs selling capital:</strong> buying 1 ATM lot = pay the premium (small); selling 1 ATM lot = pay ~future-equivalent margin (large).</li>
+</ul>
+
+<h2>Behaviour with <a href="/wiki/concepts/vix">VIX</a></h2>
+<ul>
+<li>Higher/rising VIX → rising premium → <strong>good for buyers</strong>.</li>
+<li>Lower/falling VIX → falling premium → <strong>good for sellers</strong>.</li>
+<li>Never sell options when VIX is high. Never buy OTM when VIX is falling.</li>
+</ul>
+
+<h2>Risk framing</h2>
+<ul>
+<li><strong>Option buyer:</strong> max loss = premium paid; gains can be multifold; capital erodes fast via theta.</li>
+<li><strong>Option seller:</strong> max gain = premium; theoretically unlimited risk; needs large margin.</li>
+<li>→ This asymmetry is <em>why</em> NK hedges: combine buys + sells to cap risk and reduce margin.</li>
+</ul>
+
+<h2>Probability of Profit (POP) &amp; Delta as POP Proxy</h2>
+<p>From <a href="/wiki/sources/source-ravindra-elicherla-options-freedom">Ravindra Elicherla (EP-73)</a>: sell options <strong>only when the Probability of Profit (POP) is clearly on your side</strong> — target <strong>≥70-80% POP</strong> via far-OTM strikes. Don&#x27;t chase premium size; prefer high-probability, small-premium, repeatable trades.</p>
+
+<p><strong>Delta ≈ probability of expiring ITM.</strong> So for a <em>seller</em>, <strong>POP ≈ 1 − delta</strong> of the sold option:</p>
+
+<table><thead><tr><th>Sold option delta</th><th>Approx POP (seller)</th><th>Read</th></tr></thead><tbody>
+<tr><td>0.50 (ATM)</td><td>~50%</td><td>Coin flip — avoid for selling</td></tr>
+<tr><td>0.30</td><td>~70%</td><td>Minimum threshold for income selling</td></tr>
+<tr><td>0.20</td><td>~80%</td><td>Ravindra&#x27;s sweet spot</td></tr>
+<tr><td>0.10</td><td>~90%</td><td>Very safe, but tiny premium</td></tr>
+</tbody></table>
+
+<p>This is <em>why</em> Rita&#x27;s <a href="/wiki/strategies/nifty-daily-theta">Daily Theta</a> uses <strong>300 OTM</strong> (≈0.10-0.15 delta → ~85-90% POP) and gets 92.9% WR. The rule is now explicit: <strong>pick strike by target delta, not by premium amount.</strong></p>
+
+<h2>Strategy Selection by Regime</h2>
+<p>Options strategies are <strong>not regime-independent</strong> (except <a href="/wiki/strategies/future-arbitrage">Arbitrage 2.0</a>). Before selling premium, classify the regime first — see <a href="/wiki/concepts/regime-mapping">Regime Mapping</a>. Bull put spreads belong in uptrends; in downtrends they become serial losers.</p>
+
+<h2>NK&#x27;s option-buyer discipline (Jul 2026 podcast)</h2>
+<p>&gt; &quot;If you trade every day, you cannot make money by buying options.&quot;</p>
+
+<ul>
+<li><strong>5–7 trades/month maximum</strong> for option buyers. &quot;Less trade, best trade.&quot; More trades mainly benefit the broker and the government (STT/stamp duty = your &quot;sleeping partner&quot;).</li>
+<li><strong>The two golden rules</strong> (NK&#x27;s exact framing):</li>
+</ul>
+<ol>
+<li>Intraday → <strong>read volume</strong> (<a href="/wiki/concepts/nk-volume-reading">Nk Volume Reading</a>).</li>
+<li>Swing → follow <a href="/wiki/concepts/hilega-milega">Hilega Milega</a> on <strong>≥ 3-hour TF</strong>.</li>
+</ol>
+<ul>
+<li><strong>Don&#x27;t drop the mindset first:</strong> &quot;I have ₹1L, I want ₹4L/year&quot; — discard this. Treat trading like a business, not a multiple-X target.</li>
+<li><strong>Calendar edges for buyers:</strong></li>
+<li><strong>April effect:</strong> tax-loss harvesting Mar 20–30 → selling stops → <strong>9 of 10 times market up by Apr 15.</strong> Position for this up-move.</li>
+<li><strong>Nifty rebalancing days:</strong> break the option→future→spot chain — work in the buyer&#x27;s favor.</li>
+<li>Provable, not opinion: a low-frequency trader (50% capital, fewer trades) beats a daily trader on year-end ROI. SEBI bars NK from running the contest publicly.</li>
+</ul>
+
+<p>⚠️ These are NK&#x27;s teaching claims, <strong>not independently backtested</strong> here. The April effect and 5–7-trades rule are concrete and testable.</p>
+
+<h2>Used in strategies</h2>
+<ul>
+<li>Every hedging strategy in this wiki (<a href="/wiki/strategies/hedge-23">Hedge 23</a>, <a href="/wiki/strategies/future-hedge">Future Hedge</a>, <a href="/wiki/strategies/hedge-17">Hedge 17</a>, <a href="/wiki/strategies/wednesday-hedge">Wednesday Hedge</a>, <a href="/wiki/strategies/a-19">A 19</a>, <a href="/wiki/strategies/expiry-gap-hedge">Expiry Gap Hedge</a>).</li>
+<li>Rangebound play: buy Monthly + sell Weekly same strike (<a href="/wiki/sources/source-option-calculation">Source Option Calculation</a>).</li>
+</ul>
+
+<h2>Source pages</h2>
+<p><a href="/wiki/sources/source-option-future-basics">Source Option Future Basics</a> · <a href="/wiki/sources/source-option-basics">Source Option Basics</a> · <a href="/wiki/sources/source-option-calculation">Source Option Calculation</a> · <a href="/wiki/sources/source-chips-hawa">Source Chips Hawa</a></p>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

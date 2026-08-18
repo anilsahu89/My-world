@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BB Trap Positional — Backtest Results &amp; Filter Analysis</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>BB Trap Positional — Backtest Results &amp; Filter Analysis</h1>
+<article class="md"><h1>BB Trap Positional — Backtest Results &amp; Filter Analysis</h1>
+
+<h2>Run Details</h2>
+<ul>
+<li><strong>Strategy:</strong> <a href="/wiki/strategies/bb-trap-positional">Bb Trap Positional</a></li>
+<li><strong>Period:</strong> 2024-01-15 → 2026-07-10 (~2.5 years, 601 trading days)</li>
+<li><strong>Universe:</strong> All NSE EQ stocks (price ≥ ₹50, avg vol ≥ 100,000) — ~2,000 stocks</li>
+<li><strong>BB parameters:</strong> 20-period SMA, 2 standard deviations</li>
+<li><strong>Scripts:</strong> <code>backtest_bb_trap_v2.py</code> (base) + <code>bb_trap_filter_analysis.py</code> (filters)</li>
+</ul>
+
+<h2>Base Results — SHORTS vs LONGS</h2>
+
+<table><thead><tr><th>Metric</th><th>SHORT</th><th>LONG</th></tr></thead><tbody>
+<tr><td><strong>Signals</strong></td><td>933</td><td>354</td></tr>
+<tr><td><strong>Win rate</strong></td><td><strong>39.0%</strong></td><td><strong>34.5%</strong></td></tr>
+<tr><td><strong>T1 hit rate (reached 20 SMA)</strong></td><td><strong>5.7%</strong></td><td><strong>6.5%</strong></td></tr>
+<tr><td><strong>Profit factor</strong></td><td><strong>1.13</strong></td><td><strong>0.89</strong></td></tr>
+<tr><td><strong>Net P&amp;L</strong></td><td><strong>+₹2,07,289</strong></td><td><strong>−₹41,945</strong></td></tr>
+<tr><td>Avg win</td><td>₹4,933</td><td>₹2,917</td></tr>
+<tr><td>Avg loss</td><td>−₹2,862</td><td>−₹1,730</td></tr>
+<tr><td>Avg hold</td><td>11.0 days</td><td>7.5 days</td></tr>
+</tbody></table>
+
+<h3>Exit Reason Distribution</h3>
+<table><thead><tr><th>Exit</th><th>SHORT</th><th>LONG</th></tr></thead><tbody>
+<tr><td>Stop loss</td><td>530 (57%)</td><td>246 (69%)</td></tr>
+<tr><td>Time stop (10 days)</td><td>341 (37%)</td><td>97 (27%)</td></tr>
+<tr><td>Target 2 (opposite BB)</td><td>5 (0.5%)</td><td>3 (0.8%)</td></tr>
+<tr><td>End of backtest</td><td>11</td><td>1</td></tr>
+</tbody></table>
+
+<hr>
+
+<h2>Honest Interpretation</h2>
+
+<h3>The bad news first</h3>
+<p><strong>This strategy does NOT work as specified.</strong> The core problem:</p>
+
+<ol>
+<li><strong>T1 hit rate is only 5-6%</strong> — the target is the 20 SMA, but price only reaches it ~1 in 17 trades. The strategy is supposed to &quot;ride to 20 SMA&quot; but it almost never gets there.</li>
+</ol>
+
+<ol>
+<li><strong>60-69% of trades hit the stop loss</strong> — the SL (alert candle extreme) is too tight. Most trades get stopped out before any mean reversion happens.</li>
+</ol>
+
+<ol>
+<li><strong>LONGS lose money</strong> (PF 0.89, net −₹42K). The long side has no edge at all.</li>
+</ol>
+
+<ol>
+<li><strong>SHORTS barely profit</strong> (PF 1.13) — barely above breakeven, and this is before costs. After brokerage + slippage, shorts would likely be net negative too.</li>
+</ol>
+
+<h3>Why it fails</h3>
+<p>The rules require:</p>
+<ul>
+<li><strong>Primary candle ENTIRELY outside BB</strong> (no wick touching) — this is extremely rare and signals such an extreme deviation that...</li>
+<li><strong>Alert candle closes EVEN FURTHER beyond primary candle&#x27;s extreme</strong> — this means price is TRENDING HARD in the wrong direction, not reverting</li>
+</ul>
+
+<p>&gt; <strong>The setup identifies strong trends, then bets on reversal.</strong> That&#x27;s why 60-69% hit SL — the trend continues, the reversal never comes.</p>
+
+<p>The target (20 SMA) is too far away because by the time you enter (after 2 candles of trending), the 20 SMA has moved and the distance is large.</p>
+
+<hr>
+
+<h2>Filter Analysis — Can We Fix It?</h2>
+
+<h3>SHORT Side Filters (tested 15 variants)</h3>
+
+<table><thead><tr><th>Filter</th><th>Trades</th><th>Win%</th><th>PF</th><th>Net P&amp;L</th><th>vs Baseline</th></tr></thead><tbody>
+<tr><td><strong>Baseline</strong></td><td>933</td><td>39.0%</td><td>1.13</td><td>₹2,07,289</td><td>—</td></tr>
+<tr><td><strong>Vol ≥ 3.0x</strong></td><td>269</td><td><strong>45.4%</strong></td><td>1.08</td><td>₹40,081</td><td>WR +6.4% but PF down</td></tr>
+<tr><td>RSI filter (RSI &gt; 70)</td><td>853</td><td>39.2%</td><td><strong>1.17</strong></td><td><strong>₹2,44,833</strong></td><td>PF +0.04, Net +18%</td></tr>
+<tr><td>BB width ≥ 8%</td><td>868</td><td>40.2%</td><td>1.14</td><td>₹2,14,182</td><td>Marginal</td></tr>
+<tr><td>Vol ≥ 2.0x</td><td>443</td><td>41.1%</td><td>1.03</td><td>₹25,533</td><td>WR up, PF down</td></tr>
+</tbody></table>
+
+<h3>LONG Side Filters</h3>
+
+<table><thead><tr><th>Filter</th><th>Trades</th><th>Win%</th><th>PF</th><th>Net P&amp;L</th><th>vs Baseline</th></tr></thead><tbody>
+<tr><td><strong>Baseline</strong></td><td>354</td><td>34.5%</td><td>0.89</td><td>−₹41,945</td><td>—</td></tr>
+<tr><td><strong>Vol ≥ 1.5x</strong></td><td>194</td><td>32.5%</td><td><strong>1.23</strong></td><td><strong>+₹47,838</strong></td><td><strong>Flips to profit!</strong></td></tr>
+<tr><td><strong>Vol1.5 + BB5%</strong></td><td>193</td><td>32.6%</td><td><strong>1.23</strong></td><td><strong>+₹48,608</strong></td><td><strong>Best long combo</strong></td></tr>
+<tr><td>Vol2 + Body70%</td><td>37</td><td>37.8%</td><td>1.36</td><td>+₹9,579</td><td>Too few trades</td></tr>
+</tbody></table>
+
+<hr>
+
+<h2>Key Findings</h2>
+
+<h3>Finding 1: LONGS only work with volume filter ≥ 1.5x</h3>
+<p>Adding <code>vol_a ≥ 1.5 × vol_p</code> flips the long side from <strong>−₹42K loss to +₹48K profit</strong> (PF 0.89 → 1.23). This is the single most impactful filter for longs.</p>
+
+<h3>Finding 2: SHORTS are barely profitable and hard to improve</h3>
+<p>The baseline short is marginally profitable (PF 1.13). The best single filter is <strong>RSI &gt; 70</strong> (PF 1.17, Net ₹2.45L), but the improvement is modest. Even the best filter combo doesn&#x27;t push PF above 1.2.</p>
+
+<h3>Finding 3: Higher volume multiples HURT shorts</h3>
+<p>Counterintuitively, requiring vol ≥ 1.5x on shorts REDUCES profitability (PF 1.13 → 1.03). High-volume shorts tend to be strong breakdowns that continue trending. On longs, the opposite — high volume confirms the selling climax and reversal.</p>
+
+<h3>Finding 4: The T1 target (20 SMA) is almost never reached</h3>
+<p>Only 5-6% of trades reach 20 SMA. This means the exit strategy is fundamentally broken. The real exit is either SL (60-69%) or time stop (27-37%). The strategy as designed is a <strong>slow bleed</strong>.</p>
+
+<hr>
+
+<h2>Recommendations — How to Actually Make This Work</h2>
+
+<h3>Problem 1: The entry is too late (2 candles of confirmation = trend already running)</h3>
+
+<p><strong>Fix:</strong> Instead of requiring the alert candle to close BEYOND the primary candle&#x27;s extreme (which means the trend is accelerating), look for the alert candle to <strong>REJECT</strong> the extreme:</p>
+
+<p>&gt; <strong>Modified Rule 2:</strong> Alert candle forms a <strong>long wick</strong> in the opposite direction (rejection), not a close beyond the extreme. This catches the actual trap moment.</p>
+
+<h3>Problem 2: The SL is too tight</h3>
+
+<p><strong>Fix:</strong> Use the <strong>primary candle&#x27;s extreme</strong> as SL (further away) instead of the alert candle&#x27;s extreme. Or use an ATR-based SL (2× ATR).</p>
+
+<h3>Problem 3: The target is too far</h3>
+
+<p><strong>Fix:</strong> Instead of targeting the 20 SMA (which is rarely reached), target a <strong>fixed % reversion</strong> or the <strong>nearest VWAP</strong>. Or use a trailing exit once the trade is in profit.</p>
+
+<h3>Problem 4: Longs need volume, shorts need RSI</h3>
+
+<p><strong>Fix:</strong> Apply different filters per direction:</p>
+<ul>
+<li><strong>SHORTS:</strong> RSI &gt; 70 (PF 1.17, ₹2.45L net) — the best filter</li>
+<li><strong>LONGS:</strong> Volume ≥ 1.5× (PF 1.23, +₹48K net) — flips to profit</li>
+</ul>
+
+<h3>Recommended Modified Strategy (for next backtest)</h3>
+
+<pre><code>
+SHORT setup:
+  1. Primary candle: entire candle above upper BB (low &gt; upper BB)
+  2. Alert candle: LONG UPPER WICK (wick &gt; 50% of range) — REJECTION, not continuation
+  3. Volume: vol_a &gt; vol_p
+  4. RSI at signal: &gt; 70
+  5. Entry: short at alert candle close
+  6. SL: primary candle HIGH (not alert candle high)
+  7. Target: 50% of the primary candle range (fixed target, not 20 SMA)
+
+LONG setup:
+  1. Primary candle: entire candle below lower BB (high &lt; lower BB)
+  2. Alert candle: LONG LOWER WICK (wick &gt; 50% of range) — REJECTION
+  3. Volume: vol_a &gt;= 1.5× vol_p  (mandatory, flips to profit)
+  4. Entry: long at alert candle close
+  5. SL: primary candle LOW (not alert candle low)
+  6. Target: 50% of the primary candle range
+</code></pre>
+
+<h3>Why these changes should help</h3>
+<ol>
+<li><strong>Rejection wick</strong> = price tried to push further but failed = actual trap signal (not trend continuation)</li>
+<li><strong>Primary candle SL</strong> = wider stop, lets the trade breathe before reversal</li>
+<li><strong>Fixed % target</strong> = achievable target (50% reversion is far more common than full return to 20 SMA)</li>
+<li><strong>Direction-specific filters</strong> = each side gets what the data says works</li>
+</ol>
+
+<hr>
+
+<h2>Summary Table</h2>
+
+<table><thead><tr><th>Question</th><th>Answer</th></tr></thead><tbody>
+<tr><td><strong>Does the strategy work as-is?</strong></td><td>❌ No — PF 1.13 (shorts), PF 0.89 (longs). T1 reached only 6% of the time</td></tr>
+<tr><td><strong>Is it fixable?</strong></td><td>✅ Yes, but needs 3 fundamental changes (rejection wick, wider SL, closer target)</td></tr>
+<tr><td><strong>Best short filter?</strong></td><td>RSI &gt; 70 (PF 1.17)</td></tr>
+<tr><td><strong>Best long filter?</strong></td><td>Volume ≥ 1.5× (PF 0.89 → 1.23, flips to profit)</td></tr>
+<tr><td><strong>Biggest issue?</strong></td><td>The 2-candle confirmation identifies TRENDS not TRAPS — entry is too late</td></tr>
+<tr><td><strong>Next step?</strong></td><td>Re-backtest with modified rules (rejection wick + primary candle SL + fixed % target)</td></tr>
+</tbody></table>
+
+<hr>
+
+<h2>Files</h2>
+<ul>
+<li><strong>Base backtester:</strong> <code>backtest_bb_trap_v2.py</code></li>
+<li><strong>Filter analysis:</strong> <code>bb_trap_filter_analysis.py</code></li>
+<li><strong>Results:</strong> <code>results/bb_trap_shorts/</code>, <code>results/bb_trap_longs/</code></li>
+<li><strong>Data:</strong> <code>data/ohlcv_daily.csv</code> (1.27M rows, 611 days, ~2,000 stocks)</li>
+</ul>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/strategies/bb-trap-positional">Bb Trap Positional</a> — Strategy rules (needs updating based on these findings)</li>
+<li><a href="/wiki/concepts/bb-trap">Bb Trap</a> — Intraday BB Trap concept</li>
+<li><a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> — Volume confirmation principle</li>
+<li><a href="/wiki/trade-reviews/arbitrage-2-0-2yr3-backtest">Arbitrage 2 0 2Yr3 Backtest</a> — Comparison: arbitrage PF 2.68 vs this strategy PF 1.13</li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

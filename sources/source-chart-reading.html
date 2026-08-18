@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CHART READING (NK, dense Hindi notes)</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>CHART READING (NK, dense Hindi notes)</h1>
+<article class="md"><h1>CHART READING (NK, dense Hindi notes)</h1>
+
+<p><strong>Original file:</strong> <code>../chart reading.pdf</code> (124 KB, ~70 lines extracted)</p>
+<p><strong>Ingested:</strong> 2026-06-23</p>
+
+<h2>Summary (2 lines)</h2>
+<p>A rules cheat-sheet synthesizing MA, VWAP, AVWAP, OH/OL, Bollinger Bands, overbought/oversold, and Moh-Maya into one page of &quot;what to actually do.&quot; Includes specific numeric thresholds (HM 86 monthly = overbought, HM 15 RSI flat in oversold, AVWAP 80% respect rate).</p>
+
+<h2>Key takeaways</h2>
+<ul>
+<li><strong>OH/OL = resistance/support</strong> for the day; if the 10-min sustains the break, market runs the opposite direction.</li>
+<li><strong>Moving average rules:</strong></li>
+<li>Price follows average — both up = bullish, both down = bearish.</li>
+<li>In uptrend, when the 20/50 SMA gap <em>narrows</em> and price bounces → <strong>best entry</strong>.</li>
+<li>Price below 200 SMA = strong bearish.</li>
+<li>Price repeatedly rejected at 20 SMA, then bounces off 200 SMA → usually breaks 20 SMA upward.</li>
+<li><strong>VWAP rules:</strong> intraday-only; above = buy, below = sell; <em>don&#x27;t trade VWAP alone</em> — combine with 30-min/1-hr candles; enter near VWAP; not traded every day. Bullish sign: big 1st-hour candle, then small candles holding above VWAP.</li>
+<li><strong>AVWAP rules:</strong> use <strong>minimum 3 AVWAP lines</strong>; trade near AVWAP; intraday — when 10-min price rejects AVWAP, take the trade; for option <em>sellers</em>, wait for price to fully break AVWAP down then return to it before deciding. <strong>~80% of the time price returns from AVWAP.</strong> For option <em>buyers</em>: if monthly OTP, price 100–200 wide, AVWAP flat and price sustains above all day → buy; high probability of doubling next day. On option charts, plot AVWAP from 4–5 months back (since birth).</li>
+<li><strong>Exit/SL:</strong> exit is more important than entry. 20 SMA on day TF = exit zone; usually broken only via gap up/down or a big candle (no chance to run). Static S/R also good exit. &quot;20 SMA opposite side = best entry.&quot;</li>
+<li><strong>Trading rule:</strong> market near resistance → focus on top losers; near support → focus on top gainers.</li>
+<li><strong>Overbought/oversold:</strong></li>
+<li>Overbought = stock over-held by retailers; oversold = big money (FIIs/DIIs/punters) selling.</li>
+<li>A crashed stock with too many retailers won&#x27;t rise until retailers exit.</li>
+<li><strong>HM &gt; 86 on monthly</strong> = overbought → expect small correction in 1–2 months; on day TF ~92+.</li>
+<li>Trading decision: when weekly strength hits resistance AND daily gives a sell signal.</li>
+<li><strong>Easy to trade overbought, hard to trade oversold.</strong></li>
+<li>Oversold entry: when HM RSI hits 15 and goes flat, then starts to curve → take the trade.</li>
+<li><strong>Bollinger Band rules:</strong></li>
+<li>Uptrend + middle BB line rising → buy; bring to 20 SMA on smaller TF + buy signal → buy.</li>
+<li>Market stuck in one place + BB narrow + <strong>BB blast</strong> → big move likely. But if BB was <em>not</em> narrow and it blasts → likely a <strong>trap</strong>.</li>
+<li>Day-TF BB event → 7–28 days effect; hourly → 2–3 days effect.</li>
+<li>Confirmation: BB blast + next day gap up + sustain = confirmed blast.</li>
+<li><strong>Moh-Maya:</strong> big news + day-TF doji-type candle outside the band → next day when 1-hr closes above VWAP → take the trade. Safe version: buy monthly expiry option of ₹60–100 near close; book 50% on double, 25% at 20 SMA, else hedge; SL below doji close.</li>
+<li><strong>Demand/Supply (RSI-based):</strong> use a TradingView RSI-based demand/supply indicator for auto zones.</li>
+</ul>
+
+<h2>Links to wiki</h2>
+<ul>
+<li>Concepts: <a href="/wiki/concepts/chart-reading">Chart Reading</a>, <a href="/wiki/concepts/moving-average">Moving Average</a>, <a href="/wiki/concepts/vwap">Vwap</a>, <a href="/wiki/concepts/avwap">Avwap</a>, <a href="/wiki/concepts/oh-ol">Oh Ol</a>, <a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a>, <a href="/wiki/concepts/moh-maya">Moh Maya</a>, <a href="/wiki/concepts/overbought-oversold">Overbought Oversold</a></li>
+<li>Sibling sources: <a href="/wiki/sources/source-moving-average">Source Moving Average</a>, <a href="/wiki/sources/source-ma-convergence">Source Ma Convergence</a></li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

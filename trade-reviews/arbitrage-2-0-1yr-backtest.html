@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trade Review: Arbitrage 2.0 — 1-Year Backtest</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>Trade Review: Arbitrage 2.0 — 1-Year Backtest</h1>
+<article class="md"><h1>Trade Review: Arbitrage 2.0 — 1-Year Backtest</h1>
+
+<h2>Run Details</h2>
+<ul>
+<li><strong>Strategy:</strong> Arbitrage 2.0</li>
+<li><strong>Period:</strong> 2025-05-15 → 2026-05-15 (1 year)</li>
+<li><strong>Capital:</strong> ₹5,00,000</li>
+<li><strong>Script:</strong> <code>backtest_future_arbitaage.py</code></li>
+<li><strong>Rules file:</strong> <code>ARBITAGE_2_0_RULES.md</code></li>
+<li><strong>Data source:</strong> NSE daily bhavcopy (FO + CM ZIP archives)</li>
+</ul>
+
+<h2>Headline Results</h2>
+
+<table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>
+<tr><td>Signals / trades</td><td>132</td></tr>
+<tr><td><strong>Win rate</strong></td><td><strong>51.52%</strong></td></tr>
+<tr><td><strong>Net P&amp;L</strong></td><td><strong>₹1,84,251.25</strong></td></tr>
+<tr><td><strong>Return on ₹5L</strong></td><td><strong>36.85%</strong></td></tr>
+<tr><td><strong>Profit factor</strong></td><td><strong>2.496</strong></td></tr>
+<tr><td>Max drawdown</td><td>₹27,237.50</td></tr>
+<tr><td>Max drawdown %</td><td>4.68%</td></tr>
+<tr><td>Max open positions</td><td>11</td></tr>
+</tbody></table>
+
+<h2>What the Numbers Say</h2>
+
+<h3>The Good</h3>
+<ul>
+<li><strong>PF 2.5 at 51% win rate</strong> → asymmetric payoff. Average winner is roughly 2.3× average loser. The strategy doesn&#x27;t need to be right often — it needs to win big when right.</li>
+<li><strong>4.68% max DD on 36.85% return</strong> → return/drawdown ratio ≈ <strong>7.9</strong>. Anything above 3 is considered strong; 7.9 is excellent.</li>
+<li><strong>Max 11 concurrent positions</strong> → manageable on ₹5L. Roughly ₹45k cushion per slot.</li>
+</ul>
+
+<h3>The Caveats</h3>
+<ul>
+<li><strong>Single 1-year sample.</strong> 2025–26 is one regime. Could be a trending year, low-VIX year, or specific breadth cycle that flatters backwardation structures.</li>
+<li><strong>51% win rate is barely above coin-flip.</strong> The edge lives entirely in the payoff asymmetry, not in prediction accuracy. If avg win/avg loss compresses, PF collapses fast.</li>
+<li><strong>No slippage / brokerage modeled</strong> in the headline numbers (need to confirm from <code>trades.csv</code> columns — current schema shows raw pnl). Real-world PF will be lower after costs.</li>
+<li><strong>Survivorship</strong>: bhavcopy reflects listed stocks on each day. Delistings during the year may not be captured — could mildly inflate results.</li>
+<li><strong>No regime filter.</strong> Strategy fires whenever structure appears. In high-VIX / trending-down regimes, backwardation can deepen (current future keeps falling below spot) before reverting — that&#x27;s where the 4.68% DD came from.</li>
+</ul>
+
+<h2>Open Questions for Next Iteration</h2>
+
+<ol>
+<li><strong>What does V2.1 look like on the same year?</strong> Stricter filters (₹20 basis, 2× ratio, 1.5% of spot, 500 vol, 7–21 DTE) will cut trade count sharply but should lift win rate. Worth running.</li>
+<li><strong>Cost-adjusted PF.</strong> Add realistic brokerage (₹20/order flat + 0.0001% on turnover) and slippage (1-2 ticks per leg). If PF drops below 1.5, the edge is marginal.</li>
+<li><strong>Regime split.</strong> Break the 132 trades by month — are 80% of profits concentrated in 2-3 months? If so, the strategy may be regime-dependent, not structural.</li>
+<li><strong>Multi-year.</strong> Minimum 3 years (2023–26) before treating 36.85% as baseline expectation.</li>
+<li><strong>Drawdown anatomy.</strong> What caused the ₹27,237 DD? Was it one bad trade, a cluster during a specific event (budget, global shock), or spread widening across many positions at once?</li>
+</ol>
+
+<h2>Reproducing</h2>
+<pre><code>
+cd /Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage
+python backtest_future_arbitaage.py \
+  --start 2025-05-15 --end 2026-05-15 \
+  --capital 500000 --strategy-name &quot;Arbitage 2.0&quot;
+</code></pre>
+<p>Outputs: <code>results/trades.csv</code>, <code>results/daily_equity.csv</code>, <code>results/signals.csv</code>, <code>results/summary.txt</code></p>
+
+<h2>Next Actions</h2>
+<ul>
+<li>[ ] Run V2.1 variant on same period, compare PF and win rate</li>
+<li>[ ] Add cost model to backtester (brokerage + slippage)</li>
+<li>[ ] Break results by month and by sector</li>
+<li>[ ] Extend to 2023-05 → 2026-05 (3-year window)</li>
+<li>[ ] Inspect the worst 5 trades in <code>trades.csv</code> — what was the entry structure?</li>
+</ul>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/strategies/future-arbitrage">Future Arbitrage</a> — Full strategy rules</li>
+<li><a href="/wiki/concepts/arbitrage">Arbitrage</a> — Concept page</li>
+<li><span class="broken-link" title="not found">backtesting-queue</span> — Testing order across all wiki strategies</li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

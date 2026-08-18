@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VWAP with OH-OL, BB &amp; BB Trap — Combined Intraday Rules</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>VWAP with OH-OL, BB &amp; BB Trap — Combined Intraday Rules</h1>
+<article class="md"><h1>VWAP with OH-OL, BB &amp; BB Trap — Combined Intraday Rules</h1>
+
+<h2>Source</h2>
+<ul>
+<li><strong>File:</strong> VWAP WITH OH,OL, BB, BB TRAP-converted-compressed.pdf</li>
+<li><strong>Instructor:</strong> Nitish Kumar (NK StockTalk)</li>
+</ul>
+
+<h2>Summary</h2>
+<p>Comprehensive <strong>intraday chart reading rules</strong> combining VWAP, OH-OL identification, Bollinger Bands, and BB Trap/BB Blast scenarios.</p>
+
+<h2>Intraday Setup Rules</h2>
+<ol>
+<li>Always check: (a) Day Chart, (b) Yesterday&#x27;s Low, (c) Today&#x27;s Open</li>
+<li>No predefined market view — let price action decide</li>
+<li>VWAP is most effective for intraday (incorporates volume)</li>
+<li>Combine VWAP with <strong>Previous S/R</strong> and <strong>Bollinger Bands</strong></li>
+<li>Inexperienced traders → use <strong>1-hour chart</strong></li>
+<li>Trade only when <strong>full confirmation</strong> exists — not every day</li>
+</ol>
+
+<h2>VWAP Rules (Recap)</h2>
+<ul>
+<li>VWAP up + price up → every dip is a buy</li>
+<li>VWAP down + price down → every rise is a sell</li>
+<li>After 12:45 PM, price returns to VWAP if move was missed</li>
+</ul>
+
+<h2>VWAP + BB Combined Rules</h2>
+<ul>
+<li>BB upper/lower bands = major S/R</li>
+<li>Price opens at BB → wait for proper Band Blast</li>
+<li>Price above VWAP + above Upper Band → wait for Band Blast</li>
+<li>Price fails below VWAP → next target = 20 SMA</li>
+<li>20 SMA break requires <strong>big candle, fast manner</strong></li>
+<li>If price backs from 20 SMA → don&#x27;t buy until close above <strong>day&#x27;s highest close</strong></li>
+</ul>
+
+<h2>BB Blast Failure Rules</h2>
+<ol>
+<li>If Band Blast fails → think <strong>sell trade only</strong></li>
+<li>If price starts sustaining → wait for 20 SMA break or day&#x27;s high break</li>
+<li>If 20 SMA broken → short sell with SL at day&#x27;s high</li>
+</ol>
+
+<h2>BB Trap Failure Rules</h2>
+<ol>
+<li>BB Trap formed by long inverted candle → if price can&#x27;t cut the high → SL hunting</li>
+<li>If you missed the candle → notice price testing previous candle&#x27;s high → <strong>exit</strong></li>
+<li>Price leaves band and trades at same level → <strong>exit</strong> (SL hunting coming)</li>
+<li><strong>5-candle rule:</strong> 5+ candles at same level → market reverses</li>
+<li>If HM red &amp; green lines meet → exit</li>
+<li>Buy when <strong>high of the day is broken</strong></li>
+</ol>
+
+<h2>BB Trap + VWAP Reversal</h2>
+<ol>
+<li>After BB Trap, if price comes back &amp; sustains above VWAP → should have cut VWAP <strong>in one go</strong></li>
+<li>If one candle cuts 20 SMA → <strong>reverse the trade</strong></li>
+<li>20 SMA is the 24-hour average — if broken, price was above it 24 hrs → will fall</li>
+<li>SL = high of the candle that broke 20 SMA</li>
+<li>HM being blue confirms downward momentum</li>
+</ol>
+
+<h2>HM Signal on BB Trap</h2>
+<ul>
+<li>If Volume, Price &amp; Strength all at same place → price won&#x27;t go up</li>
+<li>If strength reducing (e.g., 79 → 68) and FLAT → bearish signal</li>
+</ul>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/concepts/vwap">Vwap</a> — VWAP concept</li>
+<li><a href="/wiki/concepts/oh-ol">Oh Ol</a> — OH-OL strategy</li>
+<li><a href="/wiki/concepts/bb-trap">Bb Trap</a> — BB Trap concept</li>
+<li><a href="/wiki/concepts/bb-blast">Bb Blast</a> — BB Blast concept</li>
+<li><a href="/wiki/concepts/hilega-milega">Hilega Milega</a> — HM for timing</li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

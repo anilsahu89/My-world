@@ -1,0 +1,2 @@
+entry_date,direction,opt_type,short_strike,long_strike,expiry,spot_entry,vix_entry,short_premium,long_premium,net_credit,sma,status,exit_date,exit_reason,exit_short_prem,exit_long_prem,pnl,holding_days,spot_exit,notes
+2026-07-14,BULL_PUT,PE,23850.0,23750.0,2026-07-21,24052.0,13.8,110.75,80.75,30.0,24044.1,OPEN,,,,,,,,

@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VWAP (Volume-Weighted Average Price)</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>VWAP (Volume-Weighted Average Price)</h1>
+<article class="md"><h1>VWAP (Volume-Weighted Average Price)</h1>
+
+<h2>Definition</h2>
+<p>VWAP = cumulative (price × volume) / cumulative volume — reset daily. It represents the <strong>&quot;fair price&quot;</strong> where the average participant has traded.</p>
+
+<h2>Core Principle</h2>
+<p>&gt; &quot;Get on the train near VWAP&quot; — VWAP is the station; price keeps returning to it.</p>
+
+<h2>Key Rules</h2>
+
+<h3>Trend Direction</h3>
+<ul>
+<li>VWAP curving <strong>up</strong> + price above VWAP → bullish → every dip to VWAP = buy opportunity</li>
+<li>VWAP curving <strong>down</strong> + price below VWAP → bearish → every rise to VWAP = sell opportunity</li>
+<li>VWAP <strong>flat</strong> → sideways market → avoid directional trades</li>
+</ul>
+
+<h3>Intraday Behavior</h3>
+<ul>
+<li>Most effective for <strong>intraday</strong> trading (incorporates volume)</li>
+<li>After <strong>12:45 PM</strong>, price tends to revert toward VWAP if a move was missed earlier</li>
+<li>Price that stays above VWAP for 2–2.5 hours has strong bullish bias — don&#x27;t short casually</li>
+</ul>
+
+<h3>Support &amp; Resistance</h3>
+<ul>
+<li>VWAP acts as dynamic <strong>S/R</strong> level throughout the day</li>
+<li>When combined with <strong>Bollinger Bands</strong>:</li>
+<li>Upper/Lower bands = major S/R</li>
+<li>Price above VWAP + above Upper Band → wait for Band Blast</li>
+<li>Price failing below VWAP → next target = 20 SMA</li>
+<li><strong>Previous day resistance</strong> acts as resistance for the next day only</li>
+</ul>
+
+<h3>2-Hour Sustain Rule</h3>
+<ul>
+<li>If price <strong>gaps up/down</strong> past a resistance/support, it must <strong>sustain for 2 hours</strong> to confirm the breakout</li>
+</ul>
+
+<h3>20 SMA Interaction</h3>
+<ul>
+<li>20 SMA attracts price like a magnet (acts as S/R)</li>
+<li>Breaking 20 SMA requires a <strong>big candle in fast manner</strong></li>
+<li>If price backs from 20 SMA, don&#x27;t buy until it closes above the <strong>day&#x27;s highest close</strong></li>
+</ul>
+
+<h2>VWAP with Options</h2>
+<ul>
+<li>For OH-OL option selling: use VWAP as the bias indicator</li>
+<li>Price above VWAP → sell PE (bearish on put)</li>
+<li>Price below VWAP → sell CE (bullish on call)</li>
+</ul>
+
+<h2>Quick Reference</h2>
+<table><thead><tr><th>Scenario</th><th>Action</th></tr></thead><tbody>
+<tr><td>Price above VWAP, trending up</td><td>Buy dips to VWAP</td></tr>
+<tr><td>Price below VWAP, trending down</td><td>Sell rises to VWAP</td></tr>
+<tr><td>Price gaps past S/R</td><td>Wait 2-hour sustain</td></tr>
+<tr><td>Price above VWAP, sideways</td><td>Exit longs, don&#x27;t short yet</td></tr>
+<tr><td>Band Blast fails below VWAP</td><td>Short with SL at day&#x27;s high</td></tr>
+</tbody></table>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a> — BB + VWAP combination</li>
+<li><a href="/wiki/concepts/bb-blast">Bb Blast</a> — Band Blast from VWAP</li>
+<li><a href="/wiki/concepts/bb-trap">Bb Trap</a> — BB Trap reversal</li>
+<li><a href="/wiki/concepts/oh-ol">Oh Ol</a> — OH-OL option selling with VWAP</li>
+<li><a href="/wiki/concepts/hilega-milega">Hilega Milega</a> — HM for timing entries near VWAP</li>
+<li><a href="/wiki/sources/source-vwap-uses">Source Vwap Uses</a> — Source notes</li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

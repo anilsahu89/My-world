@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Source: Ravindra Elicherla — Corporate Life to Financial Freedom (Options &amp; Investing)</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>Source: Ravindra Elicherla — Corporate Life to Financial Freedom (Options &amp; Investing)</h1>
+<article class="md"><h1>Source: Ravindra Elicherla — Corporate Life to Financial Freedom (Options &amp; Investing)</h1>
+
+<h2>Source</h2>
+<ul>
+<li><strong>Video:</strong> From Corporate Life to Financial Freedom Through Investing &amp; Options | Ft. Ravindra Elicherla | EP-73</li>
+<li><strong>Channel:</strong> Vijay Thakkar Podcast</li>
+<li><strong>URL:</strong> https://www.youtube.com/watch?v=Ok6ikItoru8</li>
+<li><strong>Published:</strong> ~early July 2026 (~3 weeks old at ingest; ~56K views, ~1.4K likes)</li>
+<li><strong>Guest:</strong> <strong>Ravindra Elicherla</strong> — retired Chief Technology Officer (CTO) turned full-time options/investing trader; FIRE (Financial Independence, Retire Early) practitioner</li>
+<li><strong>Format:</strong> Long-form interview (~66 min; user-linked timestamp 3961s ≈ 66:01)</li>
+<li><strong>Full transcript ingested:</strong> Yes (via YouTube captions)</li>
+</ul>
+
+<h2>2-3 Line Summary</h2>
+<p>Retired CTO Ravindra Elicherla explains how he transitioned from a corporate career to financial freedom using a <strong>probability-based options-selling system</strong> (bull put spreads, covered calls, cash-secured puts) layered on top of a <strong>long-term equity + ETF portfolio</strong>. His edge is <strong>regime-mapping</strong> (classify the market, then pick the strategy that fits the regime) and <strong>selling options only when the probability of profit is demonstrably on his side</strong> — never directionally betting. Strongly reinforces Rita&#x27;s <a href="/wiki/strategies/stock-premium-mill">Stock Premium Mill</a> and <a href="/wiki/strategies/nifty-daily-theta">Daily Theta</a> philosophy.</p>
+
+<h2>Profile of the Trader</h2>
+<ul>
+<li><strong>Background:</strong> Former CTO (deep tech/leadership career) — brings an engineer&#x27;s <strong>process + probability</strong> mindset to markets</li>
+<li><strong>Capital base:</strong> Built a diversified equity + ETF core first; options are an <strong>income layer on top</strong>, not the main wealth engine</li>
+<li><strong>Style:</strong> Defined-risk premium seller + long-term investor. NOT a directional speculator.</li>
+<li><strong>Mindset:</strong> FIRE — financial freedom via consistency, not home runs. Matches Rita&#x27;s &quot;slow, consistent, rule-based&quot; goal (see <span class="broken-link" title="not found">CLAUDE.md</span>).</li>
+</ul>
+
+<h2>Core Concepts &amp; Key Takeaways</h2>
+
+<h3>1. Options as an Income Layer, Not a Lottery Ticket</h3>
+<ul>
+<li>Options-selling is a <strong>repeatable income engine</strong> on top of an existing portfolio — not a path to quick riches.</li>
+<li>He sells premium to <strong>generate consistent monthly cashflow</strong> from capital he already owns (covered calls) or is willing to deploy (cash-secured puts).</li>
+<li>Directly validates Rita&#x27;s <a href="/wiki/concepts/options">Premium Mill</a> philosophy: collect small premiums repeatedly.</li>
+</ul>
+
+<h3>2. The Three Core Strategies He Uses</h3>
+<table><thead><tr><th>Strategy</th><th>When</th><th>Rita&#x27;s Vault Equivalent</th></tr></thead><tbody>
+<tr><td><strong>Bull Put Spread</strong> (sell OTM put, buy further-OTM put)</td><td>Bullish-to-neutral view; defined risk</td><td><a href="/wiki/strategies/nifty-daily-theta">Nifty Daily Theta</a> · <a href="/wiki/strategies/nifty-premium-mill">Nifty Premium Mill</a></td></tr>
+<tr><td><strong>Covered Call</strong> (sell call against owned shares)</td><td>Mildly bullish; income on holdings</td><td><a href="/wiki/strategies/stock-premium-mill">Stock Premium Mill</a></td></tr>
+<tr><td><strong>Cash-Secured Put</strong> (sell put, keep cash ready)</td><td>Want to buy the stock lower; paid to wait</td><td><a href="/wiki/strategies/stock-premium-mill">Stock Premium Mill</a></td></tr>
+</tbody></table>
+
+<p>&gt; ⭐ These are <strong>exactly</strong> the three strategies Rita already has wiki pages for. This source is strong third-party validation that the playbook is sound.</p>
+
+<h3>3. Probability-Based Selling (the edge)</h3>
+<ul>
+<li>He sells options <strong>only when the probability of profit (POP) is on his side</strong> — typically targets <strong>≥70-80% POP</strong> via far-OTM strikes.</li>
+<li>Does NOT chase premium size; prefers <strong>high-probability, small-premium, repeatable</strong> trades over occasional large payouts.</li>
+<li>Uses delta as a probability proxy (e.g., ~0.20 delta ≈ ~80% POP).</li>
+<li>Reinforces Rita&#x27;s rule in <a href="/wiki/strategies/nifty-daily-theta">Nifty Daily Theta</a>: 300 OTM = far enough to be high-probability.</li>
+</ul>
+
+<h3>4. Regime Mapping (classify first, trade second)</h3>
+<ul>
+<li>Before placing any trade, <strong>classify the market regime</strong>: trending up, ranging, volatile, or trending down.</li>
+<li>Then pick the strategy that <strong>fits the regime</strong>:</li>
+<li>Uptrend → bull put spreads + covered calls</li>
+<li>Range/volatile → wider spreads, smaller size, or stand aside</li>
+<li>Downtrend → cash-secured puts at lower strikes (get paid to wait for entry), reduce call-selling</li>
+<li><strong>No regime = no trade.</strong> Discipline over activity.</li>
+</ul>
+
+<h3>5. Contra-ETF / Sector Rotation for the Core Portfolio</h3>
+<ul>
+<li>His long-term core uses <strong>ETFs and sector rotation</strong> — overweight sectors in momentum, avoid catching falling knives.</li>
+<li>Pairs with the options layer: ETF core = wealth engine; options = monthly income.</li>
+<li>Related to Rita&#x27;s <a href="/wiki/concepts/srt-investing">SRT</a> and the glossary ETF entry (ETFs for long-term/retirees, from <a href="/wiki/sources/source-volume-mismatch-intro">Source Volume Mismatch Intro</a>).</li>
+</ul>
+
+<h3>6. Survivorship Bias — the Abraham Wald Lesson</h3>
+<ul>
+<li>He explicitly cites the <strong>Wald survivorship bias</strong> story (WWII aircraft armor: armor the places with NO bullet holes, because the hit planes made it back; the ones hit elsewhere didn&#x27;t survive).</li>
+<li><strong>Trading application:</strong> Don&#x27;t just study the winners (survivors). The strategies/stocks you <em>don&#x27;t</em> see fail are the ones that killed accounts. Always ask &quot;what&#x27;s missing from this sample?&quot;</li>
+<li>This is a powerful risk-management mental model — flag for a dedicated concept page.</li>
+</ul>
+
+<h3>7. Risk Management Non-Negotiables</h3>
+<ul>
+<li><strong>Defined risk only</strong> — every trade has a known max loss (spreads, not naked selling).</li>
+<li><strong>Position sizing</strong> — no single trade risks more than a small fixed % of capital.</li>
+<li><strong>No averaging into losers</strong> blindly — if the thesis breaks, exit.</li>
+<li><strong>Capital preservation &gt; return maximization.</strong></li>
+</ul>
+
+<h2>Relationship to Rita&#x27;s Existing Strategies</h2>
+
+<table><thead><tr><th>Ravindra&#x27;s Principle</th><th>Rita&#x27;s Vault Page</th><th>Agreement</th></tr></thead><tbody>
+<tr><td>Bull put spread for income</td><td><a href="/wiki/strategies/nifty-daily-theta">Nifty Daily Theta</a> · <a href="/wiki/strategies/nifty-premium-mill">Nifty Premium Mill</a></td><td>✅ Exact match</td></tr>
+<tr><td>Covered calls on holdings</td><td><a href="/wiki/strategies/stock-premium-mill">Stock Premium Mill</a></td><td>✅ Exact match</td></tr>
+<tr><td>Cash-secured puts to enter lower</td><td><a href="/wiki/strategies/stock-premium-mill">Stock Premium Mill</a></td><td>✅ Exact match</td></tr>
+<tr><td>High-POP, small premium, repeat</td><td><a href="/wiki/concepts/options">Options</a> · Premium Mill</td><td>✅ Exact match</td></tr>
+<tr><td>Regime-based strategy selection</td><td>(implicit in Rita&#x27;s rules)</td><td>🆕 <strong>NEW</strong> — formalize as a concept</td></tr>
+<tr><td>Defined risk only</td><td><a href="/wiki/concepts/hedging">Hedging</a> · <a href="/wiki/concepts/psychology">Psychology</a></td><td>✅ Aligned</td></tr>
+<tr><td>Probability (delta) as POP proxy</td><td>(not yet explicit in vault)</td><td>🆕 <strong>NEW</strong> — add to options concept</td></tr>
+</tbody></table>
+
+<h2>New Concepts to Add (flagged)</h2>
+<ol>
+<li><strong>Regime Mapping</strong> — classify market first, then choose strategy. New concept page candidate.</li>
+<li><strong>Probability of Profit (POP) / Delta as POP proxy</strong> — add to <a href="/wiki/concepts/options">Options</a>.</li>
+<li><strong>Survivorship Bias (Wald)</strong> — risk-management mental model. New concept page candidate.</li>
+<li><strong>Contra-ETF / Sector Rotation</strong> — core portfolio approach. Link to <a href="/wiki/concepts/srt-investing">Srt Investing</a>.</li>
+</ol>
+
+<h2>Contradictions / Tensions to Flag</h2>
+<ul>
+<li>None significant. Ravindra&#x27;s framework <strong>strongly agrees</strong> with Rita&#x27;s existing system rather than contradicting it. The main addition is the explicit <strong>regime-mapping</strong> step before trade selection, which Rita&#x27;s current strategy pages do not formalize.</li>
+</ul>
+
+<h2>Quotes Worth Keeping (paraphrased from transcript)</h2>
+<ul>
+<li>&quot;Options are an income layer on capital you already have — not a way to build the capital.&quot;</li>
+<li>&quot;I sell only when the probability of profit is clearly on my side. If I have to guess direction, I don&#x27;t trade.&quot;</li>
+<li>&quot;Classify the regime first. The strategy follows the regime — never the other way.&quot;</li>
+<li>&quot;Study the trades that failed and the accounts that blew up, not just the winners. That&#x27;s the Wald lesson.&quot;</li>
+</ul>
+
+<h2>Concepts Touched</h2>
+<ul>
+<li><a href="/wiki/concepts/options">Options</a> — core mechanics (spreads, POP, delta)</li>
+<li><a href="/wiki/concepts/hedging">Hedging</a> — defined-risk mindset</li>
+<li><a href="/wiki/concepts/psychology">Psychology</a> — discipline, capital preservation</li>
+<li><a href="/wiki/concepts/srt-investing">Srt Investing</a> — long-term core portfolio</li>
+<li><a href="/wiki/strategies/stock-premium-mill">Stock Premium Mill</a> — covered calls + CSP (validated)</li>
+<li><a href="/wiki/strategies/nifty-daily-theta">Nifty Daily Theta</a> — bull put spreads (validated)</li>
+<li><a href="/wiki/strategies/nifty-premium-mill">Nifty Premium Mill</a> — weekly credit spreads (validated)</li>
+</ul>
+
+<h2>Backtest / Validation Candidates</h2>
+<ol>
+<li><strong>Regime filter on Daily Theta</strong> — does skipping credit-spread trades in &quot;downtrend&quot; regimes lift the 92.9% WR / PF 1.77?</li>
+<li><strong>POP threshold sweep</strong> — test 70% vs 80% vs 85% POP on Nifty credit spreads (win rate vs premium trade-off).</li>
+<li><strong>Covered call delta rule</strong> — backtest selling 0.20-0.30 delta calls monthly on a stock basket vs buy-and-hold.</li>
+</ol>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/concepts/options">Options</a> · <a href="/wiki/concepts/hedging">Hedging</a> · <a href="/wiki/concepts/psychology">Psychology</a> · <a href="/wiki/concepts/srt-investing">Srt Investing</a></li>
+<li><a href="/wiki/strategies/stock-premium-mill">Stock Premium Mill</a> · <a href="/wiki/strategies/nifty-daily-theta">Nifty Daily Theta</a> · <a href="/wiki/strategies/nifty-premium-mill">Nifty Premium Mill</a></li>
+<li><a href="/wiki/sources/source-volume-mismatch-intro">Source Volume Mismatch Intro</a> — also touches ETF investing for retirees/FIRE</li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

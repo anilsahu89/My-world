@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NK&#39;s Volume Reading (50/50 thesis)</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>NK&#39;s Volume Reading (50/50 thesis)</h1>
+<article class="md"><h1>NK&#x27;s Volume Reading (50/50 thesis)</h1>
+
+<h2>Definition</h2>
+<p>NK sir&#x27;s own framing of volume as <strong>the one footprint big money cannot fake.</strong> His exact split: <strong>technical analysis = 50% price action + 50% volume.</strong> Big money (operators/FIs) can deceive you in price, indicators, and OI — but not in volume, because every real transaction leaves a real size.</p>
+
+<p>This is distinct from <a href="/wiki/concepts/vpa">Vpa</a> (Anna Coulling&#x27;s effort-vs-result framework, which NK studied as a foundation) and <a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> (the single-bar signal). NK&#x27;s version centers on <strong>breakout confirmation</strong> and the <strong>price-volume direction agreement</strong>.</p>
+
+<h2>The two-candle-close law (NK&#x27;s #1 rule)</h2>
+<p>&gt; Never act on a breakout/breakdown without <strong>two candle closes</strong> above/below the level on the timeframe you trade.</p>
+
+<p>Stated as the <strong>single biggest source of retail losses</strong> — bigger than any strategy flaw. Breakout/breakdown levels hold the most liquidity, which is exactly where big money distributes to retail. NK admits he lost money on the Nifty ATH breakout (26,061, Sep 2024 broken Nov–Dec 2025) by skipping this.</p>
+
+<h2>Breakout volume rules</h2>
+<ul>
+<li>Breakout volume must be <strong>substantially higher than the surrounding 10–15–20 candles</strong> AND in a <strong>rising state</strong>. No fixed multiplier — &quot;kaafi zyada.&quot;</li>
+<li>For <strong>lifetime-high / 52-week-high</strong> breakouts: if not visible on daily, check <strong>weekly</strong>; if not weekly, check <strong>monthly</strong>. On at least one TF the volume must clearly exceed the surrounding average.</li>
+<li><strong>Volume + candle size must match.</strong> Huge volume + tiny candle body = red flag — question the move. &quot;Where the volume is, the price should also be there.&quot;</li>
+</ul>
+
+<h2>The bike analogy (price-volume agreement)</h2>
+<ul>
+<li><strong>Volume = handlebar. Price = bike.</strong> Turn the handlebar left, the bike must turn left.</li>
+<li>Volume one direction, price the other (or price stalls/freezes) = <strong>deception</strong> by big money. A trap.</li>
+<li>This is the same principle as <a href="/wiki/concepts/vpa">Vpa</a> (effort vs result) and <a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a>, restated as a directional-consistency check.</li>
+</ul>
+
+<h2>Big-money mechanics (why volume needs time)</h2>
+<p>Big money buys cheap in the &quot;warehouse&quot; (accumulation), then sells slowly to retail at the &quot;stall&quot; (distribution) — never all at once. This is why:</p>
+<ul>
+<li>Volume needs <strong>time/confirmation</strong> (the two-close rule).</li>
+<li>Breakout points are distribution traps, not free money.</li>
+</ul>
+
+<h2>How volume fits with Hilega Milega</h2>
+<ul>
+<li><a href="/wiki/concepts/hilega-milega">Hilega Milega</a> gives direction/conviction; <strong>volume is the confirmation layer on top</strong>, not a replacement.</li>
+<li>Do NOT jump on every minor HM signal in a sideways/range market — wait for the full HM curve + V-shape + volume confirmation.</li>
+<li>NK&#x27;s plan (in progress, not yet released): integrate real-time volume layers — <strong>volume smash, stopping volume, sign volume</strong> — with HM + ORB.</li>
+</ul>
+
+<h2>What NK de-emphasizes</h2>
+<ul>
+<li><strong>No indicator (lagging or leading) tells you an old low will break</strong> — HM + volume does. Indicators &quot;cheat/deceive&quot;; volume doesn&#x27;t.</li>
+<li><strong>OI / PCR overrated.</strong> Better to look at <strong>OI percentile</strong> (e.g. 90th percentile = price has been here only 10% of time → expect mean reversion). Nobody talks about percentile.</li>
+<li><strong>FII/DII cash data + IPO data are useful but underused</strong> vs the hype around OI.</li>
+<li>Closed-market hindsight is misleading — &quot;anyone can show buy here/sell here after the fact.&quot;</li>
+</ul>
+
+<h2>Used in strategies</h2>
+<ul>
+<li>Confirmation filter for <a href="/wiki/concepts/hilega-milega">Hilega Milega</a> entries</li>
+<li>Breakout validation (links to <a href="/wiki/strategies/bb-breakout-v2">Bb Breakout V2</a>, <a href="/wiki/strategies/bb-trap-positional">Bb Trap Positional</a>)</li>
+<li>Reinforces <a href="/wiki/concepts/vpa">Vpa</a> and <a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a></li>
+</ul>
+
+<h2>Status</h2>
+<p>⚠️ <strong>Not backtested.</strong> NK&#x27;s teaching from a podcast (auto-generated Hindi transcript, translated). The two-close law and 10–15–20-candle volume rule are specific and testable — good scanner candidates once validated. No fixed volume multiplier given.</p>
+
+<h2>Source</h2>
+<p><a href="/wiki/sources/source-nk-hm-podcast-2026">Source Nk Hm Podcast 2026</a> (51:10 onward — &quot;How to read volume like a professional&quot;)</p>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

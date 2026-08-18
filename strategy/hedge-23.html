@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hedge 23 (H-23) · Strategy</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<div class="strat-head">
+  <h1>Hedge 23 (H-23)</h1>
+  <span class="badge badge-grey">Rules only</span>
+  <span class="muted">updated 2026-06-23</span>
+</div>
+
+
+
+<div class="actions">
+  
+    <button class="btn" disabled title="No scanner wired yet">▶ Run scan (rules-only)</button>
+    <span class="hint">Add an entry for <code>hedge-23</code> in <code>strategies.manifest</code> to enable.</span>
+  
+</div>
+
+
+
+<!-- Scanner results panel (populated by JS after a scan runs) -->
+<div id="scanResults" class="scan-results" style="display:none"></div>
+
+<section class="note">
+  <h2>Rules</h2>
+  <article class="md"><h1>Hedge 23 (H-23)</h1>
+
+<h2>Definition</h2>
+<p><strong>Hedge 23</strong> = Selling <strong>deep ITM options</strong> (with 70%+ chips/intrinsic value) to capture the <strong>hawa (time value)</strong>. The hedge gives &quot;space&quot; — if you&#x27;re wrong, you exit cost-to-cost or with minor loss.</p>
+
+<h2>Core Philosophy</h2>
+<p>&gt; Buy the chips (intrinsic value), sell the hawa (time value). Deep ITM options behave like futures.</p>
+
+<h2>When to Execute</h2>
+<ul>
+<li><strong>High VIX</strong> → high premium → high profit (best time)</li>
+<li><strong>Normal VIX</strong> → normal premium → less profit but still works</li>
+<li><strong>Never</strong> jump in-between — execute only <strong>near major support/resistance</strong></li>
+<li>Mark S/R on <strong>weekly + daily charts</strong> using BB (upper band = resistance, lower band = support)</li>
+</ul>
+
+<h2>Three Types of Risk (NK&#x27;s Framework)</h2>
+<ol>
+<li><strong>Known Risk</strong> — you know your risk &amp; reward upfront</li>
+<li><strong>Unknown Risk</strong> — trade taken blindly (tips, TV news) — avoid</li>
+<li><strong>Planned Risk</strong> — risk planned before entry → minimized via hedging</li>
+</ol>
+
+<p>&gt; <strong>Planned Risk = Hedge = Insurance</strong></p>
+
+<h2>Design — With Future (Positional)</h2>
+
+<h3>Bullish View</h3>
+<ol>
+<li>Mark major support (e.g., Bank Nifty near 35000)</li>
+<li><strong>Buy</strong> Bank Nifty MAY FUT @ 37365</li>
+<li><strong>Sell</strong> Bank Nifty MAY 35000 CE @ 2890 (deep ITM, near support)</li>
+</ol>
+
+<p><strong>Chips-Hawa Calculation:</strong></p>
+<ul>
+<li>Chips = Future Price − Strike = 37365 − 35000 = <strong>2365</strong></li>
+<li>Hawa = Premium − Chips = 2890 − 2365 = <strong>525</strong></li>
+<li><strong>Target:</strong> Capture the 525 points of hawa</li>
+</ul>
+
+<h3>Bearish View</h3>
+<ol>
+<li>Mark major resistance (e.g., Bank Nifty near 39000)</li>
+<li><strong>Sell</strong> Bank Nifty MAY FUT @ 37365</li>
+<li><strong>Sell</strong> Bank Nifty MAY 39000 PE @ 2319 (deep ITM, near resistance)</li>
+</ol>
+
+<p><strong>Chips-Hawa Calculation:</strong></p>
+<ul>
+<li>Chips = Strike − Future Price = 39000 − 37365 = <strong>1135</strong></li>
+<li>Hawa = Premium − Chips = 2319 − 1135 = <strong>684</strong> (approx)</li>
+<li><strong>Note:</strong> In bearish view, you SELL BOTH future AND option</li>
+</ul>
+
+<h2>Design — With Options (Intraday)</h2>
+
+<h3>Best Times for Pure-Chips Options</h3>
+<ul>
+<li><strong>Wednesday after 2:30 PM:</strong> Can get ITM with no hawa, 300-400 points below spot</li>
+<li><strong>Expiry day (Thursday) ~11 AM:</strong> Can get ITM with no hawa, 100-200 points below spot</li>
+</ul>
+
+<h3>Example</h3>
+<ul>
+<li><strong>Buy</strong> BNF 7th APR 36700 CE @ 322 (acts as future, full chips)</li>
+<li><strong>Sell</strong> BNF MAY 35000 CE @ 2890</li>
+<li>Market up → delta difference profit</li>
+<li>Market crashes 600-700 points → weekly CE loses only premium, MAY CE rewards 600-700 points</li>
+</ul>
+
+<h2>Adjustment (If Trade Goes Against You)</h2>
+
+<h3>Bullish Trade Reversal</h3>
+<ul>
+<li>Original: Buy MAY FUT + Sell MAY 35000 CE</li>
+<li>Adjustment: <strong>Sell current month CE</strong> at resistance strike</li>
+<li>Example: Sell BNF APR 37000 CE @ 1060</li>
+<li><strong>SL = Strike + Premium = 37000 + 1060 = 38060</strong></li>
+<li>If market crosses 38060 → SL hit on adjustment CE</li>
+</ul>
+
+<h2>Advantages of Hedge 23</h2>
+<ul>
+<li>Very reliable hedge</li>
+<li>Exits cost-to-cost or minor loss even if wrong</li>
+<li>ITM options behave like futures</li>
+<li>Works in intraday AND positional</li>
+<li>Can be done with futures OR weekly options</li>
+</ul>
+
+<h2>Important Rules</h2>
+<ol>
+<li>Always build at <strong>next month expiry</strong> (more time, more hawa to capture)</li>
+<li>CE side is easier to adjust than PE side — <strong>prefer CE for bullish</strong></li>
+<li>Start with <strong>positional first</strong>, then try intraday</li>
+<li>Start with <strong>Index first</strong>, then stock options</li>
+<li>Only enemy = <strong>VIX</strong> (sudden VIX rise adds premium to short position)</li>
+<li>Mark support/resistance on <strong>weekly chart</strong> with BB before entry</li>
+<li>Keep adjustment area and entry area clearly defined</li>
+</ol>
+
+<h2>Chips-Hawa Formula Summary</h2>
+<pre><code>
+Chips (Call) = Future Price − Strike
+Chips (Put)  = Strike − Future Price
+Hawa         = Option Premium − Chips
+Target       = Capture the Hawa
+</code></pre>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a> — Core chips/hawa theory</li>
+<li><a href="/wiki/concepts/hedging">Hedging</a> — Hedging fundamentals</li>
+<li><a href="/wiki/concepts/vix">Vix</a> — VIX impact on premiums</li>
+<li><a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a> — BB for S/R marking</li>
+<li><a href="/wiki/sources/source-hedge-23">Source Hedge 23</a> — Full source notes</li>
+</ul>
+</article>
+</section>
+
+
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

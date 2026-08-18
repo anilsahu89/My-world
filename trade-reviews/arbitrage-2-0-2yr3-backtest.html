@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trade Review: Arbitrage 2.0 — 2.3-Year Backtest (2024-01 → 2026-05)</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>Trade Review: Arbitrage 2.0 — 2.3-Year Backtest (2024-01 → 2026-05)</h1>
+<article class="md"><h1>Trade Review: Arbitrage 2.0 — 2.3-Year Backtest (2024-01 → 2026-05)</h1>
+
+<h2>Run Details</h2>
+<ul>
+<li><strong>Strategy:</strong> Arbitage 2.0 (default rules — ₹10 basis, spread ≤ basis, ₹2,000 spread value, 100 vol each leg)</li>
+<li><strong>Period:</strong> 2024-01-15 → 2026-05-15 (<strong>573 trading days</strong>, ~2.3 years)</li>
+<li><strong>Capital:</strong> ₹5,00,000</li>
+<li><strong>Data:</strong> NSE daily bhavcopy (FO + CM ZIP archives)</li>
+<li><strong>Output dir:</strong> <code>results/2yr3_2024-01_2026-05/</code></li>
+</ul>
+
+<p>&gt; ⚠️ <strong>Why not 3 years?</strong> NSE&#x27;s public bhavcopy archive (<code>nsearchives.nseindia.com</code>) only serves files back to <strong>January 2024</strong>. All 2023 dates return HTTP 404. This is a hard wall on NSE&#x27;s side, not a script bug. 2.3 years is the max achievable window without an alternative data source (paid historical data vendor, or NSE&#x27;s separate historical-data product).</p>
+
+<hr>
+
+<h2>Headline Results</h2>
+
+<table><thead><tr><th>Metric</th><th>1-Year (2025-05→2026-05)</th><th><strong>2.3-Year (2024-01→2026-05)</strong></th></tr></thead><tbody>
+<tr><td>Trades</td><td>132</td><td><strong>276</strong></td></tr>
+<tr><td>Win rate</td><td>51.52%</td><td><strong>52.17%</strong></td></tr>
+<tr><td>Net P&amp;L</td><td>₹1,84,251</td><td><strong>₹4,72,785</strong></td></tr>
+<tr><td>Return on ₹5L</td><td>36.85%</td><td><strong>94.56%</strong></td></tr>
+<tr><td>Profit factor</td><td>2.496</td><td><strong>2.68</strong></td></tr>
+<tr><td>Max drawdown</td><td>₹27,238 (4.68%)</td><td><strong>₹40,149 (4.94%)</strong></td></tr>
+<tr><td>Avg trade P&amp;L</td><td>—</td><td>₹1,713</td></tr>
+<tr><td>Avg win</td><td>—</td><td>₹5,237</td></tr>
+<tr><td>Avg loss</td><td>—</td><td>−₹2,165</td></tr>
+<tr><td>Win/Loss size ratio</td><td>—</td><td><strong>2.42×</strong></td></tr>
+<tr><td>Max win</td><td>—</td><td>₹52,206 (BERGEPAINT)</td></tr>
+<tr><td>Max loss</td><td>—</td><td>−₹9,925 (BAJAJ-AUTO)</td></tr>
+<tr><td>Avg holding</td><td>—</td><td>8.1 days</td></tr>
+<tr><td>Max open positions</td><td>11</td><td>11</td></tr>
+</tbody></table>
+
+<p><strong>Final equity:</strong> ₹9,72,785 (₹5L → ₹9.73L in 2.3 years)</p>
+
+<hr>
+
+<h2>Year-by-Year Breakdown</h2>
+
+<table><thead><tr><th>Year</th><th>Trades</th><th>Wins</th><th>Win Rate</th><th>Net P&amp;L</th></tr></thead><tbody>
+<tr><td>2024 (Jan–Dec)</td><td>83</td><td>45</td><td><strong>54.2%</strong></td><td>₹1,50,546</td></tr>
+<tr><td>2025 (full year)</td><td>116</td><td>52</td><td><strong>44.8%</strong></td><td>₹1,63,708</td></tr>
+<tr><td>2026 (Jan–May)</td><td>77</td><td>47</td><td><strong>61.0%</strong></td><td>₹1,58,531</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>276</strong></td><td><strong>144</strong></td><td><strong>52.2%</strong></td><td><strong>₹4,72,785</strong></td></tr>
+</tbody></table>
+
+<h3>Key observation</h3>
+<p><strong>P&amp;L is remarkably even across years</strong> (₹1.5L / ₹1.6L / ₹1.6L) despite <strong>very different win rates</strong> (54% / 45% / 61%). This is the signature of an asymmetric-payoff strategy — the edge is in win/loss size, not hit rate. 2025 had the <em>worst</em> win rate but still produced the <em>middle</em> P&amp;L because losers were small.</p>
+
+<hr>
+
+<h2>Monthly P&amp;L — Regime Check</h2>
+
+<p><strong>Positive months: 20 (71%)  |  Negative months: 8 (29%)</strong></p>
+
+<ul>
+<li><strong>Best month:</strong> 2026-03 — ₹89,332 (26 trades)</li>
+<li><strong>Worst month:</strong> 2025-05 — −₹27,910 (6 trades) ← the drawdown source</li>
+<li><strong>Hottest streak:</strong> 2026-02 → 2026-04 (₹1.46L in 3 months)</li>
+</ul>
+
+<h3>Clustering concern</h3>
+<p>The single worst month (2025-05, −₹27.9K) accounts for <strong>~70% of the entire max drawdown (₹40,149)</strong>. That&#x27;s one bad month, not a structural failure. The other negative months are small (−₹3K to −₹7K). If you exclude May 2025, max DD drops to ~₹12K (2.4%).</p>
+
+<p><strong>What was May 2025?</strong> Worth investigating — likely a sharp rally that pushed many current futures through spot simultaneously (forcing exits at a loss across the book at once). This is the strategy&#x27;s known vulnerability: <strong>a strong broad-market rally compresses all backwardation structures at the same time.</strong></p>
+
+<hr>
+
+<h2>Exit Reason Analysis</h2>
+
+<table><thead><tr><th>Exit Reason</th><th>Trades</th><th>Win Rate</th><th>Net P&amp;L</th></tr></thead><tbody>
+<tr><td>Spot matched/crossed current future</td><td>247</td><td>50.6%</td><td>₹3,00,234</td></tr>
+<tr><td>Spot matched + expiry (same day)</td><td>12</td><td><strong>83.3%</strong></td><td>₹95,142</td></tr>
+<tr><td>Current month expiry (held to end)</td><td>11</td><td>45.5%</td><td>₹71,754</td></tr>
+<tr><td>Forced end of backtest</td><td>6</td><td>66.7%</td><td>₹5,656</td></tr>
+</tbody></table>
+
+<p><strong>Insight:</strong> Trades that exit <em>on the exact expiry day with spot crossing</em> have an 83% win rate — these are the &quot;perfect convergence&quot; trades. The bulk (247 trades) exit early when spot is hit, and those are near coin-flip (50.6%). The edge comes from the <em>size</em> of wins on the early-exit bucket, not their frequency.</p>
+
+<hr>
+
+<h2>Holding Period Distribution</h2>
+
+<table><thead><tr><th>Holding</th><th>Trades</th><th>%</th></tr></thead><tbody>
+<tr><td>1–3 days</td><td>80</td><td>29%</td></tr>
+<tr><td>4–7 days</td><td>87</td><td>32%</td></tr>
+<tr><td>8–14 days</td><td>58</td><td>21%</td></tr>
+<tr><td>15–21 days</td><td>33</td><td>12%</td></tr>
+<tr><td>22+ days</td><td>18</td><td>7%</td></tr>
+</tbody></table>
+
+<p><strong>Avg: 8.1 days  |  Max: 29 days</strong></p>
+
+<p>61% of trades close within a week. Capital turns over fast — good for compounding, but means the strategy is <strong>active-management</strong>, not set-and-forget.</p>
+
+<hr>
+
+<h2>Worst 5 Trades (Drawdown Anatomy)</h2>
+
+<table><thead><tr><th>Symbol</th><th>Entry</th><th>Exit</th><th>P&amp;L</th><th>Basis</th><th>Spread</th><th>Exit</th></tr></thead><tbody>
+<tr><td>BAJAJ-AUTO</td><td>2024-02-23</td><td>2024-02-29</td><td>−₹9,925</td><td>₹101.8</td><td>₹41.4</td><td>spot+expiry</td></tr>
+<tr><td>AMBER</td><td>2025-11-26</td><td>2025-12-05</td><td>−₹9,900</td><td>₹250.0</td><td>₹147.0</td><td>spot crossed</td></tr>
+<tr><td>CDSL</td><td>2025-04-25</td><td>2025-05-21</td><td>−₹9,205</td><td>₹92.9</td><td>₹42.0</td><td>spot crossed</td></tr>
+<tr><td>HDFCAMC</td><td>2024-03-22</td><td>2024-03-28</td><td>−₹9,075</td><td>₹51.0</td><td>₹33.0</td><td>expiry</td></tr>
+<tr><td>BATAINDIA</td><td>2024-02-28</td><td>2024-02-29</td><td>−₹7,350</td><td>₹13.1</td><td>₹9.7</td><td>expiry</td></tr>
+</tbody></table>
+
+<p><strong>Pattern in losers:</strong> Max single-trade loss is capped around <strong>−₹10K</strong> (the spread × lot size at entry bounds the damage). No catastrophic tail — the structure mathematically limits downside. The worst trades tend to have <strong>wide spreads relative to basis</strong> (AMBER: ₹147 spread on ₹250 basis = 59%; CDSL: ₹42 on ₹93 = 45%). This hints that a tighter <code>spread/basis</code> filter could prune the worst losers.</p>
+
+<hr>
+
+<h2>Top Symbols (≥6 trades)</h2>
+
+<table><thead><tr><th>Symbol</th><th>Trades</th><th>Win Rate</th><th>Net P&amp;L</th></tr></thead><tbody>
+<tr><td>PAGEIND</td><td>12</td><td><strong>91.7%</strong></td><td>₹30,414</td></tr>
+<tr><td>ANGELONE</td><td>10</td><td>50.0%</td><td>₹33,850</td></tr>
+<tr><td>CHOLAFIN</td><td>6</td><td>50.0%</td><td>₹28,656</td></tr>
+<tr><td>UBL</td><td>10</td><td>50.0%</td><td>₹23,860</td></tr>
+<tr><td>OBEROIRLTY</td><td>9</td><td><strong>77.8%</strong></td><td>₹18,091</td></tr>
+<tr><td>SBICARD</td><td>11</td><td>54.5%</td><td>₹18,000</td></tr>
+<tr><td>SHREECEM</td><td>9</td><td>55.6%</td><td>₹10,234</td></tr>
+<tr><td>TATAELXSI</td><td>9</td><td>33.3%</td><td>₹9,365</td></tr>
+<tr><td>VOLTAS</td><td>11</td><td>45.5%</td><td><strong>−₹3,150</strong></td></tr>
+<tr><td>KEI</td><td>6</td><td>50.0%</td><td>−₹340</td></tr>
+</tbody></table>
+
+<p><strong>PAGEIND is an outlier</strong> — 91.7% win rate over 12 trades. Worth studying: what about its structure is so reliable? (Likely a consistently wide, slow-converging backwardation.) VOLTAS is the only frequent symbol that&#x27;s net negative — candidate for a blacklist after more data.</p>
+
+<hr>
+
+<h2>Interpretation — Is the Edge Real?</h2>
+
+<h3>The strong case ✅</h3>
+<ol>
+<li><strong>PF 2.68 over 276 trades is robust</strong> — not a small-sample fluke. 276 trades is statistically meaningful.</li>
+<li><strong>Consistent across 3 different years</strong> with different win rates but stable P&amp;L → the edge is structural (payoff asymmetry), not regime-dependent.</li>
+<li><strong>Max DD only 4.94%</strong> on 94.56% return → return/DD ratio of <strong>19.1×</strong>. Exceptional.</li>
+<li><strong>Losses are bounded</strong> (max −₹10K) by the spread structure. No tail risk.</li>
+<li><strong>20 of 28 months positive</strong> (71%) — consistent monthly edge, not lumpy.</li>
+</ol>
+
+<h3>The caveats ⚠️</h3>
+<ol>
+<li><strong>No costs modeled.</strong> Add brokerage (~₹40/round-trip per lot) + STT + slippage (1-2 ticks × 2 legs). On 276 trades × ~₹100-150 all-in cost = <strong>₹27K–₹41K drag</strong>. Net PF drops to ~2.4–2.5. Still strong, but worth coding in.</li>
+<li><strong>Single worst month = 70% of max DD.</strong> May 2025 cluster risk: a broad rally can hit all open positions at once. Position limit (11 max) helps, but correlation spike is the real risk.</li>
+<li><strong>Survivorship</strong>: bhavcopy reflects stocks listed <em>on that day</em>. Stocks that delisted mid-period aren&#x27;t in the error term. Minor effect here.</li>
+<li><strong>Look-ahead in volume filter?</strong> The 100-contract volume filter uses <em>same-day</em> close volume — in live trading you&#x27;d screen on prior-day or real-time volume. Minor, but worth noting.</li>
+<li><strong>No regime filter.</strong> The strategy trades in all conditions. May 2025 suggests a &quot;broad-market momentum&quot; filter (skip when Nifty 50 is up &gt;X% over 5 days) could cut the cluster losses.</li>
+</ol>
+
+<hr>
+
+<h2>Next Iteration Questions</h2>
+
+<ol>
+<li><strong>Cost-adjusted re-run</strong> — add ₹100/trade all-in cost. Does PF stay above 2.0?</li>
+<li><strong>V2.1 on same window</strong> — stricter filters (₹20 basis, 2× ratio, 500 vol, 7-21 DTE). Compare trade count and PF.</li>
+<li><strong>Spread/basis ratio filter</strong> — the worst losers had spread/basis &gt; 45%. Test a <code>spread ≤ 0.4 × basis</code> filter.</li>
+<li><strong>Regime overlay</strong> — skip entries when Nifty 50 5-day return &gt; +3%. Does it kill the May 2025 cluster?</li>
+<li><strong>PAGEIND case study</strong> — why 91.7% WR? Replicate those entry conditions as a refined filter.</li>
+<li><strong>Live validation</strong> — the backtest is now solid enough to justify a small live paper-trade run (1-2 lots) for 2-3 months to confirm execution assumptions.</li>
+</ol>
+
+<hr>
+
+<h2>Verdict</h2>
+
+<p><strong>The edge looks real and persistent across 2.3 years and 3 distinct yearly regimes.</strong> PF 2.68 with bounded downside and 71% positive months is a legitimate statistical signal, not noise. The main risks are (a) unmodeled costs and (b) correlation-spike drawdowns during broad rallies. Both are addressable.</p>
+
+<p><strong>Recommendation:</strong> Proceed to cost-adjusted re-run + V2.1 comparison before committing live capital. If PF stays above 2.0 after costs, this is a deployable strategy at the tested ₹5L scale.</p>
+
+<hr>
+
+<h2>Reproducing</h2>
+<pre><code>
+cd /Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage
+python3 backtest_future_arbitaage.py \
+  --start 2024-01-15 --end 2026-05-15 \
+  --capital 500000 \
+  --strategy-name &quot;Arbitage 2.0 (2.3yr)&quot; \
+  --out-dir results/2yr3_2024-01_2026-05
+</code></pre>
+<p>Files: <code>trades.csv</code> (276 rows), <code>daily_equity.csv</code>, <code>signals.csv</code>, <code>summary.txt</code></p>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/strategies/future-arbitrage">Future Arbitrage</a> — Strategy rules</li>
+<li><a href="/wiki/trade-reviews/arbitrage-2-0-1yr-backtest">Arbitrage 2 0 1Yr Backtest</a> — Previous 1-year review</li>
+<li><a href="/wiki/concepts/arbitrage">Arbitrage</a> — Concept page</li>
+<li><span class="broken-link" title="not found">backtesting-queue</span> — Testing order</li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

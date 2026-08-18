@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arbitrage 2.0 (Future Arbitrage V2)</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>Arbitrage 2.0 (Future Arbitrage V2)</h1>
+<article class="md"><h1>Arbitrage 2.0 (Future Arbitrage V2)</h1>
+
+<h2>Definition</h2>
+<p><strong>Arbitrage 2.0</strong> is Rita&#x27;s filtered F1/F2 backwardation strategy, now codified in <code>backtest_future_arbitaage.py</code>. It trades only one structure:</p>
+
+<pre><code>
+Spot &gt; Current-month future &gt; Next-month future
+</code></pre>
+
+<p>Action: <strong>Buy current-month future, sell next-month future.</strong> Profit comes from the current-month future converging toward spot before expiry.</p>
+
+<h2>Do Not Mix</h2>
+<p>This structure is NOT Arbitrage 2.0:</p>
+
+<pre><code>
+Spot &gt; Current-month future &lt; Next-month future
+</code></pre>
+
+<p>That is a separate calendar-credit setup and must be tracked separately. Arbitrage 2.0 requires both futures below spot AND current future above next future.</p>
+
+<h2>Entry Rules (code-verified)</h2>
+<p>Enter one lot only when ALL pass (<code>passes_entry_rules</code>, backtest_future_arbitaage.py:207):</p>
+
+<ol>
+<li><code>curr.close &lt; spot</code> — current future below spot</li>
+<li><code>nxt.close &lt; curr.close</code> — next future below current future</li>
+<li><code>basis &gt;= 10</code> — spot−current gap ≥ <strong>₹10</strong></li>
+<li><code>basis_pct &gt;= 0</code> — (default off; set via <code>--min-basis-pct</code>)</li>
+<li><code>spread &lt;= basis × 1.0</code> — current−next gap ≤ spot−current gap</li>
+<li><code>spread_value &gt;= 2000</code> — one-lot spread value ≥ <strong>₹2,000</strong></li>
+<li><code>curr.volume &gt;= 100</code> — current future volume ≥ <strong>100 contracts</strong></li>
+<li><code>nxt.volume &gt;= 100</code> — next future volume ≥ <strong>100 contracts</strong></li>
+<li><code>min_days_to_expiry &lt;= DTE &lt;= max_days_to_expiry</code> — (default 0–999 = no filter)</li>
+</ol>
+
+<p>Where:</p>
+<ul>
+<li><code>basis = spot − curr.close</code></li>
+<li><code>spread = curr.close − nxt.close</code></li>
+<li><code>spread_value = spread × curr.lot</code></li>
+<li><code>basis_pct = basis / spot × 100</code></li>
+</ul>
+
+<h2>Ranking (when multiple stocks qualify)</h2>
+<p>Candidates are sorted descending by <code>(basis_spread_ratio, basis, −spread)</code>:</p>
+<ol>
+<li><strong>basis_spread_ratio = basis / spread</strong> — highest first (want basis much larger than spread)</li>
+<li>Then by basis (highest first)</li>
+<li>Then by −spread (lowest spread first)</li>
+</ol>
+
+<h2>Trade Action</h2>
+<table><thead><tr><th>Leg</th><th>Action</th></tr></thead><tbody>
+<tr><td>Current-month future</td><td><strong>Buy</strong></td></tr>
+<tr><td>Next-month future</td><td><strong>Sell</strong></td></tr>
+</tbody></table>
+
+<h2>Exit Rules</h2>
+<p>Exit when either occurs (backtest_future_arbitaage.py:271):</p>
+<ol>
+<li><code>curr.close &gt;= spot</code> — current future matches or crosses spot</li>
+<li><code>day &gt;= pos.expiry</code> — current-month expiry reached</li>
+<li><code>forced_end_of_backtest</code> — final backtest day force-close</li>
+</ol>
+
+<p>No separate price SL — the exit rule IS the stop. This is intentional: the structure itself defines risk.</p>
+
+<h2>Arbitrage 2.1 (Winning-Rate Variant)</h2>
+<p>Stricter filters for higher win rate (fewer trades). From <code>ARBITAGE_2_0_RULES.md</code>:</p>
+
+<ul>
+<li>Spot−current gap ≥ <strong>₹20</strong></li>
+<li>Spot−current gap ≥ <strong>2×</strong> current−next gap</li>
+<li>Spot−current gap ≥ <strong>1.5%</strong> of spot</li>
+<li>Next-month volume ≥ <strong>500</strong> contracts</li>
+<li>Prefer <strong>7–21 days</strong> before current-month expiry</li>
+</ul>
+
+<p>Skip if current−next gap &gt; 50% of spot−current gap.</p>
+
+<p>To run V2.1 in the backtester:</p>
+<pre><code>
+python backtest_future_arbitaage.py \
+  --min-basis 20 \
+  --min-basis-pct 1.5 \
+  --max-spread-to-basis 0.5 \
+  --min-next-volume 500 \
+  --min-days-to-expiry 7 \
+  --max-days-to-expiry 21
+</code></pre>
+
+<h2>Skip Conditions (negative filters)</h2>
+<ul>
+<li>Current future above spot</li>
+<li>Next future above current future</li>
+<li>Current−next gap &gt; spot−current gap</li>
+<li>Spot−current gap &lt; ₹10</li>
+<li>Either leg illiquid (&lt; 100 contracts)</li>
+<li>Spread value too small to cover costs</li>
+</ul>
+
+<h2>Averaging Rules (from ARBITAGE_2_0_RULES.md)</h2>
+<p>Do NOT average blindly. Only add if ALL true:</p>
+<ul>
+<li>Current future still below spot</li>
+<li>Spot−current basis still healthy</li>
+<li>Spread has <strong>widened</strong> from entry</li>
+<li>Both legs still liquid</li>
+<li>Total margin exposure acceptable</li>
+</ul>
+
+<p>Avoid averaging when current future is close to spot OR spread has already compressed sharply.</p>
+
+<h2>1-Year Backtest Result (2025-05-15 → 2026-05-15)</h2>
+
+<table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Strategy</strong></td><td>Arbitage 2.0</td></tr>
+<tr><td><strong>Signals/trades</strong></td><td>132</td></tr>
+<tr><td><strong>Win rate</strong></td><td>51.52%</td></tr>
+<tr><td><strong>Net P&amp;L</strong></td><td>₹1,84,251.25</td></tr>
+<tr><td><strong>Return on ₹5L capital</strong></td><td><strong>36.85%</strong></td></tr>
+<tr><td><strong>Profit factor</strong></td><td>2.496</td></tr>
+<tr><td><strong>Max drawdown</strong></td><td>₹27,237.50</td></tr>
+<tr><td><strong>Max drawdown %</strong></td><td>4.68%</td></tr>
+<tr><td><strong>Max open positions</strong></td><td>11</td></tr>
+</tbody></table>
+
+<h2>2.3-Year Backtest Result (2024-01-15 → 2026-05-15) — MAX NSE WINDOW</h2>
+
+<table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Strategy</strong></td><td>Arbitage 2.0</td></tr>
+<tr><td><strong>Trading days</strong></td><td>573</td></tr>
+<tr><td><strong>Signals/trades</strong></td><td><strong>276</strong></td></tr>
+<tr><td><strong>Win rate</strong></td><td><strong>52.17%</strong></td></tr>
+<tr><td><strong>Net P&amp;L</strong></td><td><strong>₹4,72,785</strong></td></tr>
+<tr><td><strong>Return on ₹5L capital</strong></td><td><strong>94.56%</strong></td></tr>
+<tr><td><strong>Profit factor</strong></td><td><strong>2.68</strong></td></tr>
+<tr><td><strong>Max drawdown</strong></td><td>₹40,149 (4.94%)</td></tr>
+<tr><td><strong>Avg win / Avg loss</strong></td><td>₹5,237 / −₹2,165 (<strong>2.42×</strong>)</td></tr>
+<tr><td><strong>Avg holding</strong></td><td>8.1 days</td></tr>
+<tr><td><strong>Max open positions</strong></td><td>11</td></tr>
+<tr><td><strong>Final equity</strong></td><td>₹9,72,785</td></tr>
+</tbody></table>
+
+<h3>Year-by-year (edge persistence check)</h3>
+<table><thead><tr><th>Year</th><th>Trades</th><th>Win Rate</th><th>Net P&amp;L</th></tr></thead><tbody>
+<tr><td>2024</td><td>83</td><td>54.2%</td><td>₹1,50,546</td></tr>
+<tr><td>2025</td><td>116</td><td>44.8%</td><td>₹1,63,708</td></tr>
+<tr><td>2026 (Jan-May)</td><td>77</td><td>61.0%</td><td>₹1,58,531</td></tr>
+</tbody></table>
+
+<p>P&amp;L is stable across years (₹1.5-1.6L) despite win-rate swings (45-61%) → <strong>edge is payoff-asymmetric, not prediction-based.</strong></p>
+
+<h3>Data limitation</h3>
+<p>&gt; ⚠️ <strong>3-year backtest not possible.</strong> NSE&#x27;s public bhavcopy archive only serves files back to <strong>January 2024</strong>. All 2023 dates return HTTP 404. 2.3 years is the max without a paid historical data vendor.</p>
+
+<p>See <a href="/wiki/trade-reviews/arbitrage-2-0-2yr3-backtest">Arbitrage 2 0 2Yr3 Backtest</a> for full monthly P&amp;L, drawdown anatomy, exit-reason analysis, and next-iteration plan.</p>
+
+<h2>Reproducing the Backtest</h2>
+<pre><code>
+cd /Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage
+python backtest_future_arbitaage.py \
+  --start 2025-05-15 \
+  --end 2026-05-15 \
+  --capital 500000 \
+  --strategy-name &quot;Arbitage 2.0&quot;
+</code></pre>
+
+<p>Outputs in <code>results/</code>:</p>
+<ul>
+<li><code>trades.csv</code> — every closed trade with entry/exit/basis/spread/pnl</li>
+<li><code>daily_equity.csv</code> — equity curve + open positions per day</li>
+<li><code>signals.csv</code> — every signal that fired (incl. rank, volumes, DTE)</li>
+<li><code>summary.txt</code> — all aggregate stats</li>
+</ul>
+
+<h2>Code Reference</h2>
+<ul>
+<li><strong>Path:</strong> <code>/Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage/backtest_future_arbitaage.py</code></li>
+<li><strong>Rules source:</strong> <code>/Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage/ARBITAGE_2_0_RULES.md</code></li>
+<li><strong>Data:</strong> NSE daily bhavcopy ZIP archives (<code>nsearchives.nseindia.com/.../BhavCopy_NSE_FO_<em>.zip</code> and <code>_CM_</em>.zip</code>)</li>
+</ul>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/concepts/arbitrage">Arbitrage</a> — General futures-spot gap mechanics</li>
+<li><a href="/wiki/concepts/futures">Futures</a> — Futures mechanics and expiry convergence</li>
+<li><a href="/wiki/concepts/discipline-and-emotions">Discipline And Emotions</a> — Patience and position sizing</li>
+<li><span class="broken-link" title="not found">backtesting-queue</span> — Strategy testing order</li>
+<li><a href="/wiki/trade-reviews/arbitrage-2-0-1yr-backtest">Arbitrage 2 0 1Yr Backtest</a> — 1-year detailed review</li>
+<li><a href="/wiki/trade-reviews/arbitrage-2-0-2yr3-backtest">Arbitrage 2 0 2Yr3 Backtest</a> — <strong>2.3-year review (max NSE window, primary reference)</strong></li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "strategy": "nifty-daily-theta",
+  "scanned_at": null,
+  "status": "never_run",
+  "scan_date": null,
+  "trades": [],
+  "report": {},
+  "text_report": "No scans have been run yet. Click 'Run scan now' to fetch the latest data."
+}

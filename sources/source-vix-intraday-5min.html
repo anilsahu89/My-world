@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Source: India VIX — How to Use in Intraday Option Buy</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>Source: India VIX — How to Use in Intraday Option Buy</h1>
+<article class="md"><h1>Source: India VIX — How to Use in Intraday Option Buy</h1>
+
+<h2>Source</h2>
+<ul>
+<li><strong>Video:</strong> India Vix How to Use In Intraday Option Buy</li>
+<li><strong>Channel:</strong> NK STOCKTALK RESEARCH (SEBI Reg: INH000023038)</li>
+<li><strong>URL:</strong> https://www.youtube.com/watch?v=c94V3oIa9zM</li>
+<li><strong>Published:</strong> 2026-07-09</li>
+<li><strong>Duration:</strong> 22:38</li>
+<li><strong>Instructor:</strong> Nitish Kumar (NK)</li>
+<li><strong>Full transcript ingested:</strong> Yes (Hindi)</li>
+</ul>
+
+<h2>Summary</h2>
+<p>NK&#x27;s dedicated framework for using <strong>India VIX as an intraday timing trigger</strong> for option buying. Targeted specifically at option buyers who struggle with exits and momentum. Three pillars: <strong>VIX day-high break on 5-min chart</strong>, <strong>30-minute holding rule</strong>, and <strong>strike selection by premium range</strong>.</p>
+
+<h2>Core Thesis</h2>
+<p>&gt; &quot;Trading mein successful hone ka sirf ek tarika hai — exit aapko khud se aani chahiye.&quot; (The only way to succeed in trading is to learn to exit on your own.)</p>
+
+<p>&gt; &quot;Loss wo nahi hai jo aapne book kiya. Loss wo hai jab aap sahi the aur poora ride nahi kiya.&quot; (Loss is not what you booked — loss is when you were right but didn&#x27;t ride it fully.)</p>
+
+<hr>
+
+<h2>Rule 1: Gap Up/Down + VIX Direction (Opening Setup)</h2>
+
+<table><thead><tr><th>Scenario</th><th>VIX Condition</th><th>Meaning</th><th>Action</th></tr></thead><tbody>
+<tr><td><strong>Gap Up</strong></td><td>India VIX <strong>down &gt;4%</strong></td><td>Gap up will <strong>sustain</strong></td><td>Buy after 5-min close, SL = day low</td></tr>
+<tr><td><strong>Gap Down</strong></td><td>India VIX <strong>up &gt;4%</strong></td><td>Gap down will <strong>sustain</strong></td><td>Sell after 5-min close, SL = day high</td></tr>
+</tbody></table>
+
+<h3>Critical details</h3>
+<ul>
+<li>Wait for <strong>5-minute candle close</strong> before deciding</li>
+<li><strong>SL is closing-basis, NOT touch-basis</strong> — price must close above/below the level</li>
+<li>The <strong>4% VIX threshold</strong> is the filter — below 4%, the signal is weaker</li>
+<li>If gap up + VIX down &lt;4% → gap may not sustain → don&#x27;t trade</li>
+<li>Once gap sustains for 5 min → price runs into range-bound mode after that</li>
+</ul>
+
+<hr>
+
+<h2>Rule 2: VIX Day-High Break = Wave Strength Trigger</h2>
+
+<h3>The Setup</h3>
+<ol>
+<li>Open <strong>5-minute chart</strong> of India VIX alongside the option chain</li>
+<li>Mark the <strong>VIX day-high</strong> level</li>
+<li>Watch for VIX to <strong>break (close above) its day-high</strong> on the 5-min candle</li>
+</ol>
+
+<h3>Interpretation</h3>
+<table><thead><tr><th>When VIX breaks day-high in...</th><th>Wave Strength</th><th>Expected Move</th></tr></thead><tbody>
+<tr><td><strong>Single 5-min candle</strong></td><td><strong>Strong</strong> — sustainable move</td><td>Full ride (300→1300 type)</td></tr>
+<tr><td>10 minutes</td><td>Weaker</td><td>300→600/700, may not sustain</td></tr>
+<tr><td>15 minutes</td><td>Weaker</td><td>Even less sustained</td></tr>
+<tr><td><strong>1-hour timeframe</strong></td><td>Very strong</td><td>Effect lasts <strong>2-3 days</strong></td></tr>
+</tbody></table>
+
+<p>&gt; If VIX does NOT break day-high on the 5-min chart → the wave is weak → don&#x27;t expect the big move. It can reverse anytime.</p>
+
+<h3>VIX Direction Logic</h3>
+<ul>
+<li><strong>India VIX only checked for PUT buying</strong> (put side)</li>
+<li>For CALL buying: don&#x27;t check VIX, check price + Hilega Milega</li>
+<li><strong>Rising VIX = price support</strong> — if VIX rises, the put side is supported, price won&#x27;t easily fall</li>
+<li>VIX and option premium should move simultaneously on the same 5-min candle</li>
+</ul>
+
+<hr>
+
+<h2>Rule 3: 30-Minute Holding Period</h2>
+
+<ul>
+<li>After entry, <strong>hold for minimum 30 minutes</strong> — don&#x27;t watch constantly, walk away</li>
+<li>NK tested 10-min, 30-min, 1-hr, 2-hr, 3-hr → <strong>30 minutes is ideal</strong> for 5-min TF entries</li>
+<li>Volume is highest during this 30-min window</li>
+<li>After 30 min: plan exit or partial exit</li>
+<li><strong>Expiry day exception:</strong> Can&#x27;t leave for 30 min — must be active. Do <strong>50% exit + ride 50%</strong> with SL, because premium melts fast on expiry</li>
+</ul>
+
+<hr>
+
+<h2>Rule 4: Strike Selection by Premium Range</h2>
+
+<p>NK gives <strong>specific premium ranges</strong> from his R&amp;D:</p>
+
+<table><thead><tr><th>Index</th><th>Premium Range (₹)</th><th>Notes</th></tr></thead><tbody>
+<tr><td><strong>Sensex</strong></td><td>₹100 – ₹500</td><td>For OTM strikes</td></tr>
+<tr><td><strong>Nifty</strong></td><td>₹250 – ₹800</td><td>For OTM strikes</td></tr>
+</tbody></table>
+
+<h3>How to use</h3>
+<ol>
+<li>Put 4 strikes on screen (2 CE + 2 PE, OTM)</li>
+<li>If watching ₹100 premium → it will show ₹500-700 on the move</li>
+<li>If watching ₹500 premium → it will show ₹1500-2500 on the move</li>
+<li>₹25 premium → becomes ₹75-100 on single 5-min candle</li>
+<li>All strikes on that side move together — if one doubles, they all roughly double</li>
+</ol>
+
+<h3>Strike selection principle</h3>
+<p>&gt; &quot;Such a strike select karo ki agar SL bhi chale jaye to kam se kam loss ho.&quot; (Select a strike where even if SL hits, the loss is minimal.)</p>
+
+<ul>
+<li>Find the strike with <strong>₹100 premium</strong> in the OTM zone</li>
+<li>If ₹100 premium already moved to ₹400 → don&#x27;t chase it, find the next strike still at ₹50-60</li>
+<li>That ₹50-60 strike will become ₹100 when the move hits it</li>
+<li><strong>Don&#x27;t chase</strong> a strike that has already moved 4x</li>
+</ul>
+
+<hr>
+
+<h2>Rule 5: The &quot;Don&#x27;t Be Afraid to Buy at 300&quot; Principle</h2>
+
+<p>NK addresses the psychological trap:</p>
+<ol>
+<li>You see an option at ₹100 → hesitate (SL will be ₹40-50, scary)</li>
+<li>It jumps to ₹300-400 in front of your eyes → now you can&#x27;t buy (SL too big)</li>
+<li>It runs to ₹1200-1500 → you just watched it</li>
+</ol>
+
+<h3>NK&#x27;s solution</h3>
+<ul>
+<li>If you know the VIX + structure rules, you won&#x27;t be afraid at ₹300</li>
+<li>Because you know ₹300 → ₹1300 is possible (verified by the rules)</li>
+<li><strong>Verification method:</strong> Check India VIX + OTM option behavior on 5-min chart</li>
+<li>If VIX broke day-high on 5-min AND option broke its level → the move is real</li>
+<li>Start with small quantity, build confidence, then increase size</li>
+</ul>
+
+<hr>
+
+<h2>Rule 6: GTT Orders for Away-from-Screen</h2>
+
+<ul>
+<li>Place <strong>GTT (Good-Till-Triggered) orders</strong> at 3x-4x the current premium</li>
+<li>Example: ₹100 option → place GTT buy at ₹230-240, SL at ₹50</li>
+<li>OTM premium doesn&#x27;t go easily → if it moves, it moves fast</li>
+<li>GTT catches the move even if you&#x27;re not watching</li>
+<li>If the option moves slowly (not on 5-min) → exit, don&#x27;t wait for ₹200-250</li>
+</ul>
+
+<hr>
+
+<h2>Rule 7: News Event Trading</h2>
+
+<p>When sudden news hits a running market:</p>
+<ul>
+<li>₹10-20 options can jump to ₹200-300</li>
+<li>₹50-100 options can jump to ₹1000-1500</li>
+<li>Most people take small profit and exit early — wrong</li>
+<li><strong>Don&#x27;t take small profit</strong> if the structure (VIX + 5-min break) is valid</li>
+<li>Verify with VIX day-high break → if confirmed, ride the full move</li>
+</ul>
+
+<hr>
+
+<h2>Rule 8: Trend Confirmation by Time-Frame-of-Cut</h2>
+
+<table><thead><tr><th>Price cut timeframe</th><th>Trend strength</th><th>Duration</th></tr></thead><tbody>
+<tr><td><strong>Single 5-min candle</strong></td><td>Strongest</td><td>Intraday full ride</td></tr>
+<tr><td>10 minutes</td><td>Moderate</td><td>Shorter move</td></tr>
+<tr><td>15 minutes</td><td>Weaker</td><td>May reverse</td></tr>
+<tr><td><strong>1-hour</strong></td><td>Very strong</td><td><strong>2-3 days</strong> effect</td></tr>
+</tbody></table>
+
+<p>&gt; &quot;Single candle mein katna chahiye toh wave tez hoga. 10 min pe kata toh thodi kamzor hai. 15 min pe kata toh aur kamzor. Aur 1 hour pe kata toh 2-3 din tak effect rahega.&quot;</p>
+
+<hr>
+
+<h2>Worked Example (from video, Sensex)</h2>
+
+<ol>
+<li><strong>1:45 PM</strong> — Breakdown on Sensex 5-min chart at 77,800 level</li>
+<li><strong>Check VIX</strong> — same 1:45 timeframe, VIX breaks day-high on 5-min</li>
+<li><strong>Check option</strong> — 77,800 PE was at ₹375, jumped to ₹685 (nearly doubled)</li>
+<li>Don&#x27;t chase ₹685 → find strike still at <strong>₹100 premium</strong> → 76,800 PE</li>
+<li>Buy at ₹119, SL at ₹30 (below candle low)</li>
+<li><strong>Hold 30 minutes</strong> → option reaches ₹581</li>
+<li>Exit or partial exit after 30 min</li>
+</ol>
+
+<h3>Key numbers from the example</h3>
+<ul>
+<li>Entry: ₹119 | SL: ₹30 | Target: ₹581 in 30 min</li>
+<li>Risk: ₹89 (119-30) | Reward: ₹462 (581-119) → <strong>RR ≈ 5.2:1</strong></li>
+<li>ATM/near-ITM options roughly double on the move</li>
+</ul>
+
+<hr>
+
+<h2>Expected Trade Frequency</h2>
+<ul>
+<li>NK estimates <strong>10-12 such trades per year</strong> that give the big moves (300→1300)</li>
+<li>Monthly: 1-2 momentum events</li>
+<li>Smaller moves (300→600/700) happen more often</li>
+<li><strong>Don&#x27;t force trades</strong> — wait for the VIX day-high break + 5-min close confirmation</li>
+</ul>
+
+<hr>
+
+<h2>Relationship to Existing Wiki Concepts</h2>
+
+<table><thead><tr><th>This Source Rule</th><th>Wiki Equivalent</th><th>Notes</th></tr></thead><tbody>
+<tr><td>VIX &gt;4% + gap direction</td><td><a href="/wiki/concepts/vix">Vix</a></td><td>NK&#x27;s 9 SMA VIX rule is different — this is intraday gap-specific</td></tr>
+<tr><td>VIX day-high break on 5-min</td><td><a href="/wiki/concepts/vix">Vix</a> (new section)</td><td><strong>New</strong> — not in prior NK material</td></tr>
+<tr><td>30-min hold rule</td><td><a href="/wiki/concepts/exits">Exits</a></td><td><strong>New</strong> — time-based floor, NK&#x27;s exits were pattern-based</td></tr>
+<tr><td>Premium range for strikes</td><td><a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a></td><td>Complements the VIX-indexed strike table</td></tr>
+<tr><td>Don&#x27;t chase doubled premium</td><td><a href="/wiki/concepts/discipline-and-emotions">Discipline And Emotions</a></td><td>Reinforces patience discipline</td></tr>
+<tr><td>GTT orders</td><td>(new)</td><td><strong>New</strong> — automation for working traders</td></tr>
+<tr><td>Time-frame-of-cut = trend strength</td><td><a href="/wiki/concepts/candlesticks">Candlesticks</a></td><td><strong>New</strong> heuristic</td></tr>
+<tr><td>HM for call side, VIX for put side</td><td><a href="/wiki/concepts/hilega-milega">Hilega Milega</a></td><td>Interesting split — VIX for puts, HM for calls</td></tr>
+</tbody></table>
+
+<h3>Key new insight: VIX for Puts, HM for Calls</h3>
+<p>NK explicitly states: <strong>&quot;India VIX sirf put ke case mein dekhenge. Call ke case mein price aur Hilega Milega dekhenge.&quot;</strong> This is a significant operational distinction not captured elsewhere in the wiki — VIX is the put-side timing tool, HM is the call-side timing tool.</p>
+
+<hr>
+
+<h2>Backtest Candidates</h2>
+<ol>
+<li><strong>VIX day-high break on 5-min → directional move</strong> — testable on intraday VIX + index data</li>
+<li><strong>30-min holding rule</strong> — compare 30-min hold vs 10-min vs 1-hr on option buy trades</li>
+<li><strong>Gap + VIX &gt;4% sustain rule</strong> — test gap fill/fail rate when VIX confirms vs doesn&#x27;t</li>
+<li><strong>Premium doubling on momentum</strong> — verify that ATM/near-ITM options double on VIX break days</li>
+</ol>
+
+<hr>
+
+<h2>Cross-References</h2>
+<ul>
+<li><a href="/wiki/concepts/vix">Vix</a> — VIX behavior and premium rules (updated with intraday trigger)</li>
+<li><a href="/wiki/concepts/hilega-milega">Hilega Milega</a> — HM for call-side timing (VIX is put-side equivalent)</li>
+<li><a href="/wiki/concepts/exits">Exits</a> — Exit planning and SL types</li>
+<li><a href="/wiki/concepts/intraday-process">Intraday Process</a> — Top-down intraday workflow</li>
+<li><a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a> — Premium structure and strike selection</li>
+<li><a href="/wiki/concepts/discipline-and-emotions">Discipline And Emotions</a> — Patience and position sizing</li>
+<li><a href="/wiki/concepts/candlesticks">Candlesticks</a> — Time-frame-of-cut heuristic</li>
+<li><a href="/wiki/concepts/support-resistance">Support Resistance</a> — Day high/low as closing-basis SL</li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

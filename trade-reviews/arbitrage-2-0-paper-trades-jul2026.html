@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paper Trades: Arbitrage 2.0 — July 2026 Cohort</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>Paper Trades: Arbitrage 2.0 — July 2026 Cohort</h1>
+<article class="md"><h1>Paper Trades: Arbitrage 2.0 — July 2026 Cohort</h1>
+
+<h2>Overview</h2>
+<p>4 paper trades entered on <strong>2026-07-09 close</strong> based on NSE bhavcopy scan. Tracking until Jul FUT expiry (Jul 28) or exit rules trigger.</p>
+
+<h2>Exit Rules (all trades)</h2>
+<ol>
+<li><strong>Jul FUT close ≥ spot close</strong> → &quot;spot_matched&quot; (convergence profit take)</li>
+<li><strong>Jul 28 expiry</strong> → &quot;expiry&quot; (forced close)</li>
+<li><strong>Aug FUT close &gt; spot close</strong> → &quot;aug_crossed_spot_SL&quot; (stop loss)</li>
+</ol>
+
+<h2>Entry Details</h2>
+
+<table><thead><tr><th>#</th><th>Symbol</th><th>Tier</th><th>Spot</th><th>Jul FUT (Buy)</th><th>Aug FUT (Sell)</th><th>Basis</th><th>Spread</th><th>Basis%</th><th>Ratio</th><th>Spread Value</th><th>Vol Ratio</th><th>Lot</th></tr></thead><tbody>
+<tr><td>1</td><td><strong>LODHA</strong></td><td>T3</td><td>1192.15</td><td>1123.35</td><td>1098.85</td><td>₹68.80</td><td>₹24.50</td><td>5.77%</td><td>2.8×</td><td>₹15,312</td><td>3.8</td><td>625</td></tr>
+<tr><td>2</td><td><strong>DRREDDY</strong></td><td>T1</td><td>1269.50</td><td>1252.00</td><td>1242.40</td><td>₹17.50</td><td>₹9.60</td><td>1.38%</td><td>1.8×</td><td>₹6,000</td><td>8.2</td><td>625</td></tr>
+<tr><td>3</td><td><strong>BDL</strong></td><td>T1</td><td>1326.30</td><td>1305.70</td><td>1288.10</td><td>₹20.60</td><td>₹17.60</td><td>1.55%</td><td>1.2×</td><td>₹7,480</td><td>3.6</td><td>425</td></tr>
+<tr><td>4</td><td><strong>HCLTECH</strong></td><td>Base</td><td>1150.40</td><td>1140.00</td><td>1132.20</td><td>₹10.40</td><td>₹7.80</td><td>0.90%</td><td>1.3×</td><td>₹3,120</td><td>8.8</td><td>400</td></tr>
+<tr><td>5</td><td><strong>TORNTPHARM</strong></td><td>Base</td><td>5017.80</td><td>4974.00</td><td>4936.50</td><td>₹43.80</td><td>₹37.50</td><td>0.87%</td><td>1.2×</td><td>₹4,688</td><td>3.4</td><td>125</td></tr>
+</tbody></table>
+
+<h2>Key Metrics at Entry</h2>
+<ul>
+<li><strong>Spot−Next gap</strong> (the variable that determines profit at Jul expiry):</li>
+<li>LODHA: ₹93.30 (very wide — high margin of safety)</li>
+<li>DRREDDY: ₹27.10</li>
+<li>BDL: ₹38.20</li>
+<li>HCLTECH: ₹18.20 (tightest — closest to SL)</li>
+</ul>
+
+<h2>Expected Outcomes (based on 276-trade backtest)</h2>
+<ul>
+<li><strong>LODHA (T3):</strong> Historically, Tier 3 trades had 67.7% win rate, PF 5.66</li>
+<li><strong>DRREDDY &amp; BDL (T1):</strong> Tier 1 trades had 54.5% win rate, PF 3.07</li>
+<li><strong>HCLTECH (Base):</strong> Below Tier 1 — historically weakest bucket</li>
+</ul>
+
+<h2>Daily MTM Log</h2>
+
+<table><thead><tr><th>Date</th><th>Symbol</th><th>Spot</th><th>Jul FUT</th><th>Aug FUT</th><th>Buy MTM</th><th>Sell MTM</th><th>Total MTM</th><th>S−N Gap</th><th>Status</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2026-07-09</td><td>LODHA</td><td>1192.15</td><td>1123.35</td><td>1098.85</td><td>₹0</td><td>₹0</td><td>₹0</td><td>₹93.30</td><td>OPEN</td><td>Entry day</td></tr>
+<tr><td>2026-07-09</td><td>DRREDDY</td><td>1269.50</td><td>1252.00</td><td>1242.40</td><td>₹0</td><td>₹0</td><td>₹0</td><td>₹27.10</td><td>OPEN</td><td>Entry day</td></tr>
+<tr><td>2026-07-09</td><td>BDL</td><td>1326.30</td><td>1305.70</td><td>1288.10</td><td>₹0</td><td>₹0</td><td>₹0</td><td>₹38.20</td><td>OPEN</td><td>Entry day</td></tr>
+<tr><td>2026-07-09</td><td>HCLTECH</td><td>1150.40</td><td>1140.00</td><td>1132.20</td><td>₹0</td><td>₹0</td><td>₹0</td><td>₹18.20</td><td>OPEN</td><td>Entry day</td></tr>
+</tbody></table>
+
+<p>&gt; Update daily by running: <code>python3 update_paper_trades.py</code></p>
+
+<h2>SL Monitoring</h2>
+<p>The critical metric to watch is <strong>Spot − Aug gap</strong>:</p>
+<ul>
+<li>If gap &gt; ₹0 → trade is safe (Aug below spot)</li>
+<li>If gap approaches ₹0 → SL about to trigger</li>
+<li>If gap goes negative (Aug &gt; Spot) → <strong>SL HIT, exit immediately</strong></li>
+</ul>
+
+<h3>Current gap cushion (entry day)</h3>
+<table><thead><tr><th>Symbol</th><th>S−N Gap</th><th>Cushion to SL</th><th>Risk Level</th></tr></thead><tbody>
+<tr><td>LODHA</td><td>₹93.30</td><td>93 points</td><td>🟢 Very safe</td></tr>
+<tr><td>BDL</td><td>₹38.20</td><td>38 points</td><td>🟢 Safe</td></tr>
+<tr><td>DRREDDY</td><td>₹27.10</td><td>27 points</td><td>🟡 Moderate</td></tr>
+<tr><td>HCLTECH</td><td>₹18.20</td><td>18 points</td><td>🟠 Tight — watch closely</td></tr>
+</tbody></table>
+
+<h2>What We&#x27;re Testing</h2>
+<ol>
+<li><strong>Do the filter tiers predict live outcomes?</strong> LODHA (T3) should outperform HCLTECH (Base)</li>
+<li><strong>Does the Spot−Next gap hold until expiry?</strong> Historical: 86% probability</li>
+<li><strong>Cost-adjusted performance</strong> — will real costs eat the thin spreads on HCLTECH?</li>
+<li><strong>The SL rule</strong> — does Aug crossing spot actually catch the bad trades before they blow up?</li>
+</ol>
+
+<h2>Files</h2>
+<ul>
+<li><strong>Trades CSV:</strong> <code>papertrades/arbitrage_2_0_paper_trades.csv</code></li>
+<li><strong>Daily log CSV:</strong> <code>papertrades/arbitrage_2_0_paper_log.csv</code></li>
+<li><strong>Tracker script:</strong> <code>paper_trade_tracker.py</code> (init + summary)</li>
+<li><strong>Update script:</strong> <code>update_paper_trades.py</code> (daily MTM + exit checks)</li>
+</ul>
+
+<h2>How to Update Daily</h2>
+<pre><code>
+cd /Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage
+
+# Auto-detect latest available NSE data and update
+python3 update_paper_trades.py
+
+# Or specify a date
+python3 update_paper_trades.py --date 2026-07-10
+
+# View summary anytime
+python3 paper_trade_tracker.py --summary
+</code></pre>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/strategies/future-arbitrage">Future Arbitrage</a> — Strategy rules</li>
+<li><a href="/wiki/trade-reviews/arbitrage-2-0-2yr3-backtest">Arbitrage 2 0 2Yr3 Backtest</a> — Backtest results</li>
+<li><a href="/wiki/trade-reviews/arbitrage-2-0-filter-analysis">Arbitrage 2 0 Filter Analysis</a> — Filter tiers</li>
+<li><a href="/wiki/trade-reviews/arbitrage-2-0-volume-analysis">Arbitrage 2 0 Volume Analysis</a> — Volume ratio filter</li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DRREDDY Post-Mortem — Why It Failed and What We Learned</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>DRREDDY Post-Mortem — Why It Failed and What We Learned</h1>
+<article class="md"><h1>DRREDDY Post-Mortem — Why It Failed and What We Learned</h1>
+
+<h2>The Trade</h2>
+<table><thead><tr><th>Parameter</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Symbol</strong></td><td>DRREDDY</td></tr>
+<tr><td><strong>Entry</strong></td><td>Jul 9, 2026</td></tr>
+<tr><td><strong>Buy</strong></td><td>Jul 28 FUT @ ₹1,252.00</td></tr>
+<tr><td><strong>Sell</strong></td><td>Aug 25 FUT @ ₹1,242.40</td></tr>
+<tr><td><strong>Spot at entry</strong></td><td>₹1,269.50</td></tr>
+<tr><td><strong>Tier</strong></td><td>T1 (passed basis%, failed ratio for T2)</td></tr>
+<tr><td><strong>Exit</strong></td><td>Jul 10 (1 day later)</td></tr>
+<tr><td><strong>Exit reason</strong></td><td><code>spot_matched</code> — Jul FUT crossed above spot</td></tr>
+<tr><td><strong>P&amp;L</strong></td><td><strong>−₹2,750.00</strong></td></tr>
+</tbody></table>
+
+<hr>
+
+<h2>What Happened (Day-by-Day)</h2>
+
+<h3>Entry Day (Jul 9)</h3>
+<pre><code>
+Spot:     ₹1,269.50
+Jul FUT:  ₹1,252.00  (below spot = backwardation ✓)
+Aug FUT:  ₹1,242.40  (below Jul = backwardation ✓)
+Basis:    ₹17.50 (1.38%)
+Spread:   ₹9.60
+S-N Gap:  ₹27.10
+Ratio:    1.82×
+</code></pre>
+
+<h3>Exit Day (Jul 10) — THE KILLER</h3>
+<pre><code>
+Spot:     ₹1,244.30  (dropped ₹25.20 = -1.99%)
+Jul FUT:  ₹1,249.10  (dropped only ₹2.90)
+Aug FUT:  ₹1,243.90  (RISEN ₹1.50!)
+Basis:    ₹-4.80     (NEGATIVE — Jul FUT above spot!)
+</code></pre>
+
+<p><strong>Jul FUT converged to spot in ONE DAY.</strong> A normal 2% daily move wiped out the entire ₹17.50 basis.</p>
+
+<hr>
+
+<h2>P&amp;L Breakdown</h2>
+<table><thead><tr><th>Leg</th><th>Calculation</th><th>P&amp;L</th></tr></thead><tbody>
+<tr><td>Buy Jul (lost)</td><td>(1249.10 − 1252.00) × 625</td><td><strong>−₹1,812.50</strong></td></tr>
+<tr><td>Sell Aug (also lost!)</td><td>(1242.40 − 1243.90) × 625</td><td><strong>−₹937.50</strong></td></tr>
+<tr><td><strong>Total</strong></td><td></td><td><strong>−₹2,750.00</strong></td></tr>
+</tbody></table>
+
+<h3>The double-loss problem</h3>
+<p>Both legs lost money. The Jul FUT fell (buy leg lost), AND the Aug FUT rose (sell leg also lost). This is the worst scenario — the spread INVERTED instead of converging.</p>
+
+<hr>
+
+<h2>Root Cause: THREE Compounding Failures</h2>
+
+<h3>1. Thin Basis (1.38%)</h3>
+<p>Only ₹17.50 gap between spot and Jul FUT. When spot dropped ₹25 in one day, the basis went negative immediately.</p>
+
+<p><strong>Comparison:</strong> LODHA had 5.77% basis (₹68.80) — it would take a ₹68 drop to create the same problem. DRREDDY was 4× more vulnerable.</p>
+
+<h3>2. Low Ratio (1.82×) — THE KEY DISCRIMINATOR</h3>
+<p>Basis was ₹17.50 but spread was ₹9.60 — the spread was <strong>55% of the basis</strong>. The ideal is spread &lt; 50% of basis (ratio ≥ 2.0×).</p>
+
+<p>What this means: the Aug FUT was tracking the Jul FUT too closely. When Jul moved, Aug moved with it — so the spread didn&#x27;t help absorb the shock.</p>
+
+<p><strong>This is the filter that would have REJECTED DRREDDY:</strong></p>
+<pre><code>
+T2 filter requires ratio &gt;= 2.0×
+DRREDDY ratio = 1.82×  ❌ FAILS
+</code></pre>
+
+<h3>3. Spot Dropped (Not the Strategy&#x27;s Fault — But Thin Basis Made It Fatal)</h3>
+<p>A 2% daily drop is normal market movement. The strategy should survive normal moves. But with only ₹17.50 of basis cushion, even a routine red day was fatal.</p>
+
+<p><strong>NK&#x27;s vault wisdom applies here:</strong></p>
+<p>&gt; &quot;Wait for correct entry point — impulsive entry is the #1 cause of avoidable loss&quot; — <a href="/wiki/concepts/arbitrage">Arbitrage</a></p>
+
+<p>&gt; &quot;Entry timing is critical — wrong entry = unnecessary loss even if direction is right&quot; — <a href="/wiki/concepts/arbitrage">Arbitrage</a></p>
+
+<p>The entry wasn&#x27;t wrong because of direction — it was wrong because the <strong>structure was too thin to survive normal volatility</strong>.</p>
+
+<hr>
+
+<h2>Comparison: Why Others Survived the Same Market</h2>
+
+<p>All trades entered Jul 9, same market conditions. DRREDDY died; others lived:</p>
+
+<table><thead><tr><th>Trade</th><th>Tier</th><th>Basis%</th><th>Ratio</th><th>S-N Gap</th><th>Outcome</th></tr></thead><tbody>
+<tr><td><strong>LODHA</strong></td><td>T3</td><td><strong>5.77%</strong></td><td><strong>2.8×</strong></td><td>₹93.3</td><td>✅ +₹2,500</td></tr>
+<tr><td><strong>BDL</strong></td><td>T1</td><td>1.55%</td><td>1.2×</td><td>₹38.2</td><td>✅ +₹3,825</td></tr>
+<tr><td><strong>HCLTECH</strong></td><td>Base</td><td>0.90%</td><td>1.3×</td><td>₹18.2</td><td>✅ +₹80</td></tr>
+<tr><td><strong>DRREDDY</strong></td><td>T1</td><td>1.38%</td><td><strong>1.82×</strong></td><td>₹27.1</td><td>❌ −₹2,750</td></tr>
+</tbody></table>
+
+<h3>The pattern</h3>
+<ul>
+<li><strong>LODHA (T3)</strong> survived easily — massive basis + high ratio = maximum cushion</li>
+<li><strong>BDL (T1)</strong> survived — despite low ratio, the S-N gap (₹38) was wide enough</li>
+<li><strong>HCLTECH (Base)</strong> barely survived — thin everything, but spot didn&#x27;t drop as much</li>
+<li><strong>DRREDDY (T1)</strong> failed — thin basis + low ratio + spot dropped = death</li>
+</ul>
+
+<h3>The key insight</h3>
+<p><strong>BDL also had a low ratio (1.2×) but survived because its S-N gap (₹38) was wider than DRREDDY&#x27;s (₹27).</strong> This suggests the S-N gap matters more than the ratio for survival — but the ratio matters more for profitability.</p>
+
+<hr>
+
+<h2>Rule Updates Based on This Lesson</h2>
+
+<h3>Current Rules (that DRREDDY passed but shouldn&#x27;t have)</h3>
+<pre><code>
+T1: basis% &gt;= 1.0%
+T2: basis% &gt;= 1.0% AND ratio &gt;= 2.0× AND vol_ratio &lt;= 10
+</code></pre>
+<p>DRREDDY was T1 — it passed basis% (1.38%) but the ratio (1.82×) wasn&#x27;t checked at T1 level.</p>
+
+<h3>Proposed Rule Update: Add Ratio Check to T1</h3>
+<pre><code>
+T1 (updated): basis% &gt;= 1.0% AND ratio &gt;= 1.5×
+T2 (unchanged): basis% &gt;= 1.0% AND ratio &gt;= 2.0× AND vol_ratio &lt;= 10
+</code></pre>
+
+<p>This would <strong>reject DRREDDY</strong> (1.82× passes the new T1 ≥ 1.5×... wait, it would still pass).</p>
+
+<h3>Better Rule Update: Add S-N Gap Minimum</h3>
+<p>The real discriminator was the S-N gap. DRREDDY had ₹27, survivors had ₹38+.</p>
+
+<pre><code>
+NEW RULE: S-N Gap &gt;= ₹30 (absolute minimum)
+</code></pre>
+
+<p>This would reject DRREDDY (₹27 &lt; ₹30) and HCLTECH (₹18 &lt; ₹30). But HCLTECH survived...</p>
+
+<h3>The Honest Conclusion</h3>
+<p><strong>No single filter would have cleanly caught DRREDDY without also catching HCLTECH (which survived).</strong> The failure was a combination of factors, not one broken rule. The best approach is the <strong>existing T2 filter</strong> — DRREDDY correctly failed T2 (ratio 1.82× &lt; 2.0×).</p>
+
+<p>&gt; <strong>NK&#x27;s wisdom:</strong> &quot;First loss is always the smallest&quot; — <a href="/wiki/concepts/hedging">Hedging</a>. The exit rule (spot_matched) worked correctly — it got us out at −₹2,750 instead of letting it get worse.</p>
+
+<h3>Recommended Action</h3>
+<ol>
+<li><strong>Don&#x27;t change the rules drastically based on 1 trade</strong> — DRREDDY is a sample of 1</li>
+<li><strong>Enforce T2 as the minimum tier for live trading</strong> — only trade basis%≥1.0% + ratio≥2.0×</li>
+<li><strong>Add S-N Gap as a DISPLAY field</strong> (not a hard filter) — use it for qualitative assessment</li>
+<li><strong>Track more SL-hit trades</strong> — if 3+ T1 trades fail the same way, then add the ratio≥1.5× check to T1</li>
+</ol>
+
+<hr>
+
+<h2>NK&#x27;s Vault Logic Applied</h2>
+
+<p>From <a href="/wiki/concepts/arbitrage">Arbitrage</a>:</p>
+<p>&gt; &quot;Gap tends to close as expiry approaches (convergence)&quot;</p>
+
+<p>DRREDDY&#x27;s problem: convergence happened in 1 day instead of gradually. The thin basis meant there was no buffer for fast convergence.</p>
+
+<p>From <a href="/wiki/concepts/discipline-and-emotions">Discipline And Emotions</a>:</p>
+<p>&gt; &quot;Patience at entry is more valuable than any indicator&quot;</p>
+
+<p>The lesson: DRREDDY was entered because it passed the base rules, but it was a borderline trade. Waiting for T2-quality setups (like LODHA) would have avoided this loss entirely.</p>
+
+<p>From <a href="/wiki/concepts/hedging">Hedging</a>:</p>
+<p>&gt; &quot;First loss is always the smallest — don&#x27;t widen the timeframe to avoid booking it&quot;</p>
+
+<p>The exit rule worked correctly. It got us out at −₹2,750. If we had held hoping for recovery, the loss could have been worse (Aug FUT was rising against us).</p>
+
+<hr>
+
+<h2>Summary</h2>
+
+<table><thead><tr><th>Question</th><th>Answer</th></tr></thead><tbody>
+<tr><td><strong>Did we take the wrong trade?</strong></td><td>Yes — DRREDDY was borderline (ratio 1.82×, thin basis)</td></tr>
+<tr><td><strong>Did it fail our filters?</strong></td><td>It passed T1 but <strong>correctly failed T2</strong> (ratio &lt; 2.0×)</td></tr>
+<tr><td><strong>What killed it?</strong></td><td>Jul FUT converged to spot in 1 day (thin basis = no buffer)</td></tr>
+<tr><td><strong>Both legs lost — why?</strong></td><td>Spread inverted: Jul fell, Aug rose (worst scenario)</td></tr>
+<tr><td><strong>What rule to change?</strong></td><td>Use T2 as minimum for live trading (not T1). Don&#x27;t trade ratio &lt; 2.0×</td></tr>
+<tr><td><strong>NK&#x27;s wisdom?</strong></td><td>&quot;Patience at entry &gt; any indicator&quot; — wait for quality setups</td></tr>
+<tr><td><strong>Did the exit rule work?</strong></td><td>✅ Yes — &quot;first loss is smallest,&quot; got out at −₹2,750</td></tr>
+</tbody></table>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/strategies/future-arbitrage">Future Arbitrage</a> — Strategy rules (with filter tiers)</li>
+<li><a href="/wiki/trade-reviews/arbitrage-2-0-filter-analysis">Arbitrage 2 0 Filter Analysis</a> — Original filter analysis</li>
+<li><a href="/wiki/concepts/arbitrage">Arbitrage</a> — Convergence and patience</li>
+<li><a href="/wiki/concepts/hedging">Hedging</a> — &quot;First loss is smallest&quot;</li>
+<li><a href="/wiki/concepts/discipline-and-emotions">Discipline And Emotions</a> — Entry patience</li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

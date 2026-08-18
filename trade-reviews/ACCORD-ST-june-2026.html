@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trade Review: ACCORD-ST — Hold or Book? (June 2026)</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>Trade Review: ACCORD-ST — Hold or Book? (June 2026)</h1>
+<article class="md"><h1>Trade Review: ACCORD-ST — Hold or Book? (June 2026)</h1>
+
+<h2>Chart Details (from screenshot, 1M timeframe, Zerodha Kite)</h2>
+<ul>
+<li><strong>Symbol</strong>: ACCORD-ST (SME/micro-cap)</li>
+<li><strong>Timeframe</strong>: Monthly (1M), data from 2017</li>
+<li><strong>Current Price</strong>: ~130 (right edge of chart, dashed line)</li>
+<li><strong>Indicators active</strong>: MA(10), Bollinger Bands, VWAP (intraday only), Pivot Points, RSI(9) with MA(21) and MA(3)</li>
+</ul>
+
+<h2>Situation Summary</h2>
+<p>Rita is sitting on ~200% profit on ACCORD-ST. The stock has broken sharply above the BB upper band on the monthly chart, RSI is at extreme highs (~93 shown), and daily upper circuits are ongoing. Position is a full 2000 lot SME — partial exit not possible, so this is a single full-exit decision.</p>
+
+<hr>
+
+<h2>Technical Analysis (applying wiki frameworks)</h2>
+
+<h3>1. Bollinger Band Position</h3>
+<ul>
+<li>Price has <strong>violently broken above the upper BB</strong> on the monthly chart</li>
+<li>The breakout candle is a massive single green spike — far outside the band</li>
+<li>This is a classic <strong>parabolic extension</strong> — price is stretched extremely far from the mean</li>
+<li>BB mean reversion principle: the further from the band, the higher the reversion risk</li>
+</ul>
+
+<h3>2. Volume Mismatch Check (per <a href="/wiki/concepts/volume-mismatch">Volume Mismatch.Md</a>)</h3>
+<ul>
+<li>A parabolic SME spike with thin liquidity = <strong>high suspicion of operator-driven move</strong></li>
+<li>Upper circuits on SME stocks = very low liquidity = hard to exit at quoted price</li>
+<li>⚠️ <strong>This is exactly the &quot;retail trap at top&quot; pattern</strong> described in volume mismatch concept</li>
+</ul>
+
+<h3>3. RSI Reading</h3>
+<ul>
+<li>RSI(9) showing ~93 — <strong>extreme overbought territory</strong></li>
+<li>RSI MA(21) and MA(3) both elevated</li>
+<li>On a monthly timeframe, RSI 90+ historically precedes sharp reversals</li>
+<li>This is as overbought as it gets on monthly</li>
+</ul>
+
+<h3>4. Support &amp; Resistance (per <a href="/wiki/concepts/support-and-resistance">Support And Resistance.Md</a>)</h3>
+<ul>
+<li>Stock rangebound ~20–50 for years (2018–2025)</li>
+<li>Spike has no historical resistance above — pure price discovery</li>
+<li>But equally <strong>no support structure below the spike</strong> — fall would be fast with no floor until 50–60 range</li>
+</ul>
+
+<h3>5. SME/Micro-cap Specific Risk</h3>
+<ul>
+<li>Operator-driven moves common in SME (previously flagged for GRAPHISAD-SM)</li>
+<li>Daily upper circuits = only sellers can exit when circuits break</li>
+<li>Classic SME pump signature — when circuits reverse, retail gets trapped</li>
+</ul>
+
+<hr>
+
+<h2>Discipline Framework Applied (per <a href="/wiki/concepts/discipline-and-emotions">Discipline And Emotions.Md</a>)</h2>
+
+<table><thead><tr><th>Emotion at play</th><th>Risk</th></tr></thead><tbody>
+<tr><td>Greed</td><td>&quot;It can go to 200, 300...&quot; — holding through reversal, giving back 200%</td></tr>
+<tr><td>Fear of missing more</td><td>Paralysis — not booking even partial profits</td></tr>
+<tr><td>Anchoring</td><td>Watching peak price, not acting on dips</td></tr>
+</tbody></table>
+
+<hr>
+
+<h2>Decision Framework</h2>
+
+<h3>Book NOW (strong case)</h3>
+<ul>
+<li>✅ 200% profit — exceptional; this is real money</li>
+<li>✅ RSI 93 on monthly = historically extreme</li>
+<li>✅ BB extreme extension = mean reversion almost certain at some point</li>
+<li>✅ SME + upper circuits = liquidity trap risk</li>
+<li>✅ No support below spike — fall will be fast</li>
+</ul>
+
+<h3>Hold case (weak)</h3>
+<ul>
+<li>⚠️ Upper circuits still ongoing = operator still active</li>
+<li>⚠️ Could continue short term</li>
+</ul>
+
+<h3>Verdict: HOLD with hard pre-decided exit trigger</h3>
+<p>Partial exit not possible (2000 lot SME fixed lot). Holding until exit trigger fires — but trigger is locked in advance, not decided in the moment.</p>
+
+<hr>
+
+<h2>✅ LOCKED EXIT RULE (decided 2026-06-25)</h2>
+
+<p>&gt; <strong>EXIT FULL POSITION (2000 lots) on the FIRST LOWER CIRCUIT DAY.</strong></p>
+<p>&gt;</p>
+<p>&gt; - Do not wait for recovery</p>
+<p>&gt; - Do not check RSI or BB again on that day</p>
+<p>&gt; - Do not hope &quot;it&#x27;s just one red day&quot;</p>
+<p>&gt; - Place sell order at market open or any available price on lower circuit day</p>
+<p>&gt; - Rule is final — decided today when calm, not in the heat of the moment</p>
+
+<h3>Why this trigger</h3>
+<ul>
+<li>Upper circuits = operator still active and pushing</li>
+<li>First lower circuit = operator beginning to exit</li>
+<li>In SME stocks, lower circuits cascade fast — day 1 lower circuit often followed by days 2, 3, 4</li>
+<li>Waiting for &quot;confirmation&quot; on lower circuit = losing 20–40% before you act</li>
+</ul>
+
+<h3>What NOT to do</h3>
+<ul>
+<li>❌ Do not exit on a single bad candle if circuits are still upper</li>
+<li>❌ Do not hold through a lower circuit hoping for bounce</li>
+<li>❌ Do not change this rule based on news, tips, or Telegram signals</li>
+<li>❌ Do not add to position at any price</li>
+</ul>
+
+<hr>
+
+<h2>Tagged Concepts</h2>
+<ul>
+<li><a href="/wiki/concepts/volume-mismatch">Volume Mismatch.Md</a></li>
+<li><a href="/wiki/concepts/discipline-and-emotions">Discipline And Emotions.Md</a></li>
+<li><a href="/wiki/concepts/support-and-resistance">Support And Resistance.Md</a></li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

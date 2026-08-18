@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concept: Volume Mismatch</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>Concept: Volume Mismatch</h1>
+<article class="md"><h1>Concept: Volume Mismatch</h1>
+
+<h2>Definition</h2>
+<p>A <strong>volume mismatch</strong> occurs when price movement and volume direction contradict each other. It signals that the apparent price move lacks genuine conviction — often a trap set by market makers or a sign of imminent reversal.</p>
+
+<h2>⭐ &quot;Volume is King&quot; Principle (Rita&#x27;s refinement, 2026-07-23)</h2>
+<p>&gt; <strong>Do NOT go by candle color blindly. Rising volume is the criterion.</strong></p>
+
+<p>Volume reveals <strong>who is in control</strong> (buyers vs sellers) before price confirms it. The full framework now lives in <a href="/wiki/concepts/vpa">Vpa</a> — this page covers the <strong>raw single-bar signal</strong>; the higher-level VPA page covers the actionable, confirmed entry.</p>
+
+<p>The key insight (from Rita&#x27;s chart reading, 2026-07-23):</p>
+<ul>
+<li>When <strong>volume is rising/added but price is NOT moving up</strong> (price flat or even slightly red) → <strong>&quot;something is cooking&quot;</strong> → smart money is accumulating → price <strong>will move UP</strong>.</li>
+<li>The candle color is <em>secondary confirmation</em>, not the trigger. Volume leads; price follows.</li>
+</ul>
+
+<h2>The 3-Candle Confirmation Pattern (the actionable rule)</h2>
+<p>The single-bar table below is the <em>raw signal</em>. For a tradeable entry, use the <strong>3-candle confirmation</strong>:</p>
+
+<table><thead><tr><th>Day</th><th>Candle</th><th>Volume</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><strong>Day 1</strong></td><td>Red (down)</td><td>Red (falling)</td><td>Down move on declining volume — sellers exhausting</td></tr>
+<tr><td><strong>Day 2</strong></td><td><strong>Green (up)</strong></td><td><strong>Green (rising, ≥1.5× Day 1)</strong></td><td><strong>CONFIRMATION</strong> — volume added + price follows → price moves forward (UP)</td></tr>
+</tbody></table>
+
+<p><strong>Why this works:</strong> Day 1&#x27;s red candle on <em>falling</em> volume = weak selling. Day 2&#x27;s <em>rising</em> volume with a green close confirms the buyers have taken control. The rising volume on Day 2 is the proof that &quot;something was cooking.&quot;</p>
+
+<p><strong>Mirror (short side):</strong></p>
+<table><thead><tr><th>Day</th><th>Candle</th><th>Volume</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><strong>Day 1</strong></td><td>Green (up)</td><td>Red (falling)</td><td>Up move on declining volume — buyers exhausting</td></tr>
+<tr><td><strong>Day 2</strong></td><td><strong>Red (down)</strong></td><td><strong>Green (rising, ≥1.5× Day 1)</strong></td><td><strong>CONFIRMATION</strong> — distribution confirmed → price moves DOWN</td></tr>
+</tbody></table>
+
+<p>&gt; The 3-candle pattern <strong>refines, does not replace</strong>, the single-bar rule below. Single-bar = raw alert; 3-candle = confirmed entry.</p>
+
+<h2>Volume Color Definition (locked)</h2>
+<ul>
+<li><strong>Green volume</strong> = volume <strong>rising</strong> vs the previous candle (added volume / surging)</li>
+<li><strong>Red volume</strong> = volume <strong>falling</strong> vs the previous candle (declining)</li>
+<li>Volume color is <strong>NOT</strong> tied to whether the candle closed up or down. It is purely <em>relative volume</em> (today vs yesterday).</li>
+<li>Operationally in code: <code>green_volume = vol[t] &gt; vol[t-1]</code>; strong signal = <code>vol[t] ≥ 1.5 × vol[t-1]</code> (matches the BB Trap convention).</li>
+</ul>
+
+<h2>Core Signal (single-bar — raw alert)</h2>
+
+<table><thead><tr><th>Candle</th><th>Volume</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>Green (price up)</td><td>Red / declining</td><td>Weak buying — potential reversal down</td></tr>
+<tr><td>Red (price down)</td><td>Green / surging</td><td>Weak selling — potential reversal up</td></tr>
+<tr><td>Green (price up)</td><td>Green / surging</td><td>Strong buying — trend likely to continue</td></tr>
+<tr><td>Red (price down)</td><td>Red / declining</td><td>Strong selling — trend likely to continue</td></tr>
+</tbody></table>
+
+<h2>Two Conditions Required for a Valid Signal</h2>
+<p>Both must be present for high confidence:</p>
+<ol>
+<li><strong>Significant gap up or gap down</strong> on the candle/session</li>
+<li><strong>Gap coincides with a major support or resistance level</strong></li>
+</ol>
+
+<p>One condition alone is insufficient — do not act on a mismatch without both.</p>
+
+<h2>How to Use It</h2>
+
+<h3>In Reversal Detection</h3>
+<ul>
+<li>At market tops: green candles with declining volume = retail buying trap; smart money distributing</li>
+<li>At market bottoms: red candles with declining volume = retail selling trap; smart money accumulating</li>
+</ul>
+
+<h3>In BB Breakout v2 (Rita&#x27;s Strategy)</h3>
+<ul>
+<li>A breakout candle above the BB upper band <strong>must</strong> have strong, rising volume</li>
+<li>Green breakout candle + red/declining volume = <strong>volume mismatch = skip the signal</strong></li>
+<li>Suggested checklist addition: explicitly verify no volume mismatch before placing GTT</li>
+</ul>
+
+<h2>Stop-Loss Rule</h2>
+<p>Always set stop-loss <strong>below the entry price</strong> when acting on a volume mismatch reversal signal. The signal reduces risk — it does not eliminate it.</p>
+
+<h2>Who Gets Trapped</h2>
+<ul>
+<li><strong>Retail traders</strong> at market tops and bottoms make the most emotional decisions</li>
+<li>Volume mismatch is the tell that reveals when retail sentiment is running ahead of real market direction</li>
+</ul>
+
+<h2>Volume Mismatch + BB Trap (VPA Application)</h2>
+<p>From <a href="/wiki/sources/source-volume-mismatch-vpa-bb-trap">Source Volume Mismatch Vpa Bb Trap</a> — NK&#x27;s dedicated video combining VPA with BB Trap:</p>
+
+<h3>Effort vs Result (Wyckoff/Coulling framework)</h3>
+<table><thead><tr><th>Effort (Volume)</th><th>Result (Price Spread)</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>High</td><td>Large</td><td>✅ Genuine move — trend continuing</td></tr>
+<tr><td>High</td><td><strong>Small</strong></td><td>⚠️ <strong>Volume mismatch</strong> — reversal likely</td></tr>
+<tr><td>Low</td><td>Large</td><td>Suspicious — may not sustain</td></tr>
+<tr><td>Low</td><td>Small</td><td>Normal — no signal</td></tr>
+</tbody></table>
+
+<h3>The BB Trap Volume Filter</h3>
+<p>A BB Trap is only valid if confirmed by volume mismatch:</p>
+<ol>
+<li>Price breaks <strong>outside upper BB</strong> with <strong>high volume</strong> (effort)</li>
+<li>But candle <strong>closes back inside</strong> the band (weak result)</li>
+<li>High effort + weak result = <strong>smart money distributing</strong> → trap confirmed</li>
+<li><strong>No volume = no trap</strong> — low-volume breakout may be genuine, skip the trap signal</li>
+</ol>
+
+<h3>Entry (Bearish Trap)</h3>
+<ul>
+<li>Wait for next candle to trade <strong>below VWAP</strong> on hourly</li>
+<li>HM confirms: red above green, both falling</li>
+<li><strong>SL = day high</strong> (candle that went outside band)</li>
+<li><strong>Target = 20 SMA</strong> (BB center — price attracts to it)</li>
+</ul>
+
+<h3>Bullish Variant (Volume-Confirmed Moh Maya)</h3>
+<ul>
+<li>Price breaks <strong>outside lower BB</strong> with high volume</li>
+<li>Closes back inside → smart money accumulating</li>
+<li>Same logic as <a href="/wiki/concepts/moh-maya">Moh Maya</a> but with volume confirmation</li>
+</ul>
+
+<h3>Key Rule</h3>
+<p>&gt; A BB Trap WITHOUT volume mismatch is NOT a valid trap. Volume is the confirmation that separates real traps from noise.</p>
+
+<h2>Backtest Candidates</h2>
+<ol>
+<li>Filter BB-v2 breakouts: if high volume + close back inside BB within 2 candles → skip (it&#x27;s a trap)</li>
+<li>Volume threshold: 1.5× or 2× average volume?</li>
+<li>Reversal rate: what % of high-volume BB breakouts fail?</li>
+<li>Time-to-reversal: how fast does price return to 20 SMA after mismatch?</li>
+</ol>
+
+<h2>Limitations</h2>
+<ul>
+<li>No specific numeric thresholds given in intro source (e.g. &quot;volume must be X% below average&quot;)</li>
+<li>The BB Trap VPA source gives the framework but not a hard volume multiplier — 1.5× average is a suggested starting point for backtesting</li>
+<li>Real-time alerts mentioned (Telegram) — not integrated here; manual chart reading required</li>
+<li>Needs backtesting against Rita&#x27;s BB signals to quantify how often mismatch = failed breakout</li>
+</ul>
+
+<h2>Related Concepts</h2>
+<ul>
+<li><a href="/wiki/concepts/vpa">Vpa</a> — <strong>higher-level VPA framework</strong> with the &quot;Volume is King&quot; rule and 3-candle confirmation pattern</li>
+<li><a href="/wiki/strategies/vpa">Vpa</a> — standalone tradeable VPA strategy</li>
+<li><a href="/wiki/concepts/support-resistance">Support Resistance.Md</a></li>
+<li><a href="/wiki/concepts/discipline-and-emotions">Discipline And Emotions.Md</a></li>
+<li><a href="/wiki/concepts/arbitrage">Arbitrage.Md</a></li>
+<li><a href="/wiki/concepts/bb-trap">Bb Trap</a> — BB Trap (volume mismatch confirms it)</li>
+<li><a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a> — BB squeeze/blast/trap</li>
+<li><a href="/wiki/concepts/moh-maya">Moh Maya</a> — Bullish volume-confirmed reversal</li>
+<li><a href="/wiki/concepts/vwap">Vwap</a> — VWAP confirmation for trap entry</li>
+<li><a href="/wiki/concepts/hilega-milega">Hilega Milega</a> — HM momentum confirmation</li>
+<li><a href="/wiki/sources/source-anna-coulling-vpa">Source Anna Coulling Vpa</a> — VPA theoretical foundation</li>
+<li><a href="/wiki/sources/source-volume-mismatch-vpa-bb-trap">Source Volume Mismatch Vpa Bb Trap</a> — NK&#x27;s VPA + BB Trap video</li>
+<li><a href="/wiki/concepts/nk-volume-reading">Nk Volume Reading</a> — NK&#x27;s broader &quot;50% price + 50% volume&quot; thesis + two-candle-close breakout law (Jul 2026 podcast)</li>
+<li><a href="/wiki/strategies/bb-breakout-v2">Bb Breakout V2</a> — Rita&#x27;s scanner (should add volume mismatch filter)</li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

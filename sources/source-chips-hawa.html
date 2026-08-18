@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CHIPS HAWA (Nilesh Joshi, 21.03.2021)</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>CHIPS HAWA (Nilesh Joshi, 21.03.2021)</h1>
+<article class="md"><h1>CHIPS HAWA (Nilesh Joshi, 21.03.2021)</h1>
+
+<p><strong>Original files:</strong> <code>../CHIPS HAWA.pdf</code> (605 KB) + <code>../CHips and hawa.csv</code> (4 KB, 63 rows)</p>
+<p><strong>Ingested:</strong> 2026-06-23</p>
+
+<h2>Summary (2 lines)</h2>
+<p>The definitive statement of NK&#x27;s chips/hawa option-pricing model — gives the <strong>formulas</strong> and a <strong>rule-of-thumb strike-selection table indexed by VIX level and index</strong>. This is the reference point every other hedging source assumes you know.</p>
+
+<h2>Key takeaways</h2>
+<ul>
+<li><strong>Three option types</strong> by moneyness:</li>
+<li>OTM → only time value (hawa)</li>
+<li>ATM &amp; near ITM → time value + intrinsic value</li>
+<li>Far ITM → mostly intrinsic value (chips)</li>
+<li><strong>Important nuance:</strong> chips/hawa <em>definition</em> uses <strong>spot price</strong>, but option <em>behaviour</em> follows the <strong>future price</strong>.</li>
+<li><strong>Formulas:</strong></li>
+<li>Call chips = <code>Spot − Strike</code></li>
+<li>Put chips = <code>Strike − Spot</code></li>
+<li>Hawa = <code>Premium − Chips</code></li>
+<li><strong>Rule of thumb (fast chips calc):</strong> spot − nearest ATM, then subtract ATM−ITM gap from premium.</li>
+<li><strong>Half-hedge trade setup (the actionable rule):</strong></li>
+</ul>
+
+<table><thead><tr><th>VIX range</th><th>Index</th><th>Buy (OTM, points away)</th><th>Sell (OTM, points away)</th></tr></thead><tbody>
+<tr><td><strong>18–22</strong></td><td>Bank Nifty</td><td>+300</td><td>+600</td></tr>
+<tr><td><strong>18–22</strong></td><td>Nifty</td><td>+100</td><td>+200</td></tr>
+<tr><td><strong>below 18</strong></td><td>Bank Nifty</td><td>+200</td><td>+400</td></tr>
+<tr><td><strong>below 18</strong></td><td>Nifty</td><td>+50</td><td>+100</td></tr>
+</tbody></table>
+
+<p>(Stated as rule of thumb — adjustable to risk appetite.)</p>
+
+<h2>CSV data</h2>
+<p><code>CHips and hawa.csv</code> is a worked calculation table for BN spot 17700 — strike prices with CE/PE LTPs and the resulting chips/hawa per strike (63 rows). Confirms the formula mechanics, no new rules.</p>
+
+<h2>Links to wiki</h2>
+<ul>
+<li>Concepts: <a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a> (primary), <a href="/wiki/concepts/options">Options</a>, <a href="/wiki/concepts/vix">Vix</a>, <a href="/wiki/concepts/hedging">Hedging</a></li>
+<li>Sibling sources: <a href="/wiki/sources/source-option-basics">Source Option Basics</a>, <a href="/wiki/sources/source-option-future-basics">Source Option Future Basics</a>, <a href="/wiki/sources/source-option-calculation">Source Option Calculation</a></li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

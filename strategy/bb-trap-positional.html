@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BB Trap Positional (Daily Timeframe) — v2 Optimized · Strategy</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<div class="strat-head">
+  <h1>BB Trap Positional (Daily Timeframe) — v2 Optimized</h1>
+  <span class="badge badge-green">Runnable</span>
+  <span class="muted">updated 2026-07-13</span>
+</div>
+
+<p class="hint">BB Trap v2 short setups (positional). Post-close.</p>
+
+<div class="actions">
+  
+    <button class="btn btn-primary run-scan-btn"
+            data-slug="bb-trap-positional"
+            onclick="runScanner(this)">▶ Run scan now</button>
+    <span class="run-status"></span>
+    <span class="meta-pill">scheduled: 30 18 * * 1-5</span>
+  
+</div>
+
+
+
+<!-- Scanner results panel (populated by JS after a scan runs) -->
+<div id="scanResults" class="scan-results" style="display:none"></div>
+
+<section class="note">
+  <h2>Rules</h2>
+  <article class="md"><h1>BB Trap Positional (Daily Timeframe) — v2 Optimized</h1>
+
+<h2>Definition</h2>
+<p>A <strong>positional reversal strategy</strong> on the daily timeframe combining: a full candle outside the Bollinger Band, a rejection-wick confirmation candle, and volume expansion. Designed to catch multi-day moves from band extremes.</p>
+
+<p>&gt; <strong>⚠️ v2 RULES (backtested &amp; optimized July 2026).</strong> The original v1 rules (alert candle closing beyond primary&#x27;s extreme) were backtested and <strong>failed</strong> (PF 1.13 shorts, PF 0.89 longs — see <a href="/wiki/trade-reviews/bb-trap-positional-backtest">v1 analysis</a>). Rules below are the <strong>optimized v2</strong> that fixed the core problem.</p>
+
+<h2>Backtested Performance (v2 Optimized)</h2>
+<p>See <a href="/wiki/trade-reviews/bb-trap-positional-v2-modified">Bb Trap Positional V2 Modified</a> for full grid search results.</p>
+
+<table><thead><tr><th>Direction</th><th>Win Rate</th><th>PF</th><th>R:R</th><th>Target Hit</th><th>Net P&amp;L (2.5yr)</th></tr></thead><tbody>
+<tr><td><strong>SHORT</strong> (with filters)</td><td><strong>66.4%</strong></td><td><strong>2.10</strong></td><td><strong>2.7×</strong></td><td>50.5%</td><td>₹66,997</td></tr>
+<tr><td><strong>LONG</strong></td><td>43.3%</td><td>1.06</td><td>2.0×</td><td>41.7%</td><td>₹4,931</td></tr>
+</tbody></table>
+
+<p>&gt; <strong>Shorts are the clear edge. Longs are marginal — trade with caution.</strong></p>
+
+<h2>Difference from Intraday BB Trap</h2>
+<table><thead><tr><th>Feature</th><th>Intraday BB Trap (NK original)</th><th><strong>BB Trap Positional v2 (this strategy)</strong></th></tr></thead><tbody>
+<tr><td>Timeframe</td><td>15-min / 30-min / 1-hour</td><td><strong>Daily only</strong></td></tr>
+<tr><td>Entry trigger</td><td>Next candle re-enters band + below VWAP</td><td><strong>Alert candle REJECTION WICK ≥ 50%</strong></td></tr>
+<tr><td>Volume</td><td>Not explicitly required</td><td><strong>REQUIRED — vol_a ≥ 1.5× vol_p</strong></td></tr>
+<tr><td>Hold period</td><td>Intraday</td><td><strong>2-4 days avg</strong> (fixed target, not 20 SMA)</td></tr>
+<tr><td>Target</td><td>VWAP / intraday S/R</td><td><strong>20 SMA (primary), opposite BB band (stretch)</strong></td></tr>
+<tr><td>Direction</td><td>Primarily short (gap-up trap)</td><td><strong>Both directions (shorts + longs)</strong></td></tr>
+</tbody></table>
+
+<hr>
+
+<h2>Setup Rules — v2 Optimized (Backtested July 2026)</h2>
+
+<p>&gt; The original v1 rules (alert candle closes beyond primary extreme) are <strong>deprecated</strong> — backtesting showed they identify trends, not traps. The v2 rules below use a <strong>rejection wick</strong> confirmation instead.</p>
+
+<h3>SHORT Setup — THE PRIMARY EDGE (PF 2.10 with filters)</h3>
+
+<h4>Step 1: Primary Candle (Candle 1, day t-2)</h4>
+<p>A daily candle where the <strong>ENTIRE candle is outside the upper Bollinger Band</strong>:</p>
+<ul>
+<li><strong>Low &gt; Upper BB</strong> — the candle&#x27;s lowest point never touched the band</li>
+</ul>
+
+<h4>Step 2: Alert Candle (Candle 2, day t-1) — REJECTION WICK</h4>
+<ul>
+<li><strong>Upper wick ≥ 50% of the alert candle&#x27;s total range</strong></li>
+<li>Formula: <code>(High − max(Open, Close)) / (High − Low) ≥ 0.50</code></li>
+<li>This means price pushed higher intraday but got <strong>rejected</strong> — the actual trap moment</li>
+</ul>
+
+<h4>Step 3: Volume Confirmation</h4>
+<ul>
+<li><strong>vol_a ≥ 1.5× vol_p</strong> (alert candle volume must be 1.5× primary candle volume)</li>
+</ul>
+
+<h4>Step 4: RSI Filter (optional but recommended — lifts PF 1.41 → 2.10)</h4>
+<ul>
+<li><strong>RSI(14) &gt; 70</strong> at signal day</li>
+</ul>
+
+<h4>Step 5: Entry (day t)</h4>
+<ul>
+<li><strong>Enter SHORT</strong> at day t&#x27;s close</li>
+<li><strong>SL = entry + (primary_range × 0.30)</strong> — 30% of primary candle range above entry</li>
+<li><strong>Target = entry − (primary_range × 0.80)</strong> — 80% of primary candle range below entry</li>
+<li><strong>Risk:Reward = 2.7×</strong></li>
+<li><strong>Time stop = 10 trading days</strong></li>
+</ul>
+
+<h3>LONG Setup — MARGINAL EDGE (PF 1.06, trade with caution)</h3>
+
+<h4>Step 1: Primary Candle (Candle 1, day t-2)</h4>
+<ul>
+<li><strong>High &lt; Lower BB</strong> — entire candle below lower band</li>
+</ul>
+
+<h4>Step 2: Alert Candle (Candle 2, day t-1) — REJECTION WICK</h4>
+<ul>
+<li><strong>Lower wick ≥ 50% of alert candle&#x27;s total range</strong></li>
+<li>Formula: <code>(min(Open, Close) − Low) / (High − Low) ≥ 0.50</code></li>
+</ul>
+
+<h4>Step 3: Volume (MANDATORY)</h4>
+<ul>
+<li><strong>vol_a ≥ 1.5× vol_p</strong> (without this, longs lose money)</li>
+</ul>
+
+<h4>Step 4: Entry (day t)</h4>
+<ul>
+<li><strong>Enter LONG</strong> at day t&#x27;s close</li>
+<li><strong>SL = entry − (primary_range × 0.50)</strong></li>
+<li><strong>Target = entry + (primary_range × 1.00)</strong></li>
+<li><strong>Risk:Reward = 2.0×</strong></li>
+<li><strong>Time stop = 10 trading days</strong></li>
+</ul>
+
+<hr>
+
+<h2>Exit Rules</h2>
+
+<h3>Target 1 (Primary): 20 SMA (Daily)</h3>
+<ul>
+<li>The 20 SMA is the Bollinger Band center line — price is magnetically attracted to it</li>
+<li><strong>Exit 50-70% of position at 20 SMA</strong></li>
+<li>This is the highest-probability target — most reversal moves reach the mean</li>
+</ul>
+
+<h3>Target 2 (Stretch): Opposite Bollinger Band</h3>
+<ul>
+<li>If momentum is strong, price can ride all the way to the <strong>opposite band</strong></li>
+<li>Shorts: ride to <strong>lower BB</strong></li>
+<li>Longs: ride to <strong>upper BB</strong></li>
+<li><strong>Trail the remaining 30-50%</strong> with a trailing SL below/above recent swing highs/lows</li>
+</ul>
+
+<h3>Stop Loss</h3>
+<ul>
+<li><strong>Shorts:</strong> SL = high of Candle 2 (the alert candle) + buffer</li>
+<li><strong>Longs:</strong> SL = low of Candle 2 (the alert candle) − buffer</li>
+<li>If Candle 3 closes beyond Candle 2&#x27;s extreme in the wrong direction → <strong>exit immediately</strong></li>
+</ul>
+
+<h3>Time Stop</h3>
+<ul>
+<li>If price hasn&#x27;t reached 20 SMA within <strong>10 trading days</strong> → consider exiting (dead trade)</li>
+<li>Opportunity cost of holding a position that isn&#x27;t moving</li>
+</ul>
+
+<hr>
+
+<h2>Summary Table — v2 Optimized Parameters</h2>
+
+<table><thead><tr><th>Parameter</th><th>SHORT Setup (primary)</th><th>LONG Setup (marginal)</th></tr></thead><tbody>
+<tr><td><strong>Primary candle</strong></td><td>Entire candle above upper BB (low &gt; upper BB)</td><td>Entire candle below lower BB (high &lt; lower BB)</td></tr>
+<tr><td><strong>Alert candle</strong></td><td><strong>Upper wick ≥ 50% of range</strong> (rejection)</td><td><strong>Lower wick ≥ 50% of range</strong> (rejection)</td></tr>
+<tr><td><strong>Volume</strong></td><td>vol_a ≥ <strong>1.5×</strong> vol_p + RSI &gt; 70</td><td>vol_a ≥ <strong>1.5×</strong> vol_p (mandatory)</td></tr>
+<tr><td><strong>Entry</strong></td><td>Short at day t close</td><td>Long at day t close</td></tr>
+<tr><td><strong>SL</strong></td><td>entry + (primary_range × <strong>0.30</strong>)</td><td>entry − (primary_range × <strong>0.50</strong>)</td></tr>
+<tr><td><strong>Target</strong></td><td>entry − (primary_range × <strong>0.80</strong>)</td><td>entry + (primary_range × <strong>1.00</strong>)</td></tr>
+<tr><td><strong>Risk:Reward</strong></td><td><strong>2.7×</strong></td><td><strong>2.0×</strong></td></tr>
+<tr><td><strong>Time stop</strong></td><td>10 trading days</td><td>10 trading days</td></tr>
+<tr><td><strong>Win rate</strong></td><td><strong>66.4%</strong> (with filters)</td><td>43.3%</td></tr>
+<tr><td><strong>PF</strong></td><td><strong>2.10</strong></td><td>1.06</td></tr>
+<tr><td><strong>Avg hold</strong></td><td>~2.5 days</td><td>~2.3 days</td></tr>
+</tbody></table>
+
+<hr>
+
+<h2>Bollinger Band Parameters</h2>
+<ul>
+<li><strong>Period:</strong> 20 (standard)</li>
+<li><strong>Standard deviations:</strong> 2 (standard)</li>
+<li><strong>MA type:</strong> SMA (simple moving average)</li>
+<li>These are the defaults NK uses and what most charting platforms apply</li>
+</ul>
+
+<hr>
+
+<h2>Why This Should Work (the logic)</h2>
+
+<ol>
+<li><strong>Extreme deviation:</strong> A full daily candle entirely outside the 2-sigma band is a 2+ standard deviation event — statistically rare, mean reversion is highly probable</li>
+<li><strong>Trap confirmation:</strong> Candle 2 closing further beyond candle 1&#x27;s extreme = late buyers/sellers piling in = they&#x27;re the trap targets</li>
+<li><strong>Volume validation:</strong> Volume 2 &gt; Volume 1 = smart money is active (per VPA &quot;effort vs result&quot;). Without volume, the move may be low-conviction noise — skip it</li>
+<li><strong>Target logic:</strong> 20 SMA is the gravitational center — price reverts to the mean. Opposite band is the stretch target for strong moves</li>
+<li><strong>Daily timeframe = positional:</strong> Daily signals are more reliable than intraday (less noise), and the moves last days-to-weeks (per BB Blast duration table: daily = 5-15 days effect)</li>
+</ol>
+
+<hr>
+
+<h2>What This Strategy is NOT</h2>
+
+<ul>
+<li>❌ <strong>Not a BB Blast trade</strong> — BB Blast requires a PRIOR SQUEEZE (narrow bands) then breakout. This strategy trades the REVERSAL from band extremes, not the continuation</li>
+<li>❌ <strong>Not intraday</strong> — entries are on daily close, holds are multi-day. Don&#x27;t use this on 15-min or 1-hour charts (different dynamics)</li>
+<li>❌ <strong>Not a Moh Maya variant</strong> — Moh Maya requires VWAP reclaim confirmation. This strategy uses the 2-candle + volume structure instead</li>
+</ul>
+
+<hr>
+
+<h2>Risk Management</h2>
+
+<h3>Position Sizing</h3>
+<ul>
+<li><strong>Max 1-2 positional trades at a time</strong> (daily TF signals are infrequent — maybe 2-4 per month per stock)</li>
+<li><strong>Risk per trade:</strong> ≤ 2% of capital (SL distance × quantity ≤ 2% of portfolio)</li>
+<li>Since SL = Candle 2&#x27;s extreme, calculate quantity AFTER identifying the setup</li>
+</ul>
+
+<h3>Scenario Handling</h3>
+<table><thead><tr><th>Scenario</th><th>Action</th></tr></thead><tbody>
+<tr><td>Gap against position next day</td><td>If gap &gt; SL level → exit at open, don&#x27;t hope</td></tr>
+<tr><td>Price stalls between entry and 20 SMA</td><td>Trail SL to breakeven after 5 days</td></tr>
+<tr><td>Price reaches 20 SMA fast (2-3 days)</td><td>Exit 70% (fast moves often overshoot — let 30% ride)</td></tr>
+<tr><td>New BB Trap forms in opposite direction</td><td>Consider closing and reversing</td></tr>
+<tr><td>Market-wide crash/violent move</td><td>All positional bets are off — exit and reassess</td></tr>
+</tbody></table>
+
+<hr>
+
+<h2>Backtest Specification</h2>
+
+<h3>Minimum data required</h3>
+<ul>
+<li>Daily OHLCV data for Nifty 500 stocks (or a testable subset)</li>
+<li>20-period SMA + 2 standard deviation Bollinger Bands</li>
+<li>At least 2-3 years of history</li>
+</ul>
+
+<h3>Entry logic (code-verifiable)</h3>
+<pre><code>
+# SHORT setup
+primary_candle_short = (df[&#x27;low&#x27;] &gt; df[&#x27;upper_bb&#x27;])  # Entire candle above upper BB
+alert_candle_short = (df[&#x27;close&#x27;].shift(1) &gt; df[&#x27;high&#x27;].shift(2))  # Close &gt; prev high
+volume_confirm = (df[&#x27;volume&#x27;].shift(1) &gt; df[&#x27;volume&#x27;].shift(2))  # Vol increasing
+
+# LONG setup
+primary_candle_long = (df[&#x27;high&#x27;] &lt; df[&#x27;lower_bb&#x27;])  # Entire candle below lower BB
+alert_candle_long = (df[&#x27;close&#x27;].shift(1) &lt; df[&#x27;low&#x27;].shift(2))  # Close &lt; prev low
+volume_confirm = (df[&#x27;volume&#x27;].shift(1) &gt; df[&#x27;volume&#x27;].shift(2))  # Vol increasing
+
+# Entry = day after alert candle close (shift logic: enter on candle 3 open)
+</code></pre>
+
+<h3>Exit logic</h3>
+<ul>
+<li><strong>Target 1:</strong> Price touches 20 SMA → exit 50-70%</li>
+<li><strong>Target 2:</strong> Price touches opposite BB → exit remainder</li>
+<li><strong>SL:</strong> Price closes beyond candle 2&#x27;s extreme (high for shorts, low for longs)</li>
+<li><strong>Time stop:</strong> 10 trading days</li>
+</ul>
+
+<h3>Metrics to track</h3>
+<ul>
+<li>Win rate (% of trades reaching 20 SMA)</li>
+<li>Average hold period (days to 20 SMA)</li>
+<li>Average R-multiple (reward / risk at entry)</li>
+<li>Profit factor</li>
+<li>Max drawdown</li>
+<li>Distribution of returns (how many reach Target 1 vs Target 2 vs SL)</li>
+</ul>
+
+<h3>Key backtest questions</h3>
+<ol>
+<li>How often does a full daily candle appear entirely outside BB? (Frequency check)</li>
+<li>What % of the time does price reach 20 SMA after the 2-candle setup?</li>
+<li>Does the volume filter (vol2 &gt; vol1) improve win rate vs no volume filter?</li>
+<li>What&#x27;s the average SL distance (candle 2 range)? Is it tradeable?</li>
+<li>How many signals per month across Nifty 500?</li>
+</ol>
+
+<hr>
+
+<h2>Relationship to Wiki Concepts</h2>
+
+<table><thead><tr><th>This Strategy</th><th>Related Concept</th><th>Connection</th></tr></thead><tbody>
+<tr><td>Full candle outside BB</td><td><a href="/wiki/concepts/bb-trap">Bb Trap</a></td><td>Positional version of the intraday trap</td></tr>
+<tr><td>Volume 2 &gt; Volume 1</td><td><a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> · <a href="/wiki/concepts/vpa">Vpa</a></td><td>Volume confirms the trap — <strong>the <code>vol_a ≥ 1.5× vol_p</code> filter IS VPA applied</strong></td></tr>
+<tr><td>Target = 20 SMA</td><td><a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a></td><td>20 SMA is the BB center line / magnet</td></tr>
+<tr><td>Daily TF reversal</td><td><a href="/wiki/concepts/moh-maya">Moh Maya</a></td><td>Moh Maya is the intraday bullish variant</td></tr>
+<tr><td>NOT a breakout</td><td><a href="/wiki/concepts/bb-blast">Bb Blast</a></td><td>Blast = continuation; this = reversal</td></tr>
+<tr><td>Ride to opposite band</td><td><a href="/wiki/concepts/bb-blast">Bb Blast</a> duration table</td><td>Daily moves last 5-15 days (claimed)</td></tr>
+</tbody></table>
+
+<hr>
+
+<h2>Glossary (new terms)</h2>
+
+<table><thead><tr><th>Term</th><th>Definition</th></tr></thead><tbody>
+<tr><td><strong>Primary Candle</strong></td><td>Daily candle entirely outside BB (no wick touching). Candle 1 of the setup.</td></tr>
+<tr><td><strong>Alert Candle</strong></td><td>Candle 2 — must close beyond Primary Candle&#x27;s extreme. Triggers entry.</td></tr>
+<tr><td><strong>Volume Confirmation</strong></td><td>Candle 2 volume must exceed Candle 1 volume. Mandatory filter.</td></tr>
+<tr><td><strong>Ride the Band</strong></td><td>Holding position as price trends toward the opposite Bollinger Band.</td></tr>
+</tbody></table>
+
+<hr>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/concepts/bb-trap">Bb Trap</a> — Intraday BB Trap (NK&#x27;s original)</li>
+<li><a href="/wiki/concepts/bb-blast">Bb Blast</a> — BB Blast (breakout/continuation, the opposite pattern)</li>
+<li><a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a> — BB parameters and squeeze/blast/trap logic</li>
+<li><a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> — Volume confirms the trap (VPA)</li>
+<li><a href="/wiki/concepts/vpa">Vpa</a> — Full VPA framework; the vol_a ≥ 1.5× vol_p filter IS VPA applied</li>
+<li><a href="/wiki/strategies/vpa">Vpa</a> — Standalone tradeable VPA strategy</li>
+<li><a href="/wiki/concepts/moh-maya">Moh Maya</a> — Bullish intraday BB reversal variant</li>
+<li><a href="/wiki/concepts/support-resistance">Support Resistance</a> — 20 SMA as dynamic S/R</li>
+<li><a href="/wiki/strategies/bb-breakout-v2">Bb Breakout V2</a> — Rita&#x27;s BB breakout scanner (continuation, not reversal)</li>
+<li><a href="/wiki/sources/source-volume-mismatch-vpa-bb-trap">Source Volume Mismatch Vpa Bb Trap</a> — Volume + BB Trap source</li>
+</ul>
+
+<h2>Daily Scanner</h2>
+<p><strong>Script:</strong> <code>scan_bb_trap_v2.py</code> (in <code>/Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage/</code>)</p>
+
+<pre><code>
+# Scan latest available day (auto-downloads data)
+python3 scan_bb_trap_v2.py
+
+# Scan specific date
+python3 scan_bb_trap_v2.py --date 2026-07-10
+
+# Shorts only (recommended — PF 2.10)
+python3 scan_bb_trap_v2.py --shorts-only
+
+# Show top 15 candidates
+python3 scan_bb_trap_v2.py --top 15
+</code></pre>
+
+<p>The scanner:</p>
+<ul>
+<li>Loads 25-day OHLCV history for all ~2,500 NSE EQ stocks</li>
+<li>Checks v2 rules: primary candle outside BB → rejection wick → volume ≥ 1.5× → RSI &gt; 70</li>
+<li>Calculates entry, SL (30% of primary range), target (80% of primary range), R:R</li>
+<li>Scores each signal (R:R × volume × wick quality × RSI pass)</li>
+<li>Prints ranked candidates with full trade plan</li>
+</ul>
+
+<p><strong>Expected signal frequency:</strong> ~4 shorts/month, ~2 longs/month (per backtest)</p>
+</article>
+</section>
+
+
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

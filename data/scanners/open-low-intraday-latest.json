@@ -1,0 +1,9 @@
+{
+  "strategy": "open-low-intraday",
+  "scanned_at": null,
+  "status": "never_run",
+  "scan_date": null,
+  "signals": 0,
+  "table": {"headers": [], "rows": []},
+  "text_report": "No scans have been run yet. Click 'Run scan now' to fetch the latest data."
+}

@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VIX (Volatility Index)</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>VIX (Volatility Index)</h1>
+<article class="md"><h1>VIX (Volatility Index)</h1>
+
+<h2>Definition</h2>
+<p><strong>India VIX</strong> = the volatility index, measuring expected near-term volatility of Nifty. Add it to your watchlist. Lower VIX = lower volatility; higher VIX = higher volatility. The <strong>hawa component</strong> of every option moves with VIX.</p>
+
+<h2>The core relationship</h2>
+<p>&gt; Index option price is <strong>directly correlated</strong> to India VIX.</p>
+
+<table><thead><tr><th>VIX</th><th>Premium</th><th>Favourable for</th></tr></thead><tbody>
+<tr><td>Rising / high</td><td>rising premium (added fast to OTM)</td><td><strong>Buyers</strong></td></tr>
+<tr><td>Falling / low</td><td>falling premium (OTM loses fast)</td><td><strong>Sellers</strong></td></tr>
+</tbody></table>
+
+<ul>
+<li><strong>Never sell an option when VIX is high.</strong></li>
+<li><strong>Never buy OTM when VIX is falling</strong> — the option loses value with no market move.</li>
+</ul>
+
+<h2>VIX as a trading signal (9 SMA rule)</h2>
+<p>From <a href="/wiki/sources/source-option-calculation">Source Option Calculation</a>:</p>
+<ul>
+<li>Plot <strong>9 SMA of High</strong> on the <strong>VIX chart, 1-hour TF.</strong></li>
+<li>Once VIX closes <strong>above 9 SMA → it shoots up.</strong></li>
+<li>Once VIX closes <strong>below 9 SMA → it falls.</strong></li>
+<li>&quot;Once VIX comes above 9 SMA it shoots and vice versa.&quot;</li>
+</ul>
+
+<h2>VIX-dependent strike selection</h2>
+<p>The NK half-hedge table (<a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a>) is <em>indexed by VIX band</em> — wider offsets when VIX is 18–22, tighter when below 18. VIX literally decides which strikes to trade.</p>
+
+<h2>VIX + AVWAP option-selling zone</h2>
+<p>Sell OTM put (uptrend) / OTM call (downtrend) when VIX is below AVWAP on the hourly chart (<a href="/wiki/sources/source-option-calculation">Source Option Calculation</a>). &quot;This kind of option selling gives a lot of money.&quot;</p>
+
+<h2>VIX as intraday timing trigger (5-min TF)</h2>
+<p>From <a href="/wiki/sources/source-vix-intraday-5min">Source Vix Intraday 5Min</a> — NK&#x27;s dedicated intraday option-buying framework:</p>
+
+<h3>VIX for Puts, HM for Calls (key operational split)</h3>
+<p>&gt; <strong>&quot;India VIX sirf put ke case mein dekhenge. Call ke case mein price aur Hilega Milega dekhenge.&quot;</strong></p>
+
+<ul>
+<li><strong>PUT buying:</strong> Check India VIX (day-high break on 5-min = trigger)</li>
+<li><strong>CALL buying:</strong> Check price action + Hilega Milega (don&#x27;t check VIX)</li>
+<li>This is a significant operational distinction — VIX is the put-side timing tool, HM is the call-side equivalent</li>
+</ul>
+
+<h3>Gap + VIX Direction (opening setup)</h3>
+<table><thead><tr><th>Scenario</th><th>VIX Condition</th><th>Meaning</th><th>Action</th></tr></thead><tbody>
+<tr><td>Gap Up</td><td>VIX <strong>down &gt;4%</strong></td><td>Gap sustains</td><td>Buy after 5-min close, SL = day low</td></tr>
+<tr><td>Gap Down</td><td>VIX <strong>up &gt;4%</strong></td><td>Gap sustains</td><td>Sell after 5-min close, SL = day high</td></tr>
+</tbody></table>
+
+<ul>
+<li><strong>4% VIX threshold</strong> is the filter — below 4%, signal is weaker</li>
+<li>Wait for <strong>5-min candle close</strong> (closing-basis SL, not touch)</li>
+</ul>
+
+<h3>VIX Day-High Break = Wave Strength</h3>
+<ul>
+<li>On <strong>5-min chart</strong>, mark VIX day-high</li>
+<li>VIX breaks day-high in <strong>single 5-min candle</strong> → strong, sustainable move (full ride)</li>
+<li>Break in 10 min → weaker (300→600/700)</li>
+<li>Break in 15 min → even weaker</li>
+<li>Break on <strong>1-hour TF</strong> → very strong, effect lasts <strong>2-3 days</strong></li>
+<li>If VIX does NOT break day-high → wave is weak, can reverse anytime</li>
+</ul>
+
+<h3>30-Minute Holding Rule</h3>
+<ul>
+<li>After entry, hold minimum <strong>30 minutes</strong> (don&#x27;t watch constantly)</li>
+<li>NK tested 10-min, 30-min, 1-hr, 2-hr, 3-hr → 30 min is ideal for 5-min entries</li>
+<li>Expiry day exception: be active, do 50% exit + ride 50% with SL</li>
+</ul>
+
+<h3>Strike Selection by Premium Range</h3>
+<table><thead><tr><th>Index</th><th>Premium Range (₹)</th></tr></thead><tbody>
+<tr><td>Sensex</td><td>₹100 – ₹500</td></tr>
+<tr><td>Nifty</td><td>₹250 – ₹800</td></tr>
+</tbody></table>
+
+<ul>
+<li>Find OTM strike at ₹100 premium → becomes ₹400-700 on the move</li>
+<li>Don&#x27;t chase a strike that already moved 4x → find next strike still at ₹50-60</li>
+<li>All strikes on that side move together — if one doubles, they all roughly double</li>
+</ul>
+
+<p>&gt; ⚠️ The VIX day-high break trigger and 30-min hold rule are untested against Rita&#x27;s data — candidates for backtesting.</p>
+
+<h2>⚠️ Note</h2>
+<p>VIX behaviour is cyclical and mean-reverting, but the 9 SMA / AVWAP rules above are heuristic claims from course material — not backtested against Rita&#x27;s data.</p>
+
+<h2>Source pages</h2>
+<p><a href="/wiki/sources/source-option-calculation">Source Option Calculation</a> (9 SMA rule) · <a href="/wiki/sources/source-option-future-basics">Source Option Future Basics</a> · <a href="/wiki/sources/source-chips-hawa">Source Chips Hawa</a> (VIX-indexed table) · <a href="/wiki/sources/source-vix-intraday-5min">Source Vix Intraday 5Min</a> (5-min intraday trigger)</p>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

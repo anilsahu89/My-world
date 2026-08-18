@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Expiry Day Gap Hedge</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>Expiry Day Gap Hedge</h1>
+<article class="md"><h1>Expiry Day Gap Hedge</h1>
+
+<h2>Definition</h2>
+<p>Exploits the <strong>pricing gap between Bank Nifty Spot and Bank Nifty Future</strong> when the gap is ~200+ points. Buy near-expiry (weekly), sell far-expiry (monthly) — profit when gap converges at expiry.</p>
+
+<h2>Trigger Condition</h2>
+<ul>
+<li>When <strong>Spot-Future gap ≥ 200 points</strong></li>
+<li>Example: BN Spot = 39598, BN Future = 39834 → gap = <strong>236 points</strong></li>
+<li>Per lot, this gap = ₹7,000–10,000 profit potential</li>
+</ul>
+
+<h2>Core Rule</h2>
+<p>&gt; <strong>Always BUY near expiry (weekly), SELL far expiry (monthly).</strong></p>
+
+<p>The near-expiry option is calculated from <strong>spot</strong>, the far-expiry from <strong>future</strong>. At expiry, weekly matches spot → gap closes → profit.</p>
+
+<h2>Execution</h2>
+
+<h3>Strike Selection</h3>
+<ul>
+<li>Select strike where market <strong>cannot reach</strong> by expiry</li>
+<li>Near major resistance (e.g., 41000 if BN at 39598)</li>
+<li>Or 42000/43000 if you think market could rise</li>
+<li><strong>Deeper OTM = safer</strong> — doesn&#x27;t matter if premium is ₹1200 or ₹3000</li>
+<li>Make it <strong>1000-1500 points above</strong> current for near-zero probability of breach</li>
+</ul>
+
+<h3>Trade Structure</h3>
+<ul>
+<li><strong>BUY</strong> Weekly PE (near expiry) — calculated from spot</li>
+<li><strong>SELL</strong> Monthly PE (far expiry) — calculated from future</li>
+</ul>
+
+<h3>Example</h3>
+<ul>
+<li>Weekly 41000 PE @ ₹1293</li>
+<li>Monthly 41000 PE @ ₹1264</li>
+<li><strong>Don&#x27;t trade</strong> if weekly &gt; monthly — wait for weekly &lt; monthly</li>
+</ul>
+
+<h2>When NOT to Trade</h2>
+<ul>
+<li>If weekly PE price &gt; monthly PE price → <strong>wait</strong></li>
+<li>Wait for weekly price to drop below monthly (could be any day Mon-Thu)</li>
+<li>Trade when: weekly price ≤ monthly price − 30-40 points</li>
+</ul>
+
+<h2>Profit Logic</h2>
+<ul>
+<li>Future expansion/erosion: 30-40 point difference still gives decent profit</li>
+<li><strong>Average profit: 180-200 points</strong> per trade</li>
+<li>On expiry day or Wednesday → biggest profit</li>
+</ul>
+
+<h2>Risk Management</h2>
+<ul>
+<li>If market rises 41000+ → weekly becomes 0, monthly retains premium → <strong>adjustment needed</strong></li>
+<li>That&#x27;s why we go <strong>1000-1500 points deep</strong> — very low probability of breach</li>
+<li>In downtrend → PE side; in uptrend → CE side</li>
+</ul>
+
+<h2>CE vs PE Side</h2>
+<table><thead><tr><th>Market Trend</th><th>Side</th></tr></thead><tbody>
+<tr><td>Downtrend</td><td>PE side (put hedge)</td></tr>
+<tr><td>Uptrend</td><td>CE side (call hedge)</td></tr>
+</tbody></table>
+
+<h2>Key Rules</h2>
+<ol>
+<li><strong>Gap trigger:</strong> ≥200 points between spot and future</li>
+<li><strong>Direction:</strong> Buy near expiry, sell far expiry</li>
+<li><strong>Strike:</strong> 1000-1500 points OTM (deep, safe)</li>
+<li><strong>Pricing check:</strong> Weekly price must be &lt; monthly price</li>
+<li><strong>Best timing:</strong> Expiry day or Wednesday</li>
+<li><strong>If Friday/Monday setup:</strong> Weekly must be 30-40 points cheaper than monthly</li>
+</ol>
+
+<h2>Quick Reference</h2>
+<table><thead><tr><th>Step</th><th>Rule</th></tr></thead><tbody>
+<tr><td>1</td><td>Check spot-future gap ≥ 200</td></tr>
+<tr><td>2</td><td>Pick deep OTM strike (1000-1500 pts)</td></tr>
+<tr><td>3</td><td>Verify weekly price &lt; monthly price</td></tr>
+<tr><td>4</td><td>Buy weekly, sell monthly</td></tr>
+<tr><td>5</td><td>Hold to expiry → book 180-200 pts profit</td></tr>
+</tbody></table>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/concepts/hedging">Hedging</a> — Hedging fundamentals</li>
+<li><a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a> — Premium structure</li>
+<li><a href="/wiki/strategies/wednesday-hedge">Wednesday Hedge</a> — Related expiry strategy</li>
+<li><a href="/wiki/sources/source-expiry-gap-hedge">Source Expiry Gap Hedge</a> — Source document</li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

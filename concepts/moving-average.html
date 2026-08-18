@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moving Averages (MA)</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>Moving Averages (MA)</h1>
+<article class="md"><h1>Moving Averages (MA)</h1>
+
+<h2>Definition</h2>
+<p>A moving average smooths price data by creating a constantly updated average price over a specific period. Used for trend identification, support/resistance, and entry/exit signals.</p>
+
+<h2>Types Used by NK</h2>
+
+<table><thead><tr><th>Type</th><th>Full Name</th><th>NK Usage</th></tr></thead><tbody>
+<tr><td><strong>SMA</strong></td><td>Simple Moving Average</td><td>20 SMA on intraday charts — trend identification</td></tr>
+<tr><td><strong>EMA</strong></td><td>Exponential Moving Average</td><td>20/50/100/150/200 in COMA system</td></tr>
+<tr><td><strong>WMA</strong></td><td>Weighted Moving Average</td><td>3 WMA &amp; 21 WMA on RSI (HM indicator)</td></tr>
+</tbody></table>
+
+<h2>COMA (Correct Order of Moving Averages)</h2>
+<ul>
+<li><strong>5 EMAs:</strong> 20, 50, 100, 150, 200</li>
+<li><strong>Correct order</strong> (bullish): 20 &gt; 50 &gt; 100 &gt; 150 &gt; 200 (price above all)</li>
+<li><strong>Convergence</strong> of all MAs + COMA alignment = strong trend confirmed</li>
+<li>COMA + Hilega Milega signal = <strong>entry trigger</strong></li>
+<li>If MAs are tangled/mixed order → no clear trend → avoid</li>
+</ul>
+
+<h2>20 SMA — NK&#x27;s Workhorse</h2>
+<ul>
+<li>Primary trend indicator on <strong>1-hour chart</strong></li>
+<li>Above 20 SMA = uptrend, below = downtrend</li>
+<li>Acts as <strong>magnet</strong> — price attracted to it</li>
+<li>Breaking 20 SMA requires <strong>big candle in fast manner</strong></li>
+<li>If price backs from 20 SMA → don&#x27;t buy until close above day&#x27;s highest close</li>
+<li>BB center line = 20 SMA (Bollinger Bands built on 20 SMA)</li>
+</ul>
+
+<h2>Moving Average Rules</h2>
+<ul>
+<li>MAs tell you <strong>direction</strong>, not exact entry</li>
+<li>Combine with COMA for stronger conviction</li>
+<li>Longer MA (200) = stronger S/R than shorter MA (20)</li>
+<li><strong>Golden Cross</strong> (50 above 200) = bullish signal</li>
+<li><strong>Death Cross</strong> (50 below 200) = bearish signal</li>
+<li>Crossover alone is not enough — need COMA alignment + volume + HM</li>
+</ul>
+
+<h2>Quick Reference</h2>
+<table><thead><tr><th>Scenario</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>All 5 EMA in correct order</td><td>Strong trend</td></tr>
+<tr><td>MAs converging</td><td>Trend strengthening</td></tr>
+<tr><td>MAs diverging/fanning</td><td>Trend weakening</td></tr>
+<tr><td>Price at 20 SMA</td><td>Potential bounce or break level</td></tr>
+<tr><td>20 SMA + VWAP together</td><td>Strong intraday S/R</td></tr>
+</tbody></table>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/concepts/coma">Coma</a> — COMA concept (if separate page created)</li>
+<li><a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a> — BB built on 20 SMA</li>
+<li><a href="/wiki/concepts/hilega-milega">Hilega Milega</a> — WMA on RSI for timing</li>
+<li><a href="/wiki/concepts/vwap">Vwap</a> — VWAP + 20 SMA combined</li>
+<li><a href="/wiki/sources/source-moving-average">Source Moving Average</a> — Moving average source</li>
+<li><a href="/wiki/sources/source-ma-convergence">Source Ma Convergence</a> — MA convergence source</li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SRT Investing</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>SRT Investing</h1>
+<article class="md"><h1>SRT Investing</h1>
+
+<h2>Definition</h2>
+<p>SRT is a long-term investing ratio:</p>
+
+<pre><code>
+SRT = latest spot / 124-day SMA
+</code></pre>
+
+<p>124 days ≈ 6 months ≈ 50% of ~248 trading days. The source uses it to identify broad Nifty investment zones.</p>
+
+<h2>Rules</h2>
+<ul>
+<li>SRT between 0.6 and 0.9 is considered a strong investing zone.</li>
+<li>Monthly HM should be buy before investing.</li>
+<li>Add in batches:</li>
+<li>30% capital when SRT reaches 0.9.</li>
+<li>Add every 0.1 downside.</li>
+<li>Safe investment areas also include weekly AVWAP / 20 SMA and convergence of 20, 50, 124, 150, 200 EMA.</li>
+</ul>
+
+<h2>NK&#x27;s refined thresholds (Jul 2026 podcast)</h2>
+<p>Nifty SRT normally oscillates <strong>0.55 to 1.5</strong>. Specific zones:</p>
+
+<table><thead><tr><th>SRT level</th><th>Meaning</th><th>Action</th></tr></thead><tbody>
+<tr><td><strong>&lt; 0.6 (esp. ~0.55)</strong></td><td>Lifetime wealth-creation zone</td><td><strong>Never short, even if paid to.</strong> Occurs once every 10–14 years (last: Covid 2020; Nifty &quot;Lakshman Rekha&quot; 7410, low 7411)</td></tr>
+<tr><td><strong>~0.85</strong></td><td>Nifty ~17% off its top</td><td>Positional BUY zone — hold ~6 months</td></tr>
+<tr><td><strong>Weekly &gt; 1.24</strong></td><td>Overheated</td><td>Exit equities → gold / dividend-yielding / cash. Even if it runs to 1.30 (+30%), the exit was right</td></tr>
+</tbody></table>
+
+<p><strong>Critical: always check SRT on DAILY, not monthly</strong> — monthly shows ~1.53 and misleads.</p>
+
+<p><strong>Nifty drawdown ladder:</strong> 5% → 12% → 17% → 36–38%. A break of 36–38% = crash to 50–58% (as in 2008 / Covid). 17% breaks only on genuinely bad news.</p>
+
+<p><strong>Cross-instrument caveat:</strong> stock/commodity SRT levels differ from Nifty&#x27;s — do NOT apply Nifty SRT levels to other instruments.</p>
+
+<p><strong>HM linkage:</strong> when SRT ≤ ~0.85, NK shifts <a href="/wiki/concepts/hilega-milega">Hilega Milega</a> to <strong>RSI period 7</strong> for faster response.</p>
+
+<h2>Backtest Specification</h2>
+<ul>
+<li>Instrument: Nifty index or Nifty ETF proxy.</li>
+<li>Daily close and 124 SMA.</li>
+<li>Monthly HM filter if data is available; otherwise test SRT-only first.</li>
+<li>Entry ladder at 0.9, 0.8, 0.7, 0.6.</li>
+<li>Exit variants: SRT mean reversion, fixed holding period, monthly HM sell.</li>
+</ul>
+
+<h2>Status</h2>
+<p>⚠️ The 0.55 / 0.85 / 1.24 thresholds and the &quot;9–14 year recurrence&quot; claim are NK&#x27;s teaching, <strong>not independently backtested</strong> here. The drawdown ladder (5/12/17/36-38%) is testable on Nifty history — good backtest candidate.</p>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/sources/source-srt-investing">Source Srt Investing</a></li>
+<li><a href="/wiki/sources/source-nk-hm-podcast-2026">Source Nk Hm Podcast 2026</a></li>
+<li><a href="/wiki/concepts/hilega-milega">Hilega Milega</a></li>
+<li><a href="/wiki/concepts/moving-average">Moving Average</a></li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

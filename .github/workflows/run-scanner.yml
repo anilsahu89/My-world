@@ -1,0 +1,127 @@
+# =============================================================================
+# Unified Scanner Runner — GitHub Actions
+# =============================================================================
+# Each runnable strategy shares this single workflow.
+# Triggered via workflow_dispatch (from the portal "Run Now" button)
+# or on schedule (cron during NSE market hours).
+#
+# The workflow:
+#   1. Checks out the repo
+#   2. Runs the requested scanner from portal/scanners/
+#   3. Commits output as data/scanners/<slug>-latest.json
+#   4. GitHub Pages deploys the updated JSON automatically
+# =============================================================================
+
+name: Run Scanner
+
+on:
+  # --- Manual trigger from the portal browser UI ---
+  workflow_dispatch:
+    inputs:
+      strategy:
+        description: "Strategy slug to run"
+        required: true
+        type: choice
+        options:
+          - future-arbitrage
+          - bb-trap-positional
+          - open-low-intraday
+          - nifty-premium-mill
+          - nifty-daily-theta
+
+  # --- Scheduled triggers (NSE hours IST = UTC+5:30) ---
+  schedule:
+    # Future Arbitrage — 18:30 IST = 13:00 UTC, Mon–Fri
+    - cron: "0 13 * * 1-5"
+    # BB Trap Positional — 18:30 IST = 13:00 UTC, Mon–Fri
+    - cron: "30 13 * * 1-5"
+    # Open=Low Intraday — 09:10 IST = 03:40 UTC, Mon–Fri
+    - cron: "10 3 * * 1-5"
+    # Nifty Premium Mill — 09:15 IST = 03:45 UTC, Tue only (triggers Tue signal check)
+    - cron: "15 3 * * 2"
+    # Nifty Daily Theta — 09:15 IST = 03:45 UTC, Mon–Wed (entry days)
+    - cron: "45 3 * * 1-3"
+
+# Prevent concurrent runs of the same strategy
+concurrency:
+  group: scanner-${{ github.event.inputs.strategy || 'scheduled' }}
+  cancel-in-progress: false
+
+jobs:
+  run-scanner:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Needed to commit scanner results
+
+    env:
+      TZ: Asia/Kolkata
+      SCANNER_DIR: portal/scanners
+      OUTPUT_DIR: data/scanners
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Only open-low-intraday needs yfinance; others are pure stdlib
+      - name: Install dependencies
+        run: |
+          if [ "${{ github.event.inputs.strategy }}" = "open-low-intraday" ]; then
+            pip install yfinance
+          fi
+
+      - name: Create output directory
+        run: mkdir -p $OUTPUT_DIR
+
+      # ---------- Strategy dispatch ----------
+      # Each strategy has its own step so logs are clearly separated.
+
+      - name: Run future-arbitrage scanner
+        if: github.event.inputs.strategy == 'future-arbitrage'
+        run: |
+          cd $SCANNER_DIR
+          python3 run_future_arbitrage.py --output ../../$OUTPUT_DIR/future-arbitrage-latest.json
+
+      - name: Run bb-trap-positional scanner
+        if: github.event.inputs.strategy == 'bb-trap-positional'
+        run: |
+          cd $SCANNER_DIR
+          python3 run_bb_trap.py --output ../../$OUTPUT_DIR/bb-trap-positional-latest.json
+
+      - name: Run open-low-intraday scanner
+        if: github.event.inputs.strategy == 'open-low-intraday'
+        run: |
+          cd $SCANNER_DIR
+          python3 run_open_low.py --output ../../$OUTPUT_DIR/open-low-intraday-latest.json
+
+      - name: Run nifty-premium-mill scanner
+        if: github.event.inputs.strategy == 'nifty-premium-mill'
+        run: |
+          cd $SCANNER_DIR
+          python3 run_nifty_premium_mill.py --output ../../$OUTPUT_DIR/nifty-premium-mill-latest.json
+
+      - name: Run nifty-daily-theta scanner
+        if: github.event.inputs.strategy == 'nifty-daily-theta'
+        run: |
+          cd $SCANNER_DIR
+          python3 run_nifty_daily_theta.py --output ../../$OUTPUT_DIR/nifty-daily-theta-latest.json
+
+      # ---------- Commit results ----------
+      - name: Commit scanner results
+        run: |
+          git config user.name "Scanner Bot"
+          git config user.email "scanner-bot[bot]@users.noreply.github.com"
+          git add $OUTPUT_DIR/
+          # Only commit if there are actual changes
+          if git diff --cached --quiet; then
+            echo "No new results to commit."
+          else
+            SLUG="${{ github.event.inputs.strategy }}"
+            git commit -m "🏃 ${SLUG}: scanner results $(date +'%Y-%m-%d %H:%M IST')"
+            git push
+            echo "Results committed and pushed."
+          fi

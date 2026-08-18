@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Future Hedge (H-20)</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>Future Hedge (H-20)</h1>
+<article class="md"><h1>Future Hedge (H-20)</h1>
+
+<h2>Definition</h2>
+<p><strong>Future Hedge (H-20)</strong> = Buy Future + Buy <strong>deep ITM Put</strong> (70% chips) to define loss while keeping <strong>unlimited profit</strong> with <strong>reduced margin</strong>.</p>
+
+<h2>When to Use</h2>
+<ul>
+<li>When in <strong>dilemma</strong> whether market will continue trend or reverse</li>
+<li>At <strong>support or resistance</strong> where market is overbought/oversold</li>
+<li>When you have no clue about direction but expect <strong>momentum either side</strong></li>
+<li>Best at <strong>strength-wise resistance/support</strong></li>
+</ul>
+
+<h2>Core Logic</h2>
+<ul>
+<li>Buy Future (unlimited upside) + Buy ITM Put (defines downside loss)</li>
+<li>If market goes your way → unlimited profit</li>
+<li>If market reverses → loss limited to Put cost</li>
+<li>If market sideways → loss due to Put premium decay → <strong>needs momentum</strong></li>
+</ul>
+
+<h2>Design (Bullish Example)</h2>
+
+<h3>Initiate at Support @ 15000</h3>
+<ul>
+<li>Buy Nifty FUT @ 15000 (1 lot)</li>
+<li>Buy Nifty 15500 PE @ 650 (1 lot) — 76% chips ITM</li>
+</ul>
+
+<h3>Payoff</h3>
+<ul>
+<li>Upside profit: <strong>unlimited</strong></li>
+<li>Downside loss: limited (starts from 15512 without adjustment = 16387 − 875)</li>
+<li>Sideways: small loss from Put premium decay</li>
+</ul>
+
+<h2>Full Hedge (H-20 + H-23 Combined)</h2>
+<ul>
+<li>Combine Future Hedge + Hedge 23</li>
+<li>Buy Future + Buy 70% chips Put + <strong>Short deep ITM 70% chips CE</strong></li>
+<li>Profit in: <strong>call side + put side + sideways/range-bound</strong> market</li>
+<li>Very safe trade</li>
+</ul>
+
+<h2>Adjustment — If Support Broken</h2>
+
+<h3>Step 1: Add Far OTM Put</h3>
+<ul>
+<li>Original: Nifty FUT buy @ 15000 + Nifty 15500 PE buy @ 650</li>
+<li>Add: <strong>14500 PE buy @ 100</strong> (1 lot)</li>
+</ul>
+
+<h3>Step 2: If Market Reverses at 14500 → Create Spread</h3>
+<ul>
+<li>Nifty FUT buy @ 15000</li>
+<li>Nifty 15500 PE buy @ 650</li>
+<li>14500 PE buy @ 100</li>
+<li><strong>14300 PE sell @ 50</strong> (1 lot)</li>
+</ul>
+
+<h3>Result</h3>
+<ul>
+<li>Trade protected even if market reverses</li>
+<li>If trend becomes clear → <strong>pyramid sell</strong> if margin available</li>
+</ul>
+
+<h2>H-20 vs H-23</h2>
+<table><thead><tr><th>Feature</th><th>H-20 (Future Hedge)</th><th>H-23 (Hedge 23)</th></tr></thead><tbody>
+<tr><td>Target</td><td>Unlimited profit</td><td>Limited (hawa)</td></tr>
+<tr><td>Sideways market</td><td>Loss (premium decay)</td><td>Profit</td></tr>
+<tr><td>Momentum needed</td><td>Yes (either side)</td><td>No</td></tr>
+<tr><td>Adjustment</td><td>When support breaks</td><td>When reversal confirmed</td></tr>
+<tr><td>Best at</td><td>S/R overbought/oversold</td><td>Near S/R with hawa</td></tr>
+</tbody></table>
+
+<h2>Key Rules</h2>
+<ol>
+<li>Initiate at <strong>support or resistance</strong> only</li>
+<li>Needs <strong>momentum</strong> — don&#x27;t use in dead sideways market</li>
+<li>Combine with H-23 for &quot;Full Hedge&quot; (all-direction protection)</li>
+<li>Keep margin available for adjustments</li>
+<li>70% chips ITM Put is the protection leg</li>
+</ol>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/concepts/hedging">Hedging</a> — Hedging fundamentals</li>
+<li><a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a> — ITM option selection</li>
+<li><a href="/wiki/strategies/hedge-23">Hedge 23</a> — Combine with H-20 for Full Hedge</li>
+<li><a href="/wiki/sources/source-future-hedge">Source Future Hedge</a> — Source document</li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

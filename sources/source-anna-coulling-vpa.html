@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Source: Anna Coulling — A Complete Guide to Volume Price Analysis</title>
+  <link rel="stylesheet" href="/static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>Source: Anna Coulling — A Complete Guide to Volume Price Analysis</h1>
+<article class="md"><h1>Source: Anna Coulling — A Complete Guide to Volume Price Analysis</h1>
+
+<h2>Source</h2>
+<ul>
+<li><strong>Book:</strong> A Complete Guide to Volume Price Analysis</li>
+<li><strong>Author:</strong> Anna Coulling</li>
+<li><strong>Reference:</strong> [Scribd document 531334486](https://www.scribd.com/document/531334486/Anna-Coulling-a-Complete-Guide-to-Volume-Price-Action)</li>
+<li><strong>Length:</strong> 75 pages (summary document)</li>
+<li><strong>Ingestion note:</strong> Scribd preview returned only the description and topic outline, not the full body text. Page below captures the framework from the published summary. Full re-ingestion requires the PDF.</li>
+</ul>
+
+<h2>Summary</h2>
+<p>Foundational text on <strong>Volume Price Analysis (VPA)</strong> — reading price action and volume together to &quot;think like market insiders.&quot; Volume validates price movements and reveals accumulation, distribution, and market manipulation that price alone hides.</p>
+
+<h2>Three Core Pillars</h2>
+
+<h3>1. Price + Volume = Insider View</h3>
+<ul>
+<li>Combine price action with volume to understand what market insiders (smart money) are doing</li>
+<li>Volume validates price moves — price lies, volume doesn&#x27;t</li>
+<li>Reveals <strong>accumulation</strong> (smart money buying quietly) and <strong>distribution</strong> (smart money selling quietly)</li>
+<li>Volume exposes <strong>market manipulation</strong> that pure price charts hide</li>
+</ul>
+
+<h3>2. Wyckoff&#x27;s Three Laws</h3>
+<p>Coulling&#x27;s VPA is built on Richard Wyckoff&#x27;s framework:</p>
+
+<table><thead><tr><th>Law</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><strong>Supply &amp; Demand</strong></td><td>Price moves based on imbalance between buyers (demand) and sellers (supply). Volume reveals which side is dominant.</td></tr>
+<tr><td><strong>Cause &amp; Effect</strong></td><td>Accumulation/distribution phases (the &quot;cause&quot;) build energy that determines the size of the subsequent markup/markdown (the &quot;effect&quot;). Longer consolidation = bigger move.</td></tr>
+<tr><td><strong>Effort vs Result</strong></td><td>Volume = effort; price spread = result. If high volume (effort) produces small price move (result), the move is weak — reversal likely. If low volume produces big move, move is strong.</td></tr>
+</tbody></table>
+
+<h3>3. Key Techniques</h3>
+<ul>
+<li><strong>Volume at Price (VAP):</strong> Volume distribution across price levels (not time) — reveals where real S/R sits</li>
+<li><strong>Volume Price Analysis (VPA):</strong> Reading each candle&#x27;s volume relative to its price spread</li>
+<li><strong>Buying/Selling Climaxes:</strong> High-volume exhaustion moves that mark trend ends</li>
+<li><strong>Anomaly detection:</strong> Volume spikes that don&#x27;t match price action = warning signal</li>
+</ul>
+
+<h2>Topics Covered (from document outline)</h2>
+<ul>
+<li>Market manipulation &amp; insider trading</li>
+<li>Accumulation &amp; distribution phases</li>
+<li>Buying climax (and selling climax)</li>
+<li>Volume analysis principles &amp; price action confirmation</li>
+<li>Candle patterns: narrow/wide spread candles, shooting star, wick analysis</li>
+<li>Technical analysis: support/resistance, trend analysis</li>
+<li>Micro vs Macro vs Structural analysis</li>
+<li>Timeframes in trading &amp; risk management</li>
+<li>Price congestion, volume confirmation, smart money</li>
+<li>Trading signals via price-volume correlation</li>
+</ul>
+
+<h2>Key Vocabulary</h2>
+<table><thead><tr><th>Term</th><th>Definition</th></tr></thead><tbody>
+<tr><td><strong>Accumulation</strong></td><td>Smart money quietly buying during consolidation (the &quot;cause&quot; before markup)</td></tr>
+<tr><td><strong>Distribution</strong></td><td>Smart money quietly selling during consolidation (the &quot;cause&quot; before markdown)</td></tr>
+<tr><td><strong>Buying climax</strong></td><td>High-volume surge at the top — last retail buyers in, smart money exiting</td></tr>
+<tr><td><strong>Selling climax</strong></td><td>High-volume capitulation at the bottom — last retail sellers out, smart money entering</td></tr>
+<tr><td><strong>Narrow spread candle</strong></td><td>Small body — often signals congestion or uncertainty; meaningful when paired with high volume</td></tr>
+<tr><td><strong>Wide spread candle</strong></td><td>Large body — strong directional conviction; check volume to confirm</td></tr>
+<tr><td><strong>Effort vs Result</strong></td><td>Volume (effort) should produce proportional price move (result); divergence = trap</td></tr>
+</tbody></table>
+
+<h2>Relevance to NK Wiki</h2>
+<p>Coulling&#x27;s VPA is <strong>complementary</strong> to NK&#x27;s system, not overlapping:</p>
+<ul>
+<li>NK&#x27;s <strong>volume-mismatch</strong> concept (already in wiki) is essentially Coulling&#x27;s &quot;effort vs result&quot; applied to breakouts</li>
+<li>Coulling gives the <strong>theoretical foundation</strong> for why volume signals work</li>
+<li>NK applies it operationally via VWAP, BB, HM</li>
+<li>Rita&#x27;s BB-v2 scanner could benefit from Coulling&#x27;s climax/anomaly signals as a confirmation layer</li>
+</ul>
+
+<h2>Cross-References</h2>
+<ul>
+<li><a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> — NK&#x27;s applied version of effort-vs-result</li>
+<li><a href="/wiki/concepts/support-resistance">Support Resistance</a> — VAP reveals &quot;real&quot; S/R vs visual S/R</li>
+<li><a href="/wiki/concepts/candlesticks">Candlesticks</a> — Coulling&#x27;s narrow/wide spread analysis</li>
+<li><a href="/wiki/concepts/vwap">Vwap</a> — Volume-weighted price; related to VAP</li>
+<li><a href="/wiki/concepts/avwap">Avwap</a> — Anchored VAP equivalent</li>
+</ul>
+
+<h2>Pending Full Ingestion</h2>
+<p>&gt; ⚠️ <strong>Partial ingestion.</strong> This page was built from the Scribd description and topic outline only. The full 75-page PDF body text was not retrievable (paywall/preview limit). To complete:</p>
+<p>&gt; 1. Obtain the PDF (purchase or library loan — this is a published book, not free course material)</p>
+<p>&gt; 2. Re-run extraction</p>
+<p>&gt; 3. Expand this page with chapter-by-chapter notes, worked examples, and specific candle-volume combinations</p>
+<p>&gt; 4. Cross-link each technique to NK&#x27;s equivalent</p>
+
+<h2>Related</h2>
+<ul>
+<li><a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> — NK&#x27;s applied divergence detection</li>
+<li><a href="/wiki/concepts/support-and-resistance">Support And Resistance</a> — S/R as signal validator (Rita/BB-v2 view)</li>
+</ul>
+</article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="/static/app.js"></script>
+</body>
+</html>
