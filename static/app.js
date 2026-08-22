@@ -867,6 +867,10 @@
 
       // /concepts → /concepts.html
       if (href === "/concepts") { a.setAttribute("href", url("/concepts.html")); return; }
+      // /active → /active.html
+      if (href === "/active") { a.setAttribute("href", url("/active.html")); return; }
+      // /stocks → /stocks.html
+      if (href === "/stocks") { a.setAttribute("href", url("/stocks.html")); return; }
       // /alerts → /alerts.html
       if (href === "/alerts") { a.setAttribute("href", url("/alerts.html")); return; }
       // /paper → /paper.html
@@ -899,6 +903,36 @@
   }
 
   // ---------------------------------------------------------------------------
+  // Dashboard strategy tabs — Active / All / Rules-only (default: Active)
+  // ---------------------------------------------------------------------------
+  function initStratTabs() {
+    var bar = document.getElementById("stratTabs");
+    if (!bar) return;
+    var cards = Array.prototype.slice.call(document.querySelectorAll(".grid .card"));
+    var TAB_KEY = "mahi_strat_tab";
+
+    function apply(filter) {
+      try { localStorage.setItem(TAB_KEY, filter); } catch (e) {}
+      bar.querySelectorAll("button").forEach(function (b) {
+        b.classList.toggle("active", b.getAttribute("data-filter") === filter);
+      });
+      cards.forEach(function (c) {
+        var match = filter === "all" || c.classList.contains(filter);
+        c.classList.toggle("hidden-by-tab", !match);
+      });
+    }
+
+    bar.querySelectorAll("button").forEach(function (b) {
+      b.addEventListener("click", function () { apply(b.getAttribute("data-filter")); });
+    });
+
+    var saved = "";
+    try { saved = localStorage.getItem(TAB_KEY) || ""; } catch (e) {}
+    if (!saved || !bar.querySelector('button[data-filter="' + saved + '"]')) saved = "runnable";
+    apply(saved);
+  }
+
+  // ---------------------------------------------------------------------------
   // Boot
   // ---------------------------------------------------------------------------
   document.addEventListener("DOMContentLoaded", function () {
@@ -906,6 +940,7 @@
     initSearch();
     fixWikiLinks();
     checkSettingsPrompt();
+    initStratTabs();
 
     // Page-specific init
     if (window.location.pathname.indexOf("/search") !== -1) {

@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,20 +212,16 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Hilega Milega (HM)</h1>
 <article class="md"><h1>Hilega Milega (HM)</h1>
-
 <h2>Definition</h2>
-<p>NK&#x27;s proprietary composite indicator built on <strong>RSI(9)</strong> with three overlays:</p>
-<ul>
-<li><strong>21-period Weighted MA</strong> on RSI → the <strong>red line</strong> (Volume)</li>
-<li><strong>3-period Weighted MA</strong> on RSI → the <strong>green line</strong> (Price)</li>
-<li><strong>RSI(9) itself</strong> (set to OB=50, OS=50 instead of default 14/70/30) → the <strong>black line</strong> (Strength)</li>
-<li>Plus <strong>VWAP</strong> on the price chart.</li>
-</ul>
-
-<p>&quot;हिलेगा तो मिलेगा&quot; — <em>if it goes down, it will go up</em> — the name reflects its trend-reversal signalling nature.</p>
-
-<p>&gt; <strong>Primary purpose (refined Jul 2026 — <a href="/wiki/sources/source-nk-hm-podcast-2026">Source Nk Hm Podcast 2026</a>):</strong> HM&#x27;s job is <strong>conviction / direction</strong>, not entry timing. It tells a beginner which side to buy and which side to sell. Entry/exit still come from your own skill + price structure (VWAP, MA). It is deliberately simple so newcomers see clear direction instead of &quot;everything looks green/red.&quot;</p>
-
+<p>NK's proprietary composite indicator built on <strong>RSI(9)</strong> with three overlays:
+- <strong>21-period Weighted MA</strong> on RSI → the <strong>red line</strong> (Volume)
+- <strong>3-period Weighted MA</strong> on RSI → the <strong>green line</strong> (Price)
+- <strong>RSI(9) itself</strong> (set to OB=50, OS=50 instead of default 14/70/30) → the <strong>black line</strong> (Strength)
+- Plus <strong>VWAP</strong> on the price chart.</p>
+<p>"हिलेगा तो मिलेगा" — <em>if it goes down, it will go up</em> — the name reflects its trend-reversal signalling nature.</p>
+<blockquote>
+<p><strong>Primary purpose (refined Jul 2026 — <a href="/wiki/sources/source-nk-hm-podcast-2026">Source Nk Hm Podcast 2026</a>):</strong> HM's job is <strong>conviction / direction</strong>, not entry timing. It tells a beginner which side to buy and which side to sell. Entry/exit still come from your own skill + price structure (VWAP, MA). It is deliberately simple so newcomers see clear direction instead of "everything looks green/red."</p>
+</blockquote>
 <h2>How to set up (Zerodha Kite)</h2>
 <ol>
 <li>Add RSI → set period to <strong>9</strong>, Overbought=50, Oversold=50</li>
@@ -231,68 +229,88 @@
 <li>Add Weighted MA → period <strong>3</strong>, field = RSI(9) → green line</li>
 <li>Add VWAP on price chart</li>
 </ol>
-
 <h3>Setup refinements (Jul 2026 podcast)</h3>
 <ul>
 <li><strong>Why RSI(9), not 14:</strong> RSI(14) lags; 9 reacts before the crowd (which all use 14). NK tested 2/3/5/7/10/14 and settled on 9/10.</li>
 <li><strong>Conditional RSI(7):</strong> when the market is heavily down OR <a href="/wiki/concepts/srt-investing">SRT</a> ≤ ~0.85, shift HM to period <strong>7</strong> for faster response.</li>
 <li><strong>The red line is a volume proxy, not real volume.</strong> WMA was chosen (over all 11 MA types) because it tracks volume averages closest. Critical on Nifty/index futures where volume is unreliable. Many users wrongly assume it is real volume — see <a href="/wiki/concepts/nk-volume-reading">Nk Volume Reading</a>.</li>
 <li><strong>Planned migration to VMA:</strong> NK is researching shifting the overlay to Variable Moving Average (market structure changed post-2022). 1–2 years out; HM still works.</li>
-<li><strong>Broker caveat:</strong> many brokers don&#x27;t allow an indicator-on-indicator overlay — a practical setup problem.</li>
+<li><strong>Broker caveat:</strong> many brokers don't allow an indicator-on-indicator overlay — a practical setup problem.</li>
 </ul>
-
 <h2>Reading the signals</h2>
-<table><thead><tr><th>Signal</th><th>Meaning</th></tr></thead><tbody>
-<tr><td><strong>Red below Black and Blue</strong></td><td>BUY zone</td></tr>
-<tr><td><strong>Red above Green and Black</strong></td><td>SELL zone</td></tr>
-<tr><td><strong>Green above Black</strong></td><td>SELL</td></tr>
-<tr><td><strong>Below water (Blue / RSI below 50)</strong></td><td>SELL</td></tr>
-<tr><td><strong>Red line below Black → price stops going down</strong></td><td>Selling exhaustion</td></tr>
-<tr><td><strong>Gap between Green and Black</strong></td><td>Market won&#x27;t go up</td></tr>
-<tr><td><strong>Red line crosses below Black line</strong></td><td>Stop selling, start buying</td></tr>
-<tr><td><strong>Black 20 SMA turns upward + candle above</strong></td><td>Stop selling</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Red below Black and Blue</strong></td>
+<td>BUY zone</td>
+</tr>
+<tr>
+<td><strong>Red above Green and Black</strong></td>
+<td>SELL zone</td>
+</tr>
+<tr>
+<td><strong>Green above Black</strong></td>
+<td>SELL</td>
+</tr>
+<tr>
+<td><strong>Below water (Blue / RSI below 50)</strong></td>
+<td>SELL</td>
+</tr>
+<tr>
+<td><strong>Red line below Black → price stops going down</strong></td>
+<td>Selling exhaustion</td>
+</tr>
+<tr>
+<td><strong>Gap between Green and Black</strong></td>
+<td>Market won't go up</td>
+</tr>
+<tr>
+<td><strong>Red line crosses below Black line</strong></td>
+<td>Stop selling, start buying</td>
+</tr>
+<tr>
+<td><strong>Black 20 SMA turns upward + candle above</strong></td>
+<td>Stop selling</td>
+</tr>
+</tbody>
+</table>
 <h3>Trading rules refined (Jul 2026 podcast)</h3>
 <ul>
-<li><strong>Stay buy-biased while red (WMA) line stays below the RSI line</strong> — ignore even a textbook price breakdown (close below prior low) if the red line is still under RSI. Price can &quot;do whatever drama.&quot;</li>
+<li><strong>Stay buy-biased while red (WMA) line stays below the RSI line</strong> — ignore even a textbook price breakdown (close below prior low) if the red line is still under RSI. Price can "do whatever drama."</li>
 <li><strong>Sell/exit trigger:</strong> red line crosses <strong>above</strong> RSI and sustains (esp. with divergence forming) → expect a fall → book profit on your TF.</li>
-<li><strong>RSI 86 = universal profit-booking level.</strong> Any timeframe — when RSI hits 86, book and exit. After 86, RSI won&#x27;t immediately re-hit; expect pullback/consolidation, then trend resumes.</li>
+<li><strong>RSI 86 = universal profit-booking level.</strong> Any timeframe — when RSI hits 86, book and exit. After 86, RSI won't immediately re-hit; expect pullback/consolidation, then trend resumes.</li>
 <li><strong>Swing survival through the post-86 pullback:</strong> ride <strong>SMA 100 on 1-hour TF</strong> (or 50/63) — it protects and marks re-entry.</li>
 <li><strong>RSI 55 false-signal filter:</strong> raise the mid-line from 50 to 55; only buy when the HM curve completes a <strong>V-shape</strong> AND RSI &gt; 55.</li>
-<li><strong>Old-low-break stat:</strong> when HM flips to buy then immediately flips back to sell, the prior swing low breaks &quot;very badly/fast&quot; — backtested ~10 times, <strong>works 8/10</strong>.</li>
+<li><strong>Old-low-break stat:</strong> when HM flips to buy then immediately flips back to sell, the prior swing low breaks "very badly/fast" — backtested ~10 times, <strong>works 8/10</strong>.</li>
 </ul>
-
 <h2>Timeframe hierarchy</h2>
 <ul>
 <li><strong>Positional:</strong> analyze on Day/Week/Month, execute on 1-hr/Day</li>
 <li><strong>Intraday:</strong> analyze on 1-hr/Day, execute on 15-min/30-min</li>
-<li><strong>Swing:</strong> use ≥ <strong>3-hour TF</strong> (going below 3h needs expertise; beginners in range-bound markets on small TFs get hurt and wrongly conclude &quot;HM doesn&#x27;t work&quot;).</li>
-<li>Don&#x27;t try to catch bottoms/tops.</li>
+<li><strong>Swing:</strong> use ≥ <strong>3-hour TF</strong> (going below 3h needs expertise; beginners in range-bound markets on small TFs get hurt and wrongly conclude "HM doesn't work").</li>
+<li>Don't try to catch bottoms/tops.</li>
 <li>20 SMA = best support/resistance; use hourly for entry/exit. On smaller/intraday TFs use <strong>VMA (Variable Moving Average)</strong> instead of fixed SMA — it adapts to price.</li>
-<li><strong>Larger TF = higher accuracy.</strong> Below 5m/10m needs deep understanding or HM &quot;won&#x27;t work&quot; (10-ft ladder against a 5-story building).</li>
+<li><strong>Larger TF = higher accuracy.</strong> Below 5m/10m needs deep understanding or HM "won't work" (10-ft ladder against a 5-story building).</li>
 <li><strong>Does NOT work in range-bound markets</strong> — and no momentum indicator does. Not a flaw; a scope limit.</li>
 </ul>
-
 <h2>Critical role in the NK method</h2>
-<p>HM is the <strong>confirmation filter</strong> — used alongside <a href="/wiki/concepts/vwap">Vwap</a>, <a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a>, <a href="/wiki/concepts/avwap">Avwap</a>, and <a href="/wiki/concepts/moving-average">COMA</a> for every major entry. Specific callouts:</p>
-<ul>
-<li><strong>MA Convergence buy/sell rules require HM confirmation</strong> (<a href="/wiki/sources/source-ma-convergence">Source Ma Convergence</a>).</li>
-<li><strong>BB Trap + Three-Step pattern supersedes HM</strong> — &quot;BB Trap and 3-step is supreme; ignore Hilega-Milega signals when both form.&quot;</li>
-<li><strong>OH-OL selling:</strong> confirm the sell in HM on 15-min chart (<a href="/wiki/sources/source-oh-ol-chart-reading">Source Oh Ol Chart Reading</a>).</li>
-</ul>
-
+<p>HM is the <strong>confirmation filter</strong> — used alongside <a href="/wiki/concepts/vwap">Vwap</a>, <a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a>, <a href="/wiki/concepts/avwap">Avwap</a>, and <a href="/wiki/concepts/moving-average">COMA</a> for every major entry. Specific callouts:
+- <strong>MA Convergence buy/sell rules require HM confirmation</strong> (<a href="/wiki/sources/source-ma-convergence">Source Ma Convergence</a>).
+- <strong>BB Trap + Three-Step pattern supersedes HM</strong> — "BB Trap and 3-step is supreme; ignore Hilega-Milega signals when both form."
+- <strong>OH-OL selling:</strong> confirm the sell in HM on 15-min chart (<a href="/wiki/sources/source-oh-ol-chart-reading">Source Oh Ol Chart Reading</a>).</p>
 <h2>Triveni Sangam variant</h2>
-<p>HM combined with 50 EMA and VWAP into a &quot;three-rivers confluence&quot; setup for intraday trading. (Briefly mentioned in notes — no detailed rules captured.)</p>
-
+<p>HM combined with 50 EMA and VWAP into a "three-rivers confluence" setup for intraday trading. (Briefly mentioned in notes — no detailed rules captured.)</p>
 <h2>⚠️ Note</h2>
-<p>The exact indicator is not a standard library item — it&#x27;s a custom Zerodha ChartIQ overlay. The interpretation rules above are from course material, not backtested. The Jul 2026 refinements (RSI 86 exit, RSI 55 filter, old-low-break 8/10, RSI 7 conditional) are <strong>not yet validated against real data</strong> — flag per CLAUDE.md.</p>
-
-<p><strong>HM is a crutch.</strong> A truly advanced trader&#x27;s screen has no indicator — not even a line. Anyone trading with &quot;just two lines&quot; is intermediate, not pro. Success = gradually dropping indicators as skill grows. (<a href="/wiki/sources/source-nk-hm-podcast-2026">Source Nk Hm Podcast 2026</a>)</p>
-
+<p>The exact indicator is not a standard library item — it's a custom Zerodha ChartIQ overlay. The interpretation rules above are from course material, not backtested. The Jul 2026 refinements (RSI 86 exit, RSI 55 filter, old-low-break 8/10, RSI 7 conditional) are <strong>not yet validated against real data</strong> — flag per CLAUDE.md.</p>
+<p><strong>HM is a crutch.</strong> A truly advanced trader's screen has no indicator — not even a line. Anyone trading with "just two lines" is intermediate, not pro. Success = gradually dropping indicators as skill grows. (<a href="/wiki/sources/source-nk-hm-podcast-2026">Source Nk Hm Podcast 2026</a>)</p>
 <h2>Source pages</h2>
-<p><a href="/wiki/sources/source-hm-notes">Source Hm Notes</a> (setup, positional, intraday) · <a href="/wiki/sources/source-hm-simple">Source Hm Simple</a> (trading rules, RSI-50 filter) · <a href="/wiki/sources/source-hm-setup">Source Hm Setup</a> (step-by-step ChartIQ setup) · <a href="/wiki/sources/source-class-notes-08-may-2022">Source Class Notes 08 May 2022</a> (HM + Ehlers Fisher confirmation) · <a href="/wiki/sources/source-nk-hm-podcast-2026">Source Nk Hm Podcast 2026</a> (Jul 2026 — RSI rationale, WMA-as-volume-proxy, RSI 86 exit, VMA migration, range-bound caveat, &quot;indicators should disappear&quot;)</p>
-</article>
+<p><a href="/wiki/sources/source-hm-notes">Source Hm Notes</a> (setup, positional, intraday) · <a href="/wiki/sources/source-hm-simple">Source Hm Simple</a> (trading rules, RSI-50 filter) · <a href="/wiki/sources/source-hm-setup">Source Hm Setup</a> (step-by-step ChartIQ setup) · <a href="/wiki/sources/source-class-notes-08-may-2022">Source Class Notes 08 May 2022</a> (HM + Ehlers Fisher confirmation) · <a href="/wiki/sources/source-nk-hm-podcast-2026">Source Nk Hm Podcast 2026</a> (Jul 2026 — RSI rationale, WMA-as-volume-proxy, RSI 86 exit, VMA migration, range-bound caveat, "indicators should disappear")</p></article>
 
   </main>
   <footer>

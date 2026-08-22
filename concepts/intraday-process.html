@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,10 +212,8 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Intraday Process</h1>
 <article class="md"><h1>Intraday Process</h1>
-
 <h2>Definition</h2>
-<p>The intraday process is the wiki&#x27;s top-down decision flow for daily trading: read market direction first, pick aligned stocks, wait for VWAP/20 SMA location, confirm with HM/BB, then manage exits on 10-minute candles.</p>
-
+<p>The intraday process is the wiki's top-down decision flow for daily trading: read market direction first, pick aligned stocks, wait for VWAP/20 SMA location, confirm with HM/BB, then manage exits on 10-minute candles.</p>
 <h2>Pre-Trade Filter</h2>
 <ol>
 <li>Avoid first 2 hours; preferred trading starts after 12:15 PM.</li>
@@ -223,7 +223,6 @@
 <li>Use top gainers in bullish market and top losers in bearish market.</li>
 <li>Check advance/decline.</li>
 </ol>
-
 <h2>Required Chart Setup</h2>
 <ul>
 <li>HM system.</li>
@@ -233,7 +232,6 @@
 <li>30-minute chart for setup observation.</li>
 <li>10-minute chart for ride/exit.</li>
 </ul>
-
 <h2>Long Setup</h2>
 <ul>
 <li>BB blast upside or wide-open BB with price behavior supporting trend.</li>
@@ -244,7 +242,6 @@
 <li>SL: two 10-minute closes below 20 SMA.</li>
 <li>Trail/ride above 9 SMA high.</li>
 </ul>
-
 <h2>Short Setup</h2>
 <ul>
 <li>Mirror setup.</li>
@@ -254,7 +251,6 @@
 <li>SL: two 10-minute closes above 20 SMA.</li>
 <li>Trail/ride below 9 SMA high.</li>
 </ul>
-
 <h2>OH-OL / BB Trap Branch</h2>
 <ul>
 <li>Open=High + top loser supports bearish trade.</li>
@@ -263,7 +259,6 @@
 <li>Gap-up BB Trap: only bearish side after VWAP loss.</li>
 <li>No OH/OL: use 15-minute ORB, then enter near VWAP.</li>
 </ul>
-
 <h2>Backtest Specification</h2>
 <ul>
 <li>Start with cash/futures signal first, then options overlay later.</li>
@@ -271,15 +266,13 @@
 <li>Test after-12:15 filter versus all-day variant.</li>
 <li>Track index alignment, top gainer/loser rank, HM/RSI condition, VWAP/20 SMA proximity.</li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/sources/source-intraday-trading-rules">Source Intraday Trading Rules</a></li>
 <li><a href="/wiki/sources/source-how-to-do-intraday">Source How To Do Intraday</a></li>
 <li><a href="/wiki/concepts/oh-ol">Oh Ol</a></li>
 <li><a href="/wiki/concepts/bb-trap">Bb Trap</a></li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

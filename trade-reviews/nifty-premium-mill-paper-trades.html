@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,10 +212,8 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Nifty Premium Mill — Paper Trade Tracking</h1>
 <article class="md"><h1>Nifty Premium Mill — Paper Trade Tracking</h1>
-
 <h2>Overview</h2>
 <p>Paper trading the <a href="/wiki/strategies/nifty-premium-mill">Nifty Premium Mill</a> strategy using optimized rules from the <a href="/wiki/trade-reviews/nifty-premium-mill-backtest">2-year backtest</a>.</p>
-
 <h2>Optimized Rules (Backtested)</h2>
 <ul>
 <li><strong>Entry:</strong> Tuesday after 1 PM</li>
@@ -225,23 +225,78 @@
 <li><strong>SL:</strong> Exit if Nifty touches short strike</li>
 <li><strong>Expiry:</strong> Let expire if deep OTM</li>
 </ul>
-
 <h2>Trade Log</h2>
-
-<table><thead><tr><th>#</th><th>Entry Date</th><th>Direction</th><th>Sell</th><th>Buy</th><th>Type</th><th>Credit</th><th>VIX</th><th>Spot</th><th>Expiry</th><th>Status</th><th>Exit</th><th>P&amp;L</th><th>Hold</th></tr></thead><tbody>
-<tr><td>1</td><td>2026-07-14</td><td>BULL_PUT</td><td>23850</td><td>23750</td><td>PE</td><td>₹30.0</td><td>13.8</td><td>24052</td><td>2026-07-21</td><td>OPEN</td><td>—</td><td>—</td><td>—</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Entry Date</th>
+<th>Direction</th>
+<th>Sell</th>
+<th>Buy</th>
+<th>Type</th>
+<th>Credit</th>
+<th>VIX</th>
+<th>Spot</th>
+<th>Expiry</th>
+<th>Status</th>
+<th>Exit</th>
+<th>P&amp;L</th>
+<th>Hold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2026-07-14</td>
+<td>BULL_PUT</td>
+<td>23850</td>
+<td>23750</td>
+<td>PE</td>
+<td>₹30.0</td>
+<td>13.8</td>
+<td>24052</td>
+<td>2026-07-21</td>
+<td>OPEN</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2>Weekly P&amp;L Summary</h2>
-
-<table><thead><tr><th>Week</th><th>Trades</th><th>Wins</th><th>Losses</th><th>Net P&amp;L</th><th>Notes</th></tr></thead><tbody>
-<tr><td>Jul 14-18</td><td>0 complete</td><td>—</td><td>—</td><td>—</td><td>Trade #1 entered Jul 14, expires Jul 21</td></tr>
-<tr><td><strong>TOTAL</strong></td><td><strong>0</strong></td><td><strong>0</strong></td><td><strong>0</strong></td><td><strong>₹0</strong></td><td></td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Week</th>
+<th>Trades</th>
+<th>Wins</th>
+<th>Losses</th>
+<th>Net P&amp;L</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jul 14-18</td>
+<td>0 complete</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>Trade #1 entered Jul 14, expires Jul 21</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>₹0</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2>Exit Targets for Trade #1</h2>
-<pre><code>
-Entry: Sell 23850 PE @ ₹110.75 + Buy 23750 PE @ ₹80.75
+<pre><code>Entry: Sell 23850 PE @ ₹110.75 + Buy 23750 PE @ ₹80.75
 Net credit: ₹30.00 (= ₹2,250 per lot)
 
 Profit target (50%): Exit when spread narrows to ₹15.00 → P&amp;L +₹1,125
@@ -249,10 +304,8 @@ SL: Nifty touches 23850 → exit at current spread
 Expiry: Jul 21 — if Nifty &gt; 23850, both expire worthless → full ₹2,250 profit
 Max loss: Nifty &lt; 23750 → ₹5,250 loss (spread width 100 - credit 30 = 70 × 75)
 </code></pre>
-
 <h2>How to Update</h2>
-<pre><code>
-cd /Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage
+<pre><code class="language-bash">cd /Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage
 
 # Daily update (auto-downloads data, checks exits + signals)
 python3 paper_trade_premium_mill.py --scan
@@ -263,21 +316,18 @@ python3 paper_trade_premium_mill.py --report
 # Or just run the combined daily scan
 scan
 </code></pre>
-
 <h2>Files</h2>
 <ul>
 <li><strong>Trades CSV:</strong> <code>papertrades/nifty_premium_mill_trades.csv</code></li>
 <li><strong>Tracker script:</strong> <code>paper_trade_premium_mill.py</code></li>
 <li><strong>Combined scan:</strong> <code>daily_scan.py</code> (shows both Arbitrage + Premium Mill status)</li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/strategies/nifty-premium-mill">Nifty Premium Mill</a> — Strategy rules</li>
 <li><a href="/wiki/trade-reviews/nifty-premium-mill-backtest">Nifty Premium Mill Backtest</a> — Backtest results</li>
 <li><a href="/wiki/trade-reviews/arbitrage-2-0-paper-trades-jul2026">Arbitrage 2 0 Paper Trades Jul2026</a> — Arbitrage paper trades (running in parallel)</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -231,10 +233,8 @@
 <section class="note">
   <h2>Rules</h2>
   <article class="md"><h1>Hedge 17 (H-17)</h1>
-
 <h2>Definition</h2>
-<p><strong>Hedge 17</strong> exploits the <strong>correlation between Nifty and Bank Nifty</strong>. You&#x27;re simultaneously: option buyer AND seller, long AND short, monthly AND weekly, Nifty AND Bank Nifty.</p>
-
+<p><strong>Hedge 17</strong> exploits the <strong>correlation between Nifty and Bank Nifty</strong>. You're simultaneously: option buyer AND seller, long AND short, monthly AND weekly, Nifty AND Bank Nifty.</p>
 <h2>Core Logic</h2>
 <ul>
 <li>Many common stocks between Nifty and Bank Nifty → correlated movement</li>
@@ -242,14 +242,11 @@
 <li>Sometimes Nifty halts but Bank Nifty keeps going up</li>
 <li>Strategy uses merit/demerit of both <strong>monthly and weekly</strong> expiries</li>
 </ul>
-
-<h2>Why &quot;Hedge 17&quot;?</h2>
+<h2>Why "Hedge 17"?</h2>
 <ul>
-<li>Bank Nifty side sold <strong>1700 points OTM</strong> → hence &quot;1700&quot; → &quot;Hedge 17&quot;</li>
+<li>Bank Nifty side sold <strong>1700 points OTM</strong> → hence "1700" → "Hedge 17"</li>
 </ul>
-
 <h2>Execution Steps</h2>
-
 <h3>Step 1: Buy Nifty (Monthly)</h3>
 <ul>
 <li>Buy <strong>1 lot Monthly Expiry Nifty</strong></li>
@@ -257,24 +254,20 @@
 <li>Strike price not critical — buy option in range <strong>₹80–110</strong></li>
 <li>If buying 1st–10th of month: target <strong>₹100–115</strong></li>
 </ul>
-
 <h3>Step 2: Sell Bank Nifty (Weekly)</h3>
 <ul>
 <li>Sell <strong>2 lots</strong> of Bank Nifty <strong>1500–1700 points OTM</strong> (weekly expiry)</li>
 <li>If selling Friday/Monday → current week; else next week</li>
 <li>Price should not exceed <strong>₹70–90</strong> per share</li>
-<li>If can&#x27;t find price range → go to next week expiry</li>
+<li>If can't find price range → go to next week expiry</li>
 </ul>
-
 <h3>Step 3: If Bank Nifty Doubles Intraday</h3>
 <ul>
 <li>If sold premium doubles (₹90 → ₹180) → <strong>exit one lot</strong> of Bank Nifty</li>
 <li>Continue with remaining positions</li>
-<li>In 80-85% of cases, price doesn&#x27;t double intraday</li>
+<li>In 80-85% of cases, price doesn't double intraday</li>
 </ul>
-
 <h2>Scenarios</h2>
-
 <h3>Bank Nifty Goes Up 1700 Points</h3>
 <ul>
 <li>If Bank Nifty +1700, Nifty also +350-400 points minimum</li>
@@ -282,7 +275,6 @@
 <li><strong>Bank Nifty never gives loss until it crosses 1700 points above strike</strong></li>
 <li>On expiry, Bank Nifty ₹90 premium → 0 → profit</li>
 </ul>
-
 <h3>Market Goes Down</h3>
 <ul>
 <li>Nifty may drop ₹90 → ₹60</li>
@@ -290,7 +282,6 @@
 <li>When Nifty premium reduces to ₹30 → exit, take new position ₹100-115 of next monthly expiry</li>
 <li>Keep selling weekly expiry Bank Nifty</li>
 </ul>
-
 <h2>Key Features</h2>
 <ul>
 <li><strong>VIX resistant</strong> — does not get impacted with VIX volatility</li>
@@ -298,31 +289,50 @@
 <li>Call side only</li>
 <li>Sell 2nd lot of Bank Nifty + buy 1 lot Nifty @ ₹80-90</li>
 </ul>
-
 <h2>When Bank Nifty Goes Up 1700 Points (Risk)</h2>
 <ul>
 <li>This is the rare loss scenario</li>
 <li>Need Bank Nifty to move 1700 points above strike to incur loss</li>
 <li>Nifty gains compensate partially</li>
 </ul>
-
 <h2>Quick Reference</h2>
-<table><thead><tr><th>Component</th><th>Action</th></tr></thead><tbody>
-<tr><td>Nifty</td><td>Buy 1 lot monthly (₹80-110)</td></tr>
-<tr><td>Bank Nifty</td><td>Sell 2 lots weekly (₹70-90, 1700 OTM)</td></tr>
-<tr><td>If BN doubles</td><td>Exit 1 lot</td></tr>
-<tr><td>If Nifty → ₹30</td><td>Exit, re-enter next month</td></tr>
-<tr><td>Target return</td><td>15-17% on ₹1.5-1.6 lakh</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nifty</td>
+<td>Buy 1 lot monthly (₹80-110)</td>
+</tr>
+<tr>
+<td>Bank Nifty</td>
+<td>Sell 2 lots weekly (₹70-90, 1700 OTM)</td>
+</tr>
+<tr>
+<td>If BN doubles</td>
+<td>Exit 1 lot</td>
+</tr>
+<tr>
+<td>If Nifty → ₹30</td>
+<td>Exit, re-enter next month</td>
+</tr>
+<tr>
+<td>Target return</td>
+<td>15-17% on ₹1.5-1.6 lakh</td>
+</tr>
+</tbody>
+</table>
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/concepts/hedging">Hedging</a> — Hedging fundamentals</li>
 <li><a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a> — Premium structure</li>
 <li><a href="/wiki/strategies/hedge-23">Hedge 23</a> — Another NK hedge strategy</li>
 <li><a href="/wiki/sources/source-hedge-17">Source Hedge 17</a> — Source document</li>
-</ul>
-</article>
+</ul></article>
 </section>
 
 

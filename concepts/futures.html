@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,44 +212,37 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Futures</h1>
 <article class="md"><h1>Futures</h1>
-
 <h2>Definition</h2>
-<p>A derivative contract that is a <strong>right <em>and obligation</strong></em> to buy or sell an underlying at a predetermined price, settled on a predetermined <strong>expiry</strong>. Unlike an option, there is no &quot;premium decay&quot; — both sides are obligated, and profit/loss accrues daily via MTM.</p>
-
+<p>A derivative contract that is a <strong>right <em>and obligation</em></strong> to buy or sell an underlying at a predetermined price, settled on a predetermined <strong>expiry</strong>. Unlike an option, there is no "premium decay" — both sides are obligated, and profit/loss accrues daily via MTM.</p>
 <h2>Mechanics</h2>
 <ul>
 <li><strong>Expiry:</strong> index &amp; stock futures = <strong>last Thursday</strong> of the month (previous trading day if holiday).</li>
 <li><strong>Lot size:</strong> futures trade only in lots (exchange-fixed); NIFTY 75, BANKNIFTY 25, FINNIFTY 40 (Jan 2021 values, subject to change); stock futures vary widely (full list in <a href="/wiki/sources/source-option-future-basics">Source Option Future Basics</a>).</li>
 <li><strong>Margin:</strong> futures require only a <strong>~20% margin</strong> of notional → ~5× leverage. Same leverage amplifies losses 5×.</li>
 <li><strong>Contract value</strong> ≥ ₹5 lakh at introduction.</li>
-<li><strong>MTM (Mark to Market):</strong> at end of each trading day, <code>(closing − opening) × lot size</code> is credited/debited. Next day&#x27;s opening = prior day&#x27;s close. <strong>Must maintain margin + cover MTM debits or broker squares off.</strong></li>
+<li><strong>MTM (Mark to Market):</strong> at end of each trading day, <code>(closing − opening) × lot size</code> is credited/debited. Next day's opening = prior day's close. <strong>Must maintain margin + cover MTM debits or broker squares off.</strong></li>
 <li><strong>Near/Next/Far:</strong> three expiries available; <strong>near month has the highest liquidity</strong> → trade it.</li>
 </ul>
-
 <h2>Future price vs spot</h2>
 <ul>
 <li>The future normally trades at a <strong>premium</strong> to spot (time value), but can be at a discount.</li>
-<li><strong>Options are priced off the future</strong>, not the spot — this is why they&#x27;re called &quot;F&amp;O&quot; together.</li>
+<li><strong>Options are priced off the future</strong>, not the spot — this is why they're called "F&amp;O" together.</li>
 <li>On expiry day after 12 noon, future converges to spot.</li>
 <li>A spot/future gap of ~200 pts is itself tradeable — see <a href="/wiki/strategies/expiry-gap-hedge">Expiry Gap Hedge</a>.</li>
 </ul>
-
 <h2>How NK uses futures</h2>
 <ul>
 <li>As the directional leg in a <a href="/wiki/strategies/future-hedge">Future Hedge</a>: buy Future + buy ITM Put (or sell Future + buy ITM Call) for limited-loss, unlimited-profit with reduced margin.</li>
 <li>Hedge 17 uses Nifty/BankNifty <a href="/wiki/concepts/correlation">correlation</a> via futures + options.</li>
 <li>The future gives the directional conviction; the option caps the risk.</li>
 </ul>
-
 <h2>Worked hedge math (from <a href="/wiki/sources/source-option-calculation">Source Option Calculation</a>, Bharti Airtel)</h2>
 <ul>
 <li>Buy Future + buy 570 PE (chips 34, hawa 8) + sell 580 CE @7.10 → max risk ≈ ₹1.</li>
 <li>Adjustment if price falls: roll down to 530 PE / 550 CE; sell an extra call for extra profit.</li>
 </ul>
-
 <h2>Source pages</h2>
-<p><a href="/wiki/sources/source-option-future-basics">Source Option Future Basics</a> · <a href="/wiki/sources/source-option-calculation">Source Option Calculation</a></p>
-</article>
+<p><a href="/wiki/sources/source-option-future-basics">Source Option Future Basics</a> · <a href="/wiki/sources/source-option-calculation">Source Option Calculation</a></p></article>
 
   </main>
   <footer>

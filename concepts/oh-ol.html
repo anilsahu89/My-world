@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,15 +212,12 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>OH-OL (Open High / Open Low)</h1>
 <article class="md"><h1>OH-OL (Open High / Open Low)</h1>
-
 <h2>Definition</h2>
-<p><strong>OH-OL</strong> is an intraday option selling strategy based on identifying stocks that make their <strong>day&#x27;s high or low in the very first candle</strong> of the day.</p>
-
+<p><strong>OH-OL</strong> is an intraday option selling strategy based on identifying stocks that make their <strong>day's high or low in the very first candle</strong> of the day.</p>
 <ul>
-<li><strong>OH (Open = High):</strong> First candle high = day&#x27;s high → stock unlikely to go higher → <strong>sell CE</strong> (deep ITM)</li>
-<li><strong>OL (Open = Low):</strong> First candle low = day&#x27;s low → stock unlikely to go lower → <strong>sell PE</strong> (deep ITM)</li>
+<li><strong>OH (Open = High):</strong> First candle high = day's high → stock unlikely to go higher → <strong>sell CE</strong> (deep ITM)</li>
+<li><strong>OL (Open = Low):</strong> First candle low = day's low → stock unlikely to go lower → <strong>sell PE</strong> (deep ITM)</li>
 </ul>
-
 <h2>Core Philosophy</h2>
 <ul>
 <li>Treat <strong>deep ITM options as proxy futures</strong> — they move 1:1 with underlying</li>
@@ -226,7 +225,6 @@
 <li>Premium <strong>decays throughout the day</strong> → seller profits from time decay</li>
 <li>Keep <strong>60% capital reserved</strong> for adjustments if trade goes against you</li>
 </ul>
-
 <h2>Trading Process</h2>
 <ol>
 <li><strong>Identify OH/OL stocks</strong> from first candle (9:15 AM)</li>
@@ -235,32 +233,27 @@
 <li><strong>Sell the option</strong> at or near VWAP level</li>
 <li><strong>Exit</strong> when premium decays sufficiently (typically by 3:15–3:25 PM)</li>
 </ol>
-
 <h2>Key Rules</h2>
 <ul>
 <li>VWAP confirms the direction: above VWAP → sell PE, below VWAP → sell CE</li>
 <li>Previous day resistance acts as resistance for next day only</li>
-<li>Don&#x27;t trade if no clear OH/OL signal in first candle</li>
+<li>Don't trade if no clear OH/OL signal in first candle</li>
 <li>Use 1-hour chart for confirmation if not experienced</li>
 </ul>
-
 <h2>Track Record (Sample)</h2>
-<p>From 13-day report card:</p>
-<ul>
-<li><strong>Total P&amp;L:</strong> +₹95,405</li>
-<li><strong>Win rate:</strong> ~77% (10/13 days profitable)</li>
-<li>Avg winning day: +₹11,047 | Avg losing day: −₹8,332</li>
-</ul>
-
-<p>&gt; ⚠️ Small sample — not statistically validated.</p>
-
+<p>From 13-day report card:
+- <strong>Total P&amp;L:</strong> +₹95,405
+- <strong>Win rate:</strong> ~77% (10/13 days profitable)
+- Avg winning day: +₹11,047 | Avg losing day: −₹8,332</p>
+<blockquote>
+<p>⚠️ Small sample — not statistically validated.</p>
+</blockquote>
 <h2>When Combined with BB + VWAP</h2>
 <ul>
 <li>OH-OL + VWAP direction = strong confirmation for option selling</li>
 <li>BB Trap scenario + OH-OL = extra confidence for PE selling</li>
 <li>If price opens at BB + shows OH → high probability BB Blast fail</li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a> — Chips (intrinsic) vs Hawa (time value)</li>
@@ -269,8 +262,7 @@
 <li><a href="/wiki/sources/source-oh-ol-chart-reading">Source Oh Ol Chart Reading</a> — Source: strategy rules</li>
 <li><a href="/wiki/sources/source-oh-ol-report-card">Source Oh Ol Report Card</a> — Source: track record</li>
 <li><a href="/wiki/sources/source-vwap-oh-ol-bb">Source Vwap Oh Ol Bb</a> — Source: VWAP+OH-OL+BB combined rules</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

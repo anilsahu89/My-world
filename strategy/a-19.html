@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -231,21 +233,33 @@
 <section class="note">
   <h2>Rules</h2>
   <article class="md"><h1>A-19 Double</h1>
-
 <h2>Definition</h2>
 <p>A-19 is a ratio-style option hedge: <strong>buy 1 lot and sell 2 lots</strong>. It is intended for low-to-moderate VIX, rangebound or resistance-area markets where sold premium can decay while the bought leg protects part of the tail move.</p>
-
 <h2>Base Structure</h2>
 <p>Bullish CE-side example:</p>
-
-<table><thead><tr><th>Leg</th><th>Action</th></tr></thead><tbody>
-<tr><td>Nearer/lower CE strike</td><td>Buy 1 lot</td></tr>
-<tr><td>Higher CE strike</td><td>Sell 2 lots</td></tr>
-<tr><td>Optional far OTM weekly CE</td><td>Buy 1 lot for margin/tail protection</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Leg</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nearer/lower CE strike</td>
+<td>Buy 1 lot</td>
+</tr>
+<tr>
+<td>Higher CE strike</td>
+<td>Sell 2 lots</td>
+</tr>
+<tr>
+<td>Optional far OTM weekly CE</td>
+<td>Buy 1 lot for margin/tail protection</td>
+</tr>
+</tbody>
+</table>
 <p>PE side is possible but needs more adjustment skill. For indexes, the source prefers CE side.</p>
-
 <h2>Entry Conditions</h2>
 <ul>
 <li>VIX should be low or stable; avoid VIX above 23.</li>
@@ -255,7 +269,6 @@
 <li>Higher buy premium relative to sell premium is acceptable; defined risk is the debit.</li>
 <li>Know the risk zone and expiry breakeven before entry.</li>
 </ul>
-
 <h2>Strike Selection</h2>
 <ul>
 <li>Buy around a meaningful strike based on the view.</li>
@@ -263,7 +276,6 @@
 <li>Example: buy 16000 CE at 229.95, sell two 16300 CE around 109.55.</li>
 <li>Optional weekly far OTM buy reduces margin and helps with large overnight gaps.</li>
 </ul>
-
 <h2>Profit Logic</h2>
 <ul>
 <li>Downside: loss should be limited to debit if no additional shorts are added.</li>
@@ -271,7 +283,6 @@
 <li>Moderate upside: bought leg gains and sold legs decay/offset.</li>
 <li>Strong upside beyond breakeven: loss can begin; adjustment required.</li>
 </ul>
-
 <h2>Adjustment Rules</h2>
 <ul>
 <li>Periodically book profit from the sell side.</li>
@@ -280,7 +291,6 @@
 <li>If upside band blast occurs, exit ratio and convert to bull call spread.</li>
 <li>Keep margin reserved for adjustment.</li>
 </ul>
-
 <h2>Exit Rules</h2>
 <ul>
 <li>Book stock spread profit around 40-45% of maximum profit.</li>
@@ -289,27 +299,22 @@
 <li>Exit/rebuild if market reaches a new view zone quickly.</li>
 <li>Exit if the structure violates the planned risk zone.</li>
 </ul>
-
 <h2>Backtest Specification</h2>
-<p>Minimum test inputs:</p>
-<ul>
-<li>Underlying: Nifty, Bank Nifty, or liquid stock options.</li>
-<li>Entry date/time relative to monthly expiry.</li>
-<li>VIX filter: exclude VIX &gt; 23.</li>
-<li>Market regime filter: rangebound near resistance, or define by Bollinger/VWAP/20 SMA.</li>
-<li>Strikes: one bought, two sold, optional far OTM weekly buy.</li>
-<li>Entry price: actual option premium at signal time.</li>
-<li>Exit: 40%, 60%, 70% of max profit variants; expiry hold variant.</li>
-<li>Adjustment variants: no adjustment, book sell-side profit, rebuild on breakout.</li>
-</ul>
-
-<h2>Cross-Check vs Rita&#x27;s BB Breakout V2</h2>
+<p>Minimum test inputs:
+- Underlying: Nifty, Bank Nifty, or liquid stock options.
+- Entry date/time relative to monthly expiry.
+- VIX filter: exclude VIX &gt; 23.
+- Market regime filter: rangebound near resistance, or define by Bollinger/VWAP/20 SMA.
+- Strikes: one bought, two sold, optional far OTM weekly buy.
+- Entry price: actual option premium at signal time.
+- Exit: 40%, 60%, 70% of max profit variants; expiry hold variant.
+- Adjustment variants: no adjustment, book sell-side profit, rebuild on breakout.</p>
+<h2>Cross-Check vs Rita's BB Breakout V2</h2>
 <ul>
 <li>A-19 is not a breakout-following strategy; it is mostly range/resistance premium decay.</li>
 <li>If BB breakout v2 confirms a strong band blast, A-19 ratio should be avoided or converted to directional spread.</li>
 <li>A-19 can be backtested separately as an options payoff/regime strategy before mixing with BB scanner signals.</li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/sources/source-a-19-double-a100">Source A 19 Double A100</a></li>
@@ -317,8 +322,7 @@
 <li><a href="/wiki/sources/source-class-10-spreads-a19-future-hedge">Source Class 10 Spreads A19 Future Hedge</a></li>
 <li><a href="/wiki/concepts/vix">Vix</a></li>
 <li><a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a></li>
-</ul>
-</article>
+</ul></article>
 </section>
 
 

@@ -7,6 +7,28 @@
   <script>(function(){var p=location.pathname.replace(/^/+/,"").split("/")[0];if(p){var d=document.createElement("base");d.href="/"+p+"/";document.head.prepend(d)}})()</script>
   <link rel="stylesheet" href="static/style.css">
   
+<style>
+.tab-bar { display: flex; gap: 0.5rem; margin: 0.9rem 0 0.25rem; flex-wrap: wrap; }
+.tab-bar button {
+  background: var(--panel-2);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tab-bar button:hover { color: var(--text); border-color: var(--accent); }
+.tab-bar button.active {
+  background: rgba(79,156,249,0.15);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.card.hidden-by-tab { display: none; }
+</style>
+
   <style>
   .search-wrap {
     position: relative;
@@ -193,6 +215,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -208,7 +232,15 @@
   <main>
     
 <h1>Strategies <span class="muted">(14)</span></h1>
-<p class="hint">Every strategy note in the vault. Runnable ones have a live scanner wired; the rest are rules-only and light up once a scanner exists.</p>
+<p class="hint">Every strategy note in the vault. Runnable ones have a live scanner wired; the rest are rules-only and light up once a scanner exists. Full rules for active strategies: <a href="/active">Active Strategies</a> · live market scan: <a href="/stocks">Live Stocks</a>.</p>
+
+
+
+<div class="tab-bar" id="stratTabs">
+  <button data-filter="runnable" class="active">● Active (5)</button>
+  <button data-filter="all">All (14)</button>
+  <button data-filter="rules-only">Rules only (9)</button>
+</div>
 
 <div class="grid">
   

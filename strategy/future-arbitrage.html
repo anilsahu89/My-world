@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -234,28 +236,18 @@
 <section class="note">
   <h2>Rules</h2>
   <article class="md"><h1>Arbitrage 2.0 (Future Arbitrage V2)</h1>
-
 <h2>Definition</h2>
-<p><strong>Arbitrage 2.0</strong> is Rita&#x27;s filtered F1/F2 backwardation strategy, now codified in <code>backtest_future_arbitaage.py</code>. It trades only one structure:</p>
-
-<pre><code>
-Spot &gt; Current-month future &gt; Next-month future
+<p><strong>Arbitrage 2.0</strong> is Rita's filtered F1/F2 backwardation strategy, now codified in <code>backtest_future_arbitaage.py</code>. It trades only one structure:</p>
+<pre><code class="language-text">Spot &gt; Current-month future &gt; Next-month future
 </code></pre>
-
 <p>Action: <strong>Buy current-month future, sell next-month future.</strong> Profit comes from the current-month future converging toward spot before expiry.</p>
-
 <h2>Do Not Mix</h2>
 <p>This structure is NOT Arbitrage 2.0:</p>
-
-<pre><code>
-Spot &gt; Current-month future &lt; Next-month future
+<pre><code class="language-text">Spot &gt; Current-month future &lt; Next-month future
 </code></pre>
-
 <p>That is a separate calendar-credit setup and must be tracked separately. Arbitrage 2.0 requires both futures below spot AND current future above next future.</p>
-
 <h2>Entry Rules (code-verified)</h2>
 <p>Enter one lot only when ALL pass (<code>passes_entry_rules</code>, backtest_future_arbitaage.py:207):</p>
-
 <ol>
 <li><code>curr.close &lt; spot</code> — current future below spot</li>
 <li><code>nxt.close &lt; curr.close</code> — next future below current future</li>
@@ -267,42 +259,43 @@ Spot &gt; Current-month future &lt; Next-month future
 <li><code>nxt.volume &gt;= 100</code> — next future volume ≥ <strong>100 contracts</strong></li>
 <li><code>min_days_to_expiry &lt;= DTE &lt;= max_days_to_expiry</code> — (default 0–999 = no filter)</li>
 </ol>
-
-<p>Where:</p>
-<ul>
-<li><code>basis = spot − curr.close</code></li>
-<li><code>spread = curr.close − nxt.close</code></li>
-<li><code>spread_value = spread × curr.lot</code></li>
-<li><code>basis_pct = basis / spot × 100</code></li>
-</ul>
-
+<p>Where:
+- <code>basis = spot − curr.close</code>
+- <code>spread = curr.close − nxt.close</code>
+- <code>spread_value = spread × curr.lot</code>
+- <code>basis_pct = basis / spot × 100</code></p>
 <h2>Ranking (when multiple stocks qualify)</h2>
-<p>Candidates are sorted descending by <code>(basis_spread_ratio, basis, −spread)</code>:</p>
-<ol>
-<li><strong>basis_spread_ratio = basis / spread</strong> — highest first (want basis much larger than spread)</li>
-<li>Then by basis (highest first)</li>
-<li>Then by −spread (lowest spread first)</li>
-</ol>
-
+<p>Candidates are sorted descending by <code>(basis_spread_ratio, basis, −spread)</code>:
+1. <strong>basis_spread_ratio = basis / spread</strong> — highest first (want basis much larger than spread)
+2. Then by basis (highest first)
+3. Then by −spread (lowest spread first)</p>
 <h2>Trade Action</h2>
-<table><thead><tr><th>Leg</th><th>Action</th></tr></thead><tbody>
-<tr><td>Current-month future</td><td><strong>Buy</strong></td></tr>
-<tr><td>Next-month future</td><td><strong>Sell</strong></td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Leg</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Current-month future</td>
+<td><strong>Buy</strong></td>
+</tr>
+<tr>
+<td>Next-month future</td>
+<td><strong>Sell</strong></td>
+</tr>
+</tbody>
+</table>
 <h2>Exit Rules</h2>
-<p>Exit when either occurs (backtest_future_arbitaage.py:271):</p>
-<ol>
-<li><code>curr.close &gt;= spot</code> — current future matches or crosses spot</li>
-<li><code>day &gt;= pos.expiry</code> — current-month expiry reached</li>
-<li><code>forced_end_of_backtest</code> — final backtest day force-close</li>
-</ol>
-
+<p>Exit when either occurs (backtest_future_arbitaage.py:271):
+1. <code>curr.close &gt;= spot</code> — current future matches or crosses spot
+2. <code>day &gt;= pos.expiry</code> — current-month expiry reached
+3. <code>forced_end_of_backtest</code> — final backtest day force-close</p>
 <p>No separate price SL — the exit rule IS the stop. This is intentional: the structure itself defines risk.</p>
-
 <h2>Arbitrage 2.1 (Winning-Rate Variant)</h2>
 <p>Stricter filters for higher win rate (fewer trades). From <code>ARBITAGE_2_0_RULES.md</code>:</p>
-
 <ul>
 <li>Spot−current gap ≥ <strong>₹20</strong></li>
 <li>Spot−current gap ≥ <strong>2×</strong> current−next gap</li>
@@ -310,12 +303,9 @@ Spot &gt; Current-month future &lt; Next-month future
 <li>Next-month volume ≥ <strong>500</strong> contracts</li>
 <li>Prefer <strong>7–21 days</strong> before current-month expiry</li>
 </ul>
-
 <p>Skip if current−next gap &gt; 50% of spot−current gap.</p>
-
 <p>To run V2.1 in the backtester:</p>
-<pre><code>
-python backtest_future_arbitaage.py \
+<pre><code class="language-bash">python backtest_future_arbitaage.py \
   --min-basis 20 \
   --min-basis-pct 1.5 \
   --max-spread-to-basis 0.5 \
@@ -323,7 +313,6 @@ python backtest_future_arbitaage.py \
   --min-days-to-expiry 7 \
   --max-days-to-expiry 21
 </code></pre>
-
 <h2>Skip Conditions (negative filters)</h2>
 <ul>
 <li>Current future above spot</li>
@@ -333,89 +322,176 @@ python backtest_future_arbitaage.py \
 <li>Either leg illiquid (&lt; 100 contracts)</li>
 <li>Spread value too small to cover costs</li>
 </ul>
-
 <h2>Averaging Rules (from ARBITAGE_2_0_RULES.md)</h2>
-<p>Do NOT average blindly. Only add if ALL true:</p>
-<ul>
-<li>Current future still below spot</li>
-<li>Spot−current basis still healthy</li>
-<li>Spread has <strong>widened</strong> from entry</li>
-<li>Both legs still liquid</li>
-<li>Total margin exposure acceptable</li>
-</ul>
-
+<p>Do NOT average blindly. Only add if ALL true:
+- Current future still below spot
+- Spot−current basis still healthy
+- Spread has <strong>widened</strong> from entry
+- Both legs still liquid
+- Total margin exposure acceptable</p>
 <p>Avoid averaging when current future is close to spot OR spread has already compressed sharply.</p>
-
 <h2>1-Year Backtest Result (2025-05-15 → 2026-05-15)</h2>
-
-<table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>
-<tr><td><strong>Strategy</strong></td><td>Arbitage 2.0</td></tr>
-<tr><td><strong>Signals/trades</strong></td><td>132</td></tr>
-<tr><td><strong>Win rate</strong></td><td>51.52%</td></tr>
-<tr><td><strong>Net P&amp;L</strong></td><td>₹1,84,251.25</td></tr>
-<tr><td><strong>Return on ₹5L capital</strong></td><td><strong>36.85%</strong></td></tr>
-<tr><td><strong>Profit factor</strong></td><td>2.496</td></tr>
-<tr><td><strong>Max drawdown</strong></td><td>₹27,237.50</td></tr>
-<tr><td><strong>Max drawdown %</strong></td><td>4.68%</td></tr>
-<tr><td><strong>Max open positions</strong></td><td>11</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Strategy</strong></td>
+<td>Arbitage 2.0</td>
+</tr>
+<tr>
+<td><strong>Signals/trades</strong></td>
+<td>132</td>
+</tr>
+<tr>
+<td><strong>Win rate</strong></td>
+<td>51.52%</td>
+</tr>
+<tr>
+<td><strong>Net P&amp;L</strong></td>
+<td>₹1,84,251.25</td>
+</tr>
+<tr>
+<td><strong>Return on ₹5L capital</strong></td>
+<td><strong>36.85%</strong></td>
+</tr>
+<tr>
+<td><strong>Profit factor</strong></td>
+<td>2.496</td>
+</tr>
+<tr>
+<td><strong>Max drawdown</strong></td>
+<td>₹27,237.50</td>
+</tr>
+<tr>
+<td><strong>Max drawdown %</strong></td>
+<td>4.68%</td>
+</tr>
+<tr>
+<td><strong>Max open positions</strong></td>
+<td>11</td>
+</tr>
+</tbody>
+</table>
 <h2>2.3-Year Backtest Result (2024-01-15 → 2026-05-15) — MAX NSE WINDOW</h2>
-
-<table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>
-<tr><td><strong>Strategy</strong></td><td>Arbitage 2.0</td></tr>
-<tr><td><strong>Trading days</strong></td><td>573</td></tr>
-<tr><td><strong>Signals/trades</strong></td><td><strong>276</strong></td></tr>
-<tr><td><strong>Win rate</strong></td><td><strong>52.17%</strong></td></tr>
-<tr><td><strong>Net P&amp;L</strong></td><td><strong>₹4,72,785</strong></td></tr>
-<tr><td><strong>Return on ₹5L capital</strong></td><td><strong>94.56%</strong></td></tr>
-<tr><td><strong>Profit factor</strong></td><td><strong>2.68</strong></td></tr>
-<tr><td><strong>Max drawdown</strong></td><td>₹40,149 (4.94%)</td></tr>
-<tr><td><strong>Avg win / Avg loss</strong></td><td>₹5,237 / −₹2,165 (<strong>2.42×</strong>)</td></tr>
-<tr><td><strong>Avg holding</strong></td><td>8.1 days</td></tr>
-<tr><td><strong>Max open positions</strong></td><td>11</td></tr>
-<tr><td><strong>Final equity</strong></td><td>₹9,72,785</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Strategy</strong></td>
+<td>Arbitage 2.0</td>
+</tr>
+<tr>
+<td><strong>Trading days</strong></td>
+<td>573</td>
+</tr>
+<tr>
+<td><strong>Signals/trades</strong></td>
+<td><strong>276</strong></td>
+</tr>
+<tr>
+<td><strong>Win rate</strong></td>
+<td><strong>52.17%</strong></td>
+</tr>
+<tr>
+<td><strong>Net P&amp;L</strong></td>
+<td><strong>₹4,72,785</strong></td>
+</tr>
+<tr>
+<td><strong>Return on ₹5L capital</strong></td>
+<td><strong>94.56%</strong></td>
+</tr>
+<tr>
+<td><strong>Profit factor</strong></td>
+<td><strong>2.68</strong></td>
+</tr>
+<tr>
+<td><strong>Max drawdown</strong></td>
+<td>₹40,149 (4.94%)</td>
+</tr>
+<tr>
+<td><strong>Avg win / Avg loss</strong></td>
+<td>₹5,237 / −₹2,165 (<strong>2.42×</strong>)</td>
+</tr>
+<tr>
+<td><strong>Avg holding</strong></td>
+<td>8.1 days</td>
+</tr>
+<tr>
+<td><strong>Max open positions</strong></td>
+<td>11</td>
+</tr>
+<tr>
+<td><strong>Final equity</strong></td>
+<td>₹9,72,785</td>
+</tr>
+</tbody>
+</table>
 <h3>Year-by-year (edge persistence check)</h3>
-<table><thead><tr><th>Year</th><th>Trades</th><th>Win Rate</th><th>Net P&amp;L</th></tr></thead><tbody>
-<tr><td>2024</td><td>83</td><td>54.2%</td><td>₹1,50,546</td></tr>
-<tr><td>2025</td><td>116</td><td>44.8%</td><td>₹1,63,708</td></tr>
-<tr><td>2026 (Jan-May)</td><td>77</td><td>61.0%</td><td>₹1,58,531</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Year</th>
+<th>Trades</th>
+<th>Win Rate</th>
+<th>Net P&amp;L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>83</td>
+<td>54.2%</td>
+<td>₹1,50,546</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>116</td>
+<td>44.8%</td>
+<td>₹1,63,708</td>
+</tr>
+<tr>
+<td>2026 (Jan-May)</td>
+<td>77</td>
+<td>61.0%</td>
+<td>₹1,58,531</td>
+</tr>
+</tbody>
+</table>
 <p>P&amp;L is stable across years (₹1.5-1.6L) despite win-rate swings (45-61%) → <strong>edge is payoff-asymmetric, not prediction-based.</strong></p>
-
 <h3>Data limitation</h3>
-<p>&gt; ⚠️ <strong>3-year backtest not possible.</strong> NSE&#x27;s public bhavcopy archive only serves files back to <strong>January 2024</strong>. All 2023 dates return HTTP 404. 2.3 years is the max without a paid historical data vendor.</p>
-
+<blockquote>
+<p>⚠️ <strong>3-year backtest not possible.</strong> NSE's public bhavcopy archive only serves files back to <strong>January 2024</strong>. All 2023 dates return HTTP 404. 2.3 years is the max without a paid historical data vendor.</p>
+</blockquote>
 <p>See <a href="/wiki/trade-reviews/arbitrage-2-0-2yr3-backtest">Arbitrage 2 0 2Yr3 Backtest</a> for full monthly P&amp;L, drawdown anatomy, exit-reason analysis, and next-iteration plan.</p>
-
 <h2>Reproducing the Backtest</h2>
-<pre><code>
-cd /Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage
+<pre><code class="language-bash">cd /Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage
 python backtest_future_arbitaage.py \
   --start 2025-05-15 \
   --end 2026-05-15 \
   --capital 500000 \
   --strategy-name &quot;Arbitage 2.0&quot;
 </code></pre>
-
-<p>Outputs in <code>results/</code>:</p>
-<ul>
-<li><code>trades.csv</code> — every closed trade with entry/exit/basis/spread/pnl</li>
-<li><code>daily_equity.csv</code> — equity curve + open positions per day</li>
-<li><code>signals.csv</code> — every signal that fired (incl. rank, volumes, DTE)</li>
-<li><code>summary.txt</code> — all aggregate stats</li>
-</ul>
-
+<p>Outputs in <code>results/</code>:
+- <code>trades.csv</code> — every closed trade with entry/exit/basis/spread/pnl
+- <code>daily_equity.csv</code> — equity curve + open positions per day
+- <code>signals.csv</code> — every signal that fired (incl. rank, volumes, DTE)
+- <code>summary.txt</code> — all aggregate stats</p>
 <h2>Code Reference</h2>
 <ul>
 <li><strong>Path:</strong> <code>/Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage/backtest_future_arbitaage.py</code></li>
 <li><strong>Rules source:</strong> <code>/Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage/ARBITAGE_2_0_RULES.md</code></li>
-<li><strong>Data:</strong> NSE daily bhavcopy ZIP archives (<code>nsearchives.nseindia.com/.../BhavCopy_NSE_FO_<em>.zip</code> and <code>_CM_</em>.zip</code>)</li>
+<li><strong>Data:</strong> NSE daily bhavcopy ZIP archives (<code>nsearchives.nseindia.com/.../BhavCopy_NSE_FO_*.zip</code> and <code>_CM_*.zip</code>)</li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/concepts/arbitrage">Arbitrage</a> — General futures-spot gap mechanics</li>
@@ -424,8 +500,7 @@ python backtest_future_arbitaage.py \
 <li><span class="broken-link" title="not found">backtesting-queue</span> — Strategy testing order</li>
 <li><a href="/wiki/trade-reviews/arbitrage-2-0-1yr-backtest">Arbitrage 2 0 1Yr Backtest</a> — 1-year detailed review</li>
 <li><a href="/wiki/trade-reviews/arbitrage-2-0-2yr3-backtest">Arbitrage 2 0 2Yr3 Backtest</a> — <strong>2.3-year review (max NSE window, primary reference)</strong></li>
-</ul>
-</article>
+</ul></article>
 </section>
 
 

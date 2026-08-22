@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,16 +212,11 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>ATR (Average True Range)</h1>
 <article class="md"><h1>ATR (Average True Range)</h1>
-
 <h2>Definition</h2>
 <p><strong>ATR</strong> measures the <strong>average price movement range</strong> per candle over a specified period. It quantifies volatility — not direction.</p>
-
 <h2>Formula</h2>
-<p>ATR = average of True Range over N periods, where:</p>
-<ul>
-<li>True Range = max(High−Low, |High−PrevClose|, |Low−PrevClose|)</li>
-</ul>
-
+<p>ATR = average of True Range over N periods, where:
+- True Range = max(High−Low, |High−PrevClose|, |Low−PrevClose|)</p>
 <h2>NK Usage</h2>
 <ul>
 <li>Mentioned in <strong>convergence of moving averages</strong> context</li>
@@ -227,15 +224,33 @@
 <li>Helps determine <strong>stop-loss width</strong> — wider stops needed when ATR is high</li>
 <li>Helps gauge whether a stock is <strong>scalp-friendly</strong> (low ATR) or <strong>volatile</strong> (high ATR)</li>
 </ul>
-
 <h2>Practical Applications</h2>
-<table><thead><tr><th>ATR Level</th><th>Implication</th></tr></thead><tbody>
-<tr><td><strong>High ATR</strong></td><td>Volatile stock — wider S/R, wider stops, bigger moves</td></tr>
-<tr><td><strong>Low ATR</strong></td><td>Calm stock — tighter S/R, scalp-friendly, smaller moves</td></tr>
-<tr><td><strong>ATR expanding</strong></td><td>Breakout/volatility incoming</td></tr>
-<tr><td><strong>ATR contracting</strong></td><td>Consolidation — potential BB squeeze forming</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>ATR Level</th>
+<th>Implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>High ATR</strong></td>
+<td>Volatile stock — wider S/R, wider stops, bigger moves</td>
+</tr>
+<tr>
+<td><strong>Low ATR</strong></td>
+<td>Calm stock — tighter S/R, scalp-friendly, smaller moves</td>
+</tr>
+<tr>
+<td><strong>ATR expanding</strong></td>
+<td>Breakout/volatility incoming</td>
+</tr>
+<tr>
+<td><strong>ATR contracting</strong></td>
+<td>Consolidation — potential BB squeeze forming</td>
+</tr>
+</tbody>
+</table>
 <h2>Relationship to Other Indicators</h2>
 <ul>
 <li><strong>Bollinger Bands:</strong> BB width correlates with ATR (BB = 20 SMA ± 2×std dev)</li>
@@ -243,17 +258,14 @@
 <li><strong>Position sizing:</strong> Use ATR to normalize risk across different stocks</li>
 <li><strong>Stop placement:</strong> SL = entry − (multiple × ATR) for volatility-adjusted stops</li>
 </ul>
-
 <h2>Note</h2>
-<p>ATR is <strong>secondary</strong> in NK&#x27;s system — primarily used as a <strong>risk management aid</strong>, not a primary signal generator. The primary signals come from HM, VWAP, BB, and COMA.</p>
-
+<p>ATR is <strong>secondary</strong> in NK's system — primarily used as a <strong>risk management aid</strong>, not a primary signal generator. The primary signals come from HM, VWAP, BB, and COMA.</p>
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/concepts/support-resistance">Support Resistance</a> — ATR for S/R thickness</li>
 <li><a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a> — BB width ≈ ATR-based volatility</li>
 <li><a href="/wiki/concepts/moving-average">Moving Average</a> — Volatility context for MA trends</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

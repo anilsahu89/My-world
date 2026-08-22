@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,97 +212,214 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Concept: VPA (Volume Price Analysis)</h1>
 <article class="md"><h1>Concept: VPA (Volume Price Analysis)</h1>
-
 <h2>Definition</h2>
-<p><strong>VPA = Volume Price Analysis.</strong> Reading who is in control of a market — buyers or sellers — by studying the relationship between <strong>effort (volume)</strong> and <strong>result (price spread / candle direction)</strong>. Foundation: Anna Coulling&#x27;s <em>A Complete Guide to Volume Price Analysis</em> and the Wyckoff <strong>Law of Effort vs Result</strong>. See <a href="/wiki/sources/source-anna-coulling-vpa">Source Anna Coulling Vpa</a>.</p>
-
+<p><strong>VPA = Volume Price Analysis.</strong> Reading who is in control of a market — buyers or sellers — by studying the relationship between <strong>effort (volume)</strong> and <strong>result (price spread / candle direction)</strong>. Foundation: Anna Coulling's <em>A Complete Guide to Volume Price Analysis</em> and the Wyckoff <strong>Law of Effort vs Result</strong>. See <a href="/wiki/sources/source-anna-coulling-vpa">Source Anna Coulling Vpa</a>.</p>
 <p>VPA is the umbrella framework. The specific single-bar alert lives in <a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a>; the tradeable strategy lives in <a href="/wiki/strategies/vpa">Vpa</a>. This page is the higher-level concept.</p>
-
-<h2>⭐ The Master Rule (Rita&#x27;s version, 2026-07-23)</h2>
-<p>&gt; <strong>Volume is the KING. Do NOT go by candle color blindly. Rising volume is the criterion.</strong></p>
-
-<p>When <strong>volume is rising/added but price is NOT moving up</strong> (price flat, or even slightly red) → <strong>&quot;something is cooking&quot;</strong> → smart money is accumulating → price <strong>will move UP</strong>.</p>
-
+<h2>⭐ The Master Rule (Rita's version, 2026-07-23)</h2>
+<blockquote>
+<p><strong>Volume is the KING. Do NOT go by candle color blindly. Rising volume is the criterion.</strong></p>
+</blockquote>
+<p>When <strong>volume is rising/added but price is NOT moving up</strong> (price flat, or even slightly red) → <strong>"something is cooking"</strong> → smart money is accumulating → price <strong>will move UP</strong>.</p>
 <ul>
 <li><strong>Volume leads. Price follows.</strong> Volume is the truth-teller because it cannot be faked; candle direction can.</li>
 <li>Candle color is <em>secondary confirmation</em> — useful once you see the volume signal, but never the trigger on its own.</li>
 <li>The chart signal Rita identified: rising volume appearing <em>against</em> a flat/down price → accumulation → next candle goes green and confirms the move up.</li>
 </ul>
-
 <h2>Volume Color Definition (locked)</h2>
-<table><thead><tr><th>Label</th><th>Definition</th><th>Code</th></tr></thead><tbody>
-<tr><td><strong>Green volume</strong></td><td>Volume <strong>rising</strong> vs the previous candle (added / surging volume)</td><td><code>vol[t] &gt; vol[t-1]</code></td></tr>
-<tr><td><strong>Red volume</strong></td><td>Volume <strong>falling</strong> vs the previous candle (declining volume)</td><td><code>vol[t] &lt; vol[t-1]</code></td></tr>
-<tr><td><strong>Strong green volume</strong></td><td>Volume <strong>≥ 1.5×</strong> previous candle (smart-money footprint)</td><td><code>vol[t] ≥ 1.5 × vol[t-1]</code></td></tr>
-</tbody></table>
-
-<p>&gt; ⚠️ Volume color is <strong>NOT</strong> tied to whether the candle closed up or down. It is purely <em>relative volume</em> (today vs yesterday). This is the source of most VPA confusion — green volume can appear on a red candle, and that mismatch IS the signal.</p>
-
+<table>
+<thead>
+<tr>
+<th>Label</th>
+<th>Definition</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Green volume</strong></td>
+<td>Volume <strong>rising</strong> vs the previous candle (added / surging volume)</td>
+<td><code>vol[t] &gt; vol[t-1]</code></td>
+</tr>
+<tr>
+<td><strong>Red volume</strong></td>
+<td>Volume <strong>falling</strong> vs the previous candle (declining volume)</td>
+<td><code>vol[t] &lt; vol[t-1]</code></td>
+</tr>
+<tr>
+<td><strong>Strong green volume</strong></td>
+<td>Volume <strong>≥ 1.5×</strong> previous candle (smart-money footprint)</td>
+<td><code>vol[t] ≥ 1.5 × vol[t-1]</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ Volume color is <strong>NOT</strong> tied to whether the candle closed up or down. It is purely <em>relative volume</em> (today vs yesterday). This is the source of most VPA confusion — green volume can appear on a red candle, and that mismatch IS the signal.</p>
+</blockquote>
 <h2>The 3-Candle Confirmation Pattern (the actionable rule)</h2>
 <p>The single-bar table in <a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> is the <em>raw alert</em>. For a tradeable entry, use the 3-candle confirmation:</p>
-
 <h3>Long (bullish) confirmation</h3>
-<table><thead><tr><th>Day</th><th>Candle</th><th>Volume</th><th>Read</th></tr></thead><tbody>
-<tr><td><strong>Day 1</strong></td><td>Red (down)</td><td>Red (falling)</td><td>Sellers exhausting — down move has no fuel</td></tr>
-<tr><td><strong>Day 2</strong></td><td><strong>Green (up, close &gt; open)</strong></td><td><strong>Green (rising, ≥1.5× Day 1)</strong></td><td><strong>CONFIRMATION</strong> — volume added, price follows → enter long</td></tr>
-</tbody></table>
-
-<p><strong>Logic:</strong> Day 1&#x27;s red candle on <em>falling</em> volume = weak selling. Day 2&#x27;s <em>rising</em> volume with a green close proves buyers have taken control. The added volume on Day 2 is the proof that &quot;something was cooking.&quot;</p>
-
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Candle</th>
+<th>Volume</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Day 1</strong></td>
+<td>Red (down)</td>
+<td>Red (falling)</td>
+<td>Sellers exhausting — down move has no fuel</td>
+</tr>
+<tr>
+<td><strong>Day 2</strong></td>
+<td><strong>Green (up, close &gt; open)</strong></td>
+<td><strong>Green (rising, ≥1.5× Day 1)</strong></td>
+<td><strong>CONFIRMATION</strong> — volume added, price follows → enter long</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Logic:</strong> Day 1's red candle on <em>falling</em> volume = weak selling. Day 2's <em>rising</em> volume with a green close proves buyers have taken control. The added volume on Day 2 is the proof that "something was cooking."</p>
 <h3>Short (bearish) confirmation — mirror</h3>
-<table><thead><tr><th>Day</th><th>Candle</th><th>Volume</th><th>Read</th></tr></thead><tbody>
-<tr><td><strong>Day 1</strong></td><td>Green (up)</td><td>Red (falling)</td><td>Buyers exhausting — up move has no fuel</td></tr>
-<tr><td><strong>Day 2</strong></td><td><strong>Red (down, close &lt; open)</strong></td><td><strong>Green (rising, ≥1.5× Day 1)</strong></td><td><strong>CONFIRMATION</strong> — distribution confirmed → enter short</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Candle</th>
+<th>Volume</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Day 1</strong></td>
+<td>Green (up)</td>
+<td>Red (falling)</td>
+<td>Buyers exhausting — up move has no fuel</td>
+</tr>
+<tr>
+<td><strong>Day 2</strong></td>
+<td><strong>Red (down, close &lt; open)</strong></td>
+<td><strong>Green (rising, ≥1.5× Day 1)</strong></td>
+<td><strong>CONFIRMATION</strong> — distribution confirmed → enter short</td>
+</tr>
+</tbody>
+</table>
 <h2>Effort vs Result (Wyckoff / Coulling framework)</h2>
 <p>The theoretical backbone of all VPA signals:</p>
-
-<table><thead><tr><th>Effort (Volume)</th><th>Result (Price Spread)</th><th>Interpretation</th></tr></thead><tbody>
-<tr><td>High</td><td>Large</td><td>✅ Genuine move — trend likely to continue</td></tr>
-<tr><td>High</td><td><strong>Small</strong></td><td>⚠️ <strong>Volume mismatch</strong> — high effort, weak result → reversal likely</td></tr>
-<tr><td>Low</td><td>Large</td><td>Suspicious — may not sustain</td></tr>
-<tr><td>Low</td><td>Small</td><td>Normal — no signal</td></tr>
-</tbody></table>
-
-<p>&gt; &quot;High effort + small result&quot; is the classical reversal tell: big volume pushed, but price barely moved. Smart money was on the other side of the trade.</p>
-
+<table>
+<thead>
+<tr>
+<th>Effort (Volume)</th>
+<th>Result (Price Spread)</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>High</td>
+<td>Large</td>
+<td>✅ Genuine move — trend likely to continue</td>
+</tr>
+<tr>
+<td>High</td>
+<td><strong>Small</strong></td>
+<td>⚠️ <strong>Volume mismatch</strong> — high effort, weak result → reversal likely</td>
+</tr>
+<tr>
+<td>Low</td>
+<td>Large</td>
+<td>Suspicious — may not sustain</td>
+</tr>
+<tr>
+<td>Low</td>
+<td>Small</td>
+<td>Normal — no signal</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>"High effort + small result" is the classical reversal tell: big volume pushed, but price barely moved. Smart money was on the other side of the trade.</p>
+</blockquote>
 <h2>Single-Bar Raw Signal (quick reference)</h2>
 <p>For completeness — the raw single-bar alert from <a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a>. Use as a <em>watch</em> signal; confirm with the 3-candle pattern above before entering.</p>
-
-<table><thead><tr><th>Candle</th><th>Volume</th><th>Read</th></tr></thead><tbody>
-<tr><td>Green (price up)</td><td>Red / declining</td><td>Weak buying — potential reversal down</td></tr>
-<tr><td>Red (price down)</td><td>Green / surging</td><td>Weak selling — potential reversal up</td></tr>
-<tr><td>Green (price up)</td><td>Green / surging</td><td>Strong buying — trend continues</td></tr>
-<tr><td>Red (price down)</td><td>Red / declining</td><td>Strong selling — trend continues</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Candle</th>
+<th>Volume</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Green (price up)</td>
+<td>Red / declining</td>
+<td>Weak buying — potential reversal down</td>
+</tr>
+<tr>
+<td>Red (price down)</td>
+<td>Green / surging</td>
+<td>Weak selling — potential reversal up</td>
+</tr>
+<tr>
+<td>Green (price up)</td>
+<td>Green / surging</td>
+<td>Strong buying — trend continues</td>
+</tr>
+<tr>
+<td>Red (price down)</td>
+<td>Red / declining</td>
+<td>Strong selling — trend continues</td>
+</tr>
+</tbody>
+</table>
 <h2>How VPA is Used</h2>
 <p>VPA is <strong>dual-purpose</strong> — it works standalone AND as a confirmation filter inside other strategies:</p>
-
-<table><thead><tr><th>Use Case</th><th>How</th></tr></thead><tbody>
-<tr><td><strong>Standalone signal</strong></td><td>Trade the 3-candle confirmation pattern directly — see <a href="/wiki/strategies/vpa">Vpa</a></td></tr>
-<tr><td><strong>BB Trap filter</strong></td><td>The BB Trap volume rule (<code>vol_alert ≥ 1.5× vol_primary</code>) <em>is</em> VPA — see <a href="/wiki/strategies/bb-trap-positional">Bb Trap Positional</a>, <a href="/wiki/concepts/bb-trap">Bb Trap</a></td></tr>
-<tr><td><strong>Moh Maya confirmation</strong></td><td>Lower-band reversal confirmed by rising volume — see <a href="/wiki/concepts/moh-maya">Moh Maya</a></td></tr>
-<tr><td><strong>GFS filter (pending)</strong></td><td>GFS upper-band walk entry requires <em>no bearish VPA mismatch</em> on the breakout candle</td></tr>
-<tr><td><strong>Breakout validity</strong></td><td>Any breakout candle must show <em>rising</em> volume — flat/falling volume on a breakout = suspect</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Use Case</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Standalone signal</strong></td>
+<td>Trade the 3-candle confirmation pattern directly — see <a href="/wiki/strategies/vpa">Vpa</a></td>
+</tr>
+<tr>
+<td><strong>BB Trap filter</strong></td>
+<td>The BB Trap volume rule (<code>vol_alert ≥ 1.5× vol_primary</code>) <em>is</em> VPA — see <a href="/wiki/strategies/bb-trap-positional">Bb Trap Positional</a>, <a href="/wiki/concepts/bb-trap">Bb Trap</a></td>
+</tr>
+<tr>
+<td><strong>Moh Maya confirmation</strong></td>
+<td>Lower-band reversal confirmed by rising volume — see <a href="/wiki/concepts/moh-maya">Moh Maya</a></td>
+</tr>
+<tr>
+<td><strong>GFS filter (pending)</strong></td>
+<td>GFS upper-band walk entry requires <em>no bearish VPA mismatch</em> on the breakout candle</td>
+</tr>
+<tr>
+<td><strong>Breakout validity</strong></td>
+<td>Any breakout candle must show <em>rising</em> volume — flat/falling volume on a breakout = suspect</td>
+</tr>
+</tbody>
+</table>
 <h2>Smart Money Footprint</h2>
 <ul>
 <li><strong>High volume = institutions / smart money are active.</strong> Retail alone cannot generate surging volume.</li>
-<li>If high volume <em>can&#x27;t</em> push price through a level → they are <strong>selling into strength</strong> (at upper band / resistance) or <strong>buying into weakness</strong> (at lower band / support).</li>
-<li>Volume reveals intent that price hides. This is the core of Anna Coulling&#x27;s framework — see <a href="/wiki/sources/source-anna-coulling-vpa">Source Anna Coulling Vpa</a>.</li>
+<li>If high volume <em>can't</em> push price through a level → they are <strong>selling into strength</strong> (at upper band / resistance) or <strong>buying into weakness</strong> (at lower band / support).</li>
+<li>Volume reveals intent that price hides. This is the core of Anna Coulling's framework — see <a href="/wiki/sources/source-anna-coulling-vpa">Source Anna Coulling Vpa</a>.</li>
 </ul>
-
 <h2>Works on Any Timeframe</h2>
-<p>Rita&#x27;s requirement: VPA applies on <strong>any TF</strong> — 1m, 5m, 15m, hourly, daily, weekly, monthly. The 3-candle pattern and effort-vs-result logic are timeframe-agnostic.</p>
-<ul>
-<li><strong>Swing trades:</strong> daily candles (default)</li>
-<li><strong>Intraday:</strong> 15-min candles</li>
-<li><strong>Investment bias:</strong> weekly / monthly</li>
-</ul>
-
+<p>Rita's requirement: VPA applies on <strong>any TF</strong> — 1m, 5m, 15m, hourly, daily, weekly, monthly. The 3-candle pattern and effort-vs-result logic are timeframe-agnostic.
+- <strong>Swing trades:</strong> daily candles (default)
+- <strong>Intraday:</strong> 15-min candles
+- <strong>Investment bias:</strong> weekly / monthly</p>
 <h2>Backtest Candidates</h2>
 <ol>
 <li><strong>3-candle confirmation hit rate</strong> — % of Day1 red+red → Day2 green+green (≥1.5× vol) setups that move up over next N days.</li>
@@ -309,17 +428,16 @@
 <li><strong>Timeframe consistency</strong> — does the pattern work equally on daily vs 15-min?</li>
 <li><strong>VPA as BB Trap filter</strong> — does requiring no bearish mismatch on breakout candles reduce false traps? (Already partly tested in BB Trap v2.)</li>
 </ol>
-
-<p>&gt; Status: <strong>rule defined, NOT yet backtested.</strong> A dedicated VPA backtester is a separate pending task.</p>
-
+<blockquote>
+<p>Status: <strong>rule defined, NOT yet backtested.</strong> A dedicated VPA backtester is a separate pending task.</p>
+</blockquote>
 <h2>Limitations</h2>
 <ul>
-<li>No numeric volume threshold is &quot;officially&quot; correct — 1.5× is a reasonable starting point borrowed from the BB Trap convention; needs empirical tuning.</li>
+<li>No numeric volume threshold is "officially" correct — 1.5× is a reasonable starting point borrowed from the BB Trap convention; needs empirical tuning.</li>
 <li>VPA on very low-volume stocks is unreliable — smart-money footprint is hard to read when overall liquidity is thin.</li>
 <li>Real-time volume (intraday) can be noisy near the open/close; the 3-candle pattern is cleaner on completed candles.</li>
-<li>&quot;Rising volume&quot; alone is not enough — it must be paired with the price-spread read (effort vs result) to avoid false signals.</li>
+<li>"Rising volume" alone is not enough — it must be paired with the price-spread read (effort vs result) to avoid false signals.</li>
 </ul>
-
 <h2>Used in Strategies</h2>
 <ul>
 <li><a href="/wiki/strategies/vpa">Vpa</a> — standalone tradeable VPA strategy (entry/exit rules)</li>
@@ -327,11 +445,10 @@
 <li><a href="/wiki/strategies/bb-breakout-v2">Bb Breakout V2</a> — should add VPA mismatch filter (pending)</li>
 <li>GFS strategy (pending) — VPA as breakout validity filter</li>
 </ul>
-
 <h2>Related Concepts</h2>
 <ul>
 <li><a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> — the single-bar raw alert (lower-level)</li>
-<li><a href="/wiki/concepts/nk-volume-reading">Nk Volume Reading</a> — NK&#x27;s own 50/50 volume thesis + two-close breakout law (complementary framing, Jul 2026)</li>
+<li><a href="/wiki/concepts/nk-volume-reading">Nk Volume Reading</a> — NK's own 50/50 volume thesis + two-close breakout law (complementary framing, Jul 2026)</li>
 <li><a href="/wiki/concepts/bb-trap">Bb Trap</a> — VPA confirms BB Trap validity</li>
 <li><a href="/wiki/concepts/moh-maya">Moh Maya</a> — bullish volume-confirmed reversal</li>
 <li><a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a> — BB context for VPA setups</li>
@@ -339,15 +456,13 @@
 <li><a href="/wiki/concepts/hilega-milega">Hilega Milega</a> — HM momentum confirmation</li>
 <li><a href="/wiki/concepts/support-resistance">Support Resistance</a> — S/R levels where VPA signals are strongest</li>
 </ul>
-
 <h2>Sources</h2>
 <ul>
 <li><a href="/wiki/sources/source-anna-coulling-vpa">Source Anna Coulling Vpa</a> — theoretical foundation (effort vs result)</li>
-<li><a href="/wiki/sources/source-volume-mismatch-intro">Source Volume Mismatch Intro</a> — NK&#x27;s intro to volume mismatch</li>
-<li><a href="/wiki/sources/source-volume-mismatch-vpa-bb-trap">Source Volume Mismatch Vpa Bb Trap</a> — NK&#x27;s VPA + BB Trap combination video</li>
-<li><a href="/wiki/sources/source-nk-hm-podcast-2026">Source Nk Hm Podcast 2026</a> — NK&#x27;s deeper volume reading (Jul 2026); big money &quot;cannot hide in volume&quot;</li>
-</ul>
-</article>
+<li><a href="/wiki/sources/source-volume-mismatch-intro">Source Volume Mismatch Intro</a> — NK's intro to volume mismatch</li>
+<li><a href="/wiki/sources/source-volume-mismatch-vpa-bb-trap">Source Volume Mismatch Vpa Bb Trap</a> — NK's VPA + BB Trap combination video</li>
+<li><a href="/wiki/sources/source-nk-hm-podcast-2026">Source Nk Hm Podcast 2026</a> — NK's deeper volume reading (Jul 2026); big money "cannot hide in volume"</li>
+</ul></article>
 
   </main>
   <footer>

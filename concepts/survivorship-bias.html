@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,64 +212,77 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Concept: Survivorship Bias (the Wald Lesson)</h1>
 <article class="md"><h1>Concept: Survivorship Bias (the Wald Lesson)</h1>
-
 <h2>Definition</h2>
-<p><strong>Survivorship bias</strong> is the logical error of drawing conclusions from only the things that <em>survived</em> a process, while ignoring those that did not (because they&#x27;re invisible). The classic example is the <strong>Abraham Wald WWII aircraft-armor story</strong>.</p>
-
+<p><strong>Survivorship bias</strong> is the logical error of drawing conclusions from only the things that <em>survived</em> a process, while ignoring those that did not (because they're invisible). The classic example is the <strong>Abraham Wald WWII aircraft-armor story</strong>.</p>
 <h3>The Wald Story</h3>
-<p>During WWII, the Allies examined returning bomber aircraft and plotted bullet-hole locations, planning to add armor where holes were densest. Statistician <strong>Abraham Wald</strong> pointed out the flaw: <strong>the armor should go where there are NO holes.</strong> The planes with holes in those places didn&#x27;t make it back — they crashed. The returning planes were the <em>survivors</em>; the data was missing exactly the failures that mattered most.</p>
-
+<p>During WWII, the Allies examined returning bomber aircraft and plotted bullet-hole locations, planning to add armor where holes were densest. Statistician <strong>Abraham Wald</strong> pointed out the flaw: <strong>the armor should go where there are NO holes.</strong> The planes with holes in those places didn't make it back — they crashed. The returning planes were the <em>survivors</em>; the data was missing exactly the failures that mattered most.</p>
 <h2>The Trading Application</h2>
-<p>From <a href="/wiki/sources/source-ravindra-elicherla-options-freedom">Ravindra Elicherla (EP-73)</a>: <em>&quot;Study the trades that failed and the accounts that blew up, not just the winners. That&#x27;s the Wald lesson.&quot;</em></p>
-
+<p>From <a href="/wiki/sources/source-ravindra-elicherla-options-freedom">Ravindra Elicherla (EP-73)</a>: <em>"Study the trades that failed and the accounts that blew up, not just the winners. That's the Wald lesson."</em></p>
 <p>In markets, survivorship bias appears everywhere:</p>
-
-<table><thead><tr><th>Survivor data (visible)</th><th>The missing failures (invisible)</th></tr></thead><tbody>
-<tr><td>&quot;Top 10 options strategies&quot; lists</td><td>Strategies that blew up accounts and were abandoned</td></tr>
-<tr><td>Successful trader interviews</td><td>The 95% who quit after losing their capital</td></tr>
-<tr><td>Stocks currently in Nifty 50</td><td>Stocks that were delisted/expelled (their returns drop out of indices)</td></tr>
-<tr><td>&quot;I made 50% on this trade&quot; posts</td><td>The same trader&#x27;s losing trades they didn&#x27;t post</td></tr>
-<tr><td>Backtests on today&#x27;s NSE 500</td><td>Companies that went bankrupt/delisted during the backtest period</td></tr>
-</tbody></table>
-
-<h2>Why It&#x27;s Dangerous for Rita&#x27;s System</h2>
+<table>
+<thead>
+<tr>
+<th>Survivor data (visible)</th>
+<th>The missing failures (invisible)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Top 10 options strategies" lists</td>
+<td>Strategies that blew up accounts and were abandoned</td>
+</tr>
+<tr>
+<td>Successful trader interviews</td>
+<td>The 95% who quit after losing their capital</td>
+</tr>
+<tr>
+<td>Stocks currently in Nifty 50</td>
+<td>Stocks that were delisted/expelled (their returns drop out of indices)</td>
+</tr>
+<tr>
+<td>"I made 50% on this trade" posts</td>
+<td>The same trader's losing trades they didn't post</td>
+</tr>
+<tr>
+<td>Backtests on today's NSE 500</td>
+<td>Companies that went bankrupt/delisted during the backtest period</td>
+</tr>
+</tbody>
+</table>
+<h2>Why It's Dangerous for Rita's System</h2>
 <ol>
-<li><strong>Backtest bias:</strong> If a backtest uses <em>today&#x27;s</em> stock list (e.g., current Nifty 500), it omits companies that failed during the period — making returns look better than reality. Rita&#x27;s <code>data/nse200_symbols.csv</code> and <code>data/nse500_symbols.csv</code> are <strong>current</strong> lists → potential survivorship bias in every backtest run on them.</li>
+<li><strong>Backtest bias:</strong> If a backtest uses <em>today's</em> stock list (e.g., current Nifty 500), it omits companies that failed during the period — making returns look better than reality. Rita's <code>data/nse200_symbols.csv</code> and <code>data/nse500_symbols.csv</code> are <strong>current</strong> lists → potential survivorship bias in every backtest run on them.</li>
 <li><strong>Strategy-selection bias:</strong> Reading only about strategies that worked for successful traders hides the ones that looked identical but ruined accounts.</li>
-<li><strong>Confirmation bias amplifier:</strong> We remember winning trades and forget losers → overconfidence in a strategy&#x27;s edge.</li>
+<li><strong>Confirmation bias amplifier:</strong> We remember winning trades and forget losers → overconfidence in a strategy's edge.</li>
 </ol>
-
 <h2>How to Counter It</h2>
 <ul>
-<li><strong>Ask &quot;what&#x27;s missing from this sample?&quot;</strong> before trusting any return figure.</li>
+<li><strong>Ask "what's missing from this sample?"</strong> before trusting any return figure.</li>
 <li><strong>Track every trade</strong>, wins and losses, in the paper-trade trackers — Rita already does this (CSVs in <code>papertrades/</code>). Keep the losers visible.</li>
-<li><strong>Use point-in-time universes</strong> for backtests where possible (the stock list as it <em>was</em> on each date, not today&#x27;s). Flag this as a backtest-accuracy improvement.</li>
+<li><strong>Use point-in-time universes</strong> for backtests where possible (the stock list as it <em>was</em> on each date, not today's). Flag this as a backtest-accuracy improvement.</li>
 <li><strong>Study blow-ups explicitly.</strong> Read about strategies/accounts that failed, not just successes.</li>
 <li>In the <a href="/wiki/strategies/future-arbitrage">Arbitrage 2.0</a> <a href="/wiki/trade-reviews/drreddy-postmortem">DRREDDY post-mortem</a> approach: do a write-up on every loss, not just wins.</li>
 </ul>
-
-<h2>Specific Risks in Rita&#x27;s Current Data</h2>
+<h2>Specific Risks in Rita's Current Data</h2>
 <ul>
 <li><code>data/ohlcv_daily.csv</code> covers 2024-01 to 2026-07 for <em>currently listed</em> stocks. <strong>Stocks delisted during this window are absent</strong> → any backtest (BB Trap, Open=Low, base-after-decline) over-estimates returns slightly.</li>
-<li>The NSE 500 / Smallcap 250 lists fetched today won&#x27;t include names expelled since 2024.</li>
-<li>This is a <strong>known, accepted limitation</strong> — flagged here so it isn&#x27;t forgotten. Magnitude is usually small over 2.5 years but non-zero.</li>
+<li>The NSE 500 / Smallcap 250 lists fetched today won't include names expelled since 2024.</li>
+<li>This is a <strong>known, accepted limitation</strong> — flagged here so it isn't forgotten. Magnitude is usually small over 2.5 years but non-zero.</li>
 </ul>
-
 <h2>Mental Model Summary</h2>
-<p>&gt; <strong>When you only count the survivors, you learn the wrong lesson.</strong> Armor the places with no bullet holes.</p>
-
+<blockquote>
+<p><strong>When you only count the survivors, you learn the wrong lesson.</strong> Armor the places with no bullet holes.</p>
+</blockquote>
 <h2>Related Concepts</h2>
 <ul>
 <li><a href="/wiki/concepts/psychology">Psychology</a> — discipline, overconfidence, loss aversion</li>
 <li><a href="/wiki/concepts/regime-mapping">Regime Mapping</a> — survivorship bias distorts regime read if you ignore failed regimes</li>
-<li><a href="/wiki/concepts/hedging">Hedging</a> — hedging exists precisely because the &quot;invisible&quot; tail outcomes matter most</li>
+<li><a href="/wiki/concepts/hedging">Hedging</a> — hedging exists precisely because the "invisible" tail outcomes matter most</li>
 </ul>
-
 <h2>Sources</h2>
 <ul>
 <li><a href="/wiki/sources/source-ravindra-elicherla-options-freedom">Source Ravindra Elicherla Options Freedom</a> — explicit Wald reference and trading application</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

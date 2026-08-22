@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -231,77 +233,95 @@
 <section class="note">
   <h2>Rules</h2>
   <article class="md"><h1>Stock Premium Mill — Monthly Hedged Covered Calls &amp; Puts</h1>
-
 <h2>Core Philosophy</h2>
-<p>&gt; <strong>Same mill concept, different grindstone.</strong> Stocks don&#x27;t have weekly expiry, so we collect premium MONTHLY using covered calls on shares you own, or cash-secured puts on stocks you want to own. Slower than Nifty, but you build an equity portfolio while collecting premium.</p>
-
+<blockquote>
+<p><strong>Same mill concept, different grindstone.</strong> Stocks don't have weekly expiry, so we collect premium MONTHLY using covered calls on shares you own, or cash-secured puts on stocks you want to own. Slower than Nifty, but you build an equity portfolio while collecting premium.</p>
+</blockquote>
 <h2>What This Strategy Is</h2>
 <p>A <strong>monthly stock option selling system</strong> that generates premium income from stocks you already hold (or want to hold). Two modes:</p>
-
 <ol>
-<li><strong>Covered Call mode:</strong> You own 1000 shares of SBIN → sell monthly OTM call against them → collect premium. If called away, you sell at a profit. If not, you keep shares + premium.</li>
+<li>
+<p><strong>Covered Call mode:</strong> You own 1000 shares of SBIN → sell monthly OTM call against them → collect premium. If called away, you sell at a profit. If not, you keep shares + premium.</p>
+</li>
+<li>
+<p><strong>Cash-Secured Put mode:</strong> You want to buy Tata Motors at ₹900 (currently ₹950) → sell ₹900 put → collect ₹15 premium. If assigned, you buy at ₹885 (₹900 - ₹15). If not, keep premium.</p>
+</li>
 </ol>
-
-<ol>
-<li><strong>Cash-Secured Put mode:</strong> You want to buy Tata Motors at ₹900 (currently ₹950) → sell ₹900 put → collect ₹15 premium. If assigned, you buy at ₹885 (₹900 - ₹15). If not, keep premium.</li>
-</ol>
-
-<p><strong>This is NOT:</strong></p>
-<ul>
-<li>❌ Naked option selling on random stocks</li>
-<li>❌ Day trading options</li>
-<li>❌ Buying options (you&#x27;re the casino, not the gambler)</li>
-</ul>
-
-<p><strong>This IS:</strong></p>
-<ul>
-<li>✅ Selling time value on stocks you understand</li>
-<li>✅ Monthly income from portfolio holdings</li>
-<li>✅ Getting paid to wait for entry prices (put selling)</li>
-<li>✅ Getting paid to exit at profit targets (call selling)</li>
-</ul>
-
-<hr>
-
+<p><strong>This is NOT:</strong>
+- ❌ Naked option selling on random stocks
+- ❌ Day trading options
+- ❌ Buying options (you're the casino, not the gambler)</p>
+<p><strong>This IS:</strong>
+- ✅ Selling time value on stocks you understand
+- ✅ Monthly income from portfolio holdings
+- ✅ Getting paid to wait for entry prices (put selling)
+- ✅ Getting paid to exit at profit targets (call selling)</p>
+<hr />
 <h2>Why Stocks Are Different From Nifty</h2>
-
-<table><thead><tr><th>Feature</th><th>Nifty (weekly)</th><th>Stocks (monthly)</th></tr></thead><tbody>
-<tr><td>Expiry</td><td>Weekly (Thursday)</td><td><strong>Monthly only</strong></td></tr>
-<tr><td>Cycles/month</td><td>4-5</td><td><strong>1</strong></td></tr>
-<tr><td>Gap risk</td><td>Low (diversified)</td><td><strong>High</strong> (earnings, news, sector shock)</td></tr>
-<tr><td>Liquidity</td><td>Deep</td><td><strong>Varies — must filter</strong></td></tr>
-<tr><td>Premium decay</td><td>Fast (weekly theta)</td><td><strong>Slow</strong> (monthly theta)</td></tr>
-<tr><td>Position sizing</td><td>Fixed (50 qty)</td><td><strong>Lot size varies</strong> (SBIN 1500, TCS 175, etc.)</td></tr>
-<tr><td>Best for</td><td>Pure theta income</td><td><strong>Income + portfolio building</strong></td></tr>
-</tbody></table>
-
-<p><strong>Key constraint:</strong> Stock options are monthly only. You can&#x27;t do the &quot;Wednesday → Thursday&quot; theta game. The premium mill for stocks is <strong>one cycle per month</strong>, so each trade must be <strong>higher quality</strong>.</p>
-
-<hr>
-
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Nifty (weekly)</th>
+<th>Stocks (monthly)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expiry</td>
+<td>Weekly (Thursday)</td>
+<td><strong>Monthly only</strong></td>
+</tr>
+<tr>
+<td>Cycles/month</td>
+<td>4-5</td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td>Gap risk</td>
+<td>Low (diversified)</td>
+<td><strong>High</strong> (earnings, news, sector shock)</td>
+</tr>
+<tr>
+<td>Liquidity</td>
+<td>Deep</td>
+<td><strong>Varies — must filter</strong></td>
+</tr>
+<tr>
+<td>Premium decay</td>
+<td>Fast (weekly theta)</td>
+<td><strong>Slow</strong> (monthly theta)</td>
+</tr>
+<tr>
+<td>Position sizing</td>
+<td>Fixed (50 qty)</td>
+<td><strong>Lot size varies</strong> (SBIN 1500, TCS 175, etc.)</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Pure theta income</td>
+<td><strong>Income + portfolio building</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key constraint:</strong> Stock options are monthly only. You can't do the "Wednesday → Thursday" theta game. The premium mill for stocks is <strong>one cycle per month</strong>, so each trade must be <strong>higher quality</strong>.</p>
+<hr />
 <h2>Strategy Design — Two Modes</h2>
-
 <h3>MODE 1: Covered Call (You Own the Shares)</h3>
-
 <p><strong>When to use:</strong> You hold shares of a good stock (fundamental pick) and want monthly income while waiting for appreciation.</p>
-
 <h4>Setup</h4>
-<pre><code>
-You own:  1000 shares of SBIN (lot size 1500 for F&amp;O, or any quantity for delivery selling)
+<pre><code>You own:  1000 shares of SBIN (lot size 1500 for F&amp;O, or any quantity for delivery selling)
 Sell:     1 lot SBIN monthly OTM Call (strike = your sell target)
 Collect:  Premium = yours to keep, regardless of outcome
 </code></pre>
-
 <h4>Strike Selection</h4>
 <ul>
 <li>Sell strike = <strong>5-8% above current price</strong> (your profit target)</li>
 <li>If stock is at ₹500, sell ₹525-540 strike call</li>
-<li>This means: &quot;I&#x27;m happy to sell at ₹540. Pay me now for that promise.&quot;</li>
+<li>This means: "I'm happy to sell at ₹540. Pay me now for that promise."</li>
 </ul>
-
 <h4>Example: SBIN Covered Call</h4>
-<pre><code>
-You own: 1500 SBIN shares @ ₹500 (₹7,50,000 value)
+<pre><code>You own: 1500 SBIN shares @ ₹500 (₹7,50,000 value)
 Sell:    1 lot SBIN 540 CE (monthly expiry) → collect ₹12/share = ₹18,000
 Buy:     1 lot SBIN 480 PE (hedge) → pay ₹6/share = ₹9,000
 Net credit: ₹3/share = ₹4,500 per month
@@ -313,39 +333,31 @@ Scenarios at expiry:
   SBIN &gt; 540:  Shares sold at ₹540 = ₹8,10,000. Premium kept: +₹4,500
                Total: ₹8,14,500 (you made 8.6% + premium in one month)
 </code></pre>
-
 <h4>Covered Call Rules</h4>
 <ol>
-<li>Only sell calls against shares you&#x27;re <strong>willing to sell at the strike price</strong></li>
+<li>Only sell calls against shares you're <strong>willing to sell at the strike price</strong></li>
 <li>Strike = <strong>resistance level</strong> or <strong>5-8% above current</strong> (whichever is closer)</li>
 <li>Sell <strong>at the start of monthly expiry</strong> (first week = max theta)</li>
-<li>Exit call at <strong>50% profit</strong> if stock isn&#x27;t moving toward strike</li>
+<li>Exit call at <strong>50% profit</strong> if stock isn't moving toward strike</li>
 <li>If stock rallies past strike → <strong>let it be called away</strong> (you sold at your target)</li>
 </ol>
-
 <h3>MODE 2: Cash-Secured Put (You Want to Buy the Shares)</h3>
-
-<p><strong>When to use:</strong> You want to buy a stock at a lower price, but don&#x27;t want to wait. Get paid while waiting.</p>
-
+<p><strong>When to use:</strong> You want to buy a stock at a lower price, but don't want to wait. Get paid while waiting.</p>
 <h4>Setup</h4>
-<pre><code>
-You have: Cash ready to buy (₹X reserved)
+<pre><code>You have: Cash ready to buy (₹X reserved)
 Sell:     1 lot monthly OTM Put at your buy target
 Collect:  Premium = yours to keep
 If assigned: You buy shares at strike - premium received (discount!)
 If not assigned: You keep premium, try again next month
 </code></pre>
-
 <h4>Strike Selection</h4>
 <ul>
 <li>Sell strike = <strong>strong support level</strong> or <strong>10-15% below current price</strong></li>
 <li>Check weekly chart: sell at the <strong>lower Bollinger Band</strong> or <strong>previous major low</strong></li>
 <li>This is where <a href="/wiki/concepts/overbought-oversold">HM oversold</a> &lt; 15 would be a buy zone</li>
 </ul>
-
 <h4>Example: Cash-Secured Put on Reliance</h4>
-<pre><code>
-Reliance at ₹2,900. You want to buy at ₹2,600 (10% lower)
+<pre><code>Reliance at ₹2,900. You want to buy at ₹2,600 (10% lower)
 Sell: 1 lot Reliance 2600 PE (monthly) → collect ₹18/share = ₹10,800 (lot 600)
 Hedge: Buy 1 lot Reliance 2400 PE → pay ₹5/share = ₹3,000
 Net credit: ₹13/share = ₹7,800
@@ -357,20 +369,16 @@ Scenarios at expiry:
   Reliance &lt; 2400: Loss on hedge = limited. Shares worth ₹2,400+
                    Put protects below 2400.
 </code></pre>
-
 <h4>Cash-Secured Put Rules</h4>
 <ol>
 <li><strong>Only sell puts on stocks you actually want to own</strong> (fundamental conviction)</li>
-<li><strong>Have the full cash ready</strong> (don&#x27;t sell puts on margin)</li>
+<li><strong>Have the full cash ready</strong> (don't sell puts on margin)</li>
 <li>Strike = <strong>support level</strong> (lower BB, previous low, 52-week low zone)</li>
 <li>If assigned → <strong>hold shares and switch to Covered Call mode</strong> (income on the position you now own)</li>
-<li>Never roll puts (don&#x27;t keep selling to avoid assignment — if you get assigned, take the shares)</li>
+<li>Never roll puts (don't keep selling to avoid assignment — if you get assigned, take the shares)</li>
 </ol>
-
-<hr>
-
+<hr />
 <h2>Stock Selection Criteria (Critical)</h2>
-
 <h3>Eligible Stocks Only</h3>
 <ul>
 <li>✅ <strong>F&amp;O stocks only</strong> (they have liquid options with reasonable premiums)</li>
@@ -378,125 +386,151 @@ Scenarios at expiry:
 <li>✅ <strong>Option premium &gt; ₹5</strong> at your target strike (otherwise not worth the effort)</li>
 <li>✅ <strong>Market cap &gt; ₹10,000 crore</strong> (no micro-caps, no pump-and-dump risk)</li>
 </ul>
-
 <h3>VIX Check for Stocks</h3>
 <ul>
-<li>Check <strong>individual stock&#x27;s IV (implied volatility)</strong>, not just India VIX</li>
-<li>Sell when stock IV is <strong>above its 30-day average</strong> (premium is &quot;expensive&quot; = good time to sell)</li>
+<li>Check <strong>individual stock's IV (implied volatility)</strong>, not just India VIX</li>
+<li>Sell when stock IV is <strong>above its 30-day average</strong> (premium is "expensive" = good time to sell)</li>
 <li>Avoid when IV is <strong>below 30-day average</strong> (premium is cheap = not worth the risk)</li>
 </ul>
-
-<h3>Direction Bias (from NK&#x27;s system)</h3>
+<h3>Direction Bias (from NK's system)</h3>
 <ul>
 <li><strong>Stock above 20 SMA weekly + HM strength rising → sell puts</strong> (bullish, premium income)</li>
 <li><strong>Stock below 20 SMA weekly + HM strength falling → sell calls</strong> (bearish, if you own shares)</li>
 <li><strong>Stock at upper BB + HM &gt; 86 → sell calls</strong> (overbought, expecting mean reversion)</li>
 <li><strong>Stock at lower BB + HM &lt; 15 + curve forming → sell puts</strong> (oversold, accumulation zone)</li>
 </ul>
-
-<hr>
-
+<hr />
 <h2>The Monthly Routine (Stock Premium Mill)</h2>
-
-<table><thead><tr><th>Week</th><th>Action</th></tr></thead><tbody>
-<tr><td><strong>Week 1 (Day after expiry)</strong></td><td>Scan F&amp;O stocks for opportunities. Check which stocks are at BB extremes. Select 2-3 candidates. Enter trades.</td></tr>
-<tr><td><strong>Week 2</strong></td><td>Monitor. No action unless stock gaps significantly (earnings/event)</td></tr>
-<tr><td><strong>Week 3</strong></td><td>Check premiums. If at 50% profit → consider early exit</td></tr>
-<tr><td><strong>Week 4 (expiry week)</strong></td><td>Let deep OTM expire. Close anything near strike. Roll covered calls to next month if shares not called.</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Week</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Week 1 (Day after expiry)</strong></td>
+<td>Scan F&amp;O stocks for opportunities. Check which stocks are at BB extremes. Select 2-3 candidates. Enter trades.</td>
+</tr>
+<tr>
+<td><strong>Week 2</strong></td>
+<td>Monitor. No action unless stock gaps significantly (earnings/event)</td>
+</tr>
+<tr>
+<td><strong>Week 3</strong></td>
+<td>Check premiums. If at 50% profit → consider early exit</td>
+</tr>
+<tr>
+<td><strong>Week 4 (expiry week)</strong></td>
+<td>Let deep OTM expire. Close anything near strike. Roll covered calls to next month if shares not called.</td>
+</tr>
+</tbody>
+</table>
 <h3>How Many Stocks to Run Simultaneously?</h3>
 <ul>
 <li><strong>Start:</strong> 2-3 stocks (diversified sectors)</li>
 <li><strong>Target:</strong> 5-8 stocks (after 6 months of building)</li>
-<li><strong>Max:</strong> 10 stocks (don&#x27;t over-diversify — monitoring becomes hard)</li>
+<li><strong>Max:</strong> 10 stocks (don't over-diversify — monitoring becomes hard)</li>
 </ul>
-
 <h3>Sector Diversification</h3>
-<p>Never have all premium positions in one sector. Spread across:</p>
-<ul>
-<li>Banking (SBIN, HDFC Bank)</li>
-<li>IT (TCS, Infosys)</li>
-<li>Energy (Reliance, ONGC)</li>
-<li>FMCG (HUL, ITC)</li>
-<li>Auto (Maruti, Tata Motors)</li>
-</ul>
-
-<hr>
-
+<p>Never have all premium positions in one sector. Spread across:
+- Banking (SBIN, HDFC Bank)
+- IT (TCS, Infosys)
+- Energy (Reliance, ONGC)
+- FMCG (HUL, ITC)
+- Auto (Maruti, Tata Motors)</p>
+<hr />
 <h2>Capital Allocation</h2>
-
 <h3>Covered Call Mode</h3>
 <ul>
 <li><strong>Zero additional capital</strong> (you already own the shares)</li>
 <li>Just sell calls against existing holdings</li>
 <li>Premium = pure monthly income</li>
 </ul>
-
 <h3>Cash-Secured Put Mode</h3>
 <ul>
 <li>Reserve <strong>full notional value</strong> of the shares you might buy</li>
 <li>Example: Selling 1 lot Reliance 2600 PE = reserve ₹15,60,000 (600 × 2600)</li>
-<li>This is <strong>NOT margin</strong> — it&#x27;s the cash to actually buy the shares if assigned</li>
+<li>This is <strong>NOT margin</strong> — it's the cash to actually buy the shares if assigned</li>
 <li><strong>Max 30% of total capital</strong> deployed in put-selling at any time</li>
 </ul>
-
 <h3>Monthly Fund Building</h3>
-<table><thead><tr><th>Month</th><th>Stocks Active</th><th>Monthly Premium Target</th><th>Capital Deployed</th></tr></thead><tbody>
-<tr><td>1</td><td>2 covered calls</td><td>₹5,000-8,000</td><td>₹0 (existing shares)</td></tr>
-<tr><td>3</td><td>3 covered + 1 put</td><td>₹10,000-15,000</td><td>₹15L (put reserve)</td></tr>
-<tr><td>6</td><td>5 covered + 2 puts</td><td>₹18,000-25,000</td><td>₹30L (put reserve)</td></tr>
-<tr><td>12</td><td>8 covered + 3 puts</td><td>₹30,000-40,000</td><td>₹45L (put reserve)</td></tr>
-</tbody></table>
-
-<p>&gt; The &quot;return&quot; looks lower than Nifty (2-3% monthly) but you&#x27;re <strong>building a portfolio</strong> while earning income. The total return includes share appreciation + premium.</p>
-
-<hr>
-
+<table>
+<thead>
+<tr>
+<th>Month</th>
+<th>Stocks Active</th>
+<th>Monthly Premium Target</th>
+<th>Capital Deployed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2 covered calls</td>
+<td>₹5,000-8,000</td>
+<td>₹0 (existing shares)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3 covered + 1 put</td>
+<td>₹10,000-15,000</td>
+<td>₹15L (put reserve)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>5 covered + 2 puts</td>
+<td>₹18,000-25,000</td>
+<td>₹30L (put reserve)</td>
+</tr>
+<tr>
+<td>12</td>
+<td>8 covered + 3 puts</td>
+<td>₹30,000-40,000</td>
+<td>₹45L (put reserve)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>The "return" looks lower than Nifty (2-3% monthly) but you're <strong>building a portfolio</strong> while earning income. The total return includes share appreciation + premium.</p>
+</blockquote>
+<hr />
 <h2>Risk Management</h2>
-
 <h3>Rule 1: Never Sell Naked</h3>
 <ul>
 <li>Every call sold must be <strong>covered by shares</strong> (covered call)</li>
 <li>Every put sold must be <strong>covered by cash</strong> (cash-secured put)</li>
 <li><strong>NO naked option selling on stocks</strong> — gap risk is too high (earnings, FDA, regulatory)</li>
 </ul>
-
 <h3>Rule 2: Hedge with Far OTM Buy</h3>
 <ul>
 <li>Covered call → optionally buy a further OTM call (collar strategy)</li>
 <li>Cash-secured put → <strong>always</strong> buy a far OTM put as hedge (defines max loss)</li>
 <li>Cost of hedge: ₹2-8/share → reduces net premium but caps risk</li>
 </ul>
-
 <h3>Rule 3: Earnings Blackout</h3>
 <ul>
 <li><strong>Never have open option positions during earnings week</strong></li>
 <li>Close or roll before earnings announcement</li>
 <li>Earnings gaps can blow through any strike</li>
 </ul>
-
 <h3>Rule 4: SL on Cash-Secured Puts</h3>
 <ul>
 <li>If stock drops below your <strong>strike - hedge strike midpoint</strong> → close the position</li>
 <li>Example: Sold 2600 PE, bought 2400 PE → midpoint = 2500</li>
-<li>If stock closes below 2500 → exit (take the loss, don&#x27;t hope for bounce)</li>
+<li>If stock closes below 2500 → exit (take the loss, don't hope for bounce)</li>
 </ul>
-
 <h3>Rule 5: No Averaging on Assigned Shares</h3>
 <ul>
 <li>If you get assigned on a put → <strong>hold the shares and sell covered calls</strong></li>
-<li>Do NOT sell more puts at lower strikes trying to &quot;average down&quot;</li>
-<li>That&#x27;s how you accumulate a falling knife</li>
+<li>Do NOT sell more puts at lower strikes trying to "average down"</li>
+<li>That's how you accumulate a falling knife</li>
 </ul>
-
-<hr>
-
+<hr />
 <h2>Why This Works for Fund Building</h2>
-
 <h3>The Math (Covered Call example)</h3>
-<pre><code>
-Stock: SBIN @ ₹500, lot 1500
+<pre><code>Stock: SBIN @ ₹500, lot 1500
 Monthly call premium (540 CE): ₹12/share = ₹18,000
 Annual income: ₹18,000 × 12 = ₹2,16,000
 On ₹7,50,000 holding = 28.8% annual yield (premium alone)
@@ -506,60 +540,112 @@ Total annual return: ~38-40% (premium + appreciation)
 
 Even if stock is FLAT: 28.8% from premium alone
 </code></pre>
-
 <h3>The Math (Cash-Secured Put example)</h3>
-<pre><code>
-Stock: Reliance @ ₹2,900
+<pre><code>Stock: Reliance @ ₹2,900
 Monthly put premium (2600 PE): ₹15/share = ₹9,000 (lot 600)
 If NOT assigned (stock stays above 2600): pure ₹9,000 income = 0.58% monthly on reserved capital
 
 If assigned 4 times out of 12 → you accumulate 2400 shares at avg ₹2,587
 Then switch to covered calls on those 2400 shares → dual income stream
 </code></pre>
-
-<hr>
-
+<hr />
 <h2>Comparison: Nifty Mill vs Stock Mill</h2>
-
-<table><thead><tr><th>Dimension</th><th>Nifty Premium Mill</th><th>Stock Premium Mill</th></tr></thead><tbody>
-<tr><td><strong>Frequency</strong></td><td>Weekly (4-5/month)</td><td>Monthly (1/month)</td></tr>
-<tr><td><strong>Capital</strong></td><td>₹1L start (margin)</td><td>Existing shares + cash reserve</td></tr>
-<tr><td><strong>Risk</strong></td><td>Defined (spread)</td><td>Defined (collared)</td></tr>
-<tr><td><strong>Return target</strong></td><td>3-5% monthly on margin</td><td>2-3% monthly on holdings</td></tr>
-<tr><td><strong>Complexity</strong></td><td>Low (1 spread, 1 index)</td><td>Medium (stock selection, sector spread)</td></tr>
-<tr><td><strong>Best for</strong></td><td>Pure income generation</td><td>Income + portfolio building</td></tr>
-<tr><td><strong>Gap risk</strong></td><td>Low</td><td>Medium-High (manage with earnings blackout)</td></tr>
-<tr><td><strong>Tax efficiency</strong></td><td>F&amp;O (business income)</td><td>Delivery selling (STCG/LTCG on shares)</td></tr>
-</tbody></table>
-
-<hr>
-
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Nifty Premium Mill</th>
+<th>Stock Premium Mill</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Frequency</strong></td>
+<td>Weekly (4-5/month)</td>
+<td>Monthly (1/month)</td>
+</tr>
+<tr>
+<td><strong>Capital</strong></td>
+<td>₹1L start (margin)</td>
+<td>Existing shares + cash reserve</td>
+</tr>
+<tr>
+<td><strong>Risk</strong></td>
+<td>Defined (spread)</td>
+<td>Defined (collared)</td>
+</tr>
+<tr>
+<td><strong>Return target</strong></td>
+<td>3-5% monthly on margin</td>
+<td>2-3% monthly on holdings</td>
+</tr>
+<tr>
+<td><strong>Complexity</strong></td>
+<td>Low (1 spread, 1 index)</td>
+<td>Medium (stock selection, sector spread)</td>
+</tr>
+<tr>
+<td><strong>Best for</strong></td>
+<td>Pure income generation</td>
+<td>Income + portfolio building</td>
+</tr>
+<tr>
+<td><strong>Gap risk</strong></td>
+<td>Low</td>
+<td>Medium-High (manage with earnings blackout)</td>
+</tr>
+<tr>
+<td><strong>Tax efficiency</strong></td>
+<td>F&amp;O (business income)</td>
+<td>Delivery selling (STCG/LTCG on shares)</td>
+</tr>
+</tbody>
+</table>
+<hr />
 <h2>Relationship to Your Other Strategies</h2>
-
-<table><thead><tr><th>Strategy</th><th>Role</th><th>Timeframe</th></tr></thead><tbody>
-<tr><td><strong>Arbitrage 2.0</strong></td><td>Futures spread income</td><td>Days to expiry</td></tr>
-<tr><td><strong>BB Trap Positional v2</strong></td><td>Reversal trading</td><td>2-4 days</td></tr>
-<tr><td><strong>Nifty Premium Mill</strong></td><td>Weekly theta income</td><td>Monday → Thursday</td></tr>
-<tr><td><strong>Stock Premium Mill</strong> ← THIS</td><td>Monthly portfolio income + accumulation</td><td>Monthly cycle</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Role</th>
+<th>Timeframe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Arbitrage 2.0</strong></td>
+<td>Futures spread income</td>
+<td>Days to expiry</td>
+</tr>
+<tr>
+<td><strong>BB Trap Positional v2</strong></td>
+<td>Reversal trading</td>
+<td>2-4 days</td>
+</tr>
+<tr>
+<td><strong>Nifty Premium Mill</strong></td>
+<td>Weekly theta income</td>
+<td>Monday → Thursday</td>
+</tr>
+<tr>
+<td><strong>Stock Premium Mill</strong> ← THIS</td>
+<td>Monthly portfolio income + accumulation</td>
+<td>Monthly cycle</td>
+</tr>
+</tbody>
+</table>
 <p>All four run in parallel, using different capital pools and different instruments.</p>
-
-<hr>
-
+<hr />
 <h2>Backtest Candidate</h2>
-<p>This strategy needs backtesting with:</p>
-<ul>
-<li>Stock option premium data (monthly OHLC for option prices)</li>
-<li>F&amp;O stock list with IV history</li>
-<li>Simulate: covered call at 5-8% OTM, cash-secured put at support</li>
-<li>Track: premium collected, assignment rate, total return (premium + appreciation)</li>
-</ul>
-
-<p>&gt; ⚠️ Not yet backtested. Rules derived from NK&#x27;s covered-call/put principles + standard income strategy mechanics.</p>
-
-<hr>
-
+<p>This strategy needs backtesting with:
+- Stock option premium data (monthly OHLC for option prices)
+- F&amp;O stock list with IV history
+- Simulate: covered call at 5-8% OTM, cash-secured put at support
+- Track: premium collected, assignment rate, total return (premium + appreciation)</p>
+<blockquote>
+<p>⚠️ Not yet backtested. Rules derived from NK's covered-call/put principles + standard income strategy mechanics.</p>
+</blockquote>
+<hr />
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a> — Premium structure (sell hawa at strikes where chips = 0)</li>
@@ -568,11 +654,10 @@ Then switch to covered calls on those 2400 shares → dual income stream
 <li><a href="/wiki/concepts/options">Options</a> — Monthly expiry mechanics for stocks (+ POP/delta rule)</li>
 <li><a href="/wiki/concepts/regime-mapping">Regime Mapping</a> — ⭐ <strong>Gate covered calls by regime</strong> — avoid in stock downtrends</li>
 <li><a href="/wiki/strategies/nifty-premium-mill">Nifty Premium Mill</a> — The weekly index companion strategy</li>
-<li><a href="/wiki/strategies/hedge-23">Hedge 23</a> — NK&#x27;s deep-ITM premium collection (advanced variant)</li>
+<li><a href="/wiki/strategies/hedge-23">Hedge 23</a> — NK's deep-ITM premium collection (advanced variant)</li>
 <li><a href="/wiki/sources/source-hedge-23">Source Hedge 23</a> — SBIN covered-call example (Buy FUT + Sell ITM CE)</li>
 <li><a href="/wiki/sources/source-ravindra-elicherla-options-freedom">Source Ravindra Elicherla Options Freedom</a> — ✅ <strong>Independent validation</strong>: Ravindra Elicherla (retired CTO, FIRE) uses this exact covered-call + cash-secured-put combo as his primary income layer</li>
-</ul>
-</article>
+</ul></article>
 </section>
 
 

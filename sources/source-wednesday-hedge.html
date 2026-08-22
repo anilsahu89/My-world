@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,49 +212,70 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Source: Wednesday Hedge</h1>
 <article class="md"><h1>Source: Wednesday Hedge</h1>
-
 <h2>Source File</h2>
 <ul>
 <li><strong>Wednesday Hedge.pdf</strong> — NK StockTalk</li>
 </ul>
-
 <h2>Summary</h2>
 <p>Wednesday Bank Nifty option strategy exploiting 18-hour theta decay. Sell weekly OTM CE+PE on Wednesday, buy next week same strikes. Premium melts Thursday morning.</p>
-
 <h2>Execution Structure (Bank Nifty Spot 36700)</h2>
-
 <h3>Entry Actions (Wednesday, preferably after 3:00 PM)</h3>
-<table><thead><tr><th>Action</th><th>Strike</th><th>Side</th><th>Premium</th></tr></thead><tbody>
-<tr><td>SELL</td><td>36900 (OTM)</td><td>Weekly CE</td><td>~₹175-200</td></tr>
-<tr><td>SELL</td><td>36500 (OTM)</td><td>Weekly PE</td><td>~₹175-200</td></tr>
-<tr><td>BUY</td><td>36900 (same strike)</td><td>Next week CE</td><td>Market</td></tr>
-<tr><td>BUY</td><td>36500 (same strike)</td><td>Next week PE</td><td>Market</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Strike</th>
+<th>Side</th>
+<th>Premium</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SELL</td>
+<td>36900 (OTM)</td>
+<td>Weekly CE</td>
+<td>~₹175-200</td>
+</tr>
+<tr>
+<td>SELL</td>
+<td>36500 (OTM)</td>
+<td>Weekly PE</td>
+<td>~₹175-200</td>
+</tr>
+<tr>
+<td>BUY</td>
+<td>36900 (same strike)</td>
+<td>Next week CE</td>
+<td>Market</td>
+</tr>
+<tr>
+<td>BUY</td>
+<td>36500 (same strike)</td>
+<td>Next week PE</td>
+<td>Market</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li>Combined sell premium: ₹350-400</li>
 </ul>
-
 <h2>Why It Happens (4 Reasons)</h2>
 <ol>
 <li><strong>Low VIX Wednesday:</strong> 18-hour game — Thursday opening Call+Put premium reduces within 15-30 min</li>
-<li><strong>Sell on Wednesday, don&#x27;t buy</strong> (can buy next week if VIX high)</li>
+<li><strong>Sell on Wednesday, don't buy</strong> (can buy next week if VIX high)</li>
 <li>From spot: sell same-week 200 up (Call) + 200 down (Put); buy next-week same strikes</li>
 <li>On expiry: sell-side premium reduces speedily; next-week tries to reach ATM → premium increases → book on opening</li>
 </ol>
-
 <h2>Key Rules</h2>
 <ul>
 <li>Use <strong>BASKET ORDER</strong> for low margin + mistake prevention</li>
 <li>Book profit per your emotions and exit</li>
 <li>Best after 3:00 PM Wednesday (even just before 3:30 works)</li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/strategies/wednesday-hedge">Wednesday Hedge</a> — Strategy page</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

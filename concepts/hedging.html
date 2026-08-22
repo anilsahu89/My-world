@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,43 +212,35 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Hedging</h1>
 <article class="md"><h1>Hedging</h1>
-
 <h2>Definition</h2>
-<p>A technique to ensure a market position is <strong>not wiped out by an adverse move</strong> — construct a portfolio (futures + options, or options + options) so that one leg&#x27;s loss is offset by another&#x27;s gain. NK&#x27;s metaphor: <em>&quot;erecting a fence around your farm.&quot;</em> More importantly: a <strong>thought process</strong> that flexes with the market.</p>
-
+<p>A technique to ensure a market position is <strong>not wiped out by an adverse move</strong> — construct a portfolio (futures + options, or options + options) so that one leg's loss is offset by another's gain. NK's metaphor: <em>"erecting a fence around your farm."</em> More importantly: a <strong>thought process</strong> that flexes with the market.</p>
 <h2>Why hedge (the structural reason)</h2>
 <ul>
-<li><strong>Margin reduction:</strong> a hedged combo needs far less margin than naked legs. E.g. SBI Jan future alone = ₹3,02,591; the matching put alone = ₹54,450; <strong>combined-hedged = ₹84,611</strong> (≈ intraday margin) — &quot;like magic.&quot;</li>
+<li><strong>Margin reduction:</strong> a hedged combo needs far less margin than naked legs. E.g. SBI Jan future alone = ₹3,02,591; the matching put alone = ₹54,450; <strong>combined-hedged = ₹84,611</strong> (≈ intraday margin) — "like magic."</li>
 <li><strong>Risk capping:</strong> you can compute max loss <em>before</em> entry.</li>
-<li><strong>Survival:</strong> &quot;First loss is always the smallest.&quot; Hedging lets you make the right decision when a trade goes wrong instead of panicking.</li>
+<li><strong>Survival:</strong> "First loss is always the smallest." Hedging lets you make the right decision when a trade goes wrong instead of panicking.</li>
 </ul>
-
-<h2>Market-participant framing (NK&#x27;s worldview)</h2>
+<h2>Market-participant framing (NK's worldview)</h2>
 <ul>
 <li>Speculators (~4%) — Rakesh Jhunjhunwala / Buffett types</li>
 <li><strong>Hedgers (~5%) — FIIs, DIIs, smart money ← who actually makes money</strong></li>
 <li>Arbitrageurs (~92%) — common investors, who <em>lose</em> to the hedgers</li>
 </ul>
-
 <h2>Three types of risk (from <a href="/wiki/sources/source-hedge-23">Source Hedge 23</a> / Hedge 23 class)</h2>
 <ol>
 <li><strong>Known risk</strong> — you know your risk and reward upfront.</li>
-<li><strong>Unknown risk</strong> — trade taken without study (tips, TV, news); you don&#x27;t know what can happen.</li>
-<li><strong>Planned risk</strong> — risk you <em>plan before entry</em>, then minimize/break-even/zero it after entry. <strong>Plan Risk = Hedge = Insurance.</strong> &quot;क्या Hedge करने वाले 100% Success…&quot; (the rhetorical question: do hedgers win 100%? — no, but the math favors them).</li>
+<li><strong>Unknown risk</strong> — trade taken without study (tips, TV, news); you don't know what can happen.</li>
+<li><strong>Planned risk</strong> — risk you <em>plan before entry</em>, then minimize/break-even/zero it after entry. <strong>Plan Risk = Hedge = Insurance.</strong> "क्या Hedge करने वाले 100% Success…" (the rhetorical question: do hedgers win 100%? — no, but the math favors them).</li>
 </ol>
-
 <h2>The universal hedge pattern (chips/hawa view)</h2>
 <p>Buy <a href="/wiki/concepts/chips-and-hawa">chips</a> (ITM) for directional exposure → sell hawa (far OTM) to discount the purchase → net cost drops, breakeven shifts favorably, max loss is bounded. See worked examples in <a href="/wiki/sources/source-option-basics">Source Option Basics</a> and <a href="/wiki/sources/source-option-calculation">Source Option Calculation</a>.</p>
-
 <h2>Adjustment (the discipline)</h2>
 <p>Hedges are <strong>not set-and-forget</strong>: roll legs as price moves (e.g. Airtel future hedge: roll 570 PE → 530 PE, 580 CE → 550 CE on a fall; sell an extra call for extra profit in a downtrend). Book the long leg when it reaches 95% price + 5% chips, or when its liquidity dries up.</p>
-
 <h2>When NOT to hedge / when to exit</h2>
 <ul>
 <li>If trend reverses against a multi-leg position and it looks like a <strong>trap</strong> → exit <em>all</em> positions and rebuild for the new conditions (<a href="/wiki/sources/source-option-calculation">Source Option Calculation</a>).</li>
-<li>&quot;First loss is always the smallest&quot; — don&#x27;t widen the timeframe to avoid booking it.</li>
+<li>"First loss is always the smallest" — don't widen the timeframe to avoid booking it.</li>
 </ul>
-
 <h2>Named hedge strategies in this wiki</h2>
 <ul>
 <li><a href="/wiki/strategies/hedge-23">Hedge 23</a> — the flagship, VIX-aware</li>
@@ -256,10 +250,8 @@
 <li><a href="/wiki/strategies/expiry-gap-hedge">Expiry Gap Hedge</a> — spot/future gap arbitrage</li>
 <li><a href="/wiki/strategies/a-19">A 19</a> — A19 double, 1-lot-long/2-lot-short</li>
 </ul>
-
 <h2>Source pages</h2>
-<p><a href="/wiki/sources/source-option-future-basics">Source Option Future Basics</a> · <a href="/wiki/sources/source-option-basics">Source Option Basics</a> · <a href="/wiki/sources/source-option-calculation">Source Option Calculation</a> · <a href="/wiki/sources/source-hedge-23">Source Hedge 23</a></p>
-</article>
+<p><a href="/wiki/sources/source-option-future-basics">Source Option Future Basics</a> · <a href="/wiki/sources/source-option-basics">Source Option Basics</a> · <a href="/wiki/sources/source-option-calculation">Source Option Calculation</a> · <a href="/wiki/sources/source-hedge-23">Source Hedge 23</a></p></article>
 
   </main>
   <footer>

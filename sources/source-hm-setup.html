@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,45 +212,28 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>NK Hilega Milega — ChartIQ Setup Guide</h1>
 <article class="md"><h1>NK Hilega Milega — ChartIQ Setup Guide</h1>
-
 <h2>Source</h2>
 <ul>
 <li><strong>File:</strong> NK HILEGA MILEGA.pdf</li>
 <li><strong>Instructor:</strong> Nitish Kumar (NK StockTalk)</li>
 </ul>
-
 <h2>Summary</h2>
 <p>Step-by-step instructions for setting up the <strong>Hilega Milega (HM)</strong> custom indicator on the <strong>ChartIQ</strong> trading platform.</p>
-
 <h2>Setup Steps</h2>
-
 <h3>Adding the Hilega Milega Indicator</h3>
 <ol>
 <li>Open <strong>ChartIQ</strong> platform</li>
 <li>Go to chart settings / indicators panel</li>
-<li>Add <strong>RSI</strong> with the following parameters:</li>
-</ol>
-<ul>
-<li><strong>Period:</strong> 9</li>
-<li><strong>Overbought (OB):</strong> 50</li>
-<li><strong>Oversold (OS):</strong> 50</li>
-</ul>
-<ol>
-<li>Add <strong>WMA (Weighted Moving Average)</strong> on the RSI:</li>
-</ol>
-<ul>
-<li><strong>Period:</strong> 21 — this is the <strong>Red Line (Volume / Strength Line)</strong></li>
-</ul>
-<ol>
-<li>Add another <strong>WMA</strong> on the RSI:</li>
-</ol>
-<ul>
-<li><strong>Period:</strong> 3 — this is the <strong>Green Line (Price Line)</strong></li>
-</ul>
-<ol>
+<li>Add <strong>RSI</strong> with the following parameters:
+   - <strong>Period:</strong> 9
+   - <strong>Overbought (OB):</strong> 50
+   - <strong>Oversold (OS):</strong> 50</li>
+<li>Add <strong>WMA (Weighted Moving Average)</strong> on the RSI:
+   - <strong>Period:</strong> 21 — this is the <strong>Red Line (Volume / Strength Line)</strong></li>
+<li>Add another <strong>WMA</strong> on the RSI:
+   - <strong>Period:</strong> 3 — this is the <strong>Green Line (Price Line)</strong></li>
 <li>Add <strong>VWAP</strong> overlay on the price chart</li>
 </ol>
-
 <h3>Key Components</h3>
 <ul>
 <li><strong>RSI(9, OB=50, OS=50):</strong> Base oscillator — the 50 level is the pivot, not traditional 70/30</li>
@@ -256,22 +241,19 @@
 <li><strong>Green Line (3 WMA):</strong> Represents price action — faster, more reactive</li>
 <li><strong>VWAP:</strong> Volume-weighted average price for intraday bias</li>
 </ul>
-
 <h3>Reading Signals</h3>
 <ul>
-<li><strong>Green crosses above Red (both rising):</strong> Bullish momentum — &quot;Hilega&quot; (will go up)</li>
-<li><strong>Green crosses below Red (both falling):</strong> Bearish momentum — &quot;Milega&quot; (will come down)</li>
+<li><strong>Green crosses above Red (both rising):</strong> Bullish momentum — "Hilega" (will go up)</li>
+<li><strong>Green crosses below Red (both falling):</strong> Bearish momentum — "Milega" (will come down)</li>
 <li><strong>Lines converging/flat:</strong> No clear direction — avoid trade</li>
 <li><strong>Red line above 86 (monthly/weekly):</strong> Overbought zone</li>
 <li><strong>Red line below 15 (monthly/weekly):</strong> Oversold zone (flat line — wait for curve before entry)</li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/concepts/hilega-milega">Hilega Milega</a> — Full concept page</li>
 <li><a href="/wiki/sources/source-hm-notes">Source Hm Notes</a> — HM trading notes and signals</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

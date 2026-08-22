@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -234,110 +236,191 @@
 <section class="note">
   <h2>Rules</h2>
   <article class="md"><h1>Open=Low Intraday Strategy (NSE 200)</h1>
-
 <h2>Definition</h2>
-<p>Every morning at 9:30, scan NSE 200 stocks. If a stock&#x27;s <strong>Open price = its Low</strong> (stock opened at the day&#x27;s lowest point and never went below), buy ₹10,000 worth. Hold until <strong>1 PM</strong> or <strong>SL hit</strong> (close below the first 15-min candle low).</p>
-
+<p>Every morning at 9:30, scan NSE 200 stocks. If a stock's <strong>Open price = its Low</strong> (stock opened at the day's lowest point and never went below), buy ₹10,000 worth. Hold until <strong>1 PM</strong> or <strong>SL hit</strong> (close below the first 15-min candle low).</p>
 <h2>Core Philosophy</h2>
-<p>&gt; Open=Low means the stock opened at the absolute bottom of the day. Every tick after the open is ABOVE the entry price. This is a strong bullish signal — the entire market day is working in your favor from the first second.</p>
-
+<blockquote>
+<p>Open=Low means the stock opened at the absolute bottom of the day. Every tick after the open is ABOVE the entry price. This is a strong bullish signal — the entire market day is working in your favor from the first second.</p>
+</blockquote>
 <h2>Backtested Performance (2 years, NSE 200)</h2>
-
-<p>&gt; ⚠️ <strong>Data limitation:</strong> Backtested with daily OHLCV (no intraday data). SL modeled as &quot;daily Low goes 0.5% below Open.&quot; Real 15-min SL will perform slightly differently. See caveats.</p>
-
+<blockquote>
+<p>⚠️ <strong>Data limitation:</strong> Backtested with daily OHLCV (no intraday data). SL modeled as "daily Low goes 0.5% below Open." Real 15-min SL will perform slightly differently. See caveats.</p>
+</blockquote>
 <h3>Key Results</h3>
-
-<table><thead><tr><th>Config</th><th>Trades</th><th>Win Rate</th><th>PF</th><th>Avg Return</th><th>Net P&amp;L</th></tr></thead><tbody>
-<tr><td><strong>Baseline</strong></td><td>45,124</td><td><strong>47.5%</strong></td><td><strong>1.58</strong></td><td>0.13%</td><td>₹5,90,519</td></tr>
-<tr><td><strong>Vol ≥ 1.5×</strong></td><td>7,242</td><td><strong>59.2%</strong></td><td><strong>4.25</strong></td><td>0.59%</td><td>₹4,28,921</td></tr>
-<tr><td><strong>Vol ≥ 2.0×</strong></td><td>3,675</td><td><strong>61.7%</strong></td><td><strong>5.62</strong></td><td>0.80%</td><td>₹2,93,822</td></tr>
-<tr><td><strong>Vol ≥ 3.0×</strong></td><td>1,435</td><td><strong>64.7%</strong></td><td><strong>8.09</strong></td><td>1.14%</td><td>₹1,63,344</td></tr>
-<tr><td><strong>Top 3/day by vol</strong></td><td>1,835</td><td><strong>62.2%</strong></td><td><strong>6.51</strong></td><td>0.94%</td><td>₹1,72,983</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Config</th>
+<th>Trades</th>
+<th>Win Rate</th>
+<th>PF</th>
+<th>Avg Return</th>
+<th>Net P&amp;L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Baseline</strong></td>
+<td>45,124</td>
+<td><strong>47.5%</strong></td>
+<td><strong>1.58</strong></td>
+<td>0.13%</td>
+<td>₹5,90,519</td>
+</tr>
+<tr>
+<td><strong>Vol ≥ 1.5×</strong></td>
+<td>7,242</td>
+<td><strong>59.2%</strong></td>
+<td><strong>4.25</strong></td>
+<td>0.59%</td>
+<td>₹4,28,921</td>
+</tr>
+<tr>
+<td><strong>Vol ≥ 2.0×</strong></td>
+<td>3,675</td>
+<td><strong>61.7%</strong></td>
+<td><strong>5.62</strong></td>
+<td>0.80%</td>
+<td>₹2,93,822</td>
+</tr>
+<tr>
+<td><strong>Vol ≥ 3.0×</strong></td>
+<td>1,435</td>
+<td><strong>64.7%</strong></td>
+<td><strong>8.09</strong></td>
+<td>1.14%</td>
+<td>₹1,63,344</td>
+</tr>
+<tr>
+<td><strong>Top 3/day by vol</strong></td>
+<td>1,835</td>
+<td><strong>62.2%</strong></td>
+<td><strong>6.51</strong></td>
+<td>0.94%</td>
+<td>₹1,72,983</td>
+</tr>
+</tbody>
+</table>
 <h3>The Volume Discovery</h3>
 <p><strong>Volume is the single most important filter.</strong> Without it, win rate is 47.5% (coin flip). With Vol ≥ 1.5× average, win rate jumps to <strong>59.2%</strong> and PF to <strong>4.25</strong>.</p>
-
-<p>&gt; Volume confirms that smart money is participating in the Open=Low move. Without volume, it&#x27;s just noise.</p>
-
-<hr>
-
+<blockquote>
+<p>Volume confirms that smart money is participating in the Open=Low move. Without volume, it's just noise.</p>
+</blockquote>
+<hr />
 <h2>Rules</h2>
-
 <h3>Entry (9:30 AM scan)</h3>
 <ol>
 <li>Stock must be in <strong>NSE 200</strong> universe</li>
-<li><strong>Open = Low EXACTLY</strong> — difference between Open and Low must be <strong>≤ ₹0.10</strong> (10 paisa)</li>
-</ol>
-<ul>
-<li>This is a STRICT rule: Open and Low must be essentially identical</li>
-<li>No percentage tolerance — fixed 10 paisa maximum gap</li>
-<li>Filters out stocks that &quot;opened near low&quot; but actually dipped intraday</li>
-</ul>
-<ol>
+<li><strong>Open = Low EXACTLY</strong> — difference between Open and Low must be <strong>≤ ₹0.10</strong> (10 paisa)
+   - This is a STRICT rule: Open and Low must be essentially identical
+   - No percentage tolerance — fixed 10 paisa maximum gap
+   - Filters out stocks that "opened near low" but actually dipped intraday</li>
 <li><strong>Volume ≥ 1.5× the 20-day average volume</strong> (MANDATORY — this is the edge)</li>
 <li>Price ≥ ₹50</li>
 <li>Buy ₹10,000 worth (delivery/cash, not margin)</li>
 </ol>
-
 <h3>Stop Loss</h3>
 <ul>
 <li><strong>SL = 0.5% below the open price</strong> (first 15-min candle low proxy)</li>
 <li>If a 15-min candle CLOSES below this level → exit immediately</li>
-<li>In live trading: use the actual first 15-min candle&#x27;s low as SL</li>
+<li>In live trading: use the actual first 15-min candle's low as SL</li>
 </ul>
-
 <h3>Exit</h3>
 <ul>
 <li><strong>1:00 PM</strong> — exit all positions regardless of P&amp;L</li>
 <li><strong>OR SL hit</strong> — whichever comes first</li>
-<li>Don&#x27;t hold overnight — this is purely intraday</li>
+<li>Don't hold overnight — this is purely intraday</li>
 </ul>
-
 <h3>Position Sizing</h3>
 <ul>
 <li><strong>₹10,000 per stock</strong> (fixed)</li>
 <li><strong>Max 3-5 stocks per day</strong> (pick the highest volume ratio signals)</li>
 <li><strong>Total daily capital at risk:</strong> ₹30,000-50,000</li>
 </ul>
-
-<hr>
-
+<hr />
 <h2>Volume — How to Use It</h2>
-
-<p>From the backtest, here&#x27;s how volume transforms this strategy:</p>
-
-<table><thead><tr><th>Volume Level</th><th>Win Rate</th><th>PF</th><th>What It Means</th></tr></thead><tbody>
-<tr><td>No filter</td><td>47.5%</td><td>1.58</td><td>Noise — random Open=Low stocks</td></tr>
-<tr><td>Vol ≥ 1.0× avg</td><td>~50%</td><td>~2.0</td><td>Slightly better than random</td></tr>
-<tr><td><strong>Vol ≥ 1.5× avg</strong></td><td><strong>59.2%</strong></td><td><strong>4.25</strong></td><td>Smart money involved — GOOD</td></tr>
-<tr><td>Vol ≥ 2.0× avg</td><td>61.7%</td><td>5.62</td><td>Strong conviction — BETTER</td></tr>
-<tr><td>Vol ≥ 3.0× avg</td><td>64.7%</td><td>8.09</td><td>Institutional buying — BEST (but rare)</td></tr>
-</tbody></table>
-
+<p>From the backtest, here's how volume transforms this strategy:</p>
+<table>
+<thead>
+<tr>
+<th>Volume Level</th>
+<th>Win Rate</th>
+<th>PF</th>
+<th>What It Means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No filter</td>
+<td>47.5%</td>
+<td>1.58</td>
+<td>Noise — random Open=Low stocks</td>
+</tr>
+<tr>
+<td>Vol ≥ 1.0× avg</td>
+<td>~50%</td>
+<td>~2.0</td>
+<td>Slightly better than random</td>
+</tr>
+<tr>
+<td><strong>Vol ≥ 1.5× avg</strong></td>
+<td><strong>59.2%</strong></td>
+<td><strong>4.25</strong></td>
+<td>Smart money involved — GOOD</td>
+</tr>
+<tr>
+<td>Vol ≥ 2.0× avg</td>
+<td>61.7%</td>
+<td>5.62</td>
+<td>Strong conviction — BETTER</td>
+</tr>
+<tr>
+<td>Vol ≥ 3.0× avg</td>
+<td>64.7%</td>
+<td>8.09</td>
+<td>Institutional buying — BEST (but rare)</td>
+</tr>
+</tbody>
+</table>
 <h3>How to check volume at 9:30</h3>
 <ol>
-<li>Compare today&#x27;s first 15-min volume to the <strong>20-day average daily volume ÷ 25</strong> (approximate per-candle volume)</li>
+<li>Compare today's first 15-min volume to the <strong>20-day average daily volume ÷ 25</strong> (approximate per-candle volume)</li>
 <li>If first 15-min volume &gt; 1.5× expected → <strong>volume confirmed, trade it</strong></li>
 <li>If volume is normal or low → <strong>skip, even if Open=Low</strong></li>
 </ol>
-
 <h3>The NK Connection</h3>
-<p>From <a href="/wiki/sources/source-class-6-ohol">NK&amp;#x27;s OH-OL class</a>: &quot;OL &amp; OH are Created whenever <strong>big volume</strong> is pressed into the Market.&quot; NK explicitly links OL/OH to volume — without volume, OL is not a valid signal. The backtest confirms this exactly.</p>
-
-<p>&gt; &quot;Big Money taking some position in some stocks... due to unstable volume pressed, OL &amp; OH can only be formed.&quot; — NK</p>
-
-<hr>
-
+<p>From <a href="/wiki/sources/source-class-6-ohol">NK&#x27;s OH-OL class</a>: "OL &amp; OH are Created whenever <strong>big volume</strong> is pressed into the Market." NK explicitly links OL/OH to volume — without volume, OL is not a valid signal. The backtest confirms this exactly.</p>
+<blockquote>
+<p>"Big Money taking some position in some stocks... due to unstable volume pressed, OL &amp; OH can only be formed." — NK</p>
+</blockquote>
+<hr />
 <h2>Risk Management</h2>
-
-<table><thead><tr><th>Risk</th><th>Mitigation</th></tr></thead><tbody>
-<tr><td>Gap down after entry</td><td>SL at 0.5% below open limits damage</td></tr>
-<tr><td>Multiple stocks hit SL same day</td><td>Max 3-5 stocks/day — diversification</td></tr>
-<tr><td>Market crash day</td><td>All Open=Low setups fail — accept the loss, don&#x27;t average</td></tr>
-<tr><td>Overtrading</td><td>Stick to max 5 signals/day, ranked by volume</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gap down after entry</td>
+<td>SL at 0.5% below open limits damage</td>
+</tr>
+<tr>
+<td>Multiple stocks hit SL same day</td>
+<td>Max 3-5 stocks/day — diversification</td>
+</tr>
+<tr>
+<td>Market crash day</td>
+<td>All Open=Low setups fail — accept the loss, don't average</td>
+</tr>
+<tr>
+<td>Overtrading</td>
+<td>Stick to max 5 signals/day, ranked by volume</td>
+</tr>
+</tbody>
+</table>
 <h3>Expected Daily P&amp;L (with Vol ≥ 1.5× filter)</h3>
 <ul>
 <li><strong>Avg win:</strong> ₹131 per stock (1.3% on ₹10K)</li>
@@ -347,49 +430,82 @@
 <li><strong>3 trades/day:</strong> +₹177/day = <strong>~₹3,500/month</strong> (20 trading days)</li>
 <li><strong>On ₹30,000 deployed daily:</strong> ~12% monthly return</li>
 </ul>
-
-<hr>
-
+<hr />
 <h2>Daily Routine</h2>
-
-<table><thead><tr><th>Time</th><th>Action</th></tr></thead><tbody>
-<tr><td><strong>9:15</strong></td><td>Market open. Watch NSE 200 stocks</td></tr>
-<tr><td><strong>9:30</strong></td><td>Run scan: check Open=Low + Volume ≥ 1.5×</td></tr>
-<tr><td><strong>9:30-9:45</strong></td><td>Enter top 3-5 stocks by volume ratio. Buy ₹10K each</td></tr>
-<tr><td><strong>9:45-1:00</strong></td><td>Monitor. Set SL alerts at 0.5% below each entry</td></tr>
-<tr><td><strong>1:00 PM</strong></td><td>Exit ALL positions. Book profits/losses. Done for the day</td></tr>
-</tbody></table>
-
-<hr>
-
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>9:15</strong></td>
+<td>Market open. Watch NSE 200 stocks</td>
+</tr>
+<tr>
+<td><strong>9:30</strong></td>
+<td>Run scan: check Open=Low + Volume ≥ 1.5×</td>
+</tr>
+<tr>
+<td><strong>9:30-9:45</strong></td>
+<td>Enter top 3-5 stocks by volume ratio. Buy ₹10K each</td>
+</tr>
+<tr>
+<td><strong>9:45-1:00</strong></td>
+<td>Monitor. Set SL alerts at 0.5% below each entry</td>
+</tr>
+<tr>
+<td><strong>1:00 PM</strong></td>
+<td>Exit ALL positions. Book profits/losses. Done for the day</td>
+</tr>
+</tbody>
+</table>
+<hr />
 <h2>Relationship to NK Wiki</h2>
-
-<table><thead><tr><th>This Strategy</th><th>NK Concept</th></tr></thead><tbody>
-<tr><td>Open=Low signal</td><td><a href="/wiki/concepts/oh-ol">Oh Ol</a> — NK&#x27;s core OH/OL framework</td></tr>
-<tr><td>Volume confirmation</td><td>NK: &quot;OL created when big volume pressed&quot;</td></tr>
-<tr><td>Exit at 1 PM</td><td><a href="/wiki/concepts/intraday-process">Intraday Process</a> — NK&#x27;s intraday timing</td></tr>
-<tr><td>SL at first candle low</td><td><a href="/wiki/concepts/support-resistance">Support Resistance</a> — candle low as S/R</td></tr>
-<tr><td>NSE 200 universe</td><td><a href="/wiki/concepts/chart-reading">Chart Reading</a> — trade liquid stocks only</td></tr>
-</tbody></table>
-
-<hr>
-
+<table>
+<thead>
+<tr>
+<th>This Strategy</th>
+<th>NK Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Open=Low signal</td>
+<td><a href="/wiki/concepts/oh-ol">Oh Ol</a> — NK's core OH/OL framework</td>
+</tr>
+<tr>
+<td>Volume confirmation</td>
+<td>NK: "OL created when big volume pressed"</td>
+</tr>
+<tr>
+<td>Exit at 1 PM</td>
+<td><a href="/wiki/concepts/intraday-process">Intraday Process</a> — NK's intraday timing</td>
+</tr>
+<tr>
+<td>SL at first candle low</td>
+<td><a href="/wiki/concepts/support-resistance">Support Resistance</a> — candle low as S/R</td>
+</tr>
+<tr>
+<td>NSE 200 universe</td>
+<td><a href="/wiki/concepts/chart-reading">Chart Reading</a> — trade liquid stocks only</td>
+</tr>
+</tbody>
+</table>
+<hr />
 <h2>Honest Caveats</h2>
-
 <ol>
-<li><strong>Daily data proxy:</strong> The backtest uses daily OHLCV, not 15-min candles. The real SL (15-min close below first candle low) will perform slightly differently. The 1.0% OL tolerance is a proxy for &quot;open near low&quot; — real Open=Low at 9:30 is more precise.</li>
+<li><strong>Daily data proxy:</strong> The backtest uses daily OHLCV, not 15-min candles. The real SL (15-min close below first candle low) will perform slightly differently. The 1.0% OL tolerance is a proxy for "open near low" — real Open=Low at 9:30 is more precise.</li>
 <li><strong>Exit price approximation:</strong> We use (Open+Close)/2 as a proxy for 1 PM exit. Real 1 PM price could be higher or lower.</li>
 <li><strong>No costs included:</strong> Add brokerage (~₹20/trade) + STT + slippage. On 7,242 trades × ₹20 = ₹144K drag.</li>
-<li><strong>In-sample:</strong> Filters found on same data they&#x27;re tested on. Expect live WR ~55% (not 59%).</li>
-<li><strong>High trade frequency:</strong> Baseline generates 90 trades/day across NSE 200. Even with Vol 1.5× filter, that&#x27;s ~14/day. You MUST cap at 3-5/day for practical execution.</li>
+<li><strong>In-sample:</strong> Filters found on same data they're tested on. Expect live WR ~55% (not 59%).</li>
+<li><strong>High trade frequency:</strong> Baseline generates 90 trades/day across NSE 200. Even with Vol 1.5× filter, that's ~14/day. You MUST cap at 3-5/day for practical execution.</li>
 </ol>
-
-<hr>
-
+<hr />
 <h2>Recommended Config for Paper Trading</h2>
-
-<pre><code>
-Universe:       NSE 200
+<pre><code>Universe:       NSE 200
 Signal:         Open = Low (within 1.0% tolerance)
 Volume filter:  First 15-min vol ≥ 1.5× average per-candle vol
 Max trades:     Top 3 per day by volume ratio
@@ -400,16 +516,14 @@ Hold:           Intraday only, NO overnight
 
 Expected:       ~59% WR, PF ~4, ~₹3,500/month on ₹30K daily deployment
 </code></pre>
-
 <h2>Related</h2>
 <ul>
-<li><a href="/wiki/concepts/oh-ol">Oh Ol</a> — NK&#x27;s OH/OL framework (this strategy is the intraday application)</li>
-<li><a href="/wiki/sources/source-class-6-ohol">Source Class 6 Ohol</a> — NK&#x27;s class on OH/OL with volume</li>
+<li><a href="/wiki/concepts/oh-ol">Oh Ol</a> — NK's OH/OL framework (this strategy is the intraday application)</li>
+<li><a href="/wiki/sources/source-class-6-ohol">Source Class 6 Ohol</a> — NK's class on OH/OL with volume</li>
 <li><a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> — Volume as confirmation</li>
 <li><a href="/wiki/concepts/intraday-process">Intraday Process</a> — Intraday timing rules</li>
 <li><a href="/wiki/concepts/support-resistance">Support Resistance</a> — Candle low as SL</li>
-</ul>
-</article>
+</ul></article>
 </section>
 
 

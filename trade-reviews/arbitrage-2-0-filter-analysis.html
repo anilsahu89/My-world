@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,158 +212,299 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Filter Analysis: How to Lift Win Rate on Arbitrage 2.0</h1>
 <article class="md"><h1>Filter Analysis: How to Lift Win Rate on Arbitrage 2.0</h1>
-
 <h2>Methodology</h2>
-<p>Pulled all 276 trades from the 2.3-year backtest (<code>results/2yr3_2024-01_2026-05/trades.csv</code>), computed per-trade features, then sliced winners vs losers and tested filters. <strong>This is in-sample optimization</strong> — these filters will look better than they&#x27;ll trade live. Treat as hypotheses to validate out-of-sample, not as proven improvements.</p>
-
-<hr>
-
+<p>Pulled all 276 trades from the 2.3-year backtest (<code>results/2yr3_2024-01_2026-05/trades.csv</code>), computed per-trade features, then sliced winners vs losers and tested filters. <strong>This is in-sample optimization</strong> — these filters will look better than they'll trade live. Treat as hypotheses to validate out-of-sample, not as proven improvements.</p>
+<hr />
 <h2>What Separates Winners from Losers</h2>
-
-<table><thead><tr><th>Feature</th><th>Winners (n=144)</th><th>Losers (n=132)</th><th>Signal</th></tr></thead><tbody>
-<tr><td><strong>Holding days</strong></td><td><strong>10.0</strong></td><td>6.0</td><td>🟢 Strong — winners need time to converge</td></tr>
-<tr><td><strong>Basis % of spot</strong></td><td><strong>1.94%</strong></td><td>1.56%</td><td>🟢 Strong — bigger relative gap = more room</td></tr>
-<tr><td><strong>Basis/Spread ratio</strong></td><td>2.09</td><td>1.93</td><td>🟡 Mild</td></tr>
-<tr><td><strong>Spread (₹)</strong></td><td>53.0</td><td>31.5</td><td>🔴 Counterintuitive — wider spreads win more (more premium to capture)</td></tr>
-<tr><td><strong>Absolute basis (₹)</strong></td><td>95.0</td><td>56.9</td><td>🟡 Misleading — see below</td></tr>
-<tr><td><strong>Spread value (₹)</strong></td><td>5,843</td><td>5,800</td><td>⚪ No difference</td></tr>
-<tr><td><strong>Rank on day</strong></td><td>1.51</td><td>1.71</td><td>🟡 Mild — top-ranked slightly better</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Winners (n=144)</th>
+<th>Losers (n=132)</th>
+<th>Signal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Holding days</strong></td>
+<td><strong>10.0</strong></td>
+<td>6.0</td>
+<td>🟢 Strong — winners need time to converge</td>
+</tr>
+<tr>
+<td><strong>Basis % of spot</strong></td>
+<td><strong>1.94%</strong></td>
+<td>1.56%</td>
+<td>🟢 Strong — bigger relative gap = more room</td>
+</tr>
+<tr>
+<td><strong>Basis/Spread ratio</strong></td>
+<td>2.09</td>
+<td>1.93</td>
+<td>🟡 Mild</td>
+</tr>
+<tr>
+<td><strong>Spread (₹)</strong></td>
+<td>53.0</td>
+<td>31.5</td>
+<td>🔴 Counterintuitive — wider spreads win more (more premium to capture)</td>
+</tr>
+<tr>
+<td><strong>Absolute basis (₹)</strong></td>
+<td>95.0</td>
+<td>56.9</td>
+<td>🟡 Misleading — see below</td>
+</tr>
+<tr>
+<td><strong>Spread value (₹)</strong></td>
+<td>5,843</td>
+<td>5,800</td>
+<td>⚪ No difference</td>
+</tr>
+<tr>
+<td><strong>Rank on day</strong></td>
+<td>1.51</td>
+<td>1.71</td>
+<td>🟡 Mild — top-ranked slightly better</td>
+</tr>
+</tbody>
+</table>
 <h3>Two surprising findings (read these carefully)</h3>
-
-<p><strong>1. Absolute basis (₹) is a TRAP.</strong></p>
-<p>Higher ₹ basis → <em>lower</em> win rate (₹20 → 51%, ₹50 → 49%). Why? A ₹50 basis on a ₹3000 stock (1.7%) behaves very differently from ₹50 on a ₹500 stock (10%). The <strong>percentage</strong> matters, not the rupee amount. High-₹-basis stocks are often high-priced stocks where 1.5% is &quot;normal&quot; — not an edge.</p>
-
-<p><strong>2. Wide spreads win MORE often, not less.</strong></p>
-<p>Counter to intuition. Winners have wider spreads (₹53 vs ₹32). Explanation: a wide spread means more premium to capture before convergence — the trade has more &quot;meat on the bone.&quot; Don&#x27;t filter spreads DOWN; the existing <code>spread ≤ basis</code> rule is sufficient.</p>
-
-<hr>
-
+<p><strong>1. Absolute basis (₹) is a TRAP.</strong>
+Higher ₹ basis → <em>lower</em> win rate (₹20 → 51%, ₹50 → 49%). Why? A ₹50 basis on a ₹3000 stock (1.7%) behaves very differently from ₹50 on a ₹500 stock (10%). The <strong>percentage</strong> matters, not the rupee amount. High-₹-basis stocks are often high-priced stocks where 1.5% is "normal" — not an edge.</p>
+<p><strong>2. Wide spreads win MORE often, not less.</strong>
+Counter to intuition. Winners have wider spreads (₹53 vs ₹32). Explanation: a wide spread means more premium to capture before convergence — the trade has more "meat on the bone." Don't filter spreads DOWN; the existing <code>spread ≤ basis</code> rule is sufficient.</p>
+<hr />
 <h2>The Core Trade-off (the honest part)</h2>
-
 <p>Every filter that lifts win rate <strong>cuts trade count</strong>. This is the central tension:</p>
-
-<table><thead><tr><th>Filter</th><th>Trades</th><th>Win Rate</th><th>PF</th><th>Net P&amp;L</th><th>₹/yr</th></tr></thead><tbody>
-<tr><td><strong>Baseline</strong></td><td>276</td><td>52.2%</td><td>2.68</td><td>₹4,72,785</td><td>₹2,05,559</td></tr>
-<tr><td>Combo G: basis%≥1.0 + ratio≥2.0</td><td>77</td><td>55.8%</td><td>4.54</td><td>₹2,51,083</td><td>₹1,09,167</td></tr>
-<tr><td>Combo A: basis%≥1.5 + ratio≥2.0</td><td>42</td><td>64.3%</td><td>6.94</td><td>₹2,11,778</td><td>₹92,077</td></tr>
-<tr><td><strong>Combo B: basis%≥1.5 + ratio≥2.5</strong></td><td>31</td><td><strong>67.7%</strong></td><td><strong>10.30</strong></td><td>₹1,83,540</td><td>₹79,800</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Filter</th>
+<th>Trades</th>
+<th>Win Rate</th>
+<th>PF</th>
+<th>Net P&amp;L</th>
+<th>₹/yr</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Baseline</strong></td>
+<td>276</td>
+<td>52.2%</td>
+<td>2.68</td>
+<td>₹4,72,785</td>
+<td>₹2,05,559</td>
+</tr>
+<tr>
+<td>Combo G: basis%≥1.0 + ratio≥2.0</td>
+<td>77</td>
+<td>55.8%</td>
+<td>4.54</td>
+<td>₹2,51,083</td>
+<td>₹1,09,167</td>
+</tr>
+<tr>
+<td>Combo A: basis%≥1.5 + ratio≥2.0</td>
+<td>42</td>
+<td>64.3%</td>
+<td>6.94</td>
+<td>₹2,11,778</td>
+<td>₹92,077</td>
+</tr>
+<tr>
+<td><strong>Combo B: basis%≥1.5 + ratio≥2.5</strong></td>
+<td>31</td>
+<td><strong>67.7%</strong></td>
+<td><strong>10.30</strong></td>
+<td>₹1,83,540</td>
+<td>₹79,800</td>
+</tr>
+</tbody>
+</table>
 <p><strong>You can push win rate to 68% (Combo B) — but you give up 60% of your annual P&amp;L.</strong> PF goes from 2.68 to 10.30 (beautiful), but you only trade ~13 times a year and make ₹80K instead of ₹2L.</p>
-
-<p>This is <strong>not</strong> a free lunch. It&#x27;s a choice between two valid strategies:</p>
-<ul>
-<li><strong>Baseline = max absolute returns, lower win-rate psychology</strong></li>
-<li><strong>Combo B = max win rate + PF, but capital-efficient boring</strong></li>
-</ul>
-
-<hr>
-
+<p>This is <strong>not</strong> a free lunch. It's a choice between two valid strategies:
+- <strong>Baseline = max absolute returns, lower win-rate psychology</strong>
+- <strong>Combo B = max win rate + PF, but capital-efficient boring</strong></p>
+<hr />
 <h2>My Recommendations (3 tiers)</h2>
-
-<h3>Tier 1: The &quot;Free Wins&quot; — apply these without thinking</h3>
+<h3>Tier 1: The "Free Wins" — apply these without thinking</h3>
 <p>These filters lift PF meaningfully with <strong>minimal trade-count loss</strong>:</p>
-
-<pre><code>
---min-basis-pct 1.0    # Basis ≥ 1.0% of spot (cuts 89 trades, lifts PF 2.68→3.07)
+<pre><code class="language-bash">--min-basis-pct 1.0    # Basis ≥ 1.0% of spot (cuts 89 trades, lifts PF 2.68→3.07)
 </code></pre>
 <ul>
 <li>Drops to 187 trades, WR 52.2%→54.5%, PF 2.68→3.07</li>
-<li>Removes the &quot;thin-edge&quot; trades where basis was ₹10 on a ₹2000 stock (0.5%)</li>
+<li>Removes the "thin-edge" trades where basis was ₹10 on a ₹2000 stock (0.5%)</li>
 <li><strong>This is a no-brainer. The ₹10 absolute floor is too loose for high-priced stocks.</strong></li>
 </ul>
-
-<h3>Tier 2: The &quot;Sweet Spot&quot; — if you want better quality of life</h3>
+<h3>Tier 2: The "Sweet Spot" — if you want better quality of life</h3>
 <p><strong>Combo G: <code>--min-basis-pct 1.0 --max-spread-to-basis 0.5</code></strong> (basis/spread ratio ≥ 2.0)</p>
-
-<table><thead><tr><th>Metric</th><th>Baseline</th><th>Combo G</th></tr></thead><tbody>
-<tr><td>Trades</td><td>276</td><td>77</td></tr>
-<tr><td>Win rate</td><td>52.2%</td><td><strong>55.8%</strong></td></tr>
-<tr><td>PF</td><td>2.68</td><td><strong>4.54</strong></td></tr>
-<tr><td>EV/trade</td><td>₹1,713</td><td><strong>₹3,261</strong></td></tr>
-<tr><td>Net/yr</td><td>₹2.06L</td><td>₹1.09L</td></tr>
-<tr><td>Worst trade</td><td>−₹9,925</td><td>−₹9,925</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Baseline</th>
+<th>Combo G</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Trades</td>
+<td>276</td>
+<td>77</td>
+</tr>
+<tr>
+<td>Win rate</td>
+<td>52.2%</td>
+<td><strong>55.8%</strong></td>
+</tr>
+<tr>
+<td>PF</td>
+<td>2.68</td>
+<td><strong>4.54</strong></td>
+</tr>
+<tr>
+<td>EV/trade</td>
+<td>₹1,713</td>
+<td><strong>₹3,261</strong></td>
+</tr>
+<tr>
+<td>Net/yr</td>
+<td>₹2.06L</td>
+<td>₹1.09L</td>
+</tr>
+<tr>
+<td>Worst trade</td>
+<td>−₹9,925</td>
+<td>−₹9,925</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li><strong>Doubles EV per trade</strong> (₹1.7K → ₹3.3K)</li>
 <li>PF jumps 2.68 → 4.54</li>
 <li>Trade frequency drops from ~10/month to ~3/month — <strong>less screen time, fewer decisions, fewer mistakes</strong></li>
-<li>This is what I&#x27;d actually trade live. The psychological edge of &quot;I lose less than half as often&quot; matters for discipline.</li>
+<li>This is what I'd actually trade live. The psychological edge of "I lose less than half as often" matters for discipline.</li>
 </ul>
-
-<h3>Tier 3: The &quot;Sniper&quot; — only if capital-constrained, not time-constrained</h3>
+<h3>Tier 3: The "Sniper" — only if capital-constrained, not time-constrained</h3>
 <p><strong>Combo B: <code>--min-basis-pct 1.5 --max-spread-to-basis 0.4</code></strong> (basis/spread ratio ≥ 2.5)</p>
-
-<table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>
-<tr><td>Trades/yr</td><td>~13</td></tr>
-<tr><td>Win rate</td><td><strong>67.7%</strong></td></tr>
-<tr><td>PF</td><td><strong>10.30</strong></td></tr>
-<tr><td>EV/trade</td><td><strong>₹5,921</strong></td></tr>
-<tr><td>Worst trade</td><td>−₹4,680</td></tr>
-<tr><td>Net/yr</td><td>₹79,800</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Trades/yr</td>
+<td>~13</td>
+</tr>
+<tr>
+<td>Win rate</td>
+<td><strong>67.7%</strong></td>
+</tr>
+<tr>
+<td>PF</td>
+<td><strong>10.30</strong></td>
+</tr>
+<tr>
+<td>EV/trade</td>
+<td><strong>₹5,921</strong></td>
+</tr>
+<tr>
+<td>Worst trade</td>
+<td>−₹4,680</td>
+</tr>
+<tr>
+<td>Net/yr</td>
+<td>₹79,800</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li>Only fires when the structure is <em>textbook</em>: basis ≥ 1.5% of spot AND spread is ≤ 40% of basis</li>
 <li>2 in 3 trades win. Losers are small (worst −₹4.7K)</li>
 <li><strong>But: 13 trades/year is too few for most traders.</strong> Capital sits idle. Use this only if you (a) have limited capital and want max hit-rate per deployment, or (b) run it as a <em>secondary</em> scan alongside a more active variant.</li>
 </ul>
-
-<hr>
-
-<h2>What I&#x27;d Actually Do</h2>
-
+<hr />
+<h2>What I'd Actually Do</h2>
 <p>Run <strong>two parallel instances</strong> of the strategy with different risk allocations:</p>
-
-<table><thead><tr><th>Bucket</th><th>Filter</th><th>Capital</th><th>Rationale</th></tr></thead><tbody>
-<tr><td><strong>Core (70%)</strong></td><td>Combo G (basis%≥1.0, ratio≥2.0)</td><td>₹3.5L</td><td>Workhorse — 3 trades/month, PF 4.5, pays the bills</td></tr>
-<tr><td><strong>Sniper (30%)</strong></td><td>Combo B (basis%≥1.5, ratio≥2.5)</td><td>₹1.5L</td><td>High-conviction — fires rarely, ~70% WR, &quot;sure things&quot;</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Bucket</th>
+<th>Filter</th>
+<th>Capital</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Core (70%)</strong></td>
+<td>Combo G (basis%≥1.0, ratio≥2.0)</td>
+<td>₹3.5L</td>
+<td>Workhorse — 3 trades/month, PF 4.5, pays the bills</td>
+</tr>
+<tr>
+<td><strong>Sniper (30%)</strong></td>
+<td>Combo B (basis%≥1.5, ratio≥2.5)</td>
+<td>₹1.5L</td>
+<td>High-conviction — fires rarely, ~70% WR, "sure things"</td>
+</tr>
+</tbody>
+</table>
 <p>This gets you ~5-6 trades/month blended, a combined PF likely ~5-6, and capital stays active. The sniper bucket catches the best setups; the core catches the volume.</p>
-
-<hr>
-
-<h2>Filters I Tested That DON&#x27;T Work</h2>
-
+<hr />
+<h2>Filters I Tested That DON'T Work</h2>
 <p>Save yourself the time — these looked promising but failed:</p>
-
-<table><thead><tr><th>Filter</th><th>Result</th><th>Why it fails</th></tr></thead><tbody>
-<tr><td>Absolute basis ≥ ₹50</td><td>WR drops to 49.3%, PF 1.63</td><td>High-₹ basis = high-priced stocks where % is small</td></tr>
-<tr><td>Spread ≤ ₹10</td><td>WR 60% but only 95 trades, misses big winners</td><td>Cuts the &quot;meaty&quot; wide-spread trades that pay the most</td></tr>
-<tr><td>Rank 1 only</td><td>Marginal WR lift, loses 35% of trades</td><td>Ranking already captures most of the signal</td></tr>
-<tr><td>Holding-days cap</td><td>Can&#x27;t filter on entry — only known post-trade</td><td>Not actionable as an entry filter</td></tr>
-</tbody></table>
-
-<hr>
-
+<table>
+<thead>
+<tr>
+<th>Filter</th>
+<th>Result</th>
+<th>Why it fails</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Absolute basis ≥ ₹50</td>
+<td>WR drops to 49.3%, PF 1.63</td>
+<td>High-₹ basis = high-priced stocks where % is small</td>
+</tr>
+<tr>
+<td>Spread ≤ ₹10</td>
+<td>WR 60% but only 95 trades, misses big winners</td>
+<td>Cuts the "meaty" wide-spread trades that pay the most</td>
+</tr>
+<tr>
+<td>Rank 1 only</td>
+<td>Marginal WR lift, loses 35% of trades</td>
+<td>Ranking already captures most of the signal</td>
+</tr>
+<tr>
+<td>Holding-days cap</td>
+<td>Can't filter on entry — only known post-trade</td>
+<td>Not actionable as an entry filter</td>
+</tr>
+</tbody>
+</table>
+<hr />
 <h2>Critical Caveat: In-Sample Bias</h2>
-
-<p><strong>Every number above is in-sample.</strong> I found these filters by looking at the same 276 trades they&#x27;re tested on. In live trading, expect:</p>
-<ul>
-<li>Win rates to regress ~3-5 percentage points toward baseline</li>
-<li>PF to compress ~20-30%</li>
-<li>Combo B&#x27;s 67.7% WR will likely be ~62-64% live; Combo G&#x27;s 55.8% will be ~53-55%</li>
-</ul>
-
-<p><strong>To validate properly:</strong></p>
-<ol>
-<li><strong>Walk-forward test</strong>: Optimize filters on 2024 data only, then test on 2025-26 (out-of-sample). I can run this if you want.</li>
-<li><strong>Paper trade 3 months</strong>: Run Combo G live on 1 lot, compare actual WR to backtest WR.</li>
-<li><strong>Don&#x27;t over-optimize</strong>: The jump from baseline → Tier 1 is robust. The jump from Tier 2 → Tier 3 is where overfitting risk lives. Be suspicious of PF &gt; 5.</li>
-</ol>
-
-<hr>
-
+<p><strong>Every number above is in-sample.</strong> I found these filters by looking at the same 276 trades they're tested on. In live trading, expect:
+- Win rates to regress ~3-5 percentage points toward baseline
+- PF to compress ~20-30%
+- Combo B's 67.7% WR will likely be ~62-64% live; Combo G's 55.8% will be ~53-55%</p>
+<p><strong>To validate properly:</strong>
+1. <strong>Walk-forward test</strong>: Optimize filters on 2024 data only, then test on 2025-26 (out-of-sample). I can run this if you want.
+2. <strong>Paper trade 3 months</strong>: Run Combo G live on 1 lot, compare actual WR to backtest WR.
+3. <strong>Don't over-optimize</strong>: The jump from baseline → Tier 1 is robust. The jump from Tier 2 → Tier 3 is where overfitting risk lives. Be suspicious of PF &gt; 5.</p>
+<hr />
 <h2>Reproducing the Filters</h2>
-
 <p>All filters are CLI flags already in <code>backtest_future_arbitaage.py</code>:</p>
-
-<pre><code>
-# Tier 1 (free win)
+<pre><code class="language-bash"># Tier 1 (free win)
 python3 backtest_future_arbitaage.py --start 2024-01-15 --end 2026-05-15 \
   --min-basis-pct 1.0 --out-dir results/tier1
 
@@ -373,18 +516,16 @@ python3 backtest_future_arbitaage.py --start 2024-01-15 --end 2026-05-15 \
 python3 backtest_future_arbitaage.py --start 2024-01-15 --end 2026-05-15 \
   --min-basis-pct 1.5 --max-spread-to-basis 0.4 --out-dir results/tier3
 </code></pre>
-
-<p>&gt; Note: <code>--max-spread-to-basis</code> is the inverse of the ratio. Ratio ≥ 2.0 = <code>--max-spread-to-basis 0.5</code>. Ratio ≥ 2.5 = <code>--max-spread-to-basis 0.4</code>.</p>
-
-<hr>
-
+<blockquote>
+<p>Note: <code>--max-spread-to-basis</code> is the inverse of the ratio. Ratio ≥ 2.0 = <code>--max-spread-to-basis 0.5</code>. Ratio ≥ 2.5 = <code>--max-spread-to-basis 0.4</code>.</p>
+</blockquote>
+<hr />
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/trade-reviews/arbitrage-2-0-2yr3-backtest">Arbitrage 2 0 2Yr3 Backtest</a> — Base 2.3-year results</li>
 <li><a href="/wiki/strategies/future-arbitrage">Future Arbitrage</a> — Strategy rules</li>
 <li><a href="/wiki/concepts/arbitrage">Arbitrage</a> — Concept page</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

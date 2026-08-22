@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,16 +212,11 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>SRT Investing</h1>
 <article class="md"><h1>SRT Investing</h1>
-
 <h2>Definition</h2>
 <p>SRT is a long-term investing ratio:</p>
-
-<pre><code>
-SRT = latest spot / 124-day SMA
+<pre><code class="language-text">SRT = latest spot / 124-day SMA
 </code></pre>
-
 <p>124 days ≈ 6 months ≈ 50% of ~248 trading days. The source uses it to identify broad Nifty investment zones.</p>
-
 <h2>Rules</h2>
 <ul>
 <li>SRT between 0.6 and 0.9 is considered a strong investing zone.</li>
@@ -229,24 +226,38 @@ SRT = latest spot / 124-day SMA
 <li>Add every 0.1 downside.</li>
 <li>Safe investment areas also include weekly AVWAP / 20 SMA and convergence of 20, 50, 124, 150, 200 EMA.</li>
 </ul>
-
-<h2>NK&#x27;s refined thresholds (Jul 2026 podcast)</h2>
+<h2>NK's refined thresholds (Jul 2026 podcast)</h2>
 <p>Nifty SRT normally oscillates <strong>0.55 to 1.5</strong>. Specific zones:</p>
-
-<table><thead><tr><th>SRT level</th><th>Meaning</th><th>Action</th></tr></thead><tbody>
-<tr><td><strong>&lt; 0.6 (esp. ~0.55)</strong></td><td>Lifetime wealth-creation zone</td><td><strong>Never short, even if paid to.</strong> Occurs once every 10–14 years (last: Covid 2020; Nifty &quot;Lakshman Rekha&quot; 7410, low 7411)</td></tr>
-<tr><td><strong>~0.85</strong></td><td>Nifty ~17% off its top</td><td>Positional BUY zone — hold ~6 months</td></tr>
-<tr><td><strong>Weekly &gt; 1.24</strong></td><td>Overheated</td><td>Exit equities → gold / dividend-yielding / cash. Even if it runs to 1.30 (+30%), the exit was right</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>SRT level</th>
+<th>Meaning</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>&lt; 0.6 (esp. ~0.55)</strong></td>
+<td>Lifetime wealth-creation zone</td>
+<td><strong>Never short, even if paid to.</strong> Occurs once every 10–14 years (last: Covid 2020; Nifty "Lakshman Rekha" 7410, low 7411)</td>
+</tr>
+<tr>
+<td><strong>~0.85</strong></td>
+<td>Nifty ~17% off its top</td>
+<td>Positional BUY zone — hold ~6 months</td>
+</tr>
+<tr>
+<td><strong>Weekly &gt; 1.24</strong></td>
+<td>Overheated</td>
+<td>Exit equities → gold / dividend-yielding / cash. Even if it runs to 1.30 (+30%), the exit was right</td>
+</tr>
+</tbody>
+</table>
 <p><strong>Critical: always check SRT on DAILY, not monthly</strong> — monthly shows ~1.53 and misleads.</p>
-
 <p><strong>Nifty drawdown ladder:</strong> 5% → 12% → 17% → 36–38%. A break of 36–38% = crash to 50–58% (as in 2008 / Covid). 17% breaks only on genuinely bad news.</p>
-
-<p><strong>Cross-instrument caveat:</strong> stock/commodity SRT levels differ from Nifty&#x27;s — do NOT apply Nifty SRT levels to other instruments.</p>
-
+<p><strong>Cross-instrument caveat:</strong> stock/commodity SRT levels differ from Nifty's — do NOT apply Nifty SRT levels to other instruments.</p>
 <p><strong>HM linkage:</strong> when SRT ≤ ~0.85, NK shifts <a href="/wiki/concepts/hilega-milega">Hilega Milega</a> to <strong>RSI period 7</strong> for faster response.</p>
-
 <h2>Backtest Specification</h2>
 <ul>
 <li>Instrument: Nifty index or Nifty ETF proxy.</li>
@@ -255,18 +266,15 @@ SRT = latest spot / 124-day SMA
 <li>Entry ladder at 0.9, 0.8, 0.7, 0.6.</li>
 <li>Exit variants: SRT mean reversion, fixed holding period, monthly HM sell.</li>
 </ul>
-
 <h2>Status</h2>
-<p>⚠️ The 0.55 / 0.85 / 1.24 thresholds and the &quot;9–14 year recurrence&quot; claim are NK&#x27;s teaching, <strong>not independently backtested</strong> here. The drawdown ladder (5/12/17/36-38%) is testable on Nifty history — good backtest candidate.</p>
-
+<p>⚠️ The 0.55 / 0.85 / 1.24 thresholds and the "9–14 year recurrence" claim are NK's teaching, <strong>not independently backtested</strong> here. The drawdown ladder (5/12/17/36-38%) is testable on Nifty history — good backtest candidate.</p>
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/sources/source-srt-investing">Source Srt Investing</a></li>
 <li><a href="/wiki/sources/source-nk-hm-podcast-2026">Source Nk Hm Podcast 2026</a></li>
 <li><a href="/wiki/concepts/hilega-milega">Hilega Milega</a></li>
 <li><a href="/wiki/concepts/moving-average">Moving Average</a></li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

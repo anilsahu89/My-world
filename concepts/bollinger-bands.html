@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,64 +212,50 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Bollinger Bands</h1>
 <article class="md"><h1>Bollinger Bands</h1>
-
 <h2>Definition</h2>
 <p>A <strong>volatility indicator</strong> (John Bollinger): a band plotted at <strong>±2 standard deviations</strong> around a <strong>20-period SMA</strong> (defaults: period 20, stddev 2). Upper band = resistance, lower band = support, middle = 20 SMA. The band width expands/contracts with volatility.</p>
-
 <h2>Core behaviours (NK framework)</h2>
 <ul>
-<li><strong>Squeeze → blast:</strong> when bands are narrow for a while (low volatility), a sharp directional move becomes likely. If bands were <em>not</em> narrow and it &quot;blasts&quot; → likely a <a href="/wiki/concepts/bb-trap">trap</a>.</li>
-<li><strong>Band walk:</strong> a strong trend can &quot;walk&quot; along a band — stay in the trade till price leaves the band.</li>
+<li><strong>Squeeze → blast:</strong> when bands are narrow for a while (low volatility), a sharp directional move becomes likely. If bands were <em>not</em> narrow and it "blasts" → likely a <a href="/wiki/concepts/bb-trap">trap</a>.</li>
+<li><strong>Band walk:</strong> a strong trend can "walk" along a band — stay in the trade till price leaves the band.</li>
 <li><strong>Mean reversion inside range:</strong> price tends to bounce between bands; bounce off lower band + cross above middle → upper band is the target.</li>
 <li><strong>Breakout invalidation:</strong> if price exits a band but immediately re-enters → the breakout strength is negated.</li>
 <li><strong>Timeframe effect (from <a href="/wiki/sources/source-class-6-ohol">Source Class 6 Ohol</a>):</strong> a BB event on day TF → 7–28 days effect; hourly → 2–3 days. (BB Blast duration table on <a href="/wiki/concepts/bb-blast">Bb Blast</a>.)</li>
 <li><strong>Confirmation:</strong> BB blast + next day gap up + sustain = confirmed.</li>
 </ul>
-
 <h2>Intraday trading rules (15-min, from <a href="/wiki/sources/source-ma-convergence">Source Ma Convergence</a>)</h2>
 <ul>
 <li>Buy only when candle is <strong>above the 20 SMA</strong> (black/middle line).</li>
 <li>Sell only when candle is <strong>below 20 SMA</strong>.</li>
 <li>Confirm with <a href="/wiki/concepts/vwap">Vwap</a> + <a href="/wiki/concepts/hilega-milega">Hilega Milega</a>.</li>
-<li>&quot;Whenever it touches 20 SMA, price will jump.&quot;</li>
+<li>"Whenever it touches 20 SMA, price will jump."</li>
 </ul>
-
 <h2>Two NK signature BB patterns</h2>
 <ul>
 <li><strong><a href="/wiki/concepts/bb-blast">BB Blast</a></strong> — the continuation/breakout (and the pattern your BB breakout v2 scanner targets).</li>
 <li><strong><a href="/wiki/concepts/bb-trap">BB Trap</a></strong> — the reversal trap (retailers get caught on a fake gap move).</li>
 </ul>
-
 <h2>BB in the broader method</h2>
 <ul>
-<li>Combined with <a href="/wiki/concepts/vwap">Vwap</a> (the &quot;station&quot;), <a href="/wiki/concepts/avwap">Avwap</a>, <a href="/wiki/concepts/hilega-milega">Hilega Milega</a> (confirmation), and the 20/50/100/150/200 EMA <a href="/wiki/concepts/moving-average">COMA</a> stack.</li>
+<li>Combined with <a href="/wiki/concepts/vwap">Vwap</a> (the "station"), <a href="/wiki/concepts/avwap">Avwap</a>, <a href="/wiki/concepts/hilega-milega">Hilega Milega</a> (confirmation), and the 20/50/100/150/200 EMA <a href="/wiki/concepts/moving-average">COMA</a> stack.</li>
 <li><a href="/wiki/concepts/moh-maya">Moh Maya</a> uses BB as its outside-the-band trigger.</li>
 <li><a href="/wiki/concepts/overbought-oversold">Overbought Oversold</a> is partly read via BB.</li>
-<li>AVWAP &quot;works well with Bollinger Band also.&quot;</li>
+<li>AVWAP "works well with Bollinger Band also."</li>
 </ul>
-
-<hr>
-
-<h2>⚠️ CROSS-CHECK vs Rita&#x27;s BB Breakout v2 Scanner — STATUS: PENDING</h2>
-
-<p><strong>This is the critical gap flagged in <code>CLAUDE.md</code>.</strong> Rita is building a Bollinger Band breakout scanner for Nifty 500 stocks; the scanner logic (call it &quot;BB breakout v2&quot;) is <strong>not documented anywhere in the vault.</strong> Per the schema&#x27;s hard rule, I should cross-check every BB source against it — but there&#x27;s nothing to check against yet.</p>
-
-<p><strong>What the sources say BB-breakout-like behaviour looks like</strong> (for comparison once v2 is documented):</p>
-<ul>
-<li>Squeeze then blast, ride the band (<a href="/wiki/sources/source-ma-convergence">Source Ma Convergence</a>)</li>
-<li>Buy above 20 SMA on 15-min; exit when price closes below 20 SMA</li>
-<li>Confirm with VWAP + HM</li>
-<li>BB Blast duration-by-TF table (<a href="/wiki/sources/source-class-6-ohol">Source Class 6 Ohol</a>): 10-min → 1.5–2 hr, 30-min → 2–5 days, day → 5–15 days, weekly → 20–25 days, monthly → 3–7 months. <strong>Claimed 70% accuracy</strong> (unvalidated).</li>
-<li>On BB Blast: buy OTM, sell further OTM (<a href="/wiki/sources/source-option-calculation">Source Option Calculation</a>)</li>
-<li>Moh-Maya: outside-band doji → next-day entry (positional variant)</li>
-<li>Warning: a &quot;blast&quot; <em>without</em> prior narrowing is a trap</li>
-</ul>
-
+<hr />
+<h2>⚠️ CROSS-CHECK vs Rita's BB Breakout v2 Scanner — STATUS: PENDING</h2>
+<p><strong>This is the critical gap flagged in <code>CLAUDE.md</code>.</strong> Rita is building a Bollinger Band breakout scanner for Nifty 500 stocks; the scanner logic (call it "BB breakout v2") is <strong>not documented anywhere in the vault.</strong> Per the schema's hard rule, I should cross-check every BB source against it — but there's nothing to check against yet.</p>
+<p><strong>What the sources say BB-breakout-like behaviour looks like</strong> (for comparison once v2 is documented):
+- Squeeze then blast, ride the band (<a href="/wiki/sources/source-ma-convergence">Source Ma Convergence</a>)
+- Buy above 20 SMA on 15-min; exit when price closes below 20 SMA
+- Confirm with VWAP + HM
+- BB Blast duration-by-TF table (<a href="/wiki/sources/source-class-6-ohol">Source Class 6 Ohol</a>): 10-min → 1.5–2 hr, 30-min → 2–5 days, day → 5–15 days, weekly → 20–25 days, monthly → 3–7 months. <strong>Claimed 70% accuracy</strong> (unvalidated).
+- On BB Blast: buy OTM, sell further OTM (<a href="/wiki/sources/source-option-calculation">Source Option Calculation</a>)
+- Moh-Maya: outside-band doji → next-day entry (positional variant)
+- Warning: a "blast" <em>without</em> prior narrowing is a trap</p>
 <p><strong>Action needed:</strong> when Rita writes up BB breakout v2 (entry/exit/SL/TF/stock-universe/backtest results), create <code>strategies/bb-breakout-v2.md</code> and reconcile each rule above against it — flag agreements, conflicts, and refinements.</p>
-
 <h2>Source pages</h2>
-<p><a href="/wiki/sources/source-ma-convergence">Source Ma Convergence</a> (BB playbook) · <a href="/wiki/sources/source-chart-reading">Source Chart Reading</a> · <a href="/wiki/sources/source-bb-trap-hedging">Source Bb Trap Hedging</a> · <a href="/wiki/sources/source-bb-trap-mentorship3">Source Bb Trap Mentorship3</a> · <a href="/wiki/sources/source-class-6-ohol">Source Class 6 Ohol</a> (BB Blast duration table)</p>
-</article>
+<p><a href="/wiki/sources/source-ma-convergence">Source Ma Convergence</a> (BB playbook) · <a href="/wiki/sources/source-chart-reading">Source Chart Reading</a> · <a href="/wiki/sources/source-bb-trap-hedging">Source Bb Trap Hedging</a> · <a href="/wiki/sources/source-bb-trap-mentorship3">Source Bb Trap Mentorship3</a> · <a href="/wiki/sources/source-class-6-ohol">Source Class 6 Ohol</a> (BB Blast duration table)</p></article>
 
   </main>
   <footer>

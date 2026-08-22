@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,10 +212,8 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Killer Wave</h1>
 <article class="md"><h1>Killer Wave</h1>
-
 <h2>Definition</h2>
 <p>Killer Wave is a 1-hour intraday price-action pattern that usually appears after a gap and signals a sharp fourth/fifth-candle move. It is traded with options buying, option selling, futures, or cash depending on instrument and risk.</p>
-
 <h2>Bearish Setup</h2>
 <ol>
 <li>Use 1-hour chart.</li>
@@ -224,12 +224,10 @@
 <li>Entry around third or fourth candle near VWAP.</li>
 <li>Big move expected on fourth or fifth candle.</li>
 </ol>
-
 <h2>Bullish Setup</h2>
 <ul>
 <li>Mirror setup: after gap down, candles close above VWAP and hold near VWAP/20 SMA before sharp upside.</li>
 </ul>
-
 <h2>Entry And Exit</h2>
 <ul>
 <li>Entry: third or fourth 1-hour candle near VWAP.</li>
@@ -237,7 +235,6 @@
 <li>SL: one 1-hour candle close above VWAP for bearish setup; system SL above swing high / previous two candle high.</li>
 <li>Option target: double/triple; book about 60% on double and ride 40%.</li>
 </ul>
-
 <h2>Backtest Specification</h2>
 <ul>
 <li>Universe: Nifty, Bank Nifty, liquid F&amp;O stocks.</li>
@@ -246,21 +243,18 @@
 <li>Signal: gap + first two closes below/above VWAP + small candle near VWAP.</li>
 <li>Exit variants: fourth/fifth candle close, VWAP reclaim, option double, EOD.</li>
 </ul>
-
 <h2>Cross-Check vs BB Breakout V2</h2>
 <ul>
 <li>Killer Wave can contradict naive breakout buying if price gaps up but fails VWAP.</li>
 <li>BB breakout v2 should treat VWAP loss and small candles after gap as a failure/reversal filter.</li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/sources/source-killer-wave">Source Killer Wave</a></li>
 <li><a href="/wiki/sources/source-class-notes-08-may-2022">Source Class Notes 08 May 2022</a></li>
 <li><a href="/wiki/concepts/vwap">Vwap</a></li>
 <li><a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a></li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

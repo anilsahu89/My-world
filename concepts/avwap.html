@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,35 +212,58 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>AVWAP (Anchored VWAP)</h1>
 <article class="md"><h1>AVWAP (Anchored VWAP)</h1>
-
 <h2>Definition</h2>
 <p><strong>Anchored VWAP</strong> = VWAP calculation that starts from a <strong>trader-chosen bar</strong> instead of resetting daily. Same formula as VWAP, but the starting point is anchored to a significant event (panic low, earnings, major high/low).</p>
-
 <h2>AVWAP vs Regular VWAP</h2>
-<table><thead><tr><th>Feature</th><th>Regular VWAP</th><th>Anchored VWAP</th></tr></thead><tbody>
-<tr><td>Start point</td><td>First bar of day</td><td>Trader-chosen bar</td></tr>
-<tr><td>End point</td><td>Last bar of day</td><td>Most recent bar</td></tr>
-<tr><td>Timeframe</td><td>Intraday only</td><td>Any timeframe</td></tr>
-<tr><td>Reset</td><td>Daily</td><td>Never (until re-anchored)</td></tr>
-<tr><td>Use case</td><td>Intraday bias</td><td>Investing + trading</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Regular VWAP</th>
+<th>Anchored VWAP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Start point</td>
+<td>First bar of day</td>
+<td>Trader-chosen bar</td>
+</tr>
+<tr>
+<td>End point</td>
+<td>Last bar of day</td>
+<td>Most recent bar</td>
+</tr>
+<tr>
+<td>Timeframe</td>
+<td>Intraday only</td>
+<td>Any timeframe</td>
+</tr>
+<tr>
+<td>Reset</td>
+<td>Daily</td>
+<td>Never (until re-anchored)</td>
+</tr>
+<tr>
+<td>Use case</td>
+<td>Intraday bias</td>
+<td>Investing + trading</td>
+</tr>
+</tbody>
+</table>
 <h2>Cardinal Rules</h2>
 <ol>
 <li><strong>Anchor date = event date − 1 day</strong> (always one day prior to the event)</li>
 <li><strong>For Indexes, use Futures chart</strong> (spot has no volume)</li>
 <li><strong>For investment analysis → monthly chart</strong>; for intraday → daily chart only</li>
 </ol>
-
 <h2>Applications</h2>
-
 <h3>Investing (Standalone — No Other Indicators Needed)</h3>
 <ul>
 <li>On <strong>monthly chart</strong>, when price touches AVWAP <strong>without violating</strong> → golden investment opportunity</li>
 <li>Invest in <strong>sector leaders</strong> with max index weightage → recover fastest, can double/triple</li>
 <li>Place anchors at <strong>historic panic lows</strong> (2008 low, 2020 COVID low still intact)</li>
 </ul>
-
 <h3>Trading (Must Combine with Other Indicators)</h3>
 <ul>
 <li><strong>Always pair with 20 SMA</strong> on 1H chart</li>
@@ -246,7 +271,6 @@
 <li>Can place <strong>multiple anchors</strong> at different significant points</li>
 <li>Where multiple AVWAP lines <strong>converge</strong> = especially strong S/R zone</li>
 </ul>
-
 <h3>Options</h3>
 <ul>
 <li>Options <strong>above AVWAP</strong> → bullish → buy near AVWAP, SL below AVWAP</li>
@@ -254,22 +278,20 @@
 <li>Always check <strong>underlying</strong> (Index Future / Stock) on 1H + 20 SMA first</li>
 <li>Use <strong>current month options</strong>; after 20th shift to next month</li>
 </ul>
-
 <h3>Market Correction Types</h3>
 <ol>
 <li><strong>Time-wise:</strong> Price moves sideways → AVWAP adjusts naturally on chart</li>
 <li><strong>Price-wise:</strong> Sharp fall with volume → opportunity near AVWAP on recovery</li>
 </ol>
-
 <h2>Capital Rules for Options</h2>
 <ul>
 <li><strong>Naked buy:</strong> max <strong>10%</strong> of capital per trade</li>
 <li><strong>Naked sell:</strong> max <strong>40%</strong> of capital; keep <strong>60%</strong> for adjustments</li>
 </ul>
-
 <h2>Key NK Rule</h2>
-<p>&gt; AVWAP can be used <strong>by itself only for investing</strong>. For all other purposes, combine with 20 SMA and other indicators.</p>
-
+<blockquote>
+<p>AVWAP can be used <strong>by itself only for investing</strong>. For all other purposes, combine with 20 SMA and other indicators.</p>
+</blockquote>
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/concepts/vwap">Vwap</a> — Regular VWAP (daily reset)</li>
@@ -278,8 +300,7 @@
 <li><a href="/wiki/sources/source-avwap-intro">Source Avwap Intro</a> — Source: intro &amp; application</li>
 <li><a href="/wiki/sources/source-avwap-core">Source Avwap Core</a> — Source: core AVWAP notes</li>
 <li><a href="/wiki/sources/source-avwap-and-investment">Source Avwap And Investment</a> — Source: investing vs options</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

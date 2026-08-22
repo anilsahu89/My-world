@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,10 +212,8 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Open=Low Intraday — Paper Trade Tracking</h1>
 <article class="md"><h1>Open=Low Intraday — Paper Trade Tracking</h1>
-
 <h2>Overview</h2>
 <p>Paper trading the <a href="/wiki/strategies/open-low-intraday">Open=Low Intraday</a> strategy from July 15 through July 31, 2026.</p>
-
 <h2>Rules</h2>
 <ul>
 <li><strong>Universe:</strong> NSE 200</li>
@@ -224,34 +224,108 @@
 <li><strong>SL:</strong> 0.5% below open</li>
 <li><strong>Exit:</strong> 1:00 PM (or SL hit)</li>
 </ul>
-
 <h2>Trade Log</h2>
-
-<table><thead><tr><th>Date</th><th>Symbol</th><th>Open</th><th>Vol×</th><th>SL</th><th>Exit</th><th>P&amp;L</th><th>Result</th><th>Reason</th></tr></thead><tbody>
-<tr><td>Jul 15</td><td>HYUNDAI</td><td>1995.0</td><td>3.5×</td><td>1985.0</td><td>1985.0</td><td>−₹50</td><td>❌</td><td>sl_hit</td></tr>
-<tr><td>Jul 15</td><td>MANKIND</td><td>2531.1</td><td>2.9×</td><td>2518.4</td><td>2537.1</td><td>+₹18</td><td>✅</td><td>exit_1pm</td></tr>
-<tr><td>Jul 15</td><td>ABB</td><td>6940.0</td><td>2.8×</td><td>6905.3</td><td>7072.2</td><td>+₹132</td><td>✅</td><td>exit_1pm</td></tr>
-<tr><td><strong>Jul 15 TOTAL</strong></td><td></td><td></td><td></td><td></td><td></td><td><strong>+₹100</strong></td><td><strong>2/3 wins</strong></td><td></td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Symbol</th>
+<th>Open</th>
+<th>Vol×</th>
+<th>SL</th>
+<th>Exit</th>
+<th>P&amp;L</th>
+<th>Result</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jul 15</td>
+<td>HYUNDAI</td>
+<td>1995.0</td>
+<td>3.5×</td>
+<td>1985.0</td>
+<td>1985.0</td>
+<td>−₹50</td>
+<td>❌</td>
+<td>sl_hit</td>
+</tr>
+<tr>
+<td>Jul 15</td>
+<td>MANKIND</td>
+<td>2531.1</td>
+<td>2.9×</td>
+<td>2518.4</td>
+<td>2537.1</td>
+<td>+₹18</td>
+<td>✅</td>
+<td>exit_1pm</td>
+</tr>
+<tr>
+<td>Jul 15</td>
+<td>ABB</td>
+<td>6940.0</td>
+<td>2.8×</td>
+<td>6905.3</td>
+<td>7072.2</td>
+<td>+₹132</td>
+<td>✅</td>
+<td>exit_1pm</td>
+</tr>
+<tr>
+<td><strong>Jul 15 TOTAL</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>+₹100</strong></td>
+<td><strong>2/3 wins</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2>Daily P&amp;L Summary</h2>
-
-<table><thead><tr><th>Day</th><th>Trades</th><th>Wins</th><th>Losses</th><th>Net P&amp;L</th><th>Notes</th></tr></thead><tbody>
-<tr><td>Jul 15 (Wed)</td><td>3</td><td>2</td><td>1</td><td><strong>+₹100</strong></td><td>ABB best (+₹132), HYUNDAI SL hit</td></tr>
-<tr><td><strong>TOTAL</strong></td><td><strong>3</strong></td><td><strong>2</strong></td><td><strong>1</strong></td><td><strong>+₹100</strong></td><td>WR 66.7%</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Trades</th>
+<th>Wins</th>
+<th>Losses</th>
+<th>Net P&amp;L</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jul 15 (Wed)</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td><strong>+₹100</strong></td>
+<td>ABB best (+₹132), HYUNDAI SL hit</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>3</strong></td>
+<td><strong>2</strong></td>
+<td><strong>1</strong></td>
+<td><strong>+₹100</strong></td>
+<td>WR 66.7%</td>
+</tr>
+</tbody>
+</table>
 <h2>Backtest Reference</h2>
 <ul>
 <li>2-year backtest with Vol≥1.5× filter: <strong>59.2% WR, PF 4.25</strong></li>
 <li>First day (66.7% WR) is within expected range</li>
 </ul>
-
 <h2>How to Update Daily</h2>
-<pre><code>
-cd /Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage
+<pre><code class="language-bash">cd /Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage
 
-# Scan for today&#x27;s Open=Low signals + record trades
+# Scan for today's Open=Low signals + record trades
 python3 paper_trade_open_low.py --scan
 
 # View report
@@ -260,20 +334,17 @@ python3 paper_trade_open_low.py --report
 # Or run combined scan (shows all 4 strategies)
 scan
 </code></pre>
-
 <h2>Files</h2>
 <ul>
 <li><strong>Trades CSV:</strong> <code>papertrades/open_low_trades.csv</code></li>
 <li><strong>Tracker script:</strong> <code>paper_trade_open_low.py</code></li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/strategies/open-low-intraday">Open Low Intraday</a> — Strategy rules + backtest</li>
 <li><a href="/wiki/trade-reviews/arbitrage-2-0-paper-trades-jul2026">Arbitrage 2 0 Paper Trades Jul2026</a> — Arbitrage paper trades</li>
 <li><a href="/wiki/trade-reviews/nifty-premium-mill-paper-trades">Nifty Premium Mill Paper Trades</a> — Premium Mill paper trades</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

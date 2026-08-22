@@ -3,10 +3,85 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NK&#39;s Volume Reading (50/50 thesis)</title>
+  <title>Live Stocks · Mahi Future Investment Portal</title>
   <script>(function(){var p=location.pathname.replace(/^/+/,"").split("/")[0];if(p){var d=document.createElement("base");d.href="/"+p+"/";document.head.prepend(d)}})()</script>
   <link rel="stylesheet" href="static/style.css">
   
+<style>
+.stocks-toolbar {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 1rem 0 0.75rem;
+}
+.stocks-toolbar input, .stocks-toolbar select {
+  padding: 6px 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.88rem;
+}
+#stockSearch { min-width: 200px; }
+#stockSearch:focus { outline: none; border-color: var(--accent); }
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.75rem 0;
+}
+.progress-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+#progressFill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 0.25s;
+}
+#progressText { color: var(--muted); font-size: 0.85rem; white-space: nowrap; }
+.stocks-stats {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 0.75rem 0;
+}
+.stat-tile {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.55rem 0.9rem;
+  min-width: 110px;
+}
+.stat-tile .v { font-weight: 700; font-size: 1.1rem; }
+.stat-tile .k { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; }
+#stocksTable { font-size: 0.88rem; }
+#stocksTable th { cursor: pointer; user-select: none; white-space: nowrap; }
+#stocksTable th:hover { color: var(--accent); }
+#stocksTable th.sorted-asc::after { content: " ▲"; color: var(--accent); }
+#stocksTable th.sorted-desc::after { content: " ▼"; color: var(--accent); }
+.pct-pos { color: var(--green); font-weight: 600; }
+.pct-neg { color: var(--red); font-weight: 600; }
+.ol-pill {
+  display: inline-block;
+  background: rgba(63,185,80,0.15);
+  color: var(--green);
+  border: 1px solid rgba(63,185,80,0.4);
+  border-radius: 10px;
+  padding: 0 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.stale-row { opacity: 0.55; }
+.data-source-note { color: var(--muted); font-size: 0.8rem; margin-top: 0.4rem; }
+</style>
+
   <style>
   .search-wrap {
     position: relative;
@@ -209,62 +284,64 @@
   </header>
   <main>
     
-<a href="/" class="back">← Dashboard</a>
-<h1>NK&#39;s Volume Reading (50/50 thesis)</h1>
-<article class="md"><h1>NK's Volume Reading (50/50 thesis)</h1>
-<h2>Definition</h2>
-<p>NK sir's own framing of volume as <strong>the one footprint big money cannot fake.</strong> His exact split: <strong>technical analysis = 50% price action + 50% volume.</strong> Big money (operators/FIs) can deceive you in price, indicators, and OI — but not in volume, because every real transaction leaves a real size.</p>
-<p>This is distinct from <a href="/wiki/concepts/vpa">Vpa</a> (Anna Coulling's effort-vs-result framework, which NK studied as a foundation) and <a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> (the single-bar signal). NK's version centers on <strong>breakout confirmation</strong> and the <strong>price-volume direction agreement</strong>.</p>
-<h2>The two-candle-close law (NK's #1 rule)</h2>
-<blockquote>
-<p>Never act on a breakout/breakdown without <strong>two candle closes</strong> above/below the level on the timeframe you trade.</p>
-</blockquote>
-<p>Stated as the <strong>single biggest source of retail losses</strong> — bigger than any strategy flaw. Breakout/breakdown levels hold the most liquidity, which is exactly where big money distributes to retail. NK admits he lost money on the Nifty ATH breakout (26,061, Sep 2024 broken Nov–Dec 2025) by skipping this.</p>
-<h2>Breakout volume rules</h2>
-<ul>
-<li>Breakout volume must be <strong>substantially higher than the surrounding 10–15–20 candles</strong> AND in a <strong>rising state</strong>. No fixed multiplier — "kaafi zyada."</li>
-<li>For <strong>lifetime-high / 52-week-high</strong> breakouts: if not visible on daily, check <strong>weekly</strong>; if not weekly, check <strong>monthly</strong>. On at least one TF the volume must clearly exceed the surrounding average.</li>
-<li><strong>Volume + candle size must match.</strong> Huge volume + tiny candle body = red flag — question the move. "Where the volume is, the price should also be there."</li>
-</ul>
-<h2>The bike analogy (price-volume agreement)</h2>
-<ul>
-<li><strong>Volume = handlebar. Price = bike.</strong> Turn the handlebar left, the bike must turn left.</li>
-<li>Volume one direction, price the other (or price stalls/freezes) = <strong>deception</strong> by big money. A trap.</li>
-<li>This is the same principle as <a href="/wiki/concepts/vpa">Vpa</a> (effort vs result) and <a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a>, restated as a directional-consistency check.</li>
-</ul>
-<h2>Big-money mechanics (why volume needs time)</h2>
-<p>Big money buys cheap in the "warehouse" (accumulation), then sells slowly to retail at the "stall" (distribution) — never all at once. This is why:
-- Volume needs <strong>time/confirmation</strong> (the two-close rule).
-- Breakout points are distribution traps, not free money.</p>
-<h2>How volume fits with Hilega Milega</h2>
-<ul>
-<li><a href="/wiki/concepts/hilega-milega">Hilega Milega</a> gives direction/conviction; <strong>volume is the confirmation layer on top</strong>, not a replacement.</li>
-<li>Do NOT jump on every minor HM signal in a sideways/range market — wait for the full HM curve + V-shape + volume confirmation.</li>
-<li>NK's plan (in progress, not yet released): integrate real-time volume layers — <strong>volume smash, stopping volume, sign volume</strong> — with HM + ORB.</li>
-</ul>
-<h2>What NK de-emphasizes</h2>
-<ul>
-<li><strong>No indicator (lagging or leading) tells you an old low will break</strong> — HM + volume does. Indicators "cheat/deceive"; volume doesn't.</li>
-<li><strong>OI / PCR overrated.</strong> Better to look at <strong>OI percentile</strong> (e.g. 90th percentile = price has been here only 10% of time → expect mean reversion). Nobody talks about percentile.</li>
-<li><strong>FII/DII cash data + IPO data are useful but underused</strong> vs the hype around OI.</li>
-<li>Closed-market hindsight is misleading — "anyone can show buy here/sell here after the fact."</li>
-</ul>
-<h2>Used in strategies</h2>
-<ul>
-<li>Confirmation filter for <a href="/wiki/concepts/hilega-milega">Hilega Milega</a> entries</li>
-<li>Breakout validation (links to <a href="/wiki/strategies/bb-breakout-v2">Bb Breakout V2</a>, <a href="/wiki/strategies/bb-trap-positional">Bb Trap Positional</a>)</li>
-<li>Reinforces <a href="/wiki/concepts/vpa">Vpa</a> and <a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a></li>
-</ul>
-<h2>Status</h2>
-<p>⚠️ <strong>Not backtested.</strong> NK's teaching from a podcast (auto-generated Hindi transcript, translated). The two-close law and 10–15–20-candle volume rule are specific and testable — good scanner candidates once validated. No fixed volume multiplier given.</p>
-<h2>Source</h2>
-<p><a href="/wiki/sources/source-nk-hm-podcast-2026">Source Nk Hm Podcast 2026</a> (51:10 onward — "How to read volume like a professional")</p></article>
+<h1>Live Stocks <span class="muted">NSE 200</span></h1>
+<p class="hint">Latest trading-day market data for the NSE 200 universe, pulled on demand from Yahoo Finance straight in your browser — no rebuild, no redeploy. The scheduled cloud job also refreshes a snapshot committed to the repo.</p>
+
+<div class="stocks-toolbar">
+  <button id="fetchLiveBtn" class="btn btn-primary" onclick="StocksPage.fetchLive()">⟳ Fetch Live Data Now</button>
+  <button id="serverRefreshBtn" class="btn" onclick="StocksPage.serverRefresh(this)" title="Run the cloud refresh job (needs GitHub token in ⚙️ Settings), then reload the snapshot">☁ Server Refresh</button>
+  <input type="text" id="stockSearch" placeholder="Filter symbol / name…" autocomplete="off" spellcheck="false">
+  <select id="sortSel">
+    <option value="pct-desc">% Change ↓</option>
+    <option value="pct-asc">% Change ↑</option>
+    <option value="ltp-desc">Price ↓</option>
+    <option value="ltp-asc">Price ↑</option>
+    <option value="vol-desc">Volume ↓</option>
+    <option value="sym-asc">Symbol A→Z</option>
+  </select>
+  <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.85rem;color:var(--muted);cursor:pointer">
+    <input type="checkbox" id="olOnly" style="accent-color:var(--green)"> Open≈Low only
+  </label>
+  <span id="marketStatus" class="meta-pill"></span>
+</div>
+
+<div class="progress-wrap" id="progressWrap" style="display:none">
+  <div class="progress-bar"><div id="progressFill"></div></div>
+  <span id="progressText"></span>
+</div>
+
+<div class="stocks-stats" id="stocksStats"></div>
+<div class="table-wrap">
+  <table id="stocksTable">
+    <thead>
+      <tr>
+        <th data-key="symbol">Symbol</th>
+        <th data-key="name">Name</th>
+        <th data-key="ltp" class="num">LTP ₹</th>
+        <th data-key="chg" class="num">Chg</th>
+        <th data-key="pct" class="num">% Chg</th>
+        <th data-key="open" class="num">Open*</th>
+        <th data-key="high" class="num">High</th>
+        <th data-key="low" class="num">Low</th>
+        <th data-key="prev_close" class="num">Prev Close</th>
+        <th data-key="volume" class="num">Volume</th>
+        <th data-key="ol">O≈L</th>
+      </tr>
+    </thead>
+    <tbody id="stocksBody">
+      <tr><td colspan="11" class="muted" style="text-align:center;padding:2rem">
+        Loading last snapshot… If none exists yet, click <strong>⟳ Fetch Live Data Now</strong>.
+      </td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="data-source-note">* Open is approximated from the first intraday candle close (1-min in cloud snapshots, 5-min in live browser fetches). O≈L = open within 0.3% of day low (the Open=Low strategy setup — approximate, verify before trading). Data: Yahoo Finance (15-min delayed during market hours). Nothing here is investment advice.</p>
 
   </main>
   <footer>
     <span>static portal · hosted on GitHub Pages</span>
   </footer>
-  
+  <script src="static/stocks.js"></script>
   <!-- Client-side app: search, paper trades, alerts, link fixing -->
   <script src="static/app.js"></script>
 </body>

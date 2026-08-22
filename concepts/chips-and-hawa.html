@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,36 +212,53 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Chips &amp; Hawa (Intrinsic vs Time Value)</h1>
 <article class="md"><h1>Chips &amp; Hawa (Intrinsic vs Time Value)</h1>
-
 <h2>Definition</h2>
-<p>NK&#x27;s house vocabulary for option pricing:</p>
-<ul>
-<li><strong>Chips</strong> = <strong>Intrinsic Value</strong> — the real, &quot;yours to keep&quot; portion.</li>
-<li><strong>Hawa</strong> = <strong>Time Value</strong> (literally &quot;air&quot;) — the speculative portion that decays to zero by expiry.</li>
-</ul>
-
-<p>&gt; &quot;जो चिप्स है वो अपना है, जो हवा है वो सपना है&quot; — <em>chips are yours, hawa is a dream.</em></p>
-
+<p>NK's house vocabulary for option pricing:
+- <strong>Chips</strong> = <strong>Intrinsic Value</strong> — the real, "yours to keep" portion.
+- <strong>Hawa</strong> = <strong>Time Value</strong> (literally "air") — the speculative portion that decays to zero by expiry.</p>
+<blockquote>
+<p>"जो चिप्स है वो अपना है, जो हवा है वो सपना है" — <em>chips are yours, hawa is a dream.</em></p>
+</blockquote>
 <h2>Formulas</h2>
-<pre><code>
-For a Call:   Chips = Spot − Strike
+<pre><code>For a Call:   Chips = Spot − Strike
 For a Put:    Chips = Strike − Spot
 For both:     Hawa  = Premium − Chips
 </code></pre>
-
-<p>⚠️ <strong>Nuance:</strong> chips/hawa are <em>defined</em> using <strong>spot price</strong>, but the option&#x27;s <em>behaviour</em> follows the <strong>future price</strong>. (<a href="/wiki/concepts/options">Options</a>)</p>
-
+<p>⚠️ <strong>Nuance:</strong> chips/hawa are <em>defined</em> using <strong>spot price</strong>, but the option's <em>behaviour</em> follows the <strong>future price</strong>. (<a href="/wiki/concepts/options">Options</a>)</p>
 <h2>Fast mental calc (rule of thumb)</h2>
-<p>Spot − nearest ATM gives the rough &quot;chips width&quot; per 100 points. E.g. spot 14507, ATM 14500 → 14500−14200 = 300 → a 14200 CE has ~300 chips. ~90–100% accuracy.</p>
-
+<p>Spot − nearest ATM gives the rough "chips width" per 100 points. E.g. spot 14507, ATM 14500 → 14500−14200 = 300 → a 14200 CE has ~300 chips. ~90–100% accuracy.</p>
 <h2>Moneyness → chips/hawa split</h2>
-<table><thead><tr><th>Type</th><th>Chips</th><th>Hawa</th></tr></thead><tbody>
-<tr><td>Far ITM</td><td>mostly chips</td><td>little</td></tr>
-<tr><td>Near ITM</td><td>chips + hawa</td><td>some</td></tr>
-<tr><td>ATM</td><td>≈ 0</td><td>mostly</td></tr>
-<tr><td>OTM</td><td><strong>0</strong></td><td><strong>100%</strong></td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Chips</th>
+<th>Hawa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Far ITM</td>
+<td>mostly chips</td>
+<td>little</td>
+</tr>
+<tr>
+<td>Near ITM</td>
+<td>chips + hawa</td>
+<td>some</td>
+</tr>
+<tr>
+<td>ATM</td>
+<td>≈ 0</td>
+<td>mostly</td>
+</tr>
+<tr>
+<td>OTM</td>
+<td><strong>0</strong></td>
+<td><strong>100%</strong></td>
+</tr>
+</tbody>
+</table>
 <h2>The NK house rules (the whole point)</h2>
 <ol>
 <li><strong>Buyers buy chips (ITM), never OTM.</strong> ITM behaves like the future — minimal time decay. OTM is pure hawa that dissolves.</li>
@@ -247,28 +266,52 @@ For both:     Hawa  = Premium − Chips
 <li><strong>Hedge pattern:</strong> buy ITM (pay chips+hawa) + sell far OTM (collect 100% hawa) → effective cost drops, breakeven shifts favorably. Worked examples in <a href="/wiki/sources/source-option-basics">Source Option Basics</a> (BN @31600, bullish &amp; bearish).</li>
 <li><strong>Hawa only pays off after a <a href="/wiki/concepts/bollinger-bands">BB Blast</a>.</strong></li>
 </ol>
-
 <h2>VIX-driven strike selection (the actionable table)</h2>
 <p>From <a href="/wiki/sources/source-chips-hawa">Source Chips Hawa</a> — half-hedge trade setup:</p>
-
-<table><thead><tr><th>VIX</th><th>Index</th><th>Buy (OTM, pts away)</th><th>Sell (OTM, pts away)</th></tr></thead><tbody>
-<tr><td><strong>18–22</strong></td><td>Bank Nifty</td><td>+300</td><td>+600</td></tr>
-<tr><td><strong>18–22</strong></td><td>Nifty</td><td>+100</td><td>+200</td></tr>
-<tr><td><strong>&lt; 18</strong></td><td>Bank Nifty</td><td>+200</td><td>+400</td></tr>
-<tr><td><strong>&lt; 18</strong></td><td>Nifty</td><td>+50</td><td>+100</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>VIX</th>
+<th>Index</th>
+<th>Buy (OTM, pts away)</th>
+<th>Sell (OTM, pts away)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>18–22</strong></td>
+<td>Bank Nifty</td>
+<td>+300</td>
+<td>+600</td>
+</tr>
+<tr>
+<td><strong>18–22</strong></td>
+<td>Nifty</td>
+<td>+100</td>
+<td>+200</td>
+</tr>
+<tr>
+<td><strong>&lt; 18</strong></td>
+<td>Bank Nifty</td>
+<td>+200</td>
+<td>+400</td>
+</tr>
+<tr>
+<td><strong>&lt; 18</strong></td>
+<td>Nifty</td>
+<td>+50</td>
+<td>+100</td>
+</tr>
+</tbody>
+</table>
 <p>Stated as rule of thumb — adjustable to risk appetite.</p>
-
 <h2>Why this concept underpins everything</h2>
 <ul>
 <li>Every <a href="/wiki/concepts/hedging">hedge</a> in the wiki is fundamentally a chips/hawa engineering exercise: maximize chips retained, minimize hawa paid, sell hawa to fund chips.</li>
-<li>The &quot;18-hour game&quot; (weekly theta) and rangebound plays are pure hawa-decay exploitation.</li>
+<li>The "18-hour game" (weekly theta) and rangebound plays are pure hawa-decay exploitation.</li>
 </ul>
-
 <h2>Source pages</h2>
-<p><a href="/wiki/sources/source-chips-hawa">Source Chips Hawa</a> (primary, formulas + table) · <a href="/wiki/sources/source-option-basics">Source Option Basics</a> (worked hedges) · <a href="/wiki/sources/source-option-future-basics">Source Option Future Basics</a> · <a href="/wiki/sources/source-option-calculation">Source Option Calculation</a></p>
-</article>
+<p><a href="/wiki/sources/source-chips-hawa">Source Chips Hawa</a> (primary, formulas + table) · <a href="/wiki/sources/source-option-basics">Source Option Basics</a> (worked hedges) · <a href="/wiki/sources/source-option-future-basics">Source Option Future Basics</a> · <a href="/wiki/sources/source-option-calculation">Source Option Calculation</a></p></article>
 
   </main>
   <footer>

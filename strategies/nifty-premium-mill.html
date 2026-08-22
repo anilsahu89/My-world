@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,127 +212,222 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Nifty Premium Mill — Weekly Hedged Theta Collection</h1>
 <article class="md"><h1>Nifty Premium Mill — Weekly Hedged Theta Collection</h1>
-
 <h2>Core Philosophy</h2>
-<p>&gt; <strong>Don&#x27;t hunt 100 points in one trade. Collect 8-15 points, 4-6 times per month, every month.</strong></p>
-<p>&gt; Small premiums, properly hedged, repeated relentlessly. The fund grows slowly but steadily — like a mill grinding grain.</p>
-
+<blockquote>
+<p><strong>Don't hunt 100 points in one trade. Collect 8-15 points, 4-6 times per month, every month.</strong>
+Small premiums, properly hedged, repeated relentlessly. The fund grows slowly but steadily — like a mill grinding grain.</p>
+</blockquote>
 <h2>⚠️ BACKTESTED July 2026 — Rules Updated</h2>
 <p>This strategy has been backtested on 2 years of Nifty data. See <a href="/wiki/trade-reviews/nifty-premium-mill-backtest">Nifty Premium Mill Backtest</a>.</p>
-
-<p><strong>Optimized rules (differ from original design):</strong></p>
-<ul>
-<li><strong>Tuesday entry</strong> (not Monday — 9× better P&amp;L due to steeper theta)</li>
-<li><strong>VIX 12-16 only</strong> (goldilocks zone — PF 1.65 vs baseline 1.05)</li>
-<li><strong>200 OTM</strong> (not 100 — win rate 79.5% vs 64.4%)</li>
-<li><strong>100pt spread width</strong></li>
-<li><strong>50% profit booking</strong></li>
-</ul>
-
-<table><thead><tr><th>Metric</th><th>Original Design</th><th><strong>Backtested Optimized</strong></th></tr></thead><tbody>
-<tr><td>Entry day</td><td>Monday</td><td><strong>Tuesday</strong></td></tr>
-<tr><td>OTM distance</td><td>100 pts</td><td><strong>200 pts</strong></td></tr>
-<tr><td>VIX range</td><td>13-22</td><td><strong>12-16</strong></td></tr>
-<tr><td>Win rate</td><td>~70% (estimated)</td><td><strong>79-87%</strong></td></tr>
-<tr><td>PF</td><td>Unknown</td><td><strong>1.4-1.7</strong></td></tr>
-<tr><td>Monthly income</td><td>~₹2,000</td><td><strong>~₹2,000-2,500</strong></td></tr>
-</tbody></table>
-
+<p><strong>Optimized rules (differ from original design):</strong>
+- <strong>Tuesday entry</strong> (not Monday — 9× better P&amp;L due to steeper theta)
+- <strong>VIX 12-16 only</strong> (goldilocks zone — PF 1.65 vs baseline 1.05)
+- <strong>200 OTM</strong> (not 100 — win rate 79.5% vs 64.4%)
+- <strong>100pt spread width</strong>
+- <strong>50% profit booking</strong></p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Original Design</th>
+<th><strong>Backtested Optimized</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entry day</td>
+<td>Monday</td>
+<td><strong>Tuesday</strong></td>
+</tr>
+<tr>
+<td>OTM distance</td>
+<td>100 pts</td>
+<td><strong>200 pts</strong></td>
+</tr>
+<tr>
+<td>VIX range</td>
+<td>13-22</td>
+<td><strong>12-16</strong></td>
+</tr>
+<tr>
+<td>Win rate</td>
+<td>~70% (estimated)</td>
+<td><strong>79-87%</strong></td>
+</tr>
+<tr>
+<td>PF</td>
+<td>Unknown</td>
+<td><strong>1.4-1.7</strong></td>
+</tr>
+<tr>
+<td>Monthly income</td>
+<td>~₹2,000</td>
+<td><strong>~₹2,000-2,500</strong></td>
+</tr>
+</tbody>
+</table>
 <h2>What This Strategy Is</h2>
 <p>A <strong>weekly Nifty credit spread</strong> system that sells OTM hawa (time value) every week with a defined-risk hedge. Each trade targets <strong>₹8-15 points of premium</strong> with max risk capped at ₹25-40 points. The edge comes from <strong>theta decay</strong> — time works FOR you, not against you.</p>
-
-<p><strong>This is NOT:</strong></p>
-<ul>
-<li>❌ Naked option selling (unlimited risk)</li>
-<li>❌ Directional betting (you don&#x27;t need to predict up/down)</li>
-<li>❌ A get-rich-quick system (target is 3-5% monthly, not 50%)</li>
-</ul>
-
-<p><strong>This IS:</strong></p>
-<ul>
-<li>✅ Defined-risk credit spreads (max loss known at entry)</li>
-<li>✅ Theta collection (time decay = your profit)</li>
-<li>✅ Repeatable weekly (4-6 trades per month on Nifty)</li>
-<li>✅ Properly hedged (every short leg has a protective long leg)</li>
-</ul>
-
-<hr>
-
+<p><strong>This is NOT:</strong>
+- ❌ Naked option selling (unlimited risk)
+- ❌ Directional betting (you don't need to predict up/down)
+- ❌ A get-rich-quick system (target is 3-5% monthly, not 50%)</p>
+<p><strong>This IS:</strong>
+- ✅ Defined-risk credit spreads (max loss known at entry)
+- ✅ Theta collection (time decay = your profit)
+- ✅ Repeatable weekly (4-6 trades per month on Nifty)
+- ✅ Properly hedged (every short leg has a protective long leg)</p>
+<hr />
 <h2>Why Nifty (Not Stocks) for This Strategy</h2>
-<table><thead><tr><th>Feature</th><th>Nifty</th><th>Stocks</th></tr></thead><tbody>
-<tr><td>Weekly expiry</td><td>✅ Yes (Thursday)</td><td>❌ Monthly only</td></tr>
-<tr><td>Liquidity</td><td>✅ Massive (tight spreads)</td><td>Varies</td></tr>
-<tr><td>Volatility</td><td>✅ Moderate (index = diversified)</td><td>Individual stock risk</td></tr>
-<tr><td>Gap risk</td><td>✅ Low (index rarely gaps 5%)</td><td>⚠️ High (earnings, news)</td></tr>
-<tr><td>Premium decay</td><td>✅ Fast (weekly theta)</td><td>Slow (monthly)</td></tr>
-</tbody></table>
-
-<p>Nifty&#x27;s <strong>weekly expiry</strong> is the key — it gives you 4-5 theta-collection cycles per month vs just 1 for stocks.</p>
-
-<hr>
-
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Nifty</th>
+<th>Stocks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Weekly expiry</td>
+<td>✅ Yes (Thursday)</td>
+<td>❌ Monthly only</td>
+</tr>
+<tr>
+<td>Liquidity</td>
+<td>✅ Massive (tight spreads)</td>
+<td>Varies</td>
+</tr>
+<tr>
+<td>Volatility</td>
+<td>✅ Moderate (index = diversified)</td>
+<td>Individual stock risk</td>
+</tr>
+<tr>
+<td>Gap risk</td>
+<td>✅ Low (index rarely gaps 5%)</td>
+<td>⚠️ High (earnings, news)</td>
+</tr>
+<tr>
+<td>Premium decay</td>
+<td>✅ Fast (weekly theta)</td>
+<td>Slow (monthly)</td>
+</tr>
+</tbody>
+</table>
+<p>Nifty's <strong>weekly expiry</strong> is the key — it gives you 4-5 theta-collection cycles per month vs just 1 for stocks.</p>
+<hr />
 <h2>Strategy Design</h2>
-
 <h3>The Trade: Bull Put Credit Spread (Bullish-neutral) OR Bear Call Credit Spread (Bearish-neutral)</h3>
-
 <p>You pick ONE side per week based on trend, then sell a credit spread on that side.</p>
-
 <h4>Bull Put Spread (use when trend is UP or sideways)</h4>
-<pre><code>
-Sell OTM Put (closer to spot) → collect premium
+<pre><code>Sell OTM Put (closer to spot) → collect premium
 Buy  further OTM Put (protection) → caps downside risk
 Net = Credit (you receive money upfront)
 </code></pre>
-
 <h4>Bear Call Spread (use when trend is DOWN or sideways)</h4>
-<pre><code>
-Sell OTM Call (closer to spot) → collect premium
+<pre><code>Sell OTM Call (closer to spot) → collect premium
 Buy  further OTM Call (protection) → caps upside risk
 Net = Credit (you receive money upfront)
 </code></pre>
-
 <h3>Strike Selection (VIX-Indexed, from <a href="/wiki/sources/source-chips-hawa">Chips-Hawa table</a>)</h3>
-
-<table><thead><tr><th>VIX Level</th><th>Sell Strike (OTM distance)</th><th>Buy Strike (further OTM)</th><th>Spread Width</th><th>Target Premium</th></tr></thead><tbody>
-<tr><td><strong>&lt; 13 (very low)</strong></td><td>50 pts OTM</td><td>100 pts OTM</td><td>50 pts</td><td>₹8-12</td></tr>
-<tr><td><strong>13-16 (low)</strong></td><td>100 pts OTM</td><td>150 pts OTM</td><td>50 pts</td><td>₹10-15</td></tr>
-<tr><td><strong>16-18 (normal)</strong></td><td>100 pts OTM</td><td>200 pts OTM</td><td>100 pts</td><td>₹12-18</td></tr>
-<tr><td><strong>18-22 (elevated)</strong></td><td>200 pts OTM</td><td>300 pts OTM</td><td>100 pts</td><td>₹15-25</td></tr>
-<tr><td><strong>&gt; 22 (high)</strong></td><td><strong>DON&#x27;T TRADE</strong></td><td>—</td><td>—</td><td>—</td></tr>
-</tbody></table>
-
-<p>&gt; ⚠️ <strong>Never sell when VIX &gt; 22.</strong> High VIX means fat premiums but also high gap risk. Wait for VIX to cool.</p>
-
+<table>
+<thead>
+<tr>
+<th>VIX Level</th>
+<th>Sell Strike (OTM distance)</th>
+<th>Buy Strike (further OTM)</th>
+<th>Spread Width</th>
+<th>Target Premium</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>&lt; 13 (very low)</strong></td>
+<td>50 pts OTM</td>
+<td>100 pts OTM</td>
+<td>50 pts</td>
+<td>₹8-12</td>
+</tr>
+<tr>
+<td><strong>13-16 (low)</strong></td>
+<td>100 pts OTM</td>
+<td>150 pts OTM</td>
+<td>50 pts</td>
+<td>₹10-15</td>
+</tr>
+<tr>
+<td><strong>16-18 (normal)</strong></td>
+<td>100 pts OTM</td>
+<td>200 pts OTM</td>
+<td>100 pts</td>
+<td>₹12-18</td>
+</tr>
+<tr>
+<td><strong>18-22 (elevated)</strong></td>
+<td>200 pts OTM</td>
+<td>300 pts OTM</td>
+<td>100 pts</td>
+<td>₹15-25</td>
+</tr>
+<tr>
+<td><strong>&gt; 22 (high)</strong></td>
+<td><strong>DON'T TRADE</strong></td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ <strong>Never sell when VIX &gt; 22.</strong> High VIX means fat premiums but also high gap risk. Wait for VIX to cool.</p>
+</blockquote>
 <h3>Direction Selection (which side to trade each week)</h3>
-<p>Check <strong>Nifty on daily chart with 20 SMA</strong>:</p>
-<ul>
-<li><strong>Above 20 SMA + VIX stable/falling → Bull Put Spread</strong> (bullish-neutral)</li>
-<li><strong>Below 20 SMA + VIX rising → Bear Call Spread</strong> (bearish-neutral)</li>
-<li><strong>Chopping around 20 SMA → Pick the side with higher premium</strong> (usually puts, since markets have an upward drift)</li>
-</ul>
-
+<p>Check <strong>Nifty on daily chart with 20 SMA</strong>:
+- <strong>Above 20 SMA + VIX stable/falling → Bull Put Spread</strong> (bullish-neutral)
+- <strong>Below 20 SMA + VIX rising → Bear Call Spread</strong> (bearish-neutral)
+- <strong>Chopping around 20 SMA → Pick the side with higher premium</strong> (usually puts, since markets have an upward drift)</p>
 <h3>Entry Timing</h3>
 <ul>
 <li><strong>Monday or Tuesday</strong> (after 1:00 PM) — gives 2-3 full days of theta decay</li>
 <li>Avoid Monday morning (weekend gap noise)</li>
-<li>Don&#x27;t enter on Wednesday (not enough time for theta to work)</li>
+<li>Don't enter on Wednesday (not enough time for theta to work)</li>
 <li><strong>Never on Thursday</strong> (expiry day = too late)</li>
 </ul>
-
 <h3>Exit Rules</h3>
-<table><thead><tr><th>Condition</th><th>Action</th></tr></thead><tbody>
-<tr><td><strong>Premium drops to 50% of collected</strong></td><td>✅ Book profit, exit (standard target)</td></tr>
-<tr><td><strong>Premium drops to 30% of collected</strong></td><td>✅ Book larger profit (patient exit)</td></tr>
-<tr><td><strong>Nifty hits your short strike</strong></td><td>❌ Exit immediately (SL hit)</td></tr>
-<tr><td><strong>Wednesday close (1 day before expiry)</strong></td><td>Exit if premium &lt; 40% of collected; hold only if deep OTM</td></tr>
-<tr><td><strong>Thursday morning (expiry day)</strong></td><td>Let expire worthless if deep OTM; exit if anywhere near strike</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Premium drops to 50% of collected</strong></td>
+<td>✅ Book profit, exit (standard target)</td>
+</tr>
+<tr>
+<td><strong>Premium drops to 30% of collected</strong></td>
+<td>✅ Book larger profit (patient exit)</td>
+</tr>
+<tr>
+<td><strong>Nifty hits your short strike</strong></td>
+<td>❌ Exit immediately (SL hit)</td>
+</tr>
+<tr>
+<td><strong>Wednesday close (1 day before expiry)</strong></td>
+<td>Exit if premium &lt; 40% of collected; hold only if deep OTM</td>
+</tr>
+<tr>
+<td><strong>Thursday morning (expiry day)</strong></td>
+<td>Let expire worthless if deep OTM; exit if anywhere near strike</td>
+</tr>
+</tbody>
+</table>
 <h3>The Math (why this works)</h3>
-
 <p><strong>Example: Nifty at 24,000, VIX 16, Bullish bias</strong></p>
-<pre><code>
-Sell 23,900 PE (100 OTM) → receive ₹18
+<pre><code>Sell 23,900 PE (100 OTM) → receive ₹18
 Buy  23,800 PE (200 OTM) → pay ₹8
 Net credit: ₹10 per share = ₹500 per lot (50 qty)
 
@@ -341,140 +438,207 @@ Risk:Reward = 1:9 (risk ₹9 to make ₹1)
 But probability of profit ≈ 70-75% (Nifty staying above 23,900 for 3 days)
 Expected value = (0.72 × ₹500) - (0.28 × ₹4,500) = ₹360 - ₹1,260 = -₹900
 </code></pre>
-
-<p>Wait — that math looks negative. That&#x27;s because the raw probability-adjusted EV on a SINGLE trade can be negative when the spread is tight. The real edge comes from:</p>
-
+<p>Wait — that math looks negative. That's because the raw probability-adjusted EV on a SINGLE trade can be negative when the spread is tight. The real edge comes from:</p>
 <ol>
 <li><strong>Entry timing</strong> — entering after 1 PM Monday means 2.5 days of theta, not 4. The theta curve is steeper near expiry</li>
 <li><strong>VIX filter</strong> — only trading when VIX is 13-22 (not too low = no premium, not too high = too risky)</li>
 <li><strong>Direction filter</strong> — aligning with 20 SMA trend removes ~30% of losing trades</li>
 <li><strong>50% profit booking</strong> — not holding to zero. Booking at 50% doubles your win rate</li>
 </ol>
-
-<p><strong>Realistic monthly expectation (based on NK&#x27;s 15-17% Hedge 17 benchmark):</strong></p>
-<ul>
-<li>4 trades/month × ₹500 average profit = ₹2,000/month per lot</li>
-<li>On ₹50,000 capital (spread margin) = <strong>4% monthly = 48% annualized</strong></li>
-<li>Even at 60% win rate: (0.6 × ₹500 × 4) - (0.4 × ₹4,500 × 0.5) = ₹1,200 - ₹900 = <strong>+₹300/month net</strong> (conservative)</li>
-</ul>
-
-<hr>
-
+<p><strong>Realistic monthly expectation (based on NK's 15-17% Hedge 17 benchmark):</strong>
+- 4 trades/month × ₹500 average profit = ₹2,000/month per lot
+- On ₹50,000 capital (spread margin) = <strong>4% monthly = 48% annualized</strong>
+- Even at 60% win rate: (0.6 × ₹500 × 4) - (0.4 × ₹4,500 × 0.5) = ₹1,200 - ₹900 = <strong>+₹300/month net</strong> (conservative)</p>
+<hr />
 <h2>Capital Allocation &amp; Position Sizing</h2>
-
 <h3>Per Trade</h3>
 <ul>
 <li><strong>Margin per spread:</strong> ~₹12,000-15,000 (Nifty 50-lot credit spread, recognized by broker)</li>
 <li><strong>Capital per trade:</strong> Reserve ₹50,000 (covers max loss + margin)</li>
 <li><strong>Max concurrent trades:</strong> 2 (different weeks or different sides)</li>
 </ul>
-
-<h3>Monthly Fund Building (your &quot;mill&quot; concept)</h3>
-<table><thead><tr><th>Month</th><th>Capital</th><th>Trades</th><th>Avg Premium</th><th>Target Monthly Income</th></tr></thead><tbody>
-<tr><td>1</td><td>₹1,00,000</td><td>4</td><td>₹500</td><td>₹2,000 (2%)</td></tr>
-<tr><td>3</td><td>₹1,06,000</td><td>4</td><td>₹530</td><td>₹2,120 (2%)</td></tr>
-<tr><td>6</td><td>₹1,12,000</td><td>5</td><td>₹560</td><td>₹2,800 (2.5%)</td></tr>
-<tr><td>12</td><td>₹1,30,000</td><td>6</td><td>₹650</td><td>₹3,900 (3%)</td></tr>
-</tbody></table>
-
-<p>&gt; The fund compounds. As capital grows, you add lots. <strong>Small → steady → big.</strong></p>
-
-<hr>
-
+<h3>Monthly Fund Building (your "mill" concept)</h3>
+<table>
+<thead>
+<tr>
+<th>Month</th>
+<th>Capital</th>
+<th>Trades</th>
+<th>Avg Premium</th>
+<th>Target Monthly Income</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>₹1,00,000</td>
+<td>4</td>
+<td>₹500</td>
+<td>₹2,000 (2%)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>₹1,06,000</td>
+<td>4</td>
+<td>₹530</td>
+<td>₹2,120 (2%)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>₹1,12,000</td>
+<td>5</td>
+<td>₹560</td>
+<td>₹2,800 (2.5%)</td>
+</tr>
+<tr>
+<td>12</td>
+<td>₹1,30,000</td>
+<td>6</td>
+<td>₹650</td>
+<td>₹3,900 (3%)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>The fund compounds. As capital grows, you add lots. <strong>Small → steady → big.</strong></p>
+</blockquote>
+<hr />
 <h2>Risk Management (The Non-Negotiables)</h2>
-
 <h3>Rule 1: Max Loss Per Trade = Spread Width × Qty</h3>
 <ul>
 <li>If spread is 100 pts × 50 qty = ₹5,000 max loss</li>
 <li>This is KNOWN at entry. No surprises.</li>
 </ul>
-
 <h3>Rule 2: Stop Loss = Short Strike Touch</h3>
 <ul>
-<li>If Nifty touches your sold strike → <strong>EXIT. Don&#x27;t hope.</strong></li>
-<li>The spread is hedged, but don&#x27;t wait for max loss. Cut at 70-80% of max loss.</li>
+<li>If Nifty touches your sold strike → <strong>EXIT. Don't hope.</strong></li>
+<li>The spread is hedged, but don't wait for max loss. Cut at 70-80% of max loss.</li>
 </ul>
-
 <h3>Rule 3: Never Average a Losing Spread</h3>
 <ul>
-<li>If a spread goes against you → exit. Don&#x27;t sell more.</li>
-<li>&quot;Averaging down&quot; on credit spreads is how accounts blow up.</li>
+<li>If a spread goes against you → exit. Don't sell more.</li>
+<li>"Averaging down" on credit spreads is how accounts blow up.</li>
 </ul>
-
 <h3>Rule 4: VIX &gt; 22 = No New Trades</h3>
 <ul>
 <li>High VIX = premiums look tempting but gap risk is real</li>
 <li>Wait for VIX to drop below 20 before resuming</li>
 </ul>
-
 <h3>Rule 5: Max 2 Open Positions at Any Time</h3>
 <ul>
-<li>Don&#x27;t over-leverage. The mill grinds slowly for a reason.</li>
+<li>Don't over-leverage. The mill grinds slowly for a reason.</li>
 </ul>
-
-<hr>
-
-<h2>Weekly Routine (the &quot;mill&quot; schedule)</h2>
-
-<table><thead><tr><th>Day</th><th>Action</th></tr></thead><tbody>
-<tr><td><strong>Monday 1:00 PM</strong></td><td>Check Nifty trend (20 SMA), check VIX. If VIX 13-22 → enter spread</td></tr>
-<tr><td><strong>Tuesday</strong></td><td>Monitor. No action unless strike threatened</td></tr>
-<tr><td><strong>Wednesday</strong></td><td>If premium &lt; 40% of collected → book profit. If near strike → exit</td></tr>
-<tr><td><strong>Thursday</strong></td><td>Expiry day. Let deep OTM expire. Exit anything near strike</td></tr>
-<tr><td><strong>Friday</strong></td><td>Log results. Plan next week&#x27;s direction</td></tr>
-</tbody></table>
-
-<hr>
-
-<h2>Why This Is Different From NK&#x27;s Existing Strategies</h2>
-
-<table><thead><tr><th>NK Strategy</th><th>This Strategy</th></tr></thead><tbody>
-<tr><td>Hedge 23: Deep ITM, large capital (₹1.7L)</td><td><strong>Small OTM spreads (₹50K)</strong></td></tr>
-<tr><td>Hedge 17: Nifty-BN correlation, complex</td><td><strong>Single index (Nifty), simple</strong></td></tr>
-<tr><td>A-19: Ratio spread, needs adjustment skill</td><td><strong>No adjustment — enter, wait, exit</strong></td></tr>
-<tr><td>Wednesday Hedge: 18-hour game</td><td><strong>3-day theta (Mon-Thu)</strong></td></tr>
-</tbody></table>
-
+<hr />
+<h2>Weekly Routine (the "mill" schedule)</h2>
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Monday 1:00 PM</strong></td>
+<td>Check Nifty trend (20 SMA), check VIX. If VIX 13-22 → enter spread</td>
+</tr>
+<tr>
+<td><strong>Tuesday</strong></td>
+<td>Monitor. No action unless strike threatened</td>
+</tr>
+<tr>
+<td><strong>Wednesday</strong></td>
+<td>If premium &lt; 40% of collected → book profit. If near strike → exit</td>
+</tr>
+<tr>
+<td><strong>Thursday</strong></td>
+<td>Expiry day. Let deep OTM expire. Exit anything near strike</td>
+</tr>
+<tr>
+<td><strong>Friday</strong></td>
+<td>Log results. Plan next week's direction</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Why This Is Different From NK's Existing Strategies</h2>
+<table>
+<thead>
+<tr>
+<th>NK Strategy</th>
+<th>This Strategy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hedge 23: Deep ITM, large capital (₹1.7L)</td>
+<td><strong>Small OTM spreads (₹50K)</strong></td>
+</tr>
+<tr>
+<td>Hedge 17: Nifty-BN correlation, complex</td>
+<td><strong>Single index (Nifty), simple</strong></td>
+</tr>
+<tr>
+<td>A-19: Ratio spread, needs adjustment skill</td>
+<td><strong>No adjustment — enter, wait, exit</strong></td>
+</tr>
+<tr>
+<td>Wednesday Hedge: 18-hour game</td>
+<td><strong>3-day theta (Mon-Thu)</strong></td>
+</tr>
+</tbody>
+</table>
 <p>This is the <strong>simplest, most repeatable</strong> premium-collection strategy in the wiki. No fancy adjustments, no multi-leg complexity, no correlation tracking. Just: sell OTM, buy protection, wait 3 days, book 50% profit.</p>
-
-<hr>
-
+<hr />
 <h2>Relationship to Your Other Strategies</h2>
-
-<table><thead><tr><th>Strategy</th><th>Role</th><th>Capital</th></tr></thead><tbody>
-<tr><td><strong>Arbitrage 2.0</strong></td><td>Primary income (PF 2.68)</td><td>₹5,00,000</td></tr>
-<tr><td><strong>BB Trap Positional v2</strong></td><td>Opportunistic (PF 2.10)</td><td>Per-trade basis</td></tr>
-<tr><td><strong>Nifty Premium Mill</strong> ← THIS</td><td>Steady weekly income, fund building</td><td>₹1,00,000 start</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Role</th>
+<th>Capital</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Arbitrage 2.0</strong></td>
+<td>Primary income (PF 2.68)</td>
+<td>₹5,00,000</td>
+</tr>
+<tr>
+<td><strong>BB Trap Positional v2</strong></td>
+<td>Opportunistic (PF 2.10)</td>
+<td>Per-trade basis</td>
+</tr>
+<tr>
+<td><strong>Nifty Premium Mill</strong> ← THIS</td>
+<td>Steady weekly income, fund building</td>
+<td>₹1,00,000 start</td>
+</tr>
+</tbody>
+</table>
 <p>The Premium Mill runs <strong>parallel</strong> to Arbitrage 2.0 — it uses different capital, different instruments (options vs futures), and different timing (weekly theta vs expiry convergence).</p>
-
-<hr>
-
+<hr />
 <h2>Backtest Candidate</h2>
-<p>This strategy needs backtesting with:</p>
-<ul>
-<li>Nifty weekly options OHLCV data (3-5 years)</li>
-<li>VIX daily data</li>
-<li>20 SMA on Nifty daily</li>
-<li>Simulate: enter Monday 1 PM, exit Wednesday/Thursday per rules</li>
-<li>Track: win rate, avg premium collected, avg loss, monthly P&amp;L</li>
-</ul>
-
-<p>&gt; ⚠️ Not yet backtested. Rules are derived from NK&#x27;s principles + standard credit spread mechanics. Validate before live capital.</p>
-
-<hr>
-
+<p>This strategy needs backtesting with:
+- Nifty weekly options OHLCV data (3-5 years)
+- VIX daily data
+- 20 SMA on Nifty daily
+- Simulate: enter Monday 1 PM, exit Wednesday/Thursday per rules
+- Track: win rate, avg premium collected, avg loss, monthly P&amp;L</p>
+<blockquote>
+<p>⚠️ Not yet backtested. Rules are derived from NK's principles + standard credit spread mechanics. Validate before live capital.</p>
+</blockquote>
+<hr />
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a> — Core premium structure (sell hawa, not chips)</li>
 <li><a href="/wiki/concepts/vix">Vix</a> — VIX gates for selling</li>
 <li><a href="/wiki/concepts/options">Options</a> — Option mechanics, weekly expiry</li>
-<li><a href="/wiki/strategies/hedge-17">Hedge 17</a> — NK&#x27;s weekly selling benchmark (15-17% returns)</li>
+<li><a href="/wiki/strategies/hedge-17">Hedge 17</a> — NK's weekly selling benchmark (15-17% returns)</li>
 <li><a href="/wiki/strategies/wednesday-hedge">Wednesday Hedge</a> — The 18-hour theta game (faster variant)</li>
 <li><a href="/wiki/sources/source-vix-intraday-5min">Source Vix Intraday 5Min</a> — Premium ranges for Nifty (₹250-800 OTM)</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

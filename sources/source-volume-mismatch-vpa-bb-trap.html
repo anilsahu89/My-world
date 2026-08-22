@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,7 +212,6 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Source: Volume Mismatch VPA with BB Trap</h1>
 <article class="md"><h1>Source: Volume Mismatch VPA with BB Trap</h1>
-
 <h2>Source</h2>
 <ul>
 <li><strong>Video:</strong> Volume Miss-Match VPA with BB trap</li>
@@ -221,142 +222,229 @@
 <li><strong>Instructor:</strong> Nitish Kumar (NK)</li>
 <li><strong>Full transcript ingested:</strong> Yes (Hindi)</li>
 </ul>
-
 <h2>Summary</h2>
-<p>NK combines <strong>Volume Price Analysis (VPA)</strong> — the effort-vs-result principle from Anna Coulling/Wyckoff — with his existing <strong>BB Trap</strong> setup. The result is a <strong>volume-confirmed BB Trap</strong> that filters out false traps and identifies high-probability reversals. This is the bridge between NK&#x27;s BB system and the VPA framework.</p>
-
+<p>NK combines <strong>Volume Price Analysis (VPA)</strong> — the effort-vs-result principle from Anna Coulling/Wyckoff — with his existing <strong>BB Trap</strong> setup. The result is a <strong>volume-confirmed BB Trap</strong> that filters out false traps and identifies high-probability reversals. This is the bridge between NK's BB system and the VPA framework.</p>
 <h2>Core Concept: Volume Mismatch</h2>
-
 <h3>Definition</h3>
-<p>A <strong>volume mismatch</strong> occurs when:</p>
-<ul>
-<li><strong>High volume</strong> appears on a candle, BUT</li>
-<li>The <strong>price spread (range) is small</strong> — price barely moved despite the effort</li>
-</ul>
-
-<p>This is Wyckoff&#x27;s <strong>Effort vs Result</strong> law applied to Bollinger Bands:</p>
-<p>&gt; Volume = Effort. Price spread = Result. High effort + small result = the move is weak → reversal likely.</p>
-
+<p>A <strong>volume mismatch</strong> occurs when:
+- <strong>High volume</strong> appears on a candle, BUT
+- The <strong>price spread (range) is small</strong> — price barely moved despite the effort</p>
+<p>This is Wyckoff's <strong>Effort vs Result</strong> law applied to Bollinger Bands:</p>
+<blockquote>
+<p>Volume = Effort. Price spread = Result. High effort + small result = the move is weak → reversal likely.</p>
+</blockquote>
 <h3>The Logic</h3>
 <ul>
-<li>If big volume pushed price outside the BB but price <strong>didn&#x27;t sustain</strong> → smart money is distributing (selling into the breakout)</li>
+<li>If big volume pushed price outside the BB but price <strong>didn't sustain</strong> → smart money is distributing (selling into the breakout)</li>
 <li>The breakout is a <strong>trap</strong> — retailers bought the breakout, smart money sold into them</li>
-<li>Volume confirms the trap: the volume was real (effort happened), but price couldn&#x27;t follow through (result was weak)</li>
+<li>Volume confirms the trap: the volume was real (effort happened), but price couldn't follow through (result was weak)</li>
 </ul>
-
-<hr>
-
+<hr />
 <h2>The Setup: Volume-Mismatch BB Trap</h2>
-
 <h3>Step 1: BB Trap Formation</h3>
 <ol>
 <li>Price moves <strong>outside the upper Bollinger Band</strong> (or lower band for inverse)</li>
 <li>This is the standard BB Trap trigger from <a href="/wiki/concepts/bb-trap">Bb Trap</a></li>
 </ol>
-
 <h3>Step 2: Volume Check (the VPA filter)</h3>
 <ul>
 <li>Check the volume on the candle that went outside the band</li>
 <li><strong>High volume + candle closes back inside the band</strong> = volume mismatch</li>
-<li>The high volume means effort was made, but price couldn&#x27;t hold outside = result was weak</li>
+<li>The high volume means effort was made, but price couldn't hold outside = result was weak</li>
 </ul>
-
 <h3>Step 3: Confirmation</h3>
 <ul>
 <li>Next candle should <strong>trade below VWAP</strong> on hourly timeframe</li>
-<li>Or: closes below the previous candle&#x27;s low</li>
+<li>Or: closes below the previous candle's low</li>
 <li>HM (Hilega Milega) should confirm bearish momentum (red above green, both falling)</li>
 </ul>
-
 <h3>Step 4: Entry</h3>
 <ul>
 <li>Enter on the confirmation candle</li>
-<li>SL = high of the candle that went outside the BB (day&#x27;s high)</li>
+<li>SL = high of the candle that went outside the BB (day's high)</li>
 <li>Target = 20 SMA (the BB center line) or lower band</li>
 </ul>
-
-<hr>
-
+<hr />
 <h2>Volume Mismatch Types</h2>
-
 <h3>Type 1: Breakout Failure (Bearish)</h3>
-<table><thead><tr><th>Component</th><th>Signal</th></tr></thead><tbody>
-<tr><td>Price</td><td>Goes outside upper BB</td></tr>
-<tr><td>Volume</td><td><strong>High</strong> (effort present)</td></tr>
-<tr><td>Close</td><td>Comes back inside the band</td></tr>
-<tr><td>Meaning</td><td>Smart money sold into the breakout → trap</td></tr>
-<tr><td>Action</td><td>Sell/short, SL at day high</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Signal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Price</td>
+<td>Goes outside upper BB</td>
+</tr>
+<tr>
+<td>Volume</td>
+<td><strong>High</strong> (effort present)</td>
+</tr>
+<tr>
+<td>Close</td>
+<td>Comes back inside the band</td>
+</tr>
+<tr>
+<td>Meaning</td>
+<td>Smart money sold into the breakout → trap</td>
+</tr>
+<tr>
+<td>Action</td>
+<td>Sell/short, SL at day high</td>
+</tr>
+</tbody>
+</table>
 <h3>Type 2: Breakdown Failure (Bullish — Inverse)</h3>
-<table><thead><tr><th>Component</th><th>Signal</th></tr></thead><tbody>
-<tr><td>Price</td><td>Goes outside lower BB</td></tr>
-<tr><td>Volume</td><td><strong>High</strong> (effort present)</td></tr>
-<tr><td>Close</td><td>Comes back inside the band</td></tr>
-<tr><td>Meaning</td><td>Smart money bought the dip → Moh Maya variant</td></tr>
-<tr><td>Action</td><td>Buy, SL at day low</td></tr>
-<tr><td>Related</td><td><a href="/wiki/concepts/moh-maya">Moh Maya</a> — same logic, volume-confirmed</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Signal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Price</td>
+<td>Goes outside lower BB</td>
+</tr>
+<tr>
+<td>Volume</td>
+<td><strong>High</strong> (effort present)</td>
+</tr>
+<tr>
+<td>Close</td>
+<td>Comes back inside the band</td>
+</tr>
+<tr>
+<td>Meaning</td>
+<td>Smart money bought the dip → Moh Maya variant</td>
+</tr>
+<tr>
+<td>Action</td>
+<td>Buy, SL at day low</td>
+</tr>
+<tr>
+<td>Related</td>
+<td><a href="/wiki/concepts/moh-maya">Moh Maya</a> — same logic, volume-confirmed</td>
+</tr>
+</tbody>
+</table>
 <h3>Type 3: No Volume = No Trap (Skip)</h3>
-<table><thead><tr><th>Component</th><th>Signal</th></tr></thead><tbody>
-<tr><td>Price</td><td>Goes outside BB</td></tr>
-<tr><td>Volume</td><td><strong>Low</strong></td></tr>
-<tr><td>Meaning</td><td>No effort = no smart money involvement = not a trap</td></tr>
-<tr><td>Action</td><td><strong>Skip</strong> — could be genuine breakout</td></tr>
-</tbody></table>
-
-<p>&gt; ⚠️ <strong>Key filter:</strong> A BB Trap WITHOUT volume mismatch is NOT a valid trap signal in this framework. Volume is the confirmation that separates real traps from noise.</p>
-
-<hr>
-
-<h2>VPA Principles (from this video, NK&#x27;s application)</h2>
-
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Signal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Price</td>
+<td>Goes outside BB</td>
+</tr>
+<tr>
+<td>Volume</td>
+<td><strong>Low</strong></td>
+</tr>
+<tr>
+<td>Meaning</td>
+<td>No effort = no smart money involvement = not a trap</td>
+</tr>
+<tr>
+<td>Action</td>
+<td><strong>Skip</strong> — could be genuine breakout</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ <strong>Key filter:</strong> A BB Trap WITHOUT volume mismatch is NOT a valid trap signal in this framework. Volume is the confirmation that separates real traps from noise.</p>
+</blockquote>
+<hr />
+<h2>VPA Principles (from this video, NK's application)</h2>
 <h3>Effort vs Result</h3>
-<table><thead><tr><th>Effort (Volume)</th><th>Result (Price Spread)</th><th>Interpretation</th></tr></thead><tbody>
-<tr><td>High</td><td>Large</td><td>✅ Genuine move — trend continuing</td></tr>
-<tr><td>High</td><td><strong>Small</strong></td><td>⚠️ <strong>Volume mismatch</strong> — reversal likely</td></tr>
-<tr><td>Low</td><td>Large</td><td>Suspicious — may not sustain</td></tr>
-<tr><td>Low</td><td>Small</td><td>Normal — no signal</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Effort (Volume)</th>
+<th>Result (Price Spread)</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>High</td>
+<td>Large</td>
+<td>✅ Genuine move — trend continuing</td>
+</tr>
+<tr>
+<td>High</td>
+<td><strong>Small</strong></td>
+<td>⚠️ <strong>Volume mismatch</strong> — reversal likely</td>
+</tr>
+<tr>
+<td>Low</td>
+<td>Large</td>
+<td>Suspicious — may not sustain</td>
+</tr>
+<tr>
+<td>Low</td>
+<td>Small</td>
+<td>Normal — no signal</td>
+</tr>
+</tbody>
+</table>
 <h3>Smart Money Footprint</h3>
 <ul>
 <li>High volume = institutions/smart money are active</li>
-<li>If high volume can&#x27;t push price through → they&#x27;re <strong>selling</strong> (at upper band) or <strong>buying</strong> (at lower band)</li>
+<li>If high volume can't push price through → they're <strong>selling</strong> (at upper band) or <strong>buying</strong> (at lower band)</li>
 <li>The volume reveals their intent that price alone hides</li>
-<li>This is directly from Anna Coulling&#x27;s VPA framework — see <a href="/wiki/sources/source-anna-coulling-vpa">Source Anna Coulling Vpa</a></li>
+<li>This is directly from Anna Coulling's VPA framework — see <a href="/wiki/sources/source-anna-coulling-vpa">Source Anna Coulling Vpa</a></li>
 </ul>
-
-<hr>
-
-<h2>Relationship to Rita&#x27;s BB Breakout V2</h2>
-
-<p>This source is <strong>directly relevant</strong> to Rita&#x27;s BB breakout scanner:</p>
-
-<table><thead><tr><th>BB-v2 Scanner</th><th>Volume Mismatch Filter</th></tr></thead><tbody>
-<tr><td>Detects price breaking above upper BB</td><td>✅ Same trigger</td></tr>
-<tr><td>Entry on breakout</td><td>⚠️ Should CHECK volume first</td></tr>
-<tr><td>If high volume + price comes back in</td><td><strong>SKIP</strong> — it&#x27;s a volume-mismatch trap</td></tr>
-<tr><td>If high volume + price sustains outside</td><td>✅ Valid breakout — enter</td></tr>
-<tr><td>If low volume + price outside</td><td>⚠️ Weak — may not sustain</td></tr>
-</tbody></table>
-
+<hr />
+<h2>Relationship to Rita's BB Breakout V2</h2>
+<p>This source is <strong>directly relevant</strong> to Rita's BB breakout scanner:</p>
+<table>
+<thead>
+<tr>
+<th>BB-v2 Scanner</th>
+<th>Volume Mismatch Filter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Detects price breaking above upper BB</td>
+<td>✅ Same trigger</td>
+</tr>
+<tr>
+<td>Entry on breakout</td>
+<td>⚠️ Should CHECK volume first</td>
+</tr>
+<tr>
+<td>If high volume + price comes back in</td>
+<td><strong>SKIP</strong> — it's a volume-mismatch trap</td>
+</tr>
+<tr>
+<td>If high volume + price sustains outside</td>
+<td>✅ Valid breakout — enter</td>
+</tr>
+<tr>
+<td>If low volume + price outside</td>
+<td>⚠️ Weak — may not sustain</td>
+</tr>
+</tbody>
+</table>
 <h3>Recommendation for BB-v2</h3>
-<p>Add a <strong>volume mismatch filter</strong> to the scanner:</p>
-<ol>
-<li>On breakout candle: check if volume &gt; 1.5× average volume</li>
-<li>If yes AND candle closes back inside BB within 2 candles → <strong>flag as trap, skip entry</strong></li>
-<li>If yes AND candle sustains outside → <strong>valid breakout, enter</strong></li>
-<li>If no (low volume) → flag as weak breakout, lower confidence</li>
-</ol>
-
-<p>This would have filtered out the false breakouts that the BB-v2 scanner currently can&#x27;t distinguish from real ones.</p>
-
-<hr>
-
+<p>Add a <strong>volume mismatch filter</strong> to the scanner:
+1. On breakout candle: check if volume &gt; 1.5× average volume
+2. If yes AND candle closes back inside BB within 2 candles → <strong>flag as trap, skip entry</strong>
+3. If yes AND candle sustains outside → <strong>valid breakout, enter</strong>
+4. If no (low volume) → flag as weak breakout, lower confidence</p>
+<p>This would have filtered out the false breakouts that the BB-v2 scanner currently can't distinguish from real ones.</p>
+<hr />
 <h2>Worked Example (from video)</h2>
-
 <h3>Setup</h3>
 <ol>
 <li>Stock trading in a range with BB squeeze (narrow bands)</li>
@@ -365,27 +453,22 @@
 <li>BUT: the candle <strong>closes back inside the upper band</strong> (long upper wick or red close)</li>
 <li>This is the <strong>volume mismatch</strong> — high effort, weak result</li>
 </ol>
-
 <h3>Action</h3>
 <ul>
-<li>Don&#x27;t buy the breakout (retailers will)</li>
+<li>Don't buy the breakout (retailers will)</li>
 <li>Wait for next candle to confirm: trades below VWAP on hourly</li>
-<li><strong>Short sell</strong> with SL at the day&#x27;s high (the wick that went outside)</li>
+<li><strong>Short sell</strong> with SL at the day's high (the wick that went outside)</li>
 <li>Target: 20 SMA (BB center) or lower band</li>
 </ul>
-
 <h3>Result</h3>
 <ul>
 <li>Price falls back to 20 SMA — BB Trap confirmed</li>
 <li>The high volume was smart money distributing into the breakout</li>
 </ul>
-
-<hr>
-
+<hr />
 <h2>Key Rules Summary</h2>
-
 <ol>
-<li><strong>Volume is the truth-teller</strong> — price lies, volume doesn&#x27;t</li>
+<li><strong>Volume is the truth-teller</strong> — price lies, volume doesn't</li>
 <li><strong>High volume + price failure outside BB = trap</strong> (this is the core signal)</li>
 <li><strong>No volume = no trap</strong> — skip if volume is low on the breakout</li>
 <li><strong>Always check VWAP</strong> after the trap candle — price must trade below VWAP for bearish trap</li>
@@ -394,22 +477,19 @@
 <li><strong>Volume mismatch works on both sides</strong> — upper band (bearish trap) and lower band (bullish trap/Moh Maya)</li>
 <li><strong>Combine with HM</strong> — HM red above green + falling = confirms bearish momentum</li>
 </ol>
-
-<hr>
-
+<hr />
 <h2>Cross-References</h2>
 <ul>
-<li><a href="/wiki/concepts/bb-trap">Bb Trap</a> — NK&#x27;s BB Trap concept (this source adds volume confirmation)</li>
-<li><a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> — NK&#x27;s applied divergence detection (directly expanded by this source)</li>
+<li><a href="/wiki/concepts/bb-trap">Bb Trap</a> — NK's BB Trap concept (this source adds volume confirmation)</li>
+<li><a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> — NK's applied divergence detection (directly expanded by this source)</li>
 <li><a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a> — BB squeeze, blast, trap, walk</li>
 <li><a href="/wiki/concepts/moh-maya">Moh Maya</a> — Bullish counterpart (volume-confirmed lower-band reversal)</li>
 <li><a href="/wiki/concepts/vwap">Vwap</a> — VWAP confirmation for trap entry</li>
 <li><a href="/wiki/concepts/hilega-milega">Hilega Milega</a> — HM for momentum confirmation</li>
 <li><a href="/wiki/concepts/support-resistance">Support Resistance</a> — Day high/low as SL</li>
 <li><a href="/wiki/sources/source-anna-coulling-vpa">Source Anna Coulling Vpa</a> — Theoretical VPA foundation (effort vs result)</li>
-<li><a href="/wiki/strategies/bb-breakout-v2">Bb Breakout V2</a> — Rita&#x27;s scanner (should add volume mismatch filter)</li>
+<li><a href="/wiki/strategies/bb-breakout-v2">Bb Breakout V2</a> — Rita's scanner (should add volume mismatch filter)</li>
 </ul>
-
 <h2>Backtest Candidates</h2>
 <ol>
 <li><strong>Volume mismatch filter on BB breakouts</strong> — test if filtering breakouts by volume+close-back-inside improves BB-v2 win rate</li>
@@ -417,15 +497,13 @@
 <li><strong>Volume threshold</strong> — is 1.5× average the right cutoff, or 2×?</li>
 <li><strong>Time-to-reversal</strong> — after volume mismatch, how fast does price return to 20 SMA?</li>
 </ol>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/concepts/bb-trap">Bb Trap</a> — BB Trap concept</li>
 <li><a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> — Volume mismatch concept</li>
 <li><a href="/wiki/sources/source-anna-coulling-vpa">Source Anna Coulling Vpa</a> — VPA theoretical foundation</li>
-<li><a href="/wiki/strategies/bb-breakout-v2">Bb Breakout V2</a> — Rita&#x27;s BB scanner (add volume filter)</li>
-</ul>
-</article>
+<li><a href="/wiki/strategies/bb-breakout-v2">Bb Breakout V2</a> — Rita's BB scanner (add volume filter)</li>
+</ul></article>
 
   </main>
   <footer>

@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,53 +212,69 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>AVWAP — Introduction and Application</h1>
 <article class="md"><h1>AVWAP — Introduction and Application</h1>
-
 <h2>Source</h2>
 <ul>
 <li><strong>File:</strong> AVWAP Intro and Application.pdf</li>
 <li><strong>Instructor:</strong> Nitish Kumar (NK StockTalk)</li>
 </ul>
-
 <h2>Summary</h2>
 <p>Foundational introduction to <strong>Anchored VWAP (AVWAP)</strong> — what it is, how it differs from regular VWAP, and its application in trading, investing, and options.</p>
-
 <h2>Key Teachings</h2>
-
 <h3>What is AVWAP?</h3>
 <ul>
 <li>Anchored VWAP ties VWAP calculation to a <strong>specific price bar</strong> chosen by the trader</li>
 <li>Same formula as regular VWAP, but you choose the <strong>starting point</strong> instead of it resetting daily</li>
 <li>Starting point typically marks a <strong>shift in market psychology</strong> (significant high/low, earnings, news)</li>
 </ul>
-
 <h3>AVWAP vs Regular VWAP</h3>
-<table><thead><tr><th>Feature</th><th>Regular VWAP</th><th>Anchored VWAP</th></tr></thead><tbody>
-<tr><td>Start point</td><td>First bar of day</td><td>Trader-chosen bar</td></tr>
-<tr><td>End point</td><td>Last bar of day</td><td>Most recent bar</td></tr>
-<tr><td>Timeframe</td><td>Intraday only</td><td>Any timeframe</td></tr>
-<tr><td>Reset</td><td>Daily</td><td>Never (until re-anchored)</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Regular VWAP</th>
+<th>Anchored VWAP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Start point</td>
+<td>First bar of day</td>
+<td>Trader-chosen bar</td>
+</tr>
+<tr>
+<td>End point</td>
+<td>Last bar of day</td>
+<td>Most recent bar</td>
+</tr>
+<tr>
+<td>Timeframe</td>
+<td>Intraday only</td>
+<td>Any timeframe</td>
+</tr>
+<tr>
+<td>Reset</td>
+<td>Daily</td>
+<td>Never (until re-anchored)</td>
+</tr>
+</tbody>
+</table>
 <h3>Cardinal Rules of AVWAP</h3>
 <ol>
 <li><strong>Anchor date = event date minus 1 day</strong> (always one day prior)</li>
 <li><strong>For Indexes, use Futures</strong> (spot has no volume)</li>
 <li><strong>For investment analysis, use Monthly chart</strong>; daily is valid for intraday only</li>
 </ol>
-
 <h3>Identifying Market Trend with AVWAP</h3>
 <ul>
 <li>Use <strong>1-hour chart + 20 SMA</strong> — above 20 = uptrend, below = downtrend</li>
 <li>Use <strong>30-min chart</strong> — zigzag formation with downward trend = bearish (valid 10-15 days max)</li>
 <li>On weekly/monthly chart showing zigzag downtrend → not worth buying/investing</li>
 </ul>
-
 <h3>Golden Investment Rule</h3>
 <ul>
 <li>On <strong>monthly chart</strong>, when price touches AVWAP <strong>without violating it</strong> → golden opportunity to invest</li>
 <li>Invest in <strong>sector leaders</strong> with maximum index weightage — they recover fastest</li>
 </ul>
-
 <h3>Options Trading with AVWAP</h3>
 <ul>
 <li>Options <strong>above AVWAP</strong> → bullish → buy when price comes near AVWAP, SL below AVWAP</li>
@@ -264,24 +282,20 @@
 <li>Check <strong>underlying chart</strong> (Index Future / Stock) on 1H + 20 SMA before option trade</li>
 <li>Always use <strong>current month options</strong>; after 20th shift to next month</li>
 </ul>
-
 <h3>Capital Rules</h3>
 <ul>
 <li><strong>Naked option buy:</strong> max 10% of capital per trade</li>
 <li><strong>Naked option sell:</strong> max 40% of capital; keep 60% for adjustments</li>
 </ul>
-
 <h3>Market Correction Types</h3>
 <ol>
 <li><strong>Time-wise correction:</strong> Price moves sideways, forms averages — AVWAP adjusts on chart</li>
 <li><strong>Price-wise correction:</strong> Market falls sharply with volume in short time</li>
 </ol>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/concepts/avwap">Avwap</a> — AVWAP concept page</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

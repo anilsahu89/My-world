@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,59 +212,243 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>BB Trap Positional v2 — Modified Rules Backtest (Optimized)</h1>
 <article class="md"><h1>BB Trap Positional v2 — Modified Rules Backtest (Optimized)</h1>
-
 <h2>What Changed from v1 → v2</h2>
 <p>Based on the <a href="/wiki/trade-reviews/bb-trap-positional-backtest">v1 failure analysis</a>, three fixes applied:</p>
-
-<table><thead><tr><th>Component</th><th>v1 (Original)</th><th>v2 (Modified)</th><th>Why</th></tr></thead><tbody>
-<tr><td><strong>Alert Candle</strong></td><td>Close beyond primary&#x27;s extreme</td><td><strong>Rejection wick ≥ 50%</strong> of range</td><td>Catches actual trap moment, not trend continuation</td></tr>
-<tr><td><strong>Stop Loss</strong></td><td>Alert candle extreme</td><td><strong>30% of primary range</strong> (tuned)</td><td>Wider SL lets trade breathe</td></tr>
-<tr><td><strong>Target</strong></td><td>20 SMA (rarely reached)</td><td><strong>80% of primary range</strong> (tuned)</td><td>Achievable fixed target</td></tr>
-<tr><td><strong>Long Volume</strong></td><td>vol_a &gt; vol_p</td><td><strong>vol_a ≥ 1.5× vol_p</strong></td><td>Flips longs from loss to profit</td></tr>
-</tbody></table>
-
-<hr>
-
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>v1 (Original)</th>
+<th>v2 (Modified)</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Alert Candle</strong></td>
+<td>Close beyond primary's extreme</td>
+<td><strong>Rejection wick ≥ 50%</strong> of range</td>
+<td>Catches actual trap moment, not trend continuation</td>
+</tr>
+<tr>
+<td><strong>Stop Loss</strong></td>
+<td>Alert candle extreme</td>
+<td><strong>30% of primary range</strong> (tuned)</td>
+<td>Wider SL lets trade breathe</td>
+</tr>
+<tr>
+<td><strong>Target</strong></td>
+<td>20 SMA (rarely reached)</td>
+<td><strong>80% of primary range</strong> (tuned)</td>
+<td>Achievable fixed target</td>
+</tr>
+<tr>
+<td><strong>Long Volume</strong></td>
+<td>vol_a &gt; vol_p</td>
+<td><strong>vol_a ≥ 1.5× vol_p</strong></td>
+<td>Flips longs from loss to profit</td>
+</tr>
+</tbody>
+</table>
+<hr />
 <h2>Optimized Results — Grid Search Winners</h2>
-
 <h3>SHORTS (Best: Target 80% / SL 30% / R:R = 2.7×)</h3>
-
-<table><thead><tr><th>Metric</th><th>v1 Original</th><th><strong>v2 Optimized</strong></th><th>Change</th></tr></thead><tbody>
-<tr><td>Trades</td><td>933</td><td><strong>327</strong></td><td>-65% (reject wick is stricter)</td></tr>
-<tr><td>Win rate</td><td>39.0%</td><td><strong>51.4%</strong></td><td><strong>+12.4 points</strong></td></tr>
-<tr><td>Target hit rate</td><td>5.7%</td><td><strong>50.5%</strong></td><td><strong>+44.8 points</strong></td></tr>
-<tr><td>SL hit rate</td><td>57.0%</td><td><strong>48.3%</strong></td><td>-8.7 points</td></tr>
-<tr><td>Profit factor</td><td>1.13</td><td><strong>1.41</strong></td><td><strong>+0.28</strong></td></tr>
-<tr><td>Net P&amp;L</td><td>₹2,07,289</td><td><strong>₹1,25,289</strong></td><td>Lower but higher quality</td></tr>
-<tr><td>Risk:Reward</td><td>N/A</td><td><strong>2.7×</strong></td><td>Target is 2.7× the SL distance</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>v1 Original</th>
+<th><strong>v2 Optimized</strong></th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Trades</td>
+<td>933</td>
+<td><strong>327</strong></td>
+<td>-65% (reject wick is stricter)</td>
+</tr>
+<tr>
+<td>Win rate</td>
+<td>39.0%</td>
+<td><strong>51.4%</strong></td>
+<td><strong>+12.4 points</strong></td>
+</tr>
+<tr>
+<td>Target hit rate</td>
+<td>5.7%</td>
+<td><strong>50.5%</strong></td>
+<td><strong>+44.8 points</strong></td>
+</tr>
+<tr>
+<td>SL hit rate</td>
+<td>57.0%</td>
+<td><strong>48.3%</strong></td>
+<td>-8.7 points</td>
+</tr>
+<tr>
+<td>Profit factor</td>
+<td>1.13</td>
+<td><strong>1.41</strong></td>
+<td><strong>+0.28</strong></td>
+</tr>
+<tr>
+<td>Net P&amp;L</td>
+<td>₹2,07,289</td>
+<td><strong>₹1,25,289</strong></td>
+<td>Lower but higher quality</td>
+</tr>
+<tr>
+<td>Risk:Reward</td>
+<td>N/A</td>
+<td><strong>2.7×</strong></td>
+<td>Target is 2.7× the SL distance</td>
+</tr>
+</tbody>
+</table>
 <h3>LONGS (Best: Target 100% / SL 50% / R:R = 2.0×)</h3>
-
-<table><thead><tr><th>Metric</th><th>v1 Original</th><th><strong>v2 Optimized</strong></th><th>Change</th></tr></thead><tbody>
-<tr><td>Trades</td><td>354</td><td><strong>60</strong></td><td>-83% (very strict filters)</td></tr>
-<tr><td>Win rate</td><td>34.5%</td><td><strong>43.3%</strong></td><td>+8.8 points</td></tr>
-<tr><td>Target hit rate</td><td>6.5%</td><td><strong>41.7%</strong></td><td>+35.2 points</td></tr>
-<tr><td>Profit factor</td><td>0.89</td><td><strong>1.06</strong></td><td><strong>Flips to profit</strong></td></tr>
-<tr><td>Net P&amp;L</td><td>−₹41,945</td><td><strong>+₹4,931</strong></td><td><strong>From loss to profit</strong></td></tr>
-</tbody></table>
-
-<p>&gt; ⚠️ Longs only barely profitable (PF 1.06). Too few trades (60 over 2.5 years = ~2/month). <strong>Shorts are the clear edge.</strong></p>
-
-<hr>
-
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>v1 Original</th>
+<th><strong>v2 Optimized</strong></th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Trades</td>
+<td>354</td>
+<td><strong>60</strong></td>
+<td>-83% (very strict filters)</td>
+</tr>
+<tr>
+<td>Win rate</td>
+<td>34.5%</td>
+<td><strong>43.3%</strong></td>
+<td>+8.8 points</td>
+</tr>
+<tr>
+<td>Target hit rate</td>
+<td>6.5%</td>
+<td><strong>41.7%</strong></td>
+<td>+35.2 points</td>
+</tr>
+<tr>
+<td>Profit factor</td>
+<td>0.89</td>
+<td><strong>1.06</strong></td>
+<td><strong>Flips to profit</strong></td>
+</tr>
+<tr>
+<td>Net P&amp;L</td>
+<td>−₹41,945</td>
+<td><strong>+₹4,931</strong></td>
+<td><strong>From loss to profit</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ Longs only barely profitable (PF 1.06). Too few trades (60 over 2.5 years = ~2/month). <strong>Shorts are the clear edge.</strong></p>
+</blockquote>
+<hr />
 <h2>Full Grid Search — SHORTS (the money side)</h2>
-
-<table><thead><tr><th>Target</th><th>SL</th><th>R:R</th><th>Trades</th><th>Win%</th><th>Tgt%</th><th>SL%</th><th>PF</th><th>Net P&amp;L</th></tr></thead><tbody>
-<tr><td>50%</td><td>30%</td><td>1.7×</td><td>327</td><td>57.5%</td><td>57.5%</td><td>42.2%</td><td>1.15</td><td>₹39,456</td></tr>
-<tr><td>60%</td><td>30%</td><td>2.0×</td><td>327</td><td>55.7%</td><td>55.7%</td><td>44.0%</td><td>1.28</td><td>₹76,634</td></tr>
-<tr><td>75%</td><td>30%</td><td>2.5×</td><td>327</td><td>51.4%</td><td>51.1%</td><td>48.3%</td><td>1.34</td><td>₹1,05,608</td></tr>
-<tr><td><strong>80%</strong></td><td><strong>30%</strong></td><td><strong>2.7×</strong></td><td><strong>327</strong></td><td><strong>51.4%</strong></td><td><strong>50.5%</strong></td><td><strong>48.3%</strong></td><td><strong>1.41</strong></td><td><strong>₹1,25,289</strong> ★</td></tr>
-<tr><td>80%</td><td>40%</td><td>2.0×</td><td>327</td><td>54.4%</td><td>52.9%</td><td>45.0%</td><td>1.35</td><td>₹1,15,117</td></tr>
-<tr><td>80%</td><td>50%</td><td>1.6×</td><td>327</td><td>55.4%</td><td>53.5%</td><td>43.7%</td><td>1.33</td><td>₹1,10,351</td></tr>
-<tr><td>100%</td><td>30%</td><td>3.3×</td><td>326</td><td>47.5%</td><td>44.8%</td><td>51.8%</td><td>1.27</td><td>₹97,124</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>SL</th>
+<th>R:R</th>
+<th>Trades</th>
+<th>Win%</th>
+<th>Tgt%</th>
+<th>SL%</th>
+<th>PF</th>
+<th>Net P&amp;L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>50%</td>
+<td>30%</td>
+<td>1.7×</td>
+<td>327</td>
+<td>57.5%</td>
+<td>57.5%</td>
+<td>42.2%</td>
+<td>1.15</td>
+<td>₹39,456</td>
+</tr>
+<tr>
+<td>60%</td>
+<td>30%</td>
+<td>2.0×</td>
+<td>327</td>
+<td>55.7%</td>
+<td>55.7%</td>
+<td>44.0%</td>
+<td>1.28</td>
+<td>₹76,634</td>
+</tr>
+<tr>
+<td>75%</td>
+<td>30%</td>
+<td>2.5×</td>
+<td>327</td>
+<td>51.4%</td>
+<td>51.1%</td>
+<td>48.3%</td>
+<td>1.34</td>
+<td>₹1,05,608</td>
+</tr>
+<tr>
+<td><strong>80%</strong></td>
+<td><strong>30%</strong></td>
+<td><strong>2.7×</strong></td>
+<td><strong>327</strong></td>
+<td><strong>51.4%</strong></td>
+<td><strong>50.5%</strong></td>
+<td><strong>48.3%</strong></td>
+<td><strong>1.41</strong></td>
+<td><strong>₹1,25,289</strong> ★</td>
+</tr>
+<tr>
+<td>80%</td>
+<td>40%</td>
+<td>2.0×</td>
+<td>327</td>
+<td>54.4%</td>
+<td>52.9%</td>
+<td>45.0%</td>
+<td>1.35</td>
+<td>₹1,15,117</td>
+</tr>
+<tr>
+<td>80%</td>
+<td>50%</td>
+<td>1.6×</td>
+<td>327</td>
+<td>55.4%</td>
+<td>53.5%</td>
+<td>43.7%</td>
+<td>1.33</td>
+<td>₹1,10,351</td>
+</tr>
+<tr>
+<td>100%</td>
+<td>30%</td>
+<td>3.3×</td>
+<td>326</td>
+<td>47.5%</td>
+<td>44.8%</td>
+<td>51.8%</td>
+<td>1.27</td>
+<td>₹97,124</td>
+</tr>
+</tbody>
+</table>
 <h3>Key insight: Target 80% with SL 30% is the sweet spot</h3>
 <ul>
 <li><strong>R:R = 2.7×</strong> means you risk ₹1 to make ₹2.70</li>
@@ -270,34 +456,80 @@
 <li>Expected value per trade = (0.514 × 2.7) − (0.486 × 1.0) = <strong>+0.90 R per trade</strong></li>
 <li>This is a genuine, tradeable edge</li>
 </ul>
-
-<hr>
-
+<hr />
 <h2>Filter Enhancement on v2 Shorts</h2>
-
-<table><thead><tr><th>Filter</th><th>Trades</th><th>Win%</th><th>PF</th><th>Net</th><th>vs Baseline</th></tr></thead><tbody>
-<tr><td>Baseline (v2)</td><td>328</td><td>59.1%</td><td>0.99</td><td>−₹2,662</td><td>—</td></tr>
-<tr><td>Vol ≥ 1.5×</td><td>156</td><td>64.1%</td><td>1.42</td><td>₹50,390</td><td><strong>PF +0.43</strong></td></tr>
-<tr><td>Vol ≥ 2.0×</td><td>92</td><td>65.2%</td><td>1.66</td><td>₹25,434</td><td><strong>PF +0.67</strong></td></tr>
-<tr><td><strong>Vol1.5 + RSI&gt;70</strong></td><td>119</td><td>66.4%</td><td><strong>2.10</strong></td><td><strong>₹66,997</strong></td><td><strong>Best PF</strong></td></tr>
-<tr><td>Vol1.5 + Wick60%</td><td>91</td><td>68.1%</td><td>1.69</td><td>₹48,904</td><td></td></tr>
-<tr><td>All strict</td><td>87</td><td>69.0%</td><td>1.69</td><td>₹49,061</td><td>Highest WR</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Filter</th>
+<th>Trades</th>
+<th>Win%</th>
+<th>PF</th>
+<th>Net</th>
+<th>vs Baseline</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline (v2)</td>
+<td>328</td>
+<td>59.1%</td>
+<td>0.99</td>
+<td>−₹2,662</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Vol ≥ 1.5×</td>
+<td>156</td>
+<td>64.1%</td>
+<td>1.42</td>
+<td>₹50,390</td>
+<td><strong>PF +0.43</strong></td>
+</tr>
+<tr>
+<td>Vol ≥ 2.0×</td>
+<td>92</td>
+<td>65.2%</td>
+<td>1.66</td>
+<td>₹25,434</td>
+<td><strong>PF +0.67</strong></td>
+</tr>
+<tr>
+<td><strong>Vol1.5 + RSI&gt;70</strong></td>
+<td>119</td>
+<td>66.4%</td>
+<td><strong>2.10</strong></td>
+<td><strong>₹66,997</strong></td>
+<td><strong>Best PF</strong></td>
+</tr>
+<tr>
+<td>Vol1.5 + Wick60%</td>
+<td>91</td>
+<td>68.1%</td>
+<td>1.69</td>
+<td>₹48,904</td>
+<td></td>
+</tr>
+<tr>
+<td>All strict</td>
+<td>87</td>
+<td>69.0%</td>
+<td>1.69</td>
+<td>₹49,061</td>
+<td>Highest WR</td>
+</tr>
+</tbody>
+</table>
 <h3>Best filter combo: Vol ≥ 1.5× + RSI &gt; 70</h3>
 <ul>
 <li>PF jumps to <strong>2.10</strong> (from 0.99 baseline)</li>
 <li>Win rate <strong>66.4%</strong></li>
 <li>But only 119 trades (47/year) — still actionable</li>
 </ul>
-
-<hr>
-
+<hr />
 <h2>Final Recommended Strategy (v2 + Optimal Filters)</h2>
-
 <h3>SHORT SETUP (the primary edge)</h3>
-<pre><code>
-1. Primary Candle (t-2): entire candle above upper BB (low &gt; upper_bb)
+<pre><code>1. Primary Candle (t-2): entire candle above upper BB (low &gt; upper_bb)
 2. Alert Candle (t-1): UPPER WICK ≥ 50% of range (rejection signal)
 3. Volume: vol_a ≥ 1.5× vol_p
 4. RSI at signal: &gt; 70
@@ -306,18 +538,13 @@
 7. Target: entry − (primary_range × 0.80)  [80% of primary range below entry]
 8. Time stop: 10 trading days
 </code></pre>
-
-<p><strong>Expected performance (with Vol1.5 + RSI filters):</strong></p>
-<ul>
-<li>PF: ~2.0-2.1</li>
-<li>Win rate: ~66%</li>
-<li>R:R: 2.7×</li>
-<li>Frequency: ~47 trades/year (~4/month)</li>
-</ul>
-
+<p><strong>Expected performance (with Vol1.5 + RSI filters):</strong>
+- PF: ~2.0-2.1
+- Win rate: ~66%
+- R:R: 2.7×
+- Frequency: ~47 trades/year (~4/month)</p>
 <h3>LONG SETUP (secondary, marginal edge)</h3>
-<pre><code>
-1. Primary Candle (t-2): entire candle below lower BB (high &lt; lower_bb)
+<pre><code>1. Primary Candle (t-2): entire candle below lower BB (high &lt; lower_bb)
 2. Alert Candle (t-1): LOWER WICK ≥ 50% of range (rejection signal)
 3. Volume: vol_a ≥ 1.5× vol_p  (mandatory)
 4. Entry: long at current day close
@@ -325,27 +552,55 @@
 6. Target: entry + (primary_range × 1.00)
 7. Time stop: 10 trading days
 </code></pre>
-
-<p><strong>Expected performance:</strong></p>
-<ul>
-<li>PF: ~1.06 (barely profitable — use with caution)</li>
-<li>Win rate: ~43%</li>
-<li>R:R: 2.0×</li>
-<li>Frequency: ~24 trades/year (~2/month)</li>
-</ul>
-
-<hr>
-
+<p><strong>Expected performance:</strong>
+- PF: ~1.06 (barely profitable — use with caution)
+- Win rate: ~43%
+- R:R: 2.0×
+- Frequency: ~24 trades/year (~2/month)</p>
+<hr />
 <h2>V1 → V2 Improvement Summary</h2>
-
-<table><thead><tr><th>Metric</th><th>V1 (Original)</th><th>V2 (Optimized Shorts)</th><th>Improvement</th></tr></thead><tbody>
-<tr><td><strong>Win rate</strong></td><td>39.0%</td><td><strong>51.4%</strong> (66% with filters)</td><td><strong>+12 to +27 points</strong></td></tr>
-<tr><td><strong>Profit factor</strong></td><td>1.13</td><td><strong>1.41</strong> (2.10 with filters)</td><td><strong>+0.28 to +0.97</strong></td></tr>
-<tr><td><strong>Target reached</strong></td><td>5.7%</td><td><strong>50.5%</strong></td><td><strong>+44.8 points</strong></td></tr>
-<tr><td><strong>Risk:Reward</strong></td><td>Negative</td><td><strong>2.7×</strong></td><td>Fundamentally fixed</td></tr>
-<tr><td><strong>Avg hold</strong></td><td>11 days</td><td>2.5 days</td><td>4× faster capital turnover</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>V1 (Original)</th>
+<th>V2 (Optimized Shorts)</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Win rate</strong></td>
+<td>39.0%</td>
+<td><strong>51.4%</strong> (66% with filters)</td>
+<td><strong>+12 to +27 points</strong></td>
+</tr>
+<tr>
+<td><strong>Profit factor</strong></td>
+<td>1.13</td>
+<td><strong>1.41</strong> (2.10 with filters)</td>
+<td><strong>+0.28 to +0.97</strong></td>
+</tr>
+<tr>
+<td><strong>Target reached</strong></td>
+<td>5.7%</td>
+<td><strong>50.5%</strong></td>
+<td><strong>+44.8 points</strong></td>
+</tr>
+<tr>
+<td><strong>Risk:Reward</strong></td>
+<td>Negative</td>
+<td><strong>2.7×</strong></td>
+<td>Fundamentally fixed</td>
+</tr>
+<tr>
+<td><strong>Avg hold</strong></td>
+<td>11 days</td>
+<td>2.5 days</td>
+<td>4× faster capital turnover</td>
+</tr>
+</tbody>
+</table>
 <h3>What made the difference</h3>
 <ol>
 <li><strong>Rejection wick</strong> (biggest fix) — went from identifying trends to identifying actual rejections. This alone lifted win rate from 39% to 59%.</li>
@@ -353,35 +608,28 @@
 <li><strong>Tighter SL (30%)</strong> — kept R:R positive at 2.7×</li>
 <li><strong>Vol ≥ 1.5× + RSI &gt; 70</strong> filters — lifted PF from 1.41 to 2.10</li>
 </ol>
-
-<hr>
-
+<hr />
 <h2>Honest Caveats</h2>
-
 <ol>
-<li><strong>In-sample optimization</strong> — grid search found 80%/30% on the same data it&#x27;s tested on. Expect PF to regress ~20-30% live (target PF ~1.5-1.6 live, still tradeable)</li>
+<li><strong>In-sample optimization</strong> — grid search found 80%/30% on the same data it's tested on. Expect PF to regress ~20-30% live (target PF ~1.5-1.6 live, still tradeable)</li>
 <li><strong>Costs not included</strong> — add ~₹100-150/trade for brokerage + slippage. On 327 trades = ₹33-49K drag. Net would be ₹76-92K instead of ₹125K.</li>
 <li><strong>Long side is marginal</strong> — PF 1.06 is barely above breakeven. Only trade longs with the strictest filters.</li>
 <li><strong>Signal frequency dropped</strong> — v2 short signals (327) are 65% fewer than v1 (933). But each trade is higher quality.</li>
 <li><strong>Only 2.5 years of data</strong> — need to validate on different market regimes.</li>
 </ol>
-
-<hr>
-
+<hr />
 <h2>Files</h2>
 <ul>
 <li><strong>Modified backtester:</strong> <code>backtest_bb_trap_modified.py</code></li>
 <li><strong>Grid search script:</strong> inline (results above)</li>
 <li><strong>Data:</strong> <code>data/ohlcv_daily.csv</code> (1.27M rows, 611 days)</li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/trade-reviews/bb-trap-positional-backtest">Bb Trap Positional Backtest</a> — V1 results (why we changed the rules)</li>
 <li><a href="/wiki/strategies/bb-trap-positional">Bb Trap Positional</a> — Strategy page (needs updating with v2 rules)</li>
 <li><a href="/wiki/concepts/bb-trap">Bb Trap</a> — BB Trap concept</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

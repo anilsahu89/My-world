@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,61 +212,87 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>VIX (Volatility Index)</h1>
 <article class="md"><h1>VIX (Volatility Index)</h1>
-
 <h2>Definition</h2>
 <p><strong>India VIX</strong> = the volatility index, measuring expected near-term volatility of Nifty. Add it to your watchlist. Lower VIX = lower volatility; higher VIX = higher volatility. The <strong>hawa component</strong> of every option moves with VIX.</p>
-
 <h2>The core relationship</h2>
-<p>&gt; Index option price is <strong>directly correlated</strong> to India VIX.</p>
-
-<table><thead><tr><th>VIX</th><th>Premium</th><th>Favourable for</th></tr></thead><tbody>
-<tr><td>Rising / high</td><td>rising premium (added fast to OTM)</td><td><strong>Buyers</strong></td></tr>
-<tr><td>Falling / low</td><td>falling premium (OTM loses fast)</td><td><strong>Sellers</strong></td></tr>
-</tbody></table>
-
+<blockquote>
+<p>Index option price is <strong>directly correlated</strong> to India VIX.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>VIX</th>
+<th>Premium</th>
+<th>Favourable for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rising / high</td>
+<td>rising premium (added fast to OTM)</td>
+<td><strong>Buyers</strong></td>
+</tr>
+<tr>
+<td>Falling / low</td>
+<td>falling premium (OTM loses fast)</td>
+<td><strong>Sellers</strong></td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li><strong>Never sell an option when VIX is high.</strong></li>
 <li><strong>Never buy OTM when VIX is falling</strong> — the option loses value with no market move.</li>
 </ul>
-
 <h2>VIX as a trading signal (9 SMA rule)</h2>
-<p>From <a href="/wiki/sources/source-option-calculation">Source Option Calculation</a>:</p>
-<ul>
-<li>Plot <strong>9 SMA of High</strong> on the <strong>VIX chart, 1-hour TF.</strong></li>
-<li>Once VIX closes <strong>above 9 SMA → it shoots up.</strong></li>
-<li>Once VIX closes <strong>below 9 SMA → it falls.</strong></li>
-<li>&quot;Once VIX comes above 9 SMA it shoots and vice versa.&quot;</li>
-</ul>
-
+<p>From <a href="/wiki/sources/source-option-calculation">Source Option Calculation</a>:
+- Plot <strong>9 SMA of High</strong> on the <strong>VIX chart, 1-hour TF.</strong>
+- Once VIX closes <strong>above 9 SMA → it shoots up.</strong>
+- Once VIX closes <strong>below 9 SMA → it falls.</strong>
+- "Once VIX comes above 9 SMA it shoots and vice versa."</p>
 <h2>VIX-dependent strike selection</h2>
 <p>The NK half-hedge table (<a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a>) is <em>indexed by VIX band</em> — wider offsets when VIX is 18–22, tighter when below 18. VIX literally decides which strikes to trade.</p>
-
 <h2>VIX + AVWAP option-selling zone</h2>
-<p>Sell OTM put (uptrend) / OTM call (downtrend) when VIX is below AVWAP on the hourly chart (<a href="/wiki/sources/source-option-calculation">Source Option Calculation</a>). &quot;This kind of option selling gives a lot of money.&quot;</p>
-
+<p>Sell OTM put (uptrend) / OTM call (downtrend) when VIX is below AVWAP on the hourly chart (<a href="/wiki/sources/source-option-calculation">Source Option Calculation</a>). "This kind of option selling gives a lot of money."</p>
 <h2>VIX as intraday timing trigger (5-min TF)</h2>
-<p>From <a href="/wiki/sources/source-vix-intraday-5min">Source Vix Intraday 5Min</a> — NK&#x27;s dedicated intraday option-buying framework:</p>
-
+<p>From <a href="/wiki/sources/source-vix-intraday-5min">Source Vix Intraday 5Min</a> — NK's dedicated intraday option-buying framework:</p>
 <h3>VIX for Puts, HM for Calls (key operational split)</h3>
-<p>&gt; <strong>&quot;India VIX sirf put ke case mein dekhenge. Call ke case mein price aur Hilega Milega dekhenge.&quot;</strong></p>
-
+<blockquote>
+<p><strong>"India VIX sirf put ke case mein dekhenge. Call ke case mein price aur Hilega Milega dekhenge."</strong></p>
+</blockquote>
 <ul>
 <li><strong>PUT buying:</strong> Check India VIX (day-high break on 5-min = trigger)</li>
-<li><strong>CALL buying:</strong> Check price action + Hilega Milega (don&#x27;t check VIX)</li>
+<li><strong>CALL buying:</strong> Check price action + Hilega Milega (don't check VIX)</li>
 <li>This is a significant operational distinction — VIX is the put-side timing tool, HM is the call-side equivalent</li>
 </ul>
-
 <h3>Gap + VIX Direction (opening setup)</h3>
-<table><thead><tr><th>Scenario</th><th>VIX Condition</th><th>Meaning</th><th>Action</th></tr></thead><tbody>
-<tr><td>Gap Up</td><td>VIX <strong>down &gt;4%</strong></td><td>Gap sustains</td><td>Buy after 5-min close, SL = day low</td></tr>
-<tr><td>Gap Down</td><td>VIX <strong>up &gt;4%</strong></td><td>Gap sustains</td><td>Sell after 5-min close, SL = day high</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>VIX Condition</th>
+<th>Meaning</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gap Up</td>
+<td>VIX <strong>down &gt;4%</strong></td>
+<td>Gap sustains</td>
+<td>Buy after 5-min close, SL = day low</td>
+</tr>
+<tr>
+<td>Gap Down</td>
+<td>VIX <strong>up &gt;4%</strong></td>
+<td>Gap sustains</td>
+<td>Sell after 5-min close, SL = day high</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li><strong>4% VIX threshold</strong> is the filter — below 4%, signal is weaker</li>
 <li>Wait for <strong>5-min candle close</strong> (closing-basis SL, not touch)</li>
 </ul>
-
 <h3>VIX Day-High Break = Wave Strength</h3>
 <ul>
 <li>On <strong>5-min chart</strong>, mark VIX day-high</li>
@@ -274,34 +302,43 @@
 <li>Break on <strong>1-hour TF</strong> → very strong, effect lasts <strong>2-3 days</strong></li>
 <li>If VIX does NOT break day-high → wave is weak, can reverse anytime</li>
 </ul>
-
 <h3>30-Minute Holding Rule</h3>
 <ul>
-<li>After entry, hold minimum <strong>30 minutes</strong> (don&#x27;t watch constantly)</li>
+<li>After entry, hold minimum <strong>30 minutes</strong> (don't watch constantly)</li>
 <li>NK tested 10-min, 30-min, 1-hr, 2-hr, 3-hr → 30 min is ideal for 5-min entries</li>
 <li>Expiry day exception: be active, do 50% exit + ride 50% with SL</li>
 </ul>
-
 <h3>Strike Selection by Premium Range</h3>
-<table><thead><tr><th>Index</th><th>Premium Range (₹)</th></tr></thead><tbody>
-<tr><td>Sensex</td><td>₹100 – ₹500</td></tr>
-<tr><td>Nifty</td><td>₹250 – ₹800</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Index</th>
+<th>Premium Range (₹)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sensex</td>
+<td>₹100 – ₹500</td>
+</tr>
+<tr>
+<td>Nifty</td>
+<td>₹250 – ₹800</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li>Find OTM strike at ₹100 premium → becomes ₹400-700 on the move</li>
-<li>Don&#x27;t chase a strike that already moved 4x → find next strike still at ₹50-60</li>
+<li>Don't chase a strike that already moved 4x → find next strike still at ₹50-60</li>
 <li>All strikes on that side move together — if one doubles, they all roughly double</li>
 </ul>
-
-<p>&gt; ⚠️ The VIX day-high break trigger and 30-min hold rule are untested against Rita&#x27;s data — candidates for backtesting.</p>
-
+<blockquote>
+<p>⚠️ The VIX day-high break trigger and 30-min hold rule are untested against Rita's data — candidates for backtesting.</p>
+</blockquote>
 <h2>⚠️ Note</h2>
-<p>VIX behaviour is cyclical and mean-reverting, but the 9 SMA / AVWAP rules above are heuristic claims from course material — not backtested against Rita&#x27;s data.</p>
-
+<p>VIX behaviour is cyclical and mean-reverting, but the 9 SMA / AVWAP rules above are heuristic claims from course material — not backtested against Rita's data.</p>
 <h2>Source pages</h2>
-<p><a href="/wiki/sources/source-option-calculation">Source Option Calculation</a> (9 SMA rule) · <a href="/wiki/sources/source-option-future-basics">Source Option Future Basics</a> · <a href="/wiki/sources/source-chips-hawa">Source Chips Hawa</a> (VIX-indexed table) · <a href="/wiki/sources/source-vix-intraday-5min">Source Vix Intraday 5Min</a> (5-min intraday trigger)</p>
-</article>
+<p><a href="/wiki/sources/source-option-calculation">Source Option Calculation</a> (9 SMA rule) · <a href="/wiki/sources/source-option-future-basics">Source Option Future Basics</a> · <a href="/wiki/sources/source-chips-hawa">Source Chips Hawa</a> (VIX-indexed table) · <a href="/wiki/sources/source-vix-intraday-5min">Source Vix Intraday 5Min</a> (5-min intraday trigger)</p></article>
 
   </main>
   <footer>

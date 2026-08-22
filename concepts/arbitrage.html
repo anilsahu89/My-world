@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,18 +212,28 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Concept: Arbitrage (Futures-Spot Gap Trading)</h1>
 <article class="md"><h1>Concept: Arbitrage (Futures-Spot Gap Trading)</h1>
-
 <h2>Definition</h2>
 <p>Arbitrage in equity markets means exploiting price gaps between two related instruments — typically the <strong>futures price</strong> and the <strong>spot (cash) price</strong> of the same stock or index. The trade profits when the gap narrows or closes.</p>
-
 <h2>How It Works (in Indian Markets)</h2>
-<table><thead><tr><th>Leg</th><th>Action</th></tr></thead><tbody>
-<tr><td>Futures overpriced vs spot</td><td>Sell futures, buy spot</td></tr>
-<tr><td>Futures underpriced vs spot (backwardation)</td><td>Buy futures, sell spot (or sell F2, buy F1)</td></tr>
-</tbody></table>
-
-<p>Rita&#x27;s <strong>Future Arbitrage strategy</strong> is a specific type: F1/F2 spread in backwardation (F1 &lt; spot, F2 &lt; F1).</p>
-
+<table>
+<thead>
+<tr>
+<th>Leg</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Futures overpriced vs spot</td>
+<td>Sell futures, buy spot</td>
+</tr>
+<tr>
+<td>Futures underpriced vs spot (backwardation)</td>
+<td>Buy futures, sell spot (or sell F2, buy F1)</td>
+</tr>
+</tbody>
+</table>
+<p>Rita's <strong>Future Arbitrage strategy</strong> is a specific type: F1/F2 spread in backwardation (F1 &lt; spot, F2 &lt; F1).</p>
 <h2>Key Properties</h2>
 <ul>
 <li><strong>Limited risk</strong>: Maximum loss is bounded (unlike naked futures)</li>
@@ -229,38 +241,32 @@
 <li><strong>Time-based</strong>: Gap tends to close as expiry approaches (convergence)</li>
 <li><strong>Requires patience</strong>: Entry timing is critical — wrong entry = unnecessary loss even if direction is right</li>
 </ul>
-
 <h2>Rules/Thresholds from Sources</h2>
 <ul>
 <li>Monitor <strong>historical gap sizes</strong> before trading — trade only gaps that are statistically significant</li>
 <li>Never exceed <strong>capital capacity</strong> — position sizing discipline is non-negotiable</li>
 <li>Wait for <strong>correct entry point</strong> — impulsive entry is the #1 cause of avoidable loss</li>
 </ul>
-
 <h2>Types of Arbitrage (mentioned in source, not detailed)</h2>
 <ul>
 <li>Futures-Spot arbitrage</li>
 <li>F1-F2 spread (inter-expiry)</li>
 <li>Others not specified in this source</li>
 </ul>
-
 <h2>Risks</h2>
 <ul>
 <li>Gap can widen before closing (short-term drawdown)</li>
 <li>Rollover has a cost (spread, brokerage)</li>
 <li>Requires monitoring of external factors: crude oil, currency (INR/USD)</li>
 </ul>
-
 <h2>Used in Strategies</h2>
 <ul>
-<li><a href="/wiki/strategies/future-arbitrage">Future Arbitrage.Md</a> — Rita&#x27;s F1/F2 backwardation strategy</li>
+<li><a href="/wiki/strategies/future-arbitrage">Future Arbitrage.Md</a> — Rita's F1/F2 backwardation strategy</li>
 </ul>
-
 <h2>Related Concepts</h2>
 <ul>
 <li><a href="/wiki/concepts/discipline-and-emotions">Discipline And Emotions.Md</a></li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

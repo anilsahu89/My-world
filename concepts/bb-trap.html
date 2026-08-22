@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,18 +212,15 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>BB Trap (Bollinger Band Trap)</h1>
 <article class="md"><h1>BB Trap (Bollinger Band Trap)</h1>
-
 <h2>Definition</h2>
-<p>A <strong>reversal</strong> pattern where retailers get trapped on a fake gap move. Price gaps up/down, the first candle closes <strong>outside</strong> the Bollinger Band, the next candle <strong>re-enters and closes below VWAP</strong> — the move fails and reverses hard. &quot;Because this traps the retailers, it&#x27;s called BB Trap.&quot; It is the <strong>opposite</strong> of <a href="/wiki/concepts/bb-blast">BB Blast</a> (which <em>sustains</em> outside the band; the trap <em>fails</em> to sustain).</p>
-
+<p>A <strong>reversal</strong> pattern where retailers get trapped on a fake gap move. Price gaps up/down, the first candle closes <strong>outside</strong> the Bollinger Band, the next candle <strong>re-enters and closes below VWAP</strong> — the move fails and reverses hard. "Because this traps the retailers, it's called BB Trap." It is the <strong>opposite</strong> of <a href="/wiki/concepts/bb-blast">BB Blast</a> (which <em>sustains</em> outside the band; the trap <em>fails</em> to sustain).</p>
 <h2>Why it works</h2>
 <ul>
 <li>Market gaps → retailers pile in at the open.</li>
 <li>Smart money sells into that buying at the high.</li>
 <li>Price collapses back below VWAP and stays there all day → retailers trapped.</li>
-<li>&quot;Where retailers get trapped, only there you make money.&quot;</li>
+<li>"Where retailers get trapped, only there you make money."</li>
 </ul>
-
 <h2>Identification rules (from <a href="/wiki/sources/source-bb-trap-mentorship3">Source Bb Trap Mentorship3</a>)</h2>
 <ol>
 <li>Use <strong>15-min / 30-min / 1-hour</strong> TF.</li>
@@ -231,32 +230,52 @@
 <li>Following candles stay <strong>below VWAP</strong> and sustain.</li>
 <li>→ Short (after confirmation) near VWAP. For options, take <strong>ATM</strong>.</li>
 </ol>
-
 <h2>BB Trap on 15-min (Bank Nifty example, <a href="/wiki/sources/source-bb-trap-hedging">Source Bb Trap Hedging</a>)</h2>
 <ul>
 <li>500-pt gap up; entire first candle outside upper band.</li>
 <li>Next candle closes below prior candle AND below VWAP.</li>
 <li>SL above the high of the prior (outside-band) candle.</li>
 </ul>
-
 <h2>Variants / intensity</h2>
 <ul>
 <li><strong>Frequency:</strong> forms <strong>5–6 times/month in indices, 2–3 times/month in a stock.</strong></li>
 <li><strong>Bigger TF = bigger money.</strong></li>
-<li><strong>Jackpot trade:</strong> BB Trap on <strong>all three TFs</strong> simultaneously (15/30/60 min) → very big move. Occurs <strong>once in 2–3 months.</strong> &quot;Very little SL hunting in this pattern.&quot;</li>
+<li><strong>Jackpot trade:</strong> BB Trap on <strong>all three TFs</strong> simultaneously (15/30/60 min) → very big move. Occurs <strong>once in 2–3 months.</strong> "Very little SL hunting in this pattern."</li>
 <li><strong>Positional BB Trap:</strong> use on <strong>daily TF</strong>. On <strong>monthly chart</strong> → signals a massive fall.</li>
 </ul>
-
 <h2>The 4 ways to trade a BB Trap (from <a href="/wiki/sources/source-bb-trap-hedging">Source Bb Trap Hedging</a>, Indigo example)</h2>
 <p>Choose based on <strong>capital, risk tolerance, and emotion</strong>:</p>
-
-<table><thead><tr><th>#</th><th>Trade</th><th>Notes</th></tr></thead><tbody>
-<tr><td>1</td><td><strong>Cash intraday (MIS)</strong></td><td>Sell short in cash; MIS only, never NRML/carry</td></tr>
-<tr><td>2</td><td><strong>Short Future + hedge</strong></td><td>Sell Future + sell ATM Put simultaneously (premium income + directional)</td></tr>
-<tr><td>3</td><td><strong>Sell Call above VWAP</strong></td><td>Naked or hedged; hedge = buy a call 50 pts above the sold strike. Hedged profit smaller (~8–9 pts) but no system SL needed</td></tr>
-<tr><td>4</td><td><strong>Buy 1-strike-away OTM Put + sell far OTM Put</strong></td><td>Defined risk = buy−sell premium; e.g. risk ₹19 for the full month</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Trade</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Cash intraday (MIS)</strong></td>
+<td>Sell short in cash; MIS only, never NRML/carry</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Short Future + hedge</strong></td>
+<td>Sell Future + sell ATM Put simultaneously (premium income + directional)</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Sell Call above VWAP</strong></td>
+<td>Naked or hedged; hedge = buy a call 50 pts above the sold strike. Hedged profit smaller (~8–9 pts) but no system SL needed</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Buy 1-strike-away OTM Put + sell far OTM Put</strong></td>
+<td>Defined risk = buy−sell premium; e.g. risk ₹19 for the full month</td>
+</tr>
+</tbody>
+</table>
 <h3>Worked hedge math (Indigo, BB Trap short)</h3>
 <ul>
 <li>Entry 1672 (below the VWAP-close candle).</li>
@@ -264,45 +283,37 @@
 <li><strong>Call spread:</strong> short 1680 CE (high 63.90) + buy 1730 CE (hedge) → capped risk, smaller profit.</li>
 <li><strong>Put spread:</strong> buy 1660 PE @67 + sell 1620 PE @48 → max risk <strong>₹19</strong> for the month.</li>
 </ul>
-
 <h2>Stop-loss</h2>
 <ul>
 <li><strong>System SL:</strong> above the high of the outside-band candle.</li>
 <li><strong>Practical SL:</strong> wait for a <strong>full candle to close above VWAP</strong> before quitting.</li>
 <li><strong>If hedged:</strong> no system SL needed.</li>
 </ul>
-
 <h2>When NOT to trade a BB Trap</h2>
 <ul>
 <li><strong>Lower-band BB Trap + Open = High</strong> → avoid.</li>
 <li><strong>Upper-band BB Trap + Open = Low</strong> → avoid.</li>
 </ul>
-
 <h2>Supreme override</h2>
-<p>&gt; &quot;<strong>BB Trap and 3-step is supreme.</strong>&quot; If BB Trap + <a href="/wiki/concepts/oh-ol">three-step pattern</a> forms, <strong>ignore Hilega-Milega signals.</strong> Retailer trapping does not show on indicators until later.</p>
-
+<blockquote>
+<p>"<strong>BB Trap and 3-step is supreme.</strong>" If BB Trap + <a href="/wiki/concepts/oh-ol">three-step pattern</a> forms, <strong>ignore Hilega-Milega signals.</strong> Retailer trapping does not show on indicators until later.</p>
+</blockquote>
 <h2>How to hedge a Future in a BB Trap (Bank Nifty, <a href="/wiki/sources/source-bb-trap-hedging">Source Bb Trap Hedging</a>)</h2>
 <ul>
 <li>Short Nifty future + buy ITM Call with <strong>~70% chips</strong> (≈300 pts ITM) → risk per lot ≈ <strong>10 pts</strong>, margin ≈ ₹34,000/lot. No system SL needed when hedged.</li>
 <li>Or: short Future + short ATM Put (high VIX → sell put; low VIX → buy call).</li>
 </ul>
-
-<h2>Cross-check vs Rita&#x27;s BB breakout v2</h2>
+<h2>Cross-check vs Rita's BB breakout v2</h2>
 <p>BB Trap is a <em>reversal</em>; BB breakout v2 is a <em>continuation</em>. They are distinct patterns but share the BB + VWAP vocabulary. When v2 is documented, confirm v2 explicitly <em>excludes</em> trap setups (i.e. requires the breakout to sustain, not re-enter the band) — this is exactly the trap-vs-blast distinction NK draws.</p>
-
 <h2>Source pages</h2>
 <p><a href="/wiki/sources/source-bb-trap-hedging">Source Bb Trap Hedging</a> (primary, 4 trade variants + AVWAP) · <a href="/wiki/sources/source-bb-trap-mentorship3">Source Bb Trap Mentorship3</a> (rules + hedge math) · <a href="/wiki/sources/source-ma-convergence">Source Ma Convergence</a> (trap pattern intro)</p>
-
 <h2>Positional Variant</h2>
-<p>See <a href="/wiki/strategies/bb-trap-positional">Bb Trap Positional</a> — a daily-timeframe positional version with stricter rules:</p>
-<ul>
-<li>Full daily candle entirely outside BB (no wick touching)</li>
-<li>2nd candle closes beyond 1st candle&#x27;s extreme (alert/confirmation)</li>
-<li>Volume mandatory: 2nd candle volume &gt; 1st candle volume</li>
-<li>Target: 20 SMA (primary), opposite BB (stretch)</li>
-<li>Hold: days to weeks (not intraday)</li>
-</ul>
-</article>
+<p>See <a href="/wiki/strategies/bb-trap-positional">Bb Trap Positional</a> — a daily-timeframe positional version with stricter rules:
+- Full daily candle entirely outside BB (no wick touching)
+- 2nd candle closes beyond 1st candle's extreme (alert/confirmation)
+- Volume mandatory: 2nd candle volume &gt; 1st candle volume
+- Target: 20 SMA (primary), opposite BB (stretch)
+- Hold: days to weeks (not intraday)</p></article>
 
   </main>
   <footer>

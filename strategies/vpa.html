@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,30 +212,59 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Strategy: VPA (Volume Price Analysis)</h1>
 <article class="md"><h1>Strategy: VPA (Volume Price Analysis)</h1>
-
-<p>&gt; ⚠️ <strong>Status: Rule defined, NOT yet backtested.</strong> Per <span class="broken-link" title="not found">CLAUDE.md</span> hard rule, treat all performance claims below as <em>hypotheses to test</em>, not validated results. A dedicated backtester is a pending task.</p>
-
+<blockquote>
+<p>⚠️ <strong>Status: Rule defined, NOT yet backtested.</strong> Per <span class="broken-link" title="not found">CLAUDE.md</span> hard rule, treat all performance claims below as <em>hypotheses to test</em>, not validated results. A dedicated backtester is a pending task.</p>
+</blockquote>
 <h2>Philosophy</h2>
-<p>Trade the <strong>&quot;Volume is King&quot;</strong> principle from <a href="/wiki/concepts/vpa">Vpa</a>: rising volume that price has not yet confirmed = smart money accumulating/distributing. Enter on the 3-candle confirmation pattern, not on a single bar.</p>
-
-<p>This is the <strong>standalone tradeable form</strong> of VPA. VPA is <em>also</em> used as a filter inside <a href="/wiki/strategies/bb-trap-positional">BB Trap</a> and the pending GFS strategy — see <a href="/wiki/concepts/vpa">Vpa</a> &quot;How VPA is Used.&quot;</p>
-
+<p>Trade the <strong>"Volume is King"</strong> principle from <a href="/wiki/concepts/vpa">Vpa</a>: rising volume that price has not yet confirmed = smart money accumulating/distributing. Enter on the 3-candle confirmation pattern, not on a single bar.</p>
+<p>This is the <strong>standalone tradeable form</strong> of VPA. VPA is <em>also</em> used as a filter inside <a href="/wiki/strategies/bb-trap-positional">BB Trap</a> and the pending GFS strategy — see <a href="/wiki/concepts/vpa">Vpa</a> "How VPA is Used."</p>
 <h2>Entry Rules</h2>
-
 <h3>Long setup</h3>
-<table><thead><tr><th>#</th><th>Rule</th></tr></thead><tbody>
-<tr><td>1</td><td><strong>Day 1:</strong> red candle (close &lt; open) <strong>AND</strong> falling volume (<code>vol[t-1] &lt; vol[t-2]</code>) — sellers exhausting</td></tr>
-<tr><td>2</td><td><strong>Day 2:</strong> volume <strong>rises ≥ 1.5× Day 1</strong> (<code>vol[t] ≥ 1.5 × vol[t-1]</code>) <strong>AND</strong> Day 2 closes green (close &gt; open)</td></tr>
-<tr><td>3</td><td>Both rules true → <strong>enter long at Day 2 close or Day 3 open</strong></td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Day 1:</strong> red candle (close &lt; open) <strong>AND</strong> falling volume (<code>vol[t-1] &lt; vol[t-2]</code>) — sellers exhausting</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Day 2:</strong> volume <strong>rises ≥ 1.5× Day 1</strong> (<code>vol[t] ≥ 1.5 × vol[t-1]</code>) <strong>AND</strong> Day 2 closes green (close &gt; open)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Both rules true → <strong>enter long at Day 2 close or Day 3 open</strong></td>
+</tr>
+</tbody>
+</table>
 <h3>Short setup (mirror)</h3>
-<table><thead><tr><th>#</th><th>Rule</th></tr></thead><tbody>
-<tr><td>1</td><td><strong>Day 1:</strong> green candle (close &gt; open) <strong>AND</strong> falling volume — buyers exhausting</td></tr>
-<tr><td>2</td><td><strong>Day 2:</strong> volume <strong>rises ≥ 1.5× Day 1</strong> <strong>AND</strong> Day 2 closes red (close &lt; open)</td></tr>
-<tr><td>3</td><td>Both rules true → <strong>enter short at Day 2 close or Day 3 open</strong></td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Day 1:</strong> green candle (close &gt; open) <strong>AND</strong> falling volume — buyers exhausting</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Day 2:</strong> volume <strong>rises ≥ 1.5× Day 1</strong> <strong>AND</strong> Day 2 closes red (close &lt; open)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Both rules true → <strong>enter short at Day 2 close or Day 3 open</strong></td>
+</tr>
+</tbody>
+</table>
 <h2>Filters &amp; Context (optional, for higher confidence)</h2>
 <ul>
 <li><strong>Volume multiple:</strong> ≥1.5× is the baseline; ≥2.0× = strong signal (lifts conviction, fewer trades).</li>
@@ -242,76 +273,82 @@
 <li>Short setup <em>near/over upper BB</em> = BB Trap variant → stronger — see <a href="/wiki/concepts/bb-trap">Bb Trap</a>, <a href="/wiki/strategies/bb-trap-positional">Bb Trap Positional</a></li>
 <li><strong>Avoid:</strong> very low-volume stocks (smart-money footprint unreadable); avoid the first/last 15 min on intraday TFs (volume noise).</li>
 </ul>
-
 <h2>Stop Loss</h2>
 <ul>
-<li><strong>Long:</strong> SL = <strong>Day 1 low</strong> (the exhaustion candle&#x27;s low). If price closes below Day 1 low, the accumulation thesis is wrong.</li>
+<li><strong>Long:</strong> SL = <strong>Day 1 low</strong> (the exhaustion candle's low). If price closes below Day 1 low, the accumulation thesis is wrong.</li>
 <li><strong>Short:</strong> SL = <strong>Day 1 high</strong>.</li>
 </ul>
-
 <h2>Target / Exit</h2>
 <ul>
 <li><strong>Fixed target:</strong> 1.5–2× the risk distance (R:R 1.5–2.0).</li>
 <li><strong>Trail alternative (NK convention):</strong> trail above 5 SMA on the entry timeframe — exit when price closes below 5 SMA (longs) / above 5 SMA (shorts). See <a href="/wiki/concepts/moving-average">Moving Average</a>.</li>
 <li><strong>Time stop:</strong> if target not hit within ~5 candles of the entry timeframe, exit at market (avoid dead trades).</li>
 </ul>
-
 <h2>Timeframe</h2>
-<p>Works on <strong>any TF</strong> (Rita&#x27;s requirement). Defaults:</p>
-<ul>
-<li><strong>Swing:</strong> daily candles (hold 2–10 trading days)</li>
-<li><strong>Intraday:</strong> 15-min candles (hold intra-session)</li>
-<li><strong>Positional bias:</strong> weekly/monthly for larger moves</li>
-</ul>
-
+<p>Works on <strong>any TF</strong> (Rita's requirement). Defaults:
+- <strong>Swing:</strong> daily candles (hold 2–10 trading days)
+- <strong>Intraday:</strong> 15-min candles (hold intra-session)
+- <strong>Positional bias:</strong> weekly/monthly for larger moves</p>
 <h2>Risk per Trade</h2>
 <ul>
-<li>Risk ≤ 1–2% of capital per position (consistent with the rest of Rita&#x27;s system).</li>
+<li>Risk ≤ 1–2% of capital per position (consistent with the rest of Rita's system).</li>
 <li>One position per symbol at a time; no pyramiding until backtested.</li>
 </ul>
-
 <h2>Universe</h2>
 <ul>
 <li>NSE 200 (use <code>data/nse200_symbols.csv</code>) for swing trades.</li>
 <li>Nifty 500 for wider scan if backtest confirms edge.</li>
 <li>Skip penny stocks (close &lt; ₹50) and ultra-low volume (avg vol &lt; 100,000).</li>
 </ul>
-
 <h2>Backtest Spec (pending)</h2>
-<p>When the VPA backtester is built, test:</p>
-<ol>
-<li><strong>Baseline win rate</strong> of the 3-candle long pattern (Day1 red+red → Day2 green vol≥1.5× + green close).</li>
-<li><strong>Baseline win rate</strong> of the short mirror.</li>
-<li><strong>Volume multiple sweep:</strong> 1.5× / 2.0× / 2.5× — win rate vs trade count trade-off.</li>
-<li><strong>BB context value:</strong> does adding the &quot;near lower BB&quot; filter (long) materially lift WR?</li>
-<li><strong>Trail vs fixed target:</strong> which exit rule produces higher PF?</li>
-<li><strong>Timeframe sweep:</strong> daily vs 15-min consistency.</li>
-<li><strong>Costs:</strong> include brokerage + slippage (₹0.05–0.10/side) in the final P&amp;L.</li>
-</ol>
-
+<p>When the VPA backtester is built, test:
+1. <strong>Baseline win rate</strong> of the 3-candle long pattern (Day1 red+red → Day2 green vol≥1.5× + green close).
+2. <strong>Baseline win rate</strong> of the short mirror.
+3. <strong>Volume multiple sweep:</strong> 1.5× / 2.0× / 2.5× — win rate vs trade count trade-off.
+4. <strong>BB context value:</strong> does adding the "near lower BB" filter (long) materially lift WR?
+5. <strong>Trail vs fixed target:</strong> which exit rule produces higher PF?
+6. <strong>Timeframe sweep:</strong> daily vs 15-min consistency.
+7. <strong>Costs:</strong> include brokerage + slippage (₹0.05–0.10/side) in the final P&amp;L.</p>
 <h2>Relationship to Other Strategies</h2>
-<table><thead><tr><th>Strategy</th><th>VPA&#x27;s role</th></tr></thead><tbody>
-<tr><td><a href="/wiki/strategies/bb-trap-positional">Bb Trap Positional</a></td><td>The <code>vol_alert ≥ 1.5× vol_primary</code> filter <strong>IS</strong> VPA — already baked in</td></tr>
-<tr><td><a href="/wiki/strategies/bb-breakout-v2">Bb Breakout V2</a></td><td>Should add: skip breakout candle if bearish VPA mismatch present (pending)</td></tr>
-<tr><td><a href="/wiki/concepts/moh-maya">Moh Maya</a></td><td>VPA-confirmed Moh Maya = stronger lower-band reversal</td></tr>
-<tr><td>GFS (pending)</td><td>Entry requires <em>no bearish VPA mismatch</em> on the breakout candle</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>VPA's role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/wiki/strategies/bb-trap-positional">Bb Trap Positional</a></td>
+<td>The <code>vol_alert ≥ 1.5× vol_primary</code> filter <strong>IS</strong> VPA — already baked in</td>
+</tr>
+<tr>
+<td><a href="/wiki/strategies/bb-breakout-v2">Bb Breakout V2</a></td>
+<td>Should add: skip breakout candle if bearish VPA mismatch present (pending)</td>
+</tr>
+<tr>
+<td><a href="/wiki/concepts/moh-maya">Moh Maya</a></td>
+<td>VPA-confirmed Moh Maya = stronger lower-band reversal</td>
+</tr>
+<tr>
+<td>GFS (pending)</td>
+<td>Entry requires <em>no bearish VPA mismatch</em> on the breakout candle</td>
+</tr>
+</tbody>
+</table>
 <h2>Hard Rules (from <span class="broken-link" title="not found">CLAUDE.md</span>)</h2>
 <ul>
 <li>Do <strong>not</strong> present this strategy as proven until the backtest spec above is run.</li>
 <li>Volume is the primary signal — never enter on candle color alone.</li>
 <li>Always pair VPA entry with the SL rule; VPA reduces risk, it does not eliminate it.</li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/concepts/vpa">Vpa</a> — the full VPA concept (this page is the tradeable form)</li>
 <li><a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> — the single-bar raw alert</li>
 <li><a href="/wiki/concepts/bb-trap">Bb Trap</a> · <a href="/wiki/concepts/moh-maya">Moh Maya</a> · <a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a></li>
 <li><a href="/wiki/sources/source-anna-coulling-vpa">Source Anna Coulling Vpa</a> · <a href="/wiki/sources/source-volume-mismatch-vpa-bb-trap">Source Volume Mismatch Vpa Bb Trap</a></li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

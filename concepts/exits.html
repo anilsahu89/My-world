@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,10 +212,8 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Exits</h1>
 <article class="md"><h1>Exits</h1>
-
 <h2>Definition</h2>
 <p>An exit is the pre-planned rule that protects profit or limits loss. The source emphasizes that best entry is less important than a defined exit.</p>
-
 <h2>Rules</h2>
 <ul>
 <li>Do not change timeframe after entering a trade.</li>
@@ -222,7 +222,6 @@
 <li>Check liquidity before basket orders.</li>
 <li>Book first meaningful daily profit and stop trading if the rule says so.</li>
 </ul>
-
 <h2>20 SMA Exit Logic</h2>
 <ul>
 <li>Long taken below/near lower area: exit near 20 SMA if that is the planned target.</li>
@@ -230,7 +229,6 @@
 <li>20 SMA often breaks by gap or large candle; do not assume a gentle exit.</li>
 <li>20 SMA can also become reversal area if other rules confirm.</li>
 </ul>
-
 <h2>Stop-Loss Types To Encode</h2>
 <ul>
 <li>Price-wise.</li>
@@ -242,26 +240,21 @@
 <li>Band-wise.</li>
 <li>Fractal-wise.</li>
 </ul>
-
 <h2>Backtest Use</h2>
-<p>Every strategy page should specify:</p>
-<ul>
-<li>Entry timeframe.</li>
-<li>Exit timeframe.</li>
-<li>Hard SL.</li>
-<li>Soft/mental SL if any.</li>
-<li>Profit target.</li>
-<li>EOD/expiry rule.</li>
-<li>Adjustment rule or &quot;no adjustment&quot;.</li>
-</ul>
-
+<p>Every strategy page should specify:
+- Entry timeframe.
+- Exit timeframe.
+- Hard SL.
+- Soft/mental SL if any.
+- Profit target.
+- EOD/expiry rule.
+- Adjustment rule or "no adjustment".</p>
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/sources/source-know-your-exit">Source Know Your Exit</a></li>
 <li><a href="/wiki/concepts/psychology">Psychology</a></li>
 <li><a href="/wiki/concepts/moving-average">Moving Average</a></li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

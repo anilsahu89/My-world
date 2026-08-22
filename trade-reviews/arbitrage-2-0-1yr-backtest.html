@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,7 +212,6 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Trade Review: Arbitrage 2.0 — 1-Year Backtest</h1>
 <article class="md"><h1>Trade Review: Arbitrage 2.0 — 1-Year Backtest</h1>
-
 <h2>Run Details</h2>
 <ul>
 <li><strong>Strategy:</strong> Arbitrage 2.0</li>
@@ -220,40 +221,65 @@
 <li><strong>Rules file:</strong> <code>ARBITAGE_2_0_RULES.md</code></li>
 <li><strong>Data source:</strong> NSE daily bhavcopy (FO + CM ZIP archives)</li>
 </ul>
-
 <h2>Headline Results</h2>
-
-<table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>
-<tr><td>Signals / trades</td><td>132</td></tr>
-<tr><td><strong>Win rate</strong></td><td><strong>51.52%</strong></td></tr>
-<tr><td><strong>Net P&amp;L</strong></td><td><strong>₹1,84,251.25</strong></td></tr>
-<tr><td><strong>Return on ₹5L</strong></td><td><strong>36.85%</strong></td></tr>
-<tr><td><strong>Profit factor</strong></td><td><strong>2.496</strong></td></tr>
-<tr><td>Max drawdown</td><td>₹27,237.50</td></tr>
-<tr><td>Max drawdown %</td><td>4.68%</td></tr>
-<tr><td>Max open positions</td><td>11</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Signals / trades</td>
+<td>132</td>
+</tr>
+<tr>
+<td><strong>Win rate</strong></td>
+<td><strong>51.52%</strong></td>
+</tr>
+<tr>
+<td><strong>Net P&amp;L</strong></td>
+<td><strong>₹1,84,251.25</strong></td>
+</tr>
+<tr>
+<td><strong>Return on ₹5L</strong></td>
+<td><strong>36.85%</strong></td>
+</tr>
+<tr>
+<td><strong>Profit factor</strong></td>
+<td><strong>2.496</strong></td>
+</tr>
+<tr>
+<td>Max drawdown</td>
+<td>₹27,237.50</td>
+</tr>
+<tr>
+<td>Max drawdown %</td>
+<td>4.68%</td>
+</tr>
+<tr>
+<td>Max open positions</td>
+<td>11</td>
+</tr>
+</tbody>
+</table>
 <h2>What the Numbers Say</h2>
-
 <h3>The Good</h3>
 <ul>
-<li><strong>PF 2.5 at 51% win rate</strong> → asymmetric payoff. Average winner is roughly 2.3× average loser. The strategy doesn&#x27;t need to be right often — it needs to win big when right.</li>
+<li><strong>PF 2.5 at 51% win rate</strong> → asymmetric payoff. Average winner is roughly 2.3× average loser. The strategy doesn't need to be right often — it needs to win big when right.</li>
 <li><strong>4.68% max DD on 36.85% return</strong> → return/drawdown ratio ≈ <strong>7.9</strong>. Anything above 3 is considered strong; 7.9 is excellent.</li>
 <li><strong>Max 11 concurrent positions</strong> → manageable on ₹5L. Roughly ₹45k cushion per slot.</li>
 </ul>
-
 <h3>The Caveats</h3>
 <ul>
 <li><strong>Single 1-year sample.</strong> 2025–26 is one regime. Could be a trending year, low-VIX year, or specific breadth cycle that flatters backwardation structures.</li>
 <li><strong>51% win rate is barely above coin-flip.</strong> The edge lives entirely in the payoff asymmetry, not in prediction accuracy. If avg win/avg loss compresses, PF collapses fast.</li>
 <li><strong>No slippage / brokerage modeled</strong> in the headline numbers (need to confirm from <code>trades.csv</code> columns — current schema shows raw pnl). Real-world PF will be lower after costs.</li>
 <li><strong>Survivorship</strong>: bhavcopy reflects listed stocks on each day. Delistings during the year may not be captured — could mildly inflate results.</li>
-<li><strong>No regime filter.</strong> Strategy fires whenever structure appears. In high-VIX / trending-down regimes, backwardation can deepen (current future keeps falling below spot) before reverting — that&#x27;s where the 4.68% DD came from.</li>
+<li><strong>No regime filter.</strong> Strategy fires whenever structure appears. In high-VIX / trending-down regimes, backwardation can deepen (current future keeps falling below spot) before reverting — that's where the 4.68% DD came from.</li>
 </ul>
-
 <h2>Open Questions for Next Iteration</h2>
-
 <ol>
 <li><strong>What does V2.1 look like on the same year?</strong> Stricter filters (₹20 basis, 2× ratio, 1.5% of spot, 500 vol, 7–21 DTE) will cut trade count sharply but should lift win rate. Worth running.</li>
 <li><strong>Cost-adjusted PF.</strong> Add realistic brokerage (₹20/order flat + 0.0001% on turnover) and slippage (1-2 ticks per leg). If PF drops below 1.5, the edge is marginal.</li>
@@ -261,16 +287,13 @@
 <li><strong>Multi-year.</strong> Minimum 3 years (2023–26) before treating 36.85% as baseline expectation.</li>
 <li><strong>Drawdown anatomy.</strong> What caused the ₹27,237 DD? Was it one bad trade, a cluster during a specific event (budget, global shock), or spread widening across many positions at once?</li>
 </ol>
-
 <h2>Reproducing</h2>
-<pre><code>
-cd /Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage
+<pre><code class="language-bash">cd /Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage
 python backtest_future_arbitaage.py \
   --start 2025-05-15 --end 2026-05-15 \
   --capital 500000 --strategy-name &quot;Arbitage 2.0&quot;
 </code></pre>
 <p>Outputs: <code>results/trades.csv</code>, <code>results/daily_equity.csv</code>, <code>results/signals.csv</code>, <code>results/summary.txt</code></p>
-
 <h2>Next Actions</h2>
 <ul>
 <li>[ ] Run V2.1 variant on same period, compare PF and win rate</li>
@@ -279,14 +302,12 @@ python backtest_future_arbitaage.py \
 <li>[ ] Extend to 2023-05 → 2026-05 (3-year window)</li>
 <li>[ ] Inspect the worst 5 trades in <code>trades.csv</code> — what was the entry structure?</li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/strategies/future-arbitrage">Future Arbitrage</a> — Full strategy rules</li>
 <li><a href="/wiki/concepts/arbitrage">Arbitrage</a> — Concept page</li>
 <li><span class="broken-link" title="not found">backtesting-queue</span> — Testing order across all wiki strategies</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

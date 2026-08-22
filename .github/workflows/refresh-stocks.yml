@@ -1,0 +1,110 @@
+name: Refresh Live Stocks
+
+# Commits a same-day NSE 200 quote snapshot to data/live_stocks.json.
+# Runs after market open, midday, and after close on trading days, plus
+# on demand via the ☁ Server Refresh button on the Live Stocks page.
+
+on:
+  schedule:
+    # NSE market hours 09:15–15:30 IST = 3:45–10:00 UTC, Mon–Fri.
+    # Every 30 min while the market is open, plus a final closing snapshot.
+    - cron: "16,46 4-9 * * 1-5"   # 09:46 … 15:16 IST
+    - cron: "16 10 * * 1-5"       # 15:46 IST — closing snapshot
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch NSE 200 quotes and write snapshot
+        env:
+          TZ: Asia/Kolkata
+        run: |
+          python3 - <<'EOF'
+          import json, time, urllib.request, urllib.error, urllib.parse
+          from datetime import datetime
+
+          BATCH = 20
+          URL = ("https://query1.finance.yahoo.com/v7/finance/spark"
+                 "?symbols={syms}&range=1d&interval=1m")
+          HDRS = {"User-Agent": "Mozilla/5.0"}
+
+          syms = []
+          with open("data/nse200_symbols.csv") as f:
+              for line in f:
+                  s = line.strip().split(",")[0]
+                  if s and s.lower() != "symbol":
+                      syms.append(s + ".NS")
+          print(f"universe: {len(syms)} symbols")
+
+          stocks, errors = [], 0
+          for i in range(0, len(syms), BATCH):
+              batch = ",".join(urllib.parse.quote(s, safe="") for s in syms[i:i+BATCH])
+              for attempt in range(3):
+                  try:
+                      req = urllib.request.Request(URL.format(syms=batch), headers=HDRS)
+                      data = json.loads(urllib.request.urlopen(req, timeout=30).read())
+                      for r in (data.get("spark", {}) or {}).get("result", []) or []:
+                          m = ((r.get("response") or [{}])[0]).get("meta") or {}
+                          ltp = m.get("regularMarketPrice")
+                          prev = m.get("chartPreviousClose", m.get("previousClose"))
+                          if ltp is None or prev is None:
+                              continue
+                          open_px = None
+                          q = (((r.get("response") or [{}])[0].get("indicators") or {}).get("quote") or [{}])[0]
+                          if q.get("close"):
+                              for c in q["close"]:
+                                  if c is not None:
+                                      open_px = c
+                                      break
+                          high = m.get("regularMarketDayHigh", ltp)
+                          low = m.get("regularMarketDayLow", ltp)
+                          ol = open_px is not None and low and abs(open_px - low) / low <= 0.003
+                          stocks.append({
+                              "symbol": m.get("symbol", r.get("symbol", "")).replace(".NS", ""),
+                              "name": m.get("shortName", m.get("longName", "")),
+                              "ltp": ltp,
+                              "prev_close": prev,
+                              "chg": round(ltp - prev, 2),
+                              "pct": round((ltp - prev) / prev * 100, 2) if prev else 0,
+                              "open": open_px,
+                              "high": high,
+                              "low": low,
+                              "volume": m.get("regularMarketVolume", 0),
+                              "ol": ol,
+                              "market_time": m.get("regularMarketTime", 0),
+                          })
+                      break
+                  except (urllib.error.URLError, urllib.error.HTTPError, json.JSONDecodeError, TimeoutError) as e:
+                      errors += 1
+                      print(f"batch {i}: attempt {attempt+1} failed: {e}")
+                      time.sleep(3)
+              time.sleep(1)
+
+          if len(stocks) < len(syms) * 0.5:
+              raise SystemExit(f"only {len(stocks)}/{len(syms)} quotes fetched — aborting")
+
+          out = {
+              "fetched_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+              "source": "yahoo-finance-spark",
+              "universe": "NSE200",
+              "count": len(stocks),
+              "stocks": sorted(stocks, key=lambda s: s["symbol"]),
+          }
+          with open("data/live_stocks.json", "w") as f:
+              json.dump(out, f, ensure_ascii=False)
+          print(f"wrote data/live_stocks.json with {len(stocks)} quotes (retries used: {errors})")
+          EOF
+
+      - name: Commit snapshot
+        run: |
+          git config user.name "stocks-bot"
+          git config user.email "actions@github.com"
+          git add data/live_stocks.json
+          git diff --cached --quiet || git commit -m "chore: refresh live_stocks.json snapshot [skip ci]"
+          git push

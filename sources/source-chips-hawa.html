@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,13 +212,10 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>CHIPS HAWA (Nilesh Joshi, 21.03.2021)</h1>
 <article class="md"><h1>CHIPS HAWA (Nilesh Joshi, 21.03.2021)</h1>
-
-<p><strong>Original files:</strong> <code>../CHIPS HAWA.pdf</code> (605 KB) + <code>../CHips and hawa.csv</code> (4 KB, 63 rows)</p>
-<p><strong>Ingested:</strong> 2026-06-23</p>
-
+<p><strong>Original files:</strong> <code>../CHIPS HAWA.pdf</code> (605 KB) + <code>../CHips and hawa.csv</code> (4 KB, 63 rows)
+<strong>Ingested:</strong> 2026-06-23</p>
 <h2>Summary (2 lines)</h2>
-<p>The definitive statement of NK&#x27;s chips/hawa option-pricing model — gives the <strong>formulas</strong> and a <strong>rule-of-thumb strike-selection table indexed by VIX level and index</strong>. This is the reference point every other hedging source assumes you know.</p>
-
+<p>The definitive statement of NK's chips/hawa option-pricing model — gives the <strong>formulas</strong> and a <strong>rule-of-thumb strike-selection table indexed by VIX level and index</strong>. This is the reference point every other hedging source assumes you know.</p>
 <h2>Key takeaways</h2>
 <ul>
 <li><strong>Three option types</strong> by moneyness:</li>
@@ -231,25 +230,50 @@
 <li><strong>Rule of thumb (fast chips calc):</strong> spot − nearest ATM, then subtract ATM−ITM gap from premium.</li>
 <li><strong>Half-hedge trade setup (the actionable rule):</strong></li>
 </ul>
-
-<table><thead><tr><th>VIX range</th><th>Index</th><th>Buy (OTM, points away)</th><th>Sell (OTM, points away)</th></tr></thead><tbody>
-<tr><td><strong>18–22</strong></td><td>Bank Nifty</td><td>+300</td><td>+600</td></tr>
-<tr><td><strong>18–22</strong></td><td>Nifty</td><td>+100</td><td>+200</td></tr>
-<tr><td><strong>below 18</strong></td><td>Bank Nifty</td><td>+200</td><td>+400</td></tr>
-<tr><td><strong>below 18</strong></td><td>Nifty</td><td>+50</td><td>+100</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>VIX range</th>
+<th>Index</th>
+<th>Buy (OTM, points away)</th>
+<th>Sell (OTM, points away)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>18–22</strong></td>
+<td>Bank Nifty</td>
+<td>+300</td>
+<td>+600</td>
+</tr>
+<tr>
+<td><strong>18–22</strong></td>
+<td>Nifty</td>
+<td>+100</td>
+<td>+200</td>
+</tr>
+<tr>
+<td><strong>below 18</strong></td>
+<td>Bank Nifty</td>
+<td>+200</td>
+<td>+400</td>
+</tr>
+<tr>
+<td><strong>below 18</strong></td>
+<td>Nifty</td>
+<td>+50</td>
+<td>+100</td>
+</tr>
+</tbody>
+</table>
 <p>(Stated as rule of thumb — adjustable to risk appetite.)</p>
-
 <h2>CSV data</h2>
 <p><code>CHips and hawa.csv</code> is a worked calculation table for BN spot 17700 — strike prices with CE/PE LTPs and the resulting chips/hawa per strike (63 rows). Confirms the formula mechanics, no new rules.</p>
-
 <h2>Links to wiki</h2>
 <ul>
 <li>Concepts: <a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a> (primary), <a href="/wiki/concepts/options">Options</a>, <a href="/wiki/concepts/vix">Vix</a>, <a href="/wiki/concepts/hedging">Hedging</a></li>
 <li>Sibling sources: <a href="/wiki/sources/source-option-basics">Source Option Basics</a>, <a href="/wiki/sources/source-option-future-basics">Source Option Future Basics</a>, <a href="/wiki/sources/source-option-calculation">Source Option Calculation</a></li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,27 +212,54 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Concept: Regime Mapping</h1>
 <article class="md"><h1>Concept: Regime Mapping</h1>
-
 <h2>Definition</h2>
-<p><strong>Regime mapping</strong> is the discipline of <strong>classifying the current market state (regime) BEFORE selecting a strategy</strong>. The strategy follows the regime — never the other way around. From <a href="/wiki/sources/source-ravindra-elicherla-options-freedom">Ravindra Elicherla (EP-73)</a>: <em>&quot;Classify the regime first. The strategy follows the regime.&quot;</em></p>
-
+<p><strong>Regime mapping</strong> is the discipline of <strong>classifying the current market state (regime) BEFORE selecting a strategy</strong>. The strategy follows the regime — never the other way around. From <a href="/wiki/sources/source-ravindra-elicherla-options-freedom">Ravindra Elicherla (EP-73)</a>: <em>"Classify the regime first. The strategy follows the regime."</em></p>
 <p>It is the <strong>top-level filter</strong> that sits above every individual strategy in the system. Without it, a good strategy applied in the wrong regime becomes a losing strategy.</p>
-
 <h2>The Four Core Regimes</h2>
-<table><thead><tr><th>Regime</th><th>Price behavior</th><th>Volatility</th><th>Best-fit strategies</th></tr></thead><tbody>
-<tr><td><strong>Uptrend</strong></td><td>Higher highs/lows</td><td>Expanding then cooling</td><td>Bull put spreads, covered calls, cash-secured puts (closer strikes)</td></tr>
-<tr><td><strong>Range / Consolidation</strong></td><td>Sideways, mean-reverting</td><td>Low &amp; stable</td><td>Wide credit spreads, covered calls (high delta), Iron Condors</td></tr>
-<tr><td><strong>Volatile / Choppy</strong></td><td>Whipsaw both directions</td><td>High (VIX elevated)</td><td>Wider spreads <strong>smaller size</strong>, or stand aside; avoid naked premium</td></tr>
-<tr><td><strong>Downtrend</strong></td><td>Lower highs/lows</td><td>Expanding</td><td>Cash-secured puts at <strong>lower</strong> strikes (paid to wait), reduce/stop call-selling, raise cash</td></tr>
-</tbody></table>
-
-<p>&gt; The <a href="/wiki/concepts/vix">VIX</a> level and trend are the fastest regime proxy: low+falling VIX = uptrend/range; rising VIX = transition; high VIX = volatile/downturn risk.</p>
-
+<table>
+<thead>
+<tr>
+<th>Regime</th>
+<th>Price behavior</th>
+<th>Volatility</th>
+<th>Best-fit strategies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Uptrend</strong></td>
+<td>Higher highs/lows</td>
+<td>Expanding then cooling</td>
+<td>Bull put spreads, covered calls, cash-secured puts (closer strikes)</td>
+</tr>
+<tr>
+<td><strong>Range / Consolidation</strong></td>
+<td>Sideways, mean-reverting</td>
+<td>Low &amp; stable</td>
+<td>Wide credit spreads, covered calls (high delta), Iron Condors</td>
+</tr>
+<tr>
+<td><strong>Volatile / Choppy</strong></td>
+<td>Whipsaw both directions</td>
+<td>High (VIX elevated)</td>
+<td>Wider spreads <strong>smaller size</strong>, or stand aside; avoid naked premium</td>
+</tr>
+<tr>
+<td><strong>Downtrend</strong></td>
+<td>Lower highs/lows</td>
+<td>Expanding</td>
+<td>Cash-secured puts at <strong>lower</strong> strikes (paid to wait), reduce/stop call-selling, raise cash</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>The <a href="/wiki/concepts/vix">VIX</a> level and trend are the fastest regime proxy: low+falling VIX = uptrend/range; rising VIX = transition; high VIX = volatile/downturn risk.</p>
+</blockquote>
 <h2>The Rule</h2>
-<p>&gt; <strong>No regime = no trade.</strong> If you cannot clearly place the market into one of the four boxes, the default action is <strong>stand aside</strong>. Discipline over activity.</p>
-
+<blockquote>
+<p><strong>No regime = no trade.</strong> If you cannot clearly place the market into one of the four boxes, the default action is <strong>stand aside</strong>. Discipline over activity.</p>
+</blockquote>
 <p>This directly counters the most common retail mistake: forcing a favourite strategy into every market condition.</p>
-
 <h2>How to Determine the Regime (checklist)</h2>
 <ol>
 <li><strong>Index trend</strong> — Nifty above/below its 20 &amp; 50 SMA? (Daily + Weekly)</li>
@@ -239,55 +268,80 @@
 <li><strong>BB structure</strong> — <a href="/wiki/concepts/bollinger-bands">BB</a> squeeze (range) vs walk (trend) vs trap (reversal)</li>
 <li><strong>Recent failure rate</strong> — if your last 3-4 trades of a type failed, the regime likely shifted against that type</li>
 </ol>
-
-<h2>Application to Rita&#x27;s Strategies</h2>
-<table><thead><tr><th>Strategy</th><th>Best Regime</th><th>Avoid In</th></tr></thead><tbody>
-<tr><td><span class="broken-link" title="not found">Td&gt;&lt;Td&gt;Daily Theta</span> (bull put spreads)</td><td>Uptrend, Range</td><td>Downtrend, high-VIX choppy</td></tr>
-<tr><td><span class="broken-link" title="not found">Td&gt;&lt;Td&gt;Nifty Premium Mill</span></td><td>Uptrend, Range</td><td>Downtrend</td></tr>
-<tr><td><span class="broken-link" title="not found">Td&gt;&lt;Td&gt;Stock Premium Mill</span> (covered calls)</td><td>Uptrend on the stock</td><td>Downtrend (gets called away at lows / shares fall)</td></tr>
-<tr><td><span class="broken-link" title="not found">Td&gt;&lt;Td&gt;Arbitrage 2.0</span></td><td>Any (market-neutral)</td><td>Any — regime-independent ✓</td></tr>
-<tr><td><span class="broken-link" title="not found">Td&gt;&lt;Td&gt;Open=Low</span></td><td>Uptrend (long bias)</td><td>Downtrend</td></tr>
-<tr><td><span class="broken-link" title="not found">Td&gt;&lt;Td&gt;Bb Trap Shorts</span></td><td>After extended uptrend / overbought</td><td>Ranging basements</td></tr>
-</tbody></table>
-
+<h2>Application to Rita's Strategies</h2>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Best Regime</th>
+<th>Avoid In</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/wiki/strategies/nifty-daily-theta">Daily Theta</a> (bull put spreads)</td>
+<td>Uptrend, Range</td>
+<td>Downtrend, high-VIX choppy</td>
+</tr>
+<tr>
+<td><a href="/wiki/strategies/nifty-premium-mill">Nifty Premium Mill</a></td>
+<td>Uptrend, Range</td>
+<td>Downtrend</td>
+</tr>
+<tr>
+<td><a href="/wiki/strategies/stock-premium-mill">Stock Premium Mill</a> (covered calls)</td>
+<td>Uptrend on the stock</td>
+<td>Downtrend (gets called away at lows / shares fall)</td>
+</tr>
+<tr>
+<td><a href="/wiki/strategies/future-arbitrage">Arbitrage 2.0</a></td>
+<td>Any (market-neutral)</td>
+<td>Any — regime-independent ✓</td>
+</tr>
+<tr>
+<td><a href="/wiki/strategies/open-low-intraday">Open=Low</a></td>
+<td>Uptrend (long bias)</td>
+<td>Downtrend</td>
+</tr>
+<tr>
+<td><a href="/wiki/strategies/bb-trap-positional">BB Trap shorts</a></td>
+<td>After extended uptrend / overbought</td>
+<td>Ranging basements</td>
+</tr>
+</tbody>
+</table>
 <h3>⭐ Regime Filter for Daily Theta (pending backtest)</h3>
-<p><a href="/wiki/sources/source-ravindra-elicherla-options-freedom">Ravindra&amp;#x27;s</a> framework suggests: <strong>skip Daily Theta credit-spread trades when the regime is &quot;Downtrend&quot;</strong> (Nifty below 50 SMA + VIX rising). This is a candidate lift to the existing 92.9% WR — see backtest queue below.</p>
-
+<p><a href="/wiki/sources/source-ravindra-elicherla-options-freedom">Ravindra&#x27;s</a> framework suggests: <strong>skip Daily Theta credit-spread trades when the regime is "Downtrend"</strong> (Nifty below 50 SMA + VIX rising). This is a candidate lift to the existing 92.9% WR — see backtest queue below.</p>
 <h2>Why It Matters</h2>
 <ul>
-<li>A bull put spread is a <strong>high-win-rate strategy in an uptrend</strong> and a <strong>serial loser in a downtrend</strong>. The strategy didn&#x27;t change — the regime did.</li>
-<li>Most strategy &quot;failures&quot; are actually <strong>regime misapplications</strong>. Regime mapping catches this before entry.</li>
-<li>It is the single highest-leverage addition to Rita&#x27;s system: it costs nothing and filters out the worst trades.</li>
+<li>A bull put spread is a <strong>high-win-rate strategy in an uptrend</strong> and a <strong>serial loser in a downtrend</strong>. The strategy didn't change — the regime did.</li>
+<li>Most strategy "failures" are actually <strong>regime misapplications</strong>. Regime mapping catches this before entry.</li>
+<li>It is the single highest-leverage addition to Rita's system: it costs nothing and filters out the worst trades.</li>
 </ul>
-
 <h2>Backtest Candidates</h2>
 <ol>
 <li><strong>Regime-gated Daily Theta</strong> — does skipping credit spreads when Nifty &lt; 50 SMA + VIX rising improve PF beyond 1.77?</li>
 <li><strong>VIX threshold for regime</strong> — is VIX 18 / 20 / 22 the cleanest regime cutoff for credit-spread skipping?</li>
 <li><strong>Covered-call regime filter</strong> — does disabling covered calls in index downtrends reduce assignment-during-drawdown risk?</li>
 </ol>
-
 <h2>Limitations</h2>
 <ul>
-<li>Regime classification has <strong>lag</strong> — by the time a downtrend is obvious, much of the damage is done. Leading indicators (VIX spike, breadth thrust) help but aren&#x27;t perfect.</li>
+<li>Regime classification has <strong>lag</strong> — by the time a downtrend is obvious, much of the damage is done. Leading indicators (VIX spike, breadth thrust) help but aren't perfect.</li>
 <li>Overlays with <a href="/wiki/concepts/support-resistance">S/R</a> and <a href="/wiki/concepts/vix">VIX</a> — not a fully independent signal.</li>
-<li>Subjective element: &quot;range&quot; vs &quot;choppy&quot; can be hard to distinguish in real time.</li>
+<li>Subjective element: "range" vs "choppy" can be hard to distinguish in real time.</li>
 </ul>
-
 <h2>Related Concepts</h2>
 <ul>
 <li><a href="/wiki/concepts/vix">Vix</a> — primary regime proxy</li>
 <li><a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a> — BB structure reveals regime (squeeze/walk/trap)</li>
 <li><a href="/wiki/concepts/moving-average">Moving Average</a> — 20/50 SMA for trend regime</li>
 <li><a href="/wiki/concepts/hedging">Hedging</a> — regime drives hedge sizing</li>
-<li><a href="/wiki/concepts/psychology">Psychology</a> — &quot;stand aside&quot; is a discipline skill</li>
+<li><a href="/wiki/concepts/psychology">Psychology</a> — "stand aside" is a discipline skill</li>
 </ul>
-
 <h2>Sources</h2>
 <ul>
 <li><a href="/wiki/sources/source-ravindra-elicherla-options-freedom">Source Ravindra Elicherla Options Freedom</a> — regime mapping as the top-level filter</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,10 +212,8 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Udd Ja</h1>
 <article class="md"><h1>Udd Ja</h1>
-
 <h2>Definition</h2>
 <p>Udd Ja is a bullish intraday cash-stock momentum pattern. It looks for all-timeframe bullish stocks where VWAP/AVWAP become flat, volume dries up, and a breakout triggers a quick move.</p>
-
 <h2>Setup</h2>
 <ol>
 <li>Stock bullish on higher timeframes.</li>
@@ -224,7 +224,6 @@
 <li>Volume dries up during 11 AM-1 PM consolidation.</li>
 <li>Sudden volume spike and BB breakout starts the move.</li>
 </ol>
-
 <h2>Entry And Exit</h2>
 <ul>
 <li>Entry: breakout close above consolidation high, or pullback during Bollinger walk.</li>
@@ -233,10 +232,8 @@
 <li>SL: one candle close below AVWAP, or one point below VWAP.</li>
 <li>Exit when Bollinger walk ends or price returns toward VWAP.</li>
 </ul>
-
 <h2>Important Rule</h2>
 <p>Never sell options during Udd Ja; source says option premium expands and can multiply.</p>
-
 <h2>Backtest Specification</h2>
 <ul>
 <li>Universe: cash stocks with intraday data and volume.</li>
@@ -244,14 +241,12 @@
 <li>Signal: flat VWAP/AVWAP + dry volume + consolidation breakout.</li>
 <li>Exit variants: 2x range, 3x range, VWAP/AVWAP close, EOD.</li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/sources/source-udd-ja">Source Udd Ja</a></li>
 <li><a href="/wiki/concepts/vwap">Vwap</a></li>
 <li><a href="/wiki/concepts/avwap">Avwap</a></li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,10 +212,8 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Nifty Daily Theta — Paper Trade Tracking</h1>
 <article class="md"><h1>Nifty Daily Theta — Paper Trade Tracking</h1>
-
 <h2>Overview</h2>
 <p>Paper trading the <a href="/wiki/strategies/nifty-daily-theta">Nifty Daily Theta</a> strategy — selling hedged credit spreads Mon-Wed.</p>
-
 <h2>Rules</h2>
 <ul>
 <li><strong>Entry:</strong> Mon, Tue, Wed after 1 PM</li>
@@ -224,16 +224,47 @@
 <li><strong>Exit:</strong> 50% profit OR strike hit (SL) OR expiry</li>
 <li><strong>Max 1 open position</strong> at a time</li>
 </ul>
-
 <h2>Trade Log</h2>
-
-<table><thead><tr><th>#</th><th>Entry</th><th>Direction</th><th>Sell</th><th>Buy</th><th>Type</th><th>Credit</th><th>VIX</th><th>DTE</th><th>Expiry</th><th>Status</th><th>Exit</th><th>P&amp;L</th><th>Reason</th></tr></thead><tbody>
-<tr><td>1</td><td>Jul 15</td><td>BULL_PUT</td><td>23750</td><td>23650</td><td>PE</td><td>₹17.2</td><td>13.3</td><td>6</td><td>Jul 21</td><td>OPEN</td><td>—</td><td>—</td><td>—</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Entry</th>
+<th>Direction</th>
+<th>Sell</th>
+<th>Buy</th>
+<th>Type</th>
+<th>Credit</th>
+<th>VIX</th>
+<th>DTE</th>
+<th>Expiry</th>
+<th>Status</th>
+<th>Exit</th>
+<th>P&amp;L</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Jul 15</td>
+<td>BULL_PUT</td>
+<td>23750</td>
+<td>23650</td>
+<td>PE</td>
+<td>₹17.2</td>
+<td>13.3</td>
+<td>6</td>
+<td>Jul 21</td>
+<td>OPEN</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2>Trade #1 Details</h2>
-<pre><code>
-Sell: 23750 PE @ ₹52.15
+<pre><code>Sell: 23750 PE @ ₹52.15
 Buy:  23650 PE @ ₹34.95
 Net credit: ₹17.2 (= ₹1,290 per lot)
 VIX: 13.3 (well under 22 limit)
@@ -246,17 +277,36 @@ Targets:
   ❌ SL: Nifty touches 23,750
   ❌ Max loss: Nifty below 23,650 → −₹6,210
 </code></pre>
-
 <h2>Daily P&amp;L Summary</h2>
-
-<table><thead><tr><th>Day</th><th>New Entries</th><th>Exits</th><th>Realized P&amp;L</th><th>Notes</th></tr></thead><tbody>
-<tr><td>Jul 15 (Wed)</td><td>1 (#1)</td><td>0</td><td>₹0</td><td>Entered BULL_PUT 23750/23650</td></tr>
-<tr><td><strong>TOTAL</strong></td><td><strong>1</strong></td><td><strong>0</strong></td><td><strong>₹0</strong></td><td>1 open</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>New Entries</th>
+<th>Exits</th>
+<th>Realized P&amp;L</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jul 15 (Wed)</td>
+<td>1 (#1)</td>
+<td>0</td>
+<td>₹0</td>
+<td>Entered BULL_PUT 23750/23650</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>1</strong></td>
+<td><strong>0</strong></td>
+<td><strong>₹0</strong></td>
+<td>1 open</td>
+</tr>
+</tbody>
+</table>
 <h2>How to Update</h2>
-<pre><code>
-cd /Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage
+<pre><code class="language-bash">cd /Users/apple/Documents/Codex/2026-05-15/name-this-strategy-as-future-arbitaage
 
 # Daily update (checks exits + new signals, Mon-Wed only)
 python3 paper_trade_daily_theta.py --scan
@@ -267,19 +317,16 @@ python3 paper_trade_daily_theta.py --report
 # Combined scan (all 5 strategies)
 scan
 </code></pre>
-
 <h2>Files</h2>
 <ul>
 <li><strong>Trades CSV:</strong> <code>papertrades/daily_theta_trades.csv</code></li>
 <li><strong>Tracker:</strong> <code>paper_trade_daily_theta.py</code></li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/strategies/nifty-daily-theta">Nifty Daily Theta</a> — Strategy rules + 2yr backtest</li>
 <li><a href="/wiki/trade-reviews/nifty-premium-mill-paper-trades">Nifty Premium Mill Paper Trades</a> — Weekly version (also running)</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -231,73 +233,76 @@
 <section class="note">
   <h2>Rules</h2>
   <article class="md"><h1>Expiry Day Gap Hedge</h1>
-
 <h2>Definition</h2>
 <p>Exploits the <strong>pricing gap between Bank Nifty Spot and Bank Nifty Future</strong> when the gap is ~200+ points. Buy near-expiry (weekly), sell far-expiry (monthly) — profit when gap converges at expiry.</p>
-
 <h2>Trigger Condition</h2>
 <ul>
 <li>When <strong>Spot-Future gap ≥ 200 points</strong></li>
 <li>Example: BN Spot = 39598, BN Future = 39834 → gap = <strong>236 points</strong></li>
 <li>Per lot, this gap = ₹7,000–10,000 profit potential</li>
 </ul>
-
 <h2>Core Rule</h2>
-<p>&gt; <strong>Always BUY near expiry (weekly), SELL far expiry (monthly).</strong></p>
-
+<blockquote>
+<p><strong>Always BUY near expiry (weekly), SELL far expiry (monthly).</strong></p>
+</blockquote>
 <p>The near-expiry option is calculated from <strong>spot</strong>, the far-expiry from <strong>future</strong>. At expiry, weekly matches spot → gap closes → profit.</p>
-
 <h2>Execution</h2>
-
 <h3>Strike Selection</h3>
 <ul>
 <li>Select strike where market <strong>cannot reach</strong> by expiry</li>
 <li>Near major resistance (e.g., 41000 if BN at 39598)</li>
 <li>Or 42000/43000 if you think market could rise</li>
-<li><strong>Deeper OTM = safer</strong> — doesn&#x27;t matter if premium is ₹1200 or ₹3000</li>
+<li><strong>Deeper OTM = safer</strong> — doesn't matter if premium is ₹1200 or ₹3000</li>
 <li>Make it <strong>1000-1500 points above</strong> current for near-zero probability of breach</li>
 </ul>
-
 <h3>Trade Structure</h3>
 <ul>
 <li><strong>BUY</strong> Weekly PE (near expiry) — calculated from spot</li>
 <li><strong>SELL</strong> Monthly PE (far expiry) — calculated from future</li>
 </ul>
-
 <h3>Example</h3>
 <ul>
 <li>Weekly 41000 PE @ ₹1293</li>
 <li>Monthly 41000 PE @ ₹1264</li>
-<li><strong>Don&#x27;t trade</strong> if weekly &gt; monthly — wait for weekly &lt; monthly</li>
+<li><strong>Don't trade</strong> if weekly &gt; monthly — wait for weekly &lt; monthly</li>
 </ul>
-
 <h2>When NOT to Trade</h2>
 <ul>
 <li>If weekly PE price &gt; monthly PE price → <strong>wait</strong></li>
 <li>Wait for weekly price to drop below monthly (could be any day Mon-Thu)</li>
 <li>Trade when: weekly price ≤ monthly price − 30-40 points</li>
 </ul>
-
 <h2>Profit Logic</h2>
 <ul>
 <li>Future expansion/erosion: 30-40 point difference still gives decent profit</li>
 <li><strong>Average profit: 180-200 points</strong> per trade</li>
 <li>On expiry day or Wednesday → biggest profit</li>
 </ul>
-
 <h2>Risk Management</h2>
 <ul>
 <li>If market rises 41000+ → weekly becomes 0, monthly retains premium → <strong>adjustment needed</strong></li>
-<li>That&#x27;s why we go <strong>1000-1500 points deep</strong> — very low probability of breach</li>
+<li>That's why we go <strong>1000-1500 points deep</strong> — very low probability of breach</li>
 <li>In downtrend → PE side; in uptrend → CE side</li>
 </ul>
-
 <h2>CE vs PE Side</h2>
-<table><thead><tr><th>Market Trend</th><th>Side</th></tr></thead><tbody>
-<tr><td>Downtrend</td><td>PE side (put hedge)</td></tr>
-<tr><td>Uptrend</td><td>CE side (call hedge)</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Market Trend</th>
+<th>Side</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Downtrend</td>
+<td>PE side (put hedge)</td>
+</tr>
+<tr>
+<td>Uptrend</td>
+<td>CE side (call hedge)</td>
+</tr>
+</tbody>
+</table>
 <h2>Key Rules</h2>
 <ol>
 <li><strong>Gap trigger:</strong> ≥200 points between spot and future</li>
@@ -307,24 +312,44 @@
 <li><strong>Best timing:</strong> Expiry day or Wednesday</li>
 <li><strong>If Friday/Monday setup:</strong> Weekly must be 30-40 points cheaper than monthly</li>
 </ol>
-
 <h2>Quick Reference</h2>
-<table><thead><tr><th>Step</th><th>Rule</th></tr></thead><tbody>
-<tr><td>1</td><td>Check spot-future gap ≥ 200</td></tr>
-<tr><td>2</td><td>Pick deep OTM strike (1000-1500 pts)</td></tr>
-<tr><td>3</td><td>Verify weekly price &lt; monthly price</td></tr>
-<tr><td>4</td><td>Buy weekly, sell monthly</td></tr>
-<tr><td>5</td><td>Hold to expiry → book 180-200 pts profit</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Check spot-future gap ≥ 200</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Pick deep OTM strike (1000-1500 pts)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Verify weekly price &lt; monthly price</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Buy weekly, sell monthly</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Hold to expiry → book 180-200 pts profit</td>
+</tr>
+</tbody>
+</table>
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/concepts/hedging">Hedging</a> — Hedging fundamentals</li>
 <li><a href="/wiki/concepts/chips-and-hawa">Chips And Hawa</a> — Premium structure</li>
 <li><a href="/wiki/strategies/wednesday-hedge">Wednesday Hedge</a> — Related expiry strategy</li>
 <li><a href="/wiki/sources/source-expiry-gap-hedge">Source Expiry Gap Hedge</a> — Source document</li>
-</ul>
-</article>
+</ul></article>
 </section>
 
 

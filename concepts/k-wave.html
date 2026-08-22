@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,10 +212,8 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>K Wave</h1>
 <article class="md"><h1>K Wave</h1>
-
 <h2>Definition</h2>
 <p>K Wave is a 10-minute intraday pattern where 4-5 narrow candles form after a gap near the Bollinger Band/VWAP area. A range break then leads to a strong directional move.</p>
-
 <h2>Setup</h2>
 <ul>
 <li>Timeframe: 10 minutes.</li>
@@ -224,24 +224,20 @@
 <li>SL: close above VWAP for bearish setup.</li>
 <li>Buy-side version forms after gap down.</li>
 </ul>
-
 <h2>Priority Rule</h2>
 <p>The source says pattern should get priority over HM signal when the pattern is clear.</p>
-
 <h2>Backtest Specification</h2>
 <ul>
 <li>Detect 4-5 candles with compressed range near VWAP after gap.</li>
 <li>Require range break close.</li>
 <li>Exit: VWAP reclaim, fixed R multiple, EOD, or target based on move size.</li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/sources/source-class-notes-08-may-2022">Source Class Notes 08 May 2022</a></li>
 <li><a href="/wiki/concepts/vwap">Vwap</a></li>
 <li><a href="/wiki/concepts/bollinger-bands">Bollinger Bands</a></li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

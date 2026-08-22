@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,69 +212,184 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Volume Analysis: Using VPA Principles to Improve Arbitrage 2.0 Win Rate</h1>
 <article class="md"><h1>Volume Analysis: Using VPA Principles to Improve Arbitrage 2.0 Win Rate</h1>
-
 <h2>The Question</h2>
-<p>&gt; Can we apply the &quot;volume reveals smart money intent&quot; principle from NK&#x27;s VPA video to improve trade selection in Arbitrage 2.0?</p>
-
+<blockquote>
+<p>Can we apply the "volume reveals smart money intent" principle from NK's VPA video to improve trade selection in Arbitrage 2.0?</p>
+</blockquote>
 <h2>The Answer (short version)</h2>
-<p><strong>Yes — but not the way you&#x27;d expect.</strong> The VPA video teaches &quot;effort vs result&quot; (high volume + weak price = trap). That exact pattern doesn&#x27;t apply to arbitrage because we&#x27;re not trading breakouts. But the <em>underlying principle</em> — volume reveals liquidity and intent — maps to a different filter: <strong>the volume balance between the two futures legs</strong>.</p>
-
+<p><strong>Yes — but not the way you'd expect.</strong> The VPA video teaches "effort vs result" (high volume + weak price = trap). That exact pattern doesn't apply to arbitrage because we're not trading breakouts. But the <em>underlying principle</em> — volume reveals liquidity and intent — maps to a different filter: <strong>the volume balance between the two futures legs</strong>.</p>
 <p>The strongest single volume filter is the <strong>curr/next volume ratio</strong>. When the next-month future (the leg we sell) has decent volume relative to the current-month (the leg we buy), win rate jumps from 52% to <strong>66%</strong>.</p>
-
-<hr>
-
+<hr />
 <h2>What the Data Shows</h2>
-
 <h3>Winner vs Loser Volume Comparison</h3>
-
-<table><thead><tr><th>Feature</th><th>Winners (n=144)</th><th>Losers (n=132)</th><th>Signal</th></tr></thead><tbody>
-<tr><td><strong>Curr/Next vol ratio</strong></td><td><strong>7.4</strong></td><td>11.3</td><td>🟢 STRONG — winners have balanced legs</td></tr>
-<tr><td>Next FUT volume</td><td>1,298</td><td>1,062</td><td>🟡 Mild — winners have more next-month liquidity</td></tr>
-<tr><td>Current FUT volume</td><td>6,660</td><td>6,244</td><td>⚪ Negligible difference</td></tr>
-<tr><td>Total volume</td><td>7,957</td><td>7,306</td><td>⚪ Negligible difference</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Winners (n=144)</th>
+<th>Losers (n=132)</th>
+<th>Signal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Curr/Next vol ratio</strong></td>
+<td><strong>7.4</strong></td>
+<td>11.3</td>
+<td>🟢 STRONG — winners have balanced legs</td>
+</tr>
+<tr>
+<td>Next FUT volume</td>
+<td>1,298</td>
+<td>1,062</td>
+<td>🟡 Mild — winners have more next-month liquidity</td>
+</tr>
+<tr>
+<td>Current FUT volume</td>
+<td>6,660</td>
+<td>6,244</td>
+<td>⚪ Negligible difference</td>
+</tr>
+<tr>
+<td>Total volume</td>
+<td>7,957</td>
+<td>7,306</td>
+<td>⚪ Negligible difference</td>
+</tr>
+</tbody>
+</table>
 <h3>The key insight: Volume RATIO, not absolute volume</h3>
-
-<p>The absolute volume of either leg doesn&#x27;t separate winners from losers. What matters is the <strong>balance</strong> between the two legs:</p>
-
-<p>&gt; <strong>Curr/Next volume ratio = current FUT volume ÷ next FUT volume</strong></p>
-
+<p>The absolute volume of either leg doesn't separate winners from losers. What matters is the <strong>balance</strong> between the two legs:</p>
+<blockquote>
+<p><strong>Curr/Next volume ratio = current FUT volume ÷ next FUT volume</strong></p>
+</blockquote>
 <ul>
 <li><strong>Low ratio (≤10):</strong> Both legs are actively traded → smooth entry and exit → <strong>higher win rate</strong></li>
 <li><strong>High ratio (&gt;10):</strong> Next-month future is illiquid relative to current → hard to exit the sold leg → <strong>lower win rate</strong></li>
 </ul>
-
-<p>This is the VPA principle translated to arbitrage: <strong>volume reveals whether the market is genuinely supporting both sides of your trade, or whether you&#x27;re stuck in an illiquid leg.</strong></p>
-
-<hr>
-
+<p>This is the VPA principle translated to arbitrage: <strong>volume reveals whether the market is genuinely supporting both sides of your trade, or whether you're stuck in an illiquid leg.</strong></p>
+<hr />
 <h2>Filter Test Results</h2>
-
 <h3>Volume Ratio Alone (single filter)</h3>
-
-<table><thead><tr><th>Filter</th><th>Trades</th><th>Win Rate</th><th>PF</th><th>EV/Trade</th><th>Yearly Return</th></tr></thead><tbody>
-<tr><td>Baseline (all)</td><td>276</td><td>52.2%</td><td>2.68</td><td>₹1,713</td><td>41.1%</td></tr>
-<tr><td>vol_ratio ≤ 20</td><td>248</td><td>52.8%</td><td>2.81</td><td>₹1,840</td><td>39.7%</td></tr>
-<tr><td>vol_ratio ≤ 12</td><td>171</td><td>57.3%</td><td>3.31</td><td>₹2,230</td><td>33.2%</td></tr>
-<tr><td><strong>vol_ratio ≤ 10</strong></td><td><strong>146</strong></td><td><strong>59.6%</strong></td><td><strong>3.47</strong></td><td><strong>₹2,472</strong></td><td><strong>31.4%</strong></td></tr>
-<tr><td>vol_ratio ≤ 8</td><td>120</td><td>62.5%</td><td>3.37</td><td>₹2,576</td><td>26.9%</td></tr>
-<tr><td>vol_ratio ≤ 5</td><td>76</td><td>65.8%</td><td>3.66</td><td>₹3,093</td><td>20.4%</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Filter</th>
+<th>Trades</th>
+<th>Win Rate</th>
+<th>PF</th>
+<th>EV/Trade</th>
+<th>Yearly Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline (all)</td>
+<td>276</td>
+<td>52.2%</td>
+<td>2.68</td>
+<td>₹1,713</td>
+<td>41.1%</td>
+</tr>
+<tr>
+<td>vol_ratio ≤ 20</td>
+<td>248</td>
+<td>52.8%</td>
+<td>2.81</td>
+<td>₹1,840</td>
+<td>39.7%</td>
+</tr>
+<tr>
+<td>vol_ratio ≤ 12</td>
+<td>171</td>
+<td>57.3%</td>
+<td>3.31</td>
+<td>₹2,230</td>
+<td>33.2%</td>
+</tr>
+<tr>
+<td><strong>vol_ratio ≤ 10</strong></td>
+<td><strong>146</strong></td>
+<td><strong>59.6%</strong></td>
+<td><strong>3.47</strong></td>
+<td><strong>₹2,472</strong></td>
+<td><strong>31.4%</strong></td>
+</tr>
+<tr>
+<td>vol_ratio ≤ 8</td>
+<td>120</td>
+<td>62.5%</td>
+<td>3.37</td>
+<td>₹2,576</td>
+<td>26.9%</td>
+</tr>
+<tr>
+<td>vol_ratio ≤ 5</td>
+<td>76</td>
+<td>65.8%</td>
+<td>3.66</td>
+<td>₹3,093</td>
+<td>20.4%</td>
+</tr>
+</tbody>
+</table>
 <p><strong>Sweet spot: vol_ratio ≤ 10.</strong> Lifts WR from 52% → 60%, PF from 2.68 → 3.47, and only cuts 47% of trades. The EV per trade jumps 44%.</p>
-
 <h3>Combined with Prior Best Filters</h3>
-
-<table><thead><tr><th>Combo</th><th>Trades</th><th>Win Rate</th><th>PF</th><th>EV/Trade</th></tr></thead><tbody>
-<tr><td>Baseline</td><td>276</td><td>52.2%</td><td>2.68</td><td>₹1,713</td></tr>
-<tr><td>basis% ≥ 1.0</td><td>187</td><td>54.5%</td><td>3.07</td><td>₹2,164</td></tr>
-<tr><td>basis% ≥ 1.0 + vol_ratio ≤ 10</td><td>100</td><td><strong>61.0%</strong></td><td><strong>4.17</strong></td><td>₹3,163</td></tr>
-<tr><td><strong>basis% ≥ 1.0 + spr_ratio ≥ 2.0 + vol_ratio ≤ 10</strong> ★</td><td><strong>39</strong></td><td><strong>61.5%</strong></td><td><strong>5.83</strong></td><td><strong>₹4,532</strong></td></tr>
-<tr><td>basis% ≥ 1.0 + spr_ratio ≥ 2.0 + vol_ratio ≤ 8</td><td>31</td><td><strong>67.7%</strong></td><td><strong>5.66</strong></td><td>₹4,902</td></tr>
-<tr><td>basis% ≥ 1.0 + spr_ratio ≥ 2.0 + vol_ratio ≤ 6</td><td>20</td><td><strong>70.0%</strong></td><td>4.73</td><td>₹4,662</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Combo</th>
+<th>Trades</th>
+<th>Win Rate</th>
+<th>PF</th>
+<th>EV/Trade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline</td>
+<td>276</td>
+<td>52.2%</td>
+<td>2.68</td>
+<td>₹1,713</td>
+</tr>
+<tr>
+<td>basis% ≥ 1.0</td>
+<td>187</td>
+<td>54.5%</td>
+<td>3.07</td>
+<td>₹2,164</td>
+</tr>
+<tr>
+<td>basis% ≥ 1.0 + vol_ratio ≤ 10</td>
+<td>100</td>
+<td><strong>61.0%</strong></td>
+<td><strong>4.17</strong></td>
+<td>₹3,163</td>
+</tr>
+<tr>
+<td><strong>basis% ≥ 1.0 + spr_ratio ≥ 2.0 + vol_ratio ≤ 10</strong> ★</td>
+<td><strong>39</strong></td>
+<td><strong>61.5%</strong></td>
+<td><strong>5.83</strong></td>
+<td><strong>₹4,532</strong></td>
+</tr>
+<tr>
+<td>basis% ≥ 1.0 + spr_ratio ≥ 2.0 + vol_ratio ≤ 8</td>
+<td>31</td>
+<td><strong>67.7%</strong></td>
+<td><strong>5.66</strong></td>
+<td>₹4,902</td>
+</tr>
+<tr>
+<td>basis% ≥ 1.0 + spr_ratio ≥ 2.0 + vol_ratio ≤ 6</td>
+<td>20</td>
+<td><strong>70.0%</strong></td>
+<td>4.73</td>
+<td>₹4,662</td>
+</tr>
+</tbody>
+</table>
 <h3>The winner: <code>basis% ≥ 1.0 + spr_ratio ≥ 2.0 + vol_ratio ≤ 10</code></h3>
 <ul>
 <li><strong>39 trades</strong> over 2.3 years (~17/year)</li>
@@ -281,67 +398,47 @@
 <li><strong>EV ₹4,532/trade</strong> (up from ₹1,713 — 2.6× improvement)</li>
 <li>Still keeps enough trade volume to be actionable</li>
 </ul>
-
-<hr>
-
+<hr />
 <h2>Why This Works (the mechanism)</h2>
-
 <h3>The VPA connection</h3>
-<p>NK&#x27;s VPA video teaches: volume reveals smart money intent. In a BB Trap, high volume + price failure = institutions selling into the breakout.</p>
-
+<p>NK's VPA video teaches: volume reveals smart money intent. In a BB Trap, high volume + price failure = institutions selling into the breakout.</p>
 <p>In arbitrage, the translation is:</p>
-<p>&gt; <strong>Volume balance between legs reveals whether the market genuinely supports both sides of your spread, or whether you&#x27;re trapped in an illiquid position.</strong></p>
-
+<blockquote>
+<p><strong>Volume balance between legs reveals whether the market genuinely supports both sides of your spread, or whether you're trapped in an illiquid position.</strong></p>
+</blockquote>
 <h3>What high vol_ratio means in practice</h3>
-<p>When <code>curr_vol / next_vol &gt; 10</code>:</p>
-<ul>
-<li>The <strong>current-month future is actively traded</strong> (easy to buy)</li>
-<li>The <strong>next-month future is illiquid</strong> (hard to sell, wide bid-ask)</li>
-<li>You can enter easily but <strong>struggle to exit</strong> the sold leg</li>
-<li>Market makers widen spreads on the illiquid leg → you get worse fill on exit</li>
-<li>The &quot;convergence&quot; you&#x27;re betting on may be distorted by illiquidity, not genuine price discovery</li>
-</ul>
-
+<p>When <code>curr_vol / next_vol &gt; 10</code>:
+- The <strong>current-month future is actively traded</strong> (easy to buy)
+- The <strong>next-month future is illiquid</strong> (hard to sell, wide bid-ask)
+- You can enter easily but <strong>struggle to exit</strong> the sold leg
+- Market makers widen spreads on the illiquid leg → you get worse fill on exit
+- The "convergence" you're betting on may be distorted by illiquidity, not genuine price discovery</p>
 <h3>What low vol_ratio means</h3>
-<p>When <code>curr_vol / next_vol ≤ 10</code>:</p>
-<ul>
-<li><strong>Both legs have genuine market participation</strong></li>
-<li>Entry and exit fills are tight</li>
-<li>The spread you&#x27;re trading reflects real price discovery, not stale quotes</li>
-<li>Convergence happens cleanly — the gap closes because of genuine market mechanics, not because one leg is stuck</li>
-</ul>
-
-<p>&gt; <strong>This is the arbitrage equivalent of VPA&#x27;s &quot;volume confirms the move.&quot; Here, volume balance confirms the trade is executable.</strong></p>
-
-<hr>
-
+<p>When <code>curr_vol / next_vol ≤ 10</code>:
+- <strong>Both legs have genuine market participation</strong>
+- Entry and exit fills are tight
+- The spread you're trading reflects real price discovery, not stale quotes
+- Convergence happens cleanly — the gap closes because of genuine market mechanics, not because one leg is stuck</p>
+<blockquote>
+<p><strong>This is the arbitrage equivalent of VPA's "volume confirms the move." Here, volume balance confirms the trade is executable.</strong></p>
+</blockquote>
+<hr />
 <h2>The Honest Catch</h2>
-
 <h3>1. In-sample bias (same warning as before)</h3>
-<p>These filters were found using the same 276 trades they&#x27;re tested on. Expect regression:</p>
-<ul>
-<li>WR 61.5% → likely <strong>57-59%</strong> live</li>
-<li>PF 5.83 → likely <strong>4-5</strong> live</li>
-</ul>
-
+<p>These filters were found using the same 276 trades they're tested on. Expect regression:
+- WR 61.5% → likely <strong>57-59%</strong> live
+- PF 5.83 → likely <strong>4-5</strong> live</p>
 <h3>2. Trade count drops</h3>
-<p>The best combo (39 trades) = only <strong>17 trades/year</strong>. That&#x27;s 1.4/month. For active traders this feels too slow. But EV per trade is ₹4,532 — each trade is worth ~2.6× a baseline trade.</p>
-
+<p>The best combo (39 trades) = only <strong>17 trades/year</strong>. That's 1.4/month. For active traders this feels too slow. But EV per trade is ₹4,532 — each trade is worth ~2.6× a baseline trade.</p>
 <h3>3. The mechanism test was inconclusive</h3>
 <p>I tested whether high-ratio trades have larger <code>|curr_move - next_move|</code> (which would prove the illiquidity hypothesis). The result was <strong>no significant difference</strong> (24.3 vs 26.4 points). This means the win-rate lift might be from <strong>selection bias</strong> (filtering out inherently weaker stocks) rather than execution quality. The filter still works empirically, but the <em>reason</em> it works may be different than I hypothesized.</p>
-
 <h3>4. Volume data is entry-day only</h3>
-<p>We&#x27;re using the volume on the day of entry. In live trading, you&#x27;d screen on prior-day volume or real-time volume. Minor discrepancy.</p>
-
-<hr>
-
+<p>We're using the volume on the day of entry. In live trading, you'd screen on prior-day volume or real-time volume. Minor discrepancy.</p>
+<hr />
 <h2>Implementation</h2>
-
 <h3>Add to the backtester</h3>
 <p>The <code>vol_ratio</code> filter requires a new CLI flag. Currently <code>backtest_future_arbitaage.py</code> has <code>--min-next-volume</code> but not a ratio filter. To add:</p>
-
-<pre><code>
-# In StrategyRules dataclass:
+<pre><code class="language-python"># In StrategyRules dataclass:
 max_vol_ratio: float = 999.0  # curr_vol / next_vol
 
 # In passes_entry_rules():
@@ -349,39 +446,85 @@ vol_ratio = curr.volume / nxt.volume if nxt.volume &gt; 0 else 999
 ...
 and vol_ratio &lt;= rules.max_vol_ratio
 </code></pre>
-
 <p>CLI: <code>--max-vol-ratio 10</code></p>
-
 <h3>Recommended filter sets</h3>
-
-<table><thead><tr><th>Tier</th><th>Flags</th><th>WR</th><th>PF</th><th>Trades/yr</th></tr></thead><tbody>
-<tr><td><strong>Tier 1 (free win)</strong></td><td><code>--min-basis-pct 1.0</code></td><td>54.5%</td><td>3.07</td><td>~81</td></tr>
-<tr><td><strong>Tier 2 (sweet spot)</strong></td><td><code>--min-basis-pct 1.0 --max-spread-to-basis 0.5 --max-vol-ratio 10</code></td><td><strong>61.5%</strong></td><td><strong>5.83</strong></td><td>~17</td></tr>
-<tr><td><strong>Tier 3 (sniper)</strong></td><td><code>--min-basis-pct 1.5 --max-spread-to-basis 0.4 --max-vol-ratio 8</code></td><td><strong>67.7%</strong></td><td><strong>5.66</strong></td><td>~13</td></tr>
-</tbody></table>
-
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Flags</th>
+<th>WR</th>
+<th>PF</th>
+<th>Trades/yr</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tier 1 (free win)</strong></td>
+<td><code>--min-basis-pct 1.0</code></td>
+<td>54.5%</td>
+<td>3.07</td>
+<td>~81</td>
+</tr>
+<tr>
+<td><strong>Tier 2 (sweet spot)</strong></td>
+<td><code>--min-basis-pct 1.0 --max-spread-to-basis 0.5 --max-vol-ratio 10</code></td>
+<td><strong>61.5%</strong></td>
+<td><strong>5.83</strong></td>
+<td>~17</td>
+</tr>
+<tr>
+<td><strong>Tier 3 (sniper)</strong></td>
+<td><code>--min-basis-pct 1.5 --max-spread-to-basis 0.4 --max-vol-ratio 8</code></td>
+<td><strong>67.7%</strong></td>
+<td><strong>5.66</strong></td>
+<td>~13</td>
+</tr>
+</tbody>
+</table>
 <h3>What NOT to filter on</h3>
 <ul>
 <li>❌ <strong>Absolute current FUT volume</strong> — no separation between winners/losers (6,660 vs 6,244)</li>
 <li>❌ <strong>Total volume</strong> — negligible difference (7,957 vs 7,306)</li>
 <li>❌ <strong>Next FUT volume alone</strong> — works but vol_ratio is stronger (relative &gt; absolute)</li>
 </ul>
-
-<hr>
-
+<hr />
 <h2>Summary</h2>
-
-<table><thead><tr><th>Question</th><th>Answer</th></tr></thead><tbody>
-<tr><td>Does VPA apply to arbitrage?</td><td><strong>Not directly</strong> (no breakouts to trap), but the <em>principle</em> does</td></tr>
-<tr><td>What&#x27;s the volume signal?</td><td><strong>Curr/Next volume ratio</strong> — balance between legs</td></tr>
-<tr><td>Best single filter?</td><td><code>vol_ratio ≤ 10</code> → WR 52% → 60%, PF 2.68 → 3.47</td></tr>
-<tr><td>Best combo?</td><td><code>basis%≥1.0 + spr_ratio≥2.0 + vol_ratio≤10</code> → WR 61.5%, PF 5.83</td></tr>
-<tr><td>Why does it work?</td><td>Balanced volume = both legs executable = clean convergence</td></tr>
-<tr><td>Next step?</td><td>Add <code>--max-vol-ratio</code> flag to backtester, then walk-forward test</td></tr>
-</tbody></table>
-
-<hr>
-
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Does VPA apply to arbitrage?</td>
+<td><strong>Not directly</strong> (no breakouts to trap), but the <em>principle</em> does</td>
+</tr>
+<tr>
+<td>What's the volume signal?</td>
+<td><strong>Curr/Next volume ratio</strong> — balance between legs</td>
+</tr>
+<tr>
+<td>Best single filter?</td>
+<td><code>vol_ratio ≤ 10</code> → WR 52% → 60%, PF 2.68 → 3.47</td>
+</tr>
+<tr>
+<td>Best combo?</td>
+<td><code>basis%≥1.0 + spr_ratio≥2.0 + vol_ratio≤10</code> → WR 61.5%, PF 5.83</td>
+</tr>
+<tr>
+<td>Why does it work?</td>
+<td>Balanced volume = both legs executable = clean convergence</td>
+</tr>
+<tr>
+<td>Next step?</td>
+<td>Add <code>--max-vol-ratio</code> flag to backtester, then walk-forward test</td>
+</tr>
+</tbody>
+</table>
+<hr />
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/trade-reviews/arbitrage-2-0-filter-analysis">Arbitrage 2 0 Filter Analysis</a> — Prior filter analysis (basis%, spread ratio)</li>
@@ -389,8 +532,7 @@ and vol_ratio &lt;= rules.max_vol_ratio
 <li><a href="/wiki/strategies/future-arbitrage">Future Arbitrage</a> — Strategy rules</li>
 <li><a href="/wiki/sources/source-volume-mismatch-vpa-bb-trap">Source Volume Mismatch Vpa Bb Trap</a> — VPA source that inspired this analysis</li>
 <li><a href="/wiki/concepts/volume-mismatch">Volume Mismatch</a> — Volume mismatch concept</li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>

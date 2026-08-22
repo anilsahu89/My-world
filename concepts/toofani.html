@@ -193,6 +193,8 @@
     <a class="brand" href="/">📈 Mahi Future Investment</a>
     <nav>
       <a href="/">Dashboard</a>
+      <a href="/active">Active</a>
+      <a href="/stocks">Live Stocks</a>
       <a href="/paper">Paper Trades</a>
       <a href="/concepts">Concepts</a>
       <a href="/jobs">Job Log</a>
@@ -210,10 +212,8 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Toofani</h1>
 <article class="md"><h1>Toofani</h1>
-
 <h2>Definition</h2>
 <p>Toofani is a support/resistance-based weekly options spread. It sells current-expiry premium at an expected expiry zone and buys next-week protection around the same side.</p>
-
 <h2>Setup</h2>
 <ul>
 <li>Mark support and resistance where weekly expiry is likely.</li>
@@ -221,14 +221,12 @@
 <li>Buy next-week protection with 8-10 points debit or credit.</li>
 <li>Treat 1-hour/3-hour close beyond support/resistance as invalidation.</li>
 </ul>
-
 <h2>Adjustment</h2>
 <ul>
 <li>Exit with minor loss, or</li>
 <li>Convert into bull spread / bear spread with 2x lot, or</li>
 <li>Sell additional PE at resistance / CE at support as described by source.</li>
 </ul>
-
 <h2>Backtest Specification</h2>
 <ul>
 <li>Needs option chain by weekly expiry.</li>
@@ -236,13 +234,11 @@
 <li>Test invalidation using 1-hour and 3-hour candle close.</li>
 <li>Compare next-week buy debit versus credit variants.</li>
 </ul>
-
 <h2>Related</h2>
 <ul>
 <li><a href="/wiki/sources/source-toofani">Source Toofani</a></li>
 <li><a href="/wiki/concepts/support-resistance">Support Resistance</a></li>
-</ul>
-</article>
+</ul></article>
 
   </main>
   <footer>
