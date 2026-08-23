@@ -341,11 +341,17 @@
   function serverRefresh(btn) {
     var token = "", repo = "";
     try {
-      token = localStorage.getItem("mahi_gh_token") || "";
-      repo = localStorage.getItem("mahi_gh_repo") || "";
+      // Same normalization as app.js — stray whitespace in a token makes the
+      // Authorization header invalid and fetch fails with "Failed to fetch".
+      token = (localStorage.getItem("mahi_gh_token") || "").replace(/\s+/g, "");
+      repo = (localStorage.getItem("mahi_gh_repo") || "")
+        .replace(/\s+/g, "")
+        .replace(/^https?:\/\/(www\.)?github\.com\//i, "")
+        .replace(/\.git$/i, "")
+        .replace(/\/+$/, "");
     } catch (e) {}
-    if (!token || !repo) {
-      setStatus("Server Refresh needs a GitHub token + repo. Click ⚙️ Settings to configure (same token as the Run Scanner buttons).", true);
+    if (!token || !/^[\w.-]+\/[\w.-]+$/.test(repo)) {
+      setStatus("Server Refresh needs a GitHub token + repo (owner/repo, e.g. anilsahu89/My-world). Click ⚙️ Settings to configure.", true);
       if (window.openSettings) openSettings();
       return;
     }

@@ -62,12 +62,28 @@
   var GH_TOKEN_KEY = "mahi_gh_token";
   var GH_REPO_KEY = "mahi_gh_repo";
 
+  // Tokens/repo names pasted from GitHub often carry stray whitespace or a
+  // full URL. Whitespace inside the Authorization header makes fetch() throw
+  // a bare "Failed to fetch", so normalize aggressively before use.
+  function normalizeGHToken(t) {
+    return (t || "").replace(/\s+/g, "");
+  }
+
+  function normalizeGHRepo(r) {
+    return (r || "")
+      .replace(/\s+/g, "")
+      .replace(/^https?:\/\/(www\.)?github\.com\//i, "")
+      .replace(/^git@github\.com:/i, "")
+      .replace(/\.git$/i, "")
+      .replace(/\/+$/, "");
+  }
+
   function getGHToken() {
-    try { return localStorage.getItem(GH_TOKEN_KEY) || ""; } catch (e) { return ""; }
+    try { return normalizeGHToken(localStorage.getItem(GH_TOKEN_KEY)); } catch (e) { return ""; }
   }
 
   function getGHRepo() {
-    try { return localStorage.getItem(GH_REPO_KEY) || ""; } catch (e) { return ""; }
+    try { return normalizeGHRepo(localStorage.getItem(GH_REPO_KEY)); } catch (e) { return ""; }
   }
 
   function ghApi(path, options) {
@@ -76,13 +92,19 @@
     if (!token || !repo) {
       return Promise.reject(new Error("GitHub token or repo not configured. Click ⚙️ Settings to set up."));
     }
+    if (!/^[\w.-]+\/[\w.-]+$/.test(repo)) {
+      return Promise.reject(new Error('Repository "' + repo + '" is not in owner/repo format (e.g. anilsahu89/My-world). Fix it in ⚙️ Settings.'));
+    }
     var url = "https://api.github.com/repos/" + repo + path;
     var headers = {
       "Authorization": "Bearer " + token,
       "Accept": "application/vnd.github+json",
       "X-GitHub-Api-Version": "2022-11-28"
     };
-    return fetch(url, Object.assign({}, options || {}, { headers: headers }));
+    return fetch(url, Object.assign({}, options || {}, { headers: headers }))
+      .catch(function (e) {
+        throw new Error("Could not reach api.github.com (" + (e && e.message ? e.message : e) + "). Check your connection, or any content/ad blocker.");
+      });
   }
 
   // Settings modal
@@ -101,16 +123,16 @@
   };
 
   window.saveSettings = function () {
-    var token = document.getElementById("ghTokenInput").value.trim();
-    var repo = document.getElementById("ghRepoInput").value.trim();
+    var token = normalizeGHToken(document.getElementById("ghTokenInput").value);
+    var repo = normalizeGHRepo(document.getElementById("ghRepoInput").value);
     var status = document.getElementById("settingsStatus");
 
     if (!token) {
       status.innerHTML = '<span class="bad">Token is required.</span>';
       return;
     }
-    if (!repo || repo.indexOf("/") === -1) {
-      status.innerHTML = '<span class="bad">Repository must be "owner/repo" format.</span>';
+    if (!/^[\w.-]+\/[\w.-]+$/.test(repo)) {
+      status.innerHTML = '<span class="bad">Repository must be "owner/repo" format (e.g. anilsahu89/My-world).</span>';
       return;
     }
 
