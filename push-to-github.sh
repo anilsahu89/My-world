@@ -7,7 +7,7 @@ TOKEN="$1"
 if [ -z "$TOKEN" ]; then
     echo "Usage: ./push-to-github.sh ghp_YOUR_TOKEN_HERE"
     echo "Get a token at: https://github.com/settings/tokens"
-    echo "  Generate new token (classic), check: repo, actions"
+    echo "  Generate new token (classic), check: repo, workflow"
     exit 1
 fi
 USER="anilsahu89"

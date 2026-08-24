@@ -471,8 +471,38 @@
     });
   }
 
-  // Refresh alerts via GitHub Actions
+  // Refresh alerts — direct browser scan (no token, no GitHub Actions).
+  // Falls back to the workflow dispatch only if the engine failed to load.
   window.refreshAlerts = function (btn) {
+    if (window.DirectScan && window.DirectScan.runOpenLow) {
+      btn.textContent = "⏳ Scanning…";
+      btn.classList.add("loading");
+      btn.disabled = true;
+
+      window.DirectScan.runOpenLow(function (pct, msg) {
+        btn.textContent = "⏳ " + msg;
+      })
+        .then(function (result) {
+          window.DirectScan.renderAlertsPage(result);
+          btn.textContent = "✅ Scanned live";
+        })
+        .catch(function (err) {
+          var flash = document.createElement("div");
+          flash.className = "flash bad";
+          flash.textContent = "Live browser scan failed: " + err.message +
+            " — public CORS proxies are rate-limited, retry in a minute.";
+          var h1 = document.querySelector("main h1");
+          if (h1 && h1.parentNode) h1.parentNode.insertBefore(flash, h1.nextSibling);
+        })
+        .then(function () {
+          btn.classList.remove("loading");
+          btn.disabled = false;
+          setTimeout(function () { btn.textContent = "🔄 Refresh"; }, 2500);
+        });
+      return;
+    }
+
+    // Legacy path — GitHub Actions dispatch (requires ⚙️ Settings token)
     if (!getGHToken() || !getGHRepo()) {
       alert("GitHub token not configured. Click ⚙️ Settings in the top bar to set up your token and repository.");
       window.openSettings();
@@ -548,6 +578,39 @@
     var slug = btn.getAttribute("data-slug");
     if (!slug) return;
 
+    // Open=Low runs entirely in the browser — no token, no GitHub Actions.
+    if (slug === "open-low-intraday" && window.DirectScan && window.DirectScan.runOpenLow) {
+      var dStatusEl = btn.parentElement.querySelector(".run-status");
+      btn.disabled = true;
+      btn.textContent = "⏳ Running…";
+      if (dStatusEl) dStatusEl.innerHTML = '<span class="running">Scanning in browser…</span>';
+
+      window.DirectScan.runOpenLow(function (pct, msg) {
+        if (dStatusEl) dStatusEl.innerHTML = '<span class="running">' + escHtml(msg) + "</span>";
+      })
+        .then(function (result) {
+          if (dStatusEl) dStatusEl.innerHTML = '<span class="ok">Scan complete</span>';
+          var resEl = document.getElementById("scanResults");
+          if (resEl) {
+            resEl.style.display = "block";
+            resEl.innerHTML = window.renderScanResults(window.DirectScan.buildScannerJSON(result));
+          }
+          btn.textContent = "✅ Done — live results";
+          setTimeout(function () {
+            btn.disabled = false;
+            btn.textContent = "▶ Run scan now";
+          }, 30000);
+        })
+        .catch(function (err) {
+          btn.disabled = false;
+          btn.textContent = "▶ Run scan now";
+          if (dStatusEl) dStatusEl.innerHTML = '<span class="bad">Error: ' + escHtml(err.message) + "</span>";
+          alert("Scan failed: " + err.message +
+            "\n\nThis scan runs in your browser via public CORS proxies — they are rate-limited; retry in a minute.");
+        });
+      return;
+    }
+
     if (!getGHToken() || !getGHRepo()) {
       alert("GitHub token not configured. Click ⚙️ Settings in the top bar to set up your token and repository.");
       window.openSettings();
@@ -593,7 +656,7 @@
         btn.disabled = false;
         btn.textContent = "▶ Run scan now";
         if (statusEl) statusEl.innerHTML = '<span class="bad">Error: ' + escHtml(err.message) + '</span>';
-        alert("Failed to run scanner: " + err.message + "\n\nMake sure your token has 'repo' and 'actions' scopes.");
+        alert("Failed to run scanner: " + err.message + "\n\nThis strategy needs the GitHub Actions backend. Fine-grained token: Actions must be 'Read and write'. Classic token: tick 'repo'.");
       });
   };
 
@@ -753,6 +816,9 @@
     html += '</div>'; // end .scan-results-inner
     return html;
   }
+
+  // Exposed for direct-scan.js (browser-direct results use the same renderer)
+  window.renderScanResults = renderScanResults;
 
   // ---------------------------------------------------------------------------
   // Job Log — fetch GitHub Actions run history
