@@ -469,6 +469,15 @@
         btn.style.pointerEvents = "none";
       });
     });
+
+    // If the scheduled workflow has committed a fresher scan than the baked
+    // HTML (the build may be days old), render it right away — same-origin
+    // fetch, no proxies, instant.
+    if (window.DirectScan && window.DirectScan.fetchRepoAlerts) {
+      window.DirectScan.fetchRepoAlerts().then(function (repo) {
+        if (repo && repo.is_today) window.DirectScan.renderAlertsPage(repo);
+      });
+    }
   }
 
   // Refresh alerts — direct browser scan (no token, no GitHub Actions).
@@ -483,16 +492,38 @@
         btn.textContent = "⏳ " + msg;
       })
         .then(function (result) {
+          if (window.DirectScan.saveCache) window.DirectScan.saveCache(result);
           window.DirectScan.renderAlertsPage(result);
           btn.textContent = "✅ Scanned live";
         })
         .catch(function (err) {
+          // Live proxies failed — fall back to the scheduled server scan
+          // (data/alerts.json, same-origin, fresh every ~15 min in market
+          // hours), then to the last successful browser scan.
           var flash = document.createElement("div");
-          flash.className = "flash bad";
-          flash.textContent = "Live browser scan failed: " + err.message +
-            " — public CORS proxies are rate-limited, retry in a minute.";
           var h1 = document.querySelector("main h1");
-          if (h1 && h1.parentNode) h1.parentNode.insertBefore(flash, h1.nextSibling);
+          window.DirectScan.fetchRepoAlerts().then(function (repo) {
+            if (repo && repo.is_today) {
+              window.DirectScan.renderAlertsPage(repo);
+              flash.className = "flash";
+              flash.textContent = "Live browser scan failed (" + err.message +
+                ") — showing today's scheduled server scan from " + repo.scanned_at +
+                " (auto-updates every 15 min during market hours).";
+            } else {
+              var cached = window.DirectScan.loadCache ? window.DirectScan.loadCache() : null;
+              if (cached) {
+                window.DirectScan.renderAlertsPage(cached.result);
+                flash.className = "flash bad";
+                flash.textContent = "Live scan failed (" + err.message + ") — showing your last successful scan from " +
+                  cached.result.scanned_at + ". Retry in a minute.";
+              } else {
+                flash.className = "flash bad";
+                flash.textContent = "Live browser scan failed: " + err.message +
+                  " — public CORS proxies are rate-limited, retry in a minute.";
+              }
+            }
+            if (h1 && h1.parentNode) h1.parentNode.insertBefore(flash, h1.nextSibling);
+          });
         })
         .then(function () {
           btn.classList.remove("loading");
@@ -589,6 +620,7 @@
         if (dStatusEl) dStatusEl.innerHTML = '<span class="running">' + escHtml(msg) + "</span>";
       })
         .then(function (result) {
+          if (window.DirectScan.saveCache) window.DirectScan.saveCache(result);
           if (dStatusEl) dStatusEl.innerHTML = '<span class="ok">Scan complete</span>';
           var resEl = document.getElementById("scanResults");
           if (resEl) {
@@ -604,9 +636,34 @@
         .catch(function (err) {
           btn.disabled = false;
           btn.textContent = "▶ Run scan now";
-          if (dStatusEl) dStatusEl.innerHTML = '<span class="bad">Error: ' + escHtml(err.message) + "</span>";
-          alert("Scan failed: " + err.message +
-            "\n\nThis scan runs in your browser via public CORS proxies — they are rate-limited; retry in a minute.");
+          var resEl2 = document.getElementById("scanResults");
+          window.DirectScan.fetchRepoAlerts().then(function (repo) {
+            var result = null, note = "";
+            if (repo && repo.is_today) {
+              result = repo;
+              note = "⚠ Live browser scan failed (" + escHtml(err.message) +
+                ") — showing today's scheduled server scan from " + escHtml(repo.scanned_at) + ".";
+              if (dStatusEl) dStatusEl.innerHTML = '<span class="bad">Live failed — server scan shown</span>';
+            } else {
+              var cached = window.DirectScan.loadCache ? window.DirectScan.loadCache() : null;
+              if (cached) {
+                result = cached.result;
+                note = "⚠ Live scan failed (" + escHtml(err.message) +
+                  ") — showing last successful scan from " + escHtml(cached.result.scanned_at) + ".";
+                if (dStatusEl) dStatusEl.innerHTML = '<span class="bad">Showing cached scan</span>';
+              }
+            }
+            if (result && resEl2) {
+              resEl2.style.display = "block";
+              resEl2.innerHTML = window.renderScanResults(window.DirectScan.buildScannerJSON(result)) +
+                '<div class="flash">' + note + "</div>";
+            }
+            if (!result) {
+              if (dStatusEl) dStatusEl.innerHTML = '<span class="bad">Error: ' + escHtml(err.message) + "</span>";
+              alert("Scan failed: " + err.message +
+                "\n\nPublic CORS proxies are rate-limited; retry in a minute.");
+            }
+          });
         });
       return;
     }

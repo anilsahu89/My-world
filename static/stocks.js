@@ -27,12 +27,26 @@
   var fetching = false;
 
   // CORS proxy chain for Yahoo (tried in order per batch, with retries).
-  // r.jina.ai echoes CORS headers and needs no key — it wraps the payload
-  // as {data:{content:"<json string>"}}; the others pass JSON through.
+  // r.jina.ai echoes CORS headers and needs no key — but its payload shape is
+  // unstable: clean JSON, {data:{content:"<json>"}}, or markdown with the JSON
+  // embedded ("Title:/URL Source:"). The unwrap + text-parse below digests all.
   var PROXIES = [
     {
       wrap: function (u) { return "https://r.jina.ai/" + u; },
-      unwrap: function (d) { return d && d.data && d.data.content ? JSON.parse(d.data.content) : d; }
+      unwrap: function (d) {
+        if (d && d.data && d.data.content != null) {
+          var c = d.data.content;
+          if (typeof c === "string") {
+            try { return JSON.parse(c); } catch (e) {
+              var i = c.indexOf("{");
+              if (i > -1) {
+                try { return JSON.parse(c.slice(i, c.lastIndexOf("}") + 1)); } catch (e2) { /* fall through */ }
+              }
+            }
+          }
+        }
+        return d;
+      }
     },
     {
       wrap: function (u) { return "https://api.allorigins.win/raw?url=" + encodeURIComponent(u); },
@@ -59,7 +73,15 @@
         .then(function (r) {
           clearTimeout(timer);
           if (!r.ok) throw new Error("HTTP " + r.status);
-          return r.json();
+          return r.text();
+        })
+        .then(function (text) {
+          try { return JSON.parse(text); } catch (e) {}
+          var j = text.indexOf("{");
+          if (j > -1) {
+            try { return JSON.parse(text.slice(j, text.lastIndexOf("}") + 1)); } catch (e2) {}
+          }
+          throw new Error("bad payload");
         })
         .then(resolve, function (e) {
           clearTimeout(timer);

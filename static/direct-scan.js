@@ -44,7 +44,12 @@
   var PROXIES = [
     {
       wrap: function (u) { return "https://r.jina.ai/" + u; },
-      unwrap: function (d) { return d && d.data && d.data.content ? JSON.parse(d.data.content) : d; }
+      unwrap: function (d) {
+        if (d && d.data && d.data.content != null) {
+          try { return extractJson(d.data.content); } catch (e) { /* wrapped differently */ }
+        }
+        return d;
+      }
     },
     {
       wrap: function (u) { return u; }, // direct (browsers fail this fast on CORS; harmless)
@@ -60,6 +65,25 @@
     }
   ];
 
+  // r.jina.ai's response shape is unstable: sometimes clean JSON, sometimes
+  // {data:{content:"<json string>"}}, sometimes markdown ("Title:/URL Source:")
+  // with the JSON embedded after it. This digests all three.
+  function extractJson(text) {
+    if (text && typeof text === "object") return text;
+    var s = String(text);
+    try { return JSON.parse(s); } catch (e) {}
+    var i = s.indexOf("{");
+    while (i !== -1) {
+      var end = s.lastIndexOf("}");
+      while (end > i) {
+        try { return JSON.parse(s.slice(i, end + 1)); } catch (e) {}
+        end = s.lastIndexOf("}", end - 1);
+      }
+      i = s.indexOf("{", i + 1);
+    }
+    throw new Error("unparseable proxy payload");
+  }
+
   function fetchWithTimeout(url, ms) {
     return new Promise(function (resolve, reject) {
       var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
@@ -71,7 +95,7 @@
         .then(function (r) {
           clearTimeout(timer);
           if (!r.ok) throw new Error("HTTP " + r.status);
-          return r.json();
+          return r.text();
         })
         .then(resolve, function (e) {
           clearTimeout(timer);
@@ -88,7 +112,9 @@
       return new Promise(function (resolve) {
         setTimeout(function () {
           fetchWithTimeout(PROXIES[proxyIdx].wrap(yurl), timeoutMs || 15000)
-            .then(function (data) { resolve(PROXIES[proxyIdx].unwrap(data)); })
+            .then(function (text) {
+              resolve(PROXIES[proxyIdx].unwrap(extractJson(text)));
+            })
             .catch(function () {
               if (tryNum < 3) resolve(attempt(proxyIdx, tryNum + 1, tryNum === 1 ? 2500 : 6000));
               else if (proxyIdx + 1 < PROXIES.length) resolve(attempt(proxyIdx + 1, 1, 800));
@@ -460,7 +486,8 @@
     var h1muted = document.querySelector("h1 .muted");
     if (h1muted) h1muted.textContent = "(" + total + " from NSE 200)";
     var lr = document.getElementById("lastRefresh");
-    if (lr) lr.textContent = "Last refresh: " + result.scanned_at + " (live browser scan — no server needed)";
+    if (lr) lr.textContent = "Last refresh: " + result.scanned_at +
+      (result.source === "scheduled" ? " (scheduled server scan — updates every 15 min in market hours)" : " (live browser scan — no server needed)");
 
     // Sections
     var withSec = null, withoutSec = null;
@@ -612,9 +639,60 @@
     };
   }
 
+  // -------------------------------------------------------------------------
+  // Last-successful-scan cache (localStorage) — graceful degradation when the
+  // public proxies are all down: re-render the most recent good scan.
+  // -------------------------------------------------------------------------
+  var CACHE_KEY = "mahi_olscan_cache_v1";
+
+  function saveCache(result) {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), result: result })); } catch (e) {}
+  }
+
+  function loadCache(maxAgeMs) {
+    try {
+      var c = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
+      if (c && c.result && c.result.with_volume && (!maxAgeMs || Date.now() - c.savedAt <= maxAgeMs)) return c;
+    } catch (e) {}
+    return null;
+  }
+
+  // -------------------------------------------------------------------------
+  // Scheduled-scan fallback — the GitHub workflow commits data/alerts.json
+  // every ~15 min during market hours. Same-origin fetch: no proxies, no
+  // rate limits, always works. Used on page load and when the live browser
+  // scan can't get through.
+  // -------------------------------------------------------------------------
+  function fetchRepoAlerts() {
+    return fetch(base + "/data/alerts.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !d.with_volume || !d.without_volume) return null;
+        var rows = d.with_volume.concat(d.without_volume);
+        var latest = "";
+        rows.forEach(function (r) { if (r.date && String(r.date) > latest) latest = String(r.date); });
+        var fetchedAt = String(d.fetched_at || "").replace("T", " ").slice(0, 16);
+        var today = istDateStr(null);
+        return {
+          with_volume: d.with_volume,
+          without_volume: d.without_volume,
+          scanned_at: (fetchedAt || latest.slice(0, 16)) + " IST",
+          universe_count: d.chartink_raw_count || (rows.length ? 200 : 0),
+          session_pct: +(sessionPct() * 100).toFixed(1),
+          approx_count: 0,
+          source: "scheduled",
+          is_today: latest.slice(0, 10) === today || fetchedAt.slice(0, 10) === today
+        };
+      })
+      .catch(function () { return null; });
+  }
+
   window.DirectScan = {
     runOpenLow: runOpenLow,
     renderAlertsPage: renderAlertsPage,
-    buildScannerJSON: buildScannerJSON
+    buildScannerJSON: buildScannerJSON,
+    saveCache: saveCache,
+    loadCache: loadCache,
+    fetchRepoAlerts: fetchRepoAlerts
   };
 })();
