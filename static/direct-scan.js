@@ -33,15 +33,22 @@
     SL_PCT: 0.5,
     INVESTMENT: 10000,
     VOL_LOOKBACK: 20,
-    BATCH: 20,
-    WORKERS: 3
+    BATCH: 30,   // 30 symbols/request → 7 quote calls for NSE-200 (fewer proxy hits)
+    WORKERS: 2   // gentle on r.jina.ai — 3 concurrent bursts trigger its throttling
   };
 
-  // CORS proxy chain for Yahoo (same as stocks.js).
+  // CORS proxy chain for Yahoo (same idea as stocks.js, retuned):
+  // r.jina.ai is primary; direct Yahoo fails instantly in browsers (no CORS
+  // headers), which is cheaper than waiting on the occasionally-dead public
+  // proxies — so it comes second, and the slow ones go last.
   var PROXIES = [
     {
       wrap: function (u) { return "https://r.jina.ai/" + u; },
       unwrap: function (d) { return d && d.data && d.data.content ? JSON.parse(d.data.content) : d; }
+    },
+    {
+      wrap: function (u) { return u; }, // direct (browsers fail this fast on CORS; harmless)
+      unwrap: function (d) { return d; }
     },
     {
       wrap: function (u) { return "https://api.allorigins.win/raw?url=" + encodeURIComponent(u); },
@@ -49,10 +56,6 @@
     },
     {
       wrap: function (u) { return "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(u); },
-      unwrap: function (d) { return d; }
-    },
-    {
-      wrap: function (u) { return u; }, // direct (works if Yahoo ever sends CORS headers)
       unwrap: function (d) { return d; }
     }
   ];
@@ -77,16 +80,18 @@
     });
   }
 
-  // Fetch a Yahoo URL through the proxy chain (2 tries per proxy, then next).
+  // Fetch a Yahoo URL through the proxy chain. Proxies upstream of Yahoo get
+  // briefly throttled (surface as 404/429 for a minute or so), so retries are
+  // patient: 3 tries per proxy with growing backoff, then the next proxy.
   function fetchYahoo(yurl, timeoutMs) {
     function attempt(proxyIdx, tryNum, delay) {
       return new Promise(function (resolve) {
         setTimeout(function () {
-          fetchWithTimeout(PROXIES[proxyIdx].wrap(yurl), timeoutMs || 12000)
+          fetchWithTimeout(PROXIES[proxyIdx].wrap(yurl), timeoutMs || 15000)
             .then(function (data) { resolve(PROXIES[proxyIdx].unwrap(data)); })
             .catch(function () {
-              if (tryNum < 2) resolve(attempt(proxyIdx, tryNum + 1, 400));
-              else if (proxyIdx + 1 < PROXIES.length) resolve(attempt(proxyIdx + 1, 1, 150));
+              if (tryNum < 3) resolve(attempt(proxyIdx, tryNum + 1, tryNum === 1 ? 2500 : 6000));
+              else if (proxyIdx + 1 < PROXIES.length) resolve(attempt(proxyIdx + 1, 1, 800));
               else resolve(null);
             });
         }, delay);
