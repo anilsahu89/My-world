@@ -1,21 +1,21 @@
 /**
- * Mahi Portal — Direct browser scan engine.
+ * Mahi Portal — Direct browser scan engine (three setups, no backend needed).
  *
- * Runs the Open=Low NSE-200 scan entirely in the browser using Yahoo Finance
- * public endpoints through the same CORS-proxy chain as stocks.js. No GitHub
- * token, no Actions dispatch — clicking Refresh just works on the static site.
+ * Setups (each shown in its own sub-tab on the Alerts page):
+ *   ol — Open=Low  intraday (bullish):  |open − low|  ≤ ₹0.10, Vol tiers
+ *   oh — Open=High intraday (bearish):  |high − open| ≤ ₹0.10, Vol tiers
+ *   bb — BB Trap v2 positional:         primary candle outside BB(20, 2σ),
+ *                                       rejection wick ≥50%, Vol ≥1.5×
  *
- * Pipeline:
- *   1. spark 1d/5m (20 symbols/batch) → rough O≈L candidates
- *   2. spark 1d/1m (batched)           → sharper open, strict ₹0.10 rule
- *   3. chart 2mo/1d per survivor       → 20-day average volume → Vol×
+ * All data comes from Yahoo Finance public endpoints through a CORS-proxy
+ * chain. Intraday quotes and daily closes are batched (30 symbols/request)
+ * and shared between setups with a short TTL so one pull feeds every tab.
  *
  * Exposed as window.DirectScan.
  */
 (function () {
   "use strict";
 
-  // Base path (GitHub Pages subpath aware) — same detection as app.js.
   var base = "";
   var baseEl = document.querySelector("base");
   if (baseEl) base = (baseEl.getAttribute("href") || "").replace(/\/+$/, "");
@@ -24,50 +24,33 @@
     if (seg) base = "/" + seg;
   }
 
-  // Scan config — mirrors refresh-alerts scanner defaults.
+  // Scan config — mirrors the Python scanners' defaults.
   var CFG = {
-    OL_DIFF_MAX: 0.10,   // ₹ — strict O=L rule (after 1m refinement)
-    OL_ROUGH_TOL: 0.003, // 0.3% — pre-filter tolerance for the 5m open approx
+    OL_DIFF_MAX: 0.10,
+    OL_ROUGH_TOL: 0.003,
     MIN_VOL_MULT: 1.5,
     PRICE_MIN: 50,
     SL_PCT: 0.5,
     INVESTMENT: 10000,
     VOL_LOOKBACK: 20,
-    BATCH: 30,   // 30 symbols/request → 7 quote calls for NSE-200 (fewer proxy hits)
-    WORKERS: 2   // gentle on r.jina.ai — 3 concurrent bursts trigger its throttling
+    BATCH: 30,
+    WORKERS: 2,
+    // BB Trap v2 (from scan_bb_trap_v2.py)
+    BB_PERIOD: 20,
+    BB_STD: 2.0,
+    BB_MIN_WICK: 0.50,
+    BB_MIN_VOL_MULT: 1.5,
+    BB_RSI_PERIOD: 14,
+    BB_RSI_THRESHOLD: 70,
+    BB_MIN_AVG_VOL: 100000
   };
 
-  // CORS proxy chain for Yahoo (same idea as stocks.js, retuned):
-  // r.jina.ai is primary; direct Yahoo fails instantly in browsers (no CORS
-  // headers), which is cheaper than waiting on the occasionally-dead public
-  // proxies — so it comes second, and the slow ones go last.
-  var PROXIES = [
-    {
-      wrap: function (u) { return "https://r.jina.ai/" + u; },
-      unwrap: function (d) {
-        if (d && d.data && d.data.content != null) {
-          try { return extractJson(d.data.content); } catch (e) { /* wrapped differently */ }
-        }
-        return d;
-      }
-    },
-    {
-      wrap: function (u) { return u; }, // direct (browsers fail this fast on CORS; harmless)
-      unwrap: function (d) { return d; }
-    },
-    {
-      wrap: function (u) { return "https://api.allorigins.win/raw?url=" + encodeURIComponent(u); },
-      unwrap: function (d) { return d; }
-    },
-    {
-      wrap: function (u) { return "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(u); },
-      unwrap: function (d) { return d; }
-    }
-  ];
+  var TTL = 180000; // shared-data cache lifetime (3 min)
+  var shared = { quotes: null, quotesAt: 0, daily: null, dailyAt: 0 };
 
   // r.jina.ai's response shape is unstable: sometimes clean JSON, sometimes
-  // {data:{content:"<json string>"}}, sometimes markdown ("Title:/URL Source:")
-  // with the JSON embedded after it. This digests all three.
+  // {data:{content:"<json string>"}}, sometimes markdown with the JSON
+  // embedded. This digests all three.
   function extractJson(text) {
     if (text && typeof text === "object") return text;
     var s = String(text);
@@ -104,9 +87,33 @@
     });
   }
 
-  // Fetch a Yahoo URL through the proxy chain. Proxies upstream of Yahoo get
-  // briefly throttled (surface as 404/429 for a minute or so), so retries are
-  // patient: 3 tries per proxy with growing backoff, then the next proxy.
+  // Fetch a Yahoo URL through the proxy chain. r.jina.ai is primary; direct
+  // Yahoo fails instantly in browsers (no CORS headers), which is cheaper
+  // than waiting on the occasionally-dead public proxies.
+  var PROXIES = [
+    {
+      wrap: function (u) { return "https://r.jina.ai/" + u; },
+      unwrap: function (d) {
+        if (d && d.data && d.data.content != null) {
+          try { return extractJson(d.data.content); } catch (e) { /* wrapped differently */ }
+        }
+        return d;
+      }
+    },
+    {
+      wrap: function (u) { return u; },
+      unwrap: function (d) { return d; }
+    },
+    {
+      wrap: function (u) { return "https://api.allorigins.win/raw?url=" + encodeURIComponent(u); },
+      unwrap: function (d) { return d; }
+    },
+    {
+      wrap: function (u) { return "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(u); },
+      unwrap: function (d) { return d; }
+    }
+  ];
+
   function fetchYahoo(yurl, timeoutMs) {
     function attempt(proxyIdx, tryNum, delay) {
       return new Promise(function (resolve) {
@@ -127,7 +134,7 @@
   }
 
   // -------------------------------------------------------------------------
-  // IST helpers (Yahoo epoch seconds are exchange-local) — same as stocks.js
+  // IST helpers (Yahoo epoch seconds are exchange-local)
   // -------------------------------------------------------------------------
   function istShift(d) { return new Date(d.getTime() + (330 + d.getTimezoneOffset()) * 60000); }
   function istNow() { return istShift(new Date()); }
@@ -139,7 +146,6 @@
     var d = ts ? istShift(new Date(ts * 1000)) : istNow();
     return d.toISOString().slice(0, 16).replace("T", " ") + " IST";
   }
-  // Fraction (0..1) of the 9:15–15:30 IST session elapsed; 1 once closed.
   function sessionPct() {
     var d = istNow();
     var day = d.getDay();
@@ -162,7 +168,7 @@
   function pctStr(v) { return (v >= 0 ? "+" : "") + (+v).toFixed(2) + "%"; }
 
   // -------------------------------------------------------------------------
-  // Universe
+  // Universe + batch fetching
   // -------------------------------------------------------------------------
   function loadUniverse() {
     return fetch(base + "/data/nse200_symbols.csv")
@@ -181,18 +187,34 @@
       });
   }
 
-  // -------------------------------------------------------------------------
-  // Stage 1 — spark quotes (batch of 20, same shape as stocks.js)
-  // -------------------------------------------------------------------------
-  function fetchSparkBatch(symbols) {
-    var yurl = "https://query1.finance.yahoo.com/v7/finance/spark?symbols=" +
-      symbols.map(encodeURIComponent).join(",") + "&range=1d&interval=5m";
-    return fetchYahoo(yurl, 12000).then(function (data) {
-      var rows = (data && data.spark && data.spark.result) || null;
-      return rows && rows.length ? rows : null;
+  // Batched spark fetch. interval "5m" → today's intraday quotes;
+  // interval "1d" → ~2 months of daily bars per symbol.
+  function fetchBatches(interval, rowParser, onTick) {
+    return loadUniverse().then(function (syms) {
+      var chunks = [];
+      for (var i = 0; i < syms.length; i += CFG.BATCH) chunks.push(syms.slice(i, i + CFG.BATCH));
+      var out = [], idx = 0, workers = [], done = 0;
+
+      function next() {
+        if (idx >= chunks.length) return Promise.resolve();
+        var my = idx++;
+        var yurl = "https://query1.finance.yahoo.com/v7/finance/spark?symbols=" +
+          chunks[my].map(encodeURIComponent).join(",") +
+          "&range=" + (interval === "1d" ? "2mo" : "1d") + "&interval=" + interval;
+        return fetchYahoo(yurl, 15000).then(function (data) {
+          var rows = (data && data.spark && data.spark.result) || null;
+          (rows || []).forEach(function (r) { var q = rowParser(r); if (q) out.push(q); });
+          done++;
+          if (onTick) onTick(done, chunks.length, out.length);
+          return next();
+        });
+      }
+      for (var w = 0; w < CFG.WORKERS; w++) workers.push(next());
+      return Promise.all(workers).then(function () { return out; });
     });
   }
 
+  // Intraday quote from a 5m spark row (open ≈ first 5m close until refined)
   function quoteFromSpark(r) {
     var resp = (r.response || [])[0];
     if (!resp || !resp.meta) return null;
@@ -212,7 +234,7 @@
       name: m.shortName || m.longName || "",
       ltp: ltp,
       prev_close: prev,
-      open: open5m,                      // approx until refined
+      open: open5m,
       high: m.regularMarketDayHigh != null ? m.regularMarketDayHigh : ltp,
       low: m.regularMarketDayLow != null ? m.regularMarketDayLow : ltp,
       volume: m.regularMarketVolume != null ? m.regularMarketVolume : 0,
@@ -221,20 +243,53 @@
     };
   }
 
-  // -------------------------------------------------------------------------
-  // Stage 2 — refine candidates with a batched 1m spark call (true-ish open:
-  // first 1-minute close, 20 symbols per request — no per-symbol round trips)
-  // -------------------------------------------------------------------------
-  function fetchSpark1mBatch(symbols) {
-    var yurl = "https://query1.finance.yahoo.com/v7/finance/spark?symbols=" +
-      symbols.map(encodeURIComponent).join(",") + "&range=1d&interval=1m";
-    return fetchYahoo(yurl, 15000).then(function (data) {
-      var rows = (data && data.spark && data.spark.result) || null;
-      return rows && rows.length ? rows : null;
+  // Daily history from a 1d spark row: full close series + timestamps
+  function dailyFromSpark(r) {
+    var resp = (r.response || [])[0];
+    if (!resp || !resp.meta) return null;
+    var q = resp.indicators && resp.indicators.quote && resp.indicators.quote[0];
+    if (!q || !q.close || !resp.timestamp) return null;
+    var closes = [], ts = [];
+    for (var i = 0; i < q.close.length; i++) {
+      if (q.close[i] != null) { closes.push(q.close[i]); ts.push(resp.timestamp[i]); }
+    }
+    if (closes.length < 2) return null;
+    return {
+      symbol: (resp.meta.symbol || r.symbol || "").replace(/\.NS$/, ""),
+      closes: closes,
+      ts: ts
+    };
+  }
+
+  function getQuotes(onProgress) {
+    if (shared.quotes && Date.now() - shared.quotesAt < TTL) return Promise.resolve(shared.quotes);
+    return fetchBatches("5m", quoteFromSpark, function (done, total, got) {
+      onProgress(Math.round((done / total) * 60), "Quotes " + done + "/" + total + " — " + got + " symbols");
+    }).then(function (quotes) {
+      if (!quotes.length) throw new Error("no quotes — CORS proxies unreachable");
+      shared.quotes = quotes; shared.quotesAt = Date.now();
+      return quotes;
     });
   }
 
-  function refineCandidates(candidates, onTick) {
+  function getDaily(onProgress) {
+    if (shared.daily && Date.now() - shared.dailyAt < TTL) return Promise.resolve(shared.daily);
+    return fetchBatches("1d", dailyFromSpark, function (done, total, got) {
+      onProgress(Math.round((done / total) * 70), "Daily history " + done + "/" + total + " — " + got + " symbols");
+    }).then(function (rows) {
+      if (!rows.length) throw new Error("no daily data — CORS proxies unreachable");
+      var map = {};
+      rows.forEach(function (d) { map[d.symbol] = d; });
+      shared.daily = map; shared.dailyAt = Date.now();
+      return map;
+    });
+  }
+
+  // -------------------------------------------------------------------------
+  // 1m refinement for O=L / O=H candidates (batched, strict ₹0.10 rule is
+  // applied by the caller via ruleFn)
+  // -------------------------------------------------------------------------
+  function refineCandidates(candidates, ruleFn, onTick) {
     var chunks = [];
     for (var i = 0; i < candidates.length; i += CFG.BATCH) chunks.push(candidates.slice(i, i + CFG.BATCH));
     var idx = 0, workers = [], done = 0, refined = [];
@@ -242,9 +297,11 @@
     function nextChunk() {
       if (idx >= chunks.length) return Promise.resolve();
       var my = idx++;
-      // 1m spark needs the .NS suffix
       var syms = chunks[my].map(function (q) { return q.symbol + ".NS"; });
-      return fetchSpark1mBatch(syms).then(function (rows) {
+      var yurl = "https://query1.finance.yahoo.com/v7/finance/spark?symbols=" +
+        syms.map(encodeURIComponent).join(",") + "&range=1d&interval=1m";
+      return fetchYahoo(yurl, 15000).then(function (data) {
+        var rows = (data && data.spark && data.spark.result) || null;
         if (rows) {
           var bySym = {};
           rows.forEach(function (r) {
@@ -272,15 +329,10 @@
               if (m.regularMarketTime) q.market_time = m.regularMarketTime;
               q.approx = false;
             }
-            // else: keep 5m approximation, q.approx stays true
-            if (Math.abs(q.open - q.low) <= CFG.OL_DIFF_MAX) refined.push(q);
+            if (ruleFn(q)) refined.push(q);
           });
         } else {
-          // whole batch unreachable — keep 5m approximations that already
-          // satisfy the strict rule so the scan degrades instead of emptying
-          chunks[my].forEach(function (q) {
-            if (Math.abs(q.open - q.low) <= CFG.OL_DIFF_MAX) refined.push(q);
-          });
+          chunks[my].forEach(function (q) { if (ruleFn(q)) refined.push(q); });
         }
         done++;
         if (onTick) onTick(done, chunks.length, refined.length);
@@ -292,101 +344,103 @@
   }
 
   // -------------------------------------------------------------------------
-  // Stage 3 — 20-day average volume from the daily series
+  // Per-symbol extras (few calls): 20d avg volume, full daily OHLCV
   // -------------------------------------------------------------------------
-  function avgVol20d(sym, todayStr) {
+  var histVolCache = {};
+
+  function chartDaily(sym) {
     var yurl = "https://query1.finance.yahoo.com/v8/finance/chart/" +
-      encodeURIComponent(sym + ".NS") + "?range=2mo&interval=1d";
-    return fetchYahoo(yurl, 12000).then(function (data) {
+      encodeURIComponent(sym + ".NS") + "?range=3mo&interval=1d";
+    return fetchYahoo(yurl, 15000).then(function (data) {
       var res = data && data.chart && data.chart.result && data.chart.result[0];
       if (!res || !res.timestamp) return null;
       var q = res.indicators && res.indicators.quote && res.indicators.quote[0];
-      if (!q || !q.volume) return null;
-      var vols = [];
+      if (!q || !q.close) return null;
+      var bars = [];
       for (var i = 0; i < res.timestamp.length; i++) {
-        var dstr = istDateStr(res.timestamp[i]);
-        if (dstr === todayStr) continue; // exclude today's partial bar
-        if (q.volume[i] != null) vols.push(q.volume[i]);
+        if (q.close[i] == null || q.open[i] == null) continue;
+        bars.push({
+          ts: res.timestamp[i],
+          o: q.open[i], h: q.high[i], l: q.low[i], c: q.close[i],
+          v: q.volume[i] != null ? q.volume[i] : 0
+        });
       }
-      if (!vols.length) return null;
-      var tail = vols.slice(-CFG.VOL_LOOKBACK);
-      var sum = 0;
-      tail.forEach(function (v) { sum += v; });
-      return Math.round(sum / tail.length);
+      return bars.length ? bars : null;
+    });
+  }
+
+  function avgVol20dFor(sym, todayStr) {
+    var key = sym + "|" + todayStr;
+    if (histVolCache[key] !== undefined) return Promise.resolve(histVolCache[key]);
+    return chartDaily(sym).then(function (bars) {
+      var vols = [];
+      for (var i = 0; i < bars.length; i++) {
+        if (istDateStr(bars[i].ts) === todayStr) continue;
+        vols.push(bars[i].v);
+      }
+      var avg = 0;
+      if (vols.length) {
+        var tail = vols.slice(-CFG.VOL_LOOKBACK);
+        var sum = 0;
+        tail.forEach(function (v) { sum += v; });
+        avg = Math.round(sum / tail.length);
+      }
+      histVolCache[key] = avg;
+      return avg;
     });
   }
 
   // -------------------------------------------------------------------------
-  // The scan
+  // O=L / O=H intraday scans (shared machinery)
   // -------------------------------------------------------------------------
-  function runOpenLow(onProgress) {
+  function runIntradayScan(kind, onProgress) {
     var progress = typeof onProgress === "function" ? onProgress : function () {};
     var quotes = [];
 
-    return loadUniverse()
-      .then(function (syms) {
-        var chunks = [];
-        for (var i = 0; i < syms.length; i += CFG.BATCH) {
-          chunks.push(syms.slice(i, i + CFG.BATCH).map(function (s) { return s + ".NS"; }));
-        }
-        var done = 0, poolIdx = 0, workers = [];
-
-        function nextChunk() {
-          if (poolIdx >= chunks.length) return Promise.resolve();
-          var idx = poolIdx++;
-          return fetchSparkBatch(chunks[idx]).then(function (rows) {
-            (rows || []).forEach(function (r) {
-              var q = quoteFromSpark(r);
-              if (q) quotes.push(q);
-            });
-            done++;
-            progress(Math.round((done / chunks.length) * 60),
-              "Quotes " + done + "/" + chunks.length + " — " + quotes.length + " symbols");
-            return nextChunk();
-          });
-        }
-        for (var w = 0; w < CFG.WORKERS; w++) workers.push(nextChunk());
-        return Promise.all(workers);
-      })
-      .then(function () {
-        if (!quotes.length) throw new Error("no quotes — CORS proxies unreachable, retry in a minute");
-
-        // Rough O≈L pre-filter with the 5m-approx open.
-        var candidates = quotes.filter(function (q) {
-          if (q.open == null || !q.low) return false;
-          var tol = Math.max(CFG.OL_DIFF_MAX, CFG.OL_ROUGH_TOL * q.low);
-          return Math.abs(q.open - q.low) <= tol;
+    return getQuotes(progress)
+      .then(function (q) {
+        quotes = q;
+        // Rough pre-filter with the 5m-approx open
+        var candidates = quotes.filter(function (x) {
+          if (x.open == null) return false;
+          if (kind === "ol") {
+            if (!x.low) return false;
+            return Math.abs(x.open - x.low) <= Math.max(CFG.OL_DIFF_MAX, CFG.OL_ROUGH_TOL * x.low);
+          }
+          if (!x.high) return false;
+          return Math.abs(x.high - x.open) <= Math.max(CFG.OL_DIFF_MAX, CFG.OL_ROUGH_TOL * x.high);
         });
-        progress(65, candidates.length + " O≈L candidates — refining…");
+        progress(65, candidates.length + " candidates — refining…");
 
-        // Batched 1m refine, then the strict ₹0.10 rule.
-        return refineCandidates(candidates, function (done, total, found) {
-          progress(65 + Math.round((done / Math.max(total, 1)) * 15),
+        var rule = kind === "ol"
+          ? function (x) { return Math.abs(x.open - x.low) <= CFG.OL_DIFF_MAX; }
+          : function (x) { return Math.abs(x.high - x.open) <= CFG.OL_DIFF_MAX; };
+
+        return refineCandidates(candidates, rule, function (done, total, found) {
+          progress(65 + Math.round((done / Math.max(total, 1)) * 10),
             "Refine " + done + "/" + total + " — " + found + " confirmed");
         });
       })
       .then(function (refined) {
-        // 20-day volume for each survivor.
         var todayStr = null;
         refined.forEach(function (q) {
           var s = istDateStr(q.market_time);
           if (!todayStr) todayStr = s;
         });
-        var idx = 0, workers3 = [], doneR = 0;
+        var idx = 0, workers = [], doneR = 0;
         function nextRef() {
           if (idx >= refined.length) return Promise.resolve();
           var i = idx++;
-          return avgVol20d(refined[i].symbol, todayStr).then(function (avg) {
-            var q = refined[i];
-            q.avg_vol_20d = avg || 0;
+          return avgVol20dFor(refined[i].symbol, todayStr).then(function (avg) {
+            refined[i].avg_vol_20d = avg || 0;
             doneR++;
-            progress(65 + Math.round((doneR / Math.max(refined.length, 1)) * 30),
+            progress(75 + Math.round((doneR / Math.max(refined.length, 1)) * 20),
               "Volume history " + doneR + "/" + refined.length);
             return nextRef();
           });
         }
-        for (var w3 = 0; w3 < CFG.WORKERS; w3++) workers3.push(nextRef());
-        return Promise.all(workers3).then(function () { return refined; });
+        for (var w = 0; w < CFG.WORKERS; w++) workers.push(nextRef());
+        return Promise.all(workers).then(function () { return refined; });
       })
       .then(function (refined) {
         progress(97, "Classifying…");
@@ -395,14 +449,16 @@
           var volRatio = q.avg_vol_20d ? +(q.volume / q.avg_vol_20d).toFixed(2) : 0;
           var estFull = sess > 0 ? +(volRatio / sess).toFixed(1) : volRatio;
           var shares = q.open > 0 ? Math.floor(CFG.INVESTMENT / q.open) : 0;
+          var bullish = kind === "ol";
           return {
+            kind: kind,
             symbol: q.symbol,
             name: q.name,
             open: q.open,
             low: q.low,
-            ol_diff: +(Math.abs(q.open - q.low).toFixed(2)),
-            ltp: q.ltp,
             high: q.high,
+            ol_diff: kind === "ol" ? +Math.abs(q.open - q.low).toFixed(2) : +Math.abs(q.high - q.open).toFixed(2),
+            ltp: q.ltp,
             prev_close: q.prev_close,
             volume: q.volume,
             avg_vol_20d: q.avg_vol_20d,
@@ -410,11 +466,13 @@
             est_full_vol_ratio: estFull,
             shares: shares,
             invested: +(shares * q.open).toFixed(0),
-            sl_price: +(q.open * (1 - CFG.SL_PCT / 100)).toFixed(2),
-            pnl: +((q.ltp - q.open) * shares).toFixed(0),
-            pnl_pct: q.open ? +(((q.ltp - q.open) / q.open) * 100).toFixed(2) : 0,
+            sl_price: +(q.open * (bullish ? 1 - CFG.SL_PCT / 100 : 1 + CFG.SL_PCT / 100)).toFixed(2),
+            pnl: +(((bullish ? 1 : -1) * (q.ltp - q.open)) * shares).toFixed(0),
+            pnl_pct: q.open ? +(((bullish ? 1 : -1) * (q.ltp - q.open) / q.open) * 100).toFixed(2) : 0,
             gap_pct: q.prev_close ? +(((q.open - q.prev_close) / q.prev_close) * 100).toFixed(2) : 0,
-            day_high_pct: q.open ? +(((q.high - q.open) / q.open) * 100).toFixed(2) : 0,
+            ext_pct: bullish
+              ? (q.open ? +(((q.high - q.open) / q.open) * 100).toFixed(2) : 0)
+              : (q.open ? +(((q.open - q.low) / q.open) * 100).toFixed(2) : 0),
             approx: q.approx,
             in_nse200: true,
             date: istDateStr(q.market_time)
@@ -429,6 +487,7 @@
           .sort(function (a, b) { return b.est_full_vol_ratio - a.est_full_vol_ratio; });
 
         return {
+          kind: kind,
           with_volume: withVolume,
           without_volume: withoutVolume,
           scanned_at: fmtTs(null),
@@ -439,8 +498,149 @@
       });
   }
 
+  function runOpenLow(onProgress) { return runIntradayScan("ol", onProgress); }
+  function runOpenHigh(onProgress) { return runIntradayScan("oh", onProgress); }
+
   // -------------------------------------------------------------------------
-  // Alerts page renderer — updates the baked-in tables in place
+  // BB Trap v2 (positional) — pre-filter on batched daily closes, exact OHLC
+  // rules verified per surviving symbol
+  // -------------------------------------------------------------------------
+  function computeBB(closes) {
+    if (closes.length < CFG.BB_PERIOD) return null;
+    var w = closes.slice(-CFG.BB_PERIOD);
+    var sma = w.reduce(function (a, b) { return a + b; }, 0) / w.length;
+    var vari = w.reduce(function (a, b) { return a + (b - sma) * (b - sma); }, 0) / w.length;
+    var sd = Math.sqrt(vari);
+    return { sma: sma, upper: sma + CFG.BB_STD * sd, lower: sma - CFG.BB_STD * sd };
+  }
+
+  function computeRSI(closes) {
+    var p = CFG.BB_RSI_PERIOD;
+    if (closes.length < p + 1) return null;
+    var gains = 0, losses = 0;
+    for (var i = closes.length - p; i < closes.length; i++) {
+      var ch = closes[i] - closes[i - 1];
+      if (ch > 0) gains += ch; else losses -= ch;
+    }
+    var ag = gains / p, al = losses / p;
+    return al === 0 ? 100 : 100 - 100 / (1 + ag / al);
+  }
+
+  function wickPct(o, h, l, c, upper) {
+    var rng = h - l;
+    if (rng <= 0) return 0;
+    return upper ? (h - Math.max(o, c)) / rng : (Math.min(o, c) - l) / rng;
+  }
+
+  function runBBTrap(onProgress) {
+    var progress = typeof onProgress === "function" ? onProgress : function () {};
+    var preShort = [], preLong = [];
+
+    return getDaily(progress)
+      .then(function (daily) {
+        Object.keys(daily).forEach(function (sym) {
+          var d = daily[sym];
+          var closes = d.closes;
+          if (closes.length < CFG.BB_PERIOD + 2) return;
+          if (closes[closes.length - 1] < CFG.PRICE_MIN) return;
+          var bb = computeBB(closes.slice(0, closes.length - 2));
+          if (!bb) return;
+          // Necessary condition: primary close beyond the band (close ≥ low,
+          // close ≤ high), so this pre-filter never misses a real signal.
+          var cP = closes[closes.length - 3];
+          if (cP > bb.upper) preShort.push({ symbol: sym, closes: closes, ts: d.ts });
+          else if (cP < bb.lower) preLong.push({ symbol: sym, closes: closes, ts: d.ts });
+        });
+        var cands = preShort.concat(preLong);
+        progress(72, cands.length + " BB candidates — verifying candles…");
+
+        // Exact rules per candidate from full daily OHLCV
+        var idx = 0, workers = [], shorts = [], longs = [], done = 0;
+        function nextCand() {
+          if (idx >= cands.length) return Promise.resolve();
+          var i = idx++;
+          var cand = cands[i];
+          return chartDaily(cand.symbol).then(function (bars) {
+            if (bars && bars.length >= CFG.BB_PERIOD + 2) {
+              var closes = bars.map(function (b) { return b.c; });
+              var bb = computeBB(closes.slice(0, closes.length - 2));
+              if (bb) {
+                var p = bars[bars.length - 3], a = bars[bars.length - 2];
+                var volMult = p.v > 0 ? a.v / p.v : 999;
+                var avg10 = bars.slice(-12, -2).reduce(function (s, b) { return s + b.v; }, 0) / 10;
+                var isShort = preShort.indexOf(cand) >= 0;
+
+                var passesWickVol = volMult >= CFG.BB_MIN_VOL_MULT && avg10 >= CFG.BB_MIN_AVG_VOL;
+                if (isShort && passesWickVol && p.l > bb.upper &&
+                    wickPct(a.o, a.h, a.l, a.c, true) >= CFG.BB_MIN_WICK) {
+                  var entry = closes[closes.length - 1];
+                  var rng = p.h - p.l;
+                  var sl = entry + rng * 0.30, tgt = entry - rng * 0.80;
+                  var risk = sl - entry, reward = entry - tgt;
+                  var rsi = computeRSI(closes);
+                  var uw = wickPct(a.o, a.h, a.l, a.c, true);
+                  shorts.push({
+                    kind: "bb", type: "SHORT", symbol: cand.symbol,
+                    entry_price: +entry.toFixed(2), sl_price: +sl.toFixed(2), target_price: +tgt.toFixed(2),
+                    rr: risk > 0 ? +(reward / risk).toFixed(1) : 0,
+                    wick_pct: +(uw * 100).toFixed(0), vol_multiple: +volMult.toFixed(1),
+                    rsi: rsi != null ? +rsi.toFixed(0) : null, rsi_pass: rsi != null && rsi > CFG.BB_RSI_THRESHOLD,
+                    primary_range: +rng.toFixed(2),
+                    primary_date: istDateStr(p.ts), alert_date: istDateStr(a.ts),
+                    score: +(((reward / risk) * 10) + volMult * 2 + uw * 5 + (rsi != null && rsi > CFG.BB_RSI_THRESHOLD ? 10 : 0)).toFixed(1)
+                  });
+                }
+                if (!isShort && passesWickVol && p.h < bb.lower &&
+                    wickPct(a.o, a.h, a.l, a.c, false) >= CFG.BB_MIN_WICK) {
+                  var entryL = closes[closes.length - 1];
+                  var rngL = p.h - p.l;
+                  var slL = entryL - rngL * 0.50, tgtL = entryL + rngL * 1.00;
+                  var riskL = entryL - slL, rewardL = tgtL - entryL;
+                  var lw = wickPct(a.o, a.h, a.l, a.c, false);
+                  longs.push({
+                    kind: "bb", type: "LONG", symbol: cand.symbol,
+                    entry_price: +entryL.toFixed(2), sl_price: +slL.toFixed(2), target_price: +tgtL.toFixed(2),
+                    rr: riskL > 0 ? +(rewardL / riskL).toFixed(1) : 0,
+                    wick_pct: +(lw * 100).toFixed(0), vol_multiple: +volMult.toFixed(1),
+                    rsi: null, rsi_pass: false,
+                    primary_range: +rngL.toFixed(2),
+                    primary_date: istDateStr(p.ts), alert_date: istDateStr(a.ts),
+                    score: +(((rewardL / riskL) * 10) + volMult * 2 + lw * 5).toFixed(1)
+                  });
+                }
+              }
+            }
+            done++;
+            progress(72 + Math.round((done / Math.max(cands.length, 1)) * 25),
+              "Verify " + done + "/" + cands.length);
+            return nextCand();
+          });
+        }
+        for (var w = 0; w < CFG.WORKERS; w++) workers.push(nextCand());
+        return Promise.all(workers).then(function () {
+          return { shorts: shorts, longs: longs };
+        });
+      })
+      .then(function (found) {
+        var shorts = found.shorts, longs = found.longs;
+        progress(97, "Classifying…");
+        shorts.sort(function (a, b) { return b.score - a.score; });
+        longs.sort(function (a, b) { return b.score - a.score; });
+        return {
+          kind: "bb",
+          shorts: shorts,
+          longs: longs,
+          with_volume: [],
+          without_volume: [],
+          scanned_at: fmtTs(null),
+          universe_count: Object.keys(shared.daily || {}).length,
+          session_pct: +(sessionPct() * 100).toFixed(1)
+        };
+      });
+  }
+
+  // -------------------------------------------------------------------------
+  // Renderers — one panel per setup on the Alerts page, nothing mixed
   // -------------------------------------------------------------------------
   function takeTradeFormHtml(r, label) {
     return '<form method="POST" action="/paper-trade" style="display:inline">' +
@@ -453,8 +653,8 @@
       '<button type="submit" class="take-trade-btn">' + (label || "📝 Take") + '</button></form>';
   }
 
-  function wireTakeTrades() {
-    document.querySelectorAll(".take-trade-btn").forEach(function (btn) {
+  function wireTakeTrades(scope) {
+    (scope || document).querySelectorAll(".take-trade-btn").forEach(function (btn) {
       if (btn._directWired) return;
       btn._directWired = true;
       var form = btn.closest("form");
@@ -479,19 +679,23 @@
     });
   }
 
-  function renderAlertsPage(result) {
-    var total = result.with_volume.length + result.without_volume.length;
+  function setH1Count(text) {
+    var m = document.querySelector("h1 .muted");
+    if (m) m.textContent = text;
+  }
 
-    // Page title count + last-refresh line
-    var h1muted = document.querySelector("h1 .muted");
-    if (h1muted) h1muted.textContent = "(" + total + " from NSE 200)";
+  // -- O=L panel (renders into the baked sections when present, else into panel)
+  function renderAlertsPage(result) {
+    var scope = document.getElementById("panel-ol") || document;
+    var total = result.with_volume.length + result.without_volume.length;
+    setH1Count("(" + total + " from NSE 200)");
+
     var lr = document.getElementById("lastRefresh");
     if (lr) lr.textContent = "Last refresh: " + result.scanned_at +
       (result.source === "scheduled" ? " (scheduled server scan — updates every 15 min in market hours)" : " (live browser scan — no server needed)");
 
-    // Sections
     var withSec = null, withoutSec = null;
-    document.querySelectorAll("main section").forEach(function (s) {
+    scope.querySelectorAll("section").forEach(function (s) {
       var h = s.querySelector("h2");
       if (!h) return;
       var t = h.textContent || "";
@@ -499,7 +703,6 @@
       else if (t.indexOf("Without Volume") >= 0) withoutSec = s;
     });
 
-    // ---- Section 1: with volume ----
     if (withSec) {
       var h2m = withSec.querySelector("h2 .muted");
       if (h2m) h2m.textContent = "(" + result.with_volume.length + " tradeable)";
@@ -527,14 +730,13 @@
             "<td>" + inr(r.sl_price) + "</td>" +
             '<td class="' + (r.pnl >= 0 ? "ok" : "bad") + '">' + inr(r.pnl, 0).replace("₹", "₹" + (r.pnl >= 0 ? "+" : "-")) + "</td>" +
             '<td class="' + (r.pnl_pct >= 0 ? "ok" : "bad") + '">' + pctStr(r.pnl_pct) + "</td>" +
-            "<td>" + pctStr(r.day_high_pct) + "</td>" +
+            "<td>" + pctStr(r.ext_pct) + "</td>" +
             '<td class="' + (r.pnl >= 0 ? "ok" : "bad") + '">' + (r.pnl >= 0 ? "PROFIT" : "LOSS") + "</td>" +
             "<td>" + takeTradeFormHtml(r) + "</td></tr>";
         });
         if (!html) html = '<tr><td colspan="14" class="muted" style="text-align:center;padding:1.2rem">No O=L + volume signals right now (' + result.universe_count + ' scanned).</td></tr>';
         tb1.innerHTML = html;
       }
-      // Trade cards
       withSec.querySelectorAll(".trade-card").forEach(function (c) { c.remove(); });
       var anchor = withSec.querySelector(".table-wrap");
       var cards = "";
@@ -552,7 +754,7 @@
           "<dt>Shares</dt><dd>" + r.shares + " (" + inr(r.invested, 0) + " invested)</dd>" +
           '<dt>P&L</dt><dd class="' + (r.pnl >= 0 ? "ok" : "bad") + '">' + inr(r.pnl, 0) + " (" + pctStr(r.pnl_pct) + ")</dd>" +
           "<dt>Gap</dt><dd>" + pctStr(r.gap_pct) + "</dd>" +
-          "<dt>Day High</dt><dd>" + pctStr(r.day_high_pct) + "</dd>" +
+          "<dt>Day High</dt><dd>" + pctStr(r.ext_pct) + "</dd>" +
           "<dt>Exit</dt><dd>1:00 PM</dd>" +
           "</div>" +
           '<div class="trade-action">' + takeTradeFormHtml(r, "📝 Take This Trade on Paper") + "</div></div></div>";
@@ -560,13 +762,12 @@
       if (anchor && cards) anchor.insertAdjacentHTML("afterend", cards);
     }
 
-    // ---- Section 2: without volume ----
     if (withoutSec) {
       var h2m2 = withoutSec.querySelector("h2 .muted");
       if (h2m2) h2m2.textContent = "(" + result.without_volume.length + " watch list)";
       var hint = withoutSec.querySelector("p.hint");
-      if (hint) hint.innerHTML = "These stocks have confirmed Open=Low but volume hasn't reached " + CFG.MIN_VOL_MULT +
-        "× yet (session " + result.session_pct + "% complete). Estimated full-day volume shown — stocks marked 🔥 may qualify by 1 PM exit.";
+      if (hint) hint.innerHTML = "Confirmed Open=Low but volume below " + CFG.MIN_VOL_MULT +
+        "× so far (session " + result.session_pct + "% complete). Estimated full-day volume shown — 🔥 may qualify by 1 PM exit.";
       var tb2 = withoutSec.querySelector("tbody");
       if (tb2) {
         var html2 = "";
@@ -589,7 +790,83 @@
       }
     }
 
-    wireTakeTrades();
+    wireTakeTrades(scope);
+  }
+
+  // -- O=H panel (built entirely from a scan result)
+  function renderOpenHighPage(result) {
+    var panel = document.getElementById("panel-oh");
+    if (!panel) return;
+    var total = result.with_volume.length + result.without_volume.length;
+    setH1Count("(" + total + " from NSE 200)");
+    var lr = document.getElementById("ohLastRefresh");
+    if (lr) lr.textContent = "Last refresh: " + result.scanned_at + " (live browser scan — no server needed)";
+
+    function tableRows(rows, withVol) {
+      var html = "";
+      rows.forEach(function (r, i) {
+        html += "<tr><td>" + (i + 1) + "</td>" +
+          "<td><strong>" + escHtml(r.symbol) + "</strong></td>" +
+          "<td>" + inr(r.open) + "</td>" +
+          "<td>" + inr(r.high) + "</td>" +
+          "<td>" + inr(r.ol_diff) + "</td>" +
+          "<td>" + inr(r.ltp) + "</td>" +
+          "<td>" + r.vol_ratio.toFixed(2) + "×</td>" +
+          (withVol ? "<td>" + inr(r.sl_price) + "</td>" +
+            '<td class="' + (r.pnl >= 0 ? "ok" : "bad") + '">' + pctStr(r.pnl_pct) + "</td>" +
+            "<td>" + pctStr(r.ext_pct) + "</td>" :
+            "<td>" + r.est_full_vol_ratio.toFixed(1) + "×</td>" +
+            '<td class="' + (r.pnl_pct >= 0 ? "ok" : "bad") + '">' + pctStr(r.pnl_pct) + "</td>") +
+          "</tr>";
+      });
+      return html || '<tr><td colspan="' + (withVol ? 11 : 10) + '" class="muted" style="text-align:center;padding:1.2rem">No signals right now (' + result.universe_count + ' scanned).</td></tr>';
+    }
+
+    panel.innerHTML =
+      '<p class="hint">Bearish mirror of Open=Low: the stock opened at the day high and traded below all session (H−O ≤ ₹' + CFG.OL_DIFF_MAX + ') · short-side watch · SL ' + CFG.SL_PCT + '% above open.</p>' +
+      '<p class="muted" id="ohLastRefresh" style="font-size:0.82rem">Last refresh: ' + escHtml(result.scanned_at) + ' (live browser scan)</p>' +
+      '<section><h2 style="color:var(--red,#e5534b);border-bottom-color:rgba(229,83,75,0.3)">🔻 O=H With Volume <span class="muted">(' + result.with_volume.length + ' tradeable shorts)</span></h2>' +
+      '<div class="table-wrap"><table><thead><tr><th>#</th><th>Symbol</th><th>Open</th><th>High</th><th>H−O</th><th>LTP</th><th>Vol×</th><th>SL</th><th>P&L%</th><th>Fall%</th></tr></thead><tbody>' +
+      tableRows(result.with_volume, true) + "</tbody></table></div></section>" +
+      '<section style="margin-top:2.5rem"><h2 style="color:#d29922;border-bottom-color:rgba(210,153,34,0.3)">⚠️ O=H Without Volume <span class="muted">(' + result.without_volume.length + ' watch list)</span></h2>' +
+      '<p class="hint">Session ' + result.session_pct + '% complete — 🔥 rows may reach ' + CFG.MIN_VOL_MULT + '× volume.</p>' +
+      '<div class="table-wrap"><table><thead><tr><th>#</th><th>Symbol</th><th>Open</th><th>High</th><th>H−O</th><th>LTP</th><th>Cur Vol×</th><th>Est Full×</th><th>P&L%</th></tr></thead><tbody>' +
+      tableRows(result.without_volume, false) + "</tbody></table></div></section>";
+  }
+
+  // -- BB Trap panel
+  function renderBBTrapPage(result) {
+    var panel = document.getElementById("panel-bb");
+    if (!panel) return;
+    setH1Count("(" + (result.shorts.length + result.longs.length) + " setups)");
+
+    function bbTable(rows) {
+      var html = "";
+      rows.forEach(function (r, i) {
+        html += "<tr><td>" + (i + 1) + "</td>" +
+          "<td><strong>" + escHtml(r.symbol) + "</strong></td>" +
+          "<td>" + inr(r.entry_price) + "</td>" +
+          "<td>" + inr(r.sl_price) + "</td>" +
+          "<td>" + inr(r.target_price) + "</td>" +
+          "<td>" + r.rr.toFixed(1) + "×</td>" +
+          "<td>" + r.wick_pct + "%</td>" +
+          "<td>" + r.vol_multiple.toFixed(1) + "×</td>" +
+          "<td>" + (r.rsi != null ? r.rsi + (r.rsi_pass ? " ✓" : "") : "—") + "</td>" +
+          "<td>" + inr(r.primary_range) + "</td>" +
+          "<td>" + escHtml(r.alert_date) + "</td>" +
+          "<td><strong>" + r.score.toFixed(1) + "</strong></td></tr>";
+      });
+      return html;
+    }
+
+    var emptyNote = '<p class="muted" style="padding:1rem 0">No BB Trap v2 signals right now. This is normal — shorts average ~4 per month.</p>';
+    panel.innerHTML =
+      '<p class="hint">Positional setup, daily timeframe · Primary candle fully outside BB(20, 2σ) → alert candle rejection wick ≥ 50% of range → volume ≥ ' + CFG.BB_MIN_VOL_MULT + '× · price ≥ ₹' + CFG.PRICE_MIN + '.</p>' +
+      '<p class="muted" id="bbLastRefresh" style="font-size:0.82rem">Last refresh: ' + escHtml(result.scanned_at) + ' (live browser scan)</p>' +
+      '<section><h2 style="color:var(--red,#e5534b);border-bottom-color:rgba(229,83,75,0.3)">🔻 SHORT Setups <span class="muted">(' + result.shorts.length + ', PF 2.10 backtested)</span></h2>' +
+      (result.shorts.length ? '<div class="table-wrap"><table><thead><tr><th>#</th><th>Symbol</th><th>Entry</th><th>SL</th><th>Target</th><th>R:R</th><th>Wick</th><th>Vol×</th><th>RSI</th><th>P.Range</th><th>Alert Date</th><th>Score</th></tr></thead><tbody>' + bbTable(result.shorts) + "</tbody></table></div>" : emptyNote) + "</section>" +
+      '<section style="margin-top:2.5rem"><h2 style="color:var(--green,#3fb950);border-bottom-color:rgba(63,185,80,0.3)">🔺 LONG Setups <span class="muted">(' + result.longs.length + ', PF 1.06 — marginal)</span></h2>' +
+      (result.longs.length ? '<div class="table-wrap"><table><thead><tr><th>#</th><th>Symbol</th><th>Entry</th><th>SL</th><th>Target</th><th>R:R</th><th>Wick</th><th>Vol×</th><th>RSI</th><th>P.Range</th><th>Alert Date</th><th>Score</th></tr></thead><tbody>' + bbTable(result.longs) + "</tbody></table></div>" : emptyNote) + "</section>";
   }
 
   // -------------------------------------------------------------------------
@@ -640,28 +917,25 @@
   }
 
   // -------------------------------------------------------------------------
-  // Last-successful-scan cache (localStorage) — graceful degradation when the
-  // public proxies are all down: re-render the most recent good scan.
+  // Last-successful-scan caches per setup (localStorage)
   // -------------------------------------------------------------------------
-  var CACHE_KEY = "mahi_olscan_cache_v1";
+  var CACHE_KEYS = { ol: "mahi_olscan_cache_v1", oh: "mahi_ohscan_cache_v1", bb: "mahi_bb_cache_v1" };
 
-  function saveCache(result) {
-    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), result: result })); } catch (e) {}
+  function saveCacheFor(kind, result) {
+    try { localStorage.setItem(CACHE_KEYS[kind] || CACHE_KEYS.ol, JSON.stringify({ savedAt: Date.now(), result: result })); } catch (e) {}
   }
-
-  function loadCache(maxAgeMs) {
+  function loadCacheFor(kind, maxAgeMs) {
     try {
-      var c = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
-      if (c && c.result && c.result.with_volume && (!maxAgeMs || Date.now() - c.savedAt <= maxAgeMs)) return c;
+      var c = JSON.parse(localStorage.getItem(CACHE_KEYS[kind] || CACHE_KEYS.ol) || "null");
+      if (c && c.result && (!maxAgeMs || Date.now() - c.savedAt <= maxAgeMs)) return c;
     } catch (e) {}
     return null;
   }
+  function saveCache(result) { saveCacheFor("ol", result); }
+  function loadCache(maxAgeMs) { return loadCacheFor("ol", maxAgeMs); }
 
   // -------------------------------------------------------------------------
-  // Scheduled-scan fallback — the GitHub workflow commits data/alerts.json
-  // every ~15 min during market hours. Same-origin fetch: no proxies, no
-  // rate limits, always works. Used on page load and when the live browser
-  // scan can't get through.
+  // Scheduled-scan fallback for O=L (data/alerts.json from the workflow)
   // -------------------------------------------------------------------------
   function fetchRepoAlerts() {
     return fetch(base + "/data/alerts.json?t=" + Date.now())
@@ -689,10 +963,16 @@
 
   window.DirectScan = {
     runOpenLow: runOpenLow,
+    runOpenHigh: runOpenHigh,
+    runBBTrap: runBBTrap,
     renderAlertsPage: renderAlertsPage,
+    renderOpenHighPage: renderOpenHighPage,
+    renderBBTrapPage: renderBBTrapPage,
     buildScannerJSON: buildScannerJSON,
     saveCache: saveCache,
     loadCache: loadCache,
+    saveCacheFor: saveCacheFor,
+    loadCacheFor: loadCacheFor,
     fetchRepoAlerts: fetchRepoAlerts
   };
 })();

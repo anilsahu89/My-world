@@ -8,6 +8,17 @@
   <link rel="stylesheet" href="static/style.css">
   
 <style>
+.setup-tabs { display:flex; gap:8px; margin:1rem 0 1.25rem; flex-wrap:wrap; }
+.setup-tab {
+  padding:8px 18px; border-radius:8px; border:1px solid var(--border);
+  background: var(--panel-2); color: var(--text); font-weight:600; font-size:0.92rem;
+  cursor:pointer; transition: all .15s;
+}
+.setup-tab:hover { border-color: var(--accent); }
+.setup-tab.active { background: rgba(63,185,80,0.15); color: var(--green); border-color: rgba(63,185,80,0.4); }
+.setup-panel { display:none; }
+.setup-panel.active { display:block; }
+
 .refresh-btn {
   display: inline-block;
   padding: 4px 14px;
@@ -252,9 +263,17 @@
   <main>
     
 
-<h1>Open=Low Alerts <span class="muted">(10 from NSE 200)</span>
+<h1>Market Alerts <span class="muted">(10 from NSE 200)</span>
   <button class="refresh-btn" onclick="refreshAlerts(this)">🔄 Refresh</button>
 </h1>
+
+<div class="setup-tabs">
+  <button class="setup-tab" data-tab="ol">🟢 Open = Low</button>
+  <button class="setup-tab" data-tab="oh">🔴 Open = High</button>
+  <button class="setup-tab" data-tab="bb">📊 BB Trap v2</button>
+</div>
+
+<div class="setup-panel active" id="panel-ol">
 <p class="hint">
   Source: Full NSE 200 universe scan via yfinance ·
   Rules: O=L (diff ≤ ₹0.10) | Vol ≥ 1.5× | Price ≥ ₹50 | SL 0.5% | Exit 1 PM
@@ -562,6 +581,17 @@
     With Vol ≥ 1.5×: WR 59.2%, PF 4.25. Volume confirms smart money participation.
   </p>
 </section>
+
+</div><!-- /panel-ol -->
+
+<div class="setup-panel" id="panel-oh">
+  <p class="muted" style="padding:1rem 0">Click 🔄 Refresh to scan this setup now.</p>
+</div>
+
+<div class="setup-panel" id="panel-bb">
+  <p class="muted" style="padding:1rem 0">Click 🔄 Refresh to scan this setup now.</p>
+</div>
+
 
 
   </main>

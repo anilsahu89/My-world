@@ -441,12 +441,30 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Alerts page — wire "Take Trade" buttons, refresh via GitHub Actions
+  // Alerts page — setup tabs (O=L / O=H / BB Trap), Take Trade buttons
   // ---------------------------------------------------------------------------
   function initAlertsPage() {
     if (!document.querySelector("h1")) return;
     var h1 = document.querySelector("h1");
-    if (!h1 || h1.textContent.indexOf("Open=Low Alerts") === -1) return;
+    if (!h1 || h1.textContent.indexOf("Market Alerts") === -1) return;
+
+    // Setup tabs
+    var tabs = document.querySelectorAll(".setup-tab");
+    if (tabs.length) {
+      tabs.forEach(function (b) {
+        b.addEventListener("click", function () { window.switchAlertTab(b.getAttribute("data-tab")); });
+      });
+      // Restore cached scans for O=H / BB Trap so tabs aren't empty on revisit
+      ["oh", "bb"].forEach(function (k) {
+        if (window.DirectScan && window.DirectScan.loadCacheFor) {
+          var cached = window.DirectScan.loadCacheFor(k);
+          if (cached) {
+            (k === "oh" ? window.DirectScan.renderOpenHighPage : window.DirectScan.renderBBTrapPage)(cached.result);
+          }
+        }
+      });
+      window.switchAlertTab(activeAlertTab());
+    }
 
     // Wire Take Trade buttons
     document.querySelectorAll(".take-trade-btn").forEach(function (btn) {
@@ -480,98 +498,89 @@
     }
   }
 
-  // Refresh alerts — direct browser scan (no token, no GitHub Actions).
-  // Falls back to the workflow dispatch only if the engine failed to load.
+  // Refresh — runs the scan for the ACTIVE setup tab (O=L / O=H / BB Trap),
+  // entirely in the browser. No token, no GitHub Actions.
+  var ALERT_TAB_KEY = "mahi_alert_tab";
+
+  function activeAlertTab() {
+    try { return localStorage.getItem(ALERT_TAB_KEY) || "ol"; } catch (e) { return "ol"; }
+  }
+
+  window.switchAlertTab = function (tab) {
+    try { localStorage.setItem(ALERT_TAB_KEY, tab); } catch (e) {}
+    document.querySelectorAll(".setup-tab").forEach(function (b) {
+      b.classList.toggle("active", b.getAttribute("data-tab") === tab);
+    });
+    document.querySelectorAll(".setup-panel").forEach(function (p) {
+      p.classList.toggle("active", p.id === "panel-" + tab);
+    });
+    var placeholder = "Click 🔄 Refresh to scan this setup now.";
+    if (tab === "oh" && !document.getElementById("panel-oh").innerHTML.trim()) {
+      document.getElementById("panel-oh").innerHTML = '<p class="muted" style="padding:1rem 0">' + placeholder + "</p>";
+    }
+    if (tab === "bb" && !document.getElementById("panel-bb").innerHTML.trim()) {
+      document.getElementById("panel-bb").innerHTML = '<p class="muted" style="padding:1rem 0">' + placeholder + "</p>";
+    }
+  };
+
   window.refreshAlerts = function (btn) {
-    if (window.DirectScan && window.DirectScan.runOpenLow) {
-      btn.textContent = "⏳ Scanning…";
-      btn.classList.add("loading");
-      btn.disabled = true;
-
-      window.DirectScan.runOpenLow(function (pct, msg) {
-        btn.textContent = "⏳ " + msg;
-      })
-        .then(function (result) {
-          if (window.DirectScan.saveCache) window.DirectScan.saveCache(result);
-          window.DirectScan.renderAlertsPage(result);
-          btn.textContent = "✅ Scanned live";
-        })
-        .catch(function (err) {
-          // Live proxies failed — fall back to the scheduled server scan
-          // (data/alerts.json, same-origin, fresh every ~15 min in market
-          // hours), then to the last successful browser scan.
-          var flash = document.createElement("div");
-          var h1 = document.querySelector("main h1");
-          window.DirectScan.fetchRepoAlerts().then(function (repo) {
-            if (repo && repo.is_today) {
-              window.DirectScan.renderAlertsPage(repo);
-              flash.className = "flash";
-              flash.textContent = "Live browser scan failed (" + err.message +
-                ") — showing today's scheduled server scan from " + repo.scanned_at +
-                " (auto-updates every 15 min during market hours).";
-            } else {
-              var cached = window.DirectScan.loadCache ? window.DirectScan.loadCache() : null;
-              if (cached) {
-                window.DirectScan.renderAlertsPage(cached.result);
-                flash.className = "flash bad";
-                flash.textContent = "Live scan failed (" + err.message + ") — showing your last successful scan from " +
-                  cached.result.scanned_at + ". Retry in a minute.";
-              } else {
-                flash.className = "flash bad";
-                flash.textContent = "Live browser scan failed: " + err.message +
-                  " — public CORS proxies are rate-limited, retry in a minute.";
-              }
-            }
-            if (h1 && h1.parentNode) h1.parentNode.insertBefore(flash, h1.nextSibling);
-          });
-        })
-        .then(function () {
-          btn.classList.remove("loading");
-          btn.disabled = false;
-          setTimeout(function () { btn.textContent = "🔄 Refresh"; }, 2500);
-        });
+    if (!window.DirectScan) {
+      alert("Scan engine failed to load — reload the page.");
       return;
     }
+    var tab = activeAlertTab();
+    var runners = { ol: window.DirectScan.runOpenLow, oh: window.DirectScan.runOpenHigh, bb: window.DirectScan.runBBTrap };
+    var renderers = { ol: window.DirectScan.renderAlertsPage, oh: window.DirectScan.renderOpenHighPage, bb: window.DirectScan.renderBBTrapPage };
+    var runner = runners[tab];
+    var render = renderers[tab];
+    if (!runner || !render) return;
 
-    // Legacy path — GitHub Actions dispatch (requires ⚙️ Settings token)
-    if (!getGHToken() || !getGHRepo()) {
-      alert("GitHub token not configured. Click ⚙️ Settings in the top bar to set up your token and repository.");
-      window.openSettings();
-      return;
-    }
-
-    btn.textContent = "⏳ Refreshing…";
+    btn.textContent = "⏳ Scanning…";
     btn.classList.add("loading");
     btn.disabled = true;
 
-    ghApi("/actions/workflows/refresh-alerts.yml/dispatches", {
-      method: "POST",
-      body: JSON.stringify({ ref: "main" })
+    runner(function (pct, msg) {
+      btn.textContent = "⏳ " + msg;
     })
-      .then(function (r) {
-        if (r.status === 204) {
-          btn.textContent = "✅ Triggered — wait ~1 min";
-          // Poll for completion
-          pollWorkflow("refresh-alerts.yml", function (status) {
-            if (status === "completed") {
-              btn.textContent = "🔄 Refresh";
-              btn.classList.remove("loading");
-              btn.disabled = false;
-              // Reload page to show fresh data
-              setTimeout(function () { window.location.reload(); }, 5000);
-            }
-          });
-        } else {
-          return r.json().then(function (d) {
-            throw new Error(d.message || "Unexpected response");
-          });
-        }
+      .then(function (result) {
+        window.DirectScan.saveCacheFor(tab, result);
+        render(result);
+        btn.textContent = "✅ Scanned live";
       })
       .catch(function (err) {
-        btn.textContent = "🔄 Refresh";
+        // Live proxies failed — O=L falls back to the scheduled server scan
+        // (data/alerts.json); every setup falls back to its last successful
+        // browser scan.
+        var flash = document.createElement("div");
+        var h1 = document.querySelector("main h1");
+        window.DirectScan.fetchRepoAlerts().then(function (repo) {
+          if (tab === "ol" && repo && repo.is_today) {
+            render(repo);
+            flash.className = "flash";
+            flash.textContent = "Live browser scan failed (" + err.message +
+              ") — showing today's scheduled server scan from " + repo.scanned_at +
+              " (auto-updates every 15 min during market hours).";
+          } else {
+            var cached = window.DirectScan.loadCacheFor(tab);
+            if (cached) {
+              render(cached.result);
+              flash.className = "flash bad";
+              flash.textContent = "Live scan failed (" + err.message + ") — showing your last successful " +
+                ({ ol: "Open=Low", oh: "Open=High", bb: "BB Trap" }[tab] || "") + " scan from " +
+                cached.result.scanned_at + ". Retry in a minute.";
+            } else {
+              flash.className = "flash bad";
+              flash.textContent = "Live browser scan failed: " + err.message +
+                " — public CORS proxies are rate-limited, retry in a minute.";
+            }
+          }
+          if (h1 && h1.parentNode) h1.parentNode.insertBefore(flash, h1.nextSibling);
+        });
+      })
+      .then(function () {
         btn.classList.remove("loading");
         btn.disabled = false;
-        alert("Failed to trigger refresh: " + err.message);
+        setTimeout(function () { btn.textContent = "🔄 Refresh"; }, 2500);
       });
   };
 
