@@ -27,13 +27,22 @@
   // Scan config — mirrors the Python scanners' defaults.
   var CFG = {
     OL_DIFF_MAX: 0.10,
-    OL_ROUGH_TOL: 0.003,
+    OL_ROUGH_TOL: 0.015, // wide recall net: the 5m-approx open drifts >1% for
+                         // fast movers; refinement applies the exact rule
     MIN_VOL_MULT: 1.5,
     PRICE_MIN: 50,
     SL_PCT: 0.5,
     INVESTMENT: 10000,
     VOL_LOOKBACK: 20,
-    BATCH: 30,
+    // Yahoo's spark endpoint caps at 20 symbols/request ("Number of symbols
+    // needs to be less than or equal to 20" since ~2026-08-26). Larger
+    // batches come back 200-with-error and the whole universe vanishes.
+    BATCH: 20,
+    // r.jina.ai (the only reliable public CORS proxy) free tier throttles by
+    // bursting: past ~20 req/min it serves 200-with-truncated-JSON instead of
+    // an error. A serialized ~3.2s gap between Yahoo requests (~18/min) keeps
+    // every response complete. One full scan stays under one quota window.
+    REQ_GAP_MS: 3200,
     WORKERS: 2,
     // BB Trap v2 (from scan_bb_trap_v2.py)
     BB_PERIOD: 20,
@@ -114,42 +123,54 @@
     }
   ];
 
-  function fetchYahoo(yurl, timeoutMs) {
+  // Global request pacer: reserves the next slot ≥ REQ_GAP_MS in the future
+  // and returns how long THIS request must wait. All proxied Yahoo calls go
+  // through it, so bursts from parallel workers can't trip the proxy quota.
+  var nextSlotAt = 0;
+  function paceGap(extraDelayMs) {
+    var now = Date.now();
+    var wait = Math.max(extraDelayMs || 0, nextSlotAt - now);
+    nextSlotAt = now + wait + CFG.REQ_GAP_MS;
+    return wait;
+  }
+
+  function fetchYahoo(yurl, timeoutMs, validate) {
     function attempt(proxyIdx, tryNum, delay) {
       return new Promise(function (resolve) {
         setTimeout(function () {
           fetchWithTimeout(PROXIES[proxyIdx].wrap(yurl), timeoutMs || 15000)
             .then(function (text) {
-              resolve(PROXIES[proxyIdx].unwrap(extractJson(text)));
+              var data = PROXIES[proxyIdx].unwrap(extractJson(text));
+              if (validate) validate(data); // 200-with-junk (quota stubs,
+              // truncated payloads) → retry after a real backoff
+              resolve(data);
             })
             .catch(function () {
-              if (tryNum < 3) resolve(attempt(proxyIdx, tryNum + 1, tryNum === 1 ? 2500 : 6000));
-              else if (proxyIdx + 1 < PROXIES.length) resolve(attempt(proxyIdx + 1, 1, 800));
+              if (tryNum < 3) resolve(attempt(proxyIdx, tryNum + 1, tryNum === 1 ? 6000 : 15000));
+              else if (proxyIdx + 1 < PROXIES.length) resolve(attempt(proxyIdx + 1, 1, 4000));
               else resolve(null);
             });
-        }, delay);
+        }, paceGap(delay));
       });
     }
     return attempt(0, 1, 0);
   }
 
   // -------------------------------------------------------------------------
-  // IST helpers (Yahoo epoch seconds are exchange-local)
+  // IST helpers. Shifting the epoch by +330 min and reading the UTC fields
+  // yields the IST wall clock on ANY machine timezone (toISOString always
+  // formats UTC, so the old shift-then-toISOString printed UTC on IST-local
+  // machines — 5.5 h off).
   // -------------------------------------------------------------------------
-  function istShift(d) { return new Date(d.getTime() + (330 + d.getTimezoneOffset()) * 60000); }
-  function istNow() { return istShift(new Date()); }
-  function istDateStr(ts) {
-    var d = ts ? istShift(new Date(ts * 1000)) : istNow();
-    return d.toISOString().slice(0, 10);
-  }
+  function istIso(ms) { return new Date(ms + 330 * 60000).toISOString(); }
+  function istDateStr(ts) { return istIso(ts ? ts * 1000 : Date.now()).slice(0, 10); }
   function fmtTs(ts) {
-    var d = ts ? istShift(new Date(ts * 1000)) : istNow();
-    return d.toISOString().slice(0, 16).replace("T", " ") + " IST";
+    return istIso(ts ? ts * 1000 : Date.now()).slice(0, 16).replace("T", " ") + " IST";
   }
   function sessionPct() {
-    var d = istNow();
-    var day = d.getDay();
-    var mins = d.getHours() * 60 + d.getMinutes();
+    var d = new Date(Date.now() + 330 * 60000);
+    var day = d.getUTCDay();
+    var mins = d.getUTCHours() * 60 + d.getUTCMinutes();
     if (day === 0 || day === 6) return 1;
     if (mins <= 555) return 0;
     if (mins >= 930) return 1;
@@ -187,6 +208,20 @@
       });
   }
 
+  // Build the symbols= query, shuffling the order each call. r.jina.ai caches
+  // by normalized URL and, when throttled, caches TRUNCATED responses — a
+  // poisoned entry then serves every later retry of that exact URL. A new
+  // order means a new cache key, so every attempt (and every scan) hits a
+  // fresh edge fetch. Yahoo returns the same set regardless of order.
+  function symQuery(chunk) {
+    var a = chunk.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a.map(encodeURIComponent).join(",");
+  }
+
   // Batched spark fetch. interval "5m" → today's intraday quotes;
   // interval "1d" → ~2 months of daily bars per symbol.
   function fetchBatches(interval, rowParser, onTick) {
@@ -199,9 +234,18 @@
         if (idx >= chunks.length) return Promise.resolve();
         var my = idx++;
         var yurl = "https://query1.finance.yahoo.com/v7/finance/spark?symbols=" +
-          chunks[my].map(encodeURIComponent).join(",") +
+          symQuery(chunks[my]) +
           "&range=" + (interval === "1d" ? "2mo" : "1d") + "&interval=" + interval;
-        return fetchYahoo(yurl, 15000).then(function (data) {
+        return fetchYahoo(yurl, 15000, function (data) {
+          // 200-with-no-payload = quota stub; fewer rows than requested =
+          // jina free-tier content truncation. Both must retry, otherwise
+          // the universe silently shrinks to a handful of symbols.
+          var rows = data && data.spark && data.spark.result;
+          var need = chunks[my].length * 0.8;
+          if (!rows || !rows.length || rows.length < need) {
+            throw new Error(rows && rows.length ? "partial response" : "stub response");
+          }
+        }).then(function (data) {
           var rows = (data && data.spark && data.spark.result) || null;
           (rows || []).forEach(function (r) { var q = rowParser(r); if (q) out.push(q); });
           done++;
@@ -266,7 +310,12 @@
     return fetchBatches("5m", quoteFromSpark, function (done, total, got) {
       onProgress(Math.round((done / total) * 60), "Quotes " + done + "/" + total + " — " + got + " symbols");
     }).then(function (quotes) {
-      if (!quotes.length) throw new Error("no quotes — CORS proxies unreachable");
+      if (quotes.length < 100) {
+        // Less than half the universe — proxies were throttled. A silently
+        // shrunken scan is worse than an honest failure (the page falls back
+        // to the scheduled server scan / last good cache).
+        throw new Error("incomplete universe — " + quotes.length + "/200 quotes (proxy rate-limited, retry in a minute)");
+      }
       shared.quotes = quotes; shared.quotesAt = Date.now();
       return quotes;
     });
@@ -277,7 +326,9 @@
     return fetchBatches("1d", dailyFromSpark, function (done, total, got) {
       onProgress(Math.round((done / total) * 70), "Daily history " + done + "/" + total + " — " + got + " symbols");
     }).then(function (rows) {
-      if (!rows.length) throw new Error("no daily data — CORS proxies unreachable");
+      if (rows.length < 100) {
+        throw new Error("incomplete daily history (proxy rate-limited, retry in a minute)");
+      }
       var map = {};
       rows.forEach(function (d) { map[d.symbol] = d; });
       shared.daily = map; shared.dailyAt = Date.now();
@@ -297,9 +348,9 @@
     function nextChunk() {
       if (idx >= chunks.length) return Promise.resolve();
       var my = idx++;
-      var syms = chunks[my].map(function (q) { return q.symbol + ".NS"; });
       var yurl = "https://query1.finance.yahoo.com/v7/finance/spark?symbols=" +
-        syms.map(encodeURIComponent).join(",") + "&range=1d&interval=1m";
+        symQuery(chunks[my].map(function (q) { return q.symbol + ".NS"; })) +
+        "&range=1d&interval=1m";
       return fetchYahoo(yurl, 15000).then(function (data) {
         var rows = (data && data.spark && data.spark.result) || null;
         if (rows) {
@@ -347,8 +398,12 @@
   // Per-symbol extras (few calls): 20d avg volume, full daily OHLCV
   // -------------------------------------------------------------------------
   var histVolCache = {};
+  var barsCache = {};
 
   function chartDaily(sym) {
+    if (barsCache[sym] && Date.now() - barsCache[sym].at < TTL) {
+      return Promise.resolve(barsCache[sym].bars);
+    }
     var yurl = "https://query1.finance.yahoo.com/v8/finance/chart/" +
       encodeURIComponent(sym + ".NS") + "?range=3mo&interval=1d";
     return fetchYahoo(yurl, 15000).then(function (data) {
@@ -365,6 +420,7 @@
           v: q.volume[i] != null ? q.volume[i] : 0
         });
       }
+      if (bars.length) barsCache[sym] = { at: Date.now(), bars: bars };
       return bars.length ? bars : null;
     });
   }
@@ -390,6 +446,42 @@
     });
   }
 
+  // O=H refinement: the 5m/1m close proxies understate the open for exactly
+  // the fast fallers this setup hunts (verified: HAL opened 4890.2 = high,
+  // but its first 5m close was 4857). The daily bar carries the TRUE open,
+  // and the same bars give the 20-day average volume — one call per symbol.
+  function refineWithDailyBars(candidates, progress) {
+    var idx = 0, workers = [], done = 0, refined = [];
+    function next() {
+      if (idx >= candidates.length) return Promise.resolve();
+      var i = idx++;
+      var q = candidates[i];
+      return chartDaily(q.symbol).then(function (bars) {
+        if (bars && bars.length >= 2) {
+          var last = bars[bars.length - 1];
+          q.open = last.o; q.high = last.h; q.low = last.l;
+          q.ltp = last.c; q.volume = last.v;
+          q.prev_close = bars[bars.length - 2].c;
+          q.market_time = last.ts;
+          q.approx = false;
+          var vols = bars.slice(0, -1).map(function (b) { return b.v; });
+          var tail = vols.slice(-CFG.VOL_LOOKBACK);
+          var sum = 0;
+          tail.forEach(function (v) { sum += v; });
+          q.avg_vol_20d = tail.length ? Math.round(sum / tail.length) : 0;
+          // toFixed guards float dust: 4890.3 − 4890.2 === 0.1000000000058
+          if (+(last.h - last.o).toFixed(2) <= CFG.OL_DIFF_MAX) refined.push(q);
+        }
+        done++;
+        progress(75 + Math.round((done / Math.max(candidates.length, 1)) * 20),
+          "True-open verify " + done + "/" + candidates.length + " — " + refined.length + " confirmed");
+        return next();
+      });
+    }
+    for (var w = 0; w < CFG.WORKERS; w++) workers.push(next());
+    return Promise.all(workers).then(function () { return refined; });
+  }
+
   // -------------------------------------------------------------------------
   // O=L / O=H intraday scans (shared machinery)
   // -------------------------------------------------------------------------
@@ -400,7 +492,7 @@
     return getQuotes(progress)
       .then(function (q) {
         quotes = q;
-        // Rough pre-filter with the 5m-approx open
+        // Wide rough net with the 5m-approx open — refinement decides.
         var candidates = quotes.filter(function (x) {
           if (x.open == null) return false;
           if (kind === "ol") {
@@ -412,35 +504,33 @@
         });
         progress(65, candidates.length + " candidates — refining…");
 
-        var rule = kind === "ol"
-          ? function (x) { return Math.abs(x.open - x.low) <= CFG.OL_DIFF_MAX; }
-          : function (x) { return Math.abs(x.high - x.open) <= CFG.OL_DIFF_MAX; };
+        if (kind === "oh") return refineWithDailyBars(candidates, progress);
 
+        var rule = function (x) { return +Math.abs(x.open - x.low).toFixed(2) <= CFG.OL_DIFF_MAX; };
         return refineCandidates(candidates, rule, function (done, total, found) {
           progress(65 + Math.round((done / Math.max(total, 1)) * 10),
             "Refine " + done + "/" + total + " — " + found + " confirmed");
-        });
-      })
-      .then(function (refined) {
-        var todayStr = null;
-        refined.forEach(function (q) {
-          var s = istDateStr(q.market_time);
-          if (!todayStr) todayStr = s;
-        });
-        var idx = 0, workers = [], doneR = 0;
-        function nextRef() {
-          if (idx >= refined.length) return Promise.resolve();
-          var i = idx++;
-          return avgVol20dFor(refined[i].symbol, todayStr).then(function (avg) {
-            refined[i].avg_vol_20d = avg || 0;
-            doneR++;
-            progress(75 + Math.round((doneR / Math.max(refined.length, 1)) * 20),
-              "Volume history " + doneR + "/" + refined.length);
-            return nextRef();
+        }).then(function (refined) {
+          var todayStr = null;
+          refined.forEach(function (q) {
+            var s = istDateStr(q.market_time);
+            if (!todayStr) todayStr = s;
           });
-        }
-        for (var w = 0; w < CFG.WORKERS; w++) workers.push(nextRef());
-        return Promise.all(workers).then(function () { return refined; });
+          var idx = 0, workers = [], doneR = 0;
+          function nextRef() {
+            if (idx >= refined.length) return Promise.resolve();
+            var i = idx++;
+            return avgVol20dFor(refined[i].symbol, todayStr).then(function (avg) {
+              refined[i].avg_vol_20d = avg || 0;
+              doneR++;
+              progress(75 + Math.round((doneR / Math.max(refined.length, 1)) * 20),
+                "Volume history " + doneR + "/" + refined.length);
+              return nextRef();
+            });
+          }
+          for (var w = 0; w < CFG.WORKERS; w++) workers.push(nextRef());
+          return Promise.all(workers).then(function () { return refined; });
+        });
       })
       .then(function (refined) {
         progress(97, "Classifying…");
