@@ -1027,6 +1027,35 @@
   // -------------------------------------------------------------------------
   // Scheduled-scan fallback for O=L (data/alerts.json from the workflow)
   // -------------------------------------------------------------------------
+  // Server records use the Python field names (yf_open, yf_close,
+  // day_high_pct…); the renderer speaks browser-scan names (open, ltp,
+  // ext_pct…). Normalize so one renderer handles both shapes — otherwise
+  // every scheduled-scan row shows "—" and "NaN%".
+  function normalizeRepoRow(s) {
+    return {
+      symbol: s.symbol,
+      open: s.yf_open != null ? s.yf_open : s.open,
+      high: s.yf_high != null ? s.yf_high : s.high,
+      low: s.yf_low != null ? s.yf_low : s.low,
+      ltp: s.yf_close != null ? s.yf_close : s.ltp,
+      ol_diff: s.ol_diff,
+      volume: s.yf_volume != null ? s.yf_volume : s.volume,
+      avg_vol_20d: s.avg_vol_20d,
+      vol_ratio: s.vol_ratio,
+      est_full_vol_ratio: s.est_full_vol_ratio,
+      shares: s.shares,
+      invested: s.invested != null ? s.invested :
+        (s.shares != null && s.yf_open != null ? +(s.shares * s.yf_open).toFixed(0) : 0),
+      sl_price: s.sl_price,
+      pnl: s.pnl,
+      pnl_pct: s.pnl_pct,
+      gap_pct: s.gap_pct,
+      ext_pct: s.day_high_pct != null ? s.day_high_pct : s.ext_pct,
+      in_nse200: s.in_nse200,
+      date: s.date
+    };
+  }
+
   function fetchRepoAlerts() {
     return fetch(base + "/data/alerts.json?t=" + Date.now())
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -1038,8 +1067,8 @@
         var fetchedAt = String(d.fetched_at || "").replace("T", " ").slice(0, 16);
         var today = istDateStr(null);
         return {
-          with_volume: d.with_volume,
-          without_volume: d.without_volume,
+          with_volume: d.with_volume.map(normalizeRepoRow),
+          without_volume: d.without_volume.map(normalizeRepoRow),
           scanned_at: (fetchedAt || latest.slice(0, 16)) + " IST",
           universe_count: d.chartink_raw_count || (rows.length ? 200 : 0),
           session_pct: +(sessionPct() * 100).toFixed(1),
