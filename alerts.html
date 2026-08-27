@@ -18,7 +18,6 @@
 .setup-tab.active { background: rgba(63,185,80,0.15); color: var(--green); border-color: rgba(63,185,80,0.4); }
 .setup-panel { display:none; }
 .setup-panel.active { display:block; }
-
 .refresh-btn {
   display: inline-block;
   padding: 4px 14px;
@@ -271,6 +270,7 @@
   <button class="setup-tab" data-tab="ol">🟢 Open = Low</button>
   <button class="setup-tab" data-tab="oh">🔴 Open = High</button>
   <button class="setup-tab" data-tab="bb">📊 BB Trap v2</button>
+  <button class="setup-tab" data-tab="kite">⚡ Kite Live</button>
 </div>
 
 <div class="setup-panel active" id="panel-ol">
@@ -592,6 +592,9 @@
   <p class="muted" style="padding:1rem 0">Click 🔄 Refresh to scan this setup now.</p>
 </div>
 
+<div class="setup-panel" id="panel-kite">
+  <p class="muted" style="padding:1rem 0">Checking for local trading terminal…</p>
+</div>
 
 
   </main>
@@ -603,6 +606,7 @@
 
   <!-- Client-side app: search, paper trades, alerts, link fixing -->
   <script src="static/direct-scan.js"></script>
+  <script src="static/kite-scan.js"></script>
   <script src="static/app.js"></script>
 </body>
 </html>

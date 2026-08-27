@@ -521,6 +521,15 @@
     if (tab === "bb" && !document.getElementById("panel-bb").innerHTML.trim()) {
       document.getElementById("panel-bb").innerHTML = '<p class="muted" style="padding:1rem 0">' + placeholder + "</p>";
     }
+    // Kite tab: auto-detect the local terminal on first activation, then
+    // keep it fresh while visible.
+    if (tab === "kite" && window.KiteScan) {
+      var panel = document.getElementById("panel-kite");
+      if (panel && /Checking for local|Click 🔄 Refresh/.test(panel.textContent)) {
+        window.KiteScan.refresh(null);
+      }
+      window.KiteScan.startAutoRefresh();
+    }
   };
 
   window.refreshAlerts = function (btn) {
@@ -529,6 +538,13 @@
       return;
     }
     var tab = activeAlertTab();
+
+    // Kite tab runs through the local terminal bridge, not the Yahoo engine
+    if (tab === "kite") {
+      if (window.KiteScan) window.KiteScan.refresh(btn);
+      return;
+    }
+
     var runners = { ol: window.DirectScan.runOpenLow, oh: window.DirectScan.runOpenHigh, bb: window.DirectScan.runBBTrap };
     var renderers = { ol: window.DirectScan.renderAlertsPage, oh: window.DirectScan.renderOpenHighPage, bb: window.DirectScan.renderBBTrapPage };
     var runner = runners[tab];
