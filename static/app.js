@@ -496,6 +496,26 @@
         if (repo && repo.is_today) window.DirectScan.renderAlertsPage(repo);
       });
     }
+
+    // Auto-poll the scheduled O=L scan every 2 minutes while the market is
+    // open (refresh-alerts.yml commits a fresh one every 15 min), so new
+    // signals show up on their own — no manual Refresh click needed. Only
+    // re-renders when a genuinely newer scan has landed, and only while the
+    // O=L tab is the one showing.
+    if (window.DirectScan && window.DirectScan.fetchRepoAlerts && window.DirectScan.sessionPct) {
+      var lastAutoScanAt = "";
+      setInterval(function () {
+        if (activeAlertTab() !== "ol") return;
+        var pct = window.DirectScan.sessionPct();
+        if (!(pct > 0 && pct < 1)) return; // before open / after close / weekend
+        window.DirectScan.fetchRepoAlerts().then(function (repo) {
+          if (repo && repo.is_today && repo.scanned_at !== lastAutoScanAt) {
+            lastAutoScanAt = repo.scanned_at;
+            window.DirectScan.renderAlertsPage(repo);
+          }
+        });
+      }, 120000);
+    }
   }
 
   // Refresh — runs the scan for the ACTIVE setup tab (O=L / O=H / BB Trap),
@@ -551,53 +571,82 @@
     var render = renderers[tab];
     if (!runner || !render) return;
 
-    btn.textContent = "⏳ Scanning…";
     btn.classList.add("loading");
     btn.disabled = true;
 
-    runner(function (pct, msg) {
-      btn.textContent = "⏳ " + msg;
-    })
-      .then(function (result) {
-        window.DirectScan.saveCacheFor(tab, result);
-        render(result);
-        btn.textContent = "✅ Scanned live";
+    function finish(label) {
+      btn.classList.remove("loading");
+      btn.disabled = false;
+      btn.textContent = label;
+      setTimeout(function () { btn.textContent = "🔄 Refresh"; }, 2500);
+    }
+
+    function runLiveBrowserScan() {
+      btn.textContent = "⏳ Scanning…";
+      runner(function (pct, msg) {
+        btn.textContent = "⏳ " + msg;
       })
-      .catch(function (err) {
-        // Live proxies failed — O=L falls back to the scheduled server scan
-        // (data/alerts.json); every setup falls back to its last successful
-        // browser scan.
-        var flash = document.createElement("div");
-        var h1 = document.querySelector("main h1");
-        window.DirectScan.fetchRepoAlerts().then(function (repo) {
-          if (tab === "ol" && repo && repo.is_today) {
-            render(repo);
-            flash.className = "flash";
-            flash.textContent = "Live browser scan failed (" + err.message +
-              ") — showing today's scheduled server scan from " + repo.scanned_at +
-              " (auto-updates every 15 min during market hours).";
-          } else {
-            var cached = window.DirectScan.loadCacheFor(tab);
-            if (cached) {
-              render(cached.result);
-              flash.className = "flash bad";
-              flash.textContent = "Live scan failed (" + err.message + ") — showing your last successful " +
-                ({ ol: "Open=Low", oh: "Open=High", bb: "BB Trap" }[tab] || "") + " scan from " +
-                cached.result.scanned_at + ". Retry in a minute.";
+        .then(function (result) {
+          window.DirectScan.saveCacheFor(tab, result);
+          render(result);
+          finish("✅ Scanned live");
+        })
+        .catch(function (err) {
+          // Live proxies failed — O=L falls back to the scheduled server scan
+          // (data/alerts.json); every setup falls back to its last successful
+          // browser scan.
+          var flash = document.createElement("div");
+          var h1 = document.querySelector("main h1");
+          window.DirectScan.fetchRepoAlerts().then(function (repo) {
+            if (tab === "ol" && repo && repo.is_today) {
+              render(repo);
+              flash.className = "flash";
+              flash.textContent = "Live browser scan failed (" + err.message +
+                ") — showing today's scheduled server scan from " + repo.scanned_at +
+                " (auto-updates every 15 min during market hours).";
             } else {
-              flash.className = "flash bad";
-              flash.textContent = "Live browser scan failed: " + err.message +
-                " — public CORS proxies are rate-limited, retry in a minute.";
+              var cached = window.DirectScan.loadCacheFor(tab);
+              if (cached) {
+                render(cached.result);
+                flash.className = "flash bad";
+                flash.textContent = "Live scan failed (" + err.message + ") — showing your last successful " +
+                  ({ ol: "Open=Low", oh: "Open=High", bb: "BB Trap" }[tab] || "") + " scan from " +
+                  cached.result.scanned_at + ". Retry in a minute.";
+              } else {
+                flash.className = "flash bad";
+                flash.textContent = "Live browser scan failed: " + err.message +
+                  " — public CORS proxies are rate-limited, retry in a minute.";
+              }
             }
-          }
-          if (h1 && h1.parentNode) h1.parentNode.insertBefore(flash, h1.nextSibling);
+            if (h1 && h1.parentNode) h1.parentNode.insertBefore(flash, h1.nextSibling);
+          }).then(function () {
+            finish("⚠️ Live scan failed");
+          });
         });
-      })
-      .then(function () {
-        btn.classList.remove("loading");
-        btn.disabled = false;
-        setTimeout(function () { btn.textContent = "🔄 Refresh"; }, 2500);
+    }
+
+    // O=L has a scheduled server scan behind it (refresh-alerts.yml, every 15
+    // min during market hours) that's far more reliable than scraping Yahoo
+    // through public CORS proxies from the browser. Check that FIRST and use
+    // it whenever it's current — only fall to the live browser scan if it
+    // isn't. O=H / BB Trap don't have an equivalent scheduled source yet, so
+    // they go straight to the live scan as before.
+    if (tab === "ol" && window.DirectScan.fetchRepoAlerts) {
+      btn.textContent = "⏳ Checking scheduled scan…";
+      window.DirectScan.fetchRepoAlerts().then(function (repo) {
+        if (repo && repo.is_today) {
+          window.DirectScan.saveCacheFor(tab, repo);
+          render(repo);
+          finish("✅ Scanned (server, " + repo.scanned_at.replace(" IST", "") + ")");
+        } else {
+          runLiveBrowserScan();
+        }
+      }).catch(function () {
+        runLiveBrowserScan();
       });
+    } else {
+      runLiveBrowserScan();
+    }
   };
 
   // ---------------------------------------------------------------------------
