@@ -1056,6 +1056,21 @@
     };
   }
 
+  // Calendar-day gap between two 'YYYY-MM-DD' strings (b - a).
+  function daysBetween(a, b) {
+    var da = new Date(a + "T00:00:00Z");
+    var db = new Date(b + "T00:00:00Z");
+    return Math.round((db - da) / 86400000);
+  }
+
+  // How many calendar days old a scan is allowed to be and still count as
+  // "the current one to show". 4 covers a normal Fri→Mon weekend gap plus
+  // one adjacent holiday (Fri scan viewed on a Tue after a long weekend).
+  // NSE holidays beyond that won't self-heal here — there's no holiday
+  // calendar wired in — but this fixes the every-single-weekend case, which
+  // was silently failing before.
+  var SCAN_MAX_AGE_DAYS = 4;
+
   function fetchRepoAlerts() {
     return fetch(base + "/data/alerts.json?t=" + Date.now())
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -1066,6 +1081,10 @@
         rows.forEach(function (r) { if (r.date && String(r.date) > latest) latest = String(r.date); });
         var fetchedAt = String(d.fetched_at || "").replace("T", " ").slice(0, 16);
         var today = istDateStr(null);
+        var scanDate = (fetchedAt.slice(0, 10) || latest.slice(0, 10));
+        // Guard against a malformed/missing date rather than let NaN
+        // comparisons silently pass.
+        var ageDays = scanDate ? daysBetween(scanDate, today) : 999;
         return {
           with_volume: d.with_volume.map(normalizeRepoRow),
           without_volume: d.without_volume.map(normalizeRepoRow),
@@ -1074,7 +1093,11 @@
           session_pct: +(sessionPct() * 100).toFixed(1),
           approx_count: 0,
           source: "scheduled",
-          is_today: latest.slice(0, 10) === today || fetchedAt.slice(0, 10) === today
+          scan_age_days: ageDays,
+          // Kept as `is_today` so existing callers don't need touching, but
+          // it now means "current enough to show", not "literally today" —
+          // that stricter check meant this was always false over a weekend.
+          is_today: ageDays >= 0 && ageDays <= SCAN_MAX_AGE_DAYS
         };
       })
       .catch(function () { return null; });
