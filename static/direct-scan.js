@@ -1115,6 +1115,7 @@
     loadCache: loadCache,
     saveCacheFor: saveCacheFor,
     loadCacheFor: loadCacheFor,
-    fetchRepoAlerts: fetchRepoAlerts
+    fetchRepoAlerts: fetchRepoAlerts,
+    sessionPct: sessionPct
   };
 })();
