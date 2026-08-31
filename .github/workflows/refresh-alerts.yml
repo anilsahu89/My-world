@@ -1,4 +1,4 @@
-name: Refresh O=L Alerts
+name: Refresh O=L / O=H Alerts
 
 on:
   schedule:
@@ -52,13 +52,14 @@ jobs:
           INVESTMENT = 10000
           VOL_LOOKBACK = 20
 
-          # Pass 1: Quick O=L scan (2-day data)
+          # Pass 1: one 2-day download covers both O=L and O=H — same bars,
+          # just checked against the opposite side of the day's range.
           tickers = [f'{s}.NS' for s in symbols]
-          print(f'Scanning {len(tickers)} tickers for O=L...')
+          print(f'Scanning {len(tickers)} tickers for O=L / O=H...')
           df = yf.download(tickers, period='2d', interval='1d',
                           group_by='ticker', progress=False, threads=True)
 
-          candidates = []
+          candidates_ol, candidates_oh = [], []
           candidate_data = {}
 
           for sym in symbols:
@@ -90,40 +91,47 @@ jobs:
                   v = int(latest['Volume'])
                   prev_c = float(prev['Close'])
                   ol_diff = abs(o - l)
+                  oh_diff = abs(h - o)
+                  candidate_data[sym] = {
+                      'open': round(o, 2), 'high': round(h, 2),
+                      'low': round(l, 2), 'close': round(c, 2),
+                      'volume': v, 'prev_close': round(prev_c, 2),
+                      'ol_diff': round(ol_diff, 2), 'oh_diff': round(oh_diff, 2),
+                      'date': str(latest.get('Date', '')),
+                  }
                   if ol_diff <= OL_DIFF_MAX:
-                      candidates.append(sym)
-                      candidate_data[sym] = {
-                          'open': round(o, 2), 'high': round(h, 2),
-                          'low': round(l, 2), 'close': round(c, 2),
-                          'volume': v, 'prev_close': round(prev_c, 2),
-                          'ol_diff': round(ol_diff, 2), 'date': str(latest.get('Date', '')),
-                      }
+                      candidates_ol.append(sym)
+                  if oh_diff <= OL_DIFF_MAX:
+                      candidates_oh.append(sym)
               except Exception:
                   continue
 
-          print(f'Found {len(candidates)} O=L candidates')
+          print(f'Found {len(candidates_ol)} O=L candidates, {len(candidates_oh)} O=H candidates')
 
-          if not candidates:
-              # Write empty result
-              result = {
+          all_candidates = sorted(set(candidates_ol) | set(candidates_oh))
+
+          def empty_result():
+              return {
                   'fetched_at': datetime.now().isoformat(),
-                  'with_volume': [],
-                  'without_volume': [],
-                  'with_vol_count': 0,
-                  'without_vol_count': 0,
+                  'with_volume': [], 'without_volume': [],
+                  'with_vol_count': 0, 'without_vol_count': 0,
+                  'oh': {'with_volume': [], 'without_volume': [], 'with_vol_count': 0, 'without_vol_count': 0, 'raw_count': 0},
               }
+
+          if not all_candidates:
               with open('data/alerts.json', 'w') as f:
-                  json.dump(result, f, indent=2)
-              print('No O=L stocks today')
+                  json.dump(empty_result(), f, indent=2)
+              print('No O=L or O=H stocks today')
               exit(0)
 
-          # Pass 2: Volume analysis
-          cand_tickers = [f'{s}.NS' for s in candidates]
+          # Pass 2: one volume-lookback download shared by both O=L and O=H
+          # candidates — this is the expensive part, so do it once.
+          cand_tickers = [f'{s}.NS' for s in all_candidates]
           avg_vols = {}
           try:
               df_vol = yf.download(cand_tickers, period='30d', interval='1d',
                                    group_by='ticker', progress=False, threads=True)
-              for sym in candidates:
+              for sym in all_candidates:
                   tkr = f'{sym}.NS'
                   try:
                       if hasattr(df_vol.columns, 'nlevels') and df_vol.columns.nlevels > 1:
@@ -141,69 +149,77 @@ jobs:
                       avg_vols[sym] = 0
           except Exception as e:
               print(f'Volume fetch error: {e}')
-              for sym in candidates:
+              for sym in all_candidates:
                   avg_vols[sym] = 0
 
-          # Build enriched results
-          with_volume = []
-          without_volume = []
+          def build_rows(candidates, diff_key):
+              with_volume, without_volume = [], []
+              for sym in candidates:
+                  d = candidate_data[sym]
+                  o, l, c, h = d['open'], d['low'], d['close'], d['high']
+                  v, prev_c = d['volume'], d['prev_close']
+                  avg_v = avg_vols.get(sym, 0)
 
-          for sym in candidates:
-              d = candidate_data[sym]
-              o, l, c, h = d['open'], d['low'], d['close'], d['high']
-              v, prev_c = d['volume'], d['prev_close']
-              avg_v = avg_vols.get(sym, 0)
+                  vol_ratio = round(v / avg_v, 2) if avg_v > 0 else 0
+                  diff_val = d[diff_key]
+                  sl_price = round(o * (1 - SL_PCT / 100), 2) if diff_key == 'ol_diff' else round(o * (1 + SL_PCT / 100), 2)
+                  gap_pct = round((o - prev_c) / prev_c * 100, 2) if prev_c > 0 else 0
+                  shares = int(INVESTMENT / o) if o > 0 else 0
+                  pnl = round(shares * (c - o), 2)
+                  pnl_pct = round((c - o) / o * 100, 2) if o > 0 else 0
+                  day_high_pct = round((h - o) / o * 100, 2) if o > 0 else 0
 
-              vol_ratio = round(v / avg_v, 2) if avg_v > 0 else 0
-              ol_diff = d['ol_diff']
-              sl_price = round(o * (1 - SL_PCT / 100), 2)
-              gap_pct = round((o - prev_c) / prev_c * 100, 2) if prev_c > 0 else 0
-              shares = int(INVESTMENT / o) if o > 0 else 0
-              pnl = round(shares * (c - o), 2)
-              pnl_pct = round((c - o) / o * 100, 2) if o > 0 else 0
-              day_high_pct = round((h - o) / o * 100, 2) if o > 0 else 0
+                  est_full = round(v / 0.6, 0) if v > 0 else 0  # rough 60% session
+                  est_full_vol_ratio = round(est_full / avg_v, 2) if avg_v > 0 else 0
 
-              # Estimated full-day volume
-              est_full = round(v / 0.6, 0) if v > 0 else 0  # rough 60% session
-              est_full_vol_ratio = round(est_full / avg_v, 2) if avg_v > 0 else 0
+                  stock = {
+                      'symbol': sym,
+                      'yf_open': o, 'yf_high': h, 'yf_low': l, 'yf_close': c,
+                      'yf_volume': v, 'avg_vol_20d': avg_v,
+                      'ol_diff': diff_val, 'vol_ratio': vol_ratio,
+                      'sl_price': sl_price, 'shares': shares,
+                      'pnl': pnl, 'pnl_pct': pnl_pct,
+                      'gap_pct': gap_pct, 'day_high_pct': day_high_pct,
+                      'pct_change': round((c - prev_c) / prev_c * 100, 2) if prev_c > 0 else 0,
+                      'price': c,
+                      'est_full_vol_ratio': est_full_vol_ratio,
+                      'date': d['date'],
+                      'in_nse200': True,
+                  }
 
-              stock = {
-                  'symbol': sym,
-                  'yf_open': o, 'yf_high': h, 'yf_low': l, 'yf_close': c,
-                  'yf_volume': v, 'avg_vol_20d': avg_v,
-                  'ol_diff': ol_diff, 'vol_ratio': vol_ratio,
-                  'sl_price': sl_price, 'shares': shares,
-                  'pnl': pnl, 'pnl_pct': pnl_pct,
-                  'gap_pct': gap_pct, 'day_high_pct': day_high_pct,
-                  'pct_change': round((c - prev_c) / prev_c * 100, 2) if prev_c > 0 else 0,
-                  'price': c,
-                  'est_full_vol_ratio': est_full_vol_ratio,
-                  'date': d['date'],
-                  'in_nse200': True,
-              }
+                  if o >= PRICE_MIN and vol_ratio >= MIN_VOL_MULT:
+                      with_volume.append(stock)
+                  else:
+                      without_volume.append(stock)
 
-              if o >= PRICE_MIN and vol_ratio >= MIN_VOL_MULT:
-                  with_volume.append(stock)
-              else:
-                  without_volume.append(stock)
+              with_volume.sort(key=lambda x: x['vol_ratio'], reverse=True)
+              without_volume.sort(key=lambda x: x['vol_ratio'], reverse=True)
+              return with_volume, without_volume
 
-          # Sort by volume ratio desc
-          with_volume.sort(key=lambda x: x['vol_ratio'], reverse=True)
-          without_volume.sort(key=lambda x: x['vol_ratio'], reverse=True)
+          ol_with, ol_without = build_rows(candidates_ol, 'ol_diff')
+          oh_with, oh_without = build_rows(candidates_oh, 'oh_diff')
 
           result = {
               'fetched_at': datetime.now().isoformat(),
-              'with_volume': with_volume,
-              'without_volume': without_volume,
-              'with_vol_count': len(with_volume),
-              'without_vol_count': len(without_volume),
-              'chartink_raw_count': len(candidates),
+              'with_volume': ol_with,
+              'without_volume': ol_without,
+              'with_vol_count': len(ol_with),
+              'without_vol_count': len(ol_without),
+              'chartink_raw_count': len(candidates_ol),
+              'oh': {
+                  'with_volume': oh_with,
+                  'without_volume': oh_without,
+                  'with_vol_count': len(oh_with),
+                  'without_vol_count': len(oh_without),
+                  'raw_count': len(candidates_oh),
+              },
           }
 
           with open('data/alerts.json', 'w') as f:
               json.dump(result, f, indent=2, default=str)
 
-          print(f'Tradeable: {len(with_volume)}, Watch: {len(without_volume)}')
+          print(f'O=L tradeable: {len(ol_with)}, watch: {len(ol_without)}')
+          print(f'O=H tradeable: {len(oh_with)}, watch: {len(oh_without)}')
           "
 
       - name: Check for changes
