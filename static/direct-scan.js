@@ -1071,12 +1071,17 @@
   // was silently failing before.
   var SCAN_MAX_AGE_DAYS = 4;
 
-  function fetchRepoAlerts() {
+  function fetchRepoAlerts(tab) {
+    tab = tab || "ol";
     return fetch(base + "/data/alerts.json?t=" + Date.now())
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
-        if (!d || !d.with_volume || !d.without_volume) return null;
-        var rows = d.with_volume.concat(d.without_volume);
+        if (!d) return null;
+        // O=L lives at the top level (legacy shape); O=H is nested under
+        // `oh` — both written by the same scheduled scan run.
+        var section = tab === "oh" ? d.oh : d;
+        if (!section || !section.with_volume || !section.without_volume) return null;
+        var rows = section.with_volume.concat(section.without_volume);
         var latest = "";
         rows.forEach(function (r) { if (r.date && String(r.date) > latest) latest = String(r.date); });
         var fetchedAt = String(d.fetched_at || "").replace("T", " ").slice(0, 16);
@@ -1086,10 +1091,10 @@
         // comparisons silently pass.
         var ageDays = scanDate ? daysBetween(scanDate, today) : 999;
         return {
-          with_volume: d.with_volume.map(normalizeRepoRow),
-          without_volume: d.without_volume.map(normalizeRepoRow),
+          with_volume: section.with_volume.map(normalizeRepoRow),
+          without_volume: section.without_volume.map(normalizeRepoRow),
           scanned_at: (fetchedAt || latest.slice(0, 16)) + " IST",
-          universe_count: d.chartink_raw_count || (rows.length ? 200 : 0),
+          universe_count: (tab === "oh" ? d.oh.raw_count : d.chartink_raw_count) || (rows.length ? 200 : 0),
           session_pct: +(sessionPct() * 100).toFixed(1),
           approx_count: 0,
           source: "scheduled",
