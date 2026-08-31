@@ -505,6 +505,17 @@
       }
     }
 
+    // BB Trap tab: same scheduled-scan treatment — render data/bbtrap.json
+    // instantly on load unless a fresher browser scan is already showing.
+    // (No intraday auto-poll: positional signals change once a day.)
+    var bbPanel = document.getElementById("panel-bb");
+    if (bbPanel && window.DirectScan && window.DirectScan.fetchRepoBBTrap &&
+        (!bbPanel.textContent.trim() || /Click 🔄 Refresh/.test(bbPanel.textContent))) {
+      window.DirectScan.fetchRepoBBTrap().then(function (repo) {
+        if (repo && repo.is_recent) window.DirectScan.renderBBTrapPage(repo);
+      });
+    }
+
     // Auto-poll the scheduled O=L / O=H scan every 2 minutes while the
     // market is open (refresh-alerts.yml commits a fresh one every 15 min),
     // so new signals show up on their own — no manual Refresh click needed.

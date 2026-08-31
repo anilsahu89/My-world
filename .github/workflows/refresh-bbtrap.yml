@@ -1,0 +1,82 @@
+name: Refresh BB Trap v2 signals
+
+on:
+  schedule:
+    # IST = UTC+5:30. Post-close 16:35 IST Mon-Fri, pre-open 08:55 IST Mon-Fri.
+    - cron: "5 11 * * 1-5"
+    - cron: "25 3 * * 1-5"
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download NSE CM bhavcopies (last ~95 weekdays)
+        env:
+          TZ: Asia/Kolkata
+        run: |
+          python3 - <<'EOF'
+          import urllib.request, zipfile, io, os, time
+          from datetime import date, timedelta
+
+          RAW = "bhav"
+          os.makedirs(RAW, exist_ok=True)
+          UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/126.0 Safari/537.36",
+                "Accept": "application/zip", "Referer": "https://www.nseindia.com/"}
+          end = date.today()
+          d = end - timedelta(days=140)
+          got = 0
+          while d <= end:
+              if d.weekday() < 5:
+                  path = os.path.join(RAW, f"cm_{d:%Y%m%d}.zip")
+                  if not os.path.exists(path):
+                      url = f"https://nsearchives.nseindia.com/content/cm/BhavCopy_NSE_CM_0_0_0_{d:%Y%m%d}_F_0000.csv.zip"
+                      req = urllib.request.Request(url, headers=UA)
+                      try:
+                          with urllib.request.urlopen(req, timeout=25) as r:
+                              c = r.read()
+                          if c.startswith(b"PK"):
+                              open(path, "wb").write(c)
+                              got += 1
+                          time.sleep(0.8)
+                      except Exception:
+                          pass
+              d += timedelta(days=1)
+          total = len(os.listdir(RAW))
+          print(f"bhavcopies: {total} ({got} new this run)")
+          if total < 40:
+              raise SystemExit("too few bhavcopies — aborting to avoid a bad scan")
+          EOF
+
+      - name: Run BB Trap v2 scan
+        run: |
+          python3 scanners/gen_bbtrap_json.py --bhav-dir bhav \
+            --universe data/nse200_symbols.csv --out data/bbtrap.json
+
+      - name: Check for changes
+        id: check
+        run: |
+          if git diff --quiet data/bbtrap.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit updated bbtrap
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/bbtrap.json
+          git commit -m "refresh bbtrap $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push

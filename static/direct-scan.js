@@ -952,7 +952,8 @@
     var emptyNote = '<p class="muted" style="padding:1rem 0">No BB Trap v2 signals right now. This is normal — shorts average ~4 per month.</p>';
     panel.innerHTML =
       '<p class="hint">Positional setup, daily timeframe · Primary candle fully outside BB(20, 2σ) → alert candle rejection wick ≥ 50% of range → volume ≥ ' + CFG.BB_MIN_VOL_MULT + '× · price ≥ ₹' + CFG.PRICE_MIN + '.</p>' +
-      '<p class="muted" id="bbLastRefresh" style="font-size:0.82rem">Last refresh: ' + escHtml(result.scanned_at) + ' (live browser scan)</p>' +
+      '<p class="muted" id="bbLastRefresh" style="font-size:0.82rem">Last refresh: ' + escHtml(result.scanned_at) +
+      (result.scanned_at.indexOf("scheduled") >= 0 ? "" : " (live browser scan)") + '</p>' +
       '<section><h2 style="color:var(--red,#e5534b);border-bottom-color:rgba(229,83,75,0.3)">🔻 SHORT Setups <span class="muted">(' + result.shorts.length + ', PF 2.10 backtested)</span></h2>' +
       (result.shorts.length ? '<div class="table-wrap"><table><thead><tr><th>#</th><th>Symbol</th><th>Entry</th><th>SL</th><th>Target</th><th>R:R</th><th>Wick</th><th>Vol×</th><th>RSI</th><th>P.Range</th><th>Alert Date</th><th>Score</th></tr></thead><tbody>' + bbTable(result.shorts) + "</tbody></table></div>" : emptyNote) + "</section>" +
       '<section style="margin-top:2.5rem"><h2 style="color:var(--green,#3fb950);border-bottom-color:rgba(63,185,80,0.3)">🔺 LONG Setups <span class="muted">(' + result.longs.length + ', PF 1.06 — marginal)</span></h2>' +
@@ -1103,6 +1104,30 @@
           // it now means "current enough to show", not "literally today" —
           // that stricter check meant this was always false over a weekend.
           is_today: ageDays >= 0 && ageDays <= SCAN_MAX_AGE_DAYS
+        };
+      })
+      .catch(function () { return null; });
+  }
+
+  // Scheduled server-side BB Trap scan (data/bbtrap.json from refresh-bbtrap.yml).
+  // Positional signals from the last COMPLETED candles stay valid for days,
+  // so "recent" = latest_date within the last 4 calendar days.
+  function fetchRepoBBTrap() {
+    return fetch(base + "/data/bbtrap.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !d.shorts || !d.longs) return null;
+        var fetchedAt = String(d.fetched_at || "").replace("T", " ").slice(0, 16);
+        return {
+          kind: "bb",
+          shorts: d.shorts,
+          longs: d.longs,
+          scanned_at: fetchedAt + " IST (scheduled server scan — daily after close)",
+          universe_count: d.universe_count || 200,
+          session_pct: +(sessionPct() * 100).toFixed(1),
+          latest_date: d.latest_date || "",
+          is_recent: !d.latest_date ||
+            (Date.now() - new Date(d.latest_date + "T00:00:00+05:30").getTime()) / 86400000 <= 4
         };
       })
       .catch(function () { return null; });
