@@ -1146,6 +1146,7 @@
     saveCacheFor: saveCacheFor,
     loadCacheFor: loadCacheFor,
     fetchRepoAlerts: fetchRepoAlerts,
+    fetchRepoBBTrap: fetchRepoBBTrap,
     sessionPct: sessionPct
   };
 })();
