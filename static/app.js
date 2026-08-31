@@ -490,28 +490,37 @@
 
     // If the scheduled workflow has committed a fresher scan than the baked
     // HTML (the build may be days old), render it right away — same-origin
-    // fetch, no proxies, instant.
+    // fetch, no proxies, instant. Works for whichever of O=L / O=H is the
+    // active tab on load.
+    var SCHEDULED_RENDERERS = {
+      ol: function (repo) { window.DirectScan.renderAlertsPage(repo); },
+      oh: function (repo) { window.DirectScan.renderOpenHighPage(repo); }
+    };
     if (window.DirectScan && window.DirectScan.fetchRepoAlerts) {
-      window.DirectScan.fetchRepoAlerts().then(function (repo) {
-        if (repo && repo.is_today) window.DirectScan.renderAlertsPage(repo);
-      });
+      var initialTab = activeAlertTab();
+      if (SCHEDULED_RENDERERS[initialTab]) {
+        window.DirectScan.fetchRepoAlerts(initialTab).then(function (repo) {
+          if (repo && repo.is_today) SCHEDULED_RENDERERS[initialTab](repo);
+        });
+      }
     }
 
-    // Auto-poll the scheduled O=L scan every 2 minutes while the market is
-    // open (refresh-alerts.yml commits a fresh one every 15 min), so new
-    // signals show up on their own — no manual Refresh click needed. Only
-    // re-renders when a genuinely newer scan has landed, and only while the
-    // O=L tab is the one showing.
+    // Auto-poll the scheduled O=L / O=H scan every 2 minutes while the
+    // market is open (refresh-alerts.yml commits a fresh one every 15 min),
+    // so new signals show up on their own — no manual Refresh click needed.
+    // Only re-renders when a genuinely newer scan has landed, and only for
+    // whichever of the two tabs is currently showing.
     if (window.DirectScan && window.DirectScan.fetchRepoAlerts && window.DirectScan.sessionPct) {
-      var lastAutoScanAt = "";
+      var lastAutoScanAt = { ol: "", oh: "" };
       setInterval(function () {
-        if (activeAlertTab() !== "ol") return;
+        var tab = activeAlertTab();
+        if (!SCHEDULED_RENDERERS[tab]) return;
         var pct = window.DirectScan.sessionPct();
         if (!(pct > 0 && pct < 1)) return; // before open / after close / weekend
-        window.DirectScan.fetchRepoAlerts().then(function (repo) {
-          if (repo && repo.is_today && repo.scanned_at !== lastAutoScanAt) {
-            lastAutoScanAt = repo.scanned_at;
-            window.DirectScan.renderAlertsPage(repo);
+        window.DirectScan.fetchRepoAlerts(tab).then(function (repo) {
+          if (repo && repo.is_today && repo.scanned_at !== lastAutoScanAt[tab]) {
+            lastAutoScanAt[tab] = repo.scanned_at;
+            SCHEDULED_RENDERERS[tab](repo);
           }
         });
       }, 120000);
@@ -592,13 +601,13 @@
           finish("✅ Scanned live");
         })
         .catch(function (err) {
-          // Live proxies failed — O=L falls back to the scheduled server scan
-          // (data/alerts.json); every setup falls back to its last successful
-          // browser scan.
+          // Live proxies failed — O=L / O=H fall back to the scheduled server
+          // scan (data/alerts.json); every setup falls back to its last
+          // successful browser scan after that.
           var flash = document.createElement("div");
           var h1 = document.querySelector("main h1");
-          window.DirectScan.fetchRepoAlerts().then(function (repo) {
-            if (tab === "ol" && repo && repo.is_today) {
+          window.DirectScan.fetchRepoAlerts(tab).then(function (repo) {
+            if ((tab === "ol" || tab === "oh") && repo && repo.is_today) {
               render(repo);
               flash.className = "flash";
               flash.textContent = "Live browser scan failed (" + err.message +
@@ -625,15 +634,16 @@
         });
     }
 
-    // O=L has a scheduled server scan behind it (refresh-alerts.yml, every 15
-    // min during market hours) that's far more reliable than scraping Yahoo
-    // through public CORS proxies from the browser. Check that FIRST and use
-    // it whenever it's current — only fall to the live browser scan if it
-    // isn't. O=H / BB Trap don't have an equivalent scheduled source yet, so
-    // they go straight to the live scan as before.
-    if (tab === "ol" && window.DirectScan.fetchRepoAlerts) {
+    // O=L and O=H both have a scheduled server scan behind them now
+    // (refresh-alerts.yml, every 15 min during market hours) that's far more
+    // reliable than scraping Yahoo through public CORS proxies from the
+    // browser. Check that FIRST and use it whenever it's current — only fall
+    // to the live browser scan if it isn't. BB Trap doesn't have an
+    // equivalent intraday scheduled source yet, so it goes straight to the
+    // live scan as before.
+    if ((tab === "ol" || tab === "oh") && window.DirectScan.fetchRepoAlerts) {
       btn.textContent = "⏳ Checking scheduled scan…";
-      window.DirectScan.fetchRepoAlerts().then(function (repo) {
+      window.DirectScan.fetchRepoAlerts(tab).then(function (repo) {
         if (repo && repo.is_today) {
           window.DirectScan.saveCacheFor(tab, repo);
           render(repo);
