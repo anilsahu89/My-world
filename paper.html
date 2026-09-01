@@ -327,7 +327,62 @@
     
 
 <h1>📊 Paper Trades</h1>
-<p class="hint">Manual paper trades taken from the Alerts tab (Open=Low strategy). Track open positions, close trades, and review weekly/monthly P&L.</p>
+<p class="hint">Automated O=L / O=H strategy paper-trading on the Mac (fresh O=L → BUY, fresh O=H → SELL, ₹5,000/stock, SL = day low/high, square-off 15:00) plus manual trades from the Alerts tab.</p>
+
+<!-- ===================== AUTO O=L / O=H STRATEGY (LIVE) ===================== -->
+<section id="autoSection">
+  <h2 style="color:var(--accent)">
+    🤖 Auto O=L / O=H Strategy
+    <span class="muted" style="font-size:0.75rem">— live from the trading engine</span>
+  </h2>
+
+  <div id="autoStatus" class="flash">Loading auto-strategy data…</div>
+
+  <div class="summary-cards" id="autoCards">
+    <div class="sum-card">
+      <span class="sum-label">Today P&L</span>
+      <span class="sum-value" id="acToday">—</span>
+    </div>
+    <div class="sum-card">
+      <span class="sum-label">Realized P&L (total)</span>
+      <span class="sum-value" id="acTotal">—</span>
+    </div>
+    <div class="sum-card">
+      <span class="sum-label">Open Positions</span>
+      <span class="sum-value" style="color:var(--green)" id="acOpen">—</span>
+    </div>
+    <div class="sum-card">
+      <span class="sum-label">Unrealized P&L (live)</span>
+      <span class="sum-value" id="acUnreal">—</span>
+    </div>
+    <div class="sum-card">
+      <span class="sum-label">Win Rate</span>
+      <span class="sum-value" id="acWin">—</span>
+    </div>
+    <div class="sum-card">
+      <span class="sum-label">Days / Trades</span>
+      <span class="sum-value" id="acDays">—</span>
+    </div>
+  </div>
+
+  <h3 style="color:var(--green)">🟢 Open Positions <span class="muted" id="autoOpenCount">(0)</span></h3>
+  <div class="table-wrap" id="autoOpenWrap">
+    <div class="flash">No open positions right now.</div>
+  </div>
+
+  <h3 style="margin-top:2rem">🔴 Closed Trades <span class="muted" id="autoClosedCount">(0)</span></h3>
+  <div class="table-wrap" id="autoClosedWrap">
+    <div class="flash">No closed trades yet.</div>
+  </div>
+
+  <h3 style="margin-top:2rem">📅 Daily P&L <span class="muted" id="autoDailyCount"></span></h3>
+  <div class="table-wrap" id="autoDailyWrap">
+    <div class="flash">No trading days recorded yet.</div>
+  </div>
+</section>
+
+<hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
+<p class="hint"><strong>Manual trades below</strong> — taken by hand from the Alerts tab (kept separate from the automated strategy above).</p>
 
 <!-- ===================== SUMMARY CARDS ===================== -->
 <div class="summary-cards">
@@ -354,7 +409,7 @@
 <!-- ===================== OPEN POSITIONS ===================== -->
 <section>
   <h2 style="color:var(--green);border-bottom-color:rgba(63,185,80,0.3)">
-    🟢 Open Positions <span class="muted">(0)</span>
+    ✋ Manual Open Positions <span class="muted">(0)</span>
   </h2>
 
   
@@ -399,7 +454,7 @@
 
 <!-- ===================== CLOSED TRADES ===================== -->
 <section style="margin-top:2.5rem">
-  <h2>🔴 Closed Trades <span class="muted">(0)</span></h2>
+  <h2>✋ Manual Closed Trades <span class="muted">(0)</span></h2>
 
   
   <div class="flash">No closed trades yet. Open positions will appear here once closed.</div>
@@ -446,6 +501,199 @@ function hideCloseForm() {
 document.getElementById('closeModal').addEventListener('click', function(e) {
   if (e.target === this) hideCloseForm();
 });
+</script>
+
+<script>
+/* ===== Auto O=L / O=H strategy — renders data/paper_ol.json (published by
+   the papertrade_ol engine on the Mac every few minutes) ===== */
+(function () {
+  "use strict";
+
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+
+  function esc(s) {
+    var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s);
+    return d.innerHTML;
+  }
+  function inr(n, signed) {
+    if (n == null || isNaN(n)) return "—";
+    var neg = n < 0;
+    var s = Math.abs(n).toLocaleString("en-IN",
+      { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return (neg ? "−₹" : (signed ? "+₹" : "₹")) + s;
+  }
+  function cls(n) { return n > 0 ? "ok" : (n < 0 ? "bad" : ""); }
+  function vcls(n) { return n >= 0 ? "pos" : "neg"; }
+  function setupBadge(t) {
+    var ol = t.setup === "ol";
+    return '<span class="badge ' + (ol ? "badge-green" : "badge-red") + '">' +
+           (ol ? "O=L" : "O=H") + "</span>";
+  }
+  function sideBadge(t) {
+    return '<span class="badge ' + (t.side === "BUY" ? "badge-green" : "badge-red") +
+           '">' + esc(t.side) + "</span>";
+  }
+
+  var CLOSED_LIMIT = 50;
+  var showAllClosed = false;
+
+  function renderStatus(d) {
+    var el = document.getElementById("autoStatus");
+    var feed = d.feed === "kite"
+      ? '<span class="badge badge-green">Kite · real-time</span>'
+      : '<span class="badge badge-red" title="No Kite login this morning — ' +
+        'fills are approximate">Yahoo · delayed</span>';
+    var st = d.status === "DONE"
+      ? '<span class="badge">SQUARED OFF</span>'
+      : '<span class="badge badge-green">RUNNING</span>';
+    el.innerHTML = "Updated " + esc(d.updated_at) + " &nbsp;·&nbsp; " + feed +
+      " &nbsp;·&nbsp; " + st +
+      ' &nbsp;·&nbsp; <span class="muted">auto-refreshes every 60s' +
+      (d.feed_note ? " — " + esc(d.feed_note) : "") + "</span>";
+    el.classList.remove("flash");
+  }
+
+  function renderCards(s) {
+    var set = function (id, html, colorClass) {
+      var el = document.getElementById(id);
+      el.innerHTML = html;
+      el.className = "sum-value" + (colorClass ? " " + colorClass : "");
+    };
+    set("acToday", inr(s.today_pnl, true), vcls(s.today_pnl));
+    set("acTotal", inr(s.realized_total, true), vcls(s.realized_total));
+    set("acOpen", String(s.open_count));
+    set("acUnreal", inr(s.unrealized, true), vcls(s.unrealized));
+    set("acWin", s.win_rate + "% <span class='muted' style='font-size:0.7em'>(" +
+        s.wins + "W / " + s.losses + "L)</span>");
+    set("acDays", s.days + " <span class='muted' style='font-size:0.7em'>/ " +
+        (s.open_count + s.closed_count) + " trades</span>");
+  }
+
+  function renderOpen(trades) {
+    document.getElementById("autoOpenCount").textContent = "(" + trades.length + ")";
+    var wrap = document.getElementById("autoOpenWrap");
+    if (!trades.length) {
+      wrap.innerHTML = '<div class="flash">No open positions right now.</div>';
+      return;
+    }
+    var rows = trades.map(function (t) {
+      var pnl = t.pnl, pct = t.pnl_pct;
+      return "<tr>" +
+        "<td><strong>" + esc(t.symbol) + "</strong></td>" +
+        "<td>" + setupBadge(t) + "</td>" +
+        "<td>" + sideBadge(t) + "</td>" +
+        "<td>" + t.qty + "</td>" +
+        "<td>" + esc(t.entry_time) + "</td>" +
+        "<td>" + inr(t.entry_price) + "</td>" +
+        "<td>" + inr(t.sl_price) + "</td>" +
+        "<td>" + (t.ltp != null ? inr(t.ltp) : "—") + "</td>" +
+        '<td class="' + cls(pnl) + '">' + inr(pnl, true) + "</td>" +
+        '<td class="' + cls(pct) + '">' +
+        (pct != null ? (pct > 0 ? "+" : "") + pct.toFixed(2) + "%" : "—") + "</td>" +
+        "</tr>";
+    }).join("");
+    wrap.innerHTML = "<table><thead><tr>" +
+      "<th>Symbol</th><th>Setup</th><th>Side</th><th>Qty</th><th>Entry Time</th>" +
+      "<th>Entry ₹</th><th>SL ₹</th><th>LTP ₹</th><th>P&L</th><th>P&L %</th>" +
+      "</tr></thead><tbody>" + rows + "</tbody></table>";
+  }
+
+  function renderClosed(trades) {
+    document.getElementById("autoClosedCount").textContent = "(" + trades.length + ")";
+    var wrap = document.getElementById("autoClosedWrap");
+    if (!trades.length) {
+      wrap.innerHTML = '<div class="flash">No closed trades yet.</div>';
+      return;
+    }
+    var shown = showAllClosed ? trades : trades.slice(0, CLOSED_LIMIT);
+    var rows = shown.map(function (t) {
+      var win = (t.pnl || 0) > 0;
+      return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
+        "<td>" + esc(t.date) + "</td>" +
+        "<td>" + setupBadge(t) + "</td>" +
+        "<td><strong>" + esc(t.symbol) + "</strong></td>" +
+        "<td>" + sideBadge(t) + "</td>" +
+        "<td>" + t.qty + "</td>" +
+        "<td>" + esc(t.entry_time) + "</td>" +
+        "<td>" + inr(t.entry_price) + "</td>" +
+        "<td>" + esc(t.exit_time || "—") + "</td>" +
+        "<td>" + inr(t.exit_price) + "</td>" +
+        "<td>" + esc(t.reason || "—") + "</td>" +
+        '<td class="' + cls(t.pnl) + '">' + inr(t.pnl, true) + "</td>" +
+        "<td><span class='badge " + (win ? "badge-green" : "badge-red") + "'>" +
+        (win ? "WIN" : "LOSS") + "</span></td>" +
+        "</tr>";
+    }).join("");
+    var more = "";
+    if (trades.length > CLOSED_LIMIT) {
+      more = '<div style="padding:8px;text-align:center">' +
+        '<button class="btn" onclick="window.__autoToggleClosed()"">' +
+        (showAllClosed ? "Show latest " + CLOSED_LIMIT + " only"
+                       : "Show all " + trades.length + " trades") + "</button></div>";
+    }
+    wrap.innerHTML = "<table><thead><tr>" +
+      "<th>Date</th><th>Setup</th><th>Symbol</th><th>Side</th><th>Qty</th>" +
+      "<th>Entry Time</th><th>Entry ₹</th><th>Exit Time</th><th>Exit ₹</th>" +
+      "<th>Reason</th><th>P&L</th><th></th>" +
+      "</tr></thead><tbody>" + rows + "</tbody></table>" + more;
+  }
+
+  window.__autoToggleClosed = function () {
+    showAllClosed = !showAllClosed;
+    if (window.__lastAuto) renderClosed(window.__lastAuto.closed || []);
+  };
+
+  function renderDaily(days) {
+    var wrap = document.getElementById("autoDailyWrap");
+    if (!days.length) {
+      wrap.innerHTML = '<div class="flash">No trading days recorded yet.</div>';
+      return;
+    }
+    var rows = days.slice().reverse().map(function (d) {
+      return "<tr>" +
+        "<td><strong>" + esc(d.date) + "</strong></td>" +
+        "<td>" + d.trades + " <span class='muted'>(O=L " + d.ol + " / O=H " + d.oh + ")</span></td>" +
+        '<td class="ok">' + d.wins + "</td>" +
+        '<td class="bad">' + d.losses + "</td>" +
+        '<td class="' + cls(d.pnl) + '">' + inr(d.pnl, true) + "</td>" +
+        '<td class="' + cls(d.cum) + '">' + inr(d.cum, true) + "</td>" +
+        "</tr>";
+    }).join("");
+    wrap.innerHTML = "<table><thead><tr>" +
+      "<th>Date</th><th>Trades</th><th>Wins</th><th>Losses</th>" +
+      "<th>Day P&L</th><th>Cumulative</th>" +
+      "</tr></thead><tbody>" + rows + "</tbody></table>";
+  }
+
+  function render(d) {
+    window.__lastAuto = d;
+    renderStatus(d);
+    renderCards(d.summary || {});
+    renderOpen(d.open || []);
+    renderClosed(d.closed || []);
+    renderDaily(d.daily || []);
+  }
+
+  function load() {
+    fetch(base + "/data/paper_ol.json?t=" + Date.now())
+      .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(render)
+      .catch(function (e) {
+        var el = document.getElementById("autoStatus");
+        el.className = "flash";
+        el.textContent = "⚠️ Could not load auto-strategy data (" + e.message +
+          ") — the engine publishes every few minutes during market hours; retrying every 60s.";
+      });
+  }
+
+  load();
+  setInterval(load, 60000);
+})();
 </script>
 
   <!-- Client-side app: search, paper trades, alerts, link fixing -->
