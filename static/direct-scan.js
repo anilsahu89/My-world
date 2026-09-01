@@ -177,6 +177,19 @@
     return +(((mins - 555) / 375) * 100).toFixed(1) / 100;
   }
 
+  // Mon–Fri only — no NSE holiday calendar wired in, so a weekday market
+  // holiday still counts as a "live trading day" here. That's a deliberate
+  // trade-off: it means a same-day match will correctly never arrive on a
+  // holiday, so the page falls through to a live-scan attempt (which will
+  // also correctly find nothing) and then to the last successful cached
+  // scan with a visible "retry" flag — never a silent stale-as-current
+  // render. The one thing it can't do is proactively label the day itself
+  // as a holiday.
+  function isLiveTradingDay() {
+    var day = new Date(Date.now() + 330 * 60000).getUTCDay();
+    return day >= 1 && day <= 5;
+  }
+
   function escHtml(s) {
     var d = document.createElement("div");
     d.textContent = s == null ? "" : String(s);
@@ -1100,10 +1113,14 @@
           approx_count: 0,
           source: "scheduled",
           scan_age_days: ageDays,
-          // Kept as `is_today` so existing callers don't need touching, but
-          // it now means "current enough to show", not "literally today" —
-          // that stricter check meant this was always false over a weekend.
-          is_today: ageDays >= 0 && ageDays <= SCAN_MAX_AGE_DAYS
+          // On a live trading day, only today's scan counts as current — if
+          // the scheduled job hasn't produced today's data yet (a missed
+          // cron tick, most often), this is false and the caller falls
+          // through to a live browser scan instead of silently showing
+          // yesterday's list as if it were today's. On a weekend/holiday
+          // there's nothing fresher coming, so the wider window applies —
+          // the most recent available trading day's scan is "current".
+          is_today: isLiveTradingDay() ? ageDays === 0 : (ageDays >= 0 && ageDays <= SCAN_MAX_AGE_DAYS)
         };
       })
       .catch(function () { return null; });
@@ -1118,16 +1135,23 @@
       .then(function (d) {
         if (!d || !d.shorts || !d.longs) return null;
         var fetchedAt = String(d.fetched_at || "").replace("T", " ").slice(0, 16);
+        var today = istDateStr(null);
+        var fetchedDate = fetchedAt.slice(0, 10);
+        var ageDays = fetchedDate ? daysBetween(fetchedDate, today) : 999;
         return {
           kind: "bb",
           shorts: d.shorts,
           longs: d.longs,
-          scanned_at: fetchedAt + " IST (scheduled server scan — daily after close)",
+          scanned_at: fetchedAt + " IST (scheduled server scan — daily after close / before open)",
           universe_count: d.universe_count || 200,
           session_pct: +(sessionPct() * 100).toFixed(1),
           latest_date: d.latest_date || "",
-          is_recent: !d.latest_date ||
-            (Date.now() - new Date(d.latest_date + "T00:00:00+05:30").getTime()) / 86400000 <= 4
+          // Freshness is judged on when the scan RAN, not on latest_date —
+          // BB Trap deliberately uses the last fully-closed daily candle, so
+          // latest_date lagging by a day (or a weekend) is normal, not
+          // staleness. What matters is whether today's pre-open/post-close
+          // job has actually run yet.
+          is_recent: isLiveTradingDay() ? ageDays === 0 : (ageDays >= 0 && ageDays <= SCAN_MAX_AGE_DAYS)
         };
       })
       .catch(function () { return null; });
