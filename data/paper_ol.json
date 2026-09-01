@@ -1,20 +1,20 @@
 {
- "updated_at": "01 Sep 2026 23:44:42 IST",
- "feed": "test",
+ "updated_at": "01 Sep 2026 23:45:27 IST",
+ "feed": "n/a",
  "feed_note": null,
- "status": "RUNNING",
- "today": "TEST",
+ "status": "DONE",
+ "today": "2026-09-01",
  "strategy": {
   "rule": "fresh O=L -> BUY / fresh O=H -> SELL, \u20b95,000/stock",
   "sl": "O=L long: day low | O=H short: day high",
-  "square_off": "23:59",
-  "entry_cutoff": "23:59"
+  "square_off": "15:00",
+  "entry_cutoff": "14:45"
  },
  "summary": {
   "open_count": 0,
   "closed_count": 31,
-  "trades_today": 0,
-  "today_pnl": 0.0,
+  "trades_today": 25,
+  "today_pnl": 228.51,
   "realized_total": 448.06,
   "unrealized": 0,
   "wins": 16,
