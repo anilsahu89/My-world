@@ -1,0 +1,15 @@
+{
+ "updated_at": "02 Sep 2026 05:05:00 IST",
+ "status": "RUNNING",
+ "summary": {
+  "open_count": 0,
+  "closed_count": 0,
+  "realized_total": 0,
+  "unrealized": 0,
+  "wins": 0,
+  "losses": 0,
+  "win_rate": 0
+ },
+ "open": [],
+ "closed": []
+}
