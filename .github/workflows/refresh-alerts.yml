@@ -3,8 +3,13 @@ name: Refresh O=L / O=H Alerts
 on:
   schedule:
     # NSE market hours: 9:00–15:30 IST = 3:30–10:00 UTC, Mon–Fri
-    # Run every 15 minutes during market hours
+    # Run every 15 minutes during market hours. Two staggered ticks per
+    # 15-min window (offset by ~7 min) as partial mitigation for GitHub's
+    # documented best-effort scheduler — it can silently skip a tick
+    # entirely, and this doesn't fully fix that, just halves the odds a
+    # whole window goes by with nothing firing.
     - cron: "3,18,33,48 3-9 * * 1-5"
+    - cron: "10,25,40,55 3-9 * * 1-5"
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
