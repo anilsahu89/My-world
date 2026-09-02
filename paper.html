@@ -382,6 +382,50 @@
 </section>
 
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
+
+<!-- ===================== GOLD / BITCOIN (SEPARATE BOOK) ===================== -->
+<section id="gcSection">
+  <h2 style="color:#d4a017">
+    🥇₿ Gold &amp; Bitcoin — O=L / O=H
+    <span class="muted" style="font-size:0.75rem">— separate paper book (not mixed with NSE stocks)</span>
+  </h2>
+  <div id="gcStatus" class="flash">Loading Gold/Bitcoin paper data…</div>
+
+  <div class="summary-cards">
+    <div class="sum-card">
+      <span class="sum-label">Open Positions</span>
+      <span class="sum-value" style="color:var(--green)" id="gcOpen">—</span>
+    </div>
+    <div class="sum-card">
+      <span class="sum-label">Closed Trades</span>
+      <span class="sum-value" id="gcClosed">—</span>
+    </div>
+    <div class="sum-card">
+      <span class="sum-label">Realized P&L (total)</span>
+      <span class="sum-value" id="gcTotal">—</span>
+    </div>
+    <div class="sum-card">
+      <span class="sum-label">Unrealized (live)</span>
+      <span class="sum-value" id="gcUnreal">—</span>
+    </div>
+    <div class="sum-card">
+      <span class="sum-label">Win Rate</span>
+      <span class="sum-value" id="gcWin">—</span>
+    </div>
+  </div>
+
+  <h3 style="color:var(--green)">🟢 Open Positions <span class="muted" id="gcOpenCount">(0)</span></h3>
+  <div class="table-wrap" id="gcOpenWrap">
+    <div class="flash">No open Gold/BTC positions.</div>
+  </div>
+
+  <h3 style="margin-top:2rem">🔴 Closed Trades <span class="muted" id="gcClosedCount">(0)</span></h3>
+  <div class="table-wrap" id="gcClosedWrap">
+    <div class="flash">No closed Gold/BTC trades yet.</div>
+  </div>
+</section>
+
+<hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
 <p class="hint"><strong>Manual trades below</strong> — taken by hand from the Alerts tab (kept separate from the automated strategy above).</p>
 
 <!-- ===================== SUMMARY CARDS ===================== -->
@@ -696,9 +740,111 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
 })();
 </script>
 
+<script>
+/* ===== Gold & Bitcoin paper book (data/paper_gc.json from the goldcrypto
+   engine — separate from the NSE book above) ===== */
+(function () {
+  "use strict";
+
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  function esc(s) {
+    var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s);
+    return d.innerHTML;
+  }
+  function usd(n, signed) {
+    if (n == null || isNaN(n)) return "—";
+    var neg = n < 0;
+    return (neg ? "−$" : (signed ? "+$" : "$")) + Math.abs(n).toFixed(2);
+  }
+  function px(n) {
+    return n == null ? "—" : "$" + Number(n).toLocaleString("en-US",
+      { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function cls(n) { return n > 0 ? "ok" : (n < 0 ? "bad" : ""); }
+
+  function render(d) {
+    var s = d.summary || {};
+    var el = document.getElementById("gcStatus");
+    el.className = "flash";
+    el.innerHTML = "Engine " + esc(d.updated_at) + " · sessions: GOLD (CME, opens ~03:30 IST) + BTC (UTC day, 05:30 IST) · " +
+      "SL = session low/high · square-off 22:30 IST · $60 notional/trade ≈ ₹5k · auto-refreshes every 60s";
+
+    function set(id, html, c) {
+      var n = document.getElementById(id);
+      n.innerHTML = html;
+      n.className = "sum-value" + (c ? " " + c : "");
+    }
+    set("gcOpen", String(s.open_count || 0));
+    set("gcClosed", String(s.closed_count || 0));
+    set("gcTotal", usd(s.realized_total, true), (s.realized_total || 0) >= 0 ? "pos" : "neg");
+    set("gcUnreal", usd(s.unrealized, true), (s.unrealized || 0) >= 0 ? "pos" : "neg");
+    set("gcWin", (s.win_rate || 0) + "% <span class='muted' style='font-size:0.7em'>(" +
+        (s.wins || 0) + "W / " + (s.losses || 0) + "L)</span>");
+
+    document.getElementById("gcOpenCount").textContent = "(" + (d.open || []).length + ")";
+    var ow = document.getElementById("gcOpenWrap");
+    if (!(d.open || []).length) {
+      ow.innerHTML = '<div class="flash">No open Gold/BTC positions.</div>';
+    } else {
+      var rows = d.open.map(function (t) {
+        return "<tr><td><strong>" + esc(t.symbol) + "</strong></td>" +
+          "<td>" + (t.setup === "ol" ? "O=L" : "O=H") + "</td>" +
+          "<td>" + esc(t.side) + "</td><td>" + t.qty + "</td>" +
+          "<td>" + esc(t.entry_time) + "</td><td>" + px(t.entry_price) + "</td>" +
+          "<td>" + px(t.sl_price) + "</td><td>" + (t.ltp != null ? px(t.ltp) : "—") + "</td>" +
+          '<td class="' + cls(t.pnl) + '">' + usd(t.pnl, true) + "</td></tr>";
+      }).join("");
+      ow.innerHTML = "<table><thead><tr><th>Market</th><th>Setup</th><th>Side</th><th>Qty</th>" +
+        "<th>Entry Time</th><th>Entry</th><th>SL</th><th>Last</th><th>P&L</th>" +
+        "</tr></thead><tbody>" + rows + "</tbody></table>";
+    }
+
+    document.getElementById("gcClosedCount").textContent = "(" + (d.closed || []).length + ")";
+    var cw = document.getElementById("gcClosedWrap");
+    if (!(d.closed || []).length) {
+      cw.innerHTML = '<div class="flash">No closed Gold/BTC trades yet.</div>';
+    } else {
+      var crows = d.closed.map(function (t) {
+        var win = (t.pnl || 0) > 0;
+        return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
+          "<td>" + esc(t.session) + "</td><td><strong>" + esc(t.symbol) + "</strong></td>" +
+          "<td>" + (t.setup === "ol" ? "O=L" : "O=H") + "</td><td>" + esc(t.side) + "</td>" +
+          "<td>" + t.qty + "</td><td>" + esc(t.entry_time) + "</td><td>" + px(t.entry_price) + "</td>" +
+          "<td>" + (t.exit_price != null ? px(t.exit_price) + " @ " + esc(t.exit_time || "") : "—") + "</td>" +
+          "<td>" + esc(t.reason || "—") + '</td><td class="' + cls(t.pnl) + '">' + usd(t.pnl, true) + "</td>" +
+          "<td><span class='badge " + (win ? "badge-green" : "badge-red") + "'>" +
+          (win ? "WIN" : "LOSS") + "</span></td></tr>";
+      }).join("");
+      cw.innerHTML = "<table><thead><tr><th>Session</th><th>Market</th><th>Setup</th><th>Side</th>" +
+        "<th>Qty</th><th>Entry Time</th><th>Entry</th><th>Exit</th><th>Reason</th><th>P&L</th><th></th>" +
+        "</tr></thead><tbody>" + crows + "</tbody></table>";
+    }
+  }
+
+  function load() {
+    fetch(base + "/data/paper_gc.json?t=" + Date.now())
+      .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(render)
+      .catch(function () {
+        var el = document.getElementById("gcStatus");
+        el.className = "flash";
+        el.textContent = "⚠️ Gold/Bitcoin engine data not published yet — it appears here as soon as the Mac engine runs (03:25 IST daily).";
+      });
+  }
+  load();
+  setInterval(load, 60000);
+})();
+</script>
+
   <!-- Client-side app: search, paper trades, alerts, link fixing -->
   <script src="static/direct-scan.js"></script>
   <script src="static/kite-scan.js"></script>
+  <script src="static/gc-scan.js"></script>
   <script src="static/app.js"></script>
 </body>
 </html>

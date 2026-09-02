@@ -271,6 +271,8 @@
   <button class="setup-tab" data-tab="oh">🔴 Open = High</button>
   <button class="setup-tab" data-tab="bb">📊 BB Trap v2</button>
   <button class="setup-tab" data-tab="kite">⚡ Kite Live</button>
+  <button class="setup-tab" data-tab="gold">🥇 Gold</button>
+  <button class="setup-tab" data-tab="btc">₿ Bitcoin</button>
 </div>
 
 <div class="setup-panel active" id="panel-ol">
@@ -596,6 +598,14 @@
   <p class="muted" style="padding:1rem 0">Checking for local trading terminal…</p>
 </div>
 
+<div class="setup-panel" id="panel-gold">
+  <p class="muted" style="padding:1rem 0">Loading Gold (COMEX GC=F) session…</p>
+</div>
+
+<div class="setup-panel" id="panel-btc">
+  <p class="muted" style="padding:1rem 0">Loading Bitcoin (BTC-USD, UTC session)…</p>
+</div>
+
 
   </main>
   <footer>
@@ -607,6 +617,7 @@
   <!-- Client-side app: search, paper trades, alerts, link fixing -->
   <script src="static/direct-scan.js"></script>
   <script src="static/kite-scan.js"></script>
+  <script src="static/gc-scan.js"></script>
   <script src="static/app.js"></script>
 </body>
 </html>
