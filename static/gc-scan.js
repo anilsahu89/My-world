@@ -69,8 +69,10 @@
     h.push(" ");
     h.push(badge(m.oh, "Open = High holding (SELL setup)"));
     h.push(" ");
-    h.push(badge(m.entry_window_open, "Entry window OPEN (first " +
-             m.minutes_since_open + "/" + 90 + " min)", "badge-red"));
+    h.push(badge(m.entry_window_open,
+             (m.entry_window_open ? "Entry window OPEN — " : "Entry window CLOSED — ") +
+             m.minutes_since_open + " min since open (window = first 90)",
+             "badge-red"));
     h.push("</p>");
 
     if (m.ol && m.oh) {
