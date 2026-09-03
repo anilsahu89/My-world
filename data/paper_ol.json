@@ -1,11 +1,11 @@
 {
- "updated_at": "02 Sep 2026 15:07:48 IST",
- "feed": "n/a",
- "feed_note": null,
+ "updated_at": "03 Sep 2026 10:36:41 IST",
+ "feed": "yahoo",
+ "feed_note": "~15 min delayed (no Kite login this morning)",
  "status": "DONE",
- "today": "2026-09-02",
+ "today": "2026-09-03",
  "strategy": {
-  "rule": "fresh O=L -> BUY / fresh O=H -> SELL, \u20b95,000/stock",
+  "rule": "fresh O=L -> BUY / fresh O=H -> SELL, \u20b910,000/stock",
   "sl": "O=L long: day low | O=H short: day high",
   "square_off": "15:00",
   "entry_cutoff": "14:45"
@@ -13,8 +13,8 @@
  "summary": {
   "open_count": 0,
   "closed_count": 38,
-  "trades_today": 7,
-  "today_pnl": 5.97,
+  "trades_today": 0,
+  "today_pnl": 0.0,
   "realized_total": 454.03,
   "unrealized": 0,
   "wins": 21,
