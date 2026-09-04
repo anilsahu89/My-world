@@ -574,9 +574,9 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
   function cls(n) { return n > 0 ? "ok" : (n < 0 ? "bad" : ""); }
   function vcls(n) { return n >= 0 ? "pos" : "neg"; }
   function setupBadge(t) {
-    var ol = t.setup === "ol";
-    return '<span class="badge ' + (ol ? "badge-green" : "badge-red") + '">' +
-           (ol ? "O=L" : "O=H") + "</span>";
+    var ol = t.setup === "ol", oh = t.setup === "oh";
+    return '<span class="badge ' + (ol || t.setup === "f3" ? "badge-green" : "badge-red") + '">' +
+           (ol ? "O=L" : (oh ? "O=H" : esc(t.setup.toUpperCase()))) + "</span>";
   }
   function sideBadge(t) {
     return '<span class="badge ' + (t.side === "BUY" ? "badge-green" : "badge-red") +
@@ -793,9 +793,9 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     } else {
       var rows = d.open.map(function (t) {
         return "<tr><td><strong>" + esc(t.symbol) + "</strong></td>" +
-          "<td>" + (t.setup === "ol" ? "O=L" : "O=H") + "</td>" +
+          "<td>" + (t.setup === "ol" ? "O=L" : (t.setup === "oh" ? "O=H" : esc(t.setup))) + "</td>" +
           "<td>" + esc(t.side) + "</td><td>" + t.qty + "</td>" +
-          "<td>" + esc(t.entry_time) + "</td><td>" + px(t.entry_price) + "</td>" +
+          "<td>" + esc(t.entry_time) + "</td><td>" + (t.setup.indexOf("DESK") === 0 ? usd(t.entry_price) + " cr" : px(t.entry_price)) + "</td>" +
           "<td>" + px(t.sl_price) + "</td><td>" + (t.ltp != null ? px(t.ltp) : "—") + "</td>" +
           '<td class="' + cls(t.pnl) + '">' + usd(t.pnl, true) + "</td></tr>";
       }).join("");
@@ -813,8 +813,8 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         var win = (t.pnl || 0) > 0;
         return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
           "<td>" + esc(t.session) + "</td><td><strong>" + esc(t.symbol) + "</strong></td>" +
-          "<td>" + (t.setup === "ol" ? "O=L" : "O=H") + "</td><td>" + esc(t.side) + "</td>" +
-          "<td>" + t.qty + "</td><td>" + esc(t.entry_time) + "</td><td>" + px(t.entry_price) + "</td>" +
+          "<td>" + (t.setup === "ol" ? "O=L" : (t.setup === "oh" ? "O=H" : esc(t.setup))) + "</td><td>" + esc(t.side) + "</td>" +
+          "<td>" + t.qty + "</td><td>" + esc(t.entry_time) + "</td><td>" + (t.setup.indexOf("DESK") === 0 ? usd(t.entry_price) + " cr" : px(t.entry_price)) + "</td>" +
           "<td>" + (t.exit_price != null ? px(t.exit_price) + " @ " + esc(t.exit_time || "") : "—") + "</td>" +
           "<td>" + esc(t.reason || "—") + '</td><td class="' + cls(t.pnl) + '">' + usd(t.pnl, true) + "</td>" +
           "<td><span class='badge " + (win ? "badge-green" : "badge-red") + "'>" +
