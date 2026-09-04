@@ -230,18 +230,32 @@
   </header>
   <main>
     
-<h1>Strategies <span class="muted">(14)</span></h1>
+<h1>Strategies <span class="muted">(16)</span></h1>
 <p class="hint">Every strategy note in the vault. Runnable ones have a live scanner wired; the rest are rules-only and light up once a scanner exists. Live market scan: <a href="/stocks">Live Stocks</a>.</p>
 
 
 
 <div class="tab-bar" id="stratTabs">
   <button data-filter="runnable" class="active">● Active (5)</button>
-  <button data-filter="all">All (14)</button>
-  <button data-filter="rules-only">Rules only (9)</button>
+  <button data-filter="all">All (16)</button>
+  <button data-filter="rules-only">Rules only (11)</button>
 </div>
 
 <div class="grid">
+  
+  <a class="card rules-only" href="/strategy/three-candle-momentum">
+    <div class="card-head">
+      <span class="card-title">3-Candle Momentum Rule (First-3-of-Day)</span>
+      <span class="badge badge-grey">Rules only</span>
+    </div>
+    
+    <div class="card-meta">
+      
+        <span class="meta-pill muted">never run</span>
+      
+      
+    </div>
+  </a>
   
   <a class="card rules-only" href="/strategy/a-19">
     <div class="card-head">
@@ -316,6 +330,20 @@
   <a class="card rules-only" href="/strategy/future-hedge">
     <div class="card-head">
       <span class="card-title">Future Hedge (H-20)</span>
+      <span class="badge badge-grey">Rules only</span>
+    </div>
+    
+    <div class="card-meta">
+      
+        <span class="meta-pill muted">never run</span>
+      
+      
+    </div>
+  </a>
+  
+  <a class="card rules-only" href="/strategy/gc-btc-hedged-selling">
+    <div class="card-head">
+      <span class="card-title">Gold &amp; Bitcoin — Hedged Hawa Selling (sell-side only)</span>
       <span class="badge badge-grey">Rules only</span>
     </div>
     
@@ -449,6 +477,8 @@
   <!-- Client-side app: search, paper trades, alerts, link fixing -->
   <script src="static/direct-scan.js"></script>
   <script src="static/kite-scan.js"></script>
+  <script src="static/gc-scan.js"></script>
+  <script src="static/f3-scan.js"></script>
   <script src="static/app.js"></script>
 </body>
 </html>

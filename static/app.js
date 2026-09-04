@@ -591,6 +591,12 @@
       return;
     }
 
+    // 3-Candle momentum tab renders the daily f3 scan + live paper trades
+    if (tab === "f3") {
+      if (window.F3Tab) window.F3Tab.refresh(btn);
+      return;
+    }
+
     var runners = { ol: window.DirectScan.runOpenLow, oh: window.DirectScan.runOpenHigh, bb: window.DirectScan.runBBTrap };
     var renderers = { ol: window.DirectScan.renderAlertsPage, oh: window.DirectScan.renderOpenHighPage, bb: window.DirectScan.renderBBTrapPage };
     var runner = runners[tab];
