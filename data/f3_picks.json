@@ -1,0 +1,86 @@
+{
+ "date": "2026-09-04",
+ "scanned_at": "13:17:01",
+ "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY at 12:15 close | SL = candle-1 low | square-off 15:00",
+ "max_trades": 5,
+ "note": "cap was 10 when today's scan ran; 5-trade cap applies from tomorrow",
+ "signals": [
+  {
+   "symbol": "PFC",
+   "drive_pct": 2.51,
+   "qty": 28,
+   "entry": 354.85,
+   "sl": 344.5,
+   "status": "CLOSED",
+   "exit": 344.5,
+   "reason": "SL",
+   "pnl": -289.8
+  },
+  {
+   "symbol": "LICHSGFIN",
+   "drive_pct": 2.13,
+   "qty": 17,
+   "entry": 574.5,
+   "sl": 555.1,
+   "status": "CLOSED",
+   "exit": 555.1,
+   "reason": "SL",
+   "pnl": -329.8
+  },
+  {
+   "symbol": "HYUNDAI",
+   "drive_pct": 1.79,
+   "qty": 4,
+   "entry": 2204.5,
+   "sl": 2151.2,
+   "status": "CLOSED",
+   "exit": 2151.2,
+   "reason": "SL",
+   "pnl": -213.2
+  },
+  {
+   "symbol": "SBILIFE",
+   "drive_pct": 1.45,
+   "qty": 5,
+   "entry": 1761.5,
+   "sl": 1710.6,
+   "status": "CLOSED",
+   "exit": 1710.6,
+   "reason": "SL",
+   "pnl": -254.5
+  },
+  {
+   "symbol": "HDFCBANK",
+   "drive_pct": 0.61,
+   "qty": 13,
+   "entry": 714.75,
+   "sl": 708.65,
+   "status": "CLOSED",
+   "exit": 708.65,
+   "reason": "SL",
+   "pnl": -79.3
+  },
+  {
+   "symbol": "GMRAIRPORT",
+   "drive_pct": 0.5,
+   "qty": 102,
+   "entry": 97.38,
+   "sl": 96.3,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "PNB",
+   "drive_pct": 0.39,
+   "qty": 85,
+   "entry": 117.55,
+   "sl": 116.52,
+   "status": "CLOSED",
+   "exit": 116.52,
+   "reason": "SL",
+   "pnl": -87.55
+  }
+ ]
+}
