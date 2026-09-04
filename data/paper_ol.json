@@ -1,5 +1,5 @@
 {
- "updated_at": "04 Sep 2026 13:15:39 IST",
+ "updated_at": "04 Sep 2026 13:26:01 IST",
  "feed": "yahoo",
  "feed_note": "~15 min delayed (no Kite login this morning)",
  "status": "RUNNING",
@@ -11,15 +11,15 @@
   "entry_cutoff": "14:45"
  },
  "summary": {
-  "open_count": 2,
-  "closed_count": 45,
-  "trades_today": 3,
-  "today_pnl": -84.64,
-  "realized_total": 337.04,
-  "unrealized": -0.65,
+  "open_count": 3,
+  "closed_count": 51,
+  "trades_today": 10,
+  "today_pnl": -1338.79,
+  "realized_total": -917.11,
+  "unrealized": -16.86,
   "wins": 23,
-  "losses": 22,
-  "win_rate": 51.1,
+  "losses": 28,
+  "win_rate": 45.1,
   "days": 5
  },
  "open": [
@@ -36,9 +36,9 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 7.0,
-   "pnl_pct": 0.07,
-   "ltp": 279.55,
+   "pnl": -7.0,
+   "pnl_pct": -0.07,
+   "ltp": 279.15,
    "feed": "yahoo"
   },
   {
@@ -54,13 +54,139 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -7.65,
-   "pnl_pct": -0.08,
-   "ltp": 573.55,
+   "pnl": -17.0,
+   "pnl_pct": -0.17,
+   "ltp": 573.0,
    "feed": "yahoo"
+  },
+  {
+   "id": 53,
+   "date": "2026-09-04",
+   "setup": "f3",
+   "symbol": "GMRAIRPORT",
+   "side": "BUY",
+   "qty": 102,
+   "entry_time": "13:17:01",
+   "entry_price": 97.38,
+   "sl_price": 96.3,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 7.14,
+   "pnl_pct": 0.07,
+   "ltp": 97.45,
+   "feed": "f3scan"
   }
  ],
  "closed": [
+  {
+   "id": 48,
+   "date": "2026-09-04",
+   "setup": "f3",
+   "symbol": "PFC",
+   "side": "BUY",
+   "qty": 28,
+   "entry_time": "13:17:01",
+   "entry_price": 354.85,
+   "sl_price": 344.5,
+   "exit_time": "13:26:01",
+   "exit_price": 344.5,
+   "reason": "SL",
+   "pnl": -289.8,
+   "pnl_pct": -2.92,
+   "ltp": 357.0,
+   "feed": "f3scan"
+  },
+  {
+   "id": 49,
+   "date": "2026-09-04",
+   "setup": "f3",
+   "symbol": "LICHSGFIN",
+   "side": "BUY",
+   "qty": 17,
+   "entry_time": "13:17:01",
+   "entry_price": 574.5,
+   "sl_price": 555.1,
+   "exit_time": "13:26:01",
+   "exit_price": 555.1,
+   "reason": "SL",
+   "pnl": -329.8,
+   "pnl_pct": -3.38,
+   "ltp": 573.0,
+   "feed": "f3scan"
+  },
+  {
+   "id": 50,
+   "date": "2026-09-04",
+   "setup": "f3",
+   "symbol": "HYUNDAI",
+   "side": "BUY",
+   "qty": 4,
+   "entry_time": "13:17:01",
+   "entry_price": 2204.5,
+   "sl_price": 2151.2,
+   "exit_time": "13:26:01",
+   "exit_price": 2151.2,
+   "reason": "SL",
+   "pnl": -213.2,
+   "pnl_pct": -2.42,
+   "ltp": 2204.5,
+   "feed": "f3scan"
+  },
+  {
+   "id": 51,
+   "date": "2026-09-04",
+   "setup": "f3",
+   "symbol": "SBILIFE",
+   "side": "BUY",
+   "qty": 5,
+   "entry_time": "13:17:01",
+   "entry_price": 1761.5,
+   "sl_price": 1710.6,
+   "exit_time": "13:26:01",
+   "exit_price": 1710.6,
+   "reason": "SL",
+   "pnl": -254.5,
+   "pnl_pct": -2.89,
+   "ltp": 1762.1,
+   "feed": "f3scan"
+  },
+  {
+   "id": 52,
+   "date": "2026-09-04",
+   "setup": "f3",
+   "symbol": "HDFCBANK",
+   "side": "BUY",
+   "qty": 13,
+   "entry_time": "13:17:01",
+   "entry_price": 714.75,
+   "sl_price": 708.65,
+   "exit_time": "13:26:01",
+   "exit_price": 708.65,
+   "reason": "SL",
+   "pnl": -79.3,
+   "pnl_pct": -0.85,
+   "ltp": 715.7,
+   "feed": "f3scan"
+  },
+  {
+   "id": 54,
+   "date": "2026-09-04",
+   "setup": "f3",
+   "symbol": "PNB",
+   "side": "BUY",
+   "qty": 85,
+   "entry_time": "13:17:01",
+   "entry_price": 117.55,
+   "sl_price": 116.52,
+   "exit_time": "13:26:01",
+   "exit_price": 116.52,
+   "reason": "SL",
+   "pnl": -87.55,
+   "pnl_pct": -0.88,
+   "ltp": 117.83,
+   "feed": "f3scan"
+  },
   {
    "id": 45,
    "date": "2026-09-04",
@@ -76,7 +202,7 @@
    "reason": "SL",
    "pnl": -84.64,
    "pnl_pct": -0.86,
-   "ltp": 211.82,
+   "ltp": 211.95,
    "feed": "yahoo"
   },
   {
@@ -94,7 +220,7 @@
    "reason": "EOD",
    "pnl": -22.5,
    "pnl_pct": -0.24,
-   "ltp": 1900.9,
+   "ltp": 1901.5,
    "feed": "yahoo"
   },
   {
@@ -112,7 +238,7 @@
    "reason": "SL",
    "pnl": -71.5,
    "pnl_pct": -0.72,
-   "ltp": 76.45,
+   "ltp": 76.46,
    "feed": "yahoo"
   },
   {
@@ -130,7 +256,7 @@
    "reason": "EOD",
    "pnl": 142.6,
    "pnl_pct": 1.43,
-   "ltp": 86.73,
+   "ltp": 86.7,
    "feed": "yahoo"
   },
   {
@@ -148,7 +274,7 @@
    "reason": "EOD",
    "pnl": -94.6,
    "pnl_pct": -0.96,
-   "ltp": 891.0,
+   "ltp": 890.75,
    "feed": "yahoo"
   },
   {
@@ -166,7 +292,7 @@
    "reason": "EOD",
    "pnl": 28.5,
    "pnl_pct": 0.29,
-   "ltp": 661.7,
+   "ltp": 660.0,
    "feed": "yahoo"
   },
   {
@@ -184,7 +310,7 @@
    "reason": "EOD",
    "pnl": -14.85,
    "pnl_pct": -0.15,
-   "ltp": 878.35,
+   "ltp": 877.3,
    "feed": "yahoo"
   },
   {
@@ -202,7 +328,7 @@
    "reason": "EOD",
    "pnl": 13.0,
    "pnl_pct": 0.32,
-   "ltp": 1962.7,
+   "ltp": 1962.4,
    "feed": "yahoo"
   },
   {
@@ -220,7 +346,7 @@
    "reason": "EOD",
    "pnl": 14.5,
    "pnl_pct": 0.31,
-   "ltp": 476.3,
+   "ltp": 476.6,
    "feed": "yahoo"
   },
   {
@@ -238,7 +364,7 @@
    "reason": "EOD",
    "pnl": -57.6,
    "pnl_pct": -1.21,
-   "ltp": 279.55,
+   "ltp": 279.15,
    "feed": "yahoo"
   },
   {
@@ -256,7 +382,7 @@
    "reason": "EOD",
    "pnl": 3.6,
    "pnl_pct": 0.07,
-   "ltp": 83.37,
+   "ltp": 83.38,
    "feed": "yahoo"
   },
   {
@@ -274,7 +400,7 @@
    "reason": "EOD",
    "pnl": 34.32,
    "pnl_pct": 0.69,
-   "ltp": 114.03,
+   "ltp": 114.12,
    "feed": "yahoo"
   },
   {
@@ -292,7 +418,7 @@
    "reason": "EOD",
    "pnl": 15.75,
    "pnl_pct": 0.33,
-   "ltp": 317.95,
+   "ltp": 317.85,
    "feed": "yahoo"
   },
   {
@@ -310,7 +436,7 @@
    "reason": "EOD",
    "pnl": -17.6,
    "pnl_pct": -0.46,
-   "ltp": 1903.3,
+   "ltp": 1903.7,
    "feed": "yahoo"
   },
   {
@@ -328,7 +454,7 @@
    "reason": "EOD",
    "pnl": 22.8,
    "pnl_pct": 0.59,
-   "ltp": 1903.3,
+   "ltp": 1903.7,
    "feed": "yahoo"
   },
   {
@@ -346,7 +472,7 @@
    "reason": "EOD",
    "pnl": 55.5,
    "pnl_pct": 1.18,
-   "ltp": 312.5,
+   "ltp": 312.4,
    "feed": "yahoo"
   },
   {
@@ -364,7 +490,7 @@
    "reason": "EOD",
    "pnl": 38.0,
    "pnl_pct": 0.89,
-   "ltp": 1039.3,
+   "ltp": 1040.6,
    "feed": "yahoo"
   },
   {
@@ -382,7 +508,7 @@
    "reason": "EOD",
    "pnl": 2.8,
    "pnl_pct": 0.07,
-   "ltp": 992.3,
+   "ltp": 991.3,
    "feed": "yahoo"
   },
   {
@@ -400,7 +526,7 @@
    "reason": "EOD",
    "pnl": 45.6,
    "pnl_pct": 1.05,
-   "ltp": 1407.8,
+   "ltp": 1411.0,
    "feed": "yahoo"
   },
   {
@@ -418,7 +544,7 @@
    "reason": "EOD",
    "pnl": -27.3,
    "pnl_pct": -0.58,
-   "ltp": 1593.7,
+   "ltp": 1588.0,
    "feed": "yahoo"
   },
   {
@@ -436,7 +562,7 @@
    "reason": "EOD",
    "pnl": -7.5,
    "pnl_pct": -0.16,
-   "ltp": 319.75,
+   "ltp": 319.5,
    "feed": "yahoo"
   },
   {
@@ -454,7 +580,7 @@
    "reason": "EOD",
    "pnl": 53.36,
    "pnl_pct": 1.1,
-   "ltp": 160.44,
+   "ltp": 160.4,
    "feed": "yahoo"
   },
   {
@@ -472,7 +598,7 @@
    "reason": "EOD",
    "pnl": 22.0,
    "pnl_pct": 0.44,
-   "ltp": 1001.0,
+   "ltp": 1001.3,
    "feed": "yahoo"
   },
   {
@@ -490,7 +616,7 @@
    "reason": "EOD",
    "pnl": 43.6,
    "pnl_pct": 0.93,
-   "ltp": 1148.5,
+   "ltp": 1148.8,
    "feed": "yahoo"
   },
   {
@@ -508,7 +634,7 @@
    "reason": "EOD",
    "pnl": -14.75,
    "pnl_pct": -0.3,
-   "ltp": 86.73,
+   "ltp": 86.7,
    "feed": "yahoo"
   },
   {
@@ -526,7 +652,7 @@
    "reason": "EOD",
    "pnl": -14.4,
    "pnl_pct": -0.34,
-   "ltp": 721.55,
+   "ltp": 718.2,
    "feed": "yahoo"
   },
   {
@@ -544,7 +670,7 @@
    "reason": "EOD",
    "pnl": -17.4,
    "pnl_pct": -0.4,
-   "ltp": 4326.8,
+   "ltp": 4332.2,
    "feed": "yahoo"
   },
   {
@@ -562,7 +688,7 @@
    "reason": "EOD",
    "pnl": -28.4,
    "pnl_pct": -0.58,
-   "ltp": 1151.7,
+   "ltp": 1150.8,
    "feed": "yahoo"
   },
   {
@@ -580,7 +706,7 @@
    "reason": "EOD",
    "pnl": -5.6,
    "pnl_pct": -0.12,
-   "ltp": 335.2,
+   "ltp": 334.85,
    "feed": "yahoo"
   },
   {
@@ -616,7 +742,7 @@
    "reason": "SL",
    "pnl": -28.8,
    "pnl_pct": -0.76,
-   "ltp": 1274.0,
+   "ltp": 1275.2,
    "feed": "yahoo"
   },
   {
@@ -634,7 +760,7 @@
    "reason": "EOD",
    "pnl": 67.65,
    "pnl_pct": 1.42,
-   "ltp": 431.4,
+   "ltp": 431.8,
    "feed": "yahoo"
   },
   {
@@ -652,7 +778,7 @@
    "reason": "EOD",
    "pnl": 16.4,
    "pnl_pct": 0.63,
-   "ltp": 2532.4,
+   "ltp": 2529.9,
    "feed": "yahoo"
   },
   {
@@ -670,7 +796,7 @@
    "reason": "EOD",
    "pnl": 7.0,
    "pnl_pct": 0.21,
-   "ltp": 1656.1,
+   "ltp": 1653.6,
    "feed": "yahoo"
   },
   {
@@ -688,7 +814,7 @@
    "reason": "EOD",
    "pnl": 41.7,
    "pnl_pct": 0.84,
-   "ltp": 819.0,
+   "ltp": 818.65,
    "feed": "yahoo"
   },
   {
@@ -706,7 +832,7 @@
    "reason": "SL",
    "pnl": -9.8,
    "pnl_pct": -0.2,
-   "ltp": 355.55,
+   "ltp": 357.0,
    "feed": "yahoo"
   },
   {
@@ -724,7 +850,7 @@
    "reason": "EOD",
    "pnl": 61.2,
    "pnl_pct": 1.29,
-   "ltp": 264.75,
+   "ltp": 264.7,
    "feed": "yahoo"
   },
   {
@@ -742,7 +868,7 @@
    "reason": "EOD",
    "pnl": -2.1,
    "pnl_pct": -0.04,
-   "ltp": 1706.0,
+   "ltp": 1706.9,
    "feed": "yahoo"
   },
   {
@@ -760,7 +886,7 @@
    "reason": "SL",
    "pnl": -18.8,
    "pnl_pct": -0.38,
-   "ltp": 615.15,
+   "ltp": 615.1,
    "feed": "yahoo"
   },
   {
@@ -778,7 +904,7 @@
    "reason": "EOD",
    "pnl": 5.3,
    "pnl_pct": 0.2,
-   "ltp": 2608.0,
+   "ltp": 2614.9,
    "feed": "yahoo"
   },
   {
@@ -796,7 +922,7 @@
    "reason": "EOD",
    "pnl": -38.0,
    "pnl_pct": -0.77,
-   "ltp": 2447.2,
+   "ltp": 2441.2,
    "feed": "yahoo"
   },
   {
@@ -814,7 +940,7 @@
    "reason": "EOD",
    "pnl": 144.6,
    "pnl_pct": 4.68,
-   "ltp": 2947.2,
+   "ltp": 2943.2,
    "feed": "yahoo"
   },
   {
@@ -832,7 +958,7 @@
    "reason": "EOD",
    "pnl": -33.6,
    "pnl_pct": -0.72,
-   "ltp": 1133.7,
+   "ltp": 1132.6,
    "feed": "yahoo"
   },
   {
@@ -850,7 +976,7 @@
    "reason": "EOD",
    "pnl": 146.65,
    "pnl_pct": 3.25,
-   "ltp": 661.7,
+   "ltp": 660.0,
    "feed": "yahoo"
   },
   {
@@ -868,7 +994,7 @@
    "reason": "SL",
    "pnl": -5.4,
    "pnl_pct": -0.12,
-   "ltp": 715.4,
+   "ltp": 715.7,
    "feed": "yahoo"
   }
  ],
@@ -915,13 +1041,13 @@
   },
   {
    "date": "2026-09-04",
-   "trades": 3,
+   "trades": 10,
    "ol": 3,
    "oh": 0,
    "wins": 0,
-   "losses": 1,
-   "pnl": -84.64,
-   "cum": 337.04
+   "losses": 7,
+   "pnl": -1338.79,
+   "cum": -917.11
   }
  ]
 }
