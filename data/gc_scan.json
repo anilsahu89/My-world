@@ -1,5 +1,5 @@
 {
- "updated_at": "05 Sep 2026 22:00:42 IST",
+ "updated_at": "05 Sep 2026 22:05:44 IST",
  "engine": "goldcrypto engine on the Mac (polls every 5 min)",
  "markets": [
   {
@@ -11,7 +11,7 @@
    "low": 4429.8,
    "ltp": 4476.6,
    "chg_pct": 1.06,
-   "minutes_since_open": 2430,
+   "minutes_since_open": 2435,
    "entry_window_open": false,
    "ol": true,
    "oh": false,
@@ -24,11 +24,11 @@
    "yahoo": "BTC-USD",
    "session": "2026-09-05",
    "open": 79676.33,
-   "high": 79925.59,
+   "high": 79946.16,
    "low": 79480.93,
-   "ltp": 79925.59,
-   "chg_pct": 0.31,
-   "minutes_since_open": 990,
+   "ltp": 79946.16,
+   "chg_pct": 0.34,
+   "minutes_since_open": 995,
    "entry_window_open": false,
    "ol": false,
    "oh": false,
