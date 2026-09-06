@@ -1,0 +1,71 @@
+{
+ "updated_at": "06 Sep 2026 20:49:20 IST",
+ "rule": "top-3 candlestick setups (backtested 5y): MARU-at-low BUY PF 1.39 \u00b7 ShootingStar+VOL SELL PF 1.15 \u00b7 Engulf-at-low BUY PF 1.13 | entry next open, SL=pattern extreme, target 2R, 10-session stop | max 5 concurrent",
+ "note": "NSE backtested; GOLD/BTC patterns untested (trial)",
+ "end_date": "2026-09-30",
+ "summary": {
+  "open": 0,
+  "pending": 3,
+  "closed": 0,
+  "wins": 0,
+  "losses": 0,
+  "win_rate": 0,
+  "pnl_inr": 0,
+  "pnl_usd": 0
+ },
+ "open": [],
+ "pending": [
+  {
+   "signal_date": "2026-09-04",
+   "market": "NSE",
+   "symbol": "USHAMART",
+   "setup": "CS-PINS",
+   "side": "SELL",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 529.3,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "signal_date": "2026-09-04",
+   "market": "NSE",
+   "symbol": "SBILIFE",
+   "setup": "CS-MARU",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 1707.4,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "signal_date": "2026-09-04",
+   "market": "NSE",
+   "symbol": "HDFCLIFE",
+   "setup": "CS-MARU",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 533.3,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  }
+ ],
+ "closed": []
+}
