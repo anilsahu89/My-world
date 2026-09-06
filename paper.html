@@ -426,6 +426,26 @@
 </section>
 
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
+
+<!-- ===================== CANDLESTICK SWING DESK ===================== -->
+<section id="swingSection">
+  <h2 style="color:#7c4dff">
+    🕯️ Candlestick Swing — top-3 patterns
+    <span class="muted" style="font-size:0.75rem">— backtested 5y on NSE-500, runs Sep 2026</span>
+  </h2>
+  <div id="swingStatus" class="flash">Loading candlestick swing desk…</div>
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">Open</span><span class="sum-value" style="color:var(--green)" id="swOpen">—</span></div>
+    <div class="sum-card"><span class="sum-label">Pending (fills next open)</span><span class="sum-value" id="swPend">—</span></div>
+    <div class="sum-card"><span class="sum-label">Closed</span><span class="sum-value" id="swClosed">—</span></div>
+    <div class="sum-card"><span class="sum-label">NSE P&L (₹)</span><span class="sum-value" id="swInr">—</span></div>
+    <div class="sum-card"><span class="sum-label">Gold/BTC P&L ($)</span><span class="sum-value" id="swUsd">—</span></div>
+    <div class="sum-card"><span class="sum-label">Win Rate</span><span class="sum-value" id="swWin">—</span></div>
+  </div>
+  <div class="table-wrap" id="swWrap"></div>
+</section>
+
+<hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
 <p class="hint"><strong>Manual trades below</strong> — taken by hand from the Alerts tab (kept separate from the automated strategy above).</p>
 
 <!-- ===================== SUMMARY CARDS ===================== -->
@@ -835,6 +855,62 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         el.className = "flash";
         el.textContent = "⚠️ Gold/Bitcoin engine data not published yet — it appears here as soon as the Mac engine runs (03:25 IST daily).";
       });
+  }
+  load();
+  setInterval(load, 60000);
+})();
+</script>
+
+<script>
+/* Candlestick swing desk — data/swing_picks.json (EOD desk, marks daily) */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  function esc(s) { var d = document.createElement("div"); d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function cls(n) { return n > 0 ? "ok" : (n < 0 ? "bad" : ""); }
+  function fmt(n, cur) {
+    if (n == null || isNaN(n)) return "—";
+    var s = Math.abs(n).toLocaleString("en-IN", {maximumFractionDigits: 0});
+    return (n < 0 ? "−" : "+") + (cur === "$" ? "$" + s : "₹" + s);
+  }
+  function render(d) {
+    var s = d.summary || {};
+    var el = document.getElementById("swingStatus");
+    el.className = "flash";
+    el.innerHTML = "Desk updated " + esc(d.updated_at) + " · EOD scan 16:30 IST · " +
+      esc(d.rule) + " · <span class='muted'>" + esc(d.note || "") + "</span>";
+    document.getElementById("swOpen").textContent = s.open || 0;
+    document.getElementById("swPend").textContent = s.pending || 0;
+    document.getElementById("swClosed").textContent = s.closed || 0;
+    var a = document.getElementById("swInr"), b = document.getElementById("swUsd"), w = document.getElementById("swWin");
+    a.textContent = fmt(s.pnl_inr, "inr"); a.className = "sum-value " + ((s.pnl_inr || 0) >= 0 ? "pos" : "neg");
+    b.textContent = fmt(s.pnl_usd, "$"); b.className = "sum-value " + ((s.pnl_usd || 0) >= 0 ? "pos" : "neg");
+    w.textContent = (s.win_rate || 0) + "% (" + (s.wins || 0) + "W/" + (s.losses || 0) + "L)";
+    var rows = (d.open || []).concat(d.pending || []).concat((d.closed || []).slice(0, 20));
+    var h = "<table><thead><tr><th>Signal</th><th>Mkt</th><th>Symbol</th><th>Setup</th>" +
+      "<th>Side</th><th>Status</th><th>Entry</th><th>SL</th><th>TGT</th><th>Sess</th><th>Exit</th><th>P&L</th>" +
+      "</tr></thead><tbody>";
+    rows.forEach(function (t) {
+      h += "<tr><td>" + esc(t.signal_date) + "</td><td>" + esc(t.market) + "</td>" +
+        "<td><strong>" + esc(t.symbol) + "</strong></td><td>" + esc(t.setup) + "</td>" +
+        "<td>" + esc(t.side) + "</td><td>" + esc(t.status) + "</td>" +
+        "<td>" + (t.entry != null ? t.entry + (t.entry_date ? " (" + esc(t.entry_date).slice(5) + ")" : "") : "next open") + "</td>" +
+        "<td>" + (t.sl != null ? t.sl : "—") + "</td><td>" + (t.tgt != null ? t.tgt : "—") + "</td>" +
+        "<td>" + (t.sessions || 0) + "</td>" +
+        "<td>" + (t.exit != null ? t.exit + " " + esc(t.reason || "") : "—") + "</td>" +
+        '<td class="' + cls(t.pnl) + '">' + (t.pnl != null ? fmt(t.pnl, t.market === "NSE" ? "inr" : "$") : "—") + "</td></tr>";
+    });
+    document.getElementById("swWrap").innerHTML = h + "</tbody></table>";
+  }
+  function load() {
+    fetch(base + "/data/swing_picks.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) render(d); })
+      .catch(function () {});
   }
   load();
   setInterval(load, 60000);
