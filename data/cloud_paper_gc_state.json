@@ -1,17 +1,7 @@
 {
- "updated_at": "07 Sep 2026 15:58:01 IST",
- "status": "RUNNING",
- "summary": {
-  "open_count": 0,
-  "closed_count": 1,
-  "realized_total": -0.13,
-  "unrealized": 0,
-  "wins": 0,
-  "losses": 1,
-  "win_rate": 0.0
- },
- "open": [],
- "closed": [
+ "version": 1,
+ "next_id": 2,
+ "trades": [
   {
    "session": "2026-09-04",
    "setup": "f3s",
@@ -26,7 +16,9 @@
    "reason": "SL",
    "pnl": -0.13,
    "ltp": 4476.6,
-   "id": 1
+   "id": 1,
+   "status": "CLOSED"
   }
- ]
+ ],
+ "seeded": true
 }
