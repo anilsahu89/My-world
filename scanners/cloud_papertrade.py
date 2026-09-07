@@ -68,6 +68,20 @@ def migrate_nse_history(state: dict) -> None:
     state["seeded"] = True
 
 
+def migrate_gc_history(state: dict) -> None:
+    """Keep the prior Gold/BTC closed-book history on first cloud execution."""
+    if state["seeded"]:
+        return
+    legacy = read_json(GC_SNAPSHOT, {})
+    for trade in legacy.get("closed", []):
+        copied = dict(trade)
+        copied["id"] = state["next_id"]
+        state["next_id"] += 1
+        copied["status"] = "CLOSED"
+        state["trades"].append(copied)
+    state["seeded"] = True
+
+
 def flatten(frame):
     if frame is None or frame.empty:
         return frame
@@ -219,6 +233,7 @@ def market_quote(symbol: str) -> dict | None:
 
 
 def update_gc(state: dict) -> dict:
+    migrate_gc_history(state)
     moment, stamp = now(), now().strftime("%H:%M:%S")
     quotes = {symbol: quote for symbol in GC_MARKETS if (quote := market_quote(symbol))}
     for trade in state["trades"]:
