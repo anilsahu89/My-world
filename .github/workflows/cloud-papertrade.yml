@@ -1,0 +1,56 @@
+name: Cloud Paper Trade
+
+on:
+  workflow_dispatch:
+    inputs:
+      desk:
+        description: "Paper-trade desk"
+        required: true
+        default: all
+        type: choice
+        options: [all, nse, gc]
+  schedule:
+    # NSE: staggered 15-minute polls, including the post-close square-off.
+    - cron: "7,22,37,52 4-9 * * 1-5"
+    - cron: "7 10 * * 1-5"
+    # Gold/BTC: 15-minute cloud polling; Gold simply has no session on weekends.
+    - cron: "11,26,41,56 0-23 * * *"
+
+concurrency:
+  group: cloud-papertrade
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  papertrade:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Kolkata
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install market-data dependency
+        run: pip install yfinance
+      - name: Choose scheduled desk
+        id: desk
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "value=${{ inputs.desk }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "7,22,37,52 4-9 * * 1-5" ] || [ "${{ github.event.schedule }}" = "7 10 * * 1-5" ]; then
+            echo "value=nse" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=gc" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Update paper ledger and dashboard snapshots
+        run: python3 scanners/cloud_papertrade.py "${{ steps.desk.outputs.value }}"
+      - name: Commit changed state
+        run: |
+          git config user.name "papertrade-bot"
+          git config user.email "papertrade-bot@users.noreply.github.com"
+          git add -A -- data/cloud_paper_ol_state.json data/cloud_paper_gc_state.json data/paper_ol.json data/paper_gc.json
+          git diff --cached --quiet || git commit -m "chore: cloud paper trade $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push
