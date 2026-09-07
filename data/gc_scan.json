@@ -1,5 +1,5 @@
 {
- "updated_at": "07 Sep 2026 09:41:42 IST",
+ "updated_at": "07 Sep 2026 09:46:46 IST",
  "engine": "goldcrypto engine on the Mac (polls every 5 min)",
  "markets": [
   {
@@ -34,9 +34,9 @@
    "open": 80351.4,
    "high": 80387.91,
    "low": 79592.39,
-   "ltp": 79622.68,
-   "chg_pct": -0.91,
-   "minutes_since_open": 251,
+   "ltp": 79678.06,
+   "chg_pct": -0.84,
+   "minutes_since_open": 256,
    "entry_window_open": false,
    "ol": false,
    "oh": true,
