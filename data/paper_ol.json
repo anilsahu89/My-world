@@ -1,9 +1,9 @@
 {
- "updated_at": "07 Sep 2026 15:58:01 IST",
+ "updated_at": "08 Sep 2026 14:18:35 IST",
  "feed": "yahoo",
  "feed_note": "Cloud runner: Yahoo data may be delayed; entries use a 10:15 IST cutoff.",
- "status": "DONE",
- "today": "2026-09-07",
+ "status": "RUNNING",
+ "today": "2026-09-08",
  "strategy": {
   "rule": "fresh O=L -> BUY / fresh O=H -> SELL, ₹10,000/stock",
   "sl": "O=L low / O=H high",
@@ -13,8 +13,8 @@
  "summary": {
   "open_count": 0,
   "closed_count": 63,
-  "trades_today": 9,
-  "today_pnl": -501.95,
+  "trades_today": 0,
+  "today_pnl": 0,
   "realized_total": -1568.5,
   "unrealized": 0,
   "wins": 28,
