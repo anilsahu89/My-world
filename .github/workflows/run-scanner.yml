@@ -122,6 +122,7 @@ jobs:
           else
             SLUG="${{ github.event.inputs.strategy }}"
             git commit -m "🏃 ${SLUG}: scanner results $(date +'%Y-%m-%d %H:%M IST')"
+            git pull --rebase origin main
             git push
             echo "Results committed and pushed."
           fi

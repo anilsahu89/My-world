@@ -107,4 +107,5 @@ jobs:
           git config user.email "actions@github.com"
           git add data/live_stocks.json
           git diff --cached --quiet || git commit -m "chore: refresh live_stocks.json snapshot [skip ci]"
+          git pull --rebase origin main
           git push
