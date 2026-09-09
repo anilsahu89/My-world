@@ -1,8 +1,8 @@
 {
- "updated_at": "09 Sep 2026 14:24:44 IST",
+ "updated_at": "09 Sep 2026 19:09:34 IST",
  "feed": "yahoo",
  "feed_note": "Cloud runner: Yahoo data may be delayed; entries use a 10:15 IST cutoff.",
- "status": "RUNNING",
+ "status": "DONE",
  "today": "2026-09-09",
  "strategy": {
   "rule": "fresh O=L -> BUY / fresh O=H -> SELL, ₹10,000/stock",
@@ -11,18 +11,19 @@
   "entry_cutoff": "10:15"
  },
  "summary": {
-  "open_count": 3,
-  "closed_count": 67,
+  "open_count": 0,
+  "closed_count": 70,
   "trades_today": 7,
-  "today_pnl": -362.2,
-  "realized_total": -1930.7,
-  "unrealized": -42.9,
-  "wins": 28,
-  "losses": 39,
-  "win_rate": 41.8,
+  "today_pnl": -355.87,
+  "realized_total": -1924.37,
+  "unrealized": 0,
+  "wins": 29,
+  "losses": 41,
+  "win_rate": 41.4,
   "days": 7
  },
- "open": [
+ "open": [],
+ "closed": [
   {
    "id": 64,
    "date": "2026-09-09",
@@ -33,13 +34,11 @@
    "entry_time": "10:11:16",
    "entry_price": 3996.5,
    "sl_price": 3935.3,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -70.8,
-   "feed": "yahoo",
-   "ltp": 3961.1,
-   "pnl_pct": -0.89
+   "exit_time": "19:09:23",
+   "exit_price": 3935.3,
+   "reason": "SL",
+   "pnl": -122.4,
+   "feed": "yahoo"
   },
   {
    "id": 65,
@@ -51,13 +50,11 @@
    "entry_time": "10:11:16",
    "entry_price": 77.32,
    "sl_price": 75.9,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -148.35,
-   "feed": "yahoo",
-   "ltp": 76.17,
-   "pnl_pct": -1.49
+   "exit_time": "19:09:23",
+   "exit_price": 76.69,
+   "reason": "EOD",
+   "pnl": -81.27,
+   "feed": "yahoo"
   },
   {
    "id": 66,
@@ -69,16 +66,12 @@
    "entry_time": "10:11:16",
    "entry_price": 398.6,
    "sl_price": 396.2,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 176.25,
-   "feed": "yahoo",
-   "ltp": 405.65,
-   "pnl_pct": 1.77
-  }
- ],
- "closed": [
+   "exit_time": "19:09:23",
+   "exit_price": 407.0,
+   "reason": "EOD",
+   "pnl": 210.0,
+   "feed": "yahoo"
+  },
   {
    "id": 67,
    "date": "2026-09-09",
@@ -1344,10 +1337,10 @@
    "trades": 7,
    "ol": 3,
    "oh": 4,
-   "wins": 0,
-   "losses": 4,
-   "pnl": -362.2,
-   "cum": -1930.7
+   "wins": 1,
+   "losses": 6,
+   "pnl": -355.87,
+   "cum": -1924.37
   }
  ]
 }
