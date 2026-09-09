@@ -1,5 +1,5 @@
 {
- "updated_at": "09 Sep 2026 10:11:24 IST",
+ "updated_at": "09 Sep 2026 14:24:44 IST",
  "feed": "yahoo",
  "feed_note": "Cloud runner: Yahoo data may be delayed; entries use a 10:15 IST cutoff.",
  "status": "RUNNING",
@@ -11,15 +11,15 @@
   "entry_cutoff": "10:15"
  },
  "summary": {
-  "open_count": 7,
-  "closed_count": 63,
+  "open_count": 3,
+  "closed_count": 67,
   "trades_today": 7,
-  "today_pnl": 0,
-  "realized_total": -1568.5,
-  "unrealized": 0,
+  "today_pnl": -362.2,
+  "realized_total": -1930.7,
+  "unrealized": -42.9,
   "wins": 28,
-  "losses": 35,
-  "win_rate": 44.4,
+  "losses": 39,
+  "win_rate": 41.8,
   "days": 7
  },
  "open": [
@@ -36,10 +36,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -70.8,
    "feed": "yahoo",
-   "ltp": 3996.5,
-   "pnl_pct": 0.0
+   "ltp": 3961.1,
+   "pnl_pct": -0.89
   },
   {
    "id": 65,
@@ -54,10 +54,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": -148.35,
    "feed": "yahoo",
-   "ltp": 77.32,
-   "pnl_pct": -0.0
+   "ltp": 76.17,
+   "pnl_pct": -1.49
   },
   {
    "id": 66,
@@ -72,11 +72,13 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": 176.25,
    "feed": "yahoo",
-   "ltp": 398.6,
-   "pnl_pct": 0.0
-  },
+   "ltp": 405.65,
+   "pnl_pct": 1.77
+  }
+ ],
+ "closed": [
   {
    "id": 67,
    "date": "2026-09-09",
@@ -87,13 +89,11 @@
    "entry_time": "10:11:16",
    "entry_price": 1389.7,
    "sl_price": 1395.9,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 0.0,
-   "feed": "yahoo",
-   "ltp": 1389.7,
-   "pnl_pct": 0.0
+   "exit_time": "14:24:36",
+   "exit_price": 1395.9,
+   "reason": "SL",
+   "pnl": -43.4,
+   "feed": "yahoo"
   },
   {
    "id": 68,
@@ -105,13 +105,11 @@
    "entry_time": "10:11:16",
    "entry_price": 5434.5,
    "sl_price": 5490.0,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -0.0,
-   "feed": "yahoo",
-   "ltp": 5434.5,
-   "pnl_pct": -0.0
+   "exit_time": "14:24:36",
+   "exit_price": 5490.0,
+   "reason": "SL",
+   "pnl": -55.5,
+   "feed": "yahoo"
   },
   {
    "id": 69,
@@ -123,13 +121,11 @@
    "entry_time": "10:11:16",
    "entry_price": 1043.7,
    "sl_price": 1059.0,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 0.0,
-   "feed": "yahoo",
-   "ltp": 1043.7,
-   "pnl_pct": 0.0
+   "exit_time": "14:24:36",
+   "exit_price": 1059.0,
+   "reason": "SL",
+   "pnl": -137.7,
+   "feed": "yahoo"
   },
   {
    "id": 70,
@@ -141,16 +137,12 @@
    "entry_time": "10:11:16",
    "entry_price": 2205.6,
    "sl_price": 2237.0,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -0.0,
-   "feed": "yahoo",
-   "ltp": 2205.6,
-   "pnl_pct": -0.0
-  }
- ],
- "closed": [
+   "exit_time": "14:24:36",
+   "exit_price": 2237.0,
+   "reason": "SL",
+   "pnl": -125.6,
+   "feed": "yahoo"
+  },
   {
    "id": 1,
    "date": "2026-09-07",
@@ -1353,9 +1345,9 @@
    "ol": 3,
    "oh": 4,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -1568.5
+   "losses": 4,
+   "pnl": -362.2,
+   "cum": -1930.7
   }
  ]
 }
