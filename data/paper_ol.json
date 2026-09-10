@@ -1,143 +1,85 @@
 {
- "updated_at": "10 Sep 2026 14:23:47 IST",
+ "updated_at": "10 Sep 2026 14:29:11 IST",
  "feed": "yahoo",
- "feed_note": "Cloud runner: Yahoo data may be delayed; entries use a 10:15 IST cutoff.",
+ "feed_note": "~15 min delayed (no Kite login this morning)",
  "status": "RUNNING",
  "today": "2026-09-10",
  "strategy": {
-  "rule": "fresh O=L -> BUY / fresh O=H -> SELL, ₹10,000/stock",
-  "sl": "O=L low / O=H high",
-  "square_off": "15:30",
-  "entry_cutoff": "10:15"
+  "rule": "fresh O=L -> BUY / fresh O=H -> SELL, \u20b910,000/stock",
+  "sl": "O=L long: day low | O=H short: day high",
+  "square_off": "15:00",
+  "entry_cutoff": "09:45"
  },
  "summary": {
   "open_count": 0,
-  "closed_count": 70,
-  "trades_today": 0,
-  "today_pnl": 0,
-  "realized_total": -1924.37,
+  "closed_count": 66,
+  "trades_today": 3,
+  "today_pnl": -502.8,
+  "realized_total": -2071.3,
   "unrealized": 0,
-  "wins": 29,
-  "losses": 41,
-  "win_rate": 41.4,
-  "days": 7
+  "wins": 28,
+  "losses": 38,
+  "win_rate": 42.4,
+  "days": 9
  },
  "open": [],
  "closed": [
   {
-   "id": 64,
-   "date": "2026-09-09",
-   "setup": "ol",
-   "symbol": "LT",
+   "id": 78,
+   "date": "2026-09-10",
+   "setup": "f3",
+   "symbol": "CHOLAFIN",
    "side": "BUY",
-   "qty": 2,
-   "entry_time": "10:11:16",
-   "entry_price": 3996.5,
-   "sl_price": 3935.3,
-   "exit_time": "19:09:23",
-   "exit_price": 3935.3,
+   "qty": 5,
+   "entry_time": "12:20:44",
+   "entry_price": 1854.0,
+   "sl_price": 1804.4,
+   "exit_time": "12:26:16",
+   "exit_price": 1804.4,
    "reason": "SL",
-   "pnl": -122.4,
-   "feed": "yahoo"
+   "pnl": -248.0,
+   "pnl_pct": -2.68,
+   "ltp": 1864.7,
+   "feed": "f3scan"
   },
   {
-   "id": 65,
-   "date": "2026-09-09",
-   "setup": "ol",
-   "symbol": "NHPC",
+   "id": 79,
+   "date": "2026-09-10",
+   "setup": "f3",
+   "symbol": "POWERGRID",
    "side": "BUY",
-   "qty": 129,
-   "entry_time": "10:11:16",
-   "entry_price": 77.32,
-   "sl_price": 75.9,
-   "exit_time": "19:09:23",
-   "exit_price": 76.69,
-   "reason": "EOD",
-   "pnl": -81.27,
-   "feed": "yahoo"
+   "qty": 36,
+   "entry_time": "12:20:44",
+   "entry_price": 270.6,
+   "sl_price": 265.3,
+   "exit_time": "12:26:16",
+   "exit_price": 265.3,
+   "reason": "SL",
+   "pnl": -190.8,
+   "pnl_pct": -1.96,
+   "ltp": 271.35,
+   "feed": "f3scan"
   },
   {
-   "id": 66,
-   "date": "2026-09-09",
-   "setup": "ol",
-   "symbol": "VBL",
+   "id": 80,
+   "date": "2026-09-10",
+   "setup": "f3",
+   "symbol": "BHARTIARTL",
    "side": "BUY",
-   "qty": 25,
-   "entry_time": "10:11:16",
-   "entry_price": 398.6,
-   "sl_price": 396.2,
-   "exit_time": "19:09:23",
-   "exit_price": 407.0,
-   "reason": "EOD",
-   "pnl": 210.0,
-   "feed": "yahoo"
+   "qty": 5,
+   "entry_time": "12:20:44",
+   "entry_price": 1827.0,
+   "sl_price": 1814.2,
+   "exit_time": "12:26:16",
+   "exit_price": 1814.2,
+   "reason": "SL",
+   "pnl": -64.0,
+   "pnl_pct": -0.7,
+   "ltp": 1838.2,
+   "feed": "f3scan"
   },
   {
    "id": 67,
-   "date": "2026-09-09",
-   "setup": "oh",
-   "symbol": "ICICIBANK",
-   "side": "SELL",
-   "qty": 7,
-   "entry_time": "10:11:16",
-   "entry_price": 1389.7,
-   "sl_price": 1395.9,
-   "exit_time": "14:24:36",
-   "exit_price": 1395.9,
-   "reason": "SL",
-   "pnl": -43.4,
-   "feed": "yahoo"
-  },
-  {
-   "id": 68,
-   "date": "2026-09-09",
-   "setup": "oh",
-   "symbol": "PERSISTENT",
-   "side": "SELL",
-   "qty": 1,
-   "entry_time": "10:11:16",
-   "entry_price": 5434.5,
-   "sl_price": 5490.0,
-   "exit_time": "14:24:36",
-   "exit_price": 5490.0,
-   "reason": "SL",
-   "pnl": -55.5,
-   "feed": "yahoo"
-  },
-  {
-   "id": 69,
-   "date": "2026-09-09",
-   "setup": "oh",
-   "symbol": "INFY",
-   "side": "SELL",
-   "qty": 9,
-   "entry_time": "10:11:16",
-   "entry_price": 1043.7,
-   "sl_price": 1059.0,
-   "exit_time": "14:24:36",
-   "exit_price": 1059.0,
-   "reason": "SL",
-   "pnl": -137.7,
-   "feed": "yahoo"
-  },
-  {
-   "id": 70,
-   "date": "2026-09-09",
-   "setup": "oh",
-   "symbol": "TCS",
-   "side": "SELL",
-   "qty": 4,
-   "entry_time": "10:11:16",
-   "entry_price": 2205.6,
-   "sl_price": 2237.0,
-   "exit_time": "14:24:36",
-   "exit_price": 2237.0,
-   "reason": "SL",
-   "pnl": -125.6,
-   "feed": "yahoo"
-  },
-  {
-   "id": 1,
    "date": "2026-09-07",
    "setup": "f3",
    "symbol": "ZYDUSLIFE",
@@ -151,11 +93,11 @@
    "reason": "SL",
    "pnl": -292.8,
    "pnl_pct": -3.16,
-   "ltp": 1153.1,
+   "ltp": 1116.5,
    "feed": "f3scan"
   },
   {
-   "id": 2,
+   "id": 68,
    "date": "2026-09-07",
    "setup": "f3",
    "symbol": "TATACONSUM",
@@ -169,11 +111,11 @@
    "reason": "SL",
    "pnl": -100.8,
    "pnl_pct": -1.1,
-   "ltp": 1018.3,
+   "ltp": 1000.7,
    "feed": "f3scan"
   },
   {
-   "id": 3,
+   "id": 69,
    "date": "2026-09-07",
    "setup": "f3",
    "symbol": "MUTHOOTFIN",
@@ -187,11 +129,11 @@
    "reason": "SL",
    "pnl": -136.5,
    "pnl_pct": -1.56,
-   "ltp": 2892.5,
+   "ltp": 2841.2,
    "feed": "f3scan"
   },
   {
-   "id": 4,
+   "id": 55,
    "date": "2026-09-07",
    "setup": "ol",
    "symbol": "ENRIN",
@@ -205,11 +147,11 @@
    "reason": "EOD",
    "pnl": -108.0,
    "pnl_pct": -1.14,
-   "ltp": 3122.7,
+   "ltp": 3176.0,
    "feed": "yahoo"
   },
   {
-   "id": 5,
+   "id": 56,
    "date": "2026-09-07",
    "setup": "ol",
    "symbol": "MCX",
@@ -223,11 +165,11 @@
    "reason": "EOD",
    "pnl": 10.8,
    "pnl_pct": 0.11,
-   "ltp": 3330.0,
+   "ltp": 3315.0,
    "feed": "yahoo"
   },
   {
-   "id": 6,
+   "id": 57,
    "date": "2026-09-07",
    "setup": "ol",
    "symbol": "WAAREEENER",
@@ -241,11 +183,11 @@
    "reason": "SL",
    "pnl": -36.9,
    "pnl_pct": -0.47,
-   "ltp": 2594.6,
+   "ltp": 2535.5,
    "feed": "yahoo"
   },
   {
-   "id": 7,
+   "id": 61,
    "date": "2026-09-07",
    "setup": "oh",
    "symbol": "BRITANNIA",
@@ -259,11 +201,11 @@
    "reason": "EOD",
    "pnl": 12.5,
    "pnl_pct": 0.25,
-   "ltp": 5020.0,
+   "ltp": 5012.0,
    "feed": "yahoo"
   },
   {
-   "id": 8,
+   "id": 62,
    "date": "2026-09-07",
    "setup": "oh",
    "symbol": "KPITTECH",
@@ -277,11 +219,11 @@
    "reason": "EOD",
    "pnl": 124.95,
    "pnl_pct": 1.29,
-   "ltp": 561.5,
+   "ltp": 551.4,
    "feed": "yahoo"
   },
   {
-   "id": 9,
+   "id": 64,
    "date": "2026-09-07",
    "setup": "oh",
    "symbol": "HAVELLS",
@@ -295,11 +237,11 @@
    "reason": "EOD",
    "pnl": 24.8,
    "pnl_pct": 0.27,
-   "ltp": 1147.8,
+   "ltp": 1109.2,
    "feed": "yahoo"
   },
   {
-   "id": 10,
+   "id": 48,
    "date": "2026-09-04",
    "setup": "f3",
    "symbol": "PFC",
@@ -313,11 +255,11 @@
    "reason": "SL",
    "pnl": -289.8,
    "pnl_pct": -2.92,
-   "ltp": 353.5,
+   "ltp": 351.4,
    "feed": "f3scan"
   },
   {
-   "id": 11,
+   "id": 49,
    "date": "2026-09-04",
    "setup": "f3",
    "symbol": "LICHSGFIN",
@@ -331,11 +273,11 @@
    "reason": "SL",
    "pnl": -329.8,
    "pnl_pct": -3.38,
-   "ltp": 551.9,
+   "ltp": 551.0,
    "feed": "f3scan"
   },
   {
-   "id": 12,
+   "id": 50,
    "date": "2026-09-04",
    "setup": "f3",
    "symbol": "HYUNDAI",
@@ -349,11 +291,11 @@
    "reason": "SL",
    "pnl": -213.2,
    "pnl_pct": -2.42,
-   "ltp": 2210.1,
+   "ltp": 2204.6,
    "feed": "f3scan"
   },
   {
-   "id": 13,
+   "id": 51,
    "date": "2026-09-04",
    "setup": "f3",
    "symbol": "SBILIFE",
@@ -367,11 +309,11 @@
    "reason": "SL",
    "pnl": -254.5,
    "pnl_pct": -2.89,
-   "ltp": 1731.9,
+   "ltp": 1694.2,
    "feed": "f3scan"
   },
   {
-   "id": 14,
+   "id": 52,
    "date": "2026-09-04",
    "setup": "f3",
    "symbol": "HDFCBANK",
@@ -385,11 +327,11 @@
    "reason": "SL",
    "pnl": -79.3,
    "pnl_pct": -0.85,
-   "ltp": 711.35,
+   "ltp": 692.75,
    "feed": "f3scan"
   },
   {
-   "id": 15,
+   "id": 53,
    "date": "2026-09-04",
    "setup": "f3",
    "symbol": "GMRAIRPORT",
@@ -403,11 +345,11 @@
    "reason": "EOD",
    "pnl": 33.66,
    "pnl_pct": 0.34,
-   "ltp": 96.03,
+   "ltp": 97.32,
    "feed": "f3scan"
   },
   {
-   "id": 16,
+   "id": 54,
    "date": "2026-09-04",
    "setup": "f3",
    "symbol": "PNB",
@@ -421,11 +363,11 @@
    "reason": "SL",
    "pnl": -87.55,
    "pnl_pct": -0.88,
-   "ltp": 116.17,
+   "ltp": 116.5,
    "feed": "f3scan"
   },
   {
-   "id": 17,
+   "id": 46,
    "date": "2026-09-04",
    "setup": "ol",
    "symbol": "SWIGGY",
@@ -439,11 +381,11 @@
    "reason": "EOD",
    "pnl": -42.0,
    "pnl_pct": -0.43,
-   "ltp": 277.8,
+   "ltp": 280.9,
    "feed": "yahoo"
   },
   {
-   "id": 18,
+   "id": 47,
    "date": "2026-09-04",
    "setup": "ol",
    "symbol": "LICHSGFIN",
@@ -457,11 +399,11 @@
    "reason": "EOD",
    "pnl": -141.1,
    "pnl_pct": -1.45,
-   "ltp": 551.9,
+   "ltp": 551.0,
    "feed": "yahoo"
   },
   {
-   "id": 19,
+   "id": 45,
    "date": "2026-09-04",
    "setup": "ol",
    "symbol": "RVNL",
@@ -475,11 +417,11 @@
    "reason": "SL",
    "pnl": -84.64,
    "pnl_pct": -0.86,
-   "ltp": 211.67,
+   "ltp": 205.9,
    "feed": "yahoo"
   },
   {
-   "id": 20,
+   "id": 39,
    "date": "2026-09-03",
    "setup": "ol",
    "symbol": "OBEROIRLTY",
@@ -493,11 +435,11 @@
    "reason": "EOD",
    "pnl": -22.5,
    "pnl_pct": -0.24,
-   "ltp": 1856.5,
+   "ltp": 1778.5,
    "feed": "yahoo"
   },
   {
-   "id": 21,
+   "id": 40,
    "date": "2026-09-03",
    "setup": "ol",
    "symbol": "NHPC",
@@ -511,11 +453,11 @@
    "reason": "SL",
    "pnl": -71.5,
    "pnl_pct": -0.72,
-   "ltp": 75.74,
+   "ltp": 76.11,
    "feed": "yahoo"
   },
   {
-   "id": 22,
+   "id": 41,
    "date": "2026-09-03",
    "setup": "ol",
    "symbol": "IDFCFIRSTB",
@@ -529,11 +471,11 @@
    "reason": "EOD",
    "pnl": 142.6,
    "pnl_pct": 1.43,
-   "ltp": 86.65,
+   "ltp": 86.6,
    "feed": "yahoo"
   },
   {
-   "id": 23,
+   "id": 42,
    "date": "2026-09-03",
    "setup": "ol",
    "symbol": "INDIANB",
@@ -547,11 +489,11 @@
    "reason": "EOD",
    "pnl": -94.6,
    "pnl_pct": -0.96,
-   "ltp": 868.2,
+   "ltp": 853.65,
    "feed": "yahoo"
   },
   {
-   "id": 24,
+   "id": 43,
    "date": "2026-09-03",
    "setup": "ol",
    "symbol": "SBICARD",
@@ -565,11 +507,11 @@
    "reason": "EOD",
    "pnl": 28.5,
    "pnl_pct": 0.29,
-   "ltp": 668.0,
+   "ltp": 666.4,
    "feed": "yahoo"
   },
   {
-   "id": 25,
+   "id": 44,
    "date": "2026-09-03",
    "setup": "oh",
    "symbol": "GODREJCP",
@@ -583,11 +525,11 @@
    "reason": "EOD",
    "pnl": -14.85,
    "pnl_pct": -0.15,
-   "ltp": 858.8,
+   "ltp": 870.8,
    "feed": "yahoo"
   },
   {
-   "id": 26,
+   "id": 34,
    "date": "2026-09-02",
    "setup": "oh",
    "symbol": "BHARATFORG",
@@ -601,11 +543,11 @@
    "reason": "EOD",
    "pnl": 13.0,
    "pnl_pct": 0.32,
-   "ltp": 1945.7,
+   "ltp": 1957.8,
    "feed": "yahoo"
   },
   {
-   "id": 27,
+   "id": 35,
    "date": "2026-09-02",
    "setup": "oh",
    "symbol": "IRCTC",
@@ -619,11 +561,11 @@
    "reason": "EOD",
    "pnl": 14.5,
    "pnl_pct": 0.31,
-   "ltp": 474.95,
+   "ltp": 467.1,
    "feed": "yahoo"
   },
   {
-   "id": 28,
+   "id": 36,
    "date": "2026-09-02",
    "setup": "oh",
    "symbol": "SWIGGY",
@@ -637,11 +579,11 @@
    "reason": "EOD",
    "pnl": -57.6,
    "pnl_pct": -1.21,
-   "ltp": 277.8,
+   "ltp": 280.9,
    "feed": "yahoo"
   },
   {
-   "id": 29,
+   "id": 37,
    "date": "2026-09-02",
    "setup": "oh",
    "symbol": "IRFC",
@@ -655,11 +597,11 @@
    "reason": "EOD",
    "pnl": 3.6,
    "pnl_pct": 0.07,
-   "ltp": 83.08,
+   "ltp": 81.11,
    "feed": "yahoo"
   },
   {
-   "id": 30,
+   "id": 38,
    "date": "2026-09-02",
    "setup": "oh",
    "symbol": "IREDA",
@@ -673,11 +615,11 @@
    "reason": "EOD",
    "pnl": 34.32,
    "pnl_pct": 0.69,
-   "ltp": 112.73,
+   "ltp": 113.6,
    "feed": "yahoo"
   },
   {
-   "id": 31,
+   "id": 32,
    "date": "2026-09-02",
    "setup": "ol",
    "symbol": "BPCL",
@@ -691,11 +633,11 @@
    "reason": "EOD",
    "pnl": 15.75,
    "pnl_pct": 0.33,
-   "ltp": 312.15,
+   "ltp": 303.15,
    "feed": "yahoo"
   },
   {
-   "id": 32,
+   "id": 33,
    "date": "2026-09-02",
    "setup": "ol",
    "symbol": "SUNPHARMA",
@@ -709,11 +651,11 @@
    "reason": "EOD",
    "pnl": -17.6,
    "pnl_pct": -0.46,
-   "ltp": 1889.1,
+   "ltp": 1846.3,
    "feed": "yahoo"
   },
   {
-   "id": 33,
+   "id": 30,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "SUNPHARMA",
@@ -727,11 +669,11 @@
    "reason": "EOD",
    "pnl": 22.8,
    "pnl_pct": 0.59,
-   "ltp": 1889.1,
+   "ltp": 1846.3,
    "feed": "yahoo"
   },
   {
-   "id": 34,
+   "id": 31,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "TMPV",
@@ -745,11 +687,11 @@
    "reason": "EOD",
    "pnl": 55.5,
    "pnl_pct": 1.18,
-   "ltp": 307.95,
+   "ltp": 301.05,
    "feed": "yahoo"
   },
   {
-   "id": 35,
+   "id": 29,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "SHRIRAMFIN",
@@ -763,11 +705,11 @@
    "reason": "EOD",
    "pnl": 38.0,
    "pnl_pct": 0.89,
-   "ltp": 1036.9,
+   "ltp": 1032.4,
    "feed": "yahoo"
   },
   {
-   "id": 36,
+   "id": 24,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "MAXHEALTH",
@@ -781,11 +723,11 @@
    "reason": "EOD",
    "pnl": 2.8,
    "pnl_pct": 0.07,
-   "ltp": 992.5,
+   "ltp": 1036.5,
    "feed": "yahoo"
   },
   {
-   "id": 37,
+   "id": 25,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "NESTLEIND",
@@ -799,11 +741,11 @@
    "reason": "EOD",
    "pnl": 45.6,
    "pnl_pct": 1.05,
-   "ltp": 1399.3,
+   "ltp": 1382.9,
    "feed": "yahoo"
   },
   {
-   "id": 38,
+   "id": 26,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "PRESTIGE",
@@ -817,11 +759,11 @@
    "reason": "EOD",
    "pnl": -27.3,
    "pnl_pct": -0.58,
-   "ltp": 1560.9,
+   "ltp": 1537.5,
    "feed": "yahoo"
   },
   {
-   "id": 39,
+   "id": 27,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "RECLTD",
@@ -835,11 +777,11 @@
    "reason": "EOD",
    "pnl": -7.5,
    "pnl_pct": -0.16,
-   "ltp": 318.4,
+   "ltp": 313.25,
    "feed": "yahoo"
   },
   {
-   "id": 40,
+   "id": 28,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "MOTHERSON",
@@ -853,11 +795,11 @@
    "reason": "EOD",
    "pnl": 53.36,
    "pnl_pct": 1.1,
-   "ltp": 163.0,
+   "ltp": 163.36,
    "feed": "yahoo"
   },
   {
-   "id": 41,
+   "id": 22,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "INDUSINDBK",
@@ -871,11 +813,11 @@
    "reason": "EOD",
    "pnl": 22.0,
    "pnl_pct": 0.44,
-   "ltp": 996.3,
+   "ltp": 989.3,
    "feed": "yahoo"
   },
   {
-   "id": 42,
+   "id": 23,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "JINDALSTEL",
@@ -889,11 +831,11 @@
    "reason": "EOD",
    "pnl": 43.6,
    "pnl_pct": 0.93,
-   "ltp": 1144.8,
+   "ltp": 1137.4,
    "feed": "yahoo"
   },
   {
-   "id": 43,
+   "id": 20,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "IDFCFIRSTB",
@@ -907,11 +849,11 @@
    "reason": "EOD",
    "pnl": -14.75,
    "pnl_pct": -0.3,
-   "ltp": 86.65,
+   "ltp": 86.6,
    "feed": "yahoo"
   },
   {
-   "id": 44,
+   "id": 21,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "INDHOTEL",
@@ -925,11 +867,11 @@
    "reason": "EOD",
    "pnl": -14.4,
    "pnl_pct": -0.34,
-   "ltp": 716.7,
+   "ltp": 717.75,
    "feed": "yahoo"
   },
   {
-   "id": 45,
+   "id": 18,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "GVT&D",
@@ -943,11 +885,11 @@
    "reason": "EOD",
    "pnl": -17.4,
    "pnl_pct": -0.4,
-   "ltp": 4360.5,
+   "ltp": 4557.0,
    "feed": "yahoo"
   },
   {
-   "id": 46,
+   "id": 19,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "HAVELLS",
@@ -961,11 +903,11 @@
    "reason": "EOD",
    "pnl": -28.4,
    "pnl_pct": -0.58,
-   "ltp": 1147.8,
+   "ltp": 1109.2,
    "feed": "yahoo"
   },
   {
-   "id": 47,
+   "id": 16,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "NYKAA",
@@ -979,11 +921,11 @@
    "reason": "EOD",
    "pnl": -5.6,
    "pnl_pct": -0.12,
-   "ltp": 334.7,
+   "ltp": 344.0,
    "feed": "yahoo"
   },
   {
-   "id": 48,
+   "id": 17,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "FORTIS",
@@ -997,11 +939,11 @@
    "reason": "SL",
    "pnl": -74.25,
    "pnl_pct": -1.66,
-   "ltp": 908.25,
+   "ltp": 908.65,
    "feed": "yahoo"
   },
   {
-   "id": 49,
+   "id": 14,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "AXISBANK",
@@ -1015,11 +957,11 @@
    "reason": "SL",
    "pnl": -28.8,
    "pnl_pct": -0.76,
-   "ltp": 1263.6,
+   "ltp": 1246.0,
    "feed": "yahoo"
   },
   {
-   "id": 50,
+   "id": 15,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "BHEL",
@@ -1033,11 +975,11 @@
    "reason": "EOD",
    "pnl": 67.65,
    "pnl_pct": 1.42,
-   "ltp": 420.7,
+   "ltp": 430.35,
    "feed": "yahoo"
   },
   {
-   "id": 51,
+   "id": 12,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "ASIANPAINT",
@@ -1051,11 +993,11 @@
    "reason": "EOD",
    "pnl": 16.4,
    "pnl_pct": 0.63,
-   "ltp": 2495.4,
+   "ltp": 2489.0,
    "feed": "yahoo"
   },
   {
-   "id": 52,
+   "id": 13,
    "date": "2026-09-01",
    "setup": "oh",
    "symbol": "AUROPHARMA",
@@ -1069,11 +1011,11 @@
    "reason": "EOD",
    "pnl": 7.0,
    "pnl_pct": 0.21,
-   "ltp": 1658.1,
+   "ltp": 1670.5,
    "feed": "yahoo"
   },
   {
-   "id": 53,
+   "id": 10,
    "date": "2026-09-01",
    "setup": "ol",
    "symbol": "MARICO",
@@ -1087,11 +1029,11 @@
    "reason": "EOD",
    "pnl": 41.7,
    "pnl_pct": 0.84,
-   "ltp": 804.25,
+   "ltp": 802.0,
    "feed": "yahoo"
   },
   {
-   "id": 54,
+   "id": 11,
    "date": "2026-09-01",
    "setup": "ol",
    "symbol": "PFC",
@@ -1105,11 +1047,11 @@
    "reason": "SL",
    "pnl": -9.8,
    "pnl_pct": -0.2,
-   "ltp": 353.5,
+   "ltp": 351.4,
    "feed": "yahoo"
   },
   {
-   "id": 55,
+   "id": 9,
    "date": "2026-09-01",
    "setup": "ol",
    "symbol": "ITC",
@@ -1123,11 +1065,11 @@
    "reason": "EOD",
    "pnl": 61.2,
    "pnl_pct": 1.29,
-   "ltp": 263.95,
+   "ltp": 260.2,
    "feed": "yahoo"
   },
   {
-   "id": 56,
+   "id": 7,
    "date": "2026-09-01",
    "setup": "ol",
    "symbol": "ADANIPORTS",
@@ -1141,11 +1083,11 @@
    "reason": "EOD",
    "pnl": -2.1,
    "pnl_pct": -0.04,
-   "ltp": 1695.8,
+   "ltp": 1767.4,
    "feed": "yahoo"
   },
   {
-   "id": 57,
+   "id": 8,
    "date": "2026-09-01",
    "setup": "ol",
    "symbol": "ATGL",
@@ -1159,11 +1101,11 @@
    "reason": "SL",
    "pnl": -18.8,
    "pnl_pct": -0.38,
-   "ltp": 604.7,
+   "ltp": 604.05,
    "feed": "yahoo"
   },
   {
-   "id": 58,
+   "id": 6,
    "date": "2026-08-31",
    "setup": "oh",
    "symbol": "WAAREEENER",
@@ -1177,11 +1119,11 @@
    "reason": "EOD",
    "pnl": 5.3,
    "pnl_pct": 0.2,
-   "ltp": 2594.6,
+   "ltp": 2535.5,
    "feed": "yahoo"
   },
   {
-   "id": 59,
+   "id": 5,
    "date": "2026-08-31",
    "setup": "oh",
    "symbol": "GLENMARK",
@@ -1195,11 +1137,11 @@
    "reason": "EOD",
    "pnl": -38.0,
    "pnl_pct": -0.77,
-   "ltp": 2457.5,
+   "ltp": 2418.9,
    "feed": "yahoo"
   },
   {
-   "id": 60,
+   "id": 4,
    "date": "2026-08-31",
    "setup": "oh",
    "symbol": "ADANIENT",
@@ -1213,11 +1155,11 @@
    "reason": "EOD",
    "pnl": 144.6,
    "pnl_pct": 4.68,
-   "ltp": 2939.1,
+   "ltp": 3073.5,
    "feed": "yahoo"
   },
   {
-   "id": 61,
+   "id": 3,
    "date": "2026-08-31",
    "setup": "oh",
    "symbol": "360ONE",
@@ -1231,11 +1173,11 @@
    "reason": "EOD",
    "pnl": -33.6,
    "pnl_pct": -0.72,
-   "ltp": 1132.7,
+   "ltp": 1100.6,
    "feed": "yahoo"
   },
   {
-   "id": 62,
+   "id": 2,
    "date": "2026-08-31",
    "setup": "ol",
    "symbol": "SBICARD",
@@ -1249,11 +1191,11 @@
    "reason": "EOD",
    "pnl": 146.65,
    "pnl_pct": 3.25,
-   "ltp": 668.0,
+   "ltp": 666.4,
    "feed": "yahoo"
   },
   {
-   "id": 63,
+   "id": 1,
    "date": "2026-08-31",
    "setup": "ol",
    "symbol": "HDFCBANK",
@@ -1267,7 +1209,7 @@
    "reason": "SL",
    "pnl": -5.4,
    "pnl_pct": -0.12,
-   "ltp": 711.35,
+   "ltp": 692.75,
    "feed": "yahoo"
   }
  ],
@@ -1333,14 +1275,34 @@
    "cum": -1568.5
   },
   {
+   "date": "2026-09-08",
+   "trades": 5,
+   "ol": 0,
+   "oh": 0,
+   "wins": 0,
+   "losses": 0,
+   "pnl": 0,
+   "cum": -1568.5
+  },
+  {
    "date": "2026-09-09",
-   "trades": 7,
-   "ol": 3,
-   "oh": 4,
-   "wins": 1,
-   "losses": 6,
-   "pnl": -355.87,
-   "cum": -1924.37
+   "trades": 3,
+   "ol": 0,
+   "oh": 0,
+   "wins": 0,
+   "losses": 0,
+   "pnl": 0,
+   "cum": -1568.5
+  },
+  {
+   "date": "2026-09-10",
+   "trades": 3,
+   "ol": 0,
+   "oh": 0,
+   "wins": 0,
+   "losses": 3,
+   "pnl": -502.8,
+   "cum": -2071.3
   }
  ]
 }
