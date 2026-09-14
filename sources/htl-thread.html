@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTL Thread — HT Legend&#x27;s system vs the vault</title>
+  <script>(function(){var h=location.hostname,seg=location.pathname.replace(/^\/+/,"").split("/")[0],prefix=(h.endsWith(".github.io")&&seg&&!/\.html?$/i.test(seg))?"/"+seg+"/":"/",d=document.createElement("base");d.href=prefix;document.head.prepend(d)})()</script>
+  <link rel="stylesheet" href="static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/stocks">Live Stocks</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>HTL Thread — HT Legend&#x27;s system vs the vault</h1>
+<article class="md">
+<p>Running comparison ledger for everything the HT Legend source claims, checked against what this vault has already verified, backtested, or been taught by other sources. <strong>Append-only: new rows get added as we test or as new HTL material lands.</strong> Standing rule per CLAUDE.md: an HTL number is a <em>claim</em> until our data says otherwise.</p>
+<h2>Verdicts at a glance</h2>
+<table>
+<tr><td>#</td><td>HTL claim</td><td>Vault evidence</td><td>Verdict</td></tr>
+</table>
+<p>|---|-----------|----------------|---------|</p>
+<table>
+<tr><td>1</td><td>Rotate option-writing Nifty ↔ gold by fund flow</td><td><a href="/concepts/regime-mapping.html">regime mapping</a> has no gold leg yet; <strong><a href="/concepts/srt-investing.html">srt investing</a> converges</strong> (weekly &gt; 1.24 → exit equities → gold); our Sep-2026 tape matches the direction</td><td><strong>Aligned in direction — mechanics untested</strong> (htl rotation, backtest #0)</td></tr>
+<tr><td>2</td><td>Hedged option writing ≈10–12%/month, 64 straight months</td><td>Our Aug-2026 wheel backtest: overnight short premium <strong>structurally fragile</strong>; Keshav's −34% gap-day rule ("never positional short options"); nothing we've tested compounds 3×/yr</td><td><strong>Contradicted by our evidence as stated</strong> — not impossible, but burden unmet</td></tr>
+<tr><td>3</td><td>Few executions / longer holds → charges 0.1–0.5% of profits</td><td>Cost math of our premium engines agrees; [[sources/source-keshav-algo-face2face-2026</td><td>Keshav]] shows the opposite (high-freq) also works with hard gates</td><td><strong>Aligned as a design principle</strong> (engine choice, not law)</td></tr>
+<tr><td>4</td><td>Equity: book 50% at +100%, hold rest forever</td><td>Per-stock rule vs <a href="/concepts/srt-investing.html">srt investing</a>'s market-level exit (SRT &gt; 1.24 → exit <em>the book</em>). "Forever" ignores SRT extremes</td><td><strong>Tension</strong> — hybrid: runner half governed by SRT</td></tr>
+<tr><td>5</td><td>Monday loss-closure after below-entry Friday; weekend chart review</td><td>NK's swing process uses the same weekend study ritual</td><td><strong>Aligned discipline</strong> — untested quantitatively</td></tr>
+<tr><td>6</td><td>"Control drawdown/risk; market decides profit"</td><td><a href="/concepts/psychology.html">psychology</a>, Keshav's max-DD 10% reject gate — same doctrine everywhere</td><td><strong>Aligned</strong> (universal principle)</td></tr>
+<tr><td>7</td><td>Expiry trading added when swings weakened (2023–24)</td><td>Textbook <a href="/concepts/regime-mapping.html">regime mapping</a>: strategy follows regime</td><td><strong>Aligned</strong></td></tr>
+<tr><td>8</td><td>Cap book at ₹30 Cr citing liquidity</td><td>No vault counterpart; our backtests ignore capacity entirely</td><td><strong>New datapoint</strong> — adopt capacity-awareness in any scaling plan</td></tr>
+<tr><td>9</td><td>Nifty 24k→25k early-2025 with funds flowing <em>out</em> = distribution</td><td>FII/DII cash data check possible (NK: underused dataset)</td><td><strong>Testable</strong> — queue item B</td></tr>
+</table>
+<h2>What HTL adds that the vault lacked</h2>
+<p>1. A <strong>second asset class</strong> for the premium engine (gold) with an explicit switch signal — now owned as htl rotation.</p>
+<p>2. <strong>Capacity awareness</strong> (₹30 Cr cap) — first source to mention scaling limits.</p>
+<p>3. A concrete <strong>equity booking rule</strong> (50% at +100%) to tension-test against SRT.</p>
+<h2>What HTL does NOT get credit for (yet)</h2>
+<ul>
+<li>Any performance number (₹1 Cr → 41 Cr, 64 months, 8–9%/month gold) — unaudited, funnel-gated.</li>
+<li>The actual fund-flow formula, entry system, "HTLB Prime/Golden" — never disclosed.</li>
+</ul>
+<h2>Test queue</h2>
+<ul>
+<li><strong>A. Rotation backtest (active, candidate #0):</strong> RS-based gold/Nifty era classification (~3y), overlay our existing engine month-P&amp;Ls (OL intraday, BB Trap v2), measure gating lift.</li>
+<li><strong>B. Distribution check:</strong> FII/DII cash flows during Nifty's early-2025 24k→25k leg — did money actually leave?</li>
+<li><strong>C. Monday-closure test (low priority):</strong> Friday-exit vs Monday-exit on a hypothetical swing book.</li>
+<li><strong>D. Hybrid booking rule (idea):</strong> 50%-at-+100% with SRT-governed runner — paper it.</li>
+</ul>
+<h2>Log</h2>
+<ul>
+<li><strong>2026-09-14</strong> — Thread opened from <a href="/sources/source-htlegend-6yr-ledgers-2026.html">source htlegend 6yr ledgers 2026</a>. Concept named and filed as htl rotation. Backtest A queued.</li>
+</ul></article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="static/direct-scan.js"></script>
+  <script src="static/kite-scan.js"></script>
+  <script src="static/app.js"></script>
+</body>
+</html>

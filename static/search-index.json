@@ -942,5 +942,21 @@
   "cat_label": "📚 Sources",
   "url": "/sources/source-htlegend-6yr-ledgers-2026.html",
   "snippet": "**Source:** YouTube — *\"Hedged Option Writing 6 Year P&L 2021 To 2026 With Ledgers & Verified P&L\"* (HT Legend, 2026-08-06, 33m). Self-reported 64-month streak, ₹1 Cr→₹41 Cr; gold-vs-Nifty regime dial — marketing-weighted, unverified."
+ },
+ {
+  "title": "HTL Rotation — Gold ↔ Nifty Fund-Flow Switch",
+  "slug": "htl-rotation",
+  "category": "Concept",
+  "cat_label": "📖 Concepts",
+  "url": "/concepts/htl-rotation.html",
+  "snippet": "When money flows out of Nifty into gold, rotate the option-writing book to gold premium (and back). Two-asset specialization of regime mapping; converges with NK's SRT >1.24 → gold rule. **Unverified — backtest candidate #0.**"
+ },
+ {
+  "title": "HTL Thread — HT Legend vs the Vault",
+  "slug": "htl-thread",
+  "category": "Source",
+  "cat_label": "📚 Sources",
+  "url": "/sources/htl-thread.html",
+  "snippet": "Running claims-vs-vault ledger for the HT Legend system: 9 verdict rows (rotation aligned-in-direction, 10-12%/month contradicted by our wheel backtest, ₹30 Cr cap = new datapoint) + test queue."
  }
 ]
