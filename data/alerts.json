@@ -1,7 +1,14 @@
 {
-  "generated_at": "2026-09-14T08:19:21.044397+00:00",
-  "data_source": "yfinance",
-  "open_eq_low": [],
-  "open_eq_high": [],
-  "bb_trap_v2": []
+  "fetched_at": "2026-09-14T14:18:36.855217",
+  "with_volume": [],
+  "without_volume": [],
+  "with_vol_count": 0,
+  "without_vol_count": 0,
+  "oh": {
+    "with_volume": [],
+    "without_volume": [],
+    "with_vol_count": 0,
+    "without_vol_count": 0,
+    "raw_count": 0
+  }
 }
