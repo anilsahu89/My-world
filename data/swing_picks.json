@@ -1,11 +1,11 @@
 {
- "updated_at": "14 Sep 2026 11:20:26 IST",
+ "updated_at": "14 Sep 2026 18:25:35 IST",
  "rule": "top-3 candlestick setups (backtested 5y): MARU-at-low BUY PF 1.39 \u00b7 ShootingStar+VOL SELL PF 1.15 \u00b7 Engulf-at-low BUY PF 1.13 | entry next open, SL=pattern extreme, target 2R, 10-session stop | max 5 concurrent",
  "note": "NSE backtested; GOLD/BTC patterns untested (trial)",
  "end_date": "2026-09-30",
  "summary": {
   "open": 4,
-  "pending": 2,
+  "pending": 3,
   "closed": 5,
   "wins": 1,
   "losses": 4,
@@ -26,7 +26,7 @@
    "entry": 812.0,
    "sl": 868.95,
    "tgt": 698.1,
-   "sessions": 2,
+   "sessions": 3,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -43,7 +43,7 @@
    "entry": 5009.0,
    "sl": 5170.0,
    "tgt": 4687.0,
-   "sessions": 4,
+   "sessions": 5,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -60,7 +60,7 @@
    "entry": 2105.0,
    "sl": 2205.0,
    "tgt": 1905.0,
-   "sessions": 3,
+   "sessions": 4,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -77,13 +77,30 @@
    "entry": 514.15,
    "sl": 529.3,
    "tgt": 483.85,
-   "sessions": 5,
+   "sessions": 6,
    "exit": null,
    "reason": null,
    "pnl": null
   }
  ],
  "pending": [
+  {
+   "signal_date": "2026-09-11",
+   "market": "NSE",
+   "symbol": "HDFCBANK",
+   "setup": "CS-MARU",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 681.9,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
   {
    "signal_date": "2026-09-11",
    "market": "NSE",
