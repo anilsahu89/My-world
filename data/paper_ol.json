@@ -1,8 +1,8 @@
 {
- "updated_at": "14 Sep 2026 15:16:36 IST",
+ "updated_at": "14 Sep 2026 21:30:49 IST",
  "feed": "yahoo",
  "feed_note": "Cloud runner: Yahoo data may be delayed; entries use a 10:15 IST cutoff.",
- "status": "RUNNING",
+ "status": "DONE",
  "today": "2026-09-14",
  "strategy": {
   "rule": "fresh O=L -> BUY / fresh O=H -> SELL, ₹10,000/stock",
