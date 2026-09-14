@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Source: HT Legend — 6-Year Hedged Option Writing P&amp;L (2021–2026)</title>
+  <script>(function(){var h=location.hostname,seg=location.pathname.replace(/^\/+/,"").split("/")[0],prefix=(h.endsWith(".github.io")&&seg&&!/\.html?$/i.test(seg))?"/"+seg+"/":"/",d=document.createElement("base");d.href=prefix;document.head.prepend(d)})()</script>
+  <link rel="stylesheet" href="static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/stocks">Live Stocks</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>HT Legend — 6-Year Hedged Option Writing P&amp;L (2021–2026)</h1>
+<article class="md">
+<p><strong>Source:</strong> YouTube — <em>"Hedged Option Writing 6 Year P&amp;L 2021 To 2026 With Ledgers &amp; Verified P&amp;L"</em> (HT Legend, uploaded 2026-08-06, 33m)</p>
+<p><strong>URL:</strong> https://www.youtube.com/watch?v=Sw31oelSFEo</p>
+<p><strong>Ingested:</strong> 2026-09-14</p>
+<p><strong>Raw transcript:</strong> <code>sources/source-htlegend-6yr-ledgers-2026-transcript.txt</code> (auto-captions, English)</p>
+<h2>Summary (2 lines)</h2>
+<p>Screen-recorded walk through a Zerodha Console account claiming 64 consecutive profitable months of hedged option writing (May 2021–Jun 2026): ₹1 Cr → ~₹41 Cr+ realized F&amp;O, ~₹12.3 Cr equities, ~₹1.1 Cr commodities, averaging a claimed 10–12%/month. Actual disclosed method is thin (equity 100%-booking rule, Monday loss-closures, a green/red "gold vs Nifty fund-flow" regime dial); the full "HTLB" systems are gated behind an eligibility/waitlist funnel. <strong>All numbers self-reported, unaudited, and the video is a sales funnel — treat as claims, not evidence.</strong></p>
+<h2>Timestamps</h2>
+<ul>
+<li>00:00 — "First channel ever to share 6-year ledgers"; continuation promised October</li>
+<li>01:23 — Live Zerodha Console login (2FA on camera)</li>
+<li>02:48 — F&amp;O combined P&amp;L May–Dec 2021: ~₹1.3 Cr realized, ~₹1.2 L charges, ~₹2.34 Cr unrealized</li>
+<li>03:47 — Cumulative to Dec 2022: ~₹5.59 Cr realized</li>
+<li>05:26 — To Dec 2023: ₹12.91 Cr (from ₹1 Cr start), ~₹7.9 L charges</li>
+<li>07:47 — To Dec 2024: ₹26.27 Cr realized, ~₹12.9 L charges</li>
+<li>10:04 — To Dec 2025: ~₹41 Cr; brokerage ~doubles (expiry-trading era begins)</li>
+<li>13:30 — Excel walkthrough: 10–12%/month average; yearly withdrawals; reinvest ladder 1→2→4→8→16→30 Cr</li>
+<li>17:07 — Capital capped at ₹30 Cr going forward (liquidity); focus shifts to equities</li>
+<li>18:23 — Philosophy: "we control risk and drawdown; the market decides profits"</li>
+<li>19:45 — Equity segment (HTLB Investments, since 2023): ~₹12.26 Cr realized</li>
+<li>23:52 — Commodity segment (HTLB Gold, since Jan 2025): ~₹1.06 Cr, 8–9%/month claimed</li>
+<li>28:33 — Gold-vs-Nifty "fund flow" system (green = money into gold; entries near candle lows)</li>
+<li>31:21 — The three engines: Investments (wealth) / Swings (bull) / Gold-vs-Nifty (bear)</li>
+<li>32:28 — Eligibility funnel: district-limited, WhatsApp link, 1-year waiting period</li>
+</ul>
+<h2>Key takeaways</h2>
+<p><strong>The claimed track record (all self-reported):</strong></p>
+<ul>
+<li>F&amp;O: ₹1 Cr (May 2021) → ~₹41 Cr+ realized by mid-2026, "64 months consistently profitable," 10–12%/month average. Realized-figures ladder: 1.3 → 5.6 → 12.9 → 26.3 → 41+ Cr.</li>
+<li>Equities (since 2023): ~₹12.26 Cr realized on ~₹4.6 L charges. Commodities/gold (since Jan 2025): ~₹1.06 Cr, "8–9% ROI/month," mostly theta decay, positions covered before expiry.</li>
+<li>Withdrawals yearly (taxes + cash flow); reinvestment ladder 1→2→4→8→16→30 Cr; caps at ₹30 Cr citing liquidity.</li>
+</ul>
+<p><strong>Actually disclosed rules (usable, but unvalidated):</strong></p>
+<ul>
+<li><strong>Equity booking:</strong> buy a stock, exit 50% of quantity at <strong>+100%</strong> (e.g. 32 → 64); the remaining 50% held "forever" — that's what grows unrealized P&amp;L and keeps charges tiny.</li>
+<li><strong>Monday loss-closure:</strong> weekend chart review; if a position is below entry at Friday close, close Monday at market. Target bookings any day; loss bookings mostly Mondays.</li>
+<li><strong>Regime dial (gold vs Nifty fund flow):</strong> green = money rotating into gold → trade gold option writing; funds flowing back into Nifty → trade index. Claims the gold era ran ~Oct 2024–Apr 2026, and that Nifty's 24k→25k rise in early 2025 happened <em>while</em> funds flowed out (distribution). Entries taken near candle lows, not highs.</li>
+</ul>
+<p><strong>Philosophy worth keeping (echoes <a href="/concepts/psychology.html">Psychology</a> / <a href="/concepts/regime-mapping.html">Regime Mapping</a>):</strong></p>
+<ul>
+<li>"Drawdowns and risk we control; profits the market decides." Low trade count / longer-hold positions = fewer executions = lower brokerage drag (their charges ≈ 0.1–0.5% of profits).</li>
+<li>Consistency over magnitude: 10%/month compounding beats hunting 100% months. Diversify engines so "if one part is weaker, the second takes over" (swings in bull, expiry + gold in bear).</li>
+</ul>
+<h2>Claims vs evidence — read before using anything</h2>
+<ul>
+<li><strong>Zero third-party verification.</strong> Every figure is a screen recording of an account the creator controls. A 6-year, 64-month, ~3×/year track record would be world-class; the burden of proof is on the source.</li>
+<li><strong>The video is the funnel.</strong> District-limited "eligibility," WhatsApp link, 1-year waitlist, "contribute to society" criteria — classic paid-system marketing (<a href="/concepts/survivorship-bias.html">Survivorship Bias</a> and incentive red flags). The genuinely differentiated "systems" (HTLB fund flow, HTLB Gold, HTLB Prime/Golden "coming soon") are never disclosed — only the results are.</li>
+<li><strong>Testable nugget:</strong> the gold-vs-Nifty rotation thesis is checkable against data (GC-F/INR vs Nifty flows, or simply gold-vs-Nifty relative strength as a regime switch). It also independently matches our own Sep-2026 paper-trade window: O=H shorts thrived, O=L longs bled, gold at highs — a bear-tape rotation. Candidate for a small backtest before any respect is due.</li>
+</ul>
+<h2>Pages touched by this source</h2>
+<ul>
+<li><strong>Updated:</strong> <a href="/concepts/regime-mapping.html">Regime Mapping</a> (gold-vs-Nifty rotation as a downtrend overlay — flagged unverified)</li>
+</ul>
+<h2>Status</h2>
+<p>⚠️ <strong>Not verified — marketing-weighted source.</strong> Numbers are self-reported screenshots; the disclosed rules (100% booking, Monday exits, fund-flow dial) are plausible but unbacktested. Per CLAUDE.md hard rule: everything above is "what the source claims." The only piece worth acting on is a backtest of the gold-vs-Nifty regime switch; the rest is motivational ledger tourism.</p></article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="static/direct-scan.js"></script>
+  <script src="static/kite-scan.js"></script>
+  <script src="static/app.js"></script>
+</body>
+</html>
