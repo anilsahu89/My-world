@@ -1,14 +1,15 @@
 {
-  "fetched_at": "2026-09-14T21:21:43.301919",
+ "fetched_at": "2026-09-15T09:14:37",
+ "with_volume": [],
+ "without_volume": [],
+ "with_vol_count": 0,
+ "without_vol_count": 0,
+ "chartink_raw_count": 200,
+ "oh": {
   "with_volume": [],
   "without_volume": [],
   "with_vol_count": 0,
   "without_vol_count": 0,
-  "oh": {
-    "with_volume": [],
-    "without_volume": [],
-    "with_vol_count": 0,
-    "without_vol_count": 0,
-    "raw_count": 0
-  }
+  "raw_count": 200
+ }
 }
