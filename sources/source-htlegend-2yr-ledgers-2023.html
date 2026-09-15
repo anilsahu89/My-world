@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HT Legend — 2-Year Ledger Recap + Swing Data Methodology (2023)</title>
+  <script>(function(){var h=location.hostname,seg=location.pathname.replace(/^\/+/,"").split("/")[0],prefix=(h.endsWith(".github.io")&&seg&&!/\.html?$/i.test(seg))?"/"+seg+"/":"/",d=document.createElement("base");d.href=prefix;document.head.prepend(d)})()</script>
+  <link rel="stylesheet" href="static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/stocks">Live Stocks</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>HT Legend — 2-Year Ledger Recap + Swing Data Methodology (2023)</h1>
+<article class="md">
+<p><strong>Source:</strong> YouTube — <em>"Hedged Option Writing 2 Year P&amp;L 2021 &amp; 2022 With Ledgers | Next 5 Year Plan Inside"</em> (HT Legend, uploaded 2023-06-29, 51m)</p>
+<p><strong>URL:</strong> https://www.youtube.com/watch?v=l5RnsfWX990</p>
+<p><strong>Ingested:</strong> 2026-09-15</p>
+<p><strong>Raw transcript:</strong> <code>sources/source-htlegend-2yr-ledgers-2023-transcript.txt</code> (auto-captions, Hindi→EN)</p>
+<p><strong>Prequel to:</strong> <a href="/sources/source-htlegend-6yr-ledgers-2026.html">6-year ledgers (Aug 2026)</a> · <strong>System mechanics:</strong> <a href="/sources/source-htlegend-htlb-swing-reliance-ep2.html">HTLB EP2</a></p>
+<h2>Summary (2 lines)</h2>
+<p>The 2023 recap: ₹1 Cr → ₹6.74 Cr realized in 23 months (avg 11.56%/month claimed, worst month +8.81%) — and the most detailed methodology disclosure of the three HTL videos: the full swing data checklist (OI build-ups, PE−CE OI, PCR divergences, OI percentile vs price, Max Pain divergence, IVP regime switch) plus Bank Nifty expiry stats over 49 expiries. Also the explicit eligibility floor: <strong>₹20–25L minimum portfolio, ₹1 Cr "ideal."</strong></p>
+<h2>The ledger story (2023 version)</h2>
+<ul>
+<li>May 2021 – Feb 2023: realized ₹6.74 Cr, net ~₹6.70 Cr, charges ₹4.16 L.</li>
+<li>FY22 (May 21–Apr 22): +266.85% (1 → 3.67 Cr); withdrew ₹1.6 Cr; reinvested ₹2 Cr. FY23: +201% to date (2 → 6.03 Cr).</li>
+<li>Monthly ROI: avg <strong>11.56%</strong>, lowest <strong>+8.81%</strong> (Dec 2021), highest <strong>+16.20%</strong> (Apr 2022 — volatility pays).</li>
+<li><strong>Cross-check vs the 2026 video: the console figures match exactly</strong> (May–Dec 2021: ~₹1.29 Cr; to Dec 2022: ₹5.59 Cr realized / ₹3.92 L charges). Two videos three years apart quoting identical numbers = internally consistent storytelling. Still unaudited — consistency ≠ verification.</li>
+</ul>
+<h2>The swing data checklist (as disclosed)</h2>
+<p>1. <strong>OI build-ups, last 20 sessions:</strong> sum(long build-ups) − sum(short build-ups), counting <strong>only entries with positive volume change</strong>; ignore short covering / long unwinding. Net negative = downtrend.</p>
+<p>2. <strong>Net OI change:</strong> PE OI change − CE OI change (negative = bearish), plus its day-over-day trend.</p>
+<p>3. <strong>OI chain:</strong> call writing &gt; put writing near ATM = bearish (closer to spot = stronger signal); reverse = bullish.</p>
+<p>4. <strong>Price–PCR divergence:</strong> price down + PCR rising = bullish (enter on break of previous peak); price up + PCR falling = bearish. Shown as the repeated bottom-picker on Asian Paints.</p>
+<p>5. <strong>OI percentile vs price percentile:</strong> price down + OI percentile up = bearish continuation; price up + OI percentile down = bullish continuation. Called "very accurate."</p>
+<p>6. <strong>Max Pain divergence:</strong> Max Pain rising while price falls = rare = buy zone.</p>
+<p>7. <strong>IVP regime switch:</strong> <strong>IVP &gt; 80 → sell OTM</strong> (bearish → short call, bullish → short put); <strong>IVP &lt; 20 → buy ITM</strong>. "Not always a seller — adjust to the market."</p>
+<p>8. <strong>Entry sniping:</strong> price vs HTLB line (in-house) on M5/M15 + <strong>order-flow "delta bars"</strong> above/below a line for the exact entry.</p>
+<h2>Expiry trading (Bank Nifty weekly, 49 expiries)</h2>
+<ul>
+<li>Avg <strong>+2.51% per expiry</strong> (sum 123.31%/yr ≈ ₹1.23 Cr), max profit +4.89%, risk per trade <strong>0.5–0.6%</strong> of capital, RR "1:6," "profit probability 90.67%."</li>
+<li>Internal inconsistency: "maximum loss 0.71%" and later "maximum loss 3.85%" in the same section — flagged.</li>
+<li>PR ratio = annual ROI ÷ max loss; "1% risk → 30%/yr."</li>
+</ul>
+<h2>The instrument's claimed payoff (₹25L example)</h2>
+<ul>
+<li>₹25L invested, ~₹19L margin used → <strong>~₹1L minimum profit (~4%) even if the market closes flat</strong>; ~₹6.5k maximum risk ("RR above 1:15"); still ~₹95k–1L profit on a 3% gap <em>against</em> the view; stop at "where the payoff curve curves."</li>
+<li><strong>This violates no-free-lunch.</strong> A structure paying 4% floor with 0.26% risk in all scenarios is arbitrage; the tail risk lives somewhere unstated (the curve's bend, the adjustment series, or gap-through fills). Treat as marketing framing of a hedged ITM-combination ("bought calls, sold puts, ITMs + hedge legs"), not a describable instrument.</li>
+</ul>
+<h2>Funnel (2023 edition)</h2>
+<p>Questionnaire after the video, <strong>90%+ in one attempt</strong> → "training" (2 months of his live trades); portfolio gate <strong>₹20–25L minimum, ₹1 Cr ideal</strong>.</p>
+<h2>Status</h2>
+<p>⚠️ Richest methodology, same unverifiable results. The IVP regime switch and OI-percentile emphasis <strong>converge with NK</strong> (who also prefers OI percentile over raw PCR) — genuinely adoptable ideas. The "0% risk / 1:15 RR / profit in every scenario" framing is rejected as stated. Ledger figures now <em>consistently</em> told across 2023 and 2026 — still zero third-party verification.</p></article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="static/direct-scan.js"></script>
+  <script src="static/kite-scan.js"></script>
+  <script src="static/app.js"></script>
+</body>
+</html>
