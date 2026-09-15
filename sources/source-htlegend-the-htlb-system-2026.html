@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HT Legend — &quot;The HTLB System&quot; (Master Reference)</title>
+  <script>(function(){var h=location.hostname,seg=location.pathname.replace(/^\/+/,"").split("/")[0],prefix=(h.endsWith(".github.io")&&seg&&!/\.html?$/i.test(seg))?"/"+seg+"/":"/",d=document.createElement("base");d.href=prefix;document.head.prepend(d)})()</script>
+  <link rel="stylesheet" href="static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/stocks">Live Stocks</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>HT Legend — &quot;The HTLB System&quot; (Master Reference)</h1>
+<article class="md">
+<p><strong>Source:</strong> YouTube — <em>"The HTLB System"</em> (HT Legend, uploaded 2026-02-15, 1h30m)</p>
+<p><strong>URL:</strong> https://www.youtube.com/watch?v=WAJsCDehgrU</p>
+<p><strong>Ingested:</strong> 2026-09-15</p>
+<p><strong>Raw transcript:</strong> <code>sources/source-htlegend-the-htlb-system-2026-transcript.txt</code> (auto-captions)</p>
+<p><strong>Siblings:</strong> <a href="/sources/source-htlegend-6yr-ledgers-2026.html">6-yr ledgers</a> · <a href="/sources/source-htlegend-htlb-swing-reliance-ep2.html">Swing EP2</a> · <a href="/sources/source-htlegend-2yr-ledgers-2023.html">2023 recap</a></p>
+<h2>Summary (2 lines)</h2>
+<p>The fullest single disclosure of the "sacred" system: its backbone is the <strong>HTLB Tracker</strong> — mapping ₹100 Cr+ investors' accounts to bulk/block deals to detect their buys within ~24h — combined with a relative-strength comparison chart (stock vs CNX 100) and the 68-parameter HTLB Delta. The <em>investment</em> rulebook is now fully specified (¼-capital stacked entries, book 50% at +100%, breakeven at +5%, runner held until the tracked investor's stake drops below 1.5%), plus the swing instrument's first hard number: <strong>~7% carry if the price sits still</strong>. Results (302% p.a. / 0.57% DD / RR 1:1276) remain self-scored.</p>
+<h2>The origin thesis (why they claim it works)</h2>
+<ul>
+<li>Named big investors (Kedia ~500%/5y, Jhunjhunwalas, "Mukul" ~1900%/5y…) average ~100% p.a. on ₹100 Cr+ books with tiny drawdowns — via small/midcaps ("a ₹500 Cr company can 10x; a ₹50,000 Cr one can't double") and <strong>access to future fundamentals: promoter connectivity, board meetings, order books.</strong></li>
+<li>HTLB's pitch: you can't get their information, but you can <strong>follow their money within 24 hours</strong> (bulk deals + account mapping) instead of waiting for quarterly shareholding data.</li>
+</ul>
+<h2>The HTLB investment rulebook (now complete)</h2>
+<p>1. <strong>Universe:</strong> small/midcaps where tracked investors accumulate (via the tracker).</p>
+<p>2. <strong>HTLB Delta green</strong> — 68 data points aggregated from 16 engines/platforms into one metric score vs threshold (equity params vs futures params differ).</p>
+<p>3. <strong>HTLB1 green + rising + above dotted HTLB2</strong> on the stock-vs-CN X-100 comparison chart = "super-bullish zone." Doctrine: <em>institutions always use comparison charts; single-counter trend lines are never used.</em></p>
+<p>4. <strong>Entry:</strong> HTLB Delta forms a pullback "bent"; reference line at the peak; enter on the break (alert placed at prior close, entered intraday).</p>
+<p>5. <strong>Sizing:</strong> partial entries — <strong>¼ of capital per trade, stacked up to 3 entries</strong> (e.g., ₹10L × 3 on a ₹40L book).</p>
+<p>6. <strong>Target +100%:</strong> book 50% (full investment out), hold the rest — "profits kept in the stock grow better than in the bank" (T+1 withdrawals anytime).</p>
+<p>7. <strong>Breakeven at +5%</strong> (investment version; the swing version uses +1.5% price).</p>
+<p>8. <strong>Stop:</strong> daily close below the reference line with a bearish sign → exit that tranche.</p>
+<p>9. <strong>Runner exit (NEW, concrete):</strong> hold the remaining half <strong>until the tracked investor's stake falls below 1.5%</strong> — then exit fully.</p>
+<h2>Test claims &amp; the swing instrument</h2>
+<ul>
+<li>200+ counters × 4–5 years each = "1,000+ years of testing": avg ROI <strong>302% p.a.</strong>, avg Max DD <strong>0.57%</strong>, avg RR <strong>1:1276</strong>; capital 5× in ~1.5y, 10× in 2.25–5y; claims to beat the tracked investors themselves "3–4× growth, 100–200× safer."</li>
+<li><strong>"Never buy futures"</strong> (RR 1:1, carry cost) — replaced by a fully hedged option combination: profits on the target move (+3.5% price ≈ 20% ROI), jackpot on gap-downs (IV doubles), and — the first hard number — <strong>~7% carry "interest paid back to you" if the price sits still</strong>. Strike selection: still gated ("trainings").</li>
+<li>Swing money plan restated: 1 Cr → ₹20L equities → pledge (~80%) → ₹16L swing margin; 50% of each win banked, 50% re-pledged; losses tracked in points and recovered via the same trade-sequence escalation (already rejected in this thread).</li>
+</ul>
+<h2>Claims vs evidence</h2>
+<ul>
+<li>The tracker edge is <strong>plausible but not novel or private</strong> — bulk/block deals are public disclosures; "follow the big investor" products exist. The claimed 24h account-mapping is unverifiable.</li>
+<li>Survivorship: the named ₹100 Cr+ investors are the survivors; the base rate of bulk-deal-following across all investors is not shown.</li>
+<li>302%/0.57% DD/1:1276 over overlapping histories, self-scored — same verdict as before: <strong>rejected as evidence.</strong></li>
+<li>The ₹1.5%-stake runner exit is genuinely interesting: an <strong>external, fundamentals-anchored exit</strong> — though retail sees holdings quarterly, which lags his claimed tracker.</li>
+</ul>
+<h2>What's genuinely adoptable</h2>
+<ul>
+<li>The <strong>comparison-chart doctrine</strong> (never judge a stock without its index-relative trend) — same family as <a href="/concepts/htl-rotation.html">htl rotation</a> and NK's outperformance doctrine; already our test-E core.</li>
+<li>The <strong>stacked partial entries</strong> (¼ × 3) — cleaner than single-shot position building; matches our patient-entry backtest lesson.</li>
+<li>The <strong>1.5%-stake external exit</strong> — worth testing with public shareholding data as a runner-management rule.</li>
+</ul>
+<h2>Pages touched by this source</h2>
+<ul>
+<li><strong>Updated:</strong> <a href="/sources/htl-thread.html">HTL Thread</a> (rows 21–25, master-reference designation)</li>
+</ul>
+<h2>Status</h2>
+<p>⚠️ Master disclosure, same unverifiable results. The investment rulebook is now fully specified and <em>testable with public data</em> (bulk deals, shareholding patterns, RS lines) — the strongest candidate for a data-driven verdict of anything in the HTL family.</p></article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="static/direct-scan.js"></script>
+  <script src="static/kite-scan.js"></script>
+  <script src="static/app.js"></script>
+</body>
+</html>
