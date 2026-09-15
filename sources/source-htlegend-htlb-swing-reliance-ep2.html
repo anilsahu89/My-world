@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HT Legend — HTLB Swing System on Reliance (EP2)</title>
+  <script>(function(){var h=location.hostname,seg=location.pathname.replace(/^\/+/,"").split("/")[0],prefix=(h.endsWith(".github.io")&&seg&&!/\.html?$/i.test(seg))?"/"+seg+"/":"/",d=document.createElement("base");d.href=prefix;document.head.prepend(d)})()</script>
+  <link rel="stylesheet" href="static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/stocks">Live Stocks</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>HT Legend — HTLB Swing System on Reliance (EP2)</h1>
+<article class="md">
+<p><strong>Source:</strong> YouTube — <em>"World's Best Investment &amp; Trading System For Reliance | RR Ratio 1:20+ | Max DD 1.3 | HTLB EP2"</em> (HT Legend, uploaded 2026-03-14, 1h06m)</p>
+<p><strong>URL:</strong> https://www.youtube.com/watch?v=BOMHfrU4jfU</p>
+<p><strong>Ingested:</strong> 2026-09-15</p>
+<p><strong>Raw transcript:</strong> <code>sources/source-htlegend-htlb-swing-reliance-ep2-transcript.txt</code> (auto-captions, English)</p>
+<h2>Summary (2 lines)</h2>
+<p>The mechanics-disclosure episode the Aug-2026 ledger video withheld: a full daily-timeframe swing rulebook walked trade-by-trade on 20 years of Reliance — relative-strength pullback entries with end-of-day breakout confirmation, +3.6% price targets (~20% ROI via a ~5.5×-leveraged vega-positive long-option instrument), breakeven ratchet at +1.5%, and a loss-recovery "trade sequence." Also the money plan: invest 1/5 of capital in equities, pledge it, swing-trade on the collateral. Claims remain unaudited and the instrument itself is still gated.</p>
+<h2>The rulebook (as disclosed — unverified)</h2>
+<p><strong>Filters (daily timeframe, F&amp;O counters only):</strong></p>
+<p>1. <strong>HTLB Delta green</strong> — a 68-parameter data score; green = bullish data regime. Must stay green <em>through the pullback</em> (may turn red only after price is above the line).</p>
+<p>2. <strong>HTLB1 rising during the price pullback</strong> — HTLB1 is Reliance's <strong>relative strength vs CNX 100</strong> ("receiving more funds than the top 100"); stock dipping while RS rises = the top-100 average is dipping harder = accumulation. Rising RS into a falling price is the load-bearing signal.</p>
+<p>3. <strong>HTLB1 above the dotted HTLB2 line</strong> — below it, "nothing to watch" (regime gate that skips whole declines).</p>
+<p>4. <strong>Swing line blue</strong> (not black).</p>
+<p>5. <strong>Proximity filter:</strong> price must pull back <em>near</em> the blue swing line — "far from the blue line" setups are skipped even when everything else aligns (enforced repeatedly; quality over frequency).</p>
+<p><strong>Entry:</strong></p>
+<ul>
+<li>Alert at the setup's peak (e.g. ₹1466.20); <strong>enter next day when the peak breaks, near the closing time</strong> — end-of-day confirmation, never the intraday first break.</li>
+</ul>
+<p><strong>Exits:</strong></p>
+<ul>
+<li><strong>Target: +3.6–3.7% price move</strong> (Reliance-specific; "generally 3–3.5%") ≈ <strong>+20% ROI on margin</strong> (~5.5× effective leverage: 1% price ≈ 4.6% ROI).</li>
+<li><strong>Breakeven ratchet:</strong> at +1.5% price move, stop moves to entry. Breakeven trades marked dashed, not counted.</li>
+<li><strong>Loss (X):</strong> daily close below the reference line before +1.5% — "points given to the market," framed as "business investment," tracked in points.</li>
+<li><strong>Loss-recovery "trade sequence":</strong> the next trade's requirement becomes <strong>target + points previously given up</strong> — the winner must recover the prior loss. Repeats until the sequence closes.</li>
+</ul>
+<p><strong>The instrument (profile only — exact structure gated):</strong></p>
+<ul>
+<li><strong>Vega-positive long-option structure, ~₹85k/lot.</strong> Claimed: profits on gap ups; "jackpot" on gap downs (IV doubles → ~40); ~4–5% ROI if price stays flat to expiry; "protection lines" below entry for small adverse moves.</li>
+<li>Internal tension worth noting: a vega-positive structure that also <em>earns</em> while flat to expiry is not a plain long strangle — only a calendar-type spread behaves that way, and that carries its own gap risk. Undisclosed = unverifiable.</li>
+</ul>
+<p><strong>Money management:</strong></p>
+<ul>
+<li>₹1 Cr capital → <strong>₹20L (1/5) into equity investments → pledge → ~₹16L collateral margin → swing capital</strong>; "under-leveraged, not leverage."</li>
+<li>Profit split: <strong>50% to bank, 50% reinvested → re-pledged</strong> (compounding flywheel).</li>
+<li>~₹34L deployed per trade → ~₹6.9–10L per target hit. ~₹97L profit by trade 16 claimed on Reliance.</li>
+<li>Frequency: ~80 trades/year across ~65 counters ≈ 6–7/month.</li>
+</ul>
+<h2>Claims vs evidence</h2>
+<ul>
+<li><strong>302% p.a. ROI, RR 1:1200, Max DD 0.57%</strong> (description/investment series) — escalating, unaudited, and the "800+ years of testing" is 200+ counters of <em>overlapping</em> history, not independent years. ₹1M "beat my system" challenge is marketing, not audit.</li>
+<li><strong>Reliance walkthrough result (~9 targets, several breakevens, 1 recovered loss in 10 trades)</strong> — self-scored on his own indicators, no ledger shown for these trades; breakevens excluded from the sheet flatters the sequence.</li>
+<li><strong>The loss-recovery sequence is the most dangerous idea in the video</strong> — escalating targets after losses is martingale-lite; sequence risk compounds exactly when the system is failing. <a href="/concepts/psychology.html">psychology</a> and Keshav's fixed-₹6k-risk rule both reject it.</li>
+<li>Same eligibility/WhatsApp funnel as the ledger video.</li>
+</ul>
+<h2>What's genuinely interesting (for the thread)</h2>
+<ul>
+<li>The <strong>RS-vs-index pullback entry with EOD-confirmed breakout</strong> converges with NK's two-candle-close rule and outperformance doctrine — two unconnected systems demanding confirmation before breakout entry.</li>
+<li><strong>HTLB1 (RS vs CNX 100) is the same family as <a href="/concepts/htl-rotation.html">htl rotation</a></strong> — relative strength as the fund-flow proxy, applied per-stock instead of per-asset-class.</li>
+<li>The <strong>breakeven ratchet at ~40% of target distance</strong> is a clean answer to our bb-blast backtest failure ("exit stack fights itself") — worth testing.</li>
+<li><strong>Pledge-margin funding</strong> (invest 1/5, swing on collateral) is a legitimate, commonly-used Indian structure — first source here to lay it out.</li>
+</ul>
+<h2>Pages touched by this source</h2>
+<ul>
+<li><strong>Updated:</strong> <a href="/sources/htl-thread.html">HTL Thread</a> (EP2 verdict rows + disclosures section)</li>
+</ul>
+<h2>Status</h2>
+<p>⚠️ <strong>Rulebook disclosed, results not.</strong> The filters/entries/exits are specific enough to backtest with proxies (RS line vs CNX 100, swing-line pullback, EOD breakout); the instrument and every performance number remain claims. Do not touch the loss-recovery sequence.</p></article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="static/direct-scan.js"></script>
+  <script src="static/kite-scan.js"></script>
+  <script src="static/app.js"></script>
+</body>
+</html>

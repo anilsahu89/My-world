@@ -218,7 +218,7 @@
 </table>
 <p>|---|-----------|----------------|---------|</p>
 <table>
-<tr><td>1</td><td>Rotate option-writing Nifty ↔ gold by fund flow</td><td><a href="/concepts/regime-mapping.html">regime mapping</a> has no gold leg yet; <strong><a href="/concepts/srt-investing.html">srt investing</a> converges</strong> (weekly &gt; 1.24 → exit equities → gold); our Sep-2026 tape matches the direction</td><td><strong>Aligned in direction — mechanics untested</strong> (htl rotation, backtest #0)</td></tr>
+<tr><td>1</td><td>Rotate option-writing Nifty ↔ gold by fund flow</td><td><a href="/concepts/regime-mapping.html">regime mapping</a> has no gold leg yet; <strong><a href="/concepts/srt-investing.html">srt investing</a> converges</strong> (weekly &gt; 1.24 → exit equities → gold); our Sep-2026 tape matches the direction</td><td><strong>Aligned in direction — mechanics untested</strong> (<a href="/concepts/htl-rotation.html">htl rotation</a>, backtest #0)</td></tr>
 <tr><td>2</td><td>Hedged option writing ≈10–12%/month, 64 straight months</td><td>Our Aug-2026 wheel backtest: overnight short premium <strong>structurally fragile</strong>; Keshav's −34% gap-day rule ("never positional short options"); nothing we've tested compounds 3×/yr</td><td><strong>Contradicted by our evidence as stated</strong> — not impossible, but burden unmet</td></tr>
 <tr><td>3</td><td>Few executions / longer holds → charges 0.1–0.5% of profits</td><td>Cost math of our premium engines agrees; [[sources/source-keshav-algo-face2face-2026</td><td>Keshav]] shows the opposite (high-freq) also works with hard gates</td><td><strong>Aligned as a design principle</strong> (engine choice, not law)</td></tr>
 <tr><td>4</td><td>Equity: book 50% at +100%, hold rest forever</td><td>Per-stock rule vs <a href="/concepts/srt-investing.html">srt investing</a>'s market-level exit (SRT &gt; 1.24 → exit <em>the book</em>). "Forever" ignores SRT extremes</td><td><strong>Tension</strong> — hybrid: runner half governed by SRT</td></tr>
@@ -227,9 +227,14 @@
 <tr><td>7</td><td>Expiry trading added when swings weakened (2023–24)</td><td>Textbook <a href="/concepts/regime-mapping.html">regime mapping</a>: strategy follows regime</td><td><strong>Aligned</strong></td></tr>
 <tr><td>8</td><td>Cap book at ₹30 Cr citing liquidity</td><td>No vault counterpart; our backtests ignore capacity entirely</td><td><strong>New datapoint</strong> — adopt capacity-awareness in any scaling plan</td></tr>
 <tr><td>9</td><td>Nifty 24k→25k early-2025 with funds flowing <em>out</em> = distribution</td><td>FII/DII cash data check possible (NK: underused dataset)</td><td><strong>Testable</strong> — queue item B</td></tr>
+<tr><td>10</td><td><em>(EP2)</em> RS-vs-CN-X-100 pullback + EOD-confirmed breakout entry</td><td>CONVERGES with NK's two-candle-close rule + outperformance doctrine; our OH/OL engine's unconfirmed intraday entry is the odd one out</td><td><strong>Aligned — strongest idea in EP2</strong></td></tr>
+<tr><td>11</td><td><em>(EP2)</em> Vega-positive instrument: profits gap-up, gap-down AND flat-to-expiry</td><td>Internally inconsistent for any single plain structure (long strangle bleeds flat; only calendars pay both) — undisclosed = unverifiable</td><td><strong>Claims don't compose — flag</strong></td></tr>
+<tr><td>12</td><td><em>(EP2)</em> Loss-recovery "trade sequences" (next target = target + prior loss)</td><td>Martingale-lite; sequence risk compounds when system fails; Keshav's fixed-₹6k risk + <a href="/concepts/psychology.html">psychology</a> reject it</td><td><strong>REJECTED — most dangerous idea</strong></td></tr>
+<tr><td>13</td><td><em>(EP2)</em> Pledge-margin funding: invest 1/5, swing on collateral</td><td>Legitimate Indian structure (MTF/pledge), first source here to lay it out; long options on margin = defined risk anyway</td><td><strong>Adoptable structurally</strong></td></tr>
+<tr><td>14</td><td><em>(EP2)</em> 302% p.a. / RR 1:1200 / Max DD 0.57% / "800+ years testing"</td><td>Overlapping counter histories ≠ independent years; escalating claims vs zero audit</td><td><strong>Rejected as evidence</strong></td></tr>
 </table>
 <h2>What HTL adds that the vault lacked</h2>
-<p>1. A <strong>second asset class</strong> for the premium engine (gold) with an explicit switch signal — now owned as htl rotation.</p>
+<p>1. A <strong>second asset class</strong> for the premium engine (gold) with an explicit switch signal — now owned as <a href="/concepts/htl-rotation.html">htl rotation</a>.</p>
 <p>2. <strong>Capacity awareness</strong> (₹30 Cr cap) — first source to mention scaling limits.</p>
 <p>3. A concrete <strong>equity booking rule</strong> (50% at +100%) to tension-test against SRT.</p>
 <h2>What HTL does NOT get credit for (yet)</h2>
@@ -243,10 +248,15 @@
 <li><strong>B. Distribution check:</strong> FII/DII cash flows during Nifty's early-2025 24k→25k leg — did money actually leave?</li>
 <li><strong>C. Monday-closure test (low priority):</strong> Friday-exit vs Monday-exit on a hypothetical swing book.</li>
 <li><strong>D. Hybrid booking rule (idea):</strong> 50%-at-+100% with SRT-governed runner — paper it.</li>
+<li><strong>E. RS-pullback swing proxy (from EP2):</strong> RS vs CNX 100 rising into pullback + next-day EOD breakout confirm; fixed target ~3.5%, breakeven ratchet at +1.4% (40%). NO loss-recovery escalation. Test on F&amp;O counters before any respect.</li>
 </ul>
+<h2>EP2 disclosures (2026-09-15 — HTLB Swing on Reliance)</h2>
+<p>The mechanics episode the ledger video withheld. Daily-TF swing rulebook: <strong>HTLB Delta green</strong> (68-param data score) → <strong>HTLB1 (RS vs CNX 100) rising into the price pullback</strong> → HTLB1 above HTLB2 → blue swing line → <strong>pullback NEAR the line</strong> (proximity filter) → alert at peak → <strong>enter next day on break, near the close</strong>. Exits: target <strong>+3.6–3.7% price ≈ +20% ROI</strong> (~5.5× lev), <strong>breakeven ratchet at +1.5%</strong> (~40% of target), loss = close below reference. Instrument: vega-positive long options, ~₹85k/lot, gated. Money: 1/5 into equities → pledge → swing on collateral; 50% profits banked / 50% re-pledged; ~6–7 trades/month.</p>
+<p><strong>Thread verdict:</strong> the <em>entry stack</em> (RS pullback + confirmed breakout) is genuinely convergent with NK and worth a proxy backtest; the <em>loss-recovery sequence</em> is rejected outright; the instrument claims don't compose; numbers remain unaudited. The breakeven-ratchet-at-40% is a candidate fix for our bb-blast "exit stack fights itself" failure.</p>
 <h2>Log</h2>
 <ul>
-<li><strong>2026-09-14</strong> — Thread opened from <a href="/sources/source-htlegend-6yr-ledgers-2026.html">source htlegend 6yr ledgers 2026</a>. Concept named and filed as htl rotation. Backtest A queued.</li>
+<li><strong>2026-09-15</strong> — EP2 (Reliance) ingested: rulebook extracted (rows 10–14), breakeven-ratchet idea added to test queue (E), transcript + source note filed.</li>
+<li><strong>2026-09-14</strong> — Thread opened from <a href="/sources/source-htlegend-6yr-ledgers-2026.html">source htlegend 6yr ledgers 2026</a>. Concept named and filed as <a href="/concepts/htl-rotation.html">htl rotation</a>. Backtest A queued.</li>
 </ul></article>
 
   </main>
