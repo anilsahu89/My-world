@@ -1,6 +1,6 @@
 {
- "date": "2026-09-14",
- "scanned_at": "12:20:51",
+ "date": "2026-09-15",
+ "scanned_at": "12:20:50",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY at 12:15 close | SL = candle-1 low | square-off 15:00",
  "max_trades": 5,
  "signals": []
