@@ -1,7 +1,63 @@
 {
- "date": "2026-09-15",
- "scanned_at": "12:20:50",
+ "date": "2026-09-16",
+ "scanned_at": "12:21:22",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY at 12:15 close | SL = candle-1 low | square-off 15:00",
  "max_trades": 5,
- "signals": []
+ "signals": [
+  {
+   "symbol": "LODHA",
+   "drive_pct": 2.17,
+   "qty": 9,
+   "entry": 1078.4,
+   "sl": 1048.8,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "MFSL",
+   "drive_pct": 2.06,
+   "qty": 6,
+   "entry": 1463.0,
+   "sl": 1424.3,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "CUMMINSIND",
+   "drive_pct": 1.83,
+   "qty": 2,
+   "entry": 4965.5,
+   "sl": 4845.0,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "GLENMARK",
+   "drive_pct": 1.8,
+   "qty": 4,
+   "entry": 2390.3,
+   "sl": 2307.2,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "COLPAL",
+   "drive_pct": 1.71,
+   "qty": 5,
+   "entry": 1888.5,
+   "sl": 1833.0,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  }
+ ]
 }
