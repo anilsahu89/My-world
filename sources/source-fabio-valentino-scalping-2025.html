@@ -211,16 +211,16 @@
 <a href="/" class="back">← Dashboard</a>
 <h1>Fabio Valentino — World-Ranked Scalper: Model Breakdown + Live NY Session</h1>
 <article class="md">
-<p><strong>Source:</strong> YouTube — <em>"Trading LIVE with a World TOP Ranked Scalper (EXTREME Accuracy)"</em> (Chart Fanatics / Ritz, uploaded 2025-09-21, 3h34m)</p>
+<p><strong>Source:</strong> YouTube — *"Trading LIVE with a World TOP Ranked Scalper (EXTREME Accuracy)"* (Chart Fanatics / Ritz, uploaded 2025-09-21, 3h34m)</p>
 <p><strong>URL:</strong> https://www.youtube.com/watch?v=tvERE-Beu2U</p>
 <p><strong>Ingested:</strong> 2026-09-16</p>
-<p><strong>Raw transcript:</strong> <code>sources/source-fabio-valentino-scalping-2025-transcript.txt</code></p>
+<p><strong>Raw transcript:</strong> `sources/source-fabio-valentino-scalping-2025-transcript.txt`</p>
 <p><strong>Who:</strong> Futures scalper (NASDAQ/NQ), top-3 Robins Club world ranking, 500%+ in a 12-month contest period. Ranking is contest-attested (not audited); the episode is also an Apex funding affiliate vehicle.</p>
 <h2>Summary (2 lines)</h2>
-<p>The cleanest public walkthrough of a professional order-flow scalping model: trade only when the market is <strong>out of balance</strong> (auction-market-theory framing), refine location with <strong>low-volume nodes</strong>, trigger on <strong>big-order aggression bubbles</strong>, target the <strong>previous point of control</strong> and take <em>full</em> profit there (~70% reversal odds). Plus a second mean-reverting model for balanced sessions, and a session-split (directional New York / mean-reverting London) with a disciplined "be wrong immediately" risk culture.</p>
+<p>The cleanest public walkthrough of a professional order-flow scalping model: trade only when the market is <strong>out of balance</strong> (auction-market-theory framing), refine location with <strong>low-volume nodes</strong>, trigger on <strong>big-order aggression bubbles</strong>, target the <strong>previous point of control</strong> and take *full* profit there (~70% reversal odds). Plus a second mean-reverting model for balanced sessions, and a session-split (directional New York / mean-reverting London) with a disciplined "be wrong immediately" risk culture.</p>
 <h2>The three-step directional model (New York session)</h2>
-<p>1. <strong>LOCATION (profile):</strong> markets spend most time <em>in balance</em> (value area). Trend patterns inside balance continue only ~30% of the time — that's the stop-out machine killing retail. Wait for <strong>out-of-balance</strong> conditions; he claims this alone lifts win rate 20–30 points.</p>
-<p>2. <strong>VALIDATION (structure + inefficiency):</strong> market structure/supply-demand zones; inefficiency (= one side's aggression, the real meaning behind "fair value gap"); <strong>low-volume nodes as reaction and continuation levels</strong>. Alert placed just below the node — <em>not</em> a resting limit order.</p>
+<p>1. <strong>LOCATION (profile):</strong> markets spend most time *in balance* (value area). Trend patterns inside balance continue only ~30% of the time — that's the stop-out machine killing retail. Wait for <strong>out-of-balance</strong> conditions; he claims this alone lifts win rate 20–30 points.</p>
+<p>2. <strong>VALIDATION (structure + inefficiency):</strong> market structure/supply-demand zones; inefficiency (= one side's aggression, the real meaning behind "fair value gap"); <strong>low-volume nodes as reaction and continuation levels</strong>. Alert placed just below the node — *not* a resting limit order.</p>
 <p>3. <strong>TRIGGER (order flow):</strong> a <strong>big-order bubble</strong> (aggressive prints) at the location. "With direction + location + aggression your ability to predict is zero but your ability to read is 100." Stop goes immediately beyond the bubble → tiny risk; target = the <strong>previous balance area / POC</strong>.</p>
 <p><strong>Exit rule worth stealing:</strong> take the <strong>full position off at the previous balance area</strong> — the market reverses there ~70% of the time, so holding for the extra 30% is negative-EV. (Contrast: our systems' runner halves and 15:00 square-offs.)</p>
 <h2>Model 2 — mean-reverting (balanced sessions / London)</h2>
@@ -238,14 +238,21 @@
 </ul>
 <h2>Vault connections (what's new, what converges)</h2>
 <ul>
-<li><strong>NEW concepts (nothing comparable in the vault yet):</strong> Auction Market Theory; market profile (POC / value area / low- &amp; high-volume nodes); footprint / aggression-bubble reading; volume-node targeting. These extend <a href="/concepts/nk-volume-reading.html">NK Volume Reading</a> from daily-bar volume into intraday order-flow.</li>
-<li><strong>Convergences:</strong> his out-of-balance gate ≈ our regime gate family (<a href="/concepts/regime-mapping.html">regime mapping</a>, the engine's new NIFTY-direction gate — same doctrine, pro implementation); "be wrong immediately" ≈ NK/Keshan exit doctrine; "7-of-10 first-break attempts fail" ≈ NK's two-candle-close rule; <strong>his mean-reverting model is a sophisticated cousin of our O=H/O=L system</strong> (fade imbalance extremes back toward value — ours uses the open as the anchor, his uses the POC).</li>
+<li><strong>NEW concepts (nothing comparable in the vault yet):</strong> Auction Market Theory; market profile (POC / value area / low- &amp; high-volume nodes); footprint / aggression-bubble reading; volume-node targeting. These extend NK Volume Reading from daily-bar volume into intraday order-flow.</li>
+<li><strong>Convergences:</strong> his out-of-balance gate ≈ our regime gate family (<a href="/concepts/regime-mapping.html">Regime Mapping</a>, the engine's new NIFTY-direction gate — same doctrine, pro implementation); "be wrong immediately" ≈ NK/Keshan exit doctrine; "7-of-10 first-break attempts fail" ≈ NK's two-candle-close rule; <strong>his mean-reverting model is a sophisticated cousin of our O=H/O=L system</strong> (fade imbalance extremes back toward value — ours uses the open as the anchor, his uses the POC).</li>
 <li><strong>Applicable to our running setups:</strong> (a) <strong>POC/VWAP-anchored exits</strong> instead of pure 15:00 square-off — a testable hybrid for the OL/OH engine; (b) full-exit-at-target vs runners — matches our own backtest finding that tail-runners underperform; (c) session-window discipline supports our 09:30–09:45 entry window design.</li>
 </ul>
 <h2>Claims vs evidence</h2>
 <ul>
 <li>Contest ranking (Robins Club top-3, 500%/12mo) is at least third-party-contest-based — better than self-posted ledgers — but contest returns ≠ sustainable drawdown-adjusted returns, and the episode is an Apex affiliate funnel (funding-firm marketing).</li>
 <li>No ledger/verification shown in-session; the model logic, however, is internally coherent and mostly <strong>mechanically specified</strong> (balance detection + node + bubble trigger + POC target) — testable with intraday data and volume profiles.</li>
+</ul>
+<h2>Test results (2026-09-16 — /Users/apple/ZCodeProject/fabio_backtest/, ~2y data)</h2>
+<ul>
+<li><strong>BT1 — his model 2 (reclaim into value → POC target) on NIFTY hourly: FAILED.</strong> 104 trades, 0% WR after costs, avg −0.32%/trade (₹10L/20% slices → −₹65k). 100 of 104 exits hit the POC target — the VAL→POC distance on NIFTY (~0.2–0.4%) is smaller than round-trip costs. His edge lives in NASDAQ's wider ranges + futures costs + the order-flow confirmation we cannot replicate. <strong>Do not adopt POC-target exits on the index.</strong></li>
+<li><strong>BT2 — O=L/O=H replayed faithfully on hourly bars (no daily lookahead), split by prior-day balance state:</strong> balanced 712 trades WR 37.2% avg −0.19% vs imbalance 647 trades WR 34.8% avg −0.35%. Worst arm: <strong>O=H shorts after imbalance (trend) days — 32% WR, −0.43%/trade.</strong> In Fabio's own framework this reads correctly: OH/OL is a <strong>model-2 (balance-market, mean-reverting) system</strong>, and it bleeds most when traded after trend days in the wrong habitat. His "location first" doctrine explains our live NIFTY-gate finding independently.</li>
+<li><strong>Also honest:</strong> the raw O=L/O=H entry rules show no positive expectancy in faithful 2y replay (PF 0.4–0.6, all arms) — the live book's remaining hope rests on the gates (NIFTY direction + volume + window), not the raw signal.</li>
+<li><strong>Adoption:</strong> add a prior-day balance filter — skip O=H shorts when the prior NIFTY day was a trend/imbalance day (wide range + close-at-extreme). ~10 lines in the engine.</li>
 </ul>
 <h2>Status</h2>
 <p>⚠️ Claims contest-attested only; heavy affiliate framing. The <strong>model itself is the value</strong>: location→validation→aggression→POC-target is a complete, falsifiable scalping framework, and the profile/volume-node toolbox fills a real gap in the vault. Candidate tests: POC-target exits on our intraday book; LVN reaction levels on NIFTY 15m.</p></article>
