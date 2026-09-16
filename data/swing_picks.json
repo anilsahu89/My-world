@@ -1,16 +1,16 @@
 {
- "updated_at": "15 Sep 2026 16:32:52 IST",
+ "updated_at": "16 Sep 2026 20:49:01 IST",
  "rule": "top-3 candlestick setups (backtested 5y): MARU-at-low BUY PF 1.39 \u00b7 ShootingStar+VOL SELL PF 1.15 \u00b7 Engulf-at-low BUY PF 1.13 | entry next open, SL=pattern extreme, target 2R, 10-session stop | max 5 concurrent",
  "note": "NSE backtested; GOLD/BTC patterns untested (trial)",
  "end_date": "2026-09-30",
  "summary": {
-  "open": 6,
-  "pending": 0,
-  "closed": 6,
-  "wins": 2,
-  "losses": 4,
-  "win_rate": 33.3,
-  "pnl_inr": 179.4,
+  "open": 4,
+  "pending": 1,
+  "closed": 8,
+  "wins": 3,
+  "losses": 5,
+  "win_rate": 37.5,
+  "pnl_inr": 353.4,
   "pnl_usd": 0
  },
  "open": [
@@ -26,24 +26,7 @@
    "entry": 722.4,
    "sl": 681.9,
    "tgt": 803.4,
-   "sessions": 0,
-   "exit": null,
-   "reason": null,
-   "pnl": null
-  },
-  {
-   "signal_date": "2026-09-11",
-   "market": "NSE",
-   "symbol": "LUPIN",
-   "setup": "CS-ENGF",
-   "side": "BUY",
-   "status": "OPEN",
-   "entry_date": "2026-09-15",
-   "qty": 4.0,
-   "entry": 2095.0,
-   "sl": 2058.0,
-   "tgt": 2169.0,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -60,7 +43,7 @@
    "entry": 539.0,
    "sl": 503.0,
    "tgt": 611.0,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -77,24 +60,7 @@
    "entry": 812.0,
    "sl": 868.95,
    "tgt": 698.1,
-   "sessions": 4,
-   "exit": null,
-   "reason": null,
-   "pnl": null
-  },
-  {
-   "signal_date": "2026-09-08",
-   "market": "NSE",
-   "symbol": "JKCEMENT",
-   "setup": "CS-PINS",
-   "side": "SELL",
-   "status": "OPEN",
-   "entry_date": "2026-09-09",
-   "qty": 1.0,
-   "entry": 5009.0,
-   "sl": 5170.0,
-   "tgt": 4687.0,
-   "sessions": 6,
+   "sessions": 5,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -117,8 +83,43 @@
    "pnl": null
   }
  ],
- "pending": [],
+ "pending": [
+  {
+   "signal_date": "2026-09-16",
+   "market": "NSE",
+   "symbol": "MFSL",
+   "setup": "CS-MARU",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 1423.6,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  }
+ ],
  "closed": [
+  {
+   "signal_date": "2026-09-11",
+   "market": "NSE",
+   "symbol": "LUPIN",
+   "setup": "CS-ENGF",
+   "side": "BUY",
+   "status": "CLOSED",
+   "entry_date": "2026-09-15",
+   "qty": 4.0,
+   "entry": 2095.0,
+   "sl": 2058.0,
+   "tgt": 2169.0,
+   "sessions": 1,
+   "exit": 2058.0,
+   "reason": "SL",
+   "pnl": -148.0
+  },
   {
    "signal_date": "2026-09-10",
    "market": "NSE",
@@ -135,6 +136,23 @@
    "exit": 495.1,
    "reason": "TGT2R",
    "pnl": 245.1
+  },
+  {
+   "signal_date": "2026-09-08",
+   "market": "NSE",
+   "symbol": "JKCEMENT",
+   "setup": "CS-PINS",
+   "side": "SELL",
+   "status": "CLOSED",
+   "entry_date": "2026-09-09",
+   "qty": 1.0,
+   "entry": 5009.0,
+   "sl": 5170.0,
+   "tgt": 4687.0,
+   "sessions": 7,
+   "exit": 4687.0,
+   "reason": "TGT2R",
+   "pnl": 322.0
   },
   {
    "signal_date": "2026-09-07",
