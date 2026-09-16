@@ -254,6 +254,13 @@
 <li><strong>Also honest:</strong> the raw O=L/O=H entry rules show no positive expectancy in faithful 2y replay (PF 0.4–0.6, all arms) — the live book's remaining hope rests on the gates (NIFTY direction + volume + window), not the raw signal.</li>
 <li><strong>Adoption:</strong> add a prior-day balance filter — skip O=H shorts when the prior NIFTY day was a trend/imbalance day (wide range + close-at-extreme). ~10 lines in the engine.</li>
 </ul>
+<h2>Value-Edge Scalper tests (same day — the simplified candlestick rulebook)</h2>
+<p>Distilled his teachings into a mechanical scalper (balanced-prior-day filter, skip first 2 bars, probe→reclaim→confirmation candle, wick stop, POC target, 1/side/day, 2-loss breaker) and tested on ~2y hourly data:</p>
+<ul>
+<li><strong>Full stack — NIFTY: zero trades; BTC: 7 trades, 1 win, PF 0.03.</strong> The discipline layers strangle the signal at 1h resolution.</li>
+<li><strong>Pattern-pure on BTC (single reclaim entry):</strong> 595 trades, <strong>4.9% WR, PF 0.01, −₹3.1L on ₹10L</strong> — 540/595 exits hit the POC target and still lost: the VAL→POC distance (a value area is *by definition* the narrow consensus band) is smaller than round-trip costs on hourly bars.</li>
+<li><strong>Structural verdict:</strong> enter-at-VA-edge / exit-at-POC cannot beat costs at 1h granularity on any instrument tested. His real edge = order-flow aggression entries (better price+timing than the reclaim close), 1-minute NASDAQ futures microstructure, and near-zero effective costs — none simplifiable to candles. <strong>The pattern simplification is dead; what survives is the hygiene layer (daily loss breaker, one-per-side) and the location/balance context for our other systems.</strong></li>
+</ul>
 <h2>Status</h2>
 <p>⚠️ Claims contest-attested only; heavy affiliate framing. The <strong>model itself is the value</strong>: location→validation→aggression→POC-target is a complete, falsifiable scalping framework, and the profile/volume-node toolbox fills a real gap in the vault. Candidate tests: POC-target exits on our intraday book; LVN reaction levels on NIFTY 15m.</p></article>
 
