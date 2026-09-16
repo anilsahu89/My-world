@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fabio Valentino — World-Ranked Scalper: Model Breakdown + Live NY Session</title>
+  <script>(function(){var h=location.hostname,seg=location.pathname.replace(/^\/+/,"").split("/")[0],prefix=(h.endsWith(".github.io")&&seg&&!/\.html?$/i.test(seg))?"/"+seg+"/":"/",d=document.createElement("base");d.href=prefix;document.head.prepend(d)})()</script>
+  <link rel="stylesheet" href="static/style.css">
+  
+  <style>
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0.8rem;
+  }
+  #globalSearch {
+    width: 220px;
+    padding: 5px 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.85rem;
+    transition: width 0.2s, border-color 0.2s;
+  }
+  #globalSearch:focus {
+    outline: none;
+    width: 320px;
+    border-color: var(--accent);
+  }
+  #globalSearch::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .search-group-label {
+    padding: 6px 12px 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--border);
+  }
+  .search-group-label:first-child {
+    border-top: none;
+  }
+  .search-item {
+    display: block;
+    padding: 7px 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .search-item:hover, .search-item.active {
+    background: var(--panel-2);
+    border-left-color: var(--accent);
+  }
+  .search-item-title {
+    font-weight: 600;
+  }
+  .search-item-snippet {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-empty {
+    padding: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  /* Settings button */
+  .settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .settings-btn:hover { border-color: var(--accent); transform: scale(1.1); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  /* Settings modal */
+  .modal {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-content {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    z-index: 1;
+  }
+  .modal-content h2 { margin-top: 0; }
+  /* Refresh button */
+  .refresh-btn {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(63,185,80,0.15);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+  }
+  .refresh-btn:hover { background: rgba(63,185,80,0.3); }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+  /* Scanner results panel */
+  .scan-results {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .scan-results h2 { margin-top: 0; border-bottom-color: var(--accent); }
+  .scan-results h3 { font-size: 0.95rem; margin-top: 1.2rem; }
+  /* Run status inline */
+  .run-status { font-size: 0.85rem; }
+  /* Broken link styling */
+  .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
+  </style>
+</head>
+<body>
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display:none">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content">
+      <h2>⚙️ Settings</h2>
+      <div class="kv">
+        <dt>GitHub Token</dt>
+        <dd>
+          <input type="password" id="ghTokenInput" placeholder="ghp_xxxx…"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Personal access token with <code>repo</code> + <code>actions</code> scopes. Stored in your browser's localStorage only.</p>
+        </dd>
+        <dt>Repository</dt>
+        <dd>
+          <input type="text" id="ghRepoInput" placeholder="owner/repo (e.g. mahi/invest-portal)"
+                 style="width:100%;padding:6px 10px;background:var(--panel-2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.88rem">
+          <p class="hint" style="margin-top:4px">Your GitHub Pages repository (used to trigger scanner workflows).</p>
+        </dd>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem">
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+        <button class="btn" onclick="closeSettings()">Cancel</button>
+      </div>
+      <div id="settingsStatus" style="margin-top:0.75rem"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/">📈 Mahi Future Investment</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/stocks">Live Stocks</a>
+      <a href="/paper">Paper Trades</a>
+      <a href="/concepts">Concepts</a>
+      <a href="/jobs">Job Log</a>
+      <a href="/alerts">Alerts</a>
+    </nav>
+    <div class="search-wrap">
+      <input type="text" id="globalSearch" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+      <span class="now" id="liveClock"></span>
+      <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
+  </header>
+  <main>
+    
+<a href="/" class="back">← Dashboard</a>
+<h1>Fabio Valentino — World-Ranked Scalper: Model Breakdown + Live NY Session</h1>
+<article class="md">
+<p><strong>Source:</strong> YouTube — <em>"Trading LIVE with a World TOP Ranked Scalper (EXTREME Accuracy)"</em> (Chart Fanatics / Ritz, uploaded 2025-09-21, 3h34m)</p>
+<p><strong>URL:</strong> https://www.youtube.com/watch?v=tvERE-Beu2U</p>
+<p><strong>Ingested:</strong> 2026-09-16</p>
+<p><strong>Raw transcript:</strong> <code>sources/source-fabio-valentino-scalping-2025-transcript.txt</code></p>
+<p><strong>Who:</strong> Futures scalper (NASDAQ/NQ), top-3 Robins Club world ranking, 500%+ in a 12-month contest period. Ranking is contest-attested (not audited); the episode is also an Apex funding affiliate vehicle.</p>
+<h2>Summary (2 lines)</h2>
+<p>The cleanest public walkthrough of a professional order-flow scalping model: trade only when the market is <strong>out of balance</strong> (auction-market-theory framing), refine location with <strong>low-volume nodes</strong>, trigger on <strong>big-order aggression bubbles</strong>, target the <strong>previous point of control</strong> and take <em>full</em> profit there (~70% reversal odds). Plus a second mean-reverting model for balanced sessions, and a session-split (directional New York / mean-reverting London) with a disciplined "be wrong immediately" risk culture.</p>
+<h2>The three-step directional model (New York session)</h2>
+<p>1. <strong>LOCATION (profile):</strong> markets spend most time <em>in balance</em> (value area). Trend patterns inside balance continue only ~30% of the time — that's the stop-out machine killing retail. Wait for <strong>out-of-balance</strong> conditions; he claims this alone lifts win rate 20–30 points.</p>
+<p>2. <strong>VALIDATION (structure + inefficiency):</strong> market structure/supply-demand zones; inefficiency (= one side's aggression, the real meaning behind "fair value gap"); <strong>low-volume nodes as reaction and continuation levels</strong>. Alert placed just below the node — <em>not</em> a resting limit order.</p>
+<p>3. <strong>TRIGGER (order flow):</strong> a <strong>big-order bubble</strong> (aggressive prints) at the location. "With direction + location + aggression your ability to predict is zero but your ability to read is 100." Stop goes immediately beyond the bubble → tiny risk; target = the <strong>previous balance area / POC</strong>.</p>
+<p><strong>Exit rule worth stealing:</strong> take the <strong>full position off at the previous balance area</strong> — the market reverses there ~70% of the time, so holding for the extra 30% is negative-EV. (Contrast: our systems' runner halves and 15:00 square-offs.)</p>
+<h2>Model 2 — mean-reverting (balanced sessions / London)</h2>
+<ul>
+<li>In consolidation, price oscillates around value: buy <strong>deep discount</strong> relative to the volume distribution, target the <strong>POC</strong> (where maximum volume traded = where operators transact).</li>
+<li><strong>Skip the first breakout</strong>, take the second swing: first break → wait for the retracement → big-buy bubble → enter with the big hands. First attempts fail 7-of-10 at the NASDAQ open.</li>
+<li>"If I'm wrong, I want to be wrong <strong>immediately</strong>" — never widen a stop against position.</li>
+</ul>
+<h2>Session &amp; risk philosophy</h2>
+<ul>
+<li>Session-split models: directional model <strong>only in the NY session</strong> (first London hour = fakeouts); mean-reversion for balanced/London conditions.</li>
+<li><strong>"Building profit for the day"</strong>: daily accumulation, stop at "enough" ("1,000 is enough — tomorrow is another day, I wait for the explosion day"). Goal = breakeven or small green on off-model days.</li>
+<li>Scaling out when a squeeze appears (aggressive opposite flow after extension).</li>
+<li>RR choice changes win rate: the further beyond daily ATR you target, the lower the probability.</li>
+</ul>
+<h2>Vault connections (what's new, what converges)</h2>
+<ul>
+<li><strong>NEW concepts (nothing comparable in the vault yet):</strong> Auction Market Theory; market profile (POC / value area / low- &amp; high-volume nodes); footprint / aggression-bubble reading; volume-node targeting. These extend <a href="/concepts/nk-volume-reading.html">NK Volume Reading</a> from daily-bar volume into intraday order-flow.</li>
+<li><strong>Convergences:</strong> his out-of-balance gate ≈ our regime gate family (<a href="/concepts/regime-mapping.html">regime mapping</a>, the engine's new NIFTY-direction gate — same doctrine, pro implementation); "be wrong immediately" ≈ NK/Keshan exit doctrine; "7-of-10 first-break attempts fail" ≈ NK's two-candle-close rule; <strong>his mean-reverting model is a sophisticated cousin of our O=H/O=L system</strong> (fade imbalance extremes back toward value — ours uses the open as the anchor, his uses the POC).</li>
+<li><strong>Applicable to our running setups:</strong> (a) <strong>POC/VWAP-anchored exits</strong> instead of pure 15:00 square-off — a testable hybrid for the OL/OH engine; (b) full-exit-at-target vs runners — matches our own backtest finding that tail-runners underperform; (c) session-window discipline supports our 09:30–09:45 entry window design.</li>
+</ul>
+<h2>Claims vs evidence</h2>
+<ul>
+<li>Contest ranking (Robins Club top-3, 500%/12mo) is at least third-party-contest-based — better than self-posted ledgers — but contest returns ≠ sustainable drawdown-adjusted returns, and the episode is an Apex affiliate funnel (funding-firm marketing).</li>
+<li>No ledger/verification shown in-session; the model logic, however, is internally coherent and mostly <strong>mechanically specified</strong> (balance detection + node + bubble trigger + POC target) — testable with intraday data and volume profiles.</li>
+</ul>
+<h2>Status</h2>
+<p>⚠️ Claims contest-attested only; heavy affiliate framing. The <strong>model itself is the value</strong>: location→validation→aggression→POC-target is a complete, falsifiable scalping framework, and the profile/volume-node toolbox fills a real gap in the vault. Candidate tests: POC-target exits on our intraday book; LVN reaction levels on NIFTY 15m.</p></article>
+
+  </main>
+  <footer>
+    <span>static portal · hosted on GitHub Pages</span>
+  </footer>
+  
+  <!-- Client-side app: search, paper trades, alerts, link fixing -->
+  <script src="static/direct-scan.js"></script>
+  <script src="static/kite-scan.js"></script>
+  <script src="static/app.js"></script>
+</body>
+</html>
