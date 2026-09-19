@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-09-19T12:28:44",
+ "fetched_at": "2026-09-19T21:11:25",
  "with_volume": [
   {
    "symbol": "ATGL",
@@ -578,7 +578,7 @@
  ],
  "with_vol_count": 14,
  "without_vol_count": 12,
- "chartink_raw_count": 197,
+ "chartink_raw_count": 200,
  "oh": {
   "with_volume": [
    {
@@ -644,6 +644,28 @@
     "day_high_pct": 2.16,
     "pct_change": -0.04,
     "price": 166.8300018310547,
+    "date": "2026-09-18",
+    "in_nse200": true
+   },
+   {
+    "symbol": "TATAELXSI",
+    "yf_open": 3399.0,
+    "yf_high": 3399.0,
+    "yf_low": 3266.699951171875,
+    "yf_close": 3266.699951171875,
+    "yf_volume": 297430,
+    "avg_vol_20d": 176681,
+    "ol_diff": 0.0,
+    "vol_ratio": 1.68,
+    "est_full_vol_ratio": 1.68,
+    "sl_price": 3399.0,
+    "shares": 3,
+    "pnl": 396.9,
+    "pnl_pct": 3.89,
+    "gap_pct": 0.0,
+    "day_high_pct": 3.89,
+    "pct_change": -3.89,
+    "price": 3266.699951171875,
     "date": "2026-09-18",
     "in_nse200": true
    }
@@ -716,8 +738,8 @@
     "in_nse200": true
    }
   ],
-  "with_vol_count": 3,
+  "with_vol_count": 4,
   "without_vol_count": 3,
-  "raw_count": 197
+  "raw_count": 200
  }
 }

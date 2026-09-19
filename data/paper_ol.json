@@ -1,5 +1,5 @@
 {
- "updated_at": "19 Sep 2026 12:28:44 IST",
+ "updated_at": "19 Sep 2026 21:11:25 IST",
  "feed": "yahoo",
  "feed_note": "~15 min delayed (no Kite login this morning)",
  "status": "RUNNING",
@@ -16,7 +16,7 @@
   "trades_today": 3,
   "today_pnl": 0,
   "realized_total": -397.27,
-  "unrealized": -24.6,
+  "unrealized": 130.2,
   "wins": 54,
   "losses": 55,
   "win_rate": 49.5,
@@ -72,9 +72,9 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.2,
-   "pnl_pct": -0.0,
-   "ltp": 3344.1,
+   "pnl": 154.6,
+   "pnl_pct": 2.31,
+   "ltp": 3266.7,
    "feed": "yahoo"
   }
  ],
