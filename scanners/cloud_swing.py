@@ -99,10 +99,14 @@ def _ticker_for(t: dict) -> str:
 def run_day() -> dict:
     state = read_state()
     today = now().date().isoformat()
-    if today > CFG["end_date"]:
-        return export(state)
-    if now().weekday() >= 5 or state.get("done_date") == today:
-        return export(state)
+    # no-op days must not rewrite swing_picks.json — every write is a commit,
+    # and the piggyback ticks would bump the timestamp 20x a day
+    if today > CFG["end_date"] or now().weekday() >= 5 \
+            or state.get("done_date") == today:
+        try:
+            return json.loads(OUT.read_text())
+        except (FileNotFoundError, json.JSONDecodeError):
+            return export(state)
     trades = state["trades"]
 
     # 1) manage open positions with today's bar (SL first = conservative)

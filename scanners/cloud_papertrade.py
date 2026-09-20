@@ -372,6 +372,28 @@ def gc_snapshot(state: dict, quotes: dict) -> dict:
                         "win_rate": round(wins / len(closed) * 100, 1) if closed else 0}, "open": opens, "closed": closed}
 
 
+def commit_state() -> None:
+    """Stage + commit exactly this engine's files. The workflow's own commit
+    step has a fixed file list that lags behind new desks — files it doesn't
+    list would stay unstaged and abort its `git pull --rebase` (run 118,
+    20 Sep). Self-committing keeps every run's tree clean regardless."""
+    import subprocess
+    files = ["data/cloud_paper_ol_state.json", "data/cloud_paper_gc_state.json",
+             "data/cloud_swing_state.json", "data/paper_ol.json",
+             "data/paper_gc.json", "data/swing_picks.json"]
+    for f in files:
+        subprocess.run(["git", "add", "--", f], cwd=ROOT,
+                       check=False, capture_output=True)
+    if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT,
+                      capture_output=True).returncode != 0:
+        stamp = now().strftime("%Y-%m-%dT%H:%MZ")
+        subprocess.run(
+            ["git", "-c", "user.name=papertrade-bot",
+             "-c", "user.email=papertrade-bot@users.noreply.github.com",
+             "commit", "-q", "-m", f"chore: paper trade state {stamp}"],
+            cwd=ROOT, check=False, capture_output=True)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("desk", choices=("nse", "gc", "swing", "all"))
@@ -409,6 +431,7 @@ def main() -> None:
             if read_json(cloud_swing.STATE_FILE, {}).get("done_date") \
                     != moment.date().isoformat():
                 cloud_swing.run_day()
+    commit_state()
 
 
 if __name__ == "__main__":
