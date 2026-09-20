@@ -257,7 +257,10 @@ def update_gc(state: dict) -> dict:
                 continue
             state["trades"].append({"id": state["next_id"], "session": quote["session"], "setup": setup, "symbol": symbol,
                 "side": side, "qty": round(GC_CAPITAL / quote["ltp"], 4), "entry_time": stamp, "entry_price": round(quote["ltp"], 2),
-                "sl_price": round(quote["low"] if side == "BUY" else quote["high"], 2), "exit_time": None, "exit_price": None,
+                # 0.5% buffer beyond the session extreme — the raw session
+                # low/high stop went 0W/8L on sub-0.5% noise (matches the
+                # local engines' fix)
+                "sl_price": round(quote["low"] * 0.995 if side == "BUY" else quote["high"] * 1.005, 2), "exit_time": None, "exit_price": None,
                 "reason": None, "pnl": None, "status": "OPEN"})
             state["next_id"] += 1
     return gc_snapshot(state, quotes)
@@ -293,7 +296,12 @@ def main() -> None:
         state = read_json(NSE_STATE, empty_state())
         snapshot = update_nse(state)
         write_json(NSE_STATE, state)
-        write_json(NSE_SNAPSHOT, snapshot)
+        # data/paper_ol.json is NOT written: that file is the local
+        # Kite-fed engine's board snapshot (better params: 09:45 cutoff,
+        # 15:00 square-off, NIFTY gate, buffered stops). The cloud NSE desk
+        # had been overwriting it every poll and the two books fought —
+        # the cloud desk keeps trading into its own state file only.
+        _ = snapshot
     if args.desk in ("gc", "all"):
         state = read_json(GC_STATE, empty_state())
         snapshot = update_gc(state)
