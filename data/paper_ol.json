@@ -1,20 +1,26 @@
 {
- "updated_at": "20 Sep 2026 20:26:20 IST",
+ "updated_at": "20 Sep 2026 21:16:21 IST",
  "feed": "yahoo",
- "feed_note": "~15 min delayed (no Kite login this morning); 18 Sep exits re-priced from 5m bars 20 Sep",
+ "feed_note": "Cloud engine (GitHub Actions + Yahoo, no Mac needed)",
  "status": "DONE",
- "today": "2026-09-18",
+ "today": "2026-09-20",
  "strategy": {
-  "rule": "fresh O=L -> BUY / fresh O=H -> SELL, \u20b910,000/stock",
+  "rule": "fresh O=L -> BUY / fresh O=H -> SELL, ₹10,000/stock",
   "sl": "O=L long: 0.5% below day low | O=H short: 0.5% above day high",
   "square_off": "15:00",
-  "entry_cutoff": "09:45"
+  "entry_cutoff": "09:45",
+  "time_stop_long": "10:45",
+  "nifty_gate": true,
+  "min_vol_mult": 1.5,
+  "min_vol_mult_by_setup": {
+   "ol": 3.0
+  }
  },
  "summary": {
   "open_count": 0,
   "closed_count": 112,
-  "trades_today": 3,
-  "today_pnl": 104.2,
+  "trades_today": 0,
+  "today_pnl": 0,
   "realized_total": -293.07,
   "unrealized": 0,
   "wins": 57,
@@ -38,8 +44,6 @@
    "exit_price": 2113.5,
    "reason": "EOD",
    "pnl": 78.4,
-   "pnl_pct": 0.92,
-   "ltp": null,
    "feed": "yahoo-corrected"
   },
   {
@@ -56,8 +60,6 @@
    "exit_price": 164.29,
    "reason": "EOD",
    "pnl": 15.6,
-   "pnl_pct": 0.16,
-   "ltp": null,
    "feed": "yahoo-corrected"
   },
   {
@@ -74,8 +76,6 @@
    "exit_price": 3338.9,
    "reason": "EOD",
    "pnl": 10.2,
-   "pnl_pct": 0.15,
-   "ltp": null,
    "feed": "yahoo-corrected"
   },
   {
@@ -92,8 +92,6 @@
    "exit_price": 2160.0,
    "reason": "EOD",
    "pnl": -236.0,
-   "pnl_pct": -2.66,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -110,8 +108,6 @@
    "exit_price": 1175.0,
    "reason": "EOD",
    "pnl": 17.6,
-   "pnl_pct": 0.19,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -128,8 +124,6 @@
    "exit_price": 1135.1,
    "reason": "EOD",
    "pnl": 49.6,
-   "pnl_pct": 0.55,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -146,8 +140,6 @@
    "exit_price": 640.0,
    "reason": "EOD",
    "pnl": -30.0,
-   "pnl_pct": -0.31,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -164,8 +156,6 @@
    "exit_price": 1553.0,
    "reason": "EOD",
    "pnl": 49.8,
-   "pnl_pct": 0.54,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -182,8 +172,6 @@
    "exit_price": 138.17,
    "reason": "EOD",
    "pnl": -191.1,
-   "pnl_pct": -1.94,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -200,8 +188,6 @@
    "exit_price": 4101.7,
    "reason": "EOD",
    "pnl": -99.2,
-   "pnl_pct": -1.19,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -218,8 +204,6 @@
    "exit_price": 229.3,
    "reason": "EOD",
    "pnl": 43.0,
-   "pnl_pct": 0.44,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -236,8 +220,6 @@
    "exit_price": 1087.4,
    "reason": "EOD",
    "pnl": 81.0,
-   "pnl_pct": 0.83,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -254,8 +236,6 @@
    "exit_price": 1481.3,
    "reason": "EOD",
    "pnl": 109.8,
-   "pnl_pct": 1.25,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -272,8 +252,6 @@
    "exit_price": 4945.0,
    "reason": "EOD",
    "pnl": -41.0,
-   "pnl_pct": -0.41,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -290,8 +268,6 @@
    "exit_price": 2405.6,
    "reason": "EOD",
    "pnl": 61.2,
-   "pnl_pct": 0.64,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -308,8 +284,6 @@
    "exit_price": 1875.0,
    "reason": "EOD",
    "pnl": -67.5,
-   "pnl_pct": -0.71,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -326,8 +300,6 @@
    "exit_price": 3043.14,
    "reason": "SL",
    "pnl": -186.12,
-   "pnl_pct": -2.08,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -344,8 +316,6 @@
    "exit_price": 1933.62,
    "reason": "SL",
    "pnl": -126.6,
-   "pnl_pct": -1.33,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -362,8 +332,6 @@
    "exit_price": 873.05,
    "reason": "EOD",
    "pnl": -55.55,
-   "pnl_pct": -0.58,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -380,8 +348,6 @@
    "exit_price": 972.9,
    "reason": "EOD",
    "pnl": 87.0,
-   "pnl_pct": 0.9,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -398,8 +364,6 @@
    "exit_price": 116.47,
    "reason": "EOD",
    "pnl": 112.66,
-   "pnl_pct": 1.14,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -416,8 +380,6 @@
    "exit_price": 5170.5,
    "reason": "EOD",
    "pnl": -69.5,
-   "pnl_pct": -1.33,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -434,8 +396,6 @@
    "exit_price": 1325.0,
    "reason": "EOD",
    "pnl": 315.0,
-   "pnl_pct": 3.28,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -452,8 +412,6 @@
    "exit_price": 979.8,
    "reason": "EOD",
    "pnl": 268.2,
-   "pnl_pct": 2.95,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -470,8 +428,6 @@
    "exit_price": 3850.7,
    "reason": "EOD",
    "pnl": 39.0,
-   "pnl_pct": 0.5,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -488,8 +444,6 @@
    "exit_price": 718.35,
    "reason": "EOD",
    "pnl": -40.3,
-   "pnl_pct": -0.43,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -506,8 +460,6 @@
    "exit_price": 4382.28,
    "reason": "SL",
    "pnl": -275.44,
-   "pnl_pct": -3.05,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -524,8 +476,6 @@
    "exit_price": 5625.73,
    "reason": "SL",
    "pnl": -77.27,
-   "pnl_pct": -1.35,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -542,8 +492,6 @@
    "exit_price": 1168.8,
    "reason": "EOD",
    "pnl": -35.2,
-   "pnl_pct": -0.38,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -560,8 +508,6 @@
    "exit_price": 1027.7,
    "reason": "EOD",
    "pnl": 80.1,
-   "pnl_pct": 0.87,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -578,8 +524,6 @@
    "exit_price": 1891.8,
    "reason": "EOD",
    "pnl": -19.0,
-   "pnl_pct": -0.2,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -596,8 +540,6 @@
    "exit_price": 301.4,
    "reason": "EOD",
    "pnl": -37.95,
-   "pnl_pct": -0.38,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -614,8 +556,6 @@
    "exit_price": 4962.0,
    "reason": "EOD",
    "pnl": -18.0,
-   "pnl_pct": -0.18,
-   "ltp": null,
    "feed": "f3scan"
   },
   {
@@ -632,8 +572,6 @@
    "exit_price": 362.1,
    "reason": "EOD",
    "pnl": -176.4,
-   "pnl_pct": -1.77,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -650,8 +588,6 @@
    "exit_price": 263.9,
    "reason": "EOD",
    "pnl": -91.2,
-   "pnl_pct": -0.92,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -668,8 +604,6 @@
    "exit_price": 428.28,
    "reason": "SL",
    "pnl": -162.84,
-   "pnl_pct": -1.68,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -686,8 +620,6 @@
    "exit_price": 389.1,
    "reason": "EOD",
    "pnl": 176.8,
-   "pnl_pct": 1.78,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -704,8 +636,6 @@
    "exit_price": 76.66,
    "reason": "EOD",
    "pnl": 45.85,
-   "pnl_pct": 0.46,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -722,8 +652,6 @@
    "exit_price": 1859.0,
    "reason": "EOD",
    "pnl": 25.0,
-   "pnl_pct": 0.27,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -740,8 +668,6 @@
    "exit_price": 270.95,
    "reason": "EOD",
    "pnl": 12.6,
-   "pnl_pct": 0.13,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -758,8 +684,6 @@
    "exit_price": 1833.5,
    "reason": "EOD",
    "pnl": 32.5,
-   "pnl_pct": 0.36,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -776,8 +700,6 @@
    "exit_price": 348.9,
    "reason": "EOD",
    "pnl": -28.0,
-   "pnl_pct": -0.29,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -794,8 +716,6 @@
    "exit_price": 135.16,
    "reason": "EOD",
    "pnl": -28.47,
-   "pnl_pct": -0.29,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -812,8 +732,6 @@
    "exit_price": 5172.0,
    "reason": "EOD",
    "pnl": 21.0,
-   "pnl_pct": 0.41,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -830,8 +748,6 @@
    "exit_price": 1943.0,
    "reason": "EOD",
    "pnl": 27.5,
-   "pnl_pct": 0.28,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -848,8 +764,6 @@
    "exit_price": 823.7,
    "reason": "EOD",
    "pnl": 26.4,
-   "pnl_pct": 0.27,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -866,8 +780,6 @@
    "exit_price": 1149.2,
    "reason": "EOD",
    "pnl": -127.2,
-   "pnl_pct": -1.36,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -884,8 +796,6 @@
    "exit_price": 1996.0,
    "reason": "EOD",
    "pnl": 75.5,
-   "pnl_pct": 0.76,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -902,8 +812,6 @@
    "exit_price": 9575.0,
    "reason": "EOD",
    "pnl": 48.5,
-   "pnl_pct": 0.51,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -920,8 +828,6 @@
    "exit_price": 1154.5,
    "reason": "EOD",
    "pnl": -20.8,
-   "pnl_pct": -0.22,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -938,8 +844,6 @@
    "exit_price": 1012.7,
    "reason": "EOD",
    "pnl": -45.0,
-   "pnl_pct": -0.49,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -956,8 +860,6 @@
    "exit_price": 2891.9,
    "reason": "EOD",
    "pnl": -10.8,
-   "pnl_pct": -0.12,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -974,8 +876,6 @@
    "exit_price": 3122.7,
    "reason": "EOD",
    "pnl": -108.0,
-   "pnl_pct": -1.14,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -992,8 +892,6 @@
    "exit_price": 3330.0,
    "reason": "EOD",
    "pnl": 10.8,
-   "pnl_pct": 0.11,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1010,8 +908,6 @@
    "exit_price": 2626.0,
    "reason": "SL",
    "pnl": -36.9,
-   "pnl_pct": -0.47,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1028,8 +924,6 @@
    "exit_price": 5020.0,
    "reason": "EOD",
    "pnl": 12.5,
-   "pnl_pct": 0.25,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1046,8 +940,6 @@
    "exit_price": 561.5,
    "reason": "EOD",
    "pnl": 124.95,
-   "pnl_pct": 1.29,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1064,8 +956,6 @@
    "exit_price": 1147.8,
    "reason": "EOD",
    "pnl": 24.8,
-   "pnl_pct": 0.27,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1082,8 +972,6 @@
    "exit_price": 355.9,
    "reason": "EOD",
    "pnl": 7.0,
-   "pnl_pct": 0.07,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -1100,8 +988,6 @@
    "exit_price": 566.25,
    "reason": "EOD",
    "pnl": -121.55,
-   "pnl_pct": -1.25,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -1118,8 +1004,6 @@
    "exit_price": 2205.0,
    "reason": "EOD",
    "pnl": 3.2,
-   "pnl_pct": 0.04,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -1136,8 +1020,6 @@
    "exit_price": 1775.0,
    "reason": "EOD",
    "pnl": 77.5,
-   "pnl_pct": 0.88,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -1154,8 +1036,6 @@
    "exit_price": 715.0,
    "reason": "EOD",
    "pnl": -6.5,
-   "pnl_pct": -0.07,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -1172,8 +1052,6 @@
    "exit_price": 97.45,
    "reason": "EOD",
    "pnl": 3.06,
-   "pnl_pct": 0.03,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -1190,8 +1068,6 @@
    "exit_price": 117.24,
    "reason": "EOD",
    "pnl": -51.24,
-   "pnl_pct": -0.52,
-   "ltp": null,
    "feed": "f3scan-corrected"
   },
   {
@@ -1208,8 +1084,6 @@
    "exit_price": 278.15,
    "reason": "EOD",
    "pnl": -42.0,
-   "pnl_pct": -0.43,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1226,8 +1100,6 @@
    "exit_price": 565.7,
    "reason": "EOD",
    "pnl": -141.1,
-   "pnl_pct": -1.45,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1244,8 +1116,6 @@
    "exit_price": 211.0,
    "reason": "SL",
    "pnl": -84.64,
-   "pnl_pct": -0.86,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1262,8 +1132,6 @@
    "exit_price": 1898.6,
    "reason": "EOD",
    "pnl": -22.5,
-   "pnl_pct": -0.24,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1280,8 +1148,6 @@
    "exit_price": 76.11,
    "reason": "SL",
    "pnl": -71.5,
-   "pnl_pct": -0.72,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1298,8 +1164,6 @@
    "exit_price": 87.84,
    "reason": "EOD",
    "pnl": 142.6,
-   "pnl_pct": 1.43,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1316,8 +1180,6 @@
    "exit_price": 886.0,
    "reason": "EOD",
    "pnl": -94.6,
-   "pnl_pct": -0.96,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1334,8 +1196,6 @@
    "exit_price": 661.4,
    "reason": "EOD",
    "pnl": 28.5,
-   "pnl_pct": 0.29,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1352,8 +1212,6 @@
    "exit_price": 874.4,
    "reason": "EOD",
    "pnl": -14.85,
-   "pnl_pct": -0.15,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1370,8 +1228,6 @@
    "exit_price": 2011.6,
    "reason": "EOD",
    "pnl": 13.0,
-   "pnl_pct": 0.32,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1388,8 +1244,6 @@
    "exit_price": 473.15,
    "reason": "EOD",
    "pnl": 14.5,
-   "pnl_pct": 0.31,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1406,8 +1260,6 @@
    "exit_price": 268.4,
    "reason": "EOD",
    "pnl": -57.6,
-   "pnl_pct": -1.21,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1424,8 +1276,6 @@
    "exit_price": 82.14,
    "reason": "EOD",
    "pnl": 3.6,
-   "pnl_pct": 0.07,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1442,8 +1292,6 @@
    "exit_price": 112.22,
    "reason": "EOD",
    "pnl": 34.32,
-   "pnl_pct": 0.69,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1460,8 +1308,6 @@
    "exit_price": 317.55,
    "reason": "EOD",
    "pnl": 15.75,
-   "pnl_pct": 0.33,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1478,8 +1324,6 @@
    "exit_price": 1924.6,
    "reason": "EOD",
    "pnl": -17.6,
-   "pnl_pct": -0.46,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1496,8 +1340,6 @@
    "exit_price": 1929.0,
    "reason": "EOD",
    "pnl": 22.8,
-   "pnl_pct": 0.59,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1514,8 +1356,6 @@
    "exit_price": 310.0,
    "reason": "EOD",
    "pnl": 55.5,
-   "pnl_pct": 1.18,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1532,8 +1372,6 @@
    "exit_price": 1059.1,
    "reason": "EOD",
    "pnl": 38.0,
-   "pnl_pct": 0.89,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1550,8 +1388,6 @@
    "exit_price": 1003.0,
    "reason": "EOD",
    "pnl": 2.8,
-   "pnl_pct": 0.07,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1568,8 +1404,6 @@
    "exit_price": 1438.2,
    "reason": "EOD",
    "pnl": 45.6,
-   "pnl_pct": 1.05,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1586,8 +1420,6 @@
    "exit_price": 1570.0,
    "reason": "EOD",
    "pnl": -27.3,
-   "pnl_pct": -0.58,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1604,8 +1436,6 @@
    "exit_price": 314.05,
    "reason": "EOD",
    "pnl": -7.5,
-   "pnl_pct": -0.16,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1622,8 +1452,6 @@
    "exit_price": 165.6,
    "reason": "EOD",
    "pnl": 53.36,
-   "pnl_pct": 1.1,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1640,8 +1468,6 @@
    "exit_price": 992.6,
    "reason": "EOD",
    "pnl": 22.0,
-   "pnl_pct": 0.44,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1658,8 +1484,6 @@
    "exit_price": 1160.0,
    "reason": "EOD",
    "pnl": 43.6,
-   "pnl_pct": 0.93,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1676,8 +1500,6 @@
    "exit_price": 84.9,
    "reason": "EOD",
    "pnl": -14.75,
-   "pnl_pct": -0.3,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1694,8 +1516,6 @@
    "exit_price": 718.0,
    "reason": "EOD",
    "pnl": -14.4,
-   "pnl_pct": -0.34,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1712,8 +1532,6 @@
    "exit_price": 4324.0,
    "reason": "EOD",
    "pnl": -17.4,
-   "pnl_pct": -0.4,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1730,8 +1548,6 @@
    "exit_price": 1222.8,
    "reason": "EOD",
    "pnl": -28.4,
-   "pnl_pct": -0.58,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1748,8 +1564,6 @@
    "exit_price": 338.5,
    "reason": "EOD",
    "pnl": -5.6,
-   "pnl_pct": -0.12,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1766,8 +1580,6 @@
    "exit_price": 911.6,
    "reason": "SL",
    "pnl": -74.25,
-   "pnl_pct": -1.66,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1784,8 +1596,6 @@
    "exit_price": 1274.9,
    "reason": "SL",
    "pnl": -28.8,
-   "pnl_pct": -0.76,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1802,8 +1612,6 @@
    "exit_price": 426.55,
    "reason": "EOD",
    "pnl": 67.65,
-   "pnl_pct": 1.42,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1820,8 +1628,6 @@
    "exit_price": 2575.5,
    "reason": "EOD",
    "pnl": 16.4,
-   "pnl_pct": 0.63,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1838,8 +1644,6 @@
    "exit_price": 1683.3,
    "reason": "EOD",
    "pnl": 7.0,
-   "pnl_pct": 0.21,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1856,8 +1660,6 @@
    "exit_price": 838.1,
    "reason": "EOD",
    "pnl": 41.7,
-   "pnl_pct": 0.84,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1874,8 +1676,6 @@
    "exit_price": 343.3,
    "reason": "SL",
    "pnl": -9.8,
-   "pnl_pct": -0.2,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1892,8 +1692,6 @@
    "exit_price": 266.6,
    "reason": "EOD",
    "pnl": 61.2,
-   "pnl_pct": 1.29,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1910,8 +1708,6 @@
    "exit_price": 1647.5,
    "reason": "EOD",
    "pnl": -2.1,
-   "pnl_pct": -0.04,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1928,8 +1724,6 @@
    "exit_price": 621.65,
    "reason": "SL",
    "pnl": -18.8,
-   "pnl_pct": -0.38,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1946,8 +1740,6 @@
    "exit_price": 2582.8,
    "reason": "EOD",
    "pnl": 5.3,
-   "pnl_pct": 0.2,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1964,8 +1756,6 @@
    "exit_price": 2489.0,
    "reason": "EOD",
    "pnl": -38.0,
-   "pnl_pct": -0.77,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -1982,8 +1772,6 @@
    "exit_price": 2947.7,
    "reason": "EOD",
    "pnl": 144.6,
-   "pnl_pct": 4.68,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -2000,8 +1788,6 @@
    "exit_price": 1175.6,
    "reason": "EOD",
    "pnl": -33.6,
-   "pnl_pct": -0.72,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -2018,8 +1804,6 @@
    "exit_price": 665.8,
    "reason": "EOD",
    "pnl": 146.65,
-   "pnl_pct": 3.25,
-   "ltp": null,
    "feed": "yahoo"
   },
   {
@@ -2036,8 +1820,6 @@
    "exit_price": 723.05,
    "reason": "SL",
    "pnl": -5.4,
-   "pnl_pct": -0.12,
-   "ltp": null,
    "feed": "yahoo"
   }
  ],
