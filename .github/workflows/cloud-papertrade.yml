@@ -8,11 +8,16 @@ on:
         required: true
         default: all
         type: choice
-        options: [all, nse, gc]
+        options: [all, nse, gc, swing]
   schedule:
-    # NSE: staggered 15-minute polls, including the post-close square-off.
-    - cron: "7,22,37,52 4-9 * * 1-5"
-    - cron: "7 10 * * 1-5"
+    # NSE entry window: 5-minute polls 09:32-09:57 IST (cutoff 09:45).
+    - cron: "2,7,12,17 4 * * 1-5"
+    # NSE management: 15-minute polls 10:07-14:52 IST (SL / 10:45 time-stop).
+    - cron: "7,22,37,52 5-9 * * 1-5"
+    # NSE square-off: final closes at 15:37 / 15:52 IST (bars complete).
+    - cron: "7,22 10 * * 1-5"
+    # Swing desk: scan the day's completed daily bars, 17:35 IST weekdays.
+    - cron: "5 12 * * 1-5"
     # Gold/BTC: 15-minute cloud polling; Gold simply has no session on weekends.
     - cron: "11,26,41,56 0-23 * * *"
 
@@ -33,17 +38,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install market-data dependency
-        run: pip install yfinance
+      - name: Install market-data dependencies
+        run: pip install yfinance pandas numpy
       - name: Choose scheduled desk
         id: desk
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "value=${{ inputs.desk }}" >> "$GITHUB_OUTPUT"
-          elif [ "${{ github.event.schedule }}" = "7,22,37,52 4-9 * * 1-5" ] || [ "${{ github.event.schedule }}" = "7 10 * * 1-5" ]; then
-            echo "value=nse" >> "$GITHUB_OUTPUT"
-          else
+          elif [ "${{ github.event.schedule }}" = "11,26,41,56 0-23 * * *" ]; then
             echo "value=gc" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "5 12 * * 1-5" ]; then
+            echo "value=swing" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=nse" >> "$GITHUB_OUTPUT"
           fi
       - name: Update paper ledger and dashboard snapshots
         run: python3 scanners/cloud_papertrade.py "${{ steps.desk.outputs.value }}"
@@ -51,7 +58,7 @@ jobs:
         run: |
           git config user.name "papertrade-bot"
           git config user.email "papertrade-bot@users.noreply.github.com"
-          git add -A -- data/cloud_paper_ol_state.json data/cloud_paper_gc_state.json data/paper_ol.json data/paper_gc.json
+          git add -A -- data/cloud_paper_ol_state.json data/cloud_paper_gc_state.json data/cloud_swing_state.json data/paper_ol.json data/paper_gc.json data/swing_picks.json
           git diff --cached --quiet || git commit -m "chore: cloud paper trade $(date -u +%Y-%m-%dT%H:%MZ)"
           git pull --rebase origin main
           git push
