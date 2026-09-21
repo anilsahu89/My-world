@@ -1,5 +1,5 @@
 {
- "updated_at": "21 Sep 2026 12:53:39 IST",
+ "updated_at": "21 Sep 2026 12:56:47 IST",
  "feed": "yahoo",
  "feed_note": "Cloud engine (GitHub Actions + Yahoo, no Mac needed)",
  "status": "RUNNING",
@@ -22,7 +22,7 @@
   "trades_today": 5,
   "today_pnl": 0,
   "realized_total": -293.07,
-  "unrealized": 0,
+  "unrealized": -0.45,
   "wins": 57,
   "losses": 55,
   "win_rate": 50.9,
@@ -42,11 +42,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": 3.5,
    "feed": "yahoo-f3",
    "drive_pct": 2.17,
-   "ltp": 1811.3,
-   "pnl_pct": 0.0
+   "ltp": 1812.0,
+   "pnl_pct": 0.04
   },
   {
    "id": 120,
@@ -61,11 +61,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": null,
    "feed": "yahoo-f3",
    "drive_pct": 1.75,
-   "ltp": 1292.2,
-   "pnl_pct": -0.0
+   "ltp": null,
+   "pnl_pct": null
   },
   {
    "id": 121,
@@ -80,11 +80,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -2.0,
    "feed": "yahoo-f3",
    "drive_pct": 1.59,
-   "ltp": 2446.3,
-   "pnl_pct": 0.0
+   "ltp": 2445.8,
+   "pnl_pct": -0.02
   },
   {
    "id": 122,
@@ -99,11 +99,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": 1.25,
    "feed": "yahoo-f3",
    "drive_pct": 1.43,
-   "ltp": 391.4,
-   "pnl_pct": -0.0
+   "ltp": 391.45,
+   "pnl_pct": 0.01
   },
   {
    "id": 123,
@@ -118,11 +118,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -3.2,
    "feed": "yahoo-f3",
    "drive_pct": 0.88,
-   "ltp": 2010.3,
-   "pnl_pct": 0.0
+   "ltp": 2009.5,
+   "pnl_pct": -0.04
   }
  ],
  "closed": [
