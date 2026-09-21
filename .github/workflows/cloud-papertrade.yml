@@ -39,7 +39,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install market-data dependencies
-        run: pip install yfinance pandas numpy
+        run: pip install yfinance pandas numpy pyotp
       - name: Choose scheduled desk
         id: desk
         run: |
