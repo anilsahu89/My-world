@@ -1,8 +1,8 @@
 {
- "updated_at": "21 Sep 2026 12:59:37 IST",
+ "updated_at": "21 Sep 2026 16:08:18 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
- "status": "RUNNING",
+ "status": "DONE",
  "today": "2026-09-21",
  "strategy": {
   "rule": "fresh O=L -> BUY / fresh O=H -> SELL, ₹10,000/stock",
@@ -17,18 +17,19 @@
   }
  },
  "summary": {
-  "open_count": 5,
-  "closed_count": 112,
+  "open_count": 0,
+  "closed_count": 117,
   "trades_today": 5,
-  "today_pnl": 0,
-  "realized_total": -293.07,
-  "unrealized": 25.85,
-  "wins": 57,
-  "losses": 55,
-  "win_rate": 50.9,
+  "today_pnl": 201.5,
+  "realized_total": -91.57,
+  "unrealized": 0,
+  "wins": 61,
+  "losses": 56,
+  "win_rate": 52.1,
   "days": 15
  },
- "open": [
+ "open": [],
+ "closed": [
   {
    "id": 119,
    "date": "2026-09-21",
@@ -39,14 +40,11 @@
    "entry_time": "12:53:20",
    "entry_price": 1811.3,
    "sl_price": 1745.63,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -2.0,
-   "feed": "yahoo-f3",
-   "drive_pct": 2.17,
-   "ltp": 1810.9,
-   "pnl_pct": -0.02
+   "exit_time": "16:08:00",
+   "exit_price": 1821.0,
+   "reason": "EOD",
+   "pnl": 48.5,
+   "feed": "yahoo-f3"
   },
   {
    "id": 120,
@@ -58,14 +56,11 @@
    "entry_time": "12:53:20",
    "entry_price": 1292.2,
    "sl_price": 1245.14,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 13.3,
-   "feed": "yahoo-f3",
-   "drive_pct": 1.75,
-   "ltp": 1294.1,
-   "pnl_pct": 0.15
+   "exit_time": "16:08:00",
+   "exit_price": 1296.4,
+   "reason": "EOD",
+   "pnl": 29.4,
+   "feed": "yahoo-f3"
   },
   {
    "id": 121,
@@ -77,14 +72,11 @@
    "entry_time": "12:53:20",
    "entry_price": 2446.3,
    "sl_price": 2401.03,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 2.4,
-   "feed": "yahoo-f3",
-   "drive_pct": 1.59,
-   "ltp": 2446.9,
-   "pnl_pct": 0.02
+   "exit_time": "16:08:00",
+   "exit_price": 2440.0,
+   "reason": "EOD",
+   "pnl": -25.2,
+   "feed": "yahoo-f3"
   },
   {
    "id": 122,
@@ -96,14 +88,11 @@
    "entry_time": "12:53:20",
    "entry_price": 391.4,
    "sl_price": 363.57,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 23.75,
-   "feed": "yahoo-f3",
-   "drive_pct": 1.43,
-   "ltp": 392.35,
-   "pnl_pct": 0.24
+   "exit_time": "16:08:00",
+   "exit_price": 396.2,
+   "reason": "EOD",
+   "pnl": 120.0,
+   "feed": "yahoo-f3"
   },
   {
    "id": 123,
@@ -115,17 +104,12 @@
    "entry_time": "12:53:20",
    "entry_price": 2010.3,
    "sl_price": 1955.17,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -11.6,
-   "feed": "yahoo-f3",
-   "drive_pct": 0.88,
-   "ltp": 2007.4,
-   "pnl_pct": -0.14
-  }
- ],
- "closed": [
+   "exit_time": "16:08:00",
+   "exit_price": 2017.5,
+   "reason": "EOD",
+   "pnl": 28.8,
+   "feed": "yahoo-f3"
+  },
   {
    "id": 116,
    "date": "2026-09-18",
@@ -2065,10 +2049,10 @@
    "trades": 5,
    "ol": 0,
    "oh": 0,
-   "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -293.07
+   "wins": 4,
+   "losses": 1,
+   "pnl": 201.5,
+   "cum": -91.57
   }
  ]
 }
