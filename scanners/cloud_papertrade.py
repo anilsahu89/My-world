@@ -89,12 +89,32 @@ def nifty_bias() -> int:
         return 0
 
 
+FEED_NAME = "yahoo"            # set per run: "angel" when SmartAPI answered
+
+
 def nse_symbols() -> list[str]:
     rows = (DATA / "nse200_symbols.csv").read_text().splitlines()
     return [row.strip().split(",")[0] for row in rows[1:] if row.strip()]
 
 
 def nse_quotes() -> dict[str, dict]:
+    """Live day-OHLC quotes for the universe. Angel SmartAPI when its
+    credentials are present (real-time, TOTP auto-login), Yahoo's delayed
+    feed as automatic fallback — the desk never skips a poll over auth."""
+    global FEED_NAME
+    try:
+        import angel_feed
+        if angel_feed.available():
+            q = angel_feed.quotes(nse_symbols())
+            if len(q) >= 100:            # healthy universe coverage
+                FEED_NAME = "angel"
+                return q
+    except Exception as e:
+        print(f"angel feed unavailable, falling back to yahoo: {e}")
+    return _yahoo_quotes()
+
+
+def _yahoo_quotes() -> dict[str, dict]:
     symbols = nse_symbols()
     tickers = [f"{symbol}.NS" for symbol in symbols]
     bars = yf.download(tickers, period="2d", interval="1d", group_by="ticker",
@@ -199,7 +219,7 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
                 "sl_price": round((quote["low"] if side == "BUY" else quote["high"])
                                   * (0.995 if side == "BUY" else 1.005), 2),
                 "exit_time": None, "exit_price": None, "reason": None, "pnl": None,
-                "status": "OPEN", "feed": "yahoo"})
+                "status": "OPEN", "feed": FEED_NAME})
             state["next_id"] += 1
 
 
@@ -251,7 +271,7 @@ def f3_scan(state: dict, quotes: dict, moment: datetime) -> None:
             "symbol": symbol, "side": "BUY", "qty": qty, "entry_time": stamp,
             "entry_price": round(entry, 2), "sl_price": round(sl * 0.995, 2),
             "exit_time": None, "exit_price": None, "reason": None, "pnl": None,
-            "status": "OPEN", "feed": "f3scan-cloud", "drive_pct": round(drive, 2)})
+            "status": "OPEN", "feed": f"{FEED_NAME}-f3", "drive_pct": round(drive, 2)})
         state["next_id"] += 1
 
 
@@ -292,8 +312,10 @@ def nse_snapshot(state: dict, quotes: dict, today: str) -> dict:
     realized = round(sum(t.get("pnl") or 0 for t in closed), 2)
     unrealized = round(sum(t.get("pnl") or 0 for t in opens), 2)
     today_row = next((row for row in daily if row["date"] == today), None)
-    return {"updated_at": now().strftime("%d %b %Y %H:%M:%S IST"), "feed": "yahoo",
-            "feed_note": "Cloud engine (GitHub Actions + Yahoo, no Mac needed)",
+    return {"updated_at": now().strftime("%d %b %Y %H:%M:%S IST"), "feed": FEED_NAME,
+            "feed_note": ("Angel SmartAPI live feed (cloud, no Mac)"
+                          if FEED_NAME == "angel" else
+                          "Cloud engine (GitHub Actions + Yahoo, no Mac needed)"),
             "status": "DONE" if now().time() >= time(15, 30) else "RUNNING", "today": today,
             "strategy": {"rule": "fresh O=L -> BUY / fresh O=H -> SELL, ₹10,000/stock",
                          "sl": "O=L long: 0.5% below day low | O=H short: 0.5% above day high",
