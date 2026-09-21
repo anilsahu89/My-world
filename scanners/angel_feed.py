@@ -93,20 +93,43 @@ def login(max_tries: int = 3) -> str:
     raise RuntimeError(f"Angel login failed for {c['client_code']}: {last}")
 
 
+def _token_map(symbols: list[str]) -> dict[str, str]:
+    """symbol -> Angel exchange token via the scrip master (cached per day)."""
+    import datetime as _dt
+    cache = Path(f"/tmp/angel_scrip_master_{_dt.date.today().isoformat()}.json")
+    nse: dict[str, str] = {}
+    if cache.exists():
+        nse = json.loads(cache.read_text())
+    else:
+        r = requests.get("https://margincalculator.angelbroking.com"
+                         "/OpenAPI_File/files/OpenAPIScripMaster.json",
+                         timeout=90)
+        r.raise_for_status()
+        nse = {row["symbol"]: row["token"] for row in r.json()
+               if row.get("exch_seg") == "NSE"
+               and row.get("symbol", "").endswith("-EQ")}
+        try:
+            cache.write_text(json.dumps(nse))
+        except OSError:
+            pass
+    return {s: nse[f"{s}-EQ"] for s in symbols if f"{s}-EQ" in nse}
+
+
 def quotes(symbols: list[str]) -> dict[str, dict]:
-    """Batch day-OHLC quotes for NSE EQ symbols. Throws on hard failure —
-    the engine falls back to Yahoo when it does."""
+    """Batch live day-OHLC quotes for NSE EQ symbols. Throws on hard failure
+    — the engine falls back to Yahoo when it does."""
     c = _creds()
     jwt = login()
+    tok = _token_map([s.strip().upper() for s in symbols])
     out: dict[str, dict] = {}
-    names = [s.strip().upper() for s in symbols]
+    names = list(tok)
     for i in range(0, len(names), BATCH):
         chunk = names[i:i + BATCH]
         r = requests.post(
-            f"{BASE_URL}/rest/secure/market/v1/quote/",
+            f"{BASE_URL}/rest/secure/angelbroking/market/v1/quote/",
             headers=_headers(c["api_key"], jwt),
-            json={"mode": "FULL", "exchange": ["NSE"] * len(chunk),
-                  "tradingsymbol": [f"{s}-EQ" for s in chunk]},
+            json={"mode": "FULL",
+                  "exchangeTokens": {"NSE": [tok[s] for s in chunk]}},
             timeout=25)
         try:
             data = r.json()
@@ -126,7 +149,7 @@ def quotes(symbols: list[str]) -> dict[str, dict]:
             out[sym] = {
                 "open": _f("open"), "high": _f("high"),
                 "low": _f("low"), "ltp": _f("ltp"),
-                "volume": _f("volume", float) or 0.0,
+                "volume": _f("tradeVolume", float) or 0.0,
                 "prev_close": _f("close"),
             }
         if i + BATCH < len(names):
