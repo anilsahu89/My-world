@@ -8,8 +8,18 @@ on:
         required: true
         default: all
         type: choice
-        options: [all, nse, gc, swing]
+        options: [all, nse, gc, swing, poller]
+        mode:
+          description: "Poller mode"
+          required: false
+          default: day
+          type: choice
+          options: [day, evening]
   schedule:
+    # Morning ignition: three shots at starting the day poller.
+    - cron: "46 3 * * 1-5"
+    - cron: "54 3 * * 1-5"
+    - cron: "2 4 * * 1-5"
     # NSE entry window: 5-minute polls 09:32-09:57 IST (cutoff 09:45).
     - cron: "2,7,12,17 4 * * 1-5"
     # NSE management: 15-minute polls 10:07-14:52 IST (SL / 10:45 time-stop).
@@ -27,6 +37,7 @@ concurrency:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   papertrade:
@@ -58,6 +69,8 @@ jobs:
           ANGEL_CLIENT_CODE: ${{ secrets.ANGEL_CLIENT_CODE }}
           ANGEL_PASSWORD: ${{ secrets.ANGEL_PASSWORD }}
           ANGEL_TOTP_SECRET: ${{ secrets.ANGEL_TOTP_SECRET }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          POLLER_MODE: ${{ inputs.mode }}
         run: python3 scanners/cloud_papertrade.py "${{ steps.desk.outputs.value }}"
       - name: Commit changed state
         run: |

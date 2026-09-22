@@ -416,11 +416,32 @@ def commit_state() -> None:
             cwd=ROOT, check=False, capture_output=True)
 
 
+def maybe_start_poller() -> None:
+    """Any scheduled run that survives GitHub's cron throttling inside the
+    session window becomes the day-poller's ignition — one landing run is
+    enough, dense polling no longer depends on cron at all."""
+    try:
+        import market_poller as mp
+    except ImportError:
+        return
+    m = now()
+    if m.weekday() >= 5 or not (time(9, 13) <= m.time() <= time(15, 0)):
+        return
+    if mp.board_heartbeat_alive():
+        return                      # a poller is already committing
+    mp.dispatch_poller("day")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("desk", choices=("nse", "gc", "swing", "all"))
+    parser.add_argument("desk", choices=("nse", "gc", "swing", "poller", "all"))
     args = parser.parse_args()
     DATA.mkdir(exist_ok=True)
+    if args.desk == "poller":
+        import os
+        import market_poller as mp
+        mp.main(os.environ.get("POLLER_MODE") or "day")
+        return
     if args.desk in ("nse", "all"):
         state = read_json(NSE_STATE, empty_state())
         snapshot = update_nse(state)
@@ -454,6 +475,7 @@ def main() -> None:
                     != moment.date().isoformat():
                 cloud_swing.run_day()
     commit_state()
+    maybe_start_poller()
 
 
 if __name__ == "__main__":
