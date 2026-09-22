@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 14,
+ "next_id": 15,
  "trades": [
   {
    "id": 1,
@@ -99,16 +99,16 @@
    "symbol": "BEML",
    "setup": "CS-PINS",
    "side": "SELL",
-   "status": "OPEN",
+   "status": "CLOSED",
    "entry_date": "2026-09-09",
    "qty": 4.0,
    "entry": 2105.0,
    "sl": 2205.0,
    "tgt": 1905.0,
-   "sessions": 9,
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "sessions": 10,
+   "exit": 2096.8,
+   "reason": "TIME10",
+   "pnl": 32.8
   },
   {
    "id": 7,
@@ -135,16 +135,16 @@
    "symbol": "GRAPHITE",
    "setup": "CS-PINS",
    "side": "SELL",
-   "status": "OPEN",
+   "status": "CLOSED",
    "entry_date": "2026-09-11",
    "qty": 12.0,
    "entry": 812.0,
    "sl": 868.95,
    "tgt": 698.1,
-   "sessions": 9,
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "sessions": 10,
+   "exit": 827.75,
+   "reason": "TIME10",
+   "pnl": -189.0
   },
   {
    "id": 9,
@@ -177,7 +177,7 @@
    "entry": 539.0,
    "sl": 503.0,
    "tgt": 611.0,
-   "sessions": 5,
+   "sessions": 6,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -213,7 +213,7 @@
    "entry": 722.4,
    "sl": 681.9,
    "tgt": 803.4,
-   "sessions": 5,
+   "sessions": 6,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -231,11 +231,29 @@
    "entry": 1480.1,
    "sl": 1423.6,
    "tgt": 1593.1,
-   "sessions": 3,
+   "sessions": 4,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "id": 14,
+   "signal_date": "2026-09-22",
+   "market": "NSE",
+   "symbol": "JSWCEMENT",
+   "setup": "CS-PINS",
+   "side": "SELL",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 118.1,
+   "tgt": null,
+   "sessions": 0,
    "exit": null,
    "reason": null,
    "pnl": null
   }
  ],
- "done_date": "2026-09-21"
+ "done_date": "2026-09-22"
 }
