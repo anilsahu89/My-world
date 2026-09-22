@@ -1,9 +1,9 @@
 {
- "updated_at": "21 Sep 2026 21:54:15 IST",
+ "updated_at": "22 Sep 2026 11:56:23 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
- "status": "DONE",
- "today": "2026-09-21",
+ "status": "RUNNING",
+ "today": "2026-09-22",
  "strategy": {
   "rule": "fresh O=L -> BUY / fresh O=H -> SELL, ₹10,000/stock",
   "sl": "O=L long: 0.5% below day low | O=H short: 0.5% above day high",
@@ -19,8 +19,8 @@
  "summary": {
   "open_count": 0,
   "closed_count": 117,
-  "trades_today": 5,
-  "today_pnl": 201.5,
+  "trades_today": 0,
+  "today_pnl": 0,
   "realized_total": -91.57,
   "unrealized": 0,
   "wins": 61,
