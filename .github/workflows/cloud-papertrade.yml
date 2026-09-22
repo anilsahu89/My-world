@@ -9,12 +9,12 @@ on:
         default: all
         type: choice
         options: [all, nse, gc, swing, poller]
-        mode:
-          description: "Poller mode"
-          required: false
-          default: day
-          type: choice
-          options: [day, evening]
+      mode:
+        description: "Poller mode"
+        required: false
+        default: day
+        type: choice
+        options: [day, evening]
   schedule:
     # Morning ignition: three shots at starting the day poller.
     - cron: "46 3 * * 1-5"
