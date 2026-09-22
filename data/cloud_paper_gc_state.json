@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 10,
+ "next_id": 11,
  "trades": [
   {
    "session": "2026-09-04",
@@ -141,6 +141,22 @@
    "entry_time": "07:12:30",
    "entry_price": 81411.95,
    "sl_price": 80748.1,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN"
+  },
+  {
+   "id": 10,
+   "session": "2026-09-22",
+   "setup": "oh",
+   "symbol": "BTC",
+   "side": "SELL",
+   "qty": 0.0007,
+   "entry_time": "06:50:54",
+   "entry_price": 85577.55,
+   "sl_price": 87035.61,
    "exit_time": null,
    "exit_price": null,
    "reason": null,
