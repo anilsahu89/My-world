@@ -1,8 +1,8 @@
 {
- "updated_at": "22 Sep 2026 15:07:32 IST",
+ "updated_at": "22 Sep 2026 21:08:57 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
- "status": "RUNNING",
+ "status": "DONE",
  "today": "2026-09-22",
  "strategy": {
   "rule": "fresh O=L -> BUY / fresh O=H -> SELL, ₹10,000/stock",
