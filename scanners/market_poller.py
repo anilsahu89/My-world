@@ -1,17 +1,28 @@
 #!/usr/bin/env python3
-"""Market-hours poller — one long Actions job covering the whole session,
-replacing dependence on GitHub's throttled sub-hourly cron.
+"""24/7 relay — the cloud paper-trade system's continuous runner.
 
-  day mode     (09:15-15:05 IST weekdays): NSE entries (60s polls in the
-               09:30-09:45 window, 3-min after) + SL/time-stop/square-off
-               management + Gold/BTC updates; commits every change.
-               At session end dispatches the evening poller.
-  evening mode (dispatched ~15:05, sleeps to 17:30): swing scan once,
-               Gold/BTC ticks until 21:05, commits.
+GitHub's schedule queue drops most sub-hourly crons (measured ~5-8%
+delivery; on 23 Sep 2026 every morning cron was dropped and the session
+was missed). The relay removes that dependency: one long-running job per
+phase, each dispatching the next via the API (dispatches are reliable;
+schedules are not).
 
-Guards: weekend skip; duplicate day-pollers are naturally rare (starters
-check the board heartbeat — a commit to paper_ol.json in the last 5 min
-means a poller is alive) and worst case they double-commit harmlessly.
+  day      09:14-15:05 IST weekdays: NSE entries (60s polls 09:14-09:50,
+           3-min after), SL/time-stop/square-off, gc each pass.
+           -> dispatches evening
+  evening  dispatched ~15:05, sleeps to 17:25: swing scan once (weekday),
+           gc ticks to 21:02 (its 6h cap). -> dispatches gcwatch
+  gcwatch  generic 5h45 gap-filler: gc ticks (15-min in Gold's 05:30-07:30
+           entry window, 20-min otherwise). On any tick, if it's a weekday
+           from 09:10 and no day-poller heartbeat -> dispatch day and exit.
+           At 5h45 -> dispatch the next gcwatch. This carries the chain
+           through nights and weekends, and auto-starts Monday's session.
+
+Self-healing on top (cloud_papertrade.maybe_start_poller): any cron run
+that DOES survive re-lights a dead relay (no board commit in ~25 min).
+
+Job lifetimes stay under GitHub's 6h/job cap: day 5h51, evening 5h57,
+gcwatch 5h45.
 """
 from __future__ import annotations
 
@@ -28,22 +39,22 @@ import cloud_papertrade as cp  # noqa: E402
 
 REPO = "anilsahu89/My-world"
 WF = "cloud-papertrade.yml"
-DAY_END = dtime(15, 5)          # square-off 15:00 + margin; stays under the 6h job cap
-EVE_START = dtime(17, 30)
-EVE_END = dtime(21, 5)
+DAY_START = dtime(9, 10)
+DAY_END = dtime(15, 5)
+EVE_WORK = dtime(17, 25)
+EVE_END = dtime(21, 2)
+WATCH_SPAN = 5 * 3600 + 45 * 60          # 5h45 per gcwatch job
+HEARTBEAT_STALE_S = 25 * 60
 
 
-def _git(*args, check=False):
+def _git(*args):
     return subprocess.run(["git", "-C", str(cp.ROOT), *args],
-                          capture_output=True, text=True, check=check)
+                          capture_output=True, text=True)
 
 
 def commit_and_push() -> None:
     cp.commit_state()
-    if _git("diff", "HEAD~1", "--name-only").returncode == 0:
-        pass
-    r = _git("push", "origin", "main")
-    if r.returncode != 0:                      # remote moved (a cron run slipped in)
+    if _git("push", "origin", "main").returncode != 0:
         _git("pull", "--rebase", "origin", "main")
         _git("push", "origin", "main")
 
@@ -71,86 +82,118 @@ def dispatch_poller(mode: str) -> None:
          {"ref": "main", "inputs": {"desk": "poller", "mode": mode}})
 
 
-def board_heartbeat_alive(max_age_s: int = 300) -> bool:
-    """A commit to the board in the last few minutes = a poller is running."""
-    r = _api("GET", f"/repos/{REPO}/commits?path=data/paper_ol.json&per_page=1")
-    try:
-        from datetime import datetime, timezone
-        when = datetime.fromisoformat(
-            r[0]["commit"]["committer"]["date"].replace("Z", "+00:00"))
-        return (datetime.now(timezone.utc) - when).total_seconds() < max_age_s
-    except Exception:
-        return False
+def board_heartbeat_age() -> float:
+    """Seconds since either board file last changed on origin."""
+    best = None
+    for path in ("data/paper_ol.json", "data/paper_gc.json"):
+        r = _api("GET", f"/repos/{REPO}/commits?path={path}&per_page=1")
+        try:
+            from datetime import datetime, timezone
+            when = datetime.fromisoformat(
+                r[0]["commit"]["committer"]["date"].replace("Z", "+00:00"))
+            age = (datetime.now(timezone.utc) - when).total_seconds()
+            best = age if best is None else min(best, age)
+        except Exception:
+            pass
+    return best if best is not None else 1e9
 
 
-def update_desks(gc_too: bool = True) -> None:
+def gc_tick() -> None:
+    gs = cp.read_json(cp.GC_STATE, cp.empty_state())
+    snap = cp.update_gc(gs)
+    cp.write_json(cp.GC_STATE, gs)
+    cp.write_json(cp.GC_SNAPSHOT, snap)
+
+
+def nse_tick(gc_too: bool = True) -> None:
     state = cp.read_json(cp.NSE_STATE, cp.empty_state())
     snap = cp.update_nse(state)
     cp.write_json(cp.NSE_STATE, state)
     cp.write_json(cp.NSE_SNAPSHOT, snap)
     if gc_too:
-        gs = cp.read_json(cp.GC_STATE, cp.empty_state())
-        gsnap = cp.update_gc(gs)
-        cp.write_json(cp.GC_STATE, gs)
-        cp.write_json(cp.GC_SNAPSHOT, gsnap)
+        gc_tick()
 
 
+# ------------------------------------------------------------------ modes --
 def run_day() -> None:
-    print("day poller: starting", flush=True)
+    print("relay: day poller starting", flush=True)
+    if board_heartbeat_age() < 150:
+        print("relay: another poller is alive (fresh heartbeat) — exiting",
+              flush=True)
+        return
     while True:
         now = cp.now()
-        if now.weekday() >= 5:
-            print("weekend — day poller exiting", flush=True)
-            return
-        if now.time() >= DAY_END:
+        if now.weekday() >= 5 or now.time() >= DAY_END:
             break
         try:
-            update_desks()
+            nse_tick()
             commit_and_push()
         except Exception as e:
-            print(f"poll iteration failed: {e}", flush=True)
+            print(f"day tick failed: {e}", flush=True)
         dense = dtime(9, 14) <= now.time() <= dtime(9, 50)
         time.sleep(60 if dense else 180)
-    # one final square-off pass then hand over to the evening poller
-    try:
-        update_desks()
+    try:                                   # final square-off pass
+        nse_tick()
         commit_and_push()
     except Exception as e:
         print(f"final pass failed: {e}", flush=True)
-    print("day poller: session done, dispatching evening poller", flush=True)
+    print("relay: session done -> evening", flush=True)
     dispatch_poller("evening")
 
 
 def run_evening() -> None:
-    print("evening poller: waiting for 17:30 IST", flush=True)
-    while cp.now().time() < EVE_START:
-        if cp.now().weekday() >= 5:
-            print("weekend — evening poller exiting", flush=True)
-            return
+    print("relay: evening job (waits for 17:25 IST)", flush=True)
+    while cp.now().time() < EVE_WORK:
         time.sleep(120)
-    if cp.now().weekday() >= 5:
-        return
-    try:
-        import cloud_swing
-        cloud_swing.run_day()          # once — its own done-date guard applies
-        commit_and_push()
-    except Exception as e:
-        print(f"swing run failed: {e}", flush=True)
+    if cp.now().weekday() < 5:
+        try:
+            import cloud_swing
+            cloud_swing.run_day()
+            commit_and_push()
+        except Exception as e:
+            print(f"swing run failed: {e}", flush=True)
     while cp.now().time() < EVE_END:
         try:
-            gs = cp.read_json(cp.GC_STATE, cp.empty_state())
-            gsnap = cp.update_gc(gs)
-            cp.write_json(cp.GC_STATE, gs)
-            cp.write_json(cp.GC_SNAPSHOT, gsnap)
+            gc_tick()
             commit_and_push()
         except Exception as e:
             print(f"evening gc tick failed: {e}", flush=True)
         time.sleep(300)
-    print("evening poller: done", flush=True)
+    print("relay: evening done -> gcwatch", flush=True)
+    dispatch_poller("gcwatch")
+
+
+def run_gcwatch() -> None:
+    print("relay: gcwatch gap-filler starting", flush=True)
+    t0 = time.time()
+    while time.time() - t0 < WATCH_SPAN:
+        now = cp.now()
+        # market window on a weekday: hand over to the day poller
+        if now.weekday() < 5 and now.time() >= DAY_START \
+                and now.time() < DAY_END and board_heartbeat_age() > 150:
+            print("relay: gcwatch -> day poller", flush=True)
+            dispatch_poller("day")
+            return
+        try:
+            gc_tick()
+            commit_and_push()
+        except Exception as e:
+            print(f"gcwatch tick failed: {e}", flush=True)
+        gold_window = dtime(5, 25) <= now.time() <= dtime(7, 35)
+        time.sleep(900 if gold_window else 1200)
+    print("relay: gcwatch span done -> next gcwatch", flush=True)
+    dispatch_poller("gcwatch")
 
 
 def main(mode: str = "day") -> None:
-    (run_day if mode == "day" else run_evening)()
+    if mode == "day":
+        run_day()
+    elif mode == "evening":
+        run_evening()
+    elif mode == "gcwatch":
+        run_gcwatch()
+    else:
+        raise SystemExit(f"unknown poller mode: {mode}")
 
 
 if __name__ == "__main__":

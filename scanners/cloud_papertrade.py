@@ -417,19 +417,24 @@ def commit_state() -> None:
 
 
 def maybe_start_poller() -> None:
-    """Any scheduled run that survives GitHub's cron throttling inside the
-    session window becomes the day-poller's ignition — one landing run is
-    enough, dense polling no longer depends on cron at all."""
+    """Self-heal: any scheduled run that survives GitHub's cron throttling
+    re-lights a dead relay. The relay commits continuously while alive, so a
+    stale board heartbeat (>25 min) means it died — relight with whichever
+    phase fits now (day during the session, gcwatch otherwise)."""
     try:
         import market_poller as mp
     except ImportError:
         return
-    m = now()
-    if m.weekday() >= 5 or not (time(9, 13) <= m.time() <= time(15, 0)):
-        return
-    if mp.board_heartbeat_alive():
-        return                      # a poller is already committing
-    mp.dispatch_poller("day")
+    try:
+        if mp.board_heartbeat_age() < mp.HEARTBEAT_STALE_S:
+            return                    # relay is alive and committing
+        m = now()
+        if m.weekday() < 5 and mp.DAY_START <= m.time() < mp.DAY_END:
+            mp.dispatch_poller("day")
+        else:
+            mp.dispatch_poller("gcwatch")
+    except Exception:
+        pass
 
 
 def main() -> None:
