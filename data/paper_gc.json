@@ -1,11 +1,11 @@
 {
- "updated_at": "23 Sep 2026 14:28:28 IST",
+ "updated_at": "23 Sep 2026 14:31:40 IST",
  "status": "RUNNING",
  "summary": {
   "open_count": 2,
   "closed_count": 9,
   "realized_total": -2.38,
-  "unrealized": 2.6,
+  "unrealized": 2.62,
   "wins": 0,
   "losses": 9,
   "win_rate": 0.0
@@ -24,8 +24,8 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 3.15,
-   "ltp": 85906.29
+   "pnl": 3.16,
+   "ltp": 85923.96
   },
   {
    "id": 11,
@@ -40,8 +40,8 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.55,
-   "ltp": 85906.29
+   "pnl": -0.54,
+   "ltp": 85923.96
   }
  ],
  "closed": [
