@@ -275,12 +275,86 @@ def f3_scan(state: dict, quotes: dict, moment: datetime) -> None:
         state["next_id"] += 1
 
 
+def export_alerts_json(quotes: dict, today: str) -> None:
+    """Refresh data/alerts.json for the portal Alerts page (O=L / O=H tabs).
+    Same shape the scheduled scanners wrote, fed by the live quotes — the
+    page prefers this over its CORS-proxy browser scan and only shows stale
+    data when this file is old (its cron-fed writers barely survive GitHub's
+    schedule throttling; called from every NSE poll instead)."""
+    import yfinance as _yf
+    sess = max(0.20, min(1.0, (now().hour * 60 + now().minute - 555) / 375))
+
+    def build(setup: str) -> list[dict]:
+        rows = []
+        for symbol, q in quotes.items():
+            o, h, low, ltp, vol = (q["open"], q["high"], q["low"],
+                                   q["ltp"], q["volume"])
+            if o < NSE_MIN_PRICE or vol <= 0:
+                continue
+            edge = abs(o - low) if setup == "ol" else abs(h - o)
+            if edge > min(NSE_TOL, o * 0.0005):
+                continue
+            avg20 = 0.0
+            try:
+                vb = flatten(_yf.download(f"{symbol}.NS", period="30d",
+                                          interval="1d", progress=False,
+                                          threads=False, auto_adjust=False))
+                if vb is not None and not vb.empty:
+                    avg20 = float(vb["Volume"].iloc[:-1].tail(20).mean())
+            except Exception:
+                pass
+            vol_ratio = vol / avg20 if avg20 else 0.0
+            est_full = vol_ratio / sess
+            qty = int(NSE_CAPITAL / ltp) if ltp else 0
+            sign = 1 if setup == "ol" else -1
+            rows.append({
+                "symbol": symbol,
+                "yf_open": o, "yf_high": h, "yf_low": low, "yf_close": ltp,
+                "yf_volume": vol, "avg_vol_20d": int(avg20),
+                "ol_diff": round(edge, 2), "vol_ratio": round(vol_ratio, 2),
+                "est_full_vol_ratio": round(est_full, 2),
+                "shares": qty, "invested": int(qty * ltp),
+                "sl_price": round(low * 0.995 if setup == "ol" else h * 1.005, 2),
+                "pnl": round(sign * (ltp - o) * qty, 2),
+                "pnl_pct": round(sign * (ltp - o) / o * 100, 2) if o else 0.0,
+                "gap_pct": 0.0,
+                "day_high_pct": round((h - o) / o * 100, 2) if setup == "ol"
+                                else round((o - low) / o * 100, 2) if o else 0.0,
+                "price": ltp, "date": f"{today} 00:00:00", "in_nse200": True,
+                "_est": est_full,
+            })
+        rows.sort(key=lambda r: r["_est"], reverse=True)
+        for r in rows:
+            r.pop("_est", None)
+        return rows
+
+    def split(rows: list[dict]):
+        return ([r for r in rows if r["est_full_vol_ratio"] >= NSE_MIN_VOL],
+                [r for r in rows if r["est_full_vol_ratio"] < NSE_MIN_VOL])
+
+    ol_rows, oh_rows = build("ol"), build("oh")
+    ol_with, ol_without = split(ol_rows)
+    oh_with, oh_without = split(oh_rows)
+    payload = {
+        "fetched_at": now().isoformat(),
+        "chartink_raw_count": len(ol_rows),
+        "with_volume": ol_with, "without_volume": ol_without,
+        "oh": {"raw_count": len(oh_rows),
+               "with_volume": oh_with, "without_volume": oh_without},
+    }
+    write_json(DATA / "alerts.json", payload)
+
+
 def update_nse(state: dict) -> dict:
     moment = now()
     quotes = nse_quotes()
     manage_nse(state, quotes, moment)
     enter_nse(state, quotes, moment)
     f3_scan(state, quotes, moment)
+    try:
+        export_alerts_json(quotes, moment.date().isoformat())
+    except Exception as e:
+        print(f"alerts export failed: {e}")
     return nse_snapshot(state, quotes, moment.date().isoformat())
 
 
@@ -402,7 +476,8 @@ def commit_state() -> None:
     import subprocess
     files = ["data/cloud_paper_ol_state.json", "data/cloud_paper_gc_state.json",
              "data/cloud_swing_state.json", "data/paper_ol.json",
-             "data/paper_gc.json", "data/swing_picks.json"]
+             "data/paper_gc.json", "data/swing_picks.json",
+             "data/alerts.json"]
     for f in files:
         subprocess.run(["git", "add", "--", f], cwd=ROOT,
                        check=False, capture_output=True)
