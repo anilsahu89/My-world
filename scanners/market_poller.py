@@ -152,6 +152,26 @@ def run_evening() -> None:
             commit_and_push()
         except Exception as e:
             print(f"swing run failed: {e}", flush=True)
+        # BB Trap scan (EOD bhavcopies) — ported from the throttled cron
+        try:
+            import subprocess
+            r = subprocess.run([sys.executable,
+                                str(cp.ROOT / "scanners" / "fetch_bhavcopies.py")],
+                               cwd=str(cp.ROOT), capture_output=True, text=True,
+                               timeout=25 * 60)
+            print(f"bhavcopy fetch: {r.stdout.strip()}", flush=True)
+            if r.returncode == 0:
+                subprocess.run([sys.executable,
+                                str(cp.ROOT / "scanners" / "gen_bbtrap_json.py"),
+                                "--bhav-dir", "bhav",
+                                "--universe", "data/nse200_symbols.csv",
+                                "--out", "data/bbtrap.json"],
+                               cwd=str(cp.ROOT), check=True, timeout=600,
+                               capture_output=True, text=True)
+                commit_and_push()
+                print("bbtrap scan done", flush=True)
+        except Exception as e:
+            print(f"bbtrap scan failed: {e}", flush=True)
     while cp.now().time() < EVE_END:
         try:
             gc_tick()

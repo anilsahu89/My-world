@@ -510,7 +510,7 @@
     var tbody = el("stocksBody");
     var list = visibleStocks();
     if (!list.length) {
-      tbody.innerHTML = '<tr><td colspan="11" class="muted" style="text-align:center;padding:1.5rem">' +
+      tbody.innerHTML = '<tr><td colspan="12" class="muted" style="text-align:center;padding:1.5rem">' +
         (state.stocks.length ? "No rows match the filter." : "No data yet — click ⟳ Fetch Live Data Now.") +
         "</td></tr>";
       return;
@@ -535,9 +535,41 @@
         "<td class='num'>" + (s.prev_close != null ? s.prev_close.toFixed(2) : "—") + "</td>" +
         "<td class='num'>" + fmtVol(s.volume) + "</td>" +
         "<td>" + (s.ol ? '<span class="ol-pill">O≈L</span>' : "") + "</td>" +
+        "<td>" + (window.addPaperTrade && s.ltp > 0 && Math.floor(10000 / s.ltp) >= 1
+          ? '<button type="button" class="take-trade-btn" data-symbol="' + escHtml(s.symbol) + '">📝 Take</button>'
+          : "") + "</td>" +
         "</tr>";
     });
     tbody.innerHTML = html;
+    wireStocksTakeTrades();
+  }
+
+  // Paper-trade button per row — writes to the same localStorage book the
+  // Alerts page's Take Trade uses (window.addPaperTrade in app.js): ₹10,000
+  // at LTP, SL 0.5% under the day low.
+  function wireStocksTakeTrades() {
+    document.querySelectorAll("#stocksBody .take-trade-btn").forEach(function (btn) {
+      if (btn._wired) return;
+      btn._wired = true;
+      btn.addEventListener("click", function () {
+        var sym = btn.getAttribute("data-symbol");
+        var row = state.stocks.filter(function (s) { return s.symbol === sym; })[0];
+        if (!row || !window.addPaperTrade) return;
+        var qty = Math.floor(10000 / row.ltp);
+        window.addPaperTrade({
+          strategy: "live-stocks",
+          symbol: sym,
+          entry_date: new Date().toISOString().slice(0, 10) + " 00:00:00",
+          entry_price: row.ltp,
+          sl_price: +(row.low * 0.995).toFixed(2),
+          quantity: qty,
+          invested: +(qty * row.ltp).toFixed(0)
+        });
+        btn.textContent = "✅ Taken";
+        btn.style.opacity = "0.6";
+        btn.style.pointerEvents = "none";
+      });
+    });
   }
 
   // -------------------------------------------------------------------------

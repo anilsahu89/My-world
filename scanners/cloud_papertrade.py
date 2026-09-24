@@ -343,6 +343,68 @@ def export_alerts_json(quotes: dict, today: str) -> None:
                "with_volume": oh_with, "without_volume": oh_without},
     }
     write_json(DATA / "alerts.json", payload)
+    try:
+        export_live_stocks(quotes, today)
+    except Exception as e:
+        print(f"live_stocks export failed: {e}")
+
+
+def _company_names() -> dict[str, str]:
+    """symbol -> company name from the NIFTY-500 CSV in the repo."""
+    names: dict[str, str] = {}
+    csv = DATA / "nifty500_symbols.csv"
+    if not csv.exists():
+        return names
+    for line in csv.read_text().splitlines()[1:]:
+        parts = line.split(",")
+        if len(parts) >= 4 and parts[3].strip() == "EQ":
+            names[parts[2].strip()] = parts[0].strip()
+    return names
+
+
+def export_live_stocks(quotes: dict, today: str) -> None:
+    """Live Stocks page snapshot (data/live_stocks.json) — was fed by the
+    throttled refresh-stocks cron on Yahoo; now written from the live Angel
+    quotes on every NSE poll."""
+    import time as _time
+    names = _company_names()
+    stocks = []
+    for symbol, q in sorted(quotes.items()):
+        prev = q.get("prev_close") or q["open"]
+        tol = min(NSE_TOL, q["open"] * 0.0005)
+        stocks.append({
+            "symbol": symbol, "name": names.get(symbol, symbol),
+            "ltp": round(q["ltp"], 2), "prev_close": round(prev, 2),
+            "chg": round(q["ltp"] - prev, 2),
+            "pct": round((q["ltp"] - prev) / prev * 100, 2) if prev else 0.0,
+            "open": round(q["open"], 2), "high": round(q["high"], 2),
+            "low": round(q["low"], 2), "volume": int(q["volume"]),
+            "ol": abs(q["open"] - q["low"]) <= tol,
+            "market_time": int(_time.time()),
+        })
+    write_json(DATA / "live_stocks.json", {
+        "fetched_at": now().isoformat(), "source": "angel-smartapi",
+        "universe": "NSE200", "count": len(stocks), "stocks": stocks})
+
+
+def export_f3_picks(state: dict, today: str) -> None:
+    """3-Candle alerts tab (data/f3_picks.json) — the Mac scan that wrote it
+    is retired; mirror its shape from today's cloud F3 trades so the tab
+    stays current (empty list when the scan found nothing)."""
+    rows = [t for t in state["trades"]
+            if t.get("date") == today and t.get("setup") == "f3"]
+    write_json(DATA / "f3_picks.json", {
+        "date": today, "scanned_at": now().strftime("%H:%M:%S"),
+        "rule": "day's first 3 hourly candles same-side, each closing above "
+                "the previous HIGH -> BUY | SL = candle-1 low - 0.5% | "
+                "square-off 15:00 | NIFTY-gated | cutoff 13:30",
+        "max_trades": F3_MAX_TRADES,
+        "signals": [{"symbol": t["symbol"], "drive_pct": t.get("drive_pct"),
+                     "qty": t["qty"], "entry": t["entry_price"],
+                     "sl": t["sl_price"], "status": t["status"],
+                     "exit": t["exit_price"], "reason": t["reason"],
+                     "pnl": t["pnl"]} for t in rows],
+    })
 
 
 def update_nse(state: dict) -> dict:
@@ -355,6 +417,11 @@ def update_nse(state: dict) -> dict:
         export_alerts_json(quotes, moment.date().isoformat())
     except Exception as e:
         print(f"alerts export failed: {e}")
+    if state.get("f3_done_date") == moment.date().isoformat():
+        try:
+            export_f3_picks(state, moment.date().isoformat())
+        except Exception as e:
+            print(f"f3_picks export failed: {e}")
     return nse_snapshot(state, quotes, moment.date().isoformat())
 
 
@@ -415,6 +482,39 @@ def market_quote(symbol: str) -> dict | None:
             "low": float(day["Low"].min()), "ltp": float(latest["Close"])}
 
 
+def export_gc_scan(state: dict, quotes: dict) -> None:
+    """Gold/BTC Alerts tabs (data/gc_scan.json) — the Mac goldcrypto engine
+    that wrote it retired 2026-09-20; mirror its shape from the cloud gc
+    desk's live quotes and open positions."""
+    open_by_sym = {t["symbol"]: t for t in state["trades"]
+                   if t.get("status") == "OPEN"}
+    moment = now()
+    markets = []
+    for symbol, q in quotes.items():
+        tol = q["open"] * GC_TOL
+        pos = open_by_sym.get(symbol)
+        markets.append({
+            "symbol": symbol, "yahoo": GC_MARKETS[symbol],
+            "session": q["session"], "open": q["open"], "high": q["high"],
+            "low": q["low"], "ltp": q["ltp"],
+            "chg_pct": round((q["ltp"] - q["open"]) / q["open"] * 100, 2),
+            "minutes_since_open": None,
+            "entry_window_open": time(5, 30) <= moment.time() <= time(7, 30),
+            "ol": abs(q["open"] - q["low"]) <= tol,
+            "oh": abs(q["high"] - q["open"]) <= tol,
+            "position": ({"side": pos["side"], "setup": pos["setup"],
+                          "qty": pos["qty"], "entry_price": pos["entry_price"],
+                          "entry_time": pos["entry_time"],
+                          "sl_price": pos["sl_price"],
+                          "pnl": pos.get("pnl")} if pos else None),
+            "square_off": "22:30", "capital_usd": GC_CAPITAL,
+        })
+    write_json(DATA / "gc_scan.json", {
+        "updated_at": now().strftime("%d %b %Y %H:%M:%S IST"),
+        "engine": "cloud gc desk (GitHub Actions relay — no Mac needed)",
+        "markets": markets})
+
+
 def update_gc(state: dict) -> dict:
     moment, stamp = now(), now().strftime("%H:%M:%S")
     quotes = {symbol: quote for symbol in GC_MARKETS if (quote := market_quote(symbol))}
@@ -444,6 +544,10 @@ def update_gc(state: dict) -> dict:
                 "sl_price": round(quote["low"] * 0.995 if side == "BUY" else quote["high"] * 1.005, 2), "exit_time": None, "exit_price": None,
                 "reason": None, "pnl": None, "status": "OPEN"})
             state["next_id"] += 1
+    try:
+        export_gc_scan(state, quotes)
+    except Exception as e:
+        print(f"gc_scan export failed: {e}")
     return gc_snapshot(state, quotes)
 
 
@@ -477,7 +581,9 @@ def commit_state() -> None:
     files = ["data/cloud_paper_ol_state.json", "data/cloud_paper_gc_state.json",
              "data/cloud_swing_state.json", "data/paper_ol.json",
              "data/paper_gc.json", "data/swing_picks.json",
-             "data/alerts.json"]
+             "data/alerts.json", "data/live_stocks.json",
+             "data/gc_scan.json", "data/f3_picks.json",
+             "data/bbtrap.json"]
     for f in files:
         subprocess.run(["git", "add", "--", f], cwd=ROOT,
                        check=False, capture_output=True)
