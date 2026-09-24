@@ -1,20 +1,20 @@
 {
- "updated_at": "24 Sep 2026 10:12:00 IST",
+ "updated_at": "24 Sep 2026 10:29:05 IST",
  "engine": "cloud gc desk (GitHub Actions relay — no Mac needed)",
  "markets": [
   {
    "symbol": "GOLD",
    "yahoo": "GC=F",
    "session": "2026-09-24",
-   "open": 4324.10009765625,
-   "high": 4338.0,
-   "low": 4308.0,
-   "ltp": 4321.5,
-   "chg_pct": -0.06,
+   "open": 4320.10009765625,
+   "high": 4323.89990234375,
+   "low": 4316.39990234375,
+   "ltp": 4323.0,
+   "chg_pct": 0.07,
    "minutes_since_open": null,
    "entry_window_open": false,
-   "ol": false,
-   "oh": false,
+   "ol": true,
+   "oh": true,
    "position": null,
    "square_off": "22:30",
    "capital_usd": 60.0
@@ -26,21 +26,13 @@
    "open": 84378.3125,
    "high": 84479.921875,
    "low": 83727.4375,
-   "ltp": 83857.9296875,
-   "chg_pct": -0.62,
+   "ltp": 84017.828125,
+   "chg_pct": -0.43,
    "minutes_since_open": null,
    "entry_window_open": false,
    "ol": false,
    "oh": false,
-   "position": {
-    "side": "BUY",
-    "setup": "ol",
-    "qty": 0.0007,
-    "entry_price": 86691.36,
-    "entry_time": "06:46:11",
-    "sl_price": 85699.35,
-    "pnl": null
-   },
+   "position": null,
    "square_off": "22:30",
    "capital_usd": 60.0
   }
