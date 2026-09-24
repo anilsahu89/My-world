@@ -115,11 +115,27 @@ def nse_tick(gc_too: bool = True) -> None:
 
 
 # ------------------------------------------------------------------ modes --
+def another_poller_running() -> bool:
+    """True if a different poller run is actually in progress. Prefers the
+    Actions API (GITHUB_RUN_ID separates self from others); falls back to
+    the commit heartbeat for local runs. A commit-age-only guard once
+    mistook a just-cancelled poller's final commit for a live one and left
+    the session unattended (23 Sep)."""
+    rid = os.environ.get("GITHUB_RUN_ID")
+    if rid:
+        r = _api("GET", f"/repos/{REPO}/actions/workflows/{WF}/runs"
+                        "?event=workflow_dispatch&status=in_progress&per_page=10")
+        try:
+            return any(x["id"] != int(rid) for x in r.get("workflow_runs", []))
+        except Exception:
+            pass
+    return board_heartbeat_age() < 150
+
+
 def run_day() -> None:
     print("relay: day poller starting", flush=True)
-    if board_heartbeat_age() < 150:
-        print("relay: another poller is alive (fresh heartbeat) — exiting",
-              flush=True)
+    if another_poller_running():
+        print("relay: another poller is alive — exiting", flush=True)
         return
     while True:
         now = cp.now()
