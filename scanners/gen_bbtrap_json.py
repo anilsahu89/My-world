@@ -98,62 +98,75 @@ def main():
                 uni.append(s)
     bars, latest_zip = load_bars(Path(a.bhav_dir), set(uni))
 
+    # Sweep the last 5 primary/alert pairs per symbol (most recent first).
+    # A single-pair scan blinked and missed — signals cluster on volatile
+    # days and the tab stayed empty for days after one quiet session.
+    PAIRS = 5
     shorts, longs, used = [], [], 0
     latest_date = ""
     for sym in uni:
         b = bars.get(sym) or []
         if len(b) < BB_PERIOD + 2:
             continue
-        closes = [x[4] for x in b]
-        entry = closes[-1]
         latest_date = max(latest_date, b[-1][0])
-        if entry < PRICE_MIN:
+        if b[-1][4] < PRICE_MIN:
             continue
         used += 1
-        up, lo = bb(closes[:-2]) or (None, None)
-        if up is None:
-            continue
-        p, al = b[-3], b[-2]
-        vol_mult = (al[5] / p[5]) if p[5] > 0 else 999.0
-        avg10 = sum(x[5] for x in b[-12:-2]) / 10
-        if avg10 < MIN_AVG_VOL or vol_mult < MIN_VOL_MULT:
-            continue
-        rng = p[2] - p[3]
-        if rng <= 0:
-            continue
-        r = rsi14(closes)
-        rsi_pass = r is not None and r > RSI_THRESHOLD
+        taken_short = taken_long = False
+        for j in range(len(b) - 2, max(len(b) - 2 - PAIRS, BB_PERIOD), -1):
+            if taken_short and taken_long:
+                break
+            p, al = b[j - 1], b[j]
+            up, lo = bb([x[4] for x in b[:j - 1]]) or (None, None)
+            if up is None:
+                break
+            vol_mult = (al[5] / p[5]) if p[5] > 0 else 999.0
+            avg10 = sum(x[5] for x in b[j - 12:j - 2]) / 10
+            if avg10 < MIN_AVG_VOL or vol_mult < MIN_VOL_MULT:
+                continue
+            rng = p[2] - p[3]
+            if rng <= 0:
+                continue
+            r = rsi14([x[4] for x in b[:j + 1]])
+            rsi_pass = r is not None and r > RSI_THRESHOLD
+            entry = al[4]
+            if entry < PRICE_MIN:
+                continue
 
-        if p[3] > up and wick(al[1], al[2], al[3], al[4], True) >= MIN_WICK:
-            sl, tgt = entry + rng * 0.30, entry - rng * 0.80
-            risk, reward = sl - entry, entry - tgt
-            uw = wick(al[1], al[2], al[3], al[4], True)
-            if risk > 0:
-                shorts.append({
-                    "kind": "bb", "type": "SHORT", "symbol": sym,
+            def _wick(upper):
+                return wick(al[1], al[2], al[3], al[4], upper)
+
+            def _row(side, sl, tgt, w, rsi_flag):
+                risk, reward = abs(sl - entry), abs(tgt - entry)
+                return {
+                    "kind": "bb", "type": side, "symbol": sym,
                     "entry_price": round(entry, 2), "sl_price": round(sl, 2),
-                    "target_price": round(tgt, 2), "rr": round(reward / risk, 1),
-                    "wick_pct": round(uw * 100), "vol_multiple": round(vol_mult, 1),
-                    "rsi": round(r) if r is not None else None, "rsi_pass": rsi_pass,
+                    "target_price": round(tgt, 2),
+                    "rr": round(reward / risk, 1) if risk > 0 else 0,
+                    "wick_pct": round(w * 100),
+                    "vol_multiple": round(vol_mult, 1),
+                    "rsi": round(r) if r is not None else None,
+                    "rsi_pass": rsi_flag,
                     "primary_range": round(rng, 2),
                     "primary_date": p[0], "alert_date": al[0],
-                    "score": round((reward / risk) * 10 + vol_mult * 2 + uw * 5 + (10 if rsi_pass else 0), 1),
-                })
-        if p[2] < lo and wick(al[1], al[2], al[3], al[4], False) >= MIN_WICK:
-            sl, tgt = entry - rng * 0.50, entry + rng * 1.00
-            risk, reward = entry - sl, tgt - entry
-            lw = wick(al[1], al[2], al[3], al[4], False)
-            if risk > 0:
-                longs.append({
-                    "kind": "bb", "type": "LONG", "symbol": sym,
-                    "entry_price": round(entry, 2), "sl_price": round(sl, 2),
-                    "target_price": round(tgt, 2), "rr": round(reward / risk, 1),
-                    "wick_pct": round(lw * 100), "vol_multiple": round(vol_mult, 1),
-                    "rsi": round(r) if r is not None else None, "rsi_pass": False,
-                    "primary_range": round(rng, 2),
-                    "primary_date": p[0], "alert_date": al[0],
-                    "score": round((reward / risk) * 10 + vol_mult * 2 + lw * 5, 1),
-                })
+                    "score": round((reward / risk if risk > 0 else 0) * 10
+                                   + vol_mult * 2 + w * 5
+                                   + (10 if rsi_flag else 0), 1),
+                }
+
+            # primary CLOSE beyond the band (browser engine's screen-1). The
+            # original full-outside test (low above the upper band on a window
+            # that includes the primary close) never fired once in 64 scan
+            # versions — close-beyond-band + rejection wick + volume is the
+            # workable trap definition.
+            if not taken_short and p[4] > up and _wick(True) >= MIN_WICK:
+                shorts.append(_row("SHORT", entry + rng * 0.30,
+                                   entry - rng * 0.80, _wick(True), rsi_pass))
+                taken_short = True
+            if not taken_long and p[4] < lo and _wick(False) >= MIN_WICK:
+                longs.append(_row("LONG", entry - rng * 0.50,
+                                  entry + rng * 1.00, _wick(False), False))
+                taken_long = True
 
     shorts.sort(key=lambda x: -x["score"])
     longs.sort(key=lambda x: -x["score"])
