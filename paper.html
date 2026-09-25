@@ -427,6 +427,26 @@
 
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
 
+<!-- ===================== QM — QUANTITY MODEL DESK ===================== -->
+<section id="qmSection">
+  <h2 style="color:#ff9800">
+    🧮 QM — Quantity Model (Trading as a Business)
+    <span class="muted" style="font-size:0.75rem">— NK's ₹30k-lot system, daily bars, runs Sep 2026</span>
+  </h2>
+  <div id="qmStatus" class="flash">Loading QM desk…</div>
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">Open</span><span class="sum-value" style="color:var(--green)" id="qmOpen">—</span></div>
+    <div class="sum-card"><span class="sum-label">Pending (fills next open)</span><span class="sum-value" id="qmPend">—</span></div>
+    <div class="sum-card"><span class="sum-label">Closed</span><span class="sum-value" id="qmClosed">—</span></div>
+    <div class="sum-card"><span class="sum-label">Realized (₹)</span><span class="sum-value" id="qmReal">—</span></div>
+    <div class="sum-card"><span class="sum-label">Unrealized (₹)</span><span class="sum-value" id="qmUnreal">—</span></div>
+    <div class="sum-card"><span class="sum-label">Win Rate</span><span class="sum-value" id="qmWin">—</span></div>
+  </div>
+  <div class="table-wrap" id="qmWrap"></div>
+</section>
+
+<hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
+
 <!-- ===================== CANDLESTICK SWING DESK ===================== -->
 <section id="swingSection">
   <h2 style="color:#7c4dff">
@@ -854,6 +874,65 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         el.className = "flash";
         el.textContent = "⚠️ Gold/Bitcoin cloud paper data is not available yet. Retrying in 60 seconds.";
       });
+  }
+  load();
+  setInterval(load, 60000);
+})();
+</script>
+
+<script>
+/* QM — Quantity Model desk — data/paper_qm.json (EOD desk, daily bars) */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  function esc(s) { var d = document.createElement("div"); d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function cls(n) { return n > 0 ? "ok" : (n < 0 ? "bad" : ""); }
+  function fmt(n) {
+    if (n == null || isNaN(n)) return "—";
+    var s = Math.abs(n).toLocaleString("en-IN", {maximumFractionDigits: 0});
+    return (n < 0 ? "−" : "+") + "₹" + s;
+  }
+  function render(d) {
+    var s = d.summary || {};
+    var el = document.getElementById("qmStatus");
+    el.className = "flash";
+    el.innerHTML = "Desk updated " + esc(d.updated_at) + " · EOD scan 17:35 IST · " +
+      esc(d.rule) + (s.circuit_breaker ? " · <strong style='color:#f66'>CIRCUIT BREAKER ON — reviewing, no new entries</strong>" : "");
+    document.getElementById("qmOpen").textContent = s.open || 0;
+    document.getElementById("qmPend").textContent = s.pending || 0;
+    document.getElementById("qmClosed").textContent = s.closed || 0;
+    var r = document.getElementById("qmReal"), u = document.getElementById("qmUnreal"), w = document.getElementById("qmWin");
+    r.textContent = fmt(s.realized); r.className = "sum-value " + ((s.realized || 0) >= 0 ? "pos" : "neg");
+    u.textContent = fmt(s.unrealized); u.className = "sum-value " + ((s.unrealized || 0) >= 0 ? "pos" : "neg");
+    w.textContent = (s.win_rate || 0) + "% (" + (s.wins || 0) + "W/" + (s.losses || 0) + "L)";
+    var rows = (d.pending || []).concat((d.open || []).concat((d.closed || []).slice(0, 20)));
+    var h = "<table><thead><tr><th>Signal</th><th>Symbol</th><th>Status</th><th>Qty</th>" +
+      "<th>Entry (avg)</th><th>Invested</th><th>Booked</th><th>Mark</th><th>Sess</th><th>Exit</th><th>P&L</th>" +
+      "</tr></thead><tbody>";
+    rows.forEach(function (t) {
+      h += "<tr><td>" + esc(t.signal_date) + "</td>" +
+        "<td><strong>" + esc(t.symbol) + "</strong></td>" +
+        "<td>" + esc(t.status) + (t.trail ? " 🚩trail" : "") + (t.avg_count ? " (avg)" : "") + "</td>" +
+        "<td>" + (t.qty != null ? t.qty : "—") + "</td>" +
+        "<td>" + (t.entry != null ? t.entry + (t.entry_date ? " (" + esc(t.entry_date).slice(5) + ")" : "") : "next open") + "</td>" +
+        "<td>" + (t.invested != null ? "₹" + Math.round(t.invested).toLocaleString("en-IN") : "—") + "</td>" +
+        '<td class="' + cls(t.booked) + '">' + (t.booked ? fmt(t.booked) : "—") + "</td>" +
+        "<td>" + (t.mark != null ? t.mark : "—") + "</td>" +
+        "<td>" + (t.sessions || 0) + "</td>" +
+        "<td>" + (t.exit != null ? t.exit + " " + esc(t.reason || "") : "—") + "</td>" +
+        '<td class="' + cls(t.pnl) + '">' + (t.pnl != null ? fmt(t.pnl) : "—") + "</td></tr>";
+    });
+    document.getElementById("qmWrap").innerHTML = h + "</tbody></table>";
+  }
+  function load() {
+    fetch(base + "/data/paper_qm.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) render(d); })
+      .catch(function () {});
   }
   load();
   setInterval(load, 60000);

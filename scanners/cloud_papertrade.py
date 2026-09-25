@@ -579,8 +579,9 @@ def commit_state() -> None:
     20 Sep). Self-committing keeps every run's tree clean regardless."""
     import subprocess
     files = ["data/cloud_paper_ol_state.json", "data/cloud_paper_gc_state.json",
-             "data/cloud_swing_state.json", "data/paper_ol.json",
-             "data/paper_gc.json", "data/swing_picks.json",
+             "data/cloud_swing_state.json", "data/cloud_qm_state.json",
+             "data/paper_ol.json", "data/paper_gc.json",
+             "data/swing_picks.json", "data/paper_qm.json",
              "data/alerts.json", "data/live_stocks.json",
              "data/gc_scan.json", "data/f3_picks.json",
              "data/bbtrap.json"]

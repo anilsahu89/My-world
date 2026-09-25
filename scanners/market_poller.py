@@ -168,6 +168,13 @@ def run_evening() -> None:
             commit_and_push()
         except Exception as e:
             print(f"swing run failed: {e}", flush=True)
+        # QM (Quantity Model) desk — 4th setup, daily bars, same evening slot
+        try:
+            import cloud_qm
+            cloud_qm.run_day()
+            commit_and_push()
+        except Exception as e:
+            print(f"qm run failed: {e}", flush=True)
         # BB Trap scan (EOD bhavcopies) — ported from the throttled cron
         try:
             import subprocess
