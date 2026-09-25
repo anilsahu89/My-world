@@ -1,0 +1,10 @@
+{
+ "date": "2026-09-25",
+ "updated_at": "25 Sep 2026 17:27:13 IST",
+ "nifty_gate": {
+  "hm_buy_state": false,
+  "above_sma20": false
+ },
+ "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM buy state) · 52-week closing high (vol ≥1.5x) · BB Blast squeeze on daily/weekly/monthly (NIFTY > SMA20) · NIFTY-500 · ₹5cr turnover · entries capped 2/day by the desk",
+ "signals": []
+}

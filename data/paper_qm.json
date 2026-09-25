@@ -1,0 +1,20 @@
+{
+ "updated_at": "25 Sep 2026 17:27:13 IST",
+ "rule": "QM (Quantity Model, NK's 'Trading as a Business'): signals from HM-buy / 52W-high / BB-Blast(d,w,m) on NIFTY-500 · ₹30k (3% of ₹10L) lots · max 2 new/day · +12% book half & trail at cost · RSI9≥86 exit all · never book losses, average once at −50% · 50%-blocked circuit breaker",
+ "note": "Daily-bar desk, scans after 17:30 IST. Position sizing is the edge — fills at next open.",
+ "summary": {
+  "open": 0,
+  "pending": 0,
+  "closed": 0,
+  "wins": 0,
+  "losses": 0,
+  "win_rate": 0,
+  "realized": 0,
+  "unrealized": 0,
+  "invested": 0,
+  "circuit_breaker": false
+ },
+ "open": [],
+ "pending": [],
+ "closed": []
+}
