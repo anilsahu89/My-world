@@ -1,9 +1,10 @@
 {
   "strategy": "nifty-daily-theta",
-  "scanned_at": null,
-  "status": "never_run",
-  "scan_date": null,
+  "scanned_at": "2026-09-26 00:19:50 IST",
+  "scan_date": "2026-09-26",
   "trades": [],
+  "trade_count": 0,
+  "status": "success",
   "report": {},
-  "text_report": "No scans have been run yet. Click 'Run scan now' to fetch the latest data."
+  "text_report": "No trades yet."
 }

@@ -427,6 +427,38 @@
 
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
 
+<!-- ===================== NIFTY DAILY THETA — HEDGED CREDIT SPREAD ===================== -->
+<section id="thetaSection">
+  <h2 style="color:#4fc3f7">
+    🛡️ Nifty Daily Theta — Hedged Credit Spread
+    <span class="muted" style="font-size:0.75rem">— backtested 92.9% WR, PF 1.77 · Mon–Wed 09:15 IST · GitHub Actions</span>
+  </h2>
+  <div id="thetaStatus" class="flash">Loading Daily Theta desk…</div>
+
+  <div class="actions" style="margin:0.75rem 0">
+    <button class="btn btn-primary run-scan-btn" data-slug="nifty-daily-theta" onclick="runScanner(this)">▶ Run scan now</button>
+    <span class="run-status"></span>
+    <span class="meta-pill">scheduled: Mon–Wed 09:15 IST</span>
+  </div>
+
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">Regime / Direction</span><span class="sum-value" id="thDirection">—</span></div>
+    <div class="sum-card"><span class="sum-label">Open Positions</span><span class="sum-value" style="color:var(--green)" id="thOpen">—</span></div>
+    <div class="sum-card"><span class="sum-label">Closed Trades</span><span class="sum-value" id="thClosed">—</span></div>
+    <div class="sum-card"><span class="sum-label">Realized P&L</span><span class="sum-value" id="thTotal">—</span></div>
+    <div class="sum-card"><span class="sum-label">Win Rate</span><span class="sum-value" id="thWin">—</span></div>
+    <div class="sum-card"><span class="sum-label">VIX Gate</span><span class="sum-value" id="thVix">—</span></div>
+  </div>
+
+  <h3 style="color:var(--green)">🟢 Open Position <span class="muted" id="thOpenCount">(0)</span></h3>
+  <div class="table-wrap" id="thOpenWrap"><div class="flash">No open Daily Theta position right now.</div></div>
+
+  <h3 style="margin-top:2rem">🔴 Closed Trades <span class="muted" id="thClosedCount">(0)</span></h3>
+  <div class="table-wrap" id="thClosedWrap"><div class="flash">No closed Daily Theta trades yet.</div></div>
+</section>
+
+<hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
+
 <!-- ===================== QM — QUANTITY MODEL DESK ===================== -->
 <section id="qmSection">
   <h2 style="color:#ff9800">
@@ -873,6 +905,94 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         var el = document.getElementById("gcStatus");
         el.className = "flash";
         el.textContent = "⚠️ Gold/Bitcoin cloud paper data is not available yet. Retrying in 60 seconds.";
+      });
+  }
+  load();
+  setInterval(load, 60000);
+})();
+</script>
+
+<script>
+/* Nifty Daily Theta desk — data/scanners/nifty-daily-theta-latest.json
+   (hedged credit spread; runs daily via the relay + run-scanner workflow) */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  function esc(s) { var d = document.createElement("div"); d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function cls(n) { return n > 0 ? "ok" : (n < 0 ? "bad" : ""); }
+  function inr(n) {
+    if (n === "" || n == null || isNaN(n)) return "—";
+    n = Number(n);
+    var s = Math.abs(n).toLocaleString("en-IN", { maximumFractionDigits: 0 });
+    return (n < 0 ? "−₹" : "+₹") + s;
+  }
+  function render(d) {
+    var trades = d.trades || [];
+    var open = trades.filter(function (t) { return t.status === "OPEN"; });
+    var closed = trades.filter(function (t) { return t.status === "CLOSED"; });
+    var wins = closed.filter(function (t) { return Number(t.pnl) > 0; }).length;
+    var winRate = closed.length ? Math.round((wins / closed.length) * 100) : 0;
+    var totalPnl = closed.reduce(function (a, t) { return a + (Number(t.pnl) || 0); }, 0);
+    var statusEl = document.getElementById("thetaStatus");
+    statusEl.className = "flash";
+    if (d.status === "never_run" || !d.scanned_at) {
+      statusEl.textContent = "Not yet run live — click ▶ Run scan now, or wait for the next Mon/Tue/Wed 09:15 IST scheduled run.";
+    } else {
+      statusEl.innerHTML = "Last scan " + esc(d.scanned_at) + " (" + esc(d.scan_date || "") + ") · status: " + esc(d.status) +
+        (d.error ? " · <span class='bad'>" + esc(d.error) + "</span>" : "");
+    }
+    document.getElementById("thDirection").textContent = open.length ? (open[0].direction === "BULL_PUT" ? "Bull Put (bullish)" : "Bear Call (bearish)") : "—";
+    document.getElementById("thOpen").textContent = String(open.length);
+    document.getElementById("thClosed").textContent = String(closed.length);
+    var tot = document.getElementById("thTotal");
+    tot.textContent = inr(totalPnl); tot.className = "sum-value " + (totalPnl >= 0 ? "pos" : "neg");
+    document.getElementById("thWin").innerHTML = winRate + "% <span class='muted' style='font-size:0.7em'>(" + wins + "W/" + (closed.length - wins) + "L)</span>";
+    document.getElementById("thVix").textContent = open.length ? open[0].vix_entry : "< 22 required";
+    document.getElementById("thOpenCount").textContent = "(" + open.length + ")";
+    var ow = document.getElementById("thOpenWrap");
+    if (!open.length) {
+      ow.innerHTML = '<div class="flash">No open Daily Theta position right now.</div>';
+    } else {
+      var orows = open.map(function (t) {
+        return "<tr><td>" + esc(t.entry_date) + "</td><td>" + esc(t.direction) + "</td>" +
+          "<td>" + esc(t.short_strike) + " / " + esc(t.long_strike) + " " + esc(t.opt_type) + "</td>" +
+          "<td>" + inr(t.net_credit).replace("+", "") + "</td><td>" + esc(t.expiry) + " (" + esc(t.dte) + "d)</td>" +
+          "<td>" + esc(t.spot_entry) + "</td><td>" + esc(t.vix_entry) + "</td></tr>";
+      }).join("");
+      ow.innerHTML = "<table><thead><tr><th>Entry</th><th>Direction</th><th>Short/Long Strike</th>" +
+        "<th>Net Credit</th><th>Expiry</th><th>Spot@Entry</th><th>VIX@Entry</th></tr></thead><tbody>" + orows + "</tbody></table>";
+    }
+    document.getElementById("thClosedCount").textContent = "(" + closed.length + ")";
+    var cw = document.getElementById("thClosedWrap");
+    if (!closed.length) {
+      cw.innerHTML = '<div class="flash">No closed Daily Theta trades yet.</div>';
+    } else {
+      var crows = closed.slice().reverse().map(function (t) {
+        var win = Number(t.pnl) > 0;
+        return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
+          "<td>" + esc(t.entry_date) + "</td><td>" + esc(t.exit_date) + "</td><td>" + esc(t.direction) + "</td>" +
+          "<td>" + esc(t.short_strike) + "/" + esc(t.long_strike) + " " + esc(t.opt_type) + "</td>" +
+          "<td>" + esc(t.exit_reason) + "</td>" +
+          '<td class="' + cls(t.pnl) + '">' + inr(t.pnl) + "</td>" +
+          "<td>" + esc(t.holding_days) + "d</td>" +
+          "<td><span class='badge " + (win ? "badge-green" : "badge-red") + "'>" + (win ? "WIN" : "LOSS") + "</span></td></tr>";
+      }).join("");
+      cw.innerHTML = "<table><thead><tr><th>Entry</th><th>Exit</th><th>Direction</th><th>Strikes</th>" +
+        "<th>Reason</th><th>P&L</th><th>Held</th><th></th></tr></thead><tbody>" + crows + "</tbody></table>";
+    }
+  }
+  function load() {
+    fetch(base + "/data/scanners/nifty-daily-theta-latest.json?t=" + Date.now())
+      .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(render)
+      .catch(function () {
+        var el = document.getElementById("thetaStatus");
+        el.className = "flash";
+        el.textContent = "⚠️ Could not load Daily Theta data yet — click ▶ Run scan now to trigger the first run.";
       });
   }
   load();

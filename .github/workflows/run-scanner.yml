@@ -55,7 +55,7 @@ jobs:
 
     env:
       TZ: Asia/Kolkata
-      SCANNER_DIR: portal/scanners
+      SCANNER_DIR: scanners
       OUTPUT_DIR: data/scanners
 
     steps:

@@ -138,6 +138,36 @@ def another_poller_running() -> bool:
     return board_heartbeat_age() < 150
 
 
+def theta_tick() -> None:
+    """Nifty Daily Theta desk — hedged credit spread tracker (backtested
+    92.9% WR / PF 1.77). Once per weekday morning via the day poller: the
+    run-scanner cron is throttled to near-zero, and a daily run also
+    manages Thu/Fri exits the Mon-Wed-only cron never covered."""
+    moment = cp.now()
+    if moment.weekday() >= 5 or moment.time() < dtime(9, 14):
+        return
+    flag = cp.ROOT / "data" / "scanners" / ".theta_last_run"
+    today = moment.date().isoformat()
+    try:
+        if flag.exists() and flag.read_text().strip() == today:
+            return
+    except OSError:
+        pass
+    out = cp.ROOT / "data" / "scanners" / "nifty-daily-theta-latest.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    r = subprocess.run(
+        [sys.executable, str(cp.ROOT / "scanners" / "run_nifty_daily_theta.py"),
+         "--output", str(out)],
+        cwd=str(cp.ROOT), capture_output=True, text=True, timeout=300)
+    print(f"theta scan: rc={r.returncode} "
+          f"{(r.stdout or '')[-200:]}", flush=True)
+    if r.returncode == 0 and out.exists():
+        try:
+            flag.write_text(today)
+        except OSError:
+            pass
+
+
 def run_day() -> None:
     print("relay: day poller starting", flush=True)
     if another_poller_running():
@@ -149,6 +179,7 @@ def run_day() -> None:
             break
         try:
             nse_tick()
+            theta_tick()
             commit_and_push()
         except Exception as e:
             print(f"day tick failed: {e}", flush=True)
