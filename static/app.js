@@ -582,6 +582,12 @@
       return;
     }
 
+    // QM (Quantity Model) tab renders the evening scan + desk book
+    if (tab === "qm") {
+      if (window.QMTab) window.QMTab.refresh(btn);
+      return;
+    }
+
     var runners = { ol: window.DirectScan.runOpenLow, oh: window.DirectScan.runOpenHigh, bb: window.DirectScan.runBBTrap };
     var renderers = { ol: window.DirectScan.renderAlertsPage, oh: window.DirectScan.renderOpenHighPage, bb: window.DirectScan.renderBBTrapPage };
     var runner = runners[tab];

@@ -581,7 +581,7 @@ def commit_state() -> None:
     files = ["data/cloud_paper_ol_state.json", "data/cloud_paper_gc_state.json",
              "data/cloud_swing_state.json", "data/cloud_qm_state.json",
              "data/paper_ol.json", "data/paper_gc.json",
-             "data/swing_picks.json", "data/paper_qm.json",
+             "data/swing_picks.json", "data/paper_qm.json", "data/qm_picks.json",
              "data/alerts.json", "data/live_stocks.json",
              "data/gc_scan.json", "data/f3_picks.json",
              "data/bbtrap.json"]

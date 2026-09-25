@@ -1,25 +1,28 @@
 #!/usr/bin/env python3
 """QM — Quantity Model desk (4th paper-trading setup).
 
-NK's "Trading as a Business" system (video uPrYdYzIMh4, ingested
-2026-09-25 → concepts/trading-as-business.html) implemented as a paper book:
+NK's "Trading as a Business" system (video uPrYdYzIMh4 →
+concepts/trading-as-business.html) — the money management is the strategy;
+signals come from "your own system". Three signal families feed the desk:
 
-  Capital model   : ₹10,00,000 paper capital · ₹30,000 (3%) per entry lot
-  Entry signal    : his rule "use your own system" — we use the HM entry
-                    (WMA21(RSI9) < RSI9 buy state, V-shape, RSI9 > 55,
-                    close > rising SMA20, green candle) with Nifty itself in
-                    HM buy state (the variant that backtested PF 1.35 on
-                    NIFTY-100). Fills at next open, like the swing desk.
-  Max 2 new entries/day (hard rule from the class)
-  Exits           : +12% -> book HALF, trail the rest at cost (exit at entry)
-                    RSI9 >= 86 -> exit everything at close (his universal
-                    booking level)
-                    NEVER book losses: no stop-loss. -50% from entry ->
-                    average ONE more ₹30k lot at close ("mutual funds average")
-  Circuit breaker : if losing positions' invested capital > 50% of the book
-                    (₹5L) -> no new entries; review (his "stop and review")
-  Costs           : 0.30% round trip on realized legs.
-Runs daily in the evening relay job on completed daily bars (NIFTY-500).
+  QM-HM   Hilega-Milega buy (RSI9>55, red WMA21(RSI9) < RSI9, V-shape,
+          close > rising SMA20, green candle) — NIFTY itself must be in
+          HM buy state (the alignment that backtested PF 1.35)
+  QM-52W  fresh 52-week closing high with volume >= 1.5x avg20
+  QM-BBd/w/m  BB Blast: BB-width in the bottom 20% of the trailing 100
+          bars + close > SMA50 (rising) + green candle + vol >= 1.5x prev
+          day (prev day falling) + close > 10-bar max close — computed on
+          DAILY, WEEKLY (complete weeks) and MONTHLY (complete months)
+          bars. 52W + BB families need NIFTY > SMA20 (regime gate).
+          Weekly/monthly rank over available history (5y download).
+
+Money management (the class, verbatim):
+  ₹10L paper capital · ₹30k (3%) lots · max 2 NEW entries/day
+  +12% -> book half, trail rest at cost · RSI9>=86 -> exit all at close
+  never book losses: -50% -> average ONE more lot
+  circuit breaker: >50% of capital stuck in losers -> no new entries
+Also writes data/qm_picks.json for the Alerts page 🧮 QM tab (all today's
+candidates, not just the ones taken).
 """
 from __future__ import annotations
 
@@ -38,17 +41,19 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 STATE_FILE = DATA / "cloud_qm_state.json"
 OUT = DATA / "paper_qm.json"
+PICKS = DATA / "qm_picks.json"
 IST = ZoneInfo("Asia/Kolkata")
 
 CAPITAL = 1_000_000.0
-LOT = 30_000.0            # 3% position sizing
+LOT = 30_000.0
 MAX_NEW_PER_DAY = 2
-MAX_OPEN = 16             # hard sanity cap (~48% of capital at 1 lot each)
-BOOK_AT = 0.12            # +12% -> book half
+MAX_OPEN = 16
+BOOK_AT = 0.12
 RSI_EXIT = 86
-AVG_AT = 0.50             # -50% -> average once
+AVG_AT = 0.50
 COST = 0.003
-MIN_TURNOVER = 5e7        # ₹5cr avg daily turnover (quality/liquidity proxy)
+MIN_TURNOVER = 5e7
+FAMILY_PRIO = {"QM-HM": 0, "QM-BBw": 1, "QM-BBm": 2, "QM-BBd": 3, "QM-52W": 4}
 
 
 def now() -> datetime:
@@ -80,9 +85,9 @@ def wma(s: pd.Series, n: int) -> pd.Series:
                               raw=False)
 
 
-def _daily(ticker: str) -> pd.DataFrame | None:
+def fetch_5y(ticker: str) -> pd.DataFrame | None:
     try:
-        df = yf.download(ticker, period="1y", interval="1d",
+        df = yf.download(ticker, period="5y", interval="1d",
                          progress=False, threads=False, auto_adjust=False)
         if df is None or df.empty:
             return None
@@ -93,31 +98,129 @@ def _daily(ticker: str) -> pd.DataFrame | None:
         return None
 
 
-def _hm_buy(df: pd.DataFrame) -> bool:
-    """HM buy state + structure on the LAST completed bar."""
+def _turnover_ok(df: pd.DataFrame) -> bool:
+    vol_avg = df["Volume"].rolling(20).mean().iloc[-1]
+    return float(df["Close"].iloc[-1]) * float(vol_avg) >= MIN_TURNOVER
+
+
+def sig_hm(df: pd.DataFrame) -> dict | None:
+    """HM buy on the last daily bar (needs NIFTY in HM state — checked by
+    the caller for this family)."""
     if len(df) < 60:
-        return False
+        return None
     c = df["Close"]
     r = rsi9(c)
     red = wma(r, 21)
-    if any(v is None or pd.isna(v) for v in
-           (r.iloc[-1], red.iloc[-1], r.iloc[-2], red.iloc[-2])):
-        return False
+    if any(pd.isna(v) for v in (r.iloc[-1], red.iloc[-1])):
+        return None
     r0, red0 = float(r.iloc[-1]), float(red.iloc[-1])
-    if not (red0 < r0 and r0 > 55):                    # HM buy state + filter
-        return False
+    if not (red0 < r0 and r0 > 55):
+        return None
     if not (float(r.iloc[-2]) <= float(r.iloc[-6:-1].min())
-            and r0 > float(r.iloc[-2])):               # V-shape bottoming
-        return False
+            and r0 > float(r.iloc[-2])):
+        return None
     s20 = c.rolling(20).mean()
     if not (float(c.iloc[-1]) > float(s20.iloc[-1]) > float(s20.iloc[-2])):
-        return False                                   # structure
+        return None
     if not float(df["Close"].iloc[-1]) > float(df["Open"].iloc[-1]):
-        return False                                   # green candle
-    vol_avg = df["Volume"].rolling(20).mean()
-    if float(df["Close"].iloc[-1]) * float(vol_avg.iloc[-1]) < MIN_TURNOVER:
-        return False
-    return True
+        return None
+    if not _turnover_ok(df):
+        return None
+    return {"setup": "QM-HM", "rsi": round(r0, 1),
+            "note": f"RSI9 {r0:.0f} V-turn above rising SMA20"}
+
+
+def sig_52w(df: pd.DataFrame) -> dict | None:
+    c = df["Close"]
+    if len(df) < 260:
+        return None
+    prior_max = float(c.iloc[-253:-1].max())
+    close = float(c.iloc[-1])
+    if not (close > prior_max and float(df["Open"].iloc[-1]) < close):
+        return None
+    vr = float(df["Volume"].iloc[-1]) / max(float(df["Volume"].rolling(20)
+                                                 .mean().iloc[-1]), 1)
+    if vr < 1.5 or not _turnover_ok(df):
+        return None
+    return {"setup": "QM-52W", "rsi": round(float(rsi9(c).iloc[-1]), 1),
+            "note": f"new 52w closing high {close:.1f}, vol {vr:.1f}x"}
+
+
+def _bb_blast(bars: pd.DataFrame, rank_window: int, label: str) -> dict | None:
+    """Squeeze blast on resampled bars: BB width in the bottom 20% of the
+    trailing window + trend + trigger candle + volume expansion."""
+    if len(bars) < min(rank_window, 40) + 5:
+        return None
+    c, v = bars["Close"], bars["Volume"]
+    mid = c.rolling(20).mean()
+    sd = c.rolling(20).std(ddof=0)
+    width = (4 * sd) / mid
+    # the blast bar's own band is already expanded — rank the PRIOR bar's
+    # width (the squeeze state) against the window before it
+    if len(bars) < min(rank_window, 40) + 6:
+        return None
+    prior = width.iloc[-2]
+    win = width.iloc[-rank_window - 2:-2] if len(bars) > rank_window + 2 \
+        else width.iloc[:-2]
+    if pd.isna(prior) or len(win) < 20:
+        return None
+    rank = float((win < prior).sum()) / len(win)
+    if rank > 0.20:
+        return None
+    s50 = c.rolling(50).mean()
+    if any(pd.isna(x) for x in (mid.iloc[-1], s50.iloc[-1], s50.iloc[-51]
+                                if len(bars) > 51 else s50.iloc[0])):
+        return None
+    if not (float(c.iloc[-1]) > float(s50.iloc[-1])
+            and float(s50.iloc[-1]) > float(s50.iloc[-2])):
+        return None
+    if not (float(c.iloc[-1]) > float(bars["Open"].iloc[-1])
+            and float(c.iloc[-1]) > float(c.iloc[-11:-1].max())):
+        return None
+    v1, v2, v3 = float(v.iloc[-1]), float(v.iloc[-2]), float(v.iloc[-3])
+    if not (v1 >= 1.5 * v2 and v2 < v3):
+        return None
+    return {"setup": f"QM-BB{label}", "rsi": round(float(rsi9(c).iloc[-1]), 1),
+            "note": f"BB squeeze rank {rank*100:.0f}% blast on {label} bars"}
+
+
+def resample(df: pd.DataFrame, rule: str, complete_only: bool) -> pd.DataFrame:
+    out = df.resample(rule).agg({"Open": "first", "High": "max",
+                                 "Low": "min", "Close": "last",
+                                 "Volume": "sum"}).dropna()
+    if complete_only and len(out) and len(df):
+        # drop the forming period: weekly bar incomplete unless Friday,
+        # monthly bar incomplete unless the month has rolled over
+        if rule == "W-FRI" and df.index[-1].weekday() < 4:
+            out = out.iloc[:-1]
+        elif rule == "ME":
+            last_daily = df.index[-1]
+            if last_daily.month == out.index[-1].month:
+                out = out.iloc[:-1]
+    return out
+
+
+def scan_signals(df: pd.DataFrame, nifty_ok_hm: bool,
+                 nifty_ok_sma: bool) -> list[dict]:
+    sigs = []
+    if nifty_ok_hm:
+        s = sig_hm(df)
+        if s:
+            sigs.append(s)
+    if nifty_ok_sma:
+        s = sig_52w(df)
+        if s:
+            sigs.append(s)
+        for rule, label, complete in (("W-FRI", "w", True), ("ME", "m", True),
+                                      (None, "d", False)):
+            bars = df if rule is None else resample(df, rule, complete)
+            s = _bb_blast(bars, 100, label)
+            if s:
+                sigs.append(s)
+    for s in sigs:
+        s["close"] = round(float(df["Close"].iloc[-1]), 2)
+        s["date"] = str(df.index[-1].date())
+    return sigs
 
 
 def run_day(dry: bool = False) -> dict:
@@ -132,7 +235,7 @@ def run_day(dry: bool = False) -> dict:
     # ---- 1) fill yesterday's pending at today's open ----
     filled = 0
     for t in [x for x in trades if x["status"] == "PENDING"]:
-        df = _daily(f"{t['symbol']}.NS")
+        df = fetch_5y(f"{t['symbol']}.NS")
         if df is None or str(df.index[-1].date()) != today:
             continue
         o = float(df["Open"].iloc[-1])
@@ -147,24 +250,19 @@ def run_day(dry: bool = False) -> dict:
         filled += 1
 
     # ---- 2) manage opens on today's completed bar ----
-    nifty = _daily("^NSEI")
-    nifty_hm = _hm_buy(nifty) if nifty is not None else False
     blocked = 0.0
     for t in [x for x in trades if x["status"] == "OPEN"]:
-        df = _daily(f"{t['symbol']}.NS")
+        df = fetch_5y(f"{t['symbol']}.NS")
         if df is None:
             continue
         c = float(df["Close"].iloc[-1])
         t["mark"] = c
         t["sessions"] = (t.get("sessions") or 0) + 1
-        r = rsi9(df["Close"])
-        r0 = float(r.iloc[-1]) if not pd.isna(r.iloc[-1]) else 0.0
+        r0 = float(rsi9(df["Close"]).iloc[-1])
         entry = t["entry"]
-        # RSI 86 -> exit everything at close
         if r0 >= RSI_EXIT:
             _close(t, c, "RSI86")
             continue
-        # +12% -> book half, arm the cost-trail
         if not t.get("trail") and c >= entry * (1 + BOOK_AT):
             half = t["qty"] / 2
             t["booked"] = round(t["booked"] + half * (c - entry)
@@ -172,11 +270,9 @@ def run_day(dry: bool = False) -> dict:
             t["qty"] = t["qty"] - half
             t["trail"] = True
             t["note"] = f"half booked @ {c:.1f}"
-        # trail armed and round-tripped to cost -> out
         elif t.get("trail") and c <= entry:
             _close(t, c, "TRAIL-COST")
             continue
-        # never book losses: -50% -> average one more lot
         elif c <= entry * AVG_AT and t.get("avg_count", 0) < 1:
             qty2 = round(LOT / c, 0)
             t["entry"] = round((t["entry"] * t["qty"] + c * qty2)
@@ -188,37 +284,59 @@ def run_day(dry: bool = False) -> dict:
         if t["status"] == "OPEN" and c < entry:
             blocked += t["invested"]
 
-    # ---- 3) new signals (max 2, circuit breaker) ----
+    # ---- 3) scan NIFTY-500 for signals ----
+    nifty = fetch_5y("^NSEI")
+    nifty_hm = sig_hm(nifty) is not None if nifty is not None else False
+    nifty_sma = False
+    if nifty is not None:
+        c = nifty["Close"]
+        s20 = c.rolling(20).mean()
+        nifty_sma = float(c.iloc[-1]) > float(s20.iloc[-1])
+
     open_n = sum(1 for t in trades if t["status"] == "OPEN")
     cb = blocked > CAPITAL * 0.5
     if not dry:
         state["circuit_breaker"] = bool(cb)
+    candidates: list[dict] = []
+    csv = (DATA / "nifty500_symbols.csv").read_text().splitlines()[1:]
+    syms = [ln.split(",")[2].strip() for ln in csv
+            if len(ln.split(",")) >= 4 and ln.split(",")[3].strip() == "EQ"]
+    held = {t["symbol"] for t in trades if t["status"] in ("OPEN", "PENDING")}
+    for k, s in enumerate(syms):
+        if s not in held:
+            df = fetch_5y(f"{s}.NS")
+            if df is not None:
+                candidates.extend(dict(sym=s, **sig)
+                                  for sig in scan_signals(df, nifty_hm, nifty_sma))
+        if (k + 1) % 50 == 0:
+            time.sleep(0.8)
+    candidates.sort(key=lambda c: (FAMILY_PRIO.get(c["setup"], 9), -c["close"]))
+    # write the Alerts-tab pick list (every candidate found today)
+    if not dry:
+        PICKS.write_text(json.dumps({
+            "date": today,
+            "updated_at": now().strftime("%d %b %Y %H:%M:%S IST"),
+            "nifty_gate": {"hm_buy_state": nifty_hm, "above_sma20": nifty_sma},
+            "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM "
+                    "buy state) · 52-week closing high (vol ≥1.5x) · BB Blast "
+                    "squeeze on daily/weekly/monthly (NIFTY > SMA20) · "
+                    "NIFTY-500 · ₹5cr turnover · entries capped 2/day by the "
+                    "desk",
+            "signals": candidates}, indent=1, ensure_ascii=False) + "\n")
+
     entered = 0
-    if nifty_hm and not cb and open_n + filled < MAX_OPEN:
-        csv = (DATA / "nifty500_symbols.csv").read_text().splitlines()[1:]
-        syms = [ln.split(",")[2].strip() for ln in csv
-                if len(ln.split(",")) >= 4 and ln.split(",")[3].strip() == "EQ"]
-        held = {t["symbol"] for t in trades
-                if t["status"] in ("OPEN", "PENDING")}
-        cands = []
-        for k, s in enumerate(syms):
-            if s in held:
-                continue
-            df = _daily(f"{s}.NS")
-            if df is not None and _hm_buy(df):
-                cands.append(s)
-            if (k + 1) % 50 == 0:
-                time.sleep(0.8)
-        for s in cands:
+    if not cb and open_n + filled < MAX_OPEN:
+        for cand in candidates:
             if entered >= MAX_NEW_PER_DAY or open_n + filled + entered >= MAX_OPEN:
                 break
             trades.append({"id": state["next_id"], "signal_date": today,
-                           "symbol": s, "setup": "QM", "side": "BUY",
-                           "status": "PENDING", "entry_date": None,
-                           "qty": None, "entry": None, "invested": None,
-                           "booked": 0.0, "avg_count": 0, "trail": False,
-                           "sessions": 0, "exit": None, "reason": None,
-                           "pnl": None, "mark": None})
+                           "symbol": cand["sym"], "setup": cand["setup"],
+                           "side": "BUY", "status": "PENDING",
+                           "entry_date": None, "qty": None, "entry": None,
+                           "invested": None, "booked": 0.0, "avg_count": 0,
+                           "trail": False, "sessions": 0, "exit": None,
+                           "reason": None, "pnl": None, "mark": None,
+                           "note": cand.get("note")})
             state["next_id"] += 1
             entered += 1
 
@@ -253,11 +371,11 @@ def export(state: dict) -> dict:
                        for t in opens if t.get("mark")), 2)
     payload = {
         "updated_at": now().strftime("%d %b %Y %H:%M:%S IST"),
-        "rule": "QM (Quantity Model, NK's 'Trading as a Business'): HM-buy "
-                "signal on NIFTY-500 · ₹30k (3% of ₹10L) per lot · max 2 new/"
-                "day · +12% book half & trail at cost · RSI9≥86 exit all · "
-                "never book losses, average once at −50% · 50%-blocked "
-                "circuit breaker",
+        "rule": "QM (Quantity Model, NK's 'Trading as a Business'): signals "
+                "from HM-buy / 52W-high / BB-Blast(d,w,m) on NIFTY-500 · "
+                "₹30k (3% of ₹10L) lots · max 2 new/day · +12% book half & "
+                "trail at cost · RSI9≥86 exit all · never book losses, "
+                "average once at −50% · 50%-blocked circuit breaker",
         "note": "Daily-bar desk, scans after 17:30 IST. Position sizing is "
                 "the edge — fills at next open.",
         "summary": {
