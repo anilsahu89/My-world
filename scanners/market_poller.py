@@ -54,9 +54,15 @@ def _git(*args):
 
 def commit_and_push() -> None:
     cp.commit_state()
+    # a previous half-finished rebase (push collision) leaves the repo
+    # unusable and git exits 128 — always clear it first, never raise
+    _git("rebase", "--abort")
     if _git("push", "origin", "main").returncode != 0:
         _git("pull", "--rebase", "origin", "main")
-        _git("push", "origin", "main")
+        if _git("push", "origin", "main").returncode != 0:
+            _git("rebase", "--abort")
+            _git("reset", "--hard", "origin/main")
+            _git("push", "origin", "main")
 
 
 def _api(method: str, path: str, body: dict | None = None):

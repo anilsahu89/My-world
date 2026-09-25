@@ -297,19 +297,26 @@ def run_day(dry: bool = False) -> dict:
     cb = blocked > CAPITAL * 0.5
     if not dry:
         state["circuit_breaker"] = bool(cb)
-    candidates: list[dict] = []
     csv = (DATA / "nifty500_symbols.csv").read_text().splitlines()[1:]
     syms = [ln.split(",")[2].strip() for ln in csv
             if len(ln.split(",")) >= 4 and ln.split(",")[3].strip() == "EQ"]
     held = {t["symbol"] for t in trades if t["status"] in ("OPEN", "PENDING")}
-    for k, s in enumerate(syms):
-        if s not in held:
-            df = fetch_5y(f"{s}.NS")
-            if df is not None:
-                candidates.extend(dict(sym=s, **sig)
-                                  for sig in scan_signals(df, nifty_hm, nifty_sma))
-        if (k + 1) % 50 == 0:
-            time.sleep(0.8)
+    todo = [s for s in syms if s not in held]
+
+    def _scan(sym: str) -> list:
+        df = fetch_5y(f"{sym}.NS")
+        if df is None:
+            return []
+        return [dict(sym=sym, **sig)
+                for sig in scan_signals(df, nifty_hm, nifty_sma)]
+
+    # threaded scan — the 500 x 5y sequential download could outlast the
+    # Actions 6h job cap (night of 24 Sep: evening job died at the cap)
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        found = [x for lst in pool.map(_scan, todo) for x in lst]
+    candidates = sorted(found,
+                        key=lambda c: (FAMILY_PRIO.get(c["setup"], 9), c["sym"]))
     candidates.sort(key=lambda c: (FAMILY_PRIO.get(c["setup"], 9), -c["close"]))
     # write the Alerts-tab pick list (every candidate found today)
     if not dry:
