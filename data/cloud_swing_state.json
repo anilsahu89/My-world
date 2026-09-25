@@ -177,7 +177,7 @@
    "entry": 539.0,
    "sl": 503.0,
    "tgt": 611.0,
-   "sessions": 8,
+   "sessions": 9,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -213,7 +213,7 @@
    "entry": 722.4,
    "sl": 681.9,
    "tgt": 803.4,
-   "sessions": 8,
+   "sessions": 9,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -267,7 +267,7 @@
    "entry": 752.0,
    "sl": 734.35,
    "tgt": 787.3,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -279,12 +279,12 @@
    "symbol": "STARHEALTH",
    "setup": "CS-MARU",
    "side": "BUY",
-   "status": "PENDING",
-   "entry_date": null,
-   "qty": null,
-   "entry": null,
+   "status": "OPEN",
+   "entry_date": "2026-09-25",
+   "qty": 18,
+   "entry": 550.3,
    "sl": 513.0,
-   "tgt": null,
+   "tgt": 624.9,
    "sessions": 0,
    "exit": null,
    "reason": null,
@@ -297,17 +297,17 @@
    "symbol": "FIRSTCRY",
    "setup": "CS-PINS",
    "side": "SELL",
-   "status": "PENDING",
-   "entry_date": null,
-   "qty": null,
-   "entry": null,
+   "status": "OPEN",
+   "entry_date": "2026-09-25",
+   "qty": 55,
+   "entry": 179.63,
    "sl": 190.8,
-   "tgt": null,
+   "tgt": 157.29,
    "sessions": 0,
    "exit": null,
    "reason": null,
    "pnl": null
   }
  ],
- "done_date": "2026-09-24"
+ "done_date": "2026-09-25"
 }

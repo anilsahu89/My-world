@@ -1,11 +1,11 @@
 {
- "updated_at": "24 Sep 2026 21:09:22 IST",
+ "updated_at": "25 Sep 2026 17:27:00 IST",
  "rule": "top-3 candlestick setups (backtested 5y): MARU-at-low BUY PF 1.39 · ShootingStar+VOL SELL PF 1.15 · Engulf-at-low BUY PF 1.13 | entry next open, SL=pattern extreme, target 2R, 10-session stop | max 5 concurrent",
  "note": "NSE backtested; GOLD/BTC patterns untested (trial). Runs in the cloud (GitHub Actions) — no Mac required.",
  "end_date": "2026-12-31",
  "summary": {
-  "open": 3,
-  "pending": 2,
+  "open": 5,
+  "pending": 0,
   "closed": 12,
   "wins": 5,
   "losses": 7,
@@ -27,7 +27,7 @@
    "entry": 539.0,
    "sl": 503.0,
    "tgt": 611.0,
-   "sessions": 8,
+   "sessions": 9,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -45,7 +45,7 @@
    "entry": 722.4,
    "sl": 681.9,
    "tgt": 803.4,
-   "sessions": 8,
+   "sessions": 9,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -63,13 +63,11 @@
    "entry": 752.0,
    "sl": 734.35,
    "tgt": 787.3,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null
-  }
- ],
- "pending": [
+  },
   {
    "id": 16,
    "signal_date": "2026-09-24",
@@ -77,12 +75,12 @@
    "symbol": "STARHEALTH",
    "setup": "CS-MARU",
    "side": "BUY",
-   "status": "PENDING",
-   "entry_date": null,
-   "qty": null,
-   "entry": null,
+   "status": "OPEN",
+   "entry_date": "2026-09-25",
+   "qty": 18,
+   "entry": 550.3,
    "sl": 513.0,
-   "tgt": null,
+   "tgt": 624.9,
    "sessions": 0,
    "exit": null,
    "reason": null,
@@ -95,18 +93,19 @@
    "symbol": "FIRSTCRY",
    "setup": "CS-PINS",
    "side": "SELL",
-   "status": "PENDING",
-   "entry_date": null,
-   "qty": null,
-   "entry": null,
+   "status": "OPEN",
+   "entry_date": "2026-09-25",
+   "qty": 55,
+   "entry": 179.63,
    "sl": 190.8,
-   "tgt": null,
+   "tgt": 157.29,
    "sessions": 0,
    "exit": null,
    "reason": null,
    "pnl": null
   }
  ],
+ "pending": [],
  "closed": [
   {
    "id": 1,
