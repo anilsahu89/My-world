@@ -76,7 +76,8 @@ jobs:
         run: |
           git config user.name "papertrade-bot"
           git config user.email "papertrade-bot@users.noreply.github.com"
-          git add -A -- data/cloud_paper_ol_state.json data/cloud_paper_gc_state.json data/cloud_swing_state.json data/paper_ol.json data/paper_gc.json data/swing_picks.json
+          git rebase --abort >/dev/null 2>&1 || true
+          git add -A -- data/
           git diff --cached --quiet || git commit -m "chore: cloud paper trade $(date -u +%Y-%m-%dT%H:%MZ)"
-          git pull --rebase origin main
-          git push
+          git pull --rebase origin main || { git rebase --abort >/dev/null 2>&1 || true; git reset --hard origin/main; }
+          git push || true
