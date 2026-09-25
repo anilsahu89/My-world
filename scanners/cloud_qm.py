@@ -80,9 +80,17 @@ def rsi9(c: pd.Series) -> pd.Series:
 
 
 def wma(s: pd.Series, n: int) -> pd.Series:
-    w = pd.Series(range(1, n + 1))
-    return s.rolling(n).apply(lambda x: float((x * w[::-1]).sum() / w.sum()),
-                              raw=False)
+    """Weighted MA, vault convention (oldest value weight n, newest 1).
+    The pandas rolling.apply version multiplied Series with misaligned
+    indexes and silently returned garbage — caught by the backtest's
+    equivalence assert on 25 Sep."""
+    import numpy as np
+    kern = np.arange(1, n + 1, dtype=float)
+    vals = s.values.astype(float)
+    out = np.full(len(vals), np.nan)
+    if len(vals) >= n:
+        out[n - 1:] = np.convolve(vals, kern, mode="valid") / kern.sum()
+    return pd.Series(out, index=s.index)
 
 
 def fetch_5y(ticker: str) -> pd.DataFrame | None:
