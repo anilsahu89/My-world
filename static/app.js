@@ -588,6 +588,12 @@
       return;
     }
 
+    // Nifty Daily Theta tab renders the credit-spread desk
+    if (tab === "theta") {
+      if (window.ThetaTab) window.ThetaTab.refresh(btn);
+      return;
+    }
+
     var runners = { ol: window.DirectScan.runOpenLow, oh: window.DirectScan.runOpenHigh, bb: window.DirectScan.runBBTrap };
     var renderers = { ol: window.DirectScan.renderAlertsPage, oh: window.DirectScan.renderOpenHighPage, bb: window.DirectScan.renderBBTrapPage };
     var runner = runners[tab];

@@ -690,7 +690,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
   }
 
   function renderOpen(trades) {
-    document.getElementById("autoOpenCount").textContent = "(" + trades.length + ")";
+    document.getElementById("autoOpenCount").textContent = "(" + (trades.length + (thetaCache.open || []).length) + ")";
     var wrap = document.getElementById("autoOpenWrap");
     if (!trades.length) {
       wrap.innerHTML = '<div class="flash">No open positions right now.</div>';
@@ -712,14 +712,14 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         (pct != null ? (pct > 0 ? "+" : "") + pct.toFixed(2) + "%" : "—") + "</td>" +
         "</tr>";
     }).join("");
-    wrap.innerHTML = "<table><thead><tr>" +
+    wrap.innerHTML = thetaTables("open") + "<table><thead><tr>" +
       "<th>Symbol</th><th>Setup</th><th>Side</th><th>Qty</th><th>Entry Time</th>" +
       "<th>Entry ₹</th><th>SL ₹</th><th>LTP ₹</th><th>P&L</th><th>P&L %</th>" +
       "</tr></thead><tbody>" + rows + "</tbody></table>";
   }
 
   function renderClosed(trades) {
-    document.getElementById("autoClosedCount").textContent = "(" + trades.length + ")";
+    document.getElementById("autoClosedCount").textContent = "(" + (trades.length + (thetaCache.closed || []).length) + ")";
     var wrap = document.getElementById("autoClosedWrap");
     if (!trades.length) {
       wrap.innerHTML = '<div class="flash">No closed trades yet.</div>';
@@ -751,7 +751,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         (showAllClosed ? "Show latest " + CLOSED_LIMIT + " only"
                        : "Show all " + trades.length + " trades") + "</button></div>";
     }
-    wrap.innerHTML = "<table><thead><tr>" +
+    wrap.innerHTML = thetaTables("closed") + "<table><thead><tr>" +
       "<th>Date</th><th>Setup</th><th>Symbol</th><th>Side</th><th>Qty</th>" +
       "<th>Entry Time</th><th>Entry ₹</th><th>Exit Time</th><th>Exit ₹</th>" +
       "<th>Reason</th><th>P&L</th><th></th>" +
@@ -785,6 +785,40 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       "</tr></thead><tbody>" + rows + "</tbody></table>";
   }
 
+  var thetaCache = { open: [], closed: [] };
+
+  function thetaTables(which) {
+    var rows = thetaCache[which] || [];
+    if (!rows.length) return "";
+    if (which === "open") {
+      var r = rows.map(function (t) {
+        return "<tr><td>" + esc(t.entry_date) + "</td><td><strong>" +
+          esc(t.direction) + "</strong></td><td>" + esc(t.short_strike) + " / " +
+          esc(t.long_strike) + " " + esc(t.opt_type) + "</td><td>75</td><td>" +
+          esc(t.expiry) + " (" + esc(t.dte) + "d)</td><td>credit " +
+          esc(t.net_credit) + "</td><td>VIX " + esc(t.vix_entry) + "</td></tr>";
+      }).join("");
+      return '<table style="margin-bottom:0.6rem"><thead><tr>' +
+        '<th colspan="7" style="color:#4fc3f7">🛡️ THETA DESK — hedged credit spread (open)</th>' +
+        '</tr><tr><th>Entry</th><th>Direction</th><th>Short/Long</th><th>Lot</th>' +
+        '<th>Expiry</th><th>Net Credit ₹</th><th>VIX@Entry</th></tr></thead><tbody>' +
+        r + "</tbody></table>";
+    }
+    var r2 = rows.slice().reverse().map(function (t) {
+      var win = Number(t.pnl) > 0;
+      return '<tr class="' + (win ? "row-win" : "row-loss") + '"><td>' +
+        esc(t.entry_date) + "</td><td>" + esc(t.direction) + "</td><td>" +
+        esc(t.short_strike) + "/" + esc(t.long_strike) + " " + esc(t.opt_type) +
+        "</td><td>" + esc(t.exit_reason) + '</td><td class="' + cls(t.pnl) +
+        '">' + inr(t.pnl, true) + "</td><td>" + esc(t.holding_days) +
+        "d</td></tr>";
+    }).join("");
+    return '<table style="margin-bottom:0.6rem"><thead><tr>' +
+      '<th colspan="6" style="color:#4fc3f7">🛡️ THETA DESK — closed</th>' +
+      '</tr><tr><th>Entry</th><th>Direction</th><th>Strikes</th><th>Reason</th>' +
+      '<th>P&L</th><th>Held</th></tr></thead><tbody>' + r2 + "</tbody></table>";
+  }
+
   function render(d) {
     window.__lastAuto = d;
     renderStatus(d);
@@ -794,7 +828,20 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     renderDaily(d.daily || []);
   }
 
+  function loadTheta() {
+    fetch(base + "/data/scanners/nifty-daily-theta-latest.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d) return;
+        var trades = d.trades || [];
+        thetaCache.open = trades.filter(function (t) { return t.status === "OPEN"; });
+        thetaCache.closed = trades.filter(function (t) { return t.status === "CLOSED"; });
+        if (window.__lastAuto) render(window.__lastAuto);
+      }).catch(function () {});
+  }
+
   function load() {
+    loadTheta();
     fetch(base + "/data/paper_ol.json?t=" + Date.now())
       .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
       .then(render)
