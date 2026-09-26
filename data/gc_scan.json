@@ -1,5 +1,5 @@
 {
- "updated_at": "26 Sep 2026 22:26:38 IST",
+ "updated_at": "26 Sep 2026 22:46:39 IST",
  "engine": "cloud gc desk (GitHub Actions relay — no Mac needed)",
  "markets": [
   {
@@ -26,21 +26,13 @@
    "open": 84089.0703125,
    "high": 84323.703125,
    "low": 83777.7734375,
-   "ltp": 84093.40625,
-   "chg_pct": 0.01,
+   "ltp": 84041.0078125,
+   "chg_pct": -0.06,
    "minutes_since_open": null,
    "entry_window_open": false,
    "ol": false,
    "oh": false,
-   "position": {
-    "side": "SELL",
-    "setup": "oh",
-    "qty": 0.0007,
-    "entry_price": 84004.97,
-    "entry_time": "05:57:28",
-    "sl_price": 84555.78,
-    "pnl": null
-   },
+   "position": null,
    "square_off": "22:30",
    "capital_usd": 60.0
   }
