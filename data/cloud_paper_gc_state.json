@@ -205,11 +205,11 @@
    "entry_time": "05:43:21",
    "entry_price": 84300.0,
    "sl_price": 84856.08,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN"
+   "exit_time": "14:05:15",
+   "exit_price": 84856.08,
+   "reason": "SL",
+   "pnl": -0.39,
+   "status": "CLOSED"
   }
  ],
  "seeded": true
