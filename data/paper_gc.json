@@ -1,8 +1,8 @@
 {
- "updated_at": "28 Sep 2026 05:29:57 IST",
+ "updated_at": "28 Sep 2026 05:44:59 IST",
  "status": "RUNNING",
  "summary": {
-  "open_count": 0,
+  "open_count": 1,
   "closed_count": 13,
   "realized_total": -1.83,
   "unrealized": 0,
@@ -10,7 +10,24 @@
   "losses": 12,
   "win_rate": 7.7
  },
- "open": [],
+ "open": [
+  {
+   "id": 14,
+   "session": "2026-09-27",
+   "setup": "oh",
+   "symbol": "GOLD",
+   "side": "SELL",
+   "qty": 0.014,
+   "entry_time": "05:44:59",
+   "entry_price": 4292.1,
+   "sl_price": 4331.55,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "ltp": 4292.1
+  }
+ ],
  "closed": [
   {
    "id": 13,
