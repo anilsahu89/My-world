@@ -14,6 +14,10 @@ NSE rules = the tuned local engine (parity since 2026-09-20):
   history download, capping everything unconditionally); vol_ratio is now
   ranking-only. SL = 0.5% beyond day low/high · NIFTY-direction gate on
   both legs
+  2026-09-28 opening-candle experiment (monitored for a week):
+    entries from 09:20 (first 5-min candle complete) · primary stop is a
+    5-min candle CLOSE beyond the opening low/high captured at entry
+    (CANDLE-CLOSE); the buffered tick SL stays as backstop
   long time-stop 10:45 (scratch O=L longs not back above entry)
   F3 first-3-candle scan 12:20-13:30, NIFTY-gated, top 5 by drive
 """
@@ -184,9 +188,55 @@ def manage_nse(state: dict, quotes: dict, moment: datetime) -> None:
             close(trade, quote["ltp"], "TSTOP", stamp)
 
 
+def candle_close_exits(state: dict, moment: datetime) -> None:
+    """2026-09-28 opening-candle stop: an O=L long exits when a COMPLETED
+    5-min candle CLOSES below the opening low captured at entry; an O=H
+    short when one closes above the opening high. The tick-level SL in
+    manage_nse stays as the disaster backstop. Candle data via Yahoo
+    (delayed a few minutes); exits are stamped at the candle's close."""
+    import pandas as pd
+    today = moment.date().isoformat()
+    live = [t for t in state["trades"]
+            if t.get("status") == "OPEN" and t.get("date") == today
+            and t.get("setup") in ("ol", "oh") and t.get("candle_stop")]
+    if not live:
+        return
+    try:
+        bars = yf.download([f"{t['symbol']}.NS" for t in live], period="1d",
+                           interval="5m", group_by="ticker", progress=False,
+                           threads=True, auto_adjust=False, prepost=False)
+    except Exception as e:
+        print(f"candle fetch failed: {e}")
+        return
+    for trade in live:
+        if trade["status"] != "OPEN":
+            continue
+        try:
+            frame = flatten(bars[f"{trade['symbol']}.NS"].copy())
+            if frame is None or frame.empty:
+                continue
+            cut = datetime.strptime(trade["entry_time"], "%H:%M:%S").time()
+            for ts, row in frame.iterrows():
+                end = (ts + pd.Timedelta(minutes=5)).time()
+                if end > moment.time() or end <= cut:   # complete + post-entry
+                    continue
+                c = float(row["Close"])
+                if not math.isfinite(c):
+                    continue
+                if (trade["side"] == "BUY" and c < trade["candle_stop"]) or \
+                        (trade["side"] == "SELL" and c > trade["candle_stop"]):
+                    close(trade, c, "CANDLE-CLOSE", end.strftime("%H:%M:%S"))
+                    break
+        except (KeyError, TypeError, ValueError):
+            continue
+
+
 def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
     today, stamp = moment.date().isoformat(), moment.strftime("%H:%M:%S")
-    if not (time(9, 30) <= moment.time() <= NSE_ENTRY_CUTOFF):
+    # 2026-09-28 opening-candle rules: entries start once the FIRST 5-min
+    # candle of the day has completed (09:20 IST) — a fresh day O=L/O=H at
+    # that point is an opening-candle setup, not an intraday drift
+    if not (time(9, 20) <= moment.time() <= NSE_ENTRY_CUTOFF):
         return
     if moment.weekday() >= 5:
         return
@@ -218,6 +268,7 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
             state["trades"].append({"id": state["next_id"], "date": today, "setup": setup,
                 "symbol": symbol, "side": side, "qty": qty, "entry_time": stamp,
                 "entry_price": round(quote["ltp"], 2),
+                "candle_stop": round(quote["low"] if side == "BUY" else quote["high"], 2),
                 "sl_price": round((quote["low"] if side == "BUY" else quote["high"])
                                   * (0.995 if side == "BUY" else 1.005), 2),
                 "exit_time": None, "exit_price": None, "reason": None, "pnl": None,
@@ -413,6 +464,7 @@ def update_nse(state: dict) -> dict:
     moment = now()
     quotes = nse_quotes()
     manage_nse(state, quotes, moment)
+    candle_close_exits(state, moment)
     enter_nse(state, quotes, moment)
     f3_scan(state, quotes, moment)
     try:
@@ -460,8 +512,8 @@ def nse_snapshot(state: dict, quotes: dict, today: str) -> dict:
                           if FEED_NAME == "angel" else
                           "Cloud engine (GitHub Actions + Yahoo, no Mac needed)"),
             "status": "DONE" if now().time() >= time(15, 30) else "RUNNING", "today": today,
-            "strategy": {"rule": "fresh O=L -> BUY / fresh O=H -> SELL, ₹10,000/stock",
-                         "sl": "O=L long: 0.5% below day low | O=H short: 0.5% above day high",
+            "strategy": {"rule": "first 5-min candle O=L -> BUY / O=H -> SELL (entries from 09:20, opening candle complete), ₹10,000/stock",
+                         "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
                          "square_off": "15:00", "entry_cutoff": "09:45",
                          "time_stop_long": "10:45", "nifty_gate": True,
                          "min_vol_mult": 0, "vol_note": "volume cap removed 2026-09-28 — est. volume ranks picks only"},
