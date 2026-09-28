@@ -53,7 +53,11 @@ RSI_EXIT = 86
 AVG_AT = 0.50
 COST = 0.003
 MIN_TURNOVER = 5e7
-FAMILY_PRIO = {"QM-HM": 0, "QM-BBw": 1, "QM-BBm": 2, "QM-BBd": 3, "QM-52W": 4}
+# BB-first since 2026-09-28: 23-month validated backtest shows BB-blast
+# entries (PF 2.61 daily / 2.18 weekly) starved at old priority 3 behind
+# QM-HM (PF 1.15); BB-first ordering took the book from +₹52.9k to +₹99.7k
+# with the same families, same rules (swing_backtest/QM_BACKTEST_NOTES.md)
+FAMILY_PRIO = {"QM-BBd": 0, "QM-BBw": 1, "QM-BBm": 2, "QM-HM": 3, "QM-52W": 4}
 
 
 def now() -> datetime:
