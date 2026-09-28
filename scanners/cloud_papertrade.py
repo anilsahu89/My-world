@@ -8,8 +8,12 @@ the Mac install is a retired fallback.
 
 NSE rules = the tuned local engine (parity since 2026-09-20):
   entry cutoff 09:45 · square-off 15:00 · max 3/setup by est. volume
-  O=L volume >= 3.0x avg20 (PF 8.1 backtest) · O=H >= 1.5x
-  SL = 0.5% beyond day low/high · NIFTY-direction gate on both legs
+  O=L / O=H entry has NO volume cap since 2026-09-28 — the 3.0x/1.5x
+  avg20 gates (added 2026-09-20) starved both setups to zero trades in a
+  week (vol_ratio also zeroes out whenever yahoo throttles the 30d
+  history download, capping everything unconditionally); vol_ratio is now
+  ranking-only. SL = 0.5% beyond day low/high · NIFTY-direction gate on
+  both legs
   long time-stop 10:45 (scratch O=L longs not back above entry)
   F3 first-3-candle scan 12:20-13:30, NIFTY-gated, top 5 by drive
 """
@@ -35,8 +39,7 @@ GC_SNAPSHOT = DATA / "paper_gc.json"
 NSE_CAPITAL = 10_000.0
 NSE_TOL = 0.10
 NSE_MIN_PRICE = 50.0
-NSE_MIN_VOL = 1.5
-NSE_MIN_VOL_OL = 3.0          # O=L longs: higher-conviction gate (PF 8.1)
+NSE_MIN_VOL = 1.5              # alerts-page with/without-volume split only
 NSE_MAX_PER_SETUP = 3
 NSE_ENTRY_CUTOFF = time(9, 45)
 NSE_TIME_STOP = time(10, 45)  # scratch ol longs not in profit by now
@@ -196,13 +199,12 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
             continue
         if setup == "oh" and bias == 1:
             continue
-        min_vol = NSE_MIN_VOL_OL if setup == "ol" else NSE_MIN_VOL
         eligible = []
         for symbol, quote in quotes.items():
             edge = abs(quote["open"] - quote["low"]) if setup == "ol" else abs(quote["high"] - quote["open"])
             if (symbol, setup) in seen or quote["open"] < NSE_MIN_PRICE:
                 continue
-            if edge <= min(NSE_TOL, quote["open"] * 0.0005) and quote.get("vol_ratio", 0) >= min_vol:
+            if edge <= min(NSE_TOL, quote["open"] * 0.0005):
                 eligible.append((quote.get("vol_ratio", 0), symbol, quote))
         already = sum(1 for t in state["trades"] if t.get("date") == today and t.get("setup") == setup)
         for _, symbol, quote in sorted(eligible, reverse=True)[:max(0, NSE_MAX_PER_SETUP - already)]:
@@ -462,7 +464,7 @@ def nse_snapshot(state: dict, quotes: dict, today: str) -> dict:
                          "sl": "O=L long: 0.5% below day low | O=H short: 0.5% above day high",
                          "square_off": "15:00", "entry_cutoff": "09:45",
                          "time_stop_long": "10:45", "nifty_gate": True,
-                         "min_vol_mult": 1.5, "min_vol_mult_by_setup": {"ol": 3.0}},
+                         "min_vol_mult": 0, "vol_note": "volume cap removed 2026-09-28 — est. volume ranks picks only"},
             "summary": {"open_count": len(opens), "closed_count": len(closed), "trades_today": today_row["trades"] if today_row else 0,
                         "today_pnl": today_row["pnl"] if today_row else 0, "realized_total": realized, "unrealized": unrealized,
                         "wins": wins, "losses": len(closed) - wins, "win_rate": round(wins / len(closed) * 100, 1) if closed else 0,
