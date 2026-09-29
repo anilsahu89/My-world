@@ -171,16 +171,16 @@
    "symbol": "AIIL",
    "setup": "CS-ENGF",
    "side": "BUY",
-   "status": "OPEN",
+   "status": "CLOSED",
    "entry_date": "2026-09-15",
    "qty": 18.0,
    "entry": 539.0,
    "sl": 503.0,
    "tgt": 611.0,
    "sessions": 9,
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "exit": 554.3,
+   "reason": "MANUAL-CLOSE",
+   "pnl": 275.4
   },
   {
    "id": 11,
@@ -207,16 +207,16 @@
    "symbol": "HDFCBANK",
    "setup": "CS-MARU",
    "side": "BUY",
-   "status": "OPEN",
+   "status": "CLOSED",
    "entry_date": "2026-09-15",
    "qty": 13.0,
    "entry": 722.4,
    "sl": 681.9,
    "tgt": 803.4,
    "sessions": 9,
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "exit": 712.7,
+   "reason": "MANUAL-CLOSE",
+   "pnl": -126.1
   },
   {
    "id": 13,
@@ -261,16 +261,16 @@
    "symbol": "ASTERDM",
    "setup": "CS-MARU",
    "side": "BUY",
-   "status": "OPEN",
+   "status": "CLOSED",
    "entry_date": "2026-09-24",
    "qty": 13,
    "entry": 752.0,
    "sl": 734.35,
    "tgt": 787.3,
    "sessions": 1,
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "exit": 746.25,
+   "reason": "MANUAL-CLOSE",
+   "pnl": -74.75
   },
   {
    "id": 16,
@@ -279,16 +279,16 @@
    "symbol": "STARHEALTH",
    "setup": "CS-MARU",
    "side": "BUY",
-   "status": "OPEN",
+   "status": "CLOSED",
    "entry_date": "2026-09-25",
    "qty": 18,
    "entry": 550.3,
    "sl": 513.0,
    "tgt": 624.9,
    "sessions": 0,
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "exit": 540.0,
+   "reason": "MANUAL-CLOSE",
+   "pnl": -185.4
   },
   {
    "id": 17,
@@ -297,16 +297,16 @@
    "symbol": "FIRSTCRY",
    "setup": "CS-PINS",
    "side": "SELL",
-   "status": "OPEN",
+   "status": "CLOSED",
    "entry_date": "2026-09-25",
    "qty": 55,
    "entry": 179.63,
    "sl": 190.8,
    "tgt": 157.29,
    "sessions": 0,
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "exit": 185.31,
+   "reason": "MANUAL-CLOSE",
+   "pnl": -312.4
   }
  ],
  "done_date": "2026-09-25"
