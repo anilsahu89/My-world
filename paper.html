@@ -122,6 +122,34 @@
 .take-trade-btn:hover {
   background: rgba(63,185,80,0.3);
 }
+
+/* ===== desk tabs (one per trading category) + collapsible lists ===== */
+.pt-tabs {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin: 1.25rem 0 1.5rem; position: sticky; top: 0; z-index: 40;
+  background: rgba(13, 17, 23, 0.96);
+  padding: 0.6rem 0; border-bottom: 1px solid var(--border);
+}
+.pt-tab {
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border); border-radius: 18px;
+  padding: 0.42rem 0.95rem; font-size: 0.85rem; font-weight: 600;
+  cursor: pointer; transition: all 0.15s;
+}
+.pt-tab:hover { border-color: var(--accent); }
+.pt-tab.active {
+  background: rgba(63,185,80,0.15); color: var(--green);
+  border-color: rgba(63,185,80,0.4);
+}
+.pt-panel { display: none; }
+.pt-panel.active { display: block; }
+main h3[data-collapsible] { cursor: pointer; user-select: none; }
+main h3[data-collapsible]:hover { opacity: 0.85; }
+main h3 .collapse-btn {
+  display: inline-block; width: 1.1em; color: var(--accent);
+  font-size: 0.9em; margin-right: 0.15em;
+}
+.collapsed { display: none; }
 </style>
 
   <style>
@@ -329,8 +357,19 @@
 <h1>📊 Paper Trades</h1>
 <p class="hint">Automated O=L / O=H paper trading on GitHub Actions (first 5-min candle O=L → BUY / O=H → SELL from 09:20, ₹10,000/stock, stop = 5-min close beyond opening low/high with hard SL backstop, cloud square-off) plus manual trades from the Alerts tab.</p>
 
+<!-- ===== desk tabs: one click per category, lists collapsed by default ===== -->
+<div class="pt-tabs">
+  <button class="pt-tab active" data-panel="autoSection">⚡ Intraday O=L/O=H</button>
+  <button class="pt-tab" data-panel="qmSection">🧮 QM Swing ₹10L</button>
+  <button class="pt-tab" data-panel="swingSection">🕯️ Candle Swing</button>
+  <button class="pt-tab" data-panel="thetaSection">🛡️ NIFTY Theta</button>
+  <button class="pt-tab" data-panel="btcThetaSection">₿ BTC Theta</button>
+  <button class="pt-tab" data-panel="gcSection">🥇 Gold/BTC</button>
+  <button class="pt-tab" data-panel="manualPanel">✋ Manual</button>
+</div>
+
 <!-- ===================== AUTO O=L / O=H STRATEGY (LIVE) ===================== -->
-<section id="autoSection">
+<section id="autoSection" class="pt-panel active">
   <h2 style="color:var(--accent)">
     🤖 Auto O=L / O=H Strategy
     <span class="muted" style="font-size:0.75rem">— live from the cloud paper engine</span>
@@ -384,7 +423,7 @@
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
 
 <!-- ===================== GOLD / BITCOIN (SEPARATE BOOK) ===================== -->
-<section id="gcSection">
+<section id="gcSection" class="pt-panel">
   <h2 style="color:#d4a017">
     🥇₿ Gold &amp; Bitcoin — O=L / O=H
     <span class="muted" style="font-size:0.75rem">— separate paper book (not mixed with NSE stocks)</span>
@@ -428,7 +467,7 @@
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
 
 <!-- ===================== BTC THETA — 0DTE PREMIUM DESK ===================== -->
-<section id="btcThetaSection">
+<section id="btcThetaSection" class="pt-panel">
   <h2 style="color:#f7931a">
     ₿ BTC Theta — 0DTE Premium Desk
     <span class="muted" style="font-size:0.75rem">— daily-expiry iron condor on Deribit · 0.01 BTC/condor · rules in BTC_0DTE_RULES.md</span>
@@ -554,7 +593,7 @@
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
 
 <!-- ===================== NIFTY DAILY THETA — HEDGED CREDIT SPREAD ===================== -->
-<section id="thetaSection">
+<section id="thetaSection" class="pt-panel">
   <h2 style="color:#4fc3f7">
     🛡️ Nifty Daily Theta — Hedged Credit Spread
     <span class="muted" style="font-size:0.75rem">— backtested 92.9% WR, PF 1.77 · Mon–Wed 09:15 IST · GitHub Actions</span>
@@ -586,7 +625,7 @@
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
 
 <!-- ===================== QM — QUANTITY MODEL DESK ===================== -->
-<section id="qmSection">
+<section id="qmSection" class="pt-panel">
   <h2 style="color:#ff9800">
     🧮 QM — Quantity Model (Trading as a Business)
     <span class="muted" style="font-size:0.75rem">— NK's ₹30k-lot system, daily bars, runs Sep 2026</span>
@@ -606,7 +645,7 @@
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
 
 <!-- ===================== CANDLESTICK SWING DESK ===================== -->
-<section id="swingSection">
+<section id="swingSection" class="pt-panel">
   <h2 style="color:#7c4dff">
     🕯️ Candlestick Swing — top-3 patterns
     <span class="muted" style="font-size:0.75rem">— backtested 5y on NSE-500, runs Sep 2026</span>
@@ -649,6 +688,7 @@
 </div>
 
 <!-- ===================== OPEN POSITIONS ===================== -->
+<div id="manualPanel" class="pt-panel">
 <section>
   <h2 style="color:var(--green);border-bottom-color:rgba(63,185,80,0.3)">
     ✋ Manual Open Positions <span class="muted">(0)</span>
@@ -698,10 +738,11 @@
 <section style="margin-top:2.5rem">
   <h2>✋ Manual Closed Trades <span class="muted">(0)</span></h2>
 
-  
+
   <div class="flash">No closed trades yet. Open positions will appear here once closed.</div>
-  
+
 </section>
+</div><!-- /manualPanel -->
 
 <!-- ===================== MONTHLY P&L ===================== -->
 
@@ -1293,5 +1334,58 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
   <script src="static/gc-scan.js"></script>
   <script src="static/f3-scan.js"></script>
   <script src="static/app.js"></script>
+
+<script>
+/* ===== desk tabs + collapsible trade lists (persisted per browser) ===== */
+(function () {
+  "use strict";
+  var TAB_KEY = "pt_last_tab", COL_KEY = "pt_list_state";
+
+  var tabs = document.querySelectorAll(".pt-tab");
+  function show(id) {
+    document.querySelectorAll(".pt-panel").forEach(function (p) {
+      p.classList.toggle("active", p.id === id);
+    });
+    tabs.forEach(function (b) {
+      b.classList.toggle("active", b.getAttribute("data-panel") === id);
+    });
+    try { localStorage.setItem(TAB_KEY, id); } catch (e) {}
+    window.scrollTo({ top: 0 });
+  }
+  tabs.forEach(function (b) {
+    b.addEventListener("click", function () {
+      show(b.getAttribute("data-panel"));
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(TAB_KEY); } catch (e) {}
+  show(saved && document.getElementById(saved) ? saved : "autoSection");
+
+  /* every h3 followed by a content div becomes a collapse toggle,
+     minimized by default; each list remembers its own state */
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(COL_KEY) || "{}"); } catch (e) {}
+  document.querySelectorAll("main h3").forEach(function (h, i) {
+    var body = h.nextElementSibling;
+    if (!body || body.tagName !== "DIV") return;
+    var key = body.id || ("h3_" + i);
+    h.setAttribute("data-collapsible", key);
+    var btn = document.createElement("span");
+    btn.className = "collapse-btn";
+    h.insertBefore(btn, h.firstChild);
+    function apply(open) {
+      body.classList.toggle("collapsed", !open);
+      btn.textContent = open ? "▾" : "▸";
+      state[key] = !!open;
+      try { localStorage.setItem(COL_KEY, JSON.stringify(state)); } catch (e) {}
+    }
+    apply(key in state ? !!state[key] : false);   // minimized by default
+    h.addEventListener("click", function (e) {
+      if (e.target.closest("a, button, input")) return;
+      apply(body.classList.contains("collapsed"));
+    });
+  });
+})();
+</script>
 </body>
 </html>
