@@ -1,20 +1,18 @@
 {
- "updated_at": "28 Sep 2026 15:08:00 IST",
+ "updated_at": "29 Sep 2026 09:17:22 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
- "today": "2026-09-28",
+ "today": "2026-09-29",
  "strategy": {
-  "rule": "fresh O=L -> BUY / fresh O=H -> SELL, ₹10,000/stock",
-  "sl": "O=L long: 0.5% below day low | O=H short: 0.5% above day high",
+  "rule": "first 5-min candle O=L -> BUY / O=H -> SELL (entries from 09:20, opening candle complete), ₹10,000/stock",
+  "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
   "square_off": "15:00",
   "entry_cutoff": "09:45",
   "time_stop_long": "10:45",
   "nifty_gate": true,
-  "min_vol_mult": 1.5,
-  "min_vol_mult_by_setup": {
-   "ol": 3.0
-  }
+  "min_vol_mult": 0,
+  "vol_note": "volume cap removed 2026-09-28 — est. volume ranks picks only"
  },
  "summary": {
   "open_count": 0,
