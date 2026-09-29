@@ -1,27 +1,10 @@
 {
- "fetched_at": "2026-09-29 15:38:59",
- "latest_date": "2026-09-28",
+ "fetched_at": "2026-09-29 17:30:46",
+ "latest_date": "2026-09-29",
  "universe_count": 197,
- "shorts_count": 2,
+ "shorts_count": 1,
  "longs_count": 1,
  "shorts": [
-  {
-   "kind": "bb",
-   "type": "SHORT",
-   "symbol": "LENSKART",
-   "entry_price": 683.85,
-   "sl_price": 698.09,
-   "target_price": 645.89,
-   "rr": 2.7,
-   "wick_pct": 64,
-   "vol_multiple": 1.7,
-   "rsi": 59,
-   "rsi_pass": false,
-   "primary_range": 47.45,
-   "primary_date": "2026-09-18",
-   "alert_date": "2026-09-21",
-   "score": 33.4
-  },
   {
    "kind": "bb",
    "type": "SHORT",
