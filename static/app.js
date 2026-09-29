@@ -144,8 +144,31 @@
       return;
     }
 
-    status.innerHTML = '<span class="ok">✅ Saved. You can now run scanners.</span>';
-    setTimeout(function () { window.closeSettings(); }, 1500);
+    // live verification — catches stale/under-scoped tokens at save time
+    // instead of as cryptic scanner failures later
+    status.innerHTML = '<span class="running">⏳ Verifying token against GitHub… (ends ' +
+      escHtml(token.slice(-4)) + ')</span>';
+    ghApi("/actions/workflows?per_page=1").then(function (r) {
+      if (r.status === 200) {
+        status.innerHTML = '<span class="ok">✅ Saved & verified — token ends ' +
+          escHtml(token.slice(-4)) + ', has access. You can run scanners.</span>';
+        setTimeout(function () { window.closeSettings(); }, 1600);
+      } else {
+        r.json().then(function (d) {
+          status.innerHTML = '<span class="bad">Saved, but GitHub rejected this token: ' +
+            escHtml(d && d.message ? d.message : ("HTTP " + r.status)) +
+            '<br>Token ends ' + escHtml(token.slice(-4)) +
+            ' — a classic PAT needs <code>repo</code> + <code>workflow</code> scopes. ' +
+            "Re-copy the working token and paste it again.</span>";
+        }).catch(function () {
+          status.innerHTML = '<span class="bad">Saved, but verification failed (HTTP ' +
+            r.status + '). Token ends ' + escHtml(token.slice(-4)) + '.</span>';
+        });
+      }
+    }).catch(function (e) {
+      status.innerHTML = '<span class="bad">Saved, but could not reach GitHub to verify: ' +
+        escHtml(e.message) + '</span>';
+    });
   };
 
   // Show settings prompt if no token configured
