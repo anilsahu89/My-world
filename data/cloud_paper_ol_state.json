@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 124,
+ "next_id": 127,
  "trades": [
   {
    "id": 1,
@@ -1995,6 +1995,60 @@
    "status": "CLOSED",
    "feed": "yahoo-f3",
    "drive_pct": 0.88
+  },
+  {
+   "id": 124,
+   "date": "2026-09-29",
+   "setup": "oh",
+   "symbol": "TRENT",
+   "side": "SELL",
+   "qty": 3,
+   "entry_time": "09:20:58",
+   "entry_price": 2593.0,
+   "candle_stop": 2626.1,
+   "sl_price": 2639.23,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
+  },
+  {
+   "id": 125,
+   "date": "2026-09-29",
+   "setup": "oh",
+   "symbol": "TMPV",
+   "side": "SELL",
+   "qty": 36,
+   "entry_time": "09:20:58",
+   "entry_price": 276.05,
+   "candle_stop": 279.0,
+   "sl_price": 280.39,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
+  },
+  {
+   "id": 126,
+   "date": "2026-09-29",
+   "setup": "oh",
+   "symbol": "TIINDIA",
+   "side": "SELL",
+   "qty": 4,
+   "entry_time": "09:20:58",
+   "entry_price": 2428.5,
+   "candle_stop": 2455.3,
+   "sl_price": 2467.58,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
   }
  ],
  "seeded": true,
