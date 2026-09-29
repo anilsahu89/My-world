@@ -691,16 +691,36 @@ main h3 .collapse-btn {
   </div>
 </div>
 
-<!-- ===================== OPEN POSITIONS ===================== -->
+<!-- ===================== MANUAL: SEARCH & TAKE + BOOK ===================== -->
 <div id="manualPanel" class="pt-panel">
 <section>
   <h2 style="color:var(--green);border-bottom-color:rgba(63,185,80,0.3)">
-    ✋ Manual Open Positions <span class="muted">(0)</span>
+    ✋ Manual — Search &amp; Take Trade
+    <span class="muted" style="font-size:0.75rem">— any stock, long-only paper book (same ledger as the Alerts Take buttons)</span>
   </h2>
+  <div id="manualStatus" class="flash">Loading stock universe…</div>
 
-  
-  <div class="flash">No open paper trades. Go to <a href="/alerts">Alerts</a> to take a trade!</div>
-  
+  <div style="display:flex;gap:10px;align-items:center;margin:0.9rem 0;flex-wrap:wrap">
+    <input type="text" id="manualSearch" placeholder="🔍 Search symbol or company name (e.g. RELIANCE, Tata)…"
+           style="flex:1;min-width:240px;padding:0.55rem 0.8rem;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--text);font-size:0.95rem">
+    <button class="btn" id="manualRefresh" title="Refresh quotes">↻ Refresh</button>
+  </div>
+
+  <div class="table-wrap" id="manualResults"><div class="flash">Type to search the live universe.</div></div>
+
+  <div id="manualTakeForm" style="display:none;margin-top:1rem;border:1px solid rgba(63,185,80,0.35);border-radius:8px;padding:1rem">
+    <strong id="mtSymbol" style="color:var(--green)"></strong>
+    <span class="muted" id="mtName"></span>
+    <div style="display:flex;gap:10px;margin-top:0.75rem;flex-wrap:wrap;align-items:end">
+      <label>Qty<br><input id="mtQty" type="number" min="1" step="1" style="width:90px"></label>
+      <label>Entry ₹<br><input id="mtPrice" type="number" min="0.5" step="0.05" style="width:100px"></label>
+      <label>SL ₹ (optional)<br><input id="mtSl" type="number" min="0" step="0.05" style="width:100px"></label>
+      <label>Date<br><input id="mtDate" type="date" style="width:150px"></label>
+      <button class="btn btn-primary" id="mtConfirm" style="padding:0.5rem 1.2rem">✅ Take Trade</button>
+      <button class="btn" id="mtCancel">Cancel</button>
+    </div>
+    <div class="muted" style="font-size:0.8rem;margin-top:0.5rem">₹10,000/position default sizing — change qty as you like. Saved to your browser's manual ledger.</div>
+  </div>
 </section>
 
 <!-- ===================== CLOSE TRADE MODAL ===================== -->
@@ -738,13 +758,27 @@ main h3 .collapse-btn {
   </div>
 </div>
 
-<!-- ===================== CLOSED TRADES ===================== -->
+<!-- ===================== MANUAL BOOK ===================== -->
 <section style="margin-top:2.5rem">
-  <h2>✋ Manual Closed Trades <span class="muted">(0)</span></h2>
+  <h2 style="color:var(--green)">📒 Manual Paper Book</h2>
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">Open</span>
+      <span class="sum-value" style="color:var(--green)" id="mnOpen">0</span></div>
+    <div class="sum-card"><span class="sum-label">Closed</span>
+      <span class="sum-value" id="mnClosed">0</span></div>
+    <div class="sum-card"><span class="sum-label">Realized ₹</span>
+      <span class="sum-value" id="mnReal">₹0</span></div>
+    <div class="sum-card"><span class="sum-label">Unrealized ₹</span>
+      <span class="sum-value" id="mnUnreal">₹0</span></div>
+    <div class="sum-card"><span class="sum-label">Win Rate</span>
+      <span class="sum-value" id="mnWin">—</span></div>
+  </div>
 
+  <h3 style="margin-top:1.5rem">🟢 Manual Open Positions</h3>
+  <div class="table-wrap" id="mnOpenWrap"><div class="flash">No open manual trades.</div></div>
 
-  <div class="flash">No closed trades yet. Open positions will appear here once closed.</div>
-
+  <h3 style="margin-top:1.5rem">🔴 Manual Closed Trades</h3>
+  <div class="table-wrap" id="mnClosedWrap"><div class="flash">No closed manual trades yet.</div></div>
 </section>
 </div><!-- /manualPanel -->
 
@@ -1338,6 +1372,166 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
   <script src="static/gc-scan.js"></script>
   <script src="static/f3-scan.js"></script>
   <script src="static/app.js"></script>
+
+<script>
+/* ===== Manual tab: stock search -> take trade -> open/closed book ===== */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  var KEY = "mahi_paper_trades";
+  function esc(s) { var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function inr(n) { if (n == null || isNaN(n)) return "—";
+    return (n < 0 ? "−₹" : "₹") + Math.abs(n).toLocaleString("en-IN",
+      { maximumFractionDigits: 0 }); }
+  function cls(n) { return n > 0 ? "ok" : (n < 0 ? "bad" : ""); }
+  function book() { try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { return []; } }
+
+  var stocks = [], ltp = {};
+  function loadUniverse() {
+    fetch(base + "/data/live_stocks.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !d.stocks) { status("⚠ No stock snapshot — retrying in 60s."); return; }
+        stocks = d.stocks;
+        stocks.forEach(function (s) { ltp[s.symbol] = s; });
+        status("Universe: " + stocks.length + " stocks · quotes from " +
+          esc((d.fetched_at || "").replace("T", " ").slice(0, 16)) +
+          " IST · refreshed by the cloud engine");
+        renderResults();
+        renderBook();
+      })
+      .catch(function () { status("⚠ Could not load stock snapshot."); });
+  }
+  function status(html) {
+    var el = document.getElementById("manualStatus");
+    el.classList.remove("flash"); el.innerHTML = html;
+  }
+
+  var selected = null;
+  function renderResults() {
+    var q = (document.getElementById("manualSearch").value || "").trim().toUpperCase();
+    var wrap = document.getElementById("manualResults");
+    if (!q) { wrap.innerHTML = '<div class="flash">Type to search the live universe.</div>'; return; }
+    var hits = stocks.filter(function (s) {
+      return (s.symbol || "").toUpperCase().indexOf(q) >= 0 ||
+             (s.name || "").toUpperCase().indexOf(q) >= 0;
+    }).slice(0, 12);
+    if (!hits.length) { wrap.innerHTML = '<div class="flash">No match for "' + esc(q) + '".</div>'; return; }
+    wrap.innerHTML = "<table><thead><tr><th>Symbol</th><th>Company</th><th>LTP</th>" +
+      "<th>Chg%</th><th>Open</th><th>Day Range</th><th></th></tr></thead><tbody>" +
+      hits.map(function (s) {
+        return "<tr><td><strong>" + esc(s.symbol) + "</strong></td><td>" + esc(s.name) +
+          "</td><td>₹" + esc(s.ltp) + '</td><td class="' + cls(parseFloat(s.pct)) + '">' +
+          esc(s.pct) + "%</td><td>₹" + esc(s.open) + "</td><td>₹" + esc(s.low) +
+          "–₹" + esc(s.high) + '</td><td><button class="btn" data-sym="' + esc(s.symbol) +
+          '">➕ Take</button></td></tr>';
+      }).join("") + "</tbody></table>";
+    wrap.querySelectorAll("button[data-sym]").forEach(function (b) {
+      b.addEventListener("click", function () { openTakeForm(b.getAttribute("data-sym")); });
+    });
+  }
+
+  function openTakeForm(sym) {
+    var s = ltp[sym] || {};
+    selected = sym;
+    document.getElementById("mtSymbol").textContent = sym;
+    document.getElementById("mtName").textContent = s.name ? "· " + s.name : "";
+    var price = parseFloat(s.ltp) || 0;
+    document.getElementById("mtPrice").value = price ? price.toFixed(2) : "";
+    document.getElementById("mtQty").value = price ? Math.max(1, Math.floor(10000 / price)) : 1;
+    document.getElementById("mtSl").value = "";
+    document.getElementById("mtDate").value = new Date().toISOString().slice(0, 10);
+    document.getElementById("manualTakeForm").style.display = "block";
+  }
+
+  document.getElementById("mtCancel").addEventListener("click", function () {
+    document.getElementById("manualTakeForm").style.display = "none";
+  });
+  document.getElementById("mtConfirm").addEventListener("click", function () {
+    if (!selected) return;
+    var price = parseFloat(document.getElementById("mtPrice").value);
+    var qty = parseInt(document.getElementById("mtQty").value, 10);
+    if (!(price > 0) || !(qty > 0)) { alert("Entry price and quantity are required."); return; }
+    var sl = parseFloat(document.getElementById("mtSl").value) || 0;
+    window.addPaperTrade({
+      strategy: "manual-search", symbol: selected,
+      entry_date: document.getElementById("mtDate").value,
+      entry_price: price, sl_price: sl, quantity: qty,
+      invested: +(price * qty).toFixed(2)
+    });
+    document.getElementById("manualTakeForm").style.display = "none";
+    renderBook();
+  });
+
+  function renderBook() {
+    var trades = book();
+    var opens = trades.filter(function (t) { return t.status === "OPEN"; });
+    var closed = trades.filter(function (t) { return t.status === "CLOSED"; });
+    var realized = 0, wins = 0, unreal = 0;
+    closed.forEach(function (t) { realized += t.pnl || 0; if ((t.pnl || 0) > 0) wins++; });
+    opens.forEach(function (t) {
+      var q = ltp[t.symbol];
+      if (q) unreal += ((parseFloat(q.ltp) || 0) - t.entry_price) * t.quantity;
+    });
+    function set(id, v) { document.getElementById(id).textContent = v; }
+    set("mnOpen", opens.length); set("mnClosed", closed.length);
+    document.getElementById("mnReal").textContent = inr(realized);
+    document.getElementById("mnReal").className = "sum-value " + (realized >= 0 ? "pos" : "neg");
+    document.getElementById("mnUnreal").textContent = inr(unreal);
+    document.getElementById("mnUnreal").className = "sum-value " + (unreal >= 0 ? "pos" : "neg");
+    set("mnWin", closed.length ? (wins / closed.length * 100).toFixed(1) + "%" : "—");
+
+    var ow = document.getElementById("mnOpenWrap");
+    if (!opens.length) {
+      ow.innerHTML = '<div class="flash">No open manual trades — search above and hit ➕ Take.</div>';
+    } else {
+      ow.innerHTML = "<table><thead><tr><th>Symbol</th><th>Entry</th><th>Qty</th>" +
+        "<th>Entry ₹</th><th>LTP</th><th>Unrealized</th><th></th></tr></thead><tbody>" +
+        opens.map(function (t) {
+          var q = ltp[t.symbol], l = q ? parseFloat(q.ltp) : null;
+          var u = l != null ? (l - t.entry_price) * t.quantity : null;
+          return "<tr><td><strong>" + esc(t.symbol) + "</strong></td><td>" + esc(t.entry_date) +
+            "</td><td>" + t.quantity + "</td><td>₹" + t.entry_price + "</td><td>" +
+            (l != null ? "₹" + l : "—") + '</td><td class="' + cls(u) + '">' + inr(u) +
+            '</td><td><button class="btn" data-close="' + t.id + '">✖ Close</button></td></tr>';
+        }).join("") + "</tbody></table>";
+      ow.querySelectorAll("button[data-close]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          document.getElementById("closeTradeId").value = b.getAttribute("data-close");
+          document.getElementById("closeModal").style.display = "flex";
+        });
+      });
+    }
+
+    var cw = document.getElementById("mnClosedWrap");
+    if (!closed.length) {
+      cw.innerHTML = '<div class="flash">No closed manual trades yet.</div>';
+    } else {
+      cw.innerHTML = "<table><thead><tr><th>Symbol</th><th>Entry</th><th>Exit</th>" +
+        "<th>Entry ₹</th><th>Exit ₹</th><th>Reason</th><th>P&L</th><th></th></tr></thead><tbody>" +
+        closed.slice(0, 50).map(function (t) {
+          var w = (t.pnl || 0) > 0;
+          return '<tr class="' + (w ? "row-win" : "row-loss") + '"><td><strong>' +
+            esc(t.symbol) + "</strong></td><td>" + esc(t.entry_date) + "</td><td>" +
+            esc(t.exit_date || "—") + "</td><td>₹" + t.entry_price + "</td><td>₹" +
+            (t.exit_price != null ? t.exit_price : "—") + "</td><td>" + esc(t.exit_reason || "—") +
+            '</td><td class="' + cls(t.pnl) + '">' + inr(t.pnl) + '</td><td><span class="badge ' +
+            (w ? "badge-green" : "badge-red") + '">' + (w ? "WIN" : "LOSS") + "</span></td></tr>";
+        }).join("") + "</tbody></table>";
+    }
+  }
+
+  document.getElementById("manualSearch").addEventListener("input", renderResults);
+  document.getElementById("manualRefresh").addEventListener("click", loadUniverse);
+  loadUniverse();
+  setInterval(function () { loadUniverse(); }, 60000);
+})();
+</script>
 
 <script>
 /* ===== desk tabs + collapsible trade lists (persisted per browser) ===== */
