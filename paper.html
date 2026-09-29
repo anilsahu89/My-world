@@ -734,7 +734,10 @@ main h3 .collapse-btn {
       <input type="hidden" name="trade_id" id="closeTradeId">
       <div class="form-group">
         <label>Exit Price (₹)</label>
-        <input type="number" step="0.05" name="exit_price" required>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <input type="number" step="0.05" name="exit_price" required style="flex:1;min-width:110px">
+          <button type="button" class="btn" id="closeUseLtp" title="Fill with the current market price">⚡ Market: —</button>
+        </div>
       </div>
       <div class="form-group">
         <label>Exit Date</label>
@@ -1502,7 +1505,18 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         }).join("") + "</tbody></table>";
       ow.querySelectorAll("button[data-close]").forEach(function (b) {
         b.addEventListener("click", function () {
-          document.getElementById("closeTradeId").value = b.getAttribute("data-close");
+          var id = b.getAttribute("data-close");
+          var t = opens.filter(function (x) { return String(x.id) === String(id); })[0];
+          document.getElementById("closeTradeId").value = id;
+          var ltpBtn = document.getElementById("closeUseLtp");
+          var q = t && ltp[t.symbol];
+          if (q && parseFloat(q.ltp) > 0) {
+            ltpBtn.textContent = "⚡ Market: ₹" + q.ltp;
+            ltpBtn.setAttribute("data-ltp", q.ltp);
+          } else {
+            ltpBtn.textContent = "⚡ Market: n/a";
+            ltpBtn.removeAttribute("data-ltp");
+          }
           document.getElementById("closeModal").style.display = "flex";
         });
       });
@@ -1528,6 +1542,14 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
 
   document.getElementById("manualSearch").addEventListener("input", renderResults);
   document.getElementById("manualRefresh").addEventListener("click", loadUniverse);
+  // close modal: fill exit price with the current market price on request
+  document.getElementById("closeUseLtp").addEventListener("click", function () {
+    var px = this.getAttribute("data-ltp");
+    if (!px) { alert("No live quote for this symbol — enter the exit price manually."); return; }
+    var input = document.querySelector('#closeForm input[name="exit_price"]');
+    input.value = parseFloat(px).toFixed(2);
+    input.focus();
+  });
   loadUniverse();
   setInterval(function () { loadUniverse(); }, 60000);
 })();
