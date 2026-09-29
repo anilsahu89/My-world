@@ -113,7 +113,13 @@
     if (!modal) return;
     document.getElementById("ghTokenInput").value = getGHToken();
     document.getElementById("ghRepoInput").value = getGHRepo();
-    document.getElementById("settingsStatus").textContent = "";
+    var t = getGHToken();
+    document.getElementById("settingsStatus").innerHTML = t
+      ? '<span class="muted">Stored token: ' + t.length + ' chars, ends <b>' +
+        escHtml(t.slice(-4)) + '</b>' + (t.length !== 40 || t.indexOf("ghp_") !== 0
+          ? ' — <span class="bad">not a classic 40-char ghp_… token</span>' : '') +
+        '</span>'
+      : "";
     modal.style.display = "flex";
   };
 
