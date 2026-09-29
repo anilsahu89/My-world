@@ -636,6 +636,7 @@ def commit_state() -> None:
              "data/cloud_swing_state.json", "data/cloud_qm_state.json",
              "data/paper_ol.json", "data/paper_gc.json",
              "data/swing_picks.json", "data/paper_qm.json", "data/qm_picks.json",
+             "data/cloud_btc_theta_state.json", "data/paper_btc_theta.json",
              "data/alerts.json", "data/live_stocks.json",
              "data/gc_scan.json", "data/f3_picks.json",
              "data/bbtrap.json",
@@ -717,6 +718,14 @@ def main() -> None:
             if read_json(cloud_swing.STATE_FILE, {}).get("done_date") \
                     != moment.date().isoformat():
                 cloud_swing.run_day()
+        # BTC 0DTE theta desk (rulebook BTC_0DTE_RULES.md): 24/7 market,
+        # piggybacks on every gc tick — marks/exits continuously, opens the
+        # daily condor inside its 13:30-13:59 IST entry window
+        try:
+            import cloud_btc_theta
+            cloud_btc_theta.tick()
+        except Exception as e:
+            print(f"btc theta tick failed: {e}", flush=True)
     commit_state()
     maybe_start_poller()
 

@@ -1,0 +1,26 @@
+{
+ "updated_at": "29 Sep 2026 13:26:41 IST",
+ "status": "RUNNING",
+ "strategy": {
+  "rule": "BTC daily-expiry iron condor, 0.01 BTC/condor",
+  "strikes": "shorts at 1x 20-day avg range beyond spot, wings ~$1000",
+  "exits": "50% credit | 2x credit stop | expiry",
+  "breakers": "daily -Rs3,000 / weekly -Rs6,000",
+  "fx_note": "USD->INR fixed 88 (paper)"
+ },
+ "summary": {
+  "open": 0,
+  "closed": 0,
+  "wins": 0,
+  "losses": 0,
+  "win_rate": 0,
+  "realized_inr": 0,
+  "today_inr": 0,
+  "week_inr": 0
+ },
+ "open": [],
+ "closed": [],
+ "log": [
+  "no position; outside entry window"
+ ]
+}

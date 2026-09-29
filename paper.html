@@ -427,6 +427,132 @@
 
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
 
+<!-- ===================== BTC THETA — 0DTE PREMIUM DESK ===================== -->
+<section id="btcThetaSection">
+  <h2 style="color:#f7931a">
+    ₿ BTC Theta — 0DTE Premium Desk
+    <span class="muted" style="font-size:0.75rem">— daily-expiry iron condor on Deribit · 0.01 BTC/condor · rules in BTC_0DTE_RULES.md</span>
+  </h2>
+  <div id="btcThetaStatus" class="flash">Loading BTC theta desk…</div>
+
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">Open Condor</span>
+      <span class="sum-value" style="color:var(--green)" id="btOpen">—</span></div>
+    <div class="sum-card"><span class="sum-label">Realized ₹</span>
+      <span class="sum-value" id="btTotal">—</span></div>
+    <div class="sum-card"><span class="sum-label">Today ₹</span>
+      <span class="sum-value" id="btToday">—</span></div>
+    <div class="sum-card"><span class="sum-label">Win Rate</span>
+      <span class="sum-value" id="btWin">—</span></div>
+    <div class="sum-card"><span class="sum-label">Breakers</span>
+      <span class="sum-value" style="font-size:1rem" id="btBreak">—</span></div>
+  </div>
+
+  <h3 style="margin-top:1.5rem">🟢 Open Position</h3>
+  <div class="table-wrap" id="btOpenWrap"><div class="flash">No open condor.</div></div>
+
+  <h3 style="margin-top:1.5rem">🔴 Closed <span class="muted" id="btClosedCount">(0)</span></h3>
+  <div class="table-wrap" id="btClosedWrap"><div class="flash">No closed condors yet.</div></div>
+
+  <h3 style="margin-top:1.5rem">📋 Desk Log <span class="muted">(last decisions)</span></h3>
+  <div class="table-wrap" id="btLog" style="font-size:0.85rem;color:var(--muted)"></div>
+</section>
+
+<script>
+/* ===== BTC 0DTE theta desk — renders data/paper_btc_theta.json ===== */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  function esc(s) { var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function inr(n) { if (n == null || isNaN(n)) return "—";
+    var neg = n < 0;
+    return (neg ? "−₹" : "₹") + Math.abs(n).toLocaleString("en-IN",
+      { maximumFractionDigits: 0 }); }
+  function usd(n) { return n == null ? "—" : "$" + Number(n).toLocaleString(
+    "en-US", { maximumFractionDigits: 1 }); }
+  function cls(n) { return n > 0 ? "ok" : (n < 0 ? "bad" : ""); }
+  function set(id, html) { var el = document.getElementById(id);
+    if (el) el.innerHTML = html; }
+
+  function render(d) {
+    var s = d.summary || {};
+    var el = document.getElementById("btcThetaStatus");
+    el.innerHTML = "Updated " + esc(d.updated_at) + " &nbsp;·&nbsp; " +
+      "BTC daily-expiry iron condor · shorts at 1× avg daily range beyond spot, wings ~$1000 " +
+      "· exits 50% credit / 2× stop / expiry · auto-refreshes every 60s";
+    el.classList.remove("flash");
+    set("btOpen", String(s.open || 0));
+    set("btTotal", inr(s.realized_inr), "");
+    document.getElementById("btTotal").className =
+      "sum-value " + ((s.realized_inr || 0) >= 0 ? "pos" : "neg");
+    set("btToday", inr(s.today_inr));
+    document.getElementById("btToday").className =
+      "sum-value " + ((s.today_inr || 0) >= 0 ? "pos" : "neg");
+    set("btWin", (s.win_rate || 0) + "% <span class='muted' style='font-size:0.7em'>(" +
+        (s.wins || 0) + "W / " + (s.losses || 0) + "L)</span>");
+    set("btBreak", "day " + inr(s.today_inr) + " / wk " + inr(s.week_inr) +
+      " <span class='muted' style='font-size:0.7em'>(−₹3,000 / −₹6,000 halt)</span>");
+
+    var open = d.open || [];
+    var ow = document.getElementById("btOpenWrap");
+    if (!open.length) {
+      ow.innerHTML = '<div class="flash">No open condor — desk waits for the 13:30 IST entry window and the IV filter.</div>';
+    } else {
+      var t = open[0], k = t.strikes || {};
+      ow.innerHTML = "<table><thead><tr><th>Opened</th><th>Expiry</th>" +
+        "<th>Short Call</th><th>Short Put</th><th>Wings</th><th>Lot</th>" +
+        "<th>Credit</th><th>Open P&L</th><th>IV@Entry</th></tr></thead><tbody><tr>" +
+        "<td>" + esc(t.entry_at) + "</td><td>" + esc(t.expiry) + "</td>" +
+        "<td>" + k.sc + "C</td><td>" + k.sp + "P</td>" +
+        "<td>" + k.wc + "C / " + k.wp + "P</td><td>" + t.lot + " BTC</td>" +
+        "<td>" + usd(t.credit_usd) + "</td>" +
+        '<td class="' + cls(t.mark_usd) + '">' + usd(t.mark_usd) + " / BTC</td>" +
+        "<td>" + esc(t.iv_entry) + "%</td></tr></tbody></table>";
+    }
+
+    var closed = d.closed || [];
+    set("btClosedCount", "(" + closed.length + ")");
+    var cw = document.getElementById("btClosedWrap");
+    if (!closed.length) {
+      cw.innerHTML = '<div class="flash">No closed condors yet.</div>';
+    } else {
+      var rows = closed.slice().reverse().map(function (t) {
+        var win = (t.pnl_inr || 0) > 0, k = t.strikes || {};
+        return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
+          "<td>" + esc(t.entry_at) + "</td><td>" + k.sc + "C / " + k.sp + "P</td>" +
+          "<td>" + usd(t.credit_usd) + "</td><td>" + esc(t.reason) + "</td>" +
+          '<td class="' + cls(t.pnl_inr) + '">' + inr(t.pnl_inr) + "</td></tr>";
+      }).join("");
+      cw.innerHTML = "<table><thead><tr><th>Opened</th><th>Strikes</th>" +
+        "<th>Credit</th><th>Reason</th><th>P&L ₹</th></tr></thead><tbody>" +
+        rows + "</tbody></table>";
+    }
+    set("btLog", (d.log || []).map(function (l) { return "• " + esc(l); })
+      .join("<br>"));
+  }
+
+  function load() {
+    fetch(base + "/data/paper_btc_theta.json?t=" + Date.now())
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(render)
+      .catch(function () {
+        var el = document.getElementById("btcThetaStatus");
+        if (el) { el.className = "flash";
+          el.textContent = "⚠️ Could not load BTC theta data — the gc tick publishes every 15 min."; }
+      });
+  }
+  load();
+  setInterval(load, 60000);
+})();
+</script>
+
+<hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
+
 <!-- ===================== NIFTY DAILY THETA — HEDGED CREDIT SPREAD ===================== -->
 <section id="thetaSection">
   <h2 style="color:#4fc3f7">
