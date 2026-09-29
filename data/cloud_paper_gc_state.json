@@ -237,11 +237,11 @@
    "entry_time": "06:20:24",
    "entry_price": 4154.2,
    "sl_price": 4254.27,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN"
+   "exit_time": "23:02:56",
+   "exit_price": 4179.0,
+   "reason": "EOD",
+   "pnl": -0.36,
+   "status": "CLOSED"
   }
  ],
  "seeded": true
