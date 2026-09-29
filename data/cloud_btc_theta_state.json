@@ -1,5 +1,6 @@
 {
  "next_id": 1,
  "trades": [],
- "last_entry_date": null
+ "last_entry_date": null,
+ "last_tick_ts": 1790668895.406914
 }

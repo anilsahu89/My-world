@@ -197,8 +197,14 @@ def settle_expired(trade: dict, log: list[str]) -> None:
     _close(trade, cost, "EXPIRY", pnl, log)
 
 
-def tick() -> None:
+def tick(throttle_sec: int = 900) -> None:
     state = read_state()
+    # relay-safe cadence: callers may loop every 60s; the desk itself only
+    # acts every 15 min (and once inside the daily entry window)
+    import time as _t
+    if _t.time() - state.get("last_tick_ts", 0) < throttle_sec:
+        return
+    state["last_tick_ts"] = _t.time()
     trades = state["trades"]
     log: list[str] = []
     tdy = now().date().isoformat()

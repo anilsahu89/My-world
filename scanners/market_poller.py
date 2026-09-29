@@ -109,6 +109,18 @@ def gc_tick() -> None:
     snap = cp.update_gc(gs)
     cp.write_json(cp.GC_STATE, gs)
     cp.write_json(cp.GC_SNAPSHOT, snap)
+    btc_tick()
+
+
+def btc_tick() -> None:
+    """BTC 0DTE theta desk — 24/7 market, self-throttled to 15 min inside
+    cloud_btc_theta.tick(); carried by every gc/day tick so it never
+    depends on the (throttled) scheduled crons."""
+    try:
+        import cloud_btc_theta
+        cloud_btc_theta.tick()
+    except Exception as e:
+        print(f"btc theta tick failed: {e}", flush=True)
 
 
 def nse_tick(gc_too: bool = True) -> None:
@@ -180,6 +192,7 @@ def run_day() -> None:
         try:
             nse_tick()
             theta_tick()
+            btc_tick()
             commit_and_push()
         except Exception as e:
             print(f"day tick failed: {e}", flush=True)
