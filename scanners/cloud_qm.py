@@ -53,6 +53,12 @@ RSI_EXIT = 86
 AVG_AT = 0.50
 COST = 0.003
 MIN_TURNOVER = 5e7
+# RS-50 gate (deployed 2026-09-29, user-approved): a symbol's signal is only
+# eligible when its trailing 50-day return beats NIFTY's — the HTLB
+# "consistently beating the index" transfer. 23-mo validated backtest:
+# rs50+bb-first +₹127.4k vs bb-first +₹99.7k (WR 70%, PF 1.81, all four
+# families positive; RS-20 variant REJECTED — it halves the book)
+RS_DAYS = 50
 # BB-first since 2026-09-28: 23-month validated backtest shows BB-blast
 # entries (PF 2.61 daily / 2.18 weekly) starved at old priority 3 behind
 # QM-HM (PF 1.15); BB-first ordering took the book from +₹52.9k to +₹99.7k
@@ -300,10 +306,13 @@ def run_day(dry: bool = False) -> dict:
     nifty = fetch_5y("^NSEI")
     nifty_hm = sig_hm(nifty) is not None if nifty is not None else False
     nifty_sma = False
+    nifty_ret50 = None
     if nifty is not None:
         c = nifty["Close"]
         s20 = c.rolling(20).mean()
         nifty_sma = float(c.iloc[-1]) > float(s20.iloc[-1])
+        if len(c) > RS_DAYS:
+            nifty_ret50 = float(c.iloc[-1] / c.iloc[-1 - RS_DAYS])
 
     open_n = sum(1 for t in trades if t["status"] == "OPEN")
     cb = blocked > CAPITAL * 0.5
@@ -319,8 +328,14 @@ def run_day(dry: bool = False) -> dict:
         df = fetch_5y(f"{sym}.NS")
         if df is None:
             return []
-        return [dict(sym=sym, **sig)
+        sigs = [dict(sym=sym, **sig)
                 for sig in scan_signals(df, nifty_hm, nifty_sma)]
+        # RS-50 gate — trailing-50d return must beat NIFTY's on signal day
+        if nifty_ret50 is not None and len(df) > RS_DAYS:
+            ret50 = float(df["Close"].iloc[-1] / df["Close"].iloc[-1 - RS_DAYS])
+            sigs = [dict(s, rs50=round(ret50, 3))
+                    for s in sigs if ret50 > nifty_ret50]
+        return sigs
 
     # threaded scan — the 500 x 5y sequential download could outlast the
     # Actions 6h job cap (night of 24 Sep: evening job died at the cap)
@@ -339,6 +354,7 @@ def run_day(dry: bool = False) -> dict:
             "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM "
                     "buy state) · 52-week closing high (vol ≥1.5x) · BB Blast "
                     "squeeze on daily/weekly/monthly (NIFTY > SMA20) · "
+                    "50-day return must beat NIFTY (RS-50 gate) · "
                     "NIFTY-500 · ₹5cr turnover · entries capped 2/day by the "
                     "desk",
             "signals": candidates}, indent=1, ensure_ascii=False) + "\n")
