@@ -143,6 +143,8 @@
 }
 .pt-panel { display: none; }
 .pt-panel.active { display: block; }
+/* the old stacked-layout section dividers have no job in tab layout */
+main > hr { display: none; }
 main h3[data-collapsible] { cursor: pointer; user-select: none; }
 main h3[data-collapsible]:hover { opacity: 0.85; }
 main h3 .collapse-btn {
@@ -639,6 +641,7 @@ main h3 .collapse-btn {
     <div class="sum-card"><span class="sum-label">Unrealized (₹)</span><span class="sum-value" id="qmUnreal">—</span></div>
     <div class="sum-card"><span class="sum-label">Win Rate</span><span class="sum-value" id="qmWin">—</span></div>
   </div>
+  <h3 style="margin-top:1.5rem">📋 QM Trade Ledger</h3>
   <div class="table-wrap" id="qmWrap"></div>
 </section>
 
@@ -659,6 +662,7 @@ main h3 .collapse-btn {
     <div class="sum-card"><span class="sum-label">Gold/BTC P&L ($)</span><span class="sum-value" id="swUsd">—</span></div>
     <div class="sum-card"><span class="sum-label">Win Rate</span><span class="sum-value" id="swWin">—</span></div>
   </div>
+  <h3 style="margin-top:1.5rem">📋 Swing Trade Ledger</h3>
   <div class="table-wrap" id="swWrap"></div>
 </section>
 
