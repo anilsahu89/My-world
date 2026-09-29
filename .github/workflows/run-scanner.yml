@@ -115,7 +115,7 @@ jobs:
         run: |
           git config user.name "Scanner Bot"
           git config user.email "scanner-bot[bot]@users.noreply.github.com"
-          git add $OUTPUT_DIR/ data/nifty_spot_vix.csv scanners/papertrades/daily_theta_trades.csv
+          git add $OUTPUT_DIR/ scanners/data/nifty_spot_vix.csv scanners/papertrades/daily_theta_trades.csv
           # Only commit if there are actual changes
           if git diff --cached --quiet; then
             echo "No new results to commit."
