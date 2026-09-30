@@ -7,7 +7,7 @@ No credentials, Mac, or manual steps required — this is the primary engine;
 the Mac install is a retired fallback.
 
 NSE rules = the tuned local engine (parity since 2026-09-20):
-  entry cutoff 09:45 · square-off 15:00 · max 3/setup by est. volume
+  entry cutoff 09:45 · square-off 15:00 · max 5/setup by est. volume
   O=L / O=H entry has NO volume cap since 2026-09-28 — the 3.0x/1.5x
   avg20 gates (added 2026-09-20) starved both setups to zero trades in a
   week (vol_ratio also zeroes out whenever yahoo throttles the 30d
@@ -44,7 +44,7 @@ NSE_CAPITAL = 10_000.0
 NSE_TOL = 0.10
 NSE_MIN_PRICE = 50.0
 NSE_MIN_VOL = 1.5              # alerts-page with/without-volume split only
-NSE_MAX_PER_SETUP = 3
+NSE_MAX_PER_SETUP = 5
 NSE_ENTRY_CUTOFF = time(9, 45)
 NSE_TIME_STOP = time(10, 45)  # scratch ol longs not in profit by now
 NSE_SQUARE_OFF = time(15, 0)
