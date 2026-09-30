@@ -1235,3 +1235,27 @@
   });
 
 })();
+
+// ---------------------------------------------------------------------------
+// Brand logo: click to view the full-size mark (owner request 2026-09-30)
+// ---------------------------------------------------------------------------
+(function () {
+  document.addEventListener("click", function (e) {
+    var img = e.target && e.target.closest ? e.target.closest(".brand-logo") : null;
+    if (!img) return;
+    e.preventDefault();
+    e.stopPropagation();
+    var ov = document.createElement("div");
+    ov.id = "brand-logo-zoom";
+    ov.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.86);" +
+      "display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out";
+    var big = document.createElement("img");
+    big.src = img.src;
+    big.alt = "Mahi Investments logo";
+    big.style.cssText = "width:min(72vw,440px);height:auto;border-radius:20px;" +
+      "box-shadow:0 12px 48px rgba(0,0,0,.7)";
+    ov.appendChild(big);
+    ov.addEventListener("click", function () { ov.remove(); });
+    document.body.appendChild(ov);
+  });
+})();
