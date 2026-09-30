@@ -211,6 +211,36 @@ def mill_tick() -> None:
             pass
 
 
+def htf_hm_tick() -> None:
+    """HM Positional desk — NK's Hilega-Milega on WEEKLY bars (momentum-phase
+    entries; 5y backtest PF 2.19, avg +4.8%/trade). Once per weekday AFTER
+    15:35 IST: the 490 x 5y yf sweep takes minutes and must never block
+    market-hours ticks; weekly bars complete at Friday close anyway."""
+    moment = cp.now()
+    if moment.weekday() >= 5 or moment.time() < dtime(15, 35):
+        return
+    flag = cp.ROOT / "data" / "scanners" / ".htfhm_last_run"
+    today = moment.date().isoformat()
+    try:
+        if flag.exists() and flag.read_text().strip() == today:
+            return
+    except OSError:
+        pass
+    out = cp.ROOT / "data" / "scanners" / "htf-hm-latest.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    r = subprocess.run(
+        [sys.executable, str(cp.ROOT / "scanners" / "cloud_htf_hm.py"),
+         "--output", str(out)],
+        cwd=str(cp.ROOT), capture_output=True, text=True, timeout=2400)
+    print(f"htf-hm scan: rc={r.returncode} "
+          f"{(r.stdout or '')[-200:]}", flush=True)
+    if r.returncode == 0 and out.exists():
+        try:
+            flag.write_text(today)
+        except OSError:
+            pass
+
+
 def run_day() -> None:
     print("relay: day poller starting", flush=True)
     if another_poller_running():
@@ -224,6 +254,7 @@ def run_day() -> None:
             nse_tick()
             theta_tick()
             mill_tick()
+            htf_hm_tick()
             btc_tick()
             commit_and_push()
         except Exception as e:

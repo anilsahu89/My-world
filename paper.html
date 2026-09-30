@@ -363,6 +363,7 @@ main h3 .collapse-btn {
 <div class="pt-tabs">
   <button class="pt-tab active" data-panel="autoSection">⚡ Intraday O=L/O=H</button>
   <button class="pt-tab" data-panel="qmSection">🧮 QM Swing ₹10L</button>
+  <button class="pt-tab" data-panel="hmHtfSection">📈 HM Positional</button>
   <button class="pt-tab" data-panel="swingSection">🕯️ Candle Swing</button>
   <button class="pt-tab" data-panel="thetaSection">🛡️ NIFTY Theta</button>
   <button class="pt-tab" data-panel="millSection">🏭 Premium Mill</button>
@@ -715,6 +716,35 @@ main h3 .collapse-btn {
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
 
 <!-- ===================== CANDLESTICK SWING DESK ===================== -->
+<!-- ===================== HM POSITIONAL — HILEGA MILEGA ON WEEKLY BARS ===================== -->
+<section id="hmHtfSection" class="pt-panel">
+  <h2 style="color:#81c784">
+    📈 HM Positional — Hilega-Milega Weekly
+    <span class="muted" style="font-size:0.75rem">— NK sir's HM on higher time frames: enter when RSI9(w)&gt;50 · red WMA21(RSI) below RSI · green WMA3 above red (momentum phase); exit weekly RSI&lt;50 or ≥86 · 5-yr backtest PF 2.19, avg +4.8%/trade · monthly tab below = investing watchlist (PF 4.22) · day relay ticks it post-close</span>
+  </h2>
+  <div id="hmStatus" class="flash">Loading HM Positional desk…</div>
+
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">Open Positions</span><span class="sum-value" style="color:var(--green)" id="hmOpen">—</span></div>
+    <div class="sum-card"><span class="sum-label">Invested ₹</span><span class="sum-value" id="hmInv">—</span></div>
+    <div class="sum-card"><span class="sum-label">Realized P&L</span><span class="sum-value" id="hmReal">—</span></div>
+    <div class="sum-card"><span class="sum-label">Win Rate</span><span class="sum-value" id="hmWin">—</span></div>
+    <div class="sum-card"><span class="sum-label">Weekly Signals</span><span class="sum-value" id="hmSig">—</span></div>
+  </div>
+
+  <h3 style="color:var(--green)">🟢 Open Positions <span class="muted" id="hmOpenCount">(0)</span></h3>
+  <div class="table-wrap" id="hmOpenWrap"><div class="flash">No open HM positions.</div></div>
+
+  <h3 style="margin-top:2rem">🔴 Closed Trades <span class="muted" id="hmClosedCount">(0)</span></h3>
+  <div class="table-wrap" id="hmClosedWrap"><div class="flash">No closed HM trades yet.</div></div>
+
+  <h3 style="margin-top:2rem">📡 This Week's Momentum Signals <span class="muted">(top 10, RSI-ranked — desk takes max 2/week)</span></h3>
+  <div class="table-wrap" id="hmSigWrap"><div class="flash">No fresh signals.</div></div>
+
+  <h3 style="margin-top:2rem">🗓️ Monthly HM Watchlist <span class="muted">(investing tier — RSI9(m)&gt;50 with red inside; "fresh" = crossed this month)</span></h3>
+  <div class="table-wrap" id="hmWatchWrap"><div class="flash">No monthly names.</div></div>
+</section>
+
 <section id="swingSection" class="pt-panel">
   <h2 style="color:#7c4dff">
     🕯️ Candlestick Swing — top-3 patterns
@@ -1399,6 +1429,101 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         var el = document.getElementById("millStatus");
         if (el) { el.className = "flash";
           el.textContent = "⚠️ Could not load Premium Mill data yet."; }
+      });
+  }
+  load();
+  setInterval(load, 60000);
+})();
+</script>
+
+<script>
+/* ===== HM Positional desk — data/scanners/htf-hm-latest.json
+   (NK Hilega-Milega weekly momentum; day relay ticks it post-close) ===== */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  function esc(s) { var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function cls(n) { return n > 0 ? "ok" : (n < 0 ? "bad" : ""); }
+  function inr(n) {
+    if (n === "" || n == null || isNaN(n)) return "—";
+    n = Number(n);
+    var s = Math.abs(n).toLocaleString("en-IN", { maximumFractionDigits: 0 });
+    return (n < 0 ? "−₹" : "+₹") + s;
+  }
+  function tbl(head, rows) {
+    return "<table><thead><tr>" + head.map(function (h) { return "<th>" + h + "</th>"; }).join("") +
+      "</tr></thead><tbody>" + rows.join("") + "</tbody></table>";
+  }
+  function render(d) {
+    var b = d.book || {};
+    var st = document.getElementById("hmStatus");
+    st.className = "flash";
+    st.innerHTML = "Desk updated " + esc(d.updated_at || "") + " · " + esc(d.rule || "");
+    document.getElementById("hmOpen").textContent = String(b.open || 0) + "/5";
+    document.getElementById("hmInv").textContent = "₹" + Number(b.invested || 0)
+      .toLocaleString("en-IN", { maximumFractionDigits: 0 });
+    var r = document.getElementById("hmReal");
+    r.textContent = inr(b.realized); r.className = "sum-value " + ((b.realized || 0) >= 0 ? "pos" : "neg");
+    document.getElementById("hmWin").innerHTML = (b.wins || b.losses)
+      ? (b.win_rate || 0) + "% <span class='muted' style='font-size:0.7em'>(" +
+        (b.wins || 0) + "W/" + (b.losses || 0) + "L)</span>" : "—";
+    document.getElementById("hmSig").textContent = String((d.signals || []).length);
+
+    var open = d.open || [], closed = (d.closed || []).slice().reverse();
+    document.getElementById("hmOpenCount").textContent = "(" + open.length + ")";
+    var ow = document.getElementById("hmOpenWrap");
+    ow.innerHTML = open.length ? tbl(
+      ["Entry", "Symbol", "Signal Wk", "Qty", "Entry ₹", "RSI@", "Invested ₹"],
+      open.map(function (t) {
+        return "<tr><td>" + esc(t.entry_date) + "</td><td><strong>" + esc(t.symbol) +
+          "</strong></td><td>" + esc(t.signal_date) + "</td><td>" + esc(t.qty) +
+          "</td><td>" + esc(t.entry) + "</td><td>" + esc(t.rsi_entry) +
+          "</td><td>" + esc(t.invested) + "</td></tr>";
+      })) : '<div class="flash">No open HM positions — entries wait for a fresh weekly momentum phase (max 2/week, 5 open).</div>';
+
+    document.getElementById("hmClosedCount").textContent = "(" + closed.length + ")";
+    var cw = document.getElementById("hmClosedWrap");
+    cw.innerHTML = closed.length ? tbl(
+      ["Entry", "Exit", "Symbol", "Reason", "Weeks", "P&L"],
+      closed.map(function (t) {
+        return '<tr class="' + (Number(t.pnl) > 0 ? "row-win" : "row-loss") + '">' +
+          "<td>" + esc(t.entry_date) + "</td><td>" + esc(t.exit_date || "—") +
+          "</td><td><strong>" + esc(t.symbol) + "</strong></td><td>" + esc(t.reason || "—") +
+          "</td><td>" + esc(t.weeks_held) + '</td><td class="' + cls(Number(t.pnl)) + '">' +
+          inr(Number(t.pnl)) + "</td></tr>";
+      })) : '<div class="flash">No closed HM trades yet.</div>';
+
+    var sigs = (d.signals || []).slice(0, 10);
+    document.getElementById("hmSigWrap").innerHTML = sigs.length ? tbl(
+      ["Symbol", "RSI9(w)", "Red 21", "Green 3", "State", "Signal Week", "Close ₹"],
+      sigs.map(function (s) {
+        return "<tr><td><strong>" + esc(s.symbol) + "</strong></td><td>" + esc(s.rsi) +
+          "</td><td>" + esc(s.red) + "</td><td>" + esc(s.green) + "</td><td>" + esc(s.state) +
+          "</td><td>" + esc(s.signal_date) + "</td><td>" + esc(s.close) + "</td></tr>";
+      })) : '<div class="flash">No fresh weekly momentum signals.</div>';
+
+    var watch = (d.monthly_watchlist || []).slice(0, 20);
+    document.getElementById("hmWatchWrap").innerHTML = watch.length ? tbl(
+      ["Symbol", "RSI9(m)", "Red 21", "State", "Fresh"],
+      watch.map(function (s) {
+        return "<tr><td><strong>" + esc(s.symbol) + "</strong></td><td>" + esc(s.rsi) +
+          "</td><td>" + esc(s.red) + "</td><td>" + esc(s.state) + "</td><td>" +
+          (s.fresh ? "🆕" : "") + "</td></tr>";
+      })) : '<div class="flash">No monthly HM names right now.</div>';
+  }
+  function load() {
+    fetch(base + "/data/scanners/htf-hm-latest.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) render(d); })
+      .catch(function () {
+        var el = document.getElementById("hmStatus");
+        if (el) { el.className = "flash";
+          el.textContent = "⚠️ Could not load HM Positional data yet."; }
       });
   }
   load();
