@@ -1,7 +1,7 @@
 {
- "updated_at": "30 Sep 2026 09:17:48 IST",
- "feed": "yahoo",
- "feed_note": "Cloud engine (GitHub Actions + Yahoo, no Mac needed)",
+ "updated_at": "30 Sep 2026 09:19:15 IST",
+ "feed": "angel",
+ "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
  "today": "2026-09-30",
  "strategy": {
