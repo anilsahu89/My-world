@@ -1,5 +1,5 @@
 {
- "updated_at": "30 Sep 2026 11:21:29 IST",
+ "updated_at": "30 Sep 2026 11:24:45 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -15,15 +15,15 @@
   "vol_note": "volume cap removed 2026-09-28 — est. volume ranks picks only"
  },
  "summary": {
-  "open_count": 2,
-  "closed_count": 118,
+  "open_count": 1,
+  "closed_count": 119,
   "trades_today": 3,
-  "today_pnl": -145.2,
-  "realized_total": -236.77,
-  "unrealized": 47.14,
+  "today_pnl": -149.84,
+  "realized_total": -241.41,
+  "unrealized": 33.48,
   "wins": 61,
-  "losses": 57,
-  "win_rate": 51.7,
+  "losses": 58,
+  "win_rate": 51.3,
   "days": 17
  },
  "open": [
@@ -41,11 +41,13 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 38.44,
+   "pnl": 33.48,
    "feed": "angel",
-   "ltp": 160.29,
-   "pnl_pct": 0.39
-  },
+   "ltp": 160.21,
+   "pnl_pct": 0.34
+  }
+ ],
+ "closed": [
   {
    "id": 128,
    "date": "2026-09-30",
@@ -57,16 +59,12 @@
    "entry_price": 171.49,
    "candle_stop": 169.95,
    "sl_price": 169.1,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 8.7,
-   "feed": "angel",
-   "ltp": 171.64,
-   "pnl_pct": 0.09
-  }
- ],
- "closed": [
+   "exit_time": "11:24:31",
+   "exit_price": 171.41,
+   "reason": "TSTOP",
+   "pnl": -4.64,
+   "feed": "angel"
+  },
   {
    "id": 129,
    "date": "2026-09-30",
@@ -2124,9 +2122,9 @@
    "ol": 3,
    "oh": 0,
    "wins": 0,
-   "losses": 1,
-   "pnl": -145.2,
-   "cum": -236.77
+   "losses": 2,
+   "pnl": -149.84,
+   "cum": -241.41
   }
  ]
 }
