@@ -365,6 +365,7 @@ main h3 .collapse-btn {
   <button class="pt-tab" data-panel="qmSection">🧮 QM Swing ₹10L</button>
   <button class="pt-tab" data-panel="swingSection">🕯️ Candle Swing</button>
   <button class="pt-tab" data-panel="thetaSection">🛡️ NIFTY Theta</button>
+  <button class="pt-tab" data-panel="millSection">🏭 Premium Mill</button>
   <button class="pt-tab" data-panel="btcThetaSection">₿ BTC Theta</button>
   <button class="pt-tab" data-panel="gcSection">🥇 Gold/BTC</button>
   <button class="pt-tab" data-panel="manualPanel">✋ Manual</button>
@@ -464,6 +465,31 @@ main h3 .collapse-btn {
   <div class="table-wrap" id="gcClosedWrap">
     <div class="flash">No closed Gold/BTC trades yet.</div>
   </div>
+</section>
+
+<hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
+
+<!-- ===================== NIFTY PREMIUM MILL — HEDGED CREDIT SPREAD ===================== -->
+<section id="millSection" class="pt-panel">
+  <h2 style="color:#ffb74d">
+    🏭 Nifty Premium Mill — Hedged Credit Spread
+    <span class="muted" style="font-size:0.75rem">— modernized for Tuesday expiries: DTE-anchored entries (1–4), VIX 10–18, 250 OTM · 1-yr real-premium backtest PF 1.58 · day relay ticks it every weekday</span>
+  </h2>
+  <div id="millStatus" class="flash">Loading Premium Mill desk…</div>
+
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">Open Positions</span><span class="sum-value" style="color:var(--green)" id="pmOpen">—</span></div>
+    <div class="sum-card"><span class="sum-label">Closed Trades</span><span class="sum-value" id="pmClosed">—</span></div>
+    <div class="sum-card"><span class="sum-label">Realized P&L</span><span class="sum-value" id="pmTotal">—</span></div>
+    <div class="sum-card"><span class="sum-label">Win Rate</span><span class="sum-value" id="pmWin">—</span></div>
+    <div class="sum-card"><span class="sum-label">VIX Gate</span><span class="sum-value" id="pmVix">10–18</span></div>
+  </div>
+
+  <h3 style="color:var(--green)">🟢 Open Position <span class="muted" id="pmOpenCount">(0)</span></h3>
+  <div class="table-wrap" id="pmOpenWrap"><div class="flash">No open mill position right now.</div></div>
+
+  <h3 style="margin-top:2rem">🔴 Closed Trades <span class="muted" id="pmClosedCount">(0)</span></h3>
+  <div class="table-wrap" id="pmClosedWrap"><div class="flash">No closed mill trades yet.</div></div>
 </section>
 
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
@@ -1289,6 +1315,90 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         var el = document.getElementById("thetaStatus");
         el.className = "flash";
         el.textContent = "⚠️ Could not load Daily Theta data yet — click ▶ Run scan now to trigger the first run.";
+      });
+  }
+  load();
+  setInterval(load, 60000);
+})();
+</script>
+
+<script>
+/* ===== Nifty Premium Mill desk — data/scanners/nifty-premium-mill-latest.json
+   (hedged credit spread; day relay ticks it every weekday morning) ===== */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  function esc(s) { var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function cls(n) { return n > 0 ? "ok" : (n < 0 ? "bad" : ""); }
+  function inr(n) {
+    if (n === "" || n == null || isNaN(n)) return "—";
+    n = Number(n);
+    var s = Math.abs(n).toLocaleString("en-IN", { maximumFractionDigits: 0 });
+    return (n < 0 ? "−₹" : "+₹") + s;
+  }
+  function render(d) {
+    var trades = d.trades || [];
+    var open = trades.filter(function (t) { return t.status === "OPEN"; });
+    var closed = trades.filter(function (t) { return t.status === "CLOSED"; });
+    var wins = closed.filter(function (t) { return Number(t.pnl) > 0; });
+    var total = closed.reduce(function (a, t) { return a + Number(t.pnl || 0); }, 0);
+    var st = document.getElementById("millStatus");
+    st.className = "flash";
+    st.innerHTML = "Last scan " + esc(d.scanned_at || "") + " · status: " + esc(d.status || "") +
+      " · entries when the nearest weekly expiry is 1–4 DTE out (Mon/Fri in practice) · 250 OTM, 100-pt spread, 50% booking";
+    document.getElementById("pmOpen").textContent = String(open.length);
+    document.getElementById("pmClosed").textContent = String(closed.length);
+    var tot = document.getElementById("pmTotal");
+    tot.textContent = inr(total); tot.className = "sum-value " + (total >= 0 ? "pos" : "neg");
+    document.getElementById("pmWin").innerHTML = closed.length
+      ? Math.round(wins.length / closed.length * 100) + "% <span class='muted' style='font-size:0.7em'>(" +
+        wins.length + "W/" + (closed.length - wins.length) + "L)</span>" : "—";
+    document.getElementById("pmOpenCount").textContent = "(" + open.length + ")";
+    var ow = document.getElementById("pmOpenWrap");
+    if (!open.length) {
+      ow.innerHTML = '<div class="flash">No open mill position — next entry window is the 1–4 DTE run-up to a Tuesday expiry (Monday/Friday).</div>';
+    } else {
+      var orows = open.map(function (t) {
+        return "<tr><td>" + esc(t.entry_date) + "</td><td>" + esc(t.direction) + "</td>" +
+          "<td>" + esc(t.short_strike) + " / " + esc(t.long_strike) + " " + esc(t.opt_type) + "</td>" +
+          "<td>" + esc(t.expiry) + "</td><td>₹" + esc(t.net_credit) + "</td>" +
+          "<td>" + esc(t.spot_entry) + "</td><td>" + esc(t.vix_entry) + "</td></tr>";
+      }).join("");
+      ow.innerHTML = "<table><thead><tr><th>Entry</th><th>Direction</th><th>Strikes</th>" +
+        "<th>Expiry</th><th>Credit ₹</th><th>Spot@Entry</th><th>VIX@Entry</th></tr></thead><tbody>" +
+        orows + "</tbody></table>";
+    }
+    document.getElementById("pmClosedCount").textContent = "(" + closed.length + ")";
+    var cw = document.getElementById("pmClosedWrap");
+    if (!closed.length) {
+      cw.innerHTML = '<div class="flash">No closed mill trades yet.</div>';
+    } else {
+      var crows = closed.slice().reverse().map(function (t) {
+        var w = Number(t.pnl) > 0;
+        return '<tr class="' + (w ? "row-win" : "row-loss") + '">' +
+          "<td>" + esc(t.entry_date) + "</td><td>" + esc(t.exit_date || "—") + "</td>" +
+          "<td>" + esc(t.direction) + "</td>" +
+          "<td>" + esc(t.short_strike) + "/" + esc(t.long_strike) + " " + esc(t.opt_type) + "</td>" +
+          "<td>" + esc(t.exit_reason || "—") + '</td>' +
+          '<td class="' + cls(Number(t.pnl)) + '">' + inr(Number(t.pnl)) + "</td></tr>";
+      }).join("");
+      cw.innerHTML = "<table><thead><tr><th>Entry</th><th>Exit</th><th>Direction</th><th>Strikes</th>" +
+        "<th>Reason</th><th>P&L</th></tr></thead><tbody>" + crows + "</tbody></table>";
+    }
+  }
+  function load() {
+    fetch(base + "/data/scanners/nifty-premium-mill-latest.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) render(d); })
+      .catch(function () {
+        var el = document.getElementById("millStatus");
+        if (el) { el.className = "flash";
+          el.textContent = "⚠️ Could not load Premium Mill data yet."; }
       });
   }
   load();
