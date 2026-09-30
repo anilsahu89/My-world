@@ -4,9 +4,10 @@
       <stop offset="0" stop-color="#12261a"/>
       <stop offset="1" stop-color="#0d1117"/>
     </linearGradient>
-    <linearGradient id="rise" x1="0" y1="1" x2="1" y2="0">
+    <linearGradient id="loop" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#2ea043"/>
-      <stop offset="1" stop-color="#56d364"/>
+      <stop offset="0.55" stop-color="#3fb950"/>
+      <stop offset="1" stop-color="#d4a017"/>
     </linearGradient>
   </defs>
 
@@ -14,27 +15,27 @@
   <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#bg)"
         stroke="#2ea043" stroke-width="2.5"/>
 
-  <!-- candlesticks (trading), rising left to right -->
-  <g stroke="#3fb950" stroke-width="3" stroke-linecap="round">
-    <line x1="16" y1="27" x2="16" y2="45"/>
-    <line x1="26" y1="21" x2="26" y2="41"/>
-    <line x1="36" y1="15" x2="36" y2="35"/>
-  </g>
-  <g fill="#3fb950">
-    <rect x="12" y="32" width="8" height="8" rx="1.5"/>
-    <rect x="22" y="26" width="8" height="9" rx="1.5"/>
-    <rect x="32" y="19" width="8" height="10" rx="1.5"/>
-  </g>
+  <!-- infinity mark (endless growth) — green flowing into gold -->
+  <path d="M 24 40 C 20 32, 10 33, 10 40 C 10 47, 20 48, 24 40
+           C 28 32, 38 32, 42 40 C 46 48, 56 47, 56 40 C 56 33, 46 32, 42 40"
+        fill="none" stroke="url(#loop)" stroke-width="4.2" stroke-linecap="round"/>
 
-  <!-- growth arrow (investing / future) sweeping over the candles -->
-  <path d="M 12 43 C 22 41, 31 33, 42 22"
-        fill="none" stroke="url(#rise)" stroke-width="4" stroke-linecap="round"/>
-  <path d="M 35 20 L 44 19 L 42.5 28" fill="none" stroke="#56d364"
-        stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- the M (variant 1) anchored in the left loop -->
+  <text x="17" y="44.2" text-anchor="middle" font-family="sans-serif"
+        font-size="10.5" font-weight="800" fill="#d4a017">M</text>
 
-  <!-- the future point: gold coin with the मही monogram -->
-  <circle cx="48" cy="14" r="9" fill="#d4a017"/>
-  <circle cx="48" cy="14" r="9" fill="none" stroke="#f0c94f" stroke-width="1.6"/>
-  <text x="48" y="17.6" text-anchor="middle" font-family="sans-serif"
-        font-size="8.6" font-weight="700" fill="#5c4000">मही</text>
+  <!-- rising candles in the right loop (variant 4) -->
+  <g stroke="#3fb950" stroke-width="1.6" stroke-linecap="round">
+    <line x1="45" y1="36" x2="45" y2="45"/>
+    <line x1="49" y1="33.5" x2="49" y2="43"/>
+  </g>
+  <rect x="43.4" y="38" width="3.2" height="4.6" rx="0.6" fill="#3fb950"/>
+  <rect x="47.4" y="35.5" width="3.2" height="5.2" rx="0.6" fill="#56d364"/>
+  <rect x="51.2" y="37" width="2.6" height="3.8" rx="0.6" fill="#e5534b"/>
+
+  <!-- gold arrow bursting from the right loop (variant 1 signature) -->
+  <path d="M 46 34 C 50 27, 53 22, 57 15" fill="none" stroke="#d4a017"
+        stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M 51.5 13.5 L 58.5 12.5 L 57.5 19.5" fill="none" stroke="#f0c94f"
+        stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
