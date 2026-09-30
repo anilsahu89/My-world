@@ -2061,11 +2061,11 @@
    "entry_price": 159.67,
    "candle_stop": 157.01,
    "sl_price": 156.22,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "21:52:23",
+   "exit_price": 158.5,
+   "reason": "EOD",
+   "pnl": -72.54,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {
