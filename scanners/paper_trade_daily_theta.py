@@ -8,6 +8,9 @@ Rules (DTE fix, 30 Sep 2026 — NIFTY weeklies expire TUESDAYS now; the
 Monday = 1 DTE and Friday = 4 DTE under the new calendar):
   - Entry: Mon, Tue, Wed, Fri after 1 PM (the 1-4 DTE gate does the work)
   - VIX < 22 (skip if higher)
+  - Falling-VIX gate (Trader's Table Ep2, 30 Sep 2026): skip new entries when
+    today's VIX is above its own 9-day average — 1y backtest: worst trade
+    -₹2,145 vs -₹7,312, PF 2.78→5.85, maxDD→0, net +₹10.4k vs +₹16.8k
   - Above 20 SMA → Bull Put | Below → Bear Call
   - Sell 300 OTM, Buy 400 OTM (100pt spread)
   - Nearest expiry 1-4 DTE
@@ -32,6 +35,7 @@ BB_PERIOD = 20
 SHORT_OTM = 300
 SPREAD_WIDTH = 100
 VIX_MAX = 22
+VIX_SMA_PERIOD = 9  # falling-VIX gate: no fresh entries when VIX > its own 9-day avg
 PROFIT_PCT = 0.50
 MIN_CREDIT = 3.0
 MAX_DTE = 4
@@ -97,6 +101,17 @@ def load_spot_history(day, n=25):
                 if d < day:
                     spots.append(float(row["nifty_spot"]))
     return spots[-n:]
+
+
+def load_vix_history(day, n=25):
+    vixs = []
+    if SPOT_VIX_FILE.exists():
+        with SPOT_VIX_FILE.open() as f:
+            for row in csv.DictReader(f):
+                d = parse_date(row["date"])
+                if d < day:
+                    vixs.append(float(row["vix"]))
+    return vixs[-n:]
 
 
 def load_nifty_options(day):
@@ -182,6 +197,14 @@ def check_signal(day):
 
     if vix > VIX_MAX:
         return None, f"VIX {vix:.1f} > {VIX_MAX} — skip"
+
+    # falling-VIX gate (entries only; open trades are managed as usual)
+    vix_vals = load_vix_history(day, VIX_SMA_PERIOD - 1) + [vix]
+    if len(vix_vals) == VIX_SMA_PERIOD:
+        vix_sma = sum(vix_vals) / VIX_SMA_PERIOD
+        if vix > vix_sma:
+            return None, (f"VIX rising {vix:.1f} > 9d avg {vix_sma:.1f} — "
+                          f"skip (falling-VIX gate)")
 
     spot_hist = load_spot_history(day)
     if len(spot_hist) < BB_PERIOD:
@@ -320,7 +343,7 @@ def print_report():
 
     print(f"\n{'='*95}")
     print(f"  💰 NIFTY DAILY THETA — PAPER TRADES")
-    print(f"  Rules: Mon-Wed 1PM | VIX<{VIX_MAX} | {SHORT_OTM}OTM | {SPREAD_WIDTH}pt spread | 50% target")
+    print(f"  Rules: Mon-Wed 1PM | VIX<{VIX_MAX} + falling (9d avg) | {SHORT_OTM}OTM | {SPREAD_WIDTH}pt spread | 50% target")
     print(f"{'='*95}")
 
     if open_t:
