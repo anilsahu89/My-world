@@ -472,7 +472,7 @@ main h3 .collapse-btn {
 <section id="btcThetaSection" class="pt-panel">
   <h2 style="color:#f7931a">
     ₿ BTC Theta — 0DTE Premium Desk
-    <span class="muted" style="font-size:0.75rem">— daily-expiry iron condor on Deribit · 0.01 BTC/condor · rules in BTC_0DTE_RULES.md</span>
+    <span class="muted" style="font-size:0.75rem">— daily-expiry premium selling on Deribit · same-day condor or next-day calendar fence · 0.01 BTC each · rules v2 in BTC_0DTE_RULES.md</span>
   </h2>
   <div id="btcThetaStatus" class="flash">Loading BTC theta desk…</div>
 
@@ -524,7 +524,8 @@ main h3 .collapse-btn {
     var s = d.summary || {};
     var el = document.getElementById("btcThetaStatus");
     el.innerHTML = "Updated " + esc(d.updated_at) + " &nbsp;·&nbsp; " +
-      "BTC daily-expiry iron condor · shorts at 1× avg daily range beyond spot, wings ~$1000 " +
+      "BTC daily-expiry premium desk v2 · shorts ladder 0.85→0.55× implied move (first rung paying ≥ $110) " +
+      "· wings ~$1000 same-day, or a next-day calendar fence when it costs ≤ 45% of credit " +
       "· exits 50% credit / 2× stop / expiry · auto-refreshes every 60s";
     el.classList.remove("flash");
     set("btOpen", String(s.open || 0));
@@ -542,15 +543,18 @@ main h3 .collapse-btn {
     var open = d.open || [];
     var ow = document.getElementById("btOpenWrap");
     if (!open.length) {
-      ow.innerHTML = '<div class="flash">No open condor — desk waits for the 13:30 IST entry window and the IV filter.</div>';
+      ow.innerHTML = '<div class="flash">No open structure — desk retries every 15 min through the 13:30–15:29 IST window until a rung pays ≥ $110.</div>';
     } else {
       var t = open[0], k = t.strikes || {};
       ow.innerHTML = "<table><thead><tr><th>Opened</th><th>Expiry</th>" +
         "<th>Short Call</th><th>Short Put</th><th>Wings</th><th>Lot</th>" +
         "<th>Credit</th><th>Open P&L</th><th>IV@Entry</th></tr></thead><tbody><tr>" +
-        "<td>" + esc(t.entry_at) + "</td><td>" + esc(t.expiry) + "</td>" +
+        "<td>" + esc(t.entry_at) + "</td><td>" + esc(t.expiry) +
+        (t.hedge_expiry ? " ⇢ fence " + esc(t.hedge_expiry) : "") + "</td>" +
         "<td>" + k.sc + "C</td><td>" + k.sp + "P</td>" +
-        "<td>" + k.wc + "C / " + k.wp + "P</td><td>" + t.lot + " BTC</td>" +
+        "<td>" + k.wc + "C / " + k.wp + "P" +
+        (t.structure === "cal-hedge" ? ' <span class="badge badge-green">next-day fence</span>' : "") +
+        "</td><td>" + t.lot + " BTC</td>" +
         "<td>" + usd(t.credit_usd) + "</td>" +
         '<td class="' + cls(t.mark_usd) + '">' + usd(t.mark_usd) + " / BTC</td>" +
         "<td>" + esc(t.iv_entry) + "%</td></tr></tbody></table>";
