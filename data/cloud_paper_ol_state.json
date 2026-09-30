@@ -2097,11 +2097,11 @@
    "entry_price": 435.9,
    "candle_stop": 430.1,
    "sl_price": 427.95,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "10:30:00",
+   "exit_price": 429.3,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -145.2,
+   "status": "CLOSED",
    "feed": "angel"
   }
  ],
