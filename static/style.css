@@ -32,7 +32,8 @@ a:hover { text-decoration: underline; }
   border-bottom: 1px solid var(--border);
   position: sticky; top: 0; z-index: 5;
 }
-.topbar .brand { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+.topbar .brand { font-weight: 700; font-size: 1.1rem; color: var(--text); display: flex; align-items: center; gap: 0.5rem; }
+.topbar .brand-logo { height: 28px; width: 28px; display: block; border-radius: 6px; }
 .topbar nav { display: flex; gap: 1rem; }
 .topbar nav a { color: var(--muted); }
 .topbar nav a:hover { color: var(--text); }
