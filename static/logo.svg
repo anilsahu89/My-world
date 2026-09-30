@@ -19,9 +19,9 @@
   </g>
 
   <!-- the growth arrow rising through the M's own valley -->
-  <g stroke="#56d364" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
+  <g stroke="#56d364" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"
      fill="none">
     <path d="M 32 38 L 32 13"/>
-    <path d="M 25 18 L 32 10 L 39 18"/>
+    <path d="M 24 19 L 32 9 L 40 19"/>
   </g>
 </svg>
