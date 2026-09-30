@@ -262,6 +262,7 @@ def mark_and_exit(trade: dict, log: list[str]) -> None:
     """Mark the structure; apply 50% / 2x exits."""
     px = [ticker(n) for n in _leg_names(trade)]
     und = px[0].get("underlying_price") or trade["spot_entry"]
+    trade["spot_now"] = round(und, 0)   # shown on the portal each tick
     # cost to close now: buy shorts back at ask, sell wings at bid
     cost = ((px[0].get("best_ask_price") or 0) + (px[1].get("best_ask_price") or 0)
             - (px[2].get("best_bid_price") or 0)
@@ -288,6 +289,7 @@ def settle_expired(trade: dict, log: list[str]) -> None:
     und = ticker(f"BTC-{trade['expiry']}-"
                  f"{int(trade['strikes']['sc'])}-C").get("underlying_price") \
         or trade["spot_entry"]
+    trade["spot_now"] = round(und, 0)
     s = trade["strikes"]
     cost = (max(0, und - s["sc"]) + max(0, s["sp"] - und)
             - max(0, und - s["wc"]) - max(0, s["wp"] - und))

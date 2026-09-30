@@ -1,5 +1,5 @@
 {
- "updated_at": "30 Sep 2026 14:01:44 IST",
+ "updated_at": "30 Sep 2026 14:25:19 IST",
  "status": "RUNNING",
  "strategy": {
   "rule": "BTC daily-expiry premium desk, 0.01 BTC/structure",
@@ -40,14 +40,10 @@
    "close_cost_usd": null,
    "reason": null,
    "pnl_inr": null,
-   "mark_usd": 0.0
+   "mark_usd": -74.6,
+   "spot_now": 82970.0
   }
  ],
  "closed": [],
- "log": [
-  "0.85xIV (84500C/81500P): credit $108 < $110, stepping closer",
-  "hedge quote 2OCT26: credit $-116 (fence costs $266 = 178% of credit)",
-  "next-day fence too rich -> same-day condor",
-  "OPEN condor 84500C/82000P wings 85500/81000 exp 1OCT26 credit $149 IV 31 (band 0.70xIV = $957)"
- ]
+ "log": []
 }

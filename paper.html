@@ -546,18 +546,34 @@ main h3 .collapse-btn {
       ow.innerHTML = '<div class="flash">No open structure — desk retries every 15 min through the 13:30–15:29 IST window until a rung pays ≥ $110.</div>';
     } else {
       var t = open[0], k = t.strikes || {};
-      ow.innerHTML = "<table><thead><tr><th>Opened</th><th>Expiry</th>" +
-        "<th>Short Call</th><th>Short Put</th><th>Wings</th><th>Lot</th>" +
+      var spot = Number(t.spot_now != null ? t.spot_now : t.spot_entry) || 0;
+      function gapCell(strike, isCall) {
+        var d = isCall ? strike - spot : spot - strike;
+        if (!spot || d == null || isNaN(d)) return "—";
+        var pct = d / spot * 100;
+        return '<span class="muted" style="font-size:0.75rem"> ' +
+          (d >= 0 ? "+" : "−") + "$" + Math.abs(Math.round(d)).toLocaleString("en-US") +
+          " (" + (d >= 0 ? "+" : "−") + Math.abs(pct).toFixed(2) + "%)</span>";
+      }
+      ow.innerHTML = "<table><thead><tr><th>Opened</th><th>Expiry</th><th>Spot Now</th>" +
+        '<th title="strike sold — gap shows how far the market must travel to reach it">Short Call (gap)</th>' +
+        '<th title="strike sold — gap shows how far the market must fall to reach it">Short Put (gap)</th>' +
+        '<th title="the protective long options bought ~$1,000 beyond each short — they cap the worst case at wing-width minus credit">Wings (insurance)</th><th>Lot</th>' +
         "<th>Credit</th><th>Open P&L</th><th>IV@Entry</th></tr></thead><tbody><tr>" +
         "<td>" + esc(t.entry_at) + "</td><td>" + esc(t.expiry) +
         (t.hedge_expiry ? " ⇢ fence " + esc(t.hedge_expiry) : "") + "</td>" +
-        "<td>" + k.sc + "C</td><td>" + k.sp + "P</td>" +
+        '<td><strong>$' + spot.toLocaleString("en-US") + "</strong></td>" +
+        "<td>" + k.sc + "C" + gapCell(k.sc, true) + "</td>" +
+        "<td>" + k.sp + "P" + gapCell(k.sp, false) + "</td>" +
         "<td>" + k.wc + "C / " + k.wp + "P" +
         (t.structure === "cal-hedge" ? ' <span class="badge badge-green">next-day fence</span>' : "") +
         "</td><td>" + t.lot + " BTC</td>" +
         "<td>" + usd(t.credit_usd) + "</td>" +
         '<td class="' + cls(t.mark_usd) + '">' + usd(t.mark_usd) + " / BTC</td>" +
-        "<td>" + esc(t.iv_entry) + "%</td></tr></tbody></table>";
+        "<td>" + esc(t.iv_entry) + "%</td></tr></tbody></table>" +
+        '<p class="hint" style="margin:0.5rem 0 0">Gap = how far spot must move before a short strike goes in-the-money. ' +
+        "Wings = the long options bought ~$1,000 beyond each short — they are the insurance that caps the worst day at " +
+        "wing-width minus credit, so a big BTC crash is a known, small loss instead of an open-ended one.</p>";
     }
 
     var closed = d.closed || [];
