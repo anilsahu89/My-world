@@ -1,5 +1,5 @@
 {
- "next_id": 2,
+ "next_id": 3,
  "trades": [
   {
    "id": 1,
@@ -22,10 +22,35 @@
    "close_cost_usd": null,
    "reason": null,
    "pnl_inr": null,
-   "mark_usd": -74.6,
-   "spot_now": 82970.0
+   "mark_usd": -126.9,
+   "spot_now": 83738.0
+  },
+  {
+   "id": 2,
+   "entry_at": "2026-09-30 15:55",
+   "expiry": "9OCT26",
+   "hedge_expiry": "16OCT26",
+   "lot": 0.01,
+   "structure": "weekly-cal",
+   "side": "call",
+   "strikes": {
+    "k": 86000.0
+   },
+   "iv_entry": 32.2,
+   "spot_entry": 83829.0,
+   "debit_usd": 670.6,
+   "hawa_usd": 796.4,
+   "fees_usd": 50.3,
+   "status": "OPEN",
+   "exit_at": null,
+   "close_cost_usd": null,
+   "reason": null,
+   "pnl_inr": null,
+   "mark_usd": -125.7,
+   "spot_now": 83828.0
   }
  ],
  "last_entry_date": "2026-09-30",
- "last_tick_ts": 1790758509.337929
+ "last_tick_ts": 1790763902.989741,
+ "last_entry_week": "2026-W40"
 }

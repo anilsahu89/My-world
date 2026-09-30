@@ -472,7 +472,7 @@ main h3 .collapse-btn {
 <section id="btcThetaSection" class="pt-panel">
   <h2 style="color:#f7931a">
     ₿ BTC Theta — 0DTE Premium Desk
-    <span class="muted" style="font-size:0.75rem">— daily-expiry premium selling on Deribit · same-day condor or next-day calendar fence · 0.01 BTC each · rules v2 in BTC_0DTE_RULES.md</span>
+    <span class="muted" style="font-size:0.75rem">— weekly premium eating on Deribit · chips+hawa same-strike calendar, AVWAP-anchored, risk pre-paid · rules v3 in BTC_0DTE_RULES.md</span>
   </h2>
   <div id="btcThetaStatus" class="flash">Loading BTC theta desk…</div>
 
@@ -524,9 +524,8 @@ main h3 .collapse-btn {
     var s = d.summary || {};
     var el = document.getElementById("btcThetaStatus");
     el.innerHTML = "Updated " + esc(d.updated_at) + " &nbsp;·&nbsp; " +
-      "BTC daily-expiry premium desk v2 · shorts ladder 0.85→0.55× implied move (first rung paying ≥ $110) " +
-      "· wings ~$1000 same-day, or a next-day calendar fence when it costs ≤ 45% of credit " +
-      "· exits 50% credit / 2× stop / expiry · auto-refreshes every 60s";
+      "BTC weekly theta v3 (bulletproof shape) · sell this week's hawa outside the 30-day AVWAP band, hold the same-strike next-week fence " +
+      "· max loss = debit, pre-paid, no stops · Mondays 13:30–15:29 IST, one structure a week · auto-refreshes every 60s";
     el.classList.remove("flash");
     set("btOpen", String(s.open || 0));
     set("btTotal", inr(s.realized_inr), "");
@@ -543,37 +542,59 @@ main h3 .collapse-btn {
     var open = d.open || [];
     var ow = document.getElementById("btOpenWrap");
     if (!open.length) {
-      ow.innerHTML = '<div class="flash">No open structure — desk retries every 15 min through the 13:30–15:29 IST window until a rung pays ≥ $110.</div>';
+      ow.innerHTML = '<div class="flash">No open structure — the v3 desk enters Mondays 13:30–15:29 IST when the fence is cheap (debit ≤ $1,000 and hawa ≥ 45% of debit), else the week is skipped.</div>';
     } else {
       var t = open[0], k = t.strikes || {};
       var spot = Number(t.spot_now != null ? t.spot_now : t.spot_entry) || 0;
       function gapCell(strike, isCall) {
-        var d = isCall ? strike - spot : spot - strike;
-        if (!spot || d == null || isNaN(d)) return "—";
-        var pct = d / spot * 100;
+        var g = isCall ? strike - spot : spot - strike;
+        if (!spot || g == null || isNaN(g)) return "—";
+        var pct = g / spot * 100;
         return '<span class="muted" style="font-size:0.75rem"> ' +
-          (d >= 0 ? "+" : "−") + "$" + Math.abs(Math.round(d)).toLocaleString("en-US") +
-          " (" + (d >= 0 ? "+" : "−") + Math.abs(pct).toFixed(2) + "%)</span>";
+          (g >= 0 ? "+" : "−") + "$" + Math.abs(Math.round(g)).toLocaleString("en-US") +
+          " (" + (g >= 0 ? "+" : "−") + Math.abs(pct).toFixed(2) + "%)</span>";
       }
-      ow.innerHTML = "<table><thead><tr><th>Opened</th><th>Expiry</th><th>Spot Now</th>" +
-        '<th title="strike sold — gap shows how far the market must travel to reach it">Short Call (gap)</th>' +
-        '<th title="strike sold — gap shows how far the market must fall to reach it">Short Put (gap)</th>' +
-        '<th title="the protective long options bought ~$1,000 beyond each short — they cap the worst case at wing-width minus credit">Wings (insurance)</th><th>Lot</th>' +
-        "<th>Credit</th><th>Open P&L</th><th>IV@Entry</th></tr></thead><tbody><tr>" +
-        "<td>" + esc(t.entry_at) + "</td><td>" + esc(t.expiry) +
-        (t.hedge_expiry ? " ⇢ fence " + esc(t.hedge_expiry) : "") + "</td>" +
-        '<td><strong>$' + spot.toLocaleString("en-US") + "</strong></td>" +
-        "<td>" + k.sc + "C" + gapCell(k.sc, true) + "</td>" +
-        "<td>" + k.sp + "P" + gapCell(k.sp, false) + "</td>" +
-        "<td>" + k.wc + "C / " + k.wp + "P" +
-        (t.structure === "cal-hedge" ? ' <span class="badge badge-green">next-day fence</span>' : "") +
-        "</td><td>" + t.lot + " BTC</td>" +
-        "<td>" + usd(t.credit_usd) + "</td>" +
-        '<td class="' + cls(t.mark_usd) + '">' + usd(t.mark_usd) + " / BTC</td>" +
-        "<td>" + esc(t.iv_entry) + "%</td></tr></tbody></table>" +
-        '<p class="hint" style="margin:0.5rem 0 0">Gap = how far spot must move before a short strike goes in-the-money. ' +
-        "Wings = the long options bought ~$1,000 beyond each short — they are the insurance that caps the worst day at " +
-        "wing-width minus credit, so a big BTC crash is a known, small loss instead of an open-ended one.</p>";
+      if (t.structure === "weekly-cal") {
+        var isCall = t.side === "call", ks = k.k;
+        ow.innerHTML = "<table><thead><tr><th>Opened</th><th>Short (hawa)</th><th>Fence (next week)</th><th>Spot Now</th>" +
+          '<th title="the strike both legs share — gap shows how far spot must travel before the short goes in-the-money">Strike (gap)</th>' +
+          "<th>Lot</th><th>Hawa Sold</th>" +
+          '<th title="the money paid for the fence = the pre-paid, absolute worst case for the week">Debit = Max Loss</th>' +
+          "<th>Open P&L</th><th>IV@Entry</th></tr></thead><tbody><tr>" +
+          "<td>" + esc(t.entry_at) + "</td>" +
+          "<td>SELL " + (isCall ? "CALL" : "PUT") + " · " + esc(t.expiry) + "</td>" +
+          '<td>BUY ' + (isCall ? "CALL" : "PUT") + " · " + esc(t.hedge_expiry) +
+          ' <span class="badge badge-green">same strike</span></td>' +
+          '<td><strong>$' + spot.toLocaleString("en-US") + "</strong></td>" +
+          "<td>" + ks + (isCall ? "C" : "P") + gapCell(ks, isCall) + "</td>" +
+          "<td>" + t.lot + " BTC</td>" +
+          "<td>" + usd(t.hawa_usd) + "</td>" +
+          '<td style="color:#d4a017"><strong>' + usd(t.debit_usd) + "</strong></td>" +
+          '<td class="' + cls(t.mark_usd) + '">' + usd(t.mark_usd) + " / BTC</td>" +
+          "<td>" + esc(t.iv_entry) + "%</td></tr></tbody></table>" +
+          '<p class="hint" style="margin:0.5rem 0 0">v3 bulletproof shape: sell this week\u2019s hawa, hold the same-strike next-week option as the fence. ' +
+          "Even a 10% day cannot lose more than the debit above (the fence keeps a full week of time value); a calm week eats the hawa. " +
+          "No stop-loss exists because the risk was pre-paid at entry.</p>";
+      } else {
+        ow.innerHTML = "<table><thead><tr><th>Opened</th><th>Expiry</th><th>Spot Now</th>" +
+          '<th title="strike sold — gap shows how far the market must travel to reach it">Short Call (gap)</th>' +
+          '<th title="strike sold — gap shows how far the market must fall to reach it">Short Put (gap)</th>' +
+          '<th title="the protective long options bought ~$1,000 beyond each short — they cap the worst case at wing-width minus credit">Wings (insurance)</th><th>Lot</th>' +
+          "<th>Credit</th><th>Open P&L</th><th>IV@Entry</th></tr></thead><tbody><tr>" +
+          "<td>" + esc(t.entry_at) + "</td><td>" + esc(t.expiry) +
+          (t.hedge_expiry ? " ⇢ fence " + esc(t.hedge_expiry) : "") + "</td>" +
+          '<td><strong>$' + spot.toLocaleString("en-US") + "</strong></td>" +
+          "<td>" + k.sc + "C" + gapCell(k.sc, true) + "</td>" +
+          "<td>" + k.sp + "P" + gapCell(k.sp, false) + "</td>" +
+          "<td>" + k.wc + "C / " + k.wp + "P" +
+          (t.structure === "cal-hedge" ? ' <span class="badge badge-green">next-day fence</span>' : "") +
+          "</td><td>" + t.lot + " BTC</td>" +
+          "<td>" + usd(t.credit_usd) + "</td>" +
+          '<td class="' + cls(t.mark_usd) + '">' + usd(t.mark_usd) + " / BTC</td>" +
+          "<td>" + esc(t.iv_entry) + "%</td></tr></tbody></table>" +
+          '<p class="hint" style="margin:0.5rem 0 0">Gap = how far spot must move before a short strike goes in-the-money. ' +
+          "Wings = the long options bought ~$1,000 beyond each short — they cap the worst day at wing-width minus credit, so a big BTC crash is a known, small loss instead of an open-ended one.</p>";
+      }
     }
 
     var closed = d.closed || [];
