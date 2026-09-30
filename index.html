@@ -27,6 +27,15 @@
   border-color: var(--accent);
 }
 .card.hidden-by-tab { display: none; }
+/* ===== P/L section: one line per paper book, accumulated totals in tfoot ===== */
+#plWrap td { white-space: nowrap; }
+#plWrap tr.pl-total td {
+  font-weight: 700;
+  border-top: 2px solid var(--accent);
+  background: rgba(255,255,255,0.04);
+}
+#plWrap tr.pl-total td:first-child { color: var(--accent); }
+.pl-sub { display: block; font-size: 0.72rem; color: var(--muted); font-weight: 400; }
 </style>
 
   <style>
@@ -229,6 +238,29 @@
       <button class="settings-btn" onclick="openSettings()" title="Settings (GitHub token)">⚙️</button>
   </header>
   <main>
+
+<!-- ══════════════ VAULT GLOBE (optional feature) ═══════════════════════
+     Interactive 3D globe of every vault note + its [[wikilinks]].
+     Everything lives in static/vault-graph.js + data/graph.json.
+     TO REMOVE: delete this section + the vault-graph.js <script> tag
+     near the bottom, and delete those two files. Nothing else
+     on the site references any of it. -->
+<section id="vaultGraphSection">
+  <div class="vg-head">
+    <h2>🌐 Vault Globe</h2>
+    <p class="hint">How the vault interconnects — <span id="vgStats">131 notes · 494 links</span>, the way Obsidian sees them. Drag to spin, scroll to zoom, hover to trace a topic, click a note to open it.</p>
+  </div>
+  <div class="vg-stage" id="vaultGraphStage">
+    <canvas id="vaultGraphCanvas"></canvas>
+    <div class="vg-status" id="vgStatus">loading vault graph…</div>
+    <div class="vg-controls" id="vgControls"></div>
+    <div class="vg-legend" id="vgLegend"></div>
+    <input class="vg-search" id="vgSearch" type="text" placeholder="Find a topic…"
+           autocomplete="off" spellcheck="false">
+    <div class="vg-tip" id="vgTip"></div>
+  </div>
+</section>
+
     
 <h1>Strategies <span class="muted">(16)</span></h1>
 <p class="hint">Every strategy note in the vault. Runnable ones have a live scanner wired; the rest are rules-only and light up once a scanner exists. Live market scan: <a href="/stocks">Live Stocks</a>.</p>
@@ -458,16 +490,32 @@
       <span class="card-title">Wednesday Hedge (18-Hour Game)</span>
       <span class="badge badge-grey">Rules only</span>
     </div>
-    
+
     <div class="card-meta">
-      
+
         <span class="meta-pill muted">never run</span>
-      
-      
+
+
     </div>
   </a>
-  
+
 </div>
+
+<!-- ===================== P/L — EVERY PAPER BOOK ON ITS OWN LINE ===================== -->
+<section id="plSection" style="margin-top:2.5rem">
+  <h2 style="color:var(--green);border-bottom-color:rgba(63,185,80,0.3)">
+    💰 P/L — every paper book on its own line
+    <span class="muted" style="font-size:0.75rem">— nothing mixed: each desk keeps its own ledger, accumulated totals at the bottom · drill into any desk on the <a href="/paper">Paper Trades</a> page</span>
+  </h2>
+  <div id="plStatus" class="flash">Collecting P/L from every desk…</div>
+  <div class="table-wrap" id="plWrap"><div class="flash">Loading…</div></div>
+  <p class="hint" style="margin-top:0.9rem">
+    ₹ books: Intraday O=L/O=H, NIFTY Theta, BTC Theta, QM Swing, Candle Swing (NSE part) and the browser Manual ledger.
+    $ books: Gold/BTC and the Candle Swing Gold/BTC part — kept in dollars, never silently converted.
+    Books without live marks (NIFTY Theta spread, open swing marks when the desk hasn't priced them) count realized only;
+    the BTC-theta open condor is marked in $ on its own desk and is not folded in until it closes.
+  </p>
+</section>
 
   </main>
   <footer>
@@ -479,5 +527,231 @@
   <script src="static/gc-scan.js"></script>
   <script src="static/f3-scan.js"></script>
   <script src="static/app.js"></script>
+  <script src="static/vault-graph.js" defer></script>
+
+<script>
+/* ===== P/L overview tab — one line per paper book, then accumulated totals ===== */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+
+  function j(path) {
+    return fetch(base + path + "?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; });
+  }
+  function esc(s) { var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function inr(n, signed) {
+    if (n == null || isNaN(n)) return "—";
+    var neg = n < 0;
+    var s = Math.abs(n).toLocaleString("en-IN",
+      { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return (neg ? "−₹" : (signed ? "+₹" : "₹")) + s;
+  }
+  function usd(n, signed) {
+    if (n == null || isNaN(n)) return "—";
+    var neg = n < 0;
+    return (neg ? "−$" : (signed ? "+$" : "$")) + Math.abs(n).toFixed(2);
+  }
+  function money(cur, n, signed) { return cur === "$" ? usd(n, signed) : inr(n, signed); }
+  function cls(n) { return n > 0 ? "ok" : (n < 0 ? "bad" : ""); }
+  function num(v) { var n = parseFloat(v); return isNaN(n) ? 0 : n; }
+  function book() {
+    try { return JSON.parse(localStorage.getItem("mahi_paper_trades") || "[]"); }
+    catch (e) { return []; }
+  }
+  function dead(name, sub) {
+    return { name: name, sub: sub, cur: "₹", open: null, closed: null,
+      wins: null, losses: null, wr: null, real: null, unrl: null, dead: true };
+  }
+
+  function load() {
+    Promise.all([
+      j("/data/paper_ol.json"),
+      j("/data/scanners/nifty-daily-theta-latest.json"),
+      j("/data/paper_btc_theta.json"),
+      j("/data/paper_qm.json"),
+      j("/data/swing_picks.json"),
+      j("/data/paper_gc.json"),
+      j("/data/live_stocks.json")
+    ]).then(render);
+  }
+
+  function render(res) {
+    var ol = res[0], theta = res[1], btc = res[2], qm = res[3],
+        sw = res[4], gc = res[5], ls = res[6];
+    var rows = [];
+
+    /* 1 · Intraday O=L/O=H (NSE, ₹) */
+    if (ol && ol.summary) {
+      var s = ol.summary;
+      rows.push({ name: "⚡ Intraday O=L / O=H",
+        sub: "NSE stocks · " + (ol.updated_at || ""),
+        cur: "₹", open: s.open_count || 0, closed: s.closed_count || 0,
+        wins: s.wins || 0, losses: s.losses || 0, wr: s.win_rate,
+        real: num(s.realized_total), unrl: num(s.unrealized) });
+    } else rows.push(dead("⚡ Intraday O=L / O=H", "NSE stocks · cloud engine offline"));
+
+    /* 2 · NIFTY Daily Theta (₹) — sum of closed-spread P&L */
+    if (theta && theta.trades) {
+      var tt = theta.trades, thC = tt.filter(function (t) { return t.status === "CLOSED"; });
+      var thO = tt.filter(function (t) { return t.status === "OPEN"; });
+      var thReal = thC.reduce(function (a, t) { return a + num(t.pnl); }, 0);
+      var thW = thC.filter(function (t) { return num(t.pnl) > 0; }).length;
+      rows.push({ name: "🛡️ NIFTY Daily Theta",
+        sub: "hedged credit spread · " + (theta.scanned_at || ""),
+        cur: "₹", open: thO.length, closed: thC.length,
+        wins: thW, losses: thC.length - thW,
+        wr: thC.length ? Math.round(thW / thC.length * 1000) / 10 : 0,
+        real: thReal, unrl: null });
+    } else rows.push(dead("🛡️ NIFTY Daily Theta", "credit spread · no scan data yet"));
+
+    /* 3 · BTC Theta 0DTE condor (₹) */
+    if (btc && btc.summary) {
+      var b = btc.summary;
+      rows.push({ name: "₿ BTC Theta — 0DTE condor",
+        sub: "Deribit iron condor · " + (btc.updated_at || ""),
+        cur: "₹", open: b.open || 0, closed: b.closed || 0,
+        wins: b.wins || 0, losses: b.losses || 0, wr: b.win_rate,
+        real: num(b.realized_inr), unrl: null });
+    } else rows.push(dead("₿ BTC Theta — 0DTE condor", "Deribit desk offline"));
+
+    /* 4 · QM Swing (₹) */
+    if (qm && qm.summary) {
+      var q = qm.summary;
+      rows.push({ name: "🧮 QM Swing ₹10L",
+        sub: "quantity model · " + (qm.updated_at || ""),
+        cur: "₹", open: (q.open || 0) + " <span class='pl-sub'>+" + (q.pending || 0) + " pending</span>",
+        closed: q.closed || 0, wins: q.wins || 0, losses: q.losses || 0,
+        wr: q.win_rate, real: num(q.realized), unrl: num(q.unrealized) });
+    } else rows.push(dead("🧮 QM Swing ₹10L", "quantity model · desk offline"));
+
+    /* 5 · Candle Swing — ₹ main, $ part shown alongside */
+    var swUsd = null;
+    if (sw && sw.summary) {
+      var w = sw.summary, swO = sw.open || [];
+      var urInr = 0, urUsd = 0, marked = false;
+      swO.forEach(function (t) {
+        if (t.pnl == null || isNaN(parseFloat(t.pnl))) return;
+        marked = true;
+        if (t.market === "NSE") urInr += num(t.pnl); else urUsd += num(t.pnl);
+      });
+      rows.push({ name: "🕯️ Candle Swing",
+        sub: "top-3 patterns · " + (sw.updated_at || ""),
+        cur: "₹", open: w.open || 0, closed: w.closed || 0,
+        wins: w.wins || 0, losses: w.losses || 0, wr: w.win_rate,
+        real: num(w.pnl_inr), unrl: marked ? urInr : null, usdPart: true });
+      swUsd = { real: num(w.pnl_usd), unrl: marked ? urUsd : null };
+    } else rows.push(dead("🕯️ Candle Swing", "EOD desk offline"));
+
+    /* 6 · Gold/BTC O=L/O=H ($) */
+    if (gc && gc.summary) {
+      var g = gc.summary;
+      rows.push({ name: "🥇 Gold/BTC O=L / O=H",
+        sub: "CME + UTC sessions · " + (gc.updated_at || ""),
+        cur: "$", open: g.open_count || 0, closed: g.closed_count || 0,
+        wins: g.wins || 0, losses: g.losses || 0, wr: g.win_rate,
+        real: num(g.realized_total), unrl: num(g.unrealized) });
+    } else rows.push(dead("🥇 Gold/BTC O=L / O=H", "gc tick offline"));
+
+    /* 7 · Manual browser ledger (₹) */
+    var ltpMap = {};
+    if (ls && ls.stocks) ls.stocks.forEach(function (t) { ltpMap[t.symbol] = t; });
+    var mb = book();
+    var mO = mb.filter(function (t) { return t.status === "OPEN"; });
+    var mC = mb.filter(function (t) { return t.status === "CLOSED"; });
+    var mReal = mC.reduce(function (a, t) { return a + num(t.pnl); }, 0);
+    var mUnrl = 0, mSeen = false;
+    mO.forEach(function (t) {
+      var q = ltpMap[t.symbol];
+      if (q && parseFloat(q.ltp) > 0) {
+        mUnrl += (parseFloat(q.ltp) - t.entry_price) * t.quantity;
+        mSeen = true;
+      }
+    });
+    var mW = mC.filter(function (t) { return num(t.pnl) > 0; }).length;
+    rows.push({ name: "✋ Manual",
+      sub: "this browser's ledger · quotes " + (ls && ls.fetched_at ? ls.fetched_at.replace("T", " ").slice(0, 16) + " IST" : "n/a"),
+      cur: "₹", open: mO.length, closed: mC.length,
+      wins: mW, losses: mC.length - mW,
+      wr: mC.length ? Math.round(mW / mC.length * 1000) / 10 : 0,
+      real: mReal, unrl: mO.length ? (mSeen ? mUnrl : null) : 0 });
+
+    /* ---- table: one line per book ---- */
+    var body = rows.map(function (r) {
+      var net = r.real == null ? null : r.real + (r.unrl || 0);
+      var openCell = r.open == null ? "—" : r.open;
+      var wl = (r.wins == null ? "—" : r.wins + "W / " + r.losses + "L");
+      var wrCell = r.wr == null ? "—" : r.wr + "%";
+      var realCell = r.real == null ? "—" :
+        '<span class="' + cls(r.real) + '">' + money(r.cur, r.real, true) + "</span>";
+      var unrlCell = r.unrl == null ? '<span class="muted">—</span>' :
+        '<span class="' + cls(r.unrl) + '">' + money(r.cur, r.unrl, true) + "</span>";
+      var netCell = net == null ? "—" :
+        '<strong class="' + cls(net) + '">' + money(r.cur, net, true) + "</strong>";
+      if (r.dead) realCell = unrlCell = netCell = '<span class="badge badge-red">offline</span>';
+      return "<tr>" +
+        "<td><strong>" + esc(r.name) + "</strong>" +
+        '<span class="pl-sub">' + (r.dead ? "⚠ " : "") + esc(r.sub) + "</span></td>" +
+        "<td>" + openCell + "</td><td>" + (r.closed == null ? "—" : r.closed) + "</td>" +
+        "<td>" + wl + "</td><td>" + wrCell + "</td>" +
+        "<td>" + realCell + "</td><td>" + unrlCell + "</td><td>" + netCell + "</td></tr>";
+    }).join("");
+
+    /* ---- accumulated totals (₹ books and $ books kept separate) ---- */
+    function totals(cur) {
+      var t = { open: 0, closed: 0, wins: 0, losses: 0, real: 0, unrl: 0, known: false };
+      rows.forEach(function (r) {
+        if (r.dead || r.real == null || r.cur !== cur) return;
+        t.known = true;
+        t.open += parseInt(r.open, 10) || 0;
+        t.closed += parseInt(r.closed, 10) || 0;
+        t.wins += r.wins || 0; t.losses += r.losses || 0;
+        t.real += r.real; t.unrl += r.unrl || 0;
+      });
+      if (cur === "$" && swUsd && swUsd.real != null) {
+        t.known = true;
+        t.real += swUsd.real;
+        t.unrl += swUsd.unrl || 0;
+      }
+      return t;
+    }
+    function totalRow(label, t, cur) {
+      var wr = (t.wins + t.losses) ? Math.round(t.wins / (t.wins + t.losses) * 1000) / 10 + "%" : "—";
+      return '<tr class="pl-total"><td>' + label + "</td>" +
+        "<td>" + t.open + "</td><td>" + t.closed + "</td>" +
+        "<td>" + t.wins + "W / " + t.losses + "L</td><td>" + wr + "</td>" +
+        '<td class="' + cls(t.real) + '">' + money(cur, t.real, true) + "</td>" +
+        '<td class="' + cls(t.unrl) + '">' + money(cur, t.unrl, true) + "</td>" +
+        '<td class="' + cls(t.real + t.unrl) + '">' + money(cur, t.real + t.unrl, true) + "</td></tr>";
+    }
+    var inrT = totals("₹"), usdT = totals("$");
+
+    document.getElementById("plWrap").innerHTML =
+      "<table><thead><tr><th>Book</th><th>Open</th><th>Closed</th><th>W / L</th>" +
+      "<th>Win %</th><th>Realized P&L</th><th>Unrealized (open)</th><th>Net P&L</th>" +
+      "</tr></thead><tbody>" + body + "</tbody><tfoot>" +
+      totalRow("Σ ACCUMULATED — ₹ books", inrT, "₹") +
+      totalRow("Σ ACCUMULATED — $ books", usdT, "$") +
+      "</tfoot></table>";
+
+    var offline = rows.filter(function (r) { return r.dead; }).length;
+    var st = document.getElementById("plStatus");
+    st.classList.remove("flash");
+    st.innerHTML = "Fetched " + new Date().toTimeString().slice(0, 8) +
+      " · auto-refreshes every 60s" +
+      (offline ? ' · <span class="bad">' + offline + " book(s) offline — excluded from totals</span>"
+               : " · all books reporting");
+  }
+
+  load();
+  setInterval(load, 60000);
+})();
+</script>
 </body>
 </html>
