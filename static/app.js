@@ -1194,6 +1194,8 @@
       bar.querySelectorAll("button").forEach(function (b) {
         b.classList.toggle("active", b.getAttribute("data-filter") === filter);
       });
+      var pl = document.getElementById("plSection");
+      if (pl) pl.classList.toggle("hidden-by-tab", filter !== "pl");
       cards.forEach(function (c) {
         var match = filter === "all" || c.classList.contains(filter);
         c.classList.toggle("hidden-by-tab", !match);
