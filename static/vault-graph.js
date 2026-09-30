@@ -82,13 +82,16 @@
       "background:rgba(23,26,33,.92);border:1px solid var(--border,#2a2f3a);border-radius:6px;" +
       "color:var(--text,#e6e8ee);font-size:.8rem}" +
     ".vg-search:focus{outline:none;border-color:var(--accent,#4f9cf9)}" +
-    ".vg-tip{position:absolute;max-width:250px;background:rgba(15,17,21,.96);border:1px solid var(--border,#2a2f3a);" +
-      "border-radius:8px;padding:8px 11px;font-size:.8rem;pointer-events:none;display:none;z-index:5;" +
+    ".vg-tip{position:absolute;max-width:290px;background:rgba(15,17,21,.96);border:1px solid var(--border,#2a2f3a);" +
+      "border-radius:8px;padding:9px 12px;font-size:.8rem;pointer-events:none;display:none;z-index:5;" +
       "box-shadow:0 6px 18px rgba(0,0,0,.5)}" +
     ".vg-tip-title{font-weight:700;color:var(--text,#e6e8ee)}" +
-    ".vg-tip-cat{margin-top:2px;font-size:.74rem}" +
-    ".vg-tip-meta{margin-top:3px;color:var(--muted,#8b93a7);font-size:.74rem}" +
-    ".vg-tip-open{margin-top:5px;color:var(--accent,#4f9cf9);font-size:.74rem;font-weight:600}" +
+    ".vg-tip-cat{margin-top:2px;font-size:.72rem}" +
+    ".vg-tip-snip{margin-top:5px;color:var(--muted,#8b93a7);font-size:.75rem;font-style:italic;" +
+      "display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}" +
+    ".vg-tip-meta{margin-top:5px;color:var(--text,#e6e8ee);font-size:.74rem}" +
+    ".vg-tip-nb{margin-top:3px;color:var(--accent,#4f9cf9);font-size:.74rem;font-weight:600}" +
+    ".vg-tip-open{margin-top:6px;color:var(--accent,#4f9cf9);font-size:.72rem;font-weight:600}" +
     "@media (max-width:640px){" +
       ".vg-stage{height:380px}" +
       ".vg-search{width:132px}" +
@@ -355,15 +358,25 @@
       var dimmed = focus && !focus[n.id] && n !== picked;
       var a = n.pz > 0 ? 1 : 0.38 + n.pz * 0.16;      // fade on far side
       if (dimmed) a *= 0.13;
-      var sp = sprites[n.category];
-      if (sp) {
-        ctx.globalAlpha = Math.max(0, Math.min(1, a));
-        var gw = r * 4.2;
-        ctx.drawImage(sp, n.px - gw / 2, n.py - gw / 2, gw, gw);
+      var ncol = catColor(n.category);
+      if (n.degree === 0) {
+        // orphan note — hollow ring so unlinked notes stand out
+        ctx.strokeStyle = rgba(ncol, a * 0.9);
+        ctx.lineWidth = 1.3;
+        ctx.beginPath();
+        ctx.arc(n.px, n.py, Math.max(2.4, r * 0.8), 0, Math.PI * 2);
+        ctx.stroke();
+      } else {
+        var sp = sprites[n.category];
+        if (sp) {
+          ctx.globalAlpha = Math.max(0, Math.min(1, a));
+          var gw = r * 4.2;
+          ctx.drawImage(sp, n.px - gw / 2, n.py - gw / 2, gw, gw);
+        }
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = rgba(ncol, a);
+        ctx.beginPath(); ctx.arc(n.px, n.py, r, 0, Math.PI * 2); ctx.fill();
       }
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = rgba(catColor(n.category), a);
-      ctx.beginPath(); ctx.arc(n.px, n.py, r, 0, Math.PI * 2); ctx.fill();
       if (n === picked || (focus && focus[n.id] && searchSet)) {
         ctx.strokeStyle = "rgba(255,255,255," + (n === picked ? 0.95 : 0.55) + ")";
         ctx.lineWidth = 1.4;
@@ -376,9 +389,12 @@
     ctx.textBaseline = "middle";
     for (i = 0; i < drawOrder.length; i++) {
       n = drawOrder[i];
+      // labels: hovered + focused always; hubs always; more notes as you zoom
+      var degMin = zoom >= 2.2 ? 5 : (zoom >= 1.5 ? 10 : Infinity);
       var show = n === picked ||
                   (focus && focus[n.id]) ||
-                  (labelsOn && hubIds[n.id] && n.pz > -0.15 && !focus);
+                  (labelsOn && !focus && n.pz > -0.15 &&
+                   (hubIds[n.id] || n.degree >= degMin));
       if (!show) continue;
       var la = n.pz > 0 ? 0.92 : 0.4;
       if (focus && !focus[n.id] && n !== picked) continue;
@@ -499,7 +515,9 @@
       isDragging = false;
       pinchD = 0;
       if (wasTap && picked) {
-        window.location.href = siteBase() + picked.url;
+        var url = siteBase() + picked.url;
+        if (e.ctrlKey || e.metaKey) window.open(url, "_blank");
+        else window.location.href = url;
       }
     }
   }
@@ -520,16 +538,50 @@
     tipEl.innerHTML =
       '<div class="vg-tip-title"></div>' +
       '<div class="vg-tip-cat"></div>' +
+      '<div class="vg-tip-snip"></div>' +
       '<div class="vg-tip-meta"></div>' +
-      '<div class="vg-tip-open">click to open ↗</div>';
-    tipEl.firstChild.textContent = n.title;
+      '<div class="vg-tip-nb"></div>' +
+      '<div class="vg-tip-open">click to open · ctrl-click for new tab ↗</div>';
+    tipEl.children[0].textContent = n.title;
+
     var catEl = tipEl.children[1];
-    catEl.textContent = "● " + n.category;
+    var catTxt = "● " + n.category;
+    if (n.live) catTxt += "  ·  ⚡ live scanner";
+    if (n.updated) catTxt += "  ·  up " + n.updated.slice(5);
+    if (n.words) catTxt += "  ·  " + n.words + "w";
+    catEl.textContent = catTxt;
     catEl.style.color = rgba(col, 1);
-    var meta = (neighbors[n.id] ? Object.keys(neighbors[n.id]).length : 0) +
-               " linked notes · " + n.degree + " link strength";
-    if (n.broken) meta += " · " + n.broken + " unresolved";
-    tipEl.children[2].textContent = meta;
+
+    var snip = tipEl.children[2];
+    snip.textContent = n.snippet || "";
+    snip.style.display = n.snippet ? "block" : "none";
+
+    var metaEl = tipEl.children[3];
+    var linked = neighbors[n.id] ? Object.keys(neighbors[n.id]).length : 0;
+    if (linked) {
+      var meta = linked + " linked notes (" + (n.in || 0) + " in · " +
+                 (n.out || 0) + " out) · strength " + n.degree;
+      if (n.broken) meta += " · " + n.broken + " unresolved";
+      metaEl.textContent = meta;
+    } else {
+      metaEl.textContent = n.broken
+        ? "no links yet · " + n.broken + " unresolved link(s)"
+        : "no links yet — connect it in Obsidian";
+    }
+
+    var nbEl = tipEl.children[4];
+    if (n.top && n.top.length && byId[n.top[0]]) {
+      var names = n.top.map(function (t) {
+        return byId[t] ? byId[t].title : t;
+      });
+      var extra = linked - names.length;
+      nbEl.textContent = "⇄ " + names.slice(0, 3).join(" · ") +
+                         (extra > 0 ? "  +" + extra + " more" : "");
+      nbEl.style.display = "block";
+    } else {
+      nbEl.style.display = "none";
+    }
+
     tipEl.style.display = "block";
     var tw = tipEl.offsetWidth, th = tipEl.offsetHeight;
     var tx = mx + 16, ty = my - th - 12;
@@ -567,6 +619,13 @@
     lblBtn.classList.toggle("active", labelsOn);
     btn("+", "zoom in", function () { zoom = Math.min(3.2, zoom * 1.18); });
     btn("−", "zoom out", function () { zoom = Math.max(0.45, zoom / 1.18); });
+    btn("⛶", "fullscreen", function () {
+      if (document.fullscreenElement) {
+        document.exitFullscreen && document.exitFullscreen();
+      } else if (stage.requestFullscreen) {
+        stage.requestFullscreen().catch(function () {});
+      }
+    });
     btn("↺", "reset view", function () {
       zoom = 1; rotY = -0.7; rotX = 0.32; velX = velY = 0;
     });
