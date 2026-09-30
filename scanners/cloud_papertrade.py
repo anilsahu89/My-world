@@ -718,9 +718,9 @@ def main() -> None:
             if read_json(cloud_swing.STATE_FILE, {}).get("done_date") \
                     != moment.date().isoformat():
                 cloud_swing.run_day()
-        # BTC 0DTE theta desk (rulebook BTC_0DTE_RULES.md): 24/7 market,
+        # BTC 0DTE theta desk (rulebook BTC_0DTE_RULES.md v2): 24/7 market,
         # piggybacks on every gc tick — marks/exits continuously, opens the
-        # daily condor inside its 13:30-13:59 IST entry window
+        # daily structure inside its 13:30-15:29 IST entry window
         try:
             import cloud_btc_theta
             cloud_btc_theta.tick()
