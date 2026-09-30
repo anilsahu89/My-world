@@ -1,5 +1,5 @@
 {
- "updated_at": "30 Sep 2026 18:00:11 IST",
+ "updated_at": "30 Sep 2026 18:15:19 IST",
  "status": "RUNNING",
  "strategy": {
   "rule": "BTC weekly theta, 0.01 BTC \u2014 v3 bulletproof shape",
@@ -10,40 +10,16 @@
   "fx_note": "USD->INR fixed 88 (paper)"
  },
  "summary": {
-  "open": 2,
-  "closed": 0,
+  "open": 1,
+  "closed": 1,
   "wins": 0,
-  "losses": 0,
-  "win_rate": 0,
-  "realized_inr": 0,
-  "today_inr": 0,
-  "week_inr": 0
+  "losses": 1,
+  "win_rate": 0.0,
+  "realized_inr": -324.0,
+  "today_inr": -324.0,
+  "week_inr": -324.0
  },
  "open": [
-  {
-   "id": 1,
-   "entry_at": "2026-09-30 14:01",
-   "expiry": "1OCT26",
-   "lot": 0.01,
-   "structure": "condor",
-   "hedge_expiry": null,
-   "strikes": {
-    "sc": 84500.0,
-    "sp": 82000.0,
-    "wc": 85500.0,
-    "wp": 81000.0
-   },
-   "iv_entry": 31.4,
-   "spot_entry": 83015.0,
-   "credit_usd": 149.4,
-   "status": "OPEN",
-   "exit_at": null,
-   "close_cost_usd": null,
-   "reason": null,
-   "pnl_inr": null,
-   "mark_usd": -152.7,
-   "spot_now": 83904.0
-  },
   {
    "id": 2,
    "entry_at": "2026-09-30 15:55",
@@ -65,10 +41,37 @@
    "close_cost_usd": null,
    "reason": null,
    "pnl_inr": null,
-   "mark_usd": -124.6,
-   "spot_now": 84007.0
+   "mark_usd": -75.9,
+   "spot_now": 84955.0
   }
  ],
- "closed": [],
- "log": []
+ "closed": [
+  {
+   "id": 1,
+   "entry_at": "2026-09-30 14:01",
+   "expiry": "1OCT26",
+   "lot": 0.01,
+   "structure": "condor",
+   "hedge_expiry": null,
+   "strikes": {
+    "sc": 84500.0,
+    "sp": 82000.0,
+    "wc": 85500.0,
+    "wp": 81000.0
+   },
+   "iv_entry": 31.4,
+   "spot_entry": 83015.0,
+   "credit_usd": 149.4,
+   "status": "CLOSED",
+   "exit_at": "2026-09-30 18:15",
+   "close_cost_usd": 517.6,
+   "reason": "STOP-2X",
+   "pnl_inr": -324.0,
+   "mark_usd": -368.2,
+   "spot_now": 84855.0
+  }
+ ],
+ "log": [
+  "CLOSE STOP-2X pnl Rs-324"
+ ]
 }
