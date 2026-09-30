@@ -1250,7 +1250,7 @@
     ov.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.86);" +
       "display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out";
     var big = document.createElement("img");
-    big.src = img.src;
+    big.src = img.getAttribute("data-zoom") || img.src;
     big.alt = "Mahi Investments logo";
     big.style.cssText = "width:min(72vw,440px);height:auto;border-radius:20px;" +
       "box-shadow:0 12px 48px rgba(0,0,0,.7)";
