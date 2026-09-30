@@ -1,15 +1,15 @@
 {
- "updated_at": "30 Sep 2026 11:11:39 IST",
+ "updated_at": "30 Sep 2026 14:01:44 IST",
  "status": "RUNNING",
  "strategy": {
-  "rule": "BTC daily-expiry iron condor, 0.01 BTC/condor",
-  "strikes": "shorts at 1x 20-day avg range beyond spot, wings ~$1000",
-  "exits": "50% credit | 2x credit stop | expiry",
+  "rule": "BTC daily-expiry premium desk, 0.01 BTC/structure",
+  "strikes": "shorts ladder 1.0->0.75x avg range beyond spot; wings ~$1000 \u2014 same-day condor or next-day calendar hedge",
+  "exits": "50% credit | 2x credit stop | expiry (hedge salvaged at bid)",
   "breakers": "daily -Rs3,000 / weekly -Rs6,000",
   "fx_note": "USD->INR fixed 88 (paper)"
  },
  "summary": {
-  "open": 0,
+  "open": 1,
   "closed": 0,
   "wins": 0,
   "losses": 0,
@@ -18,9 +18,36 @@
   "today_inr": 0,
   "week_inr": 0
  },
- "open": [],
+ "open": [
+  {
+   "id": 1,
+   "entry_at": "2026-09-30 14:01",
+   "expiry": "1OCT26",
+   "lot": 0.01,
+   "structure": "condor",
+   "hedge_expiry": null,
+   "strikes": {
+    "sc": 84500.0,
+    "sp": 82000.0,
+    "wc": 85500.0,
+    "wp": 81000.0
+   },
+   "iv_entry": 31.4,
+   "spot_entry": 83015.0,
+   "credit_usd": 149.4,
+   "status": "OPEN",
+   "exit_at": null,
+   "close_cost_usd": null,
+   "reason": null,
+   "pnl_inr": null,
+   "mark_usd": 0.0
+  }
+ ],
  "closed": [],
  "log": [
-  "no position; outside entry window"
+  "0.85xIV (84500C/81500P): credit $108 < $110, stepping closer",
+  "hedge quote 2OCT26: credit $-116 (fence costs $266 = 178% of credit)",
+  "next-day fence too rich -> same-day condor",
+  "OPEN condor 84500C/82000P wings 85500/81000 exp 1OCT26 credit $149 IV 31 (band 0.70xIV = $957)"
  ]
 }

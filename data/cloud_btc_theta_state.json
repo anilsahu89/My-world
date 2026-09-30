@@ -1,6 +1,30 @@
 {
- "next_id": 1,
- "trades": [],
- "last_entry_date": null,
- "last_tick_ts": 1790746899.1933148
+ "next_id": 2,
+ "trades": [
+  {
+   "id": 1,
+   "entry_at": "2026-09-30 14:01",
+   "expiry": "1OCT26",
+   "lot": 0.01,
+   "structure": "condor",
+   "hedge_expiry": null,
+   "strikes": {
+    "sc": 84500.0,
+    "sp": 82000.0,
+    "wc": 85500.0,
+    "wp": 81000.0
+   },
+   "iv_entry": 31.4,
+   "spot_entry": 83015.0,
+   "credit_usd": 149.4,
+   "status": "OPEN",
+   "exit_at": null,
+   "close_cost_usd": null,
+   "reason": null,
+   "pnl_inr": null,
+   "mark_usd": 0.0
+  }
+ ],
+ "last_entry_date": "2026-09-30",
+ "last_tick_ts": 1790757090.25329
 }
