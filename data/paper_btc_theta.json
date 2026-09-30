@@ -1,5 +1,5 @@
 {
- "updated_at": "30 Sep 2026 06:50:48 IST",
+ "updated_at": "30 Sep 2026 07:05:50 IST",
  "status": "RUNNING",
  "strategy": {
   "rule": "BTC daily-expiry iron condor, 0.01 BTC/condor",
