@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 """
 Nifty Premium Mill — Paper Trade Tracker
-Checks for trade signals every Tuesday, tracks open/closed positions, calculates P&L.
+Checks for trade signals, tracks open/closed positions, calculates P&L.
 
-Optimized rules:
-  - Entry: Tuesday after 1 PM
-  - VIX gate: 12-16 only
+Modernized rules (30 Sep 2026 — NIFTY weeklies now expire TUESDAYS, so the
+old "Tuesday entry" is re-anchored on days-to-expiry; calibration from the
+1-year real-premium backtest in nifty_premium_backtest/):
+  - Entry: any weekday when the nearest weekly expiry is 1-4 DTE out
+    (in practice Monday = 1 DTE and Friday = 4 DTE)
+  - VIX gate: 10-18 (the old 12-16 goldilocks skipped half the year)
   - Direction: Above 20 SMA → Bull Put | Below → Bear Call
-  - Sell 200 OTM, Buy 300 OTM (100pt spread)
-  - Exit: 50% profit OR strike hit (SL) OR expiry
+  - Sell 250 OTM, Buy 350 OTM (100pt spread)
+  - Exit: 50% profit OR strike hit (SL) OR expiry (settled at the
+    EXPIRY-DAY spot, not today's — a July trade once sat unmanaged and
+    would have settled at the wrong price)
 """
 
 import csv, io, math, urllib.request, zipfile, json
@@ -25,10 +30,11 @@ NIFTY_OPTS_FILE = BASE / "data" / "nifty_options_daily.csv"
 NIFTY_LOT = 75
 BB_PERIOD = 20
 SPREAD_WIDTH = 100
-SHORT_OTM = 200
+SHORT_OTM = 250
 PROFIT_TARGET_PCT = 0.50
-VIX_MIN = 12.0
-VIX_MAX = 16.0
+VIX_MIN = 10.0
+VIX_MAX = 18.0
+MAX_DTE = 4
 
 
 def parse_date(s):
@@ -183,9 +189,9 @@ def init_log_file():
 
 
 def check_for_signal(day):
-    """Check if a trade signal exists on this day (Tuesday only)."""
-    if day.weekday() != 1:  # Tuesday
-        return None, "Not Tuesday — no entry day"
+    """Check if a trade signal exists on this day (1-4 DTE to expiry)."""
+    if day.weekday() >= 5:
+        return None, "Weekend — no entry"
 
     spot, vix = load_spot_vix(day)
     if spot is None:
@@ -203,9 +209,9 @@ def check_for_signal(day):
     if not opts:
         return None, "No options data"
 
-    exp_str, exp_date, dte = get_nearest_expiry(opts, day)
+    exp_str, exp_date, dte = get_nearest_expiry(opts, day, max_days=MAX_DTE)
     if not exp_str or dte < 1:
-        return None, "No suitable expiry"
+        return None, f"No weekly expiry 1-{MAX_DTE} DTE out (today: none)"
 
     # Direction
     if spot > sma:
@@ -275,17 +281,21 @@ def update_positions(day):
         exit_reason = None
         exit_pnl = None
 
-        # Expiry
+        # Expiry — settle at the EXPIRY-day spot (history), not today's
         exp_date = parse_date(t["expiry"])
-        if day >= exp_date and spot:
-            exit_reason = "expiry"
-            if t["opt_type"] == "PE":
-                si = max(float(t["short_strike"]) - spot, 0)
-                li = max(float(t["long_strike"]) - spot, 0)
-            else:
-                si = max(spot - float(t["short_strike"]), 0)
-                li = max(spot - float(t["long_strike"]), 0)
-            exit_pnl = (credit - (si - li)) * NIFTY_LOT
+        if day >= exp_date:
+            settle_spot = spot
+            if day > exp_date:
+                settle_spot, _ = load_spot_vix(exp_date) or (spot, 0)
+            if settle_spot:
+                exit_reason = "expiry"
+                if t["opt_type"] == "PE":
+                    si = max(float(t["short_strike"]) - settle_spot, 0)
+                    li = max(float(t["long_strike"]) - settle_spot, 0)
+                else:
+                    si = max(settle_spot - float(t["short_strike"]), 0)
+                    li = max(settle_spot - float(t["long_strike"]), 0)
+                exit_pnl = (credit - (si - li)) * NIFTY_LOT
 
         # Profit target (50%)
         elif current_spread <= credit * (1 - PROFIT_TARGET_PCT):
@@ -308,7 +318,8 @@ def update_positions(day):
             t["exit_long_prem"] = round(long_now, 2)
             t["pnl"] = round(exit_pnl, 2)
             t["holding_days"] = (day - parse_date(t["entry_date"])).days
-            t["spot_exit"] = round(spot, 1) if spot else ""
+            t["spot_exit"] = round(settle_spot if exit_reason == "expiry"
+                                   else spot, 1) if (spot or settle_spot) else ""
             day_pnl += exit_pnl
             closed_today.append(t)
 

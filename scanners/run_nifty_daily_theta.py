@@ -51,7 +51,7 @@ def main():
         (SCANNER_DIR / "papertrades").mkdir(parents=True, exist_ok=True)
 
         # Run the scanner, capture stdout
-        cmd = [sys.executable, str(SCANNER_DIR / "paper_trade_daily_theta.py")]
+        cmd = [sys.executable, str(SCANNER_DIR / "paper_trade_daily_theta.py"), "--scan"]
 
         result = subprocess.run(
             cmd,

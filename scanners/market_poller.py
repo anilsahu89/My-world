@@ -180,6 +180,37 @@ def theta_tick() -> None:
             pass
 
 
+def mill_tick() -> None:
+    """Nifty Premium Mill desk — modernized hedged credit-spread tracker
+    (1-year real-premium backtest: PF 1.58, 91% WR on this calibration).
+    Same cadence as the theta desk: once per weekday morning via the day
+    poller. The desk had ONE manual run on 14 Jul 2026 and then sat dead —
+    no schedule ever ticked it again, leaving its only trade frozen OPEN."""
+    moment = cp.now()
+    if moment.weekday() >= 5 or moment.time() < dtime(9, 14):
+        return
+    flag = cp.ROOT / "data" / "scanners" / ".mill_last_run"
+    today = moment.date().isoformat()
+    try:
+        if flag.exists() and flag.read_text().strip() == today:
+            return
+    except OSError:
+        pass
+    out = cp.ROOT / "data" / "scanners" / "nifty-premium-mill-latest.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    r = subprocess.run(
+        [sys.executable, str(cp.ROOT / "scanners" / "run_nifty_premium_mill.py"),
+         "--output", str(out)],
+        cwd=str(cp.ROOT), capture_output=True, text=True, timeout=300)
+    print(f"mill scan: rc={r.returncode} "
+          f"{(r.stdout or '')[-200:]}", flush=True)
+    if r.returncode == 0 and out.exists():
+        try:
+            flag.write_text(today)
+        except OSError:
+            pass
+
+
 def run_day() -> None:
     print("relay: day poller starting", flush=True)
     if another_poller_running():
@@ -192,6 +223,7 @@ def run_day() -> None:
         try:
             nse_tick()
             theta_tick()
+            mill_tick()
             btc_tick()
             commit_and_push()
         except Exception as e:

@@ -1,9 +1,37 @@
 {
   "strategy": "nifty-premium-mill",
-  "scanned_at": null,
-  "status": "never_run",
-  "scan_date": null,
-  "trades": [],
-  "report": {},
-  "text_report": "No scans have been run yet. Click 'Run scan now' to fetch the latest data."
+  "scanned_at": "2026-09-30 20:50:33 IST",
+  "scan_date": "2026-09-30",
+  "trades": [
+    {
+      "entry_date": "2026-07-14",
+      "direction": "BULL_PUT",
+      "opt_type": "PE",
+      "short_strike": "23850.0",
+      "long_strike": "23750.0",
+      "expiry": "2026-07-21",
+      "spot_entry": "24052.0",
+      "vix_entry": "13.8",
+      "short_premium": "110.75",
+      "long_premium": "80.75",
+      "net_credit": "30.0",
+      "sma": "24044.1",
+      "status": "CLOSED",
+      "exit_date": "2026-09-30",
+      "exit_reason": "expiry",
+      "exit_short_prem": "110.75",
+      "exit_long_prem": "80.75",
+      "pnl": "2250.0",
+      "holding_days": "78",
+      "spot_exit": "24187.7",
+      "notes": ""
+    }
+  ],
+  "log_entries": 0,
+  "status": "new_signal",
+  "report": {
+    "open_position": "Checking open positions...",
+    "net_pnl": "1 trades | WR 100% | Net P&L \u20b92,250"
+  },
+  "text_report": "==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL UPDATE \u2014 Wed, 30 Sep 2026\n==========================================================================================\n\n  Checking open positions...\n  No exits today.\n\n  Checking for new signal...\n  No weekly expiry 1-4 DTE out (today: none)\n\n==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL \u2014 PAPER TRADES\n  Rules: Tuesday entry | VIX 10.0-18.0 | 250OTM | 100pt spread | 50% target\n==========================================================================================\n\n  \ud83d\udd34 CLOSED TRADES (1):\n  Entry        Exit         Dir        Reason            Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-07-14   2026-09-30   BULL_PUT   expiry           \u20b9  30.0 \u20b9    2250   78d \u2705\n\n  \ud83d\udcc8 SUMMARY: 1 trades | WR 100% | Net P&L \u20b92,250"
 }

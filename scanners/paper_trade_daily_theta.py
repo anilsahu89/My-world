@@ -3,8 +3,10 @@
 Nifty Daily Theta — Paper Trade Tracker
 Sells a hedged credit spread Mon-Wed, exits at 50% profit or SL or expiry.
 
-Rules:
-  - Entry: Mon, Tue, Wed after 1 PM
+Rules (DTE fix, 30 Sep 2026 — NIFTY weeklies expire TUESDAYS now; the
+1-year real-premium backtest says the juice is in 1-4 DTE entries, i.e.
+Monday = 1 DTE and Friday = 4 DTE under the new calendar):
+  - Entry: Mon, Tue, Wed, Fri after 1 PM (the 1-4 DTE gate does the work)
   - VIX < 22 (skip if higher)
   - Above 20 SMA → Bull Put | Below → Bear Call
   - Sell 300 OTM, Buy 400 OTM (100pt spread)
@@ -32,8 +34,8 @@ SPREAD_WIDTH = 100
 VIX_MAX = 22
 PROFIT_PCT = 0.50
 MIN_CREDIT = 3.0
-MAX_DTE = 7
-ENTRY_DAYS = [0, 1, 2]  # Mon, Tue, Wed
+MAX_DTE = 4
+ENTRY_DAYS = [0, 1, 2, 4]  # Mon-Wed + Fri; 1-4 DTE gate filters to Mon/Fri
 
 
 def parse_date(s):
