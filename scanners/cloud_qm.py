@@ -265,6 +265,14 @@ def run_day(dry: bool = False) -> dict:
                  invested=round(qty * o, 2), booked=0.0, avg_count=0,
                  trail=False, sessions=0, exit=None, reason=None, pnl=None,
                  mark=o)
+        try:
+            import telegram_notify
+            telegram_notify.notify(
+                "\U0001F9EE OPEN \u00b7 QM Swing\n"
+                + t["symbol"] + " qty " + str(qty)
+                + "\nentry \u20b9{:,.2f}".format(o))
+        except Exception:
+            pass
         filled += 1
 
     # ---- 2) manage opens on today's completed bar ----
@@ -386,6 +394,15 @@ def _close(t: dict, px: float, reason: str) -> None:
         - t["qty"] * t["entry"] * COST
     t.update(status="CLOSED", exit=round(px, 2), reason=reason,
              pnl=round(pnl, 2), exit_date=now().date().isoformat())
+    try:
+        import telegram_notify
+        emoji = "\u2705" if pnl > 0 else "\U0001F6D1"
+        telegram_notify.notify(
+            emoji + " CLOSE \u00b7 QM Swing (" + reason + ")\n"
+            + t["symbol"] + " qty " + str(t["qty"])
+            + "\nP&L \u20b9{:,.0f}".format(pnl))
+    except Exception:
+        pass
 
 
 def export(state: dict) -> dict:

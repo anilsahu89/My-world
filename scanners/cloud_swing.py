@@ -134,6 +134,16 @@ def run_day() -> dict:
             sign = 1 if t["side"] == "BUY" else -1
             t.update(status="CLOSED", exit=round(exit_px, 2), reason=reason,
                      pnl=round(sign * (exit_px - t["entry"]) * t["qty"], 2))
+            try:
+                import telegram_notify
+                emoji = "\u2705" if t["pnl"] > 0 else "\U0001F6D1"
+                cur = "$" if t.get("market") != "NSE" else "\u20b9"
+                telegram_notify.notify(
+                    emoji + " CLOSE \u00b7 Candle Swing (" + reason + ")\n"
+                    + t["symbol"] + " " + t["side"] + " qty " + str(t["qty"])
+                    + "\nP&L " + cur + "{:,.0f}".format(t["pnl"]))
+            except Exception:
+                pass
 
     # 2) fill yesterday's signals at TODAY's open
     for t in [x for x in trades if x["status"] == "PENDING"]:
@@ -153,6 +163,15 @@ def run_day() -> dict:
             continue
         t.update(status="OPEN", entry_date=today, qty=qty,
                  entry=round(entry, 2), tgt=round(tgt, 2), sessions=0)
+        try:
+            import telegram_notify
+            cur = "$" if t.get("market") != "NSE" else "\u20b9"
+            telegram_notify.notify(
+                "\U0001F486 OPEN \u00b7 Candle Swing\n"
+                + t["symbol"] + " " + t["side"] + " qty " + str(qty)
+                + "\nentry " + cur + "{:,.2f}".format(entry))
+        except Exception:
+            pass
 
     # 3) scan today's completed bars for NEW signals (fill tomorrow at open)
     open_n = sum(1 for t in trades if t["status"] == "OPEN")

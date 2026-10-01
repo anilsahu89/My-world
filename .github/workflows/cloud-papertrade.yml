@@ -71,6 +71,8 @@ jobs:
           ANGEL_TOTP_SECRET: ${{ secrets.ANGEL_TOTP_SECRET }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           POLLER_MODE: ${{ inputs.mode }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python3 scanners/cloud_papertrade.py "${{ steps.desk.outputs.value }}"
       - name: Commit changed state
         run: |

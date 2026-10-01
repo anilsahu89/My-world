@@ -24,6 +24,8 @@ from datetime import datetime, date, timedelta
 from pathlib import Path
 from collections import defaultdict
 
+import telegram_notify
+
 BASE = Path(__file__).parent
 RAW_DIR = BASE / "data" / "raw"
 TRADES_FILE = BASE / "papertrades" / "daily_theta_trades.csv"
@@ -186,6 +188,33 @@ def init_trades_file():
             csv.DictWriter(f, fieldnames=fields).writeheader()
 
 
+def _alert_close(t):
+    try:
+        pnl = float(t.get("pnl") or 0)
+        emoji = "\u2705" if pnl > 0 else "\U0001F6D1"
+        telegram_notify.notify(
+            emoji + " CLOSE \u00b7 NIFTY Daily Theta (" + str(t.get("exit_reason", "?")) + ")\n"
+            + str(t.get("direction")) + " " + str(t.get("short_strike")) + "/"
+            + str(t.get("long_strike")) + " " + str(t.get("opt_type"))
+            + "\nP&L \u20b9{:,.0f}".format(pnl))
+    except Exception:
+        pass
+
+
+def _alert_open(sig):
+    try:
+        telegram_notify.notify(
+            "\U0001F6E1\uFE0F OPEN \u00b7 NIFTY Daily Theta\n"
+            + sig["direction"] + " " + str(sig["short_strike"]) + "/"
+            + str(sig["long_strike"]) + " " + sig["opt_type"]
+            + " \u00b7 exp " + sig["expiry"]
+            + "\ncredit \u20b9" + str(sig["net_credit"])
+            + " \u00b7 VIX " + str(sig["vix_entry"])
+            + " \u00b7 spot {:,.0f}".format(sig["spot_entry"]))
+    except Exception:
+        pass
+
+
 def check_signal(day):
     """Check if a trade signal exists on this day."""
     if day.weekday() not in ENTRY_DAYS:
@@ -308,6 +337,7 @@ def update_exits(day):
 
         if exit_reason:
             t["status"] = "CLOSED"
+            _alert_close(t)
             t["exit_date"] = day.isoformat()
             t["exit_reason"] = exit_reason
             t["exit_credit"] = round(current_spread, 2)
@@ -440,6 +470,7 @@ def main():
             signal["notes"] = ""
 
             trades.append(signal)
+            _alert_open(signal)
             fields = list(signal.keys())
             with TRADES_FILE.open("w", newline="") as f:
                 w = csv.DictWriter(f, fieldnames=fields)

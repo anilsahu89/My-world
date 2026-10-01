@@ -32,6 +32,8 @@ from zoneinfo import ZoneInfo
 
 import yfinance as yf
 
+import telegram_notify
+
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 IST = ZoneInfo("Asia/Kolkata")
@@ -166,6 +168,18 @@ def close(trade: dict, price: float, reason: str, stamp: str) -> None:
     trade.update({"status": "CLOSED", "exit_price": round(price, 2),
                   "exit_time": stamp, "reason": reason,
                   "pnl": round(sign * (price - trade["entry_price"]) * trade["qty"], 2)})
+    desk = "Gold/BTC" if trade.get("session") else "O=L/O=H"
+    emoji = "✅" if trade["pnl"] > 0 else "🛑"
+    try:
+        telegram_notify.notify(
+            f"{emoji} CLOSE · {desk} ({reason})\n"
+            f"{trade['side']} {trade['symbol']} · qty {trade['qty']}\n"
+            f"entry {'$' if trade.get('session') else '₹'}"
+            f"{trade['entry_price']:,.2f} → exit "
+            f"{'$' if trade.get('session') else '₹'}{price:,.2f}\n"
+            f"P&L {'$' if trade.get('session') else '₹'}{trade['pnl']:,.2f}")
+    except Exception:
+        pass
 
 
 def manage_nse(state: dict, quotes: dict, moment: datetime) -> None:
@@ -274,6 +288,14 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
                 "exit_time": None, "exit_price": None, "reason": None, "pnl": None,
                 "status": "OPEN", "feed": FEED_NAME})
             state["next_id"] += 1
+            try:
+                telegram_notify.notify(
+                    f"⚡ OPEN · O=L/O=H ({setup.upper()})\n"
+                    f"{side} {symbol} · qty {qty}\n"
+                    f"entry ₹{quote['ltp']:,.2f} · SL ₹"
+                    f"{round((quote['low'] if side == 'BUY' else quote['high']) * (0.995 if side == 'BUY' else 1.005), 2):,.2f}")
+            except Exception:
+                pass
 
 
 def f3_scan(state: dict, quotes: dict, moment: datetime) -> None:
@@ -326,6 +348,14 @@ def f3_scan(state: dict, quotes: dict, moment: datetime) -> None:
             "exit_time": None, "exit_price": None, "reason": None, "pnl": None,
             "status": "OPEN", "feed": f"{FEED_NAME}-f3", "drive_pct": round(drive, 2)})
         state["next_id"] += 1
+        try:
+            telegram_notify.notify(
+                f"⚡ OPEN · First-3 momentum\n"
+                f"BUY {symbol} · qty {qty}\n"
+                f"entry ₹{entry:,.2f} · SL ₹{round(sl * 0.995, 2):,.2f} · "
+                f"drive {drive:.1f}%")
+        except Exception:
+            pass
 
 
 def export_alerts_json(quotes: dict, today: str) -> None:
@@ -598,6 +628,15 @@ def update_gc(state: dict) -> dict:
                 "sl_price": round(quote["low"] * 0.995 if side == "BUY" else quote["high"] * 1.005, 2), "exit_time": None, "exit_price": None,
                 "reason": None, "pnl": None, "status": "OPEN"})
             state["next_id"] += 1
+            try:
+                gc_sl = round(quote["low"] * 0.995 if side == "BUY"
+                              else quote["high"] * 1.005, 2)
+                telegram_notify.notify(
+                    f"🥇 OPEN · Gold/BTC ({setup.upper()})\n"
+                    f"{side} {symbol} · qty {round(GC_CAPITAL / quote['ltp'], 4)}\n"
+                    f"entry ${quote['ltp']:,.2f} · SL ${gc_sl:,.2f}")
+            except Exception:
+                pass
     try:
         export_gc_scan(state, quotes)
     except Exception as e:
