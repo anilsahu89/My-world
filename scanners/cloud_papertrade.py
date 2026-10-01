@@ -52,6 +52,8 @@ NSE_MAX_PER_SETUP = 5
 NSE_ENTRY_CUTOFF = time(9, 45)
 NSE_TIME_STOP = time(10, 45)  # scratch ol longs not in profit by now
 NSE_SQUARE_OFF = time(15, 0)
+NSE_REENTRY = True             # re-entry after a stopped O=L/O=H trade
+NSE_REENTRY_MAX = 2            # max re-entries per symbol+setup per day
 F3_WINDOW = (time(12, 20), time(13, 30))
 F3_MAX_TRADES = 5
 
@@ -190,6 +192,85 @@ def close(trade: dict, price: float, reason: str, stamp: str) -> None:
         pass
 
 
+def _watch_reentry(state: dict, trade: dict, today: str, stamp: str) -> None:
+    """Arm a re-entry watch after a stopped O=L/O=H trade. SL-type exits only
+    (CANDLE-CLOSE primary stop, SL backstop) — TSTOP/EOD never re-enter. The
+    watch level is the stopped trade's candle_stop (the opening O=L/O=H price
+    for a fresh trade). Owner-approved 2026-10-01; backtested in
+    papertrade_ol/analysis (see REENTRY_TEST_NOTES.md)."""
+    if not NSE_REENTRY or trade.get("setup") not in ("ol", "oh"):
+        return
+    if trade.get("reason") not in ("SL", "CANDLE-CLOSE"):
+        return
+    armed = {"symbol": trade["symbol"], "setup": trade["setup"],
+             "side": trade["side"], "level": trade["candle_stop"],
+             "stopped_at": stamp, "date": today}
+    state["reentry_watch"] = [w for w in state.get("reentry_watch", [])
+                              if not (w.get("symbol") == armed["symbol"]
+                                      and w.get("setup") == armed["setup"])]
+    state["reentry_watch"].append(armed)
+
+
+def _fire_reentries(state: dict, moment: datetime, bars, watches: list) -> None:
+    """Re-enter the same side when a completed 5-min candle CLOSES back beyond
+    the stopped level; fill at that candle's close (same convention as the
+    CANDLE-CLOSE exit fill); candle_stop/sl recomputed from the running day
+    extreme exactly like a fresh entry."""
+    import pandas as pd
+    today = moment.date().isoformat()
+    for w in list(watches):
+        used = sum(1 for t in state["trades"]
+                   if t.get("date") == today and t.get("symbol") == w["symbol"]
+                   and t.get("setup") == w["setup"] and t.get("reentry_seq"))
+        if used >= NSE_REENTRY_MAX:
+            if w in state["reentry_watch"]:
+                state["reentry_watch"].remove(w)
+            continue
+        try:
+            frame = flatten(bars[f"{w['symbol']}.NS"].copy())
+        except (KeyError, TypeError, ValueError):
+            continue
+        if frame is None or frame.empty:
+            continue
+        stopped = datetime.strptime(w["stopped_at"], "%H:%M:%S").time()
+        for ts, row in frame.iterrows():
+            end = (ts + pd.Timedelta(minutes=5)).time()
+            if end <= stopped or end >= NSE_SQUARE_OFF:
+                continue                       # post-stop, pre-square-off only
+            c = float(row["Close"])
+            if not math.isfinite(c):
+                continue
+            if (w["side"] == "BUY" and c > w["level"]) or \
+                    (w["side"] == "SELL" and c < w["level"]):
+                through = frame[frame.index <= ts]
+                candle_stop = round(float(through["Low"].min()) if w["side"] == "BUY"
+                                    else float(through["High"].max()), 2)
+                sl = round(candle_stop * (0.995 if w["side"] == "BUY" else 1.005), 2)
+                qty = int(NSE_CAPITAL / c) if c > 0 else 0
+                if w in state["reentry_watch"]:
+                    state["reentry_watch"].remove(w)
+                if qty < 1:
+                    break
+                state["trades"].append({
+                    "id": state["next_id"], "date": today, "setup": w["setup"],
+                    "symbol": w["symbol"], "side": w["side"], "qty": qty,
+                    "entry_time": moment.strftime("%H:%M:%S"),
+                    "entry_price": round(c, 2),
+                    "candle_stop": candle_stop, "sl_price": sl,
+                    "reentry_seq": used + 1, "reentry_level": w["level"],
+                    "exit_time": None, "exit_price": None, "reason": None,
+                    "pnl": None, "status": "OPEN", "feed": FEED_NAME})
+                state["next_id"] += 1
+                try:
+                    telegram_notify.notify(
+                        f"⚡ RE-ENTRY {used + 1} · O=L/O=H ({w['setup'].upper()})\n"
+                        f"{w['side']} {w['symbol']} · qty {qty}\n"
+                        f"entry ₹{c:,.2f} (candle close) · SL ₹{sl:,.2f}")
+                except Exception:
+                    pass
+                break
+
+
 def manage_nse(state: dict, quotes: dict, moment: datetime) -> None:
     today, stamp = moment.date().isoformat(), moment.strftime("%H:%M:%S")
     for trade in [t for t in state["trades"]
@@ -203,6 +284,7 @@ def manage_nse(state: dict, quotes: dict, moment: datetime) -> None:
             else quote["high"] >= trade["sl_price"]
         if sl_hit:
             close(trade, trade["sl_price"], "SL", stamp)
+            _watch_reentry(state, trade, today, stamp)
         elif moment.time() >= NSE_SQUARE_OFF:
             close(trade, quote["ltp"], "EOD", stamp)
         elif (moment.time() >= NSE_TIME_STOP and trade["setup"] == "ol"
@@ -221,10 +303,15 @@ def candle_close_exits(state: dict, moment: datetime) -> None:
     live = [t for t in state["trades"]
             if t.get("status") == "OPEN" and t.get("date") == today
             and t.get("setup") in ("ol", "oh") and t.get("candle_stop")]
-    if not live:
+    watches = [w for w in state.get("reentry_watch", [])
+               if w.get("date") == today] if NSE_REENTRY else []
+    state["reentry_watch"] = watches
+    if not live and not watches:
         return
+    tickers = sorted({f"{t['symbol']}.NS" for t in live}
+                     | {f"{w['symbol']}.NS" for w in watches})
     try:
-        bars = yf.download([f"{t['symbol']}.NS" for t in live], period="1d",
+        bars = yf.download(tickers, period="1d",
                            interval="5m", group_by="ticker", progress=False,
                            threads=True, auto_adjust=False, prepost=False)
     except Exception as e:
@@ -248,9 +335,12 @@ def candle_close_exits(state: dict, moment: datetime) -> None:
                 if (trade["side"] == "BUY" and c < trade["candle_stop"]) or \
                         (trade["side"] == "SELL" and c > trade["candle_stop"]):
                     close(trade, c, "CANDLE-CLOSE", end.strftime("%H:%M:%S"))
+                    _watch_reentry(state, trade, today, end.strftime("%H:%M:%S"))
                     break
         except (KeyError, TypeError, ValueError):
             continue
+    if watches:
+        _fire_reentries(state, moment, bars, watches)
 
 
 def _vol_block(state: dict, today: str, setup: str, symbol: str, reason: str) -> None:
@@ -303,7 +393,8 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
                 _vol_block(state, today, setup, symbol, "low_vol")
                 continue
             eligible.append((quote.get("vol_ratio", 0), symbol, quote))
-        already = sum(1 for t in state["trades"] if t.get("date") == today and t.get("setup") == setup)
+        already = sum(1 for t in state["trades"] if t.get("date") == today and t.get("setup") == setup
+                      and not t.get("reentry_seq"))   # re-entries don't consume fresh slots
         for _, symbol, quote in sorted(eligible, reverse=True)[:max(0, NSE_MAX_PER_SETUP - already)]:
             # don't chase >3% beyond the open
             ext = quote["ltp"] / quote["open"]
@@ -620,6 +711,7 @@ def nse_snapshot(state: dict, quotes: dict, today: str) -> dict:
             "status": "DONE" if now().time() >= time(15, 30) else "RUNNING", "today": today,
             "strategy": {"rule": "first 5-min candle O=L -> BUY / O=H -> SELL (entries from 09:20, opening candle complete), ₹10,000/stock",
                          "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
+                         "reentry": "after a candle-close/backstop stop: re-enter same side when a completed 5-min candle closes back beyond the stopped level (fill at candle close, stops recomputed) — max 2 per stock/day; TSTOP/EOD never re-enter",
                          "square_off": "15:00", "entry_cutoff": "09:45",
                          "time_stop_long": "10:45", "nifty_gate": True,
                          "min_vol_mult": 1.5, "min_vol_mult_by_setup": {"ol": 3.0},
