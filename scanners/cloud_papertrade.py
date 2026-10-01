@@ -8,12 +8,13 @@ the Mac install is a retired fallback.
 
 NSE rules = the tuned local engine (parity since 2026-09-20):
   entry cutoff 09:45 · square-off 15:00 · max 5/setup by est. volume
-  O=L / O=H entry has NO volume cap since 2026-09-28 — the 3.0x/1.5x
-  avg20 gates (added 2026-09-20) starved both setups to zero trades in a
-  week (vol_ratio also zeroes out whenever yahoo throttles the 30d
-  history download, capping everything unconditionally); vol_ratio is now
-  ranking-only. SL = 0.5% beyond day low/high · NIFTY-direction gate on
-  both legs
+  O=L needs est. volume >= 3.0x avg20 (PF 8.1 backtest) · O=H >= 1.5x —
+  cap RESTORED 2026-10-01: the cap-free live run 28-30 Sep confirmed the
+  volume-gated picks are fewer but better (owner decision: minimise trade
+  count / cut losses). Unlike the 09-20 version, a throttled 30d history
+  now flags vol_known=False and the blocked picks are counted in the
+  snapshot (vol_blocked) instead of silently zeroing vol_ratio.
+  SL = 0.5% beyond day low/high · NIFTY-direction gate on both legs
   2026-09-28 opening-candle experiment (monitored for a week):
     entries from 09:20 (first 5-min candle complete) · primary stop is a
     5-min candle CLOSE beyond the opening low/high captured at entry
@@ -45,7 +46,8 @@ GC_SNAPSHOT = DATA / "paper_gc.json"
 NSE_CAPITAL = 10_000.0
 NSE_TOL = 0.10
 NSE_MIN_PRICE = 50.0
-NSE_MIN_VOL = 1.5              # alerts-page with/without-volume split only
+NSE_MIN_VOL = 1.5              # O=H short entry cap (and alerts-page split)
+NSE_MIN_VOL_OL = 3.0           # O=L long entry cap (PF 8.1 backtest)
 NSE_MAX_PER_SETUP = 5
 NSE_ENTRY_CUTOFF = time(9, 45)
 NSE_TIME_STOP = time(10, 45)  # scratch ol longs not in profit by now
@@ -152,14 +154,20 @@ def _yahoo_quotes() -> dict[str, dict]:
                               group_by="ticker", progress=False, threads=True, auto_adjust=False)
     session_fraction = max(0.20, min(1.0, (now().hour * 60 + now().minute - 555) / 375))
     for symbol in candidates:
+        quote = quotes[symbol]
+        quote["vol_known"] = False
         try:
             frame = flatten(volume_bars[f"{symbol}.NS"].copy())
             history = frame["Volume"].iloc[:-1].tail(20)
             average = float(history.mean()) if len(history) else 0.0
-            quotes[symbol]["vol_ratio"] = (quotes[symbol]["volume"] / session_fraction / average
-                                            if average else 0.0)
+            # <5 history bars = throttled/partial download, not a real
+            # avg20 — mark unknown so the entry cap blocks it VISIBLY
+            # (vol_blocked) instead of silently treating it as low volume
+            quote["vol_known"] = bool(len(history) >= 5 and average > 0)
+            quote["vol_ratio"] = (quote["volume"] / session_fraction / average
+                                  if quote["vol_known"] else 0.0)
         except (KeyError, TypeError, ValueError):
-            quotes[symbol]["vol_ratio"] = 0.0
+            quote["vol_ratio"] = 0.0
     return quotes
 
 
@@ -245,6 +253,21 @@ def candle_close_exits(state: dict, moment: datetime) -> None:
             continue
 
 
+def _vol_block(state: dict, today: str, setup: str, symbol: str, reason: str) -> None:
+    """Record an O=L/O=H pick rejected by the volume cap (daily, deduped).
+    Surfaced in the snapshot as vol_blocked so a zero-trade day is
+    explainable at a glance instead of silently empty."""
+    vb = state.get("vol_blocked") or {}
+    if vb.get("date") != today:
+        vb = {"date": today,
+              "ol": {"low_vol": [], "no_vol_data": []},
+              "oh": {"low_vol": [], "no_vol_data": []}}
+        state["vol_blocked"] = vb
+    bucket = vb.setdefault(setup, {"low_vol": [], "no_vol_data": []})
+    if symbol not in bucket.setdefault(reason, []):
+        bucket[reason].append(symbol)
+
+
 def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
     today, stamp = moment.date().isoformat(), moment.strftime("%H:%M:%S")
     # 2026-09-28 opening-candle rules: entries start once the FIRST 5-min
@@ -263,13 +286,23 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
             continue
         if setup == "oh" and bias == 1:
             continue
+        # volume cap (restored 2026-10-01): O=L 3.0x avg20, O=H 1.5x —
+        # fewer, higher-quality entries; blocked picks are counted
+        min_vol = NSE_MIN_VOL_OL if setup == "ol" else NSE_MIN_VOL
         eligible = []
         for symbol, quote in quotes.items():
             edge = abs(quote["open"] - quote["low"]) if setup == "ol" else abs(quote["high"] - quote["open"])
             if (symbol, setup) in seen or quote["open"] < NSE_MIN_PRICE:
                 continue
-            if edge <= min(NSE_TOL, quote["open"] * 0.0005):
-                eligible.append((quote.get("vol_ratio", 0), symbol, quote))
+            if edge > min(NSE_TOL, quote["open"] * 0.0005):
+                continue
+            if not quote.get("vol_known"):
+                _vol_block(state, today, setup, symbol, "no_vol_data")
+                continue
+            if quote.get("vol_ratio", 0) < min_vol:
+                _vol_block(state, today, setup, symbol, "low_vol")
+                continue
+            eligible.append((quote.get("vol_ratio", 0), symbol, quote))
         already = sum(1 for t in state["trades"] if t.get("date") == today and t.get("setup") == setup)
         for _, symbol, quote in sorted(eligible, reverse=True)[:max(0, NSE_MAX_PER_SETUP - already)]:
             # don't chase >3% beyond the open
@@ -537,6 +570,10 @@ def nse_snapshot(state: dict, quotes: dict, today: str) -> dict:
     realized = round(sum(t.get("pnl") or 0 for t in closed), 2)
     unrealized = round(sum(t.get("pnl") or 0 for t in opens), 2)
     today_row = next((row for row in daily if row["date"] == today), None)
+    vb = state.get("vol_blocked") or {}
+    vol_blocked = ({s: {r: len(vb.get(s, {}).get(r, [])) for r in ("low_vol", "no_vol_data")}
+                    for s in ("ol", "oh")}
+                   if vb.get("date") == today else {})
     return {"updated_at": now().strftime("%d %b %Y %H:%M:%S IST"), "feed": FEED_NAME,
             "feed_note": ("Angel SmartAPI live feed (cloud, no Mac)"
                           if FEED_NAME == "angel" else
@@ -546,7 +583,9 @@ def nse_snapshot(state: dict, quotes: dict, today: str) -> dict:
                          "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
                          "square_off": "15:00", "entry_cutoff": "09:45",
                          "time_stop_long": "10:45", "nifty_gate": True,
-                         "min_vol_mult": 0, "vol_note": "volume cap removed 2026-09-28 — est. volume ranks picks only"},
+                         "min_vol_mult": 1.5, "min_vol_mult_by_setup": {"ol": 3.0},
+                         "vol_note": "volume cap restored 2026-10-01 — cap-free live run 28-30 Sep confirmed fewer, better trades"},
+            "vol_blocked": vol_blocked,
             "summary": {"open_count": len(opens), "closed_count": len(closed), "trades_today": today_row["trades"] if today_row else 0,
                         "today_pnl": today_row["pnl"] if today_row else 0, "realized_total": realized, "unrealized": unrealized,
                         "wins": wins, "losses": len(closed) - wins, "win_rate": round(wins / len(closed) * 100, 1) if closed else 0,

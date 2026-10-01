@@ -994,8 +994,19 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     var st = d.status === "DONE"
       ? '<span class="badge">SQUARED OFF</span>'
       : '<span class="badge badge-green">RUNNING</span>';
+    // volume cap visibility (restored 2026-10-01): show it's on, and how
+    // many picks it blocked today — a zero-trade day should explain itself
+    var vb = d.vol_blocked || {};
+    var lowVol = ((vb.ol || {}).low_vol || 0) + ((vb.oh || {}).low_vol || 0);
+    var noData = ((vb.ol || {}).no_vol_data || 0) + ((vb.oh || {}).no_vol_data || 0);
+    var vcap = ' &nbsp;·&nbsp; <span class="badge badge-grey" title="volume cap restored 2026-10-01: ' +
+      'O=L needs est. volume ≥ 3× avg20, O=H ≥ 1.5× — fewer, better trades">' +
+      (lowVol || noData
+        ? "VOL CAP: " + lowVol + " blocked (low vol)" +
+          (noData ? " · " + noData + " (no vol data)" : "")
+        : "VOL CAP ON · O=L 3× / O=H 1.5×") + "</span>";
     el.innerHTML = "Updated " + esc(d.updated_at) + " &nbsp;·&nbsp; " + feed +
-      " &nbsp;·&nbsp; " + st +
+      " &nbsp;·&nbsp; " + st + vcap +
       ' &nbsp;·&nbsp; <span class="muted">auto-refreshes every 60s' +
       (d.feed_note ? " — " + esc(d.feed_note) : "") + "</span>";
     el.classList.remove("flash");
