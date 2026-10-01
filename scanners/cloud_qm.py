@@ -111,6 +111,8 @@ def fetch_5y(ticker: str) -> pd.DataFrame | None:
             return None
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = df.columns.get_level_values(0)
+        if df.columns.duplicated().any():     # yf sometimes returns dup cols
+            df = df.loc[:, ~df.columns.duplicated()]
         return df.dropna(how="all")
     except Exception:
         return None
@@ -336,17 +338,22 @@ def run_day(dry: bool = False) -> dict:
     todo = [s for s in syms if s not in held]
 
     def _scan(sym: str) -> list:
-        df = fetch_5y(f"{sym}.NS")
-        if df is None:
+        try:
+            df = fetch_5y(f"{sym}.NS")
+            if df is None:
+                return []
+            sigs = [dict(sym=sym, **sig)
+                    for sig in scan_signals(df, nifty_hm, nifty_sma)]
+            # RS-50 gate — trailing-50d return must beat NIFTY's
+            if nifty_ret50 is not None and len(df) > RS_DAYS:
+                ret50 = float(df["Close"].iloc[-1]
+                              / df["Close"].iloc[-1 - RS_DAYS])
+                sigs = [dict(s, rs50=round(ret50, 3))
+                        for s in sigs if ret50 > nifty_ret50]
+            return sigs
+        except Exception as e:    # one bad symbol must never kill the sweep
+            print(f"  skip {sym}: {type(e).__name__}: {str(e)[:60]}", flush=True)
             return []
-        sigs = [dict(sym=sym, **sig)
-                for sig in scan_signals(df, nifty_hm, nifty_sma)]
-        # RS-50 gate — trailing-50d return must beat NIFTY's on signal day
-        if nifty_ret50 is not None and len(df) > RS_DAYS:
-            ret50 = float(df["Close"].iloc[-1] / df["Close"].iloc[-1 - RS_DAYS])
-            sigs = [dict(s, rs50=round(ret50, 3))
-                    for s in sigs if ret50 > nifty_ret50]
-        return sigs
 
     # threaded scan — the 500 x 5y sequential download could outlast the
     # Actions 6h job cap (night of 24 Sep: evening job died at the cap)
