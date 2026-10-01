@@ -1,5 +1,5 @@
 {
- "updated_at": "01 Oct 2026 09:39:20 IST",
+ "updated_at": "01 Oct 2026 09:40:43 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -15,15 +15,15 @@
   "vol_note": "volume cap removed 2026-09-28 — est. volume ranks picks only"
  },
  "summary": {
-  "open_count": 9,
-  "closed_count": 120,
+  "open_count": 7,
+  "closed_count": 122,
   "trades_today": 9,
-  "today_pnl": 0,
-  "realized_total": -313.95,
-  "unrealized": -406.98,
+  "today_pnl": -361.52,
+  "realized_total": -675.47,
+  "unrealized": -132.26,
   "wins": 61,
-  "losses": 59,
-  "win_rate": 50.8,
+  "losses": 61,
+  "win_rate": 50.0,
   "days": 18
  },
  "open": [
@@ -41,29 +41,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -98.2,
+   "pnl": -120.0,
    "feed": "angel",
-   "ltp": 4782.1,
-   "pnl_pct": -1.04
-  },
-  {
-   "id": 131,
-   "date": "2026-10-01",
-   "setup": "oh",
-   "symbol": "TIINDIA",
-   "side": "SELL",
-   "qty": 4,
-   "entry_time": "09:23:16",
-   "entry_price": 2346.6,
-   "candle_stop": 2386.8,
-   "sl_price": 2398.73,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -189.6,
-   "feed": "angel",
-   "ltp": 2394.0,
-   "pnl_pct": -2.02
+   "ltp": 4793.0,
+   "pnl_pct": -1.27
   },
   {
    "id": 132,
@@ -79,29 +60,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -24.4,
+   "pnl": -36.4,
    "feed": "angel",
-   "ltp": 2284.7,
-   "pnl_pct": -0.27
-  },
-  {
-   "id": 133,
-   "date": "2026-10-01",
-   "setup": "oh",
-   "symbol": "MAXHEALTH",
-   "side": "SELL",
-   "qty": 10,
-   "entry_time": "09:23:16",
-   "entry_price": 909.2,
-   "candle_stop": 919.9,
-   "sl_price": 924.5,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -99.0,
-   "feed": "angel",
-   "ltp": 919.1,
-   "pnl_pct": -1.09
+   "ltp": 2287.7,
+   "pnl_pct": -0.4
   },
   {
    "id": 134,
@@ -117,10 +79,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -17.98,
+   "pnl": -4.96,
    "feed": "angel",
-   "ltp": 159.44,
-   "pnl_pct": -0.18
+   "ltp": 159.65,
+   "pnl_pct": -0.05
   },
   {
    "id": 135,
@@ -136,10 +98,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -23.6,
+   "pnl": -19.2,
    "feed": "angel",
-   "ltp": 2067.9,
-   "pnl_pct": -0.28
+   "ltp": 2069.0,
+   "pnl_pct": -0.23
   },
   {
    "id": 136,
@@ -155,10 +117,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -18.2,
+   "pnl": -11.2,
    "feed": "angel",
-   "ltp": 355.55,
-   "pnl_pct": -0.18
+   "ltp": 355.8,
+   "pnl_pct": -0.11
   },
   {
    "id": 137,
@@ -174,10 +136,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 18.0,
+   "pnl": 23.5,
    "feed": "angel",
-   "ltp": 962.25,
-   "pnl_pct": 0.19
+   "ltp": 962.8,
+   "pnl_pct": 0.24
   },
   {
    "id": 138,
@@ -193,13 +155,47 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 46.0,
+   "pnl": 36.0,
    "feed": "angel",
-   "ltp": 8115.0,
-   "pnl_pct": 0.57
+   "ltp": 8105.0,
+   "pnl_pct": 0.45
   }
  ],
  "closed": [
+  {
+   "id": 131,
+   "date": "2026-10-01",
+   "setup": "oh",
+   "symbol": "TIINDIA",
+   "side": "SELL",
+   "qty": 4,
+   "entry_time": "09:23:16",
+   "entry_price": 2346.6,
+   "candle_stop": 2386.8,
+   "sl_price": 2398.73,
+   "exit_time": "09:40:22",
+   "exit_price": 2398.73,
+   "reason": "SL",
+   "pnl": -208.52,
+   "feed": "angel"
+  },
+  {
+   "id": 133,
+   "date": "2026-10-01",
+   "setup": "oh",
+   "symbol": "MAXHEALTH",
+   "side": "SELL",
+   "qty": 10,
+   "entry_time": "09:23:16",
+   "entry_price": 909.2,
+   "candle_stop": 919.9,
+   "sl_price": 924.5,
+   "exit_time": "09:40:22",
+   "exit_price": 924.5,
+   "reason": "SL",
+   "pnl": -153.0,
+   "feed": "angel"
+  },
   {
    "id": 127,
    "date": "2026-09-30",
@@ -2301,9 +2297,9 @@
    "ol": 5,
    "oh": 4,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -313.95
+   "losses": 2,
+   "pnl": -361.52,
+   "cum": -675.47
   }
  ]
 }

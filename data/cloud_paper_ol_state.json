@@ -2133,11 +2133,11 @@
    "entry_price": 2346.6,
    "candle_stop": 2386.8,
    "sl_price": 2398.73,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "09:40:22",
+   "exit_price": 2398.73,
+   "reason": "SL",
+   "pnl": -208.52,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {
@@ -2169,11 +2169,11 @@
    "entry_price": 909.2,
    "candle_stop": 919.9,
    "sl_price": 924.5,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "09:40:22",
+   "exit_price": 924.5,
+   "reason": "SL",
+   "pnl": -153.0,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {
