@@ -361,7 +361,8 @@ main h3 .collapse-btn {
 
 <!-- ===== desk tabs: one click per category, lists collapsed by default ===== -->
 <div class="pt-tabs">
-  <button class="pt-tab active" data-panel="autoSection">⚡ Intraday O=L/O=H</button>
+  <button class="pt-tab active" data-panel="raceSection">🏆 October Race</button>
+  <button class="pt-tab" data-panel="autoSection">⚡ Intraday O=L/O=H</button>
   <button class="pt-tab" data-panel="qmSection">🧮 QM Swing ₹10L</button>
   <button class="pt-tab" data-panel="hmHtfSection">📈 HM Positional</button>
   <button class="pt-tab" data-panel="swingSection">🕯️ Candle Swing</button>
@@ -373,7 +374,29 @@ main h3 .collapse-btn {
 </div>
 
 <!-- ===================== AUTO O=L / O=H STRATEGY (LIVE) ===================== -->
-<section id="autoSection" class="pt-panel active">
+<!-- ===================== OCTOBER RACE — DESK LEADERBOARD ===================== -->
+<section id="raceSection" class="pt-panel active">
+  <h2 style="color:#ffd54f">
+    🏆 October Race — ₹1 Lakh per Setup
+    <span class="muted" style="font-size:0.75rem">— October mandate (1 Oct 2026): every desk races ₹1L; theta &amp; BTC theta may stretch to ₹1.5L for selling margin · QM stays on its ₹10L October directive (ranked on % so it's fair) · old caps like 5 trades/setup stay where they fit the ₹1L book · ranked by October realized P&amp;L ÷ assigned capital · updates every minute</span>
+  </h2>
+  <div id="raceStatus" class="flash">Loading October leaderboard…</div>
+
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">🥇 Leader</span><span class="sum-value" style="color:#ffd54f" id="raceLeader">—</span></div>
+    <div class="sum-card"><span class="sum-label">Best Return (Oct)</span><span class="sum-value" style="color:var(--green)" id="raceBest">—</span></div>
+    <div class="sum-card"><span class="sum-label">Total Realized (Oct)</span><span class="sum-value" id="raceTotal">—</span></div>
+    <div class="sum-card"><span class="sum-label">Desks Trading</span><span class="sum-value" id="raceLive">—</span></div>
+  </div>
+
+  <h3 style="color:var(--green)">📊 Standings <span class="muted">(October closed-trade P&amp;L only; ⚠ = no October trades yet)</span></h3>
+  <div class="table-wrap" id="raceTableWrap"><div class="flash">Computing standings…</div></div>
+
+  <h3 style="margin-top:2rem">💡 Mandate Notes</h3>
+  <div class="flash" id="raceNotes">· OL/OH: ₹10k × up to 10 positions (5 per setup × 2 setups) = ₹1L max — 5-per-setup rule unchanged · HM Positional: ₹20k × 5 open = ₹1L · Theta/Mill: one ₹7.5k-margin spread at a time · BTC: defined-risk 0.01 BTC condor · Candle Swing &amp; GC sized within ₹1L · Manual: your trades, ₹1L book.</div>
+</section>
+
+<section id="autoSection" class="pt-panel">
   <h2 style="color:var(--accent)">
     🤖 Auto O=L / O=H Strategy
     <span class="muted" style="font-size:0.75rem">— live from the cloud paper engine</span>
@@ -1346,6 +1369,123 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         el.className = "flash";
         el.textContent = "⚠️ Could not load Daily Theta data yet — click ▶ Run scan now to trigger the first run.";
       });
+  }
+  load();
+  setInterval(load, 60000);
+})();
+</script>
+
+<script>
+/* ===== October Race — cross-desk leaderboard (mandate 1 Oct 2026).
+   Every desk gets Rs1L (theta/BTC may use Rs1.5L for margin); ranked on
+   current-month realized P&L / assigned capital. Updates every minute. */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  var NOW = new Date();
+  var MONTH = NOW.getFullYear() + "-" + String(NOW.getMonth() + 1).padStart(2, "0");
+  function esc(s) { var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function inr(n) {
+    if (n == null || isNaN(n)) return "—";
+    var s = Math.abs(Number(n)).toLocaleString("en-IN", {maximumFractionDigits: 0});
+    return (n < 0 ? "−₹" : "+₹") + s;
+  }
+  function oct(d) { return d != null && String(d).slice(0, 7) === MONTH; }
+  function tally(list, pickDate, pickPnl) {
+    var pnl = 0, w = 0, l = 0;
+    list.forEach(function (t) {
+      if (!oct(pickDate(t))) return;
+      var p = Number(pickPnl(t) || 0);
+      pnl += p; if (p > 0) w++; else l++;
+    });
+    return { pnl: pnl, w: w, l: l };
+  }
+  function getJSON(path) {
+    return fetch(base + path + "?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+  }
+  var DESKS = [
+    { name: "⚡ OL/OH Intraday", cap: 100000, src: "/data/paper_ol.json",
+      adapt: function (d) { return { t: tally((d && d.closed) || [], function (x) { return x.date; }, function (x) { return x.pnl; }),
+        open: (d && d.open) ? d.open.length : 0, ok: !!d }; } },
+    { name: "🧮 QM Swing (₹10L dir.)", cap: 1000000, src: "/data/paper_qm.json",
+      adapt: function (d) { var c = (d && d.closed) || [];
+        return { t: tally(c, function (x) { return x.exit_date || x.date; }, function (x) { return x.pnl; }),
+          open: d && d.open ? d.open.length + ((d.pending || []).length) : 0, ok: !!d }; } },
+    { name: "📈 HM Positional", cap: 100000, src: "/data/scanners/htf-hm-latest.json",
+      adapt: function (d) { return { t: tally((d && d.closed) || [], function (x) { return x.exit_date; }, function (x) { return x.pnl; }),
+        open: d && d.book ? d.book.open : 0, ok: !!d }; } },
+    { name: "🕯️ Candle Swing", cap: 100000, src: "/data/cloud_swing_state.json",
+      adapt: function (d) { var c = ((d && d.trades) || []).filter(function (x) { return x.status === "CLOSED"; });
+        /* swing state has no exit date — approximate: entry + sessions days */
+        return { t: tally(c, function (x) {
+            var dt = new Date(x.entry_date); dt.setDate(dt.getDate() + (x.sessions || 0));
+            return isNaN(dt) ? null : dt.toISOString().slice(0, 10);
+          }, function (x) { return x.pnl; }),
+          open: ((d && d.trades) || []).filter(function (x) { return x.status === "OPEN"; }).length, ok: !!d }; } },
+    { name: "🛡️ NIFTY Theta", cap: 150000, src: "/data/scanners/nifty-daily-theta-latest.json",
+      adapt: function (d) { return { t: tally(((d && d.trades) || []).filter(function (x) { return (x.status || "") === "CLOSED"; }),
+          function (x) { return x.exit_date || x.entry_date; }, function (x) { return x.pnl; }),
+        open: ((d && d.trades) || []).filter(function (x) { return (x.status || "") === "OPEN"; }).length, ok: !!d }; } },
+    { name: "🏭 Premium Mill", cap: 100000, src: "/data/scanners/nifty-premium-mill-latest.json",
+      adapt: function (d) { return { t: tally(((d && d.trades) || []).filter(function (x) { return (x.status || "") === "CLOSED"; }),
+          function (x) { return x.exit_date || x.entry_date; }, function (x) { return x.pnl; }),
+        open: ((d && d.trades) || []).filter(function (x) { return (x.status || "") === "OPEN"; }).length, ok: !!d }; } },
+    { name: "₿ BTC Theta", cap: 150000, src: "/data/paper_btc_theta.json",
+      adapt: function (d) { return { t: tally((d && d.closed) || [], function (x) { return x.exit_at; }, function (x) { return x.pnl_inr; }),
+        open: (d && d.open) ? d.open.length : 0, ok: !!d }; } },
+    { name: "🥇 Gold/BTC", cap: 100000, src: "/data/cloud_paper_gc_state.json",
+      adapt: function (d) { var c = ((d && d.trades) || []).filter(function (x) { return x.status === "CLOSED"; });
+        return { t: tally(c, function (x) { return x.exit_time; }, function (x) { return x.pnl; }),
+          open: ((d && d.trades) || []).filter(function (x) { return x.status === "OPEN"; }).length, ok: !!d }; } },
+    { name: "✋ Manual", cap: 100000, src: null,
+      adapt: function () { var ts = [];
+        try { ts = JSON.parse(localStorage.getItem("mahi_paper_trades") || "[]"); } catch (e) {}
+        var c = ts.filter(function (x) { return x.exit_date; });
+        return { t: tally(c, function (x) { return x.exit_date; }, function (x) { return x.pnl; }),
+          open: ts.length - c.length, ok: true }; } }
+  ];
+  function load() {
+    Promise.all(DESKS.map(function (dsk) {
+      var p = dsk.src ? getJSON(dsk.src) : Promise.resolve(null);
+      return p.then(function (d) { return { d: dsk, r: dsk.adapt(d) }; });
+    })).then(function (rows) {
+      rows.forEach(function (r) { r.ret = r.r.t.pnl / r.d.cap * 100; });
+      rows.sort(function (a, b) { return b.ret - a.ret; });
+      var medal = ["🥇", "🥈", "🥉"];
+      var live = rows.filter(function (r) { return r.r.t.w + r.r.t.l > 0; }).length;
+      var total = rows.reduce(function (a, r) { return a + r.r.t.pnl; }, 0);
+      document.getElementById("raceLeader").textContent = rows[0].r.t.w + rows[0].r.t.l > 0
+        ? rows[0].name : "—";
+      var best = document.getElementById("raceBest");
+      best.textContent = rows[0].r.t.w + rows[0].r.t.l > 0
+        ? rows[0].ret.toFixed(2) + "%" : "—";
+      var tot = document.getElementById("raceTotal");
+      tot.textContent = inr(total); tot.className = "sum-value " + (total >= 0 ? "pos" : "neg");
+      document.getElementById("raceLive").textContent = live + "/" + rows.length;
+      document.getElementById("raceStatus").className = "flash";
+      document.getElementById("raceStatus").innerHTML =
+        "October mandate month: <strong>" + esc(MONTH) + "</strong> · ranked on realized P&L of trades closed this month ÷ assigned capital · QM compared on % despite its ₹10L book";
+      var trs = rows.map(function (r, i) {
+        var traded = r.r.t.w + r.r.t.l > 0;
+        return "<tr" + (traded ? "" : ' style="opacity:0.55"') + "><td>" +
+          (traded ? (medal[i] || (i + 1)) : (i + 1)) + "</td><td><strong>" + esc(r.d.name) +
+          "</strong></td><td>₹" + (r.d.cap / 100000).toFixed(1).replace(/\.0$/, "") + "L" +
+          (r.d.cap === 150000 ? ' <span class="muted">(selling)</span>' : "") + "</td>" +
+          '<td class="' + (r.r.t.pnl > 0 ? "ok" : (r.r.t.pnl < 0 ? "bad" : "")) + '">' + inr(r.r.t.pnl) + "</td>" +
+          '<td class="' + (r.ret > 0 ? "ok" : (r.ret < 0 ? "bad" : "")) + '">' + (traded ? r.ret.toFixed(2) + "%" : "—") + "</td>" +
+          "<td>" + (traded ? r.r.t.w + "W / " + r.r.t.l + "L" : "") + "</td>" +
+          "<td>" + r.r.open + "</td><td>" + (r.r.ok ? (traded ? "✅ trading" : "⚠️ no " + MONTH + " trades yet") : "⚠️ no data") + "</td></tr>";
+      });
+      document.getElementById("raceTableWrap").innerHTML =
+        "<table><thead><tr><th>#</th><th>Desk</th><th>Capital</th><th>Month P&L</th><th>Return</th><th>Trades</th><th>Open</th><th>Status</th></tr></thead><tbody>" +
+        trs.join("") + "</tbody></table>";
+    });
   }
   load();
   setInterval(load, 60000);

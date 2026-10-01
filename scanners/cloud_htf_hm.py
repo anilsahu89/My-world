@@ -47,7 +47,7 @@ DATA = ROOT / "data"
 TRADES_FILE = BASE / "papertrades" / "htf_hm_trades.csv"
 OUT_DEFAULT = DATA / "scanners" / "htf-hm-latest.json"
 
-CAPITAL, LOT = 200_000.0, 25_000.0
+CAPITAL, LOT = 100_000.0, 20_000.0   # October mandate: Rs1L per desk (1 Oct 2026)
 MAX_OPEN, MAX_NEW_PER_WEEK = 5, 2
 COST = 0.003
 RSI_BOOK = 86
@@ -291,8 +291,9 @@ def run(output: Path) -> dict:
                  "RSI9>50 & red WMA21(RSI)<RSI9 & green WMA3(RSI)>red newly "
                  "true on a completed week; exit weekly RSI<50 (TREND-END) or "
                  ">=86 (RSI86-BOOK). 5y backtest PF 2.19, avg +4.8%/trade. "
-                 "Book: Rs2L, Rs25k lots, max 5 open, max 2 new/week. "
-                 "Monthly tab = investing watchlist (RSI9>50, red inside)."),
+                 "Book: Rs1L (Oct mandate), Rs20k lots, max 5 open, max 2 "
+                 "new/week. Monthly tab = investing watchlist (RSI9>50, red "
+                 "inside)."),
         "book": {"capital": CAPITAL, "open": len(open_syms), "invested": invested,
                  "realized": round(sum(t["pnl"] for t in closed), 2),
                  "wins": len(wins), "losses": len(closed) - len(wins),
