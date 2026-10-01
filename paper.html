@@ -363,7 +363,7 @@ main h3 .collapse-btn {
 <div class="pt-tabs">
   <button class="pt-tab active" data-panel="raceSection">🏆 October Race</button>
   <button class="pt-tab" data-panel="autoSection">⚡ Intraday O=L/O=H</button>
-  <button class="pt-tab" data-panel="qmSection">🧮 QM Swing ₹10L</button>
+  <button class="pt-tab" data-panel="qmSection">🧮 QM Swing</button>
   <button class="pt-tab" data-panel="hmHtfSection">📈 HM Positional</button>
   <button class="pt-tab" data-panel="swingSection">🕯️ Candle Swing</button>
   <button class="pt-tab" data-panel="thetaSection">🛡️ NIFTY Theta</button>
@@ -378,7 +378,7 @@ main h3 .collapse-btn {
 <section id="raceSection" class="pt-panel active">
   <h2 style="color:#ffd54f">
     🏆 October Race — ₹1 Lakh per Setup
-    <span class="muted" style="font-size:0.75rem">— October mandate (1 Oct 2026): every desk races ₹1L; theta &amp; BTC theta may stretch to ₹1.5L for selling margin · QM stays on its ₹10L October directive (ranked on % so it's fair) · old caps like 5 trades/setup stay where they fit the ₹1L book · ranked by October realized P&amp;L ÷ assigned capital · updates every minute</span>
+    <span class="muted" style="font-size:0.75rem">— October mandate (1 Oct 2026): every desk races ₹1L; theta &amp; BTC theta may stretch to ₹1.5L for selling margin · QM moved to ₹1L on 1 Oct — all nine desks now race equal ₹1L books (theta/BTC 1.5L) · old caps like 5 trades/setup stay where they fit the ₹1L book · ranked by October realized P&amp;L ÷ assigned capital · updates every minute</span>
   </h2>
   <div id="raceStatus" class="flash">Loading October leaderboard…</div>
 
@@ -1413,7 +1413,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     { name: "⚡ OL/OH Intraday", cap: 100000, src: "/data/paper_ol.json",
       adapt: function (d) { return { t: tally((d && d.closed) || [], function (x) { return x.date; }, function (x) { return x.pnl; }),
         open: (d && d.open) ? d.open.length : 0, ok: !!d }; } },
-    { name: "🧮 QM Swing (₹10L dir.)", cap: 1000000, src: "/data/paper_qm.json",
+    { name: "🧮 QM Swing", cap: 100000, src: "/data/paper_qm.json",
       adapt: function (d) { var c = (d && d.closed) || [];
         return { t: tally(c, function (x) { return x.exit_date || x.date; }, function (x) { return x.pnl; }),
           open: d && d.open ? d.open.length + ((d.pending || []).length) : 0, ok: !!d }; } },
@@ -1470,7 +1470,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       document.getElementById("raceLive").textContent = live + "/" + rows.length;
       document.getElementById("raceStatus").className = "flash";
       document.getElementById("raceStatus").innerHTML =
-        "October mandate month: <strong>" + esc(MONTH) + "</strong> · ranked on realized P&L of trades closed this month ÷ assigned capital · QM compared on % despite its ₹10L book";
+        "October mandate month: <strong>" + esc(MONTH) + "</strong> · ranked on realized P&L of trades closed this month ÷ assigned capital · QM re-based to ₹1L/₹5k lots on 1 Oct (book was empty — clean switch)";
       var trs = rows.map(function (r, i) {
         var traded = r.r.t.w + r.r.t.l > 0;
         return "<tr" + (traded ? "" : ' style="opacity:0.55"') + "><td>" +

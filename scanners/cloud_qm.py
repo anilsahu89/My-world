@@ -17,7 +17,7 @@ signals come from "your own system". Three signal families feed the desk:
           Weekly/monthly rank over available history (5y download).
 
 Money management (the class, verbatim):
-  ₹10L paper capital · ₹30k (3%) lots · max 2 NEW entries/day
+  ₹1L paper capital (Oct race) · ₹5k (5%) lots · max 2 NEW entries/day
   +12% -> book half, trail rest at cost · RSI9>=86 -> exit all at close
   never book losses: -50% -> average ONE more lot
   circuit breaker: >50% of capital stuck in losers -> no new entries
@@ -44,8 +44,8 @@ OUT = DATA / "paper_qm.json"
 PICKS = DATA / "qm_picks.json"
 IST = ZoneInfo("Asia/Kolkata")
 
-CAPITAL = 1_000_000.0
-LOT = 30_000.0
+CAPITAL = 100_000.0   # October race mandate (1 Oct 2026): every desk Rs1L
+LOT = 5_000.0          # 5% lots — max 16 open x Rs5k = Rs80k fits the Rs1L book
 MAX_NEW_PER_DAY = 2
 MAX_OPEN = 16
 BOOK_AT = 0.12
@@ -408,7 +408,7 @@ def export(state: dict) -> dict:
         "updated_at": now().strftime("%d %b %Y %H:%M:%S IST"),
         "rule": "QM (Quantity Model, NK's 'Trading as a Business'): signals "
                 "from HM-buy / 52W-high / BB-Blast(d,w,m) on NIFTY-500 · "
-                "₹30k (3% of ₹10L) lots · max 2 new/day · +12% book half & "
+                "₹5k (5% of ₹1L) lots · max 2 new/day · +12% book half & "
                 "trail at cost · RSI9≥86 exit all · never book losses, "
                 "average once at −50% · 50%-blocked circuit breaker",
         "note": "Daily-bar desk, scans after 17:30 IST. Position sizing is "
