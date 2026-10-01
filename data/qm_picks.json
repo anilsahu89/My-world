@@ -1,10 +1,39 @@
 {
- "date": "2026-09-30",
- "updated_at": "30 Sep 2026 17:27:52 IST",
+ "date": "2026-10-01",
+ "updated_at": "01 Oct 2026 17:28:12 IST",
  "nifty_gate": {
   "hm_buy_state": false,
-  "above_sma20": false
+  "above_sma20": false,
+  "note": "informational only — entry gates removed 1 Oct (RS-50 is the filter)"
  },
  "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM buy state) · 52-week closing high (vol ≥1.5x) · BB Blast squeeze on daily/weekly/monthly (NIFTY > SMA20) · 50-day return must beat NIFTY (RS-50 gate) · NIFTY-500 · ₹5cr turnover · entries capped 2/day by the desk",
- "signals": []
+ "signals": [
+  {
+   "sym": "LEMONTREE",
+   "setup": "QM-HM",
+   "rsi": 55.8,
+   "note": "RSI9 56 V-turn above rising SMA20",
+   "close": 107.67,
+   "date": "2026-10-01",
+   "rs50": 0.978
+  },
+  {
+   "sym": "LALPATHLAB",
+   "setup": "QM-52W",
+   "rsi": 82.2,
+   "note": "new 52w closing high 2005.1, vol 1.6x",
+   "close": 2005.1,
+   "date": "2026-10-01",
+   "rs50": 1.188
+  },
+  {
+   "sym": "WELSPUNLIV",
+   "setup": "QM-52W",
+   "rsi": 87.3,
+   "note": "new 52w closing high 239.2, vol 4.3x",
+   "close": 239.17,
+   "date": "2026-10-01",
+   "rs50": 1.45
+  }
+ ]
 }

@@ -1,7 +1,50 @@
 {
  "version": 1,
- "next_id": 1,
- "trades": [],
- "done_date": "2026-09-30",
+ "next_id": 3,
+ "trades": [
+  {
+   "id": 1,
+   "signal_date": "2026-10-01",
+   "symbol": "LEMONTREE",
+   "setup": "QM-HM",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "invested": null,
+   "booked": 0.0,
+   "avg_count": 0,
+   "trail": false,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null,
+   "mark": null,
+   "note": "RSI9 56 V-turn above rising SMA20"
+  },
+  {
+   "id": 2,
+   "signal_date": "2026-10-01",
+   "symbol": "LALPATHLAB",
+   "setup": "QM-52W",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "invested": null,
+   "booked": 0.0,
+   "avg_count": 0,
+   "trail": false,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null,
+   "mark": null,
+   "note": "new 52w closing high 2005.1, vol 1.6x"
+  }
+ ],
+ "done_date": "2026-10-01",
  "circuit_breaker": false
 }
