@@ -220,21 +220,24 @@ def resample(df: pd.DataFrame, rule: str, complete_only: bool) -> pd.DataFrame:
 
 def scan_signals(df: pd.DataFrame, nifty_ok_hm: bool,
                  nifty_ok_sma: bool) -> list[dict]:
+    # 1 Oct 2026: the SMA20/HM blanket gates are REMOVED — the shipped desk
+    # was stricter than the config its backtest validated (rs50+bb-first,
+    # PF 1.81/+127k vs gate 1.86/+127k — identical); RS-50 already filters
+    # weak names, and the blanket gate silenced the whole book through
+    # below-SMA20 stretches (user directive: keep trading off closes).
     sigs = []
-    if nifty_ok_hm:
-        s = sig_hm(df)
+    s = sig_hm(df)
+    if s:
+        sigs.append(s)
+    s = sig_52w(df)
+    if s:
+        sigs.append(s)
+    for rule, label, complete in (("W-FRI", "w", True), ("ME", "m", True),
+                                  (None, "d", False)):
+        bars = df if rule is None else resample(df, rule, complete)
+        s = _bb_blast(bars, 100, label)
         if s:
             sigs.append(s)
-    if nifty_ok_sma:
-        s = sig_52w(df)
-        if s:
-            sigs.append(s)
-        for rule, label, complete in (("W-FRI", "w", True), ("ME", "m", True),
-                                      (None, "d", False)):
-            bars = df if rule is None else resample(df, rule, complete)
-            s = _bb_blast(bars, 100, label)
-            if s:
-                sigs.append(s)
     for s in sigs:
         s["close"] = round(float(df["Close"].iloc[-1]), 2)
         s["date"] = str(df.index[-1].date())
@@ -358,7 +361,8 @@ def run_day(dry: bool = False) -> dict:
         PICKS.write_text(json.dumps({
             "date": today,
             "updated_at": now().strftime("%d %b %Y %H:%M:%S IST"),
-            "nifty_gate": {"hm_buy_state": nifty_hm, "above_sma20": nifty_sma},
+            "nifty_gate": {"hm_buy_state": nifty_hm, "above_sma20": nifty_sma,
+                             "note": "informational only — entry gates removed 1 Oct (RS-50 is the filter)"},
             "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM "
                     "buy state) · 52-week closing high (vol ≥1.5x) · BB Blast "
                     "squeeze on daily/weekly/monthly (NIFTY > SMA20) · "
