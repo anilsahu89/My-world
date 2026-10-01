@@ -523,6 +523,45 @@ def export_f3_picks(state: dict, today: str) -> None:
     })
 
 
+def refresh_hm_quotes() -> None:
+    """Live LTP + unrealised P&L for the HM Positional desk's OPEN rows.
+
+    The full HM scan (cloud_htf_hm.py) runs once post-close; this enriches
+    the published JSON's open rows with a fresh price on every market-hours
+    engine tick so the paper page's LTP / Live P&L columns move during the
+    day. Display-only: the trade CSV is untouched.
+    """
+    path = DATA / "scanners" / "htf-hm-latest.json"
+    try:
+        data = read_json(path, {})
+        opens = [t for t in data.get("open", []) if t.get("status") == "OPEN"]
+        if not opens:
+            return
+        bars = yf.download([f"{t['symbol']}.NS" for t in opens], period="1d",
+                           interval="5m", group_by="ticker", progress=False,
+                           threads=True, auto_adjust=False)
+        changed = False
+        for t in opens:
+            try:
+                frame = flatten(bars[f"{t['symbol']}.NS"].copy())
+                if frame is None or frame.empty:
+                    continue
+                ltp = float(frame["Close"].iloc[-1])
+                if not math.isfinite(ltp) or ltp <= 0:
+                    continue
+                t["ltp"] = round(ltp, 2)
+                t["live_pnl"] = round(t["qty"] * (ltp - t["entry"]), 2)
+                t["live_pct"] = round((ltp / t["entry"] - 1) * 100, 2)
+                changed = True
+            except (KeyError, TypeError, ValueError, IndexError):
+                continue
+        if changed:
+            data["quote_time"] = now().strftime("%d %b %H:%M:%S IST")
+            write_json(path, data)
+    except Exception as e:
+        print(f"hm quote refresh failed: {e}", flush=True)
+
+
 def update_nse(state: dict) -> dict:
     moment = now()
     quotes = nse_quotes()
@@ -774,6 +813,7 @@ def main() -> None:
         snapshot = update_nse(state)
         write_json(NSE_STATE, state)
         write_json(NSE_SNAPSHOT, snapshot)
+        refresh_hm_quotes()
     if args.desk in ("gc", "all"):
         state = read_json(GC_STATE, empty_state())
         snapshot = update_gc(state)
@@ -796,6 +836,11 @@ def main() -> None:
             snapshot = update_nse(state)
             write_json(NSE_STATE, state)
             write_json(NSE_SNAPSHOT, snapshot)
+            refresh_hm_quotes()
+        elif moment.weekday() < 5 and time(15, 45) < moment.time() < time(22, 0):
+            # post-close ticks still refresh the HM desk's LTP columns to
+            # the day's closing price (cheap: ≤5 symbols)
+            refresh_hm_quotes()
         if moment.weekday() < 5 and time(17, 35) <= moment.time() < time(22, 0):
             import cloud_swing
             if read_json(cloud_swing.STATE_FILE, {}).get("done_date") \

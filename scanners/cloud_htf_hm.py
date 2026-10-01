@@ -284,6 +284,17 @@ def run(output: Path) -> dict:
     closed = [t for t in trades if t["status"] == "CLOSED"]
     wins = [t for t in closed if t["pnl"] > 0]
     invested = sum(t["invested"] for t in trades if t["status"] == "OPEN")
+    # live columns for the paper page: today's close per open position
+    # (market-hours ticks in cloud_papertrade.refresh_hm_quotes keep them
+    # moving intraday; display-only fields, never written to the CSV)
+    for t in trades:
+        if t["status"] != "OPEN":
+            continue
+        px = px_today.get(t["symbol"])
+        if px and px > 0:
+            t["ltp"] = round(px, 2)
+            t["live_pnl"] = round(t["qty"] * (px - t["entry"]), 2)
+            t["live_pct"] = round((px / t["entry"] - 1) * 100, 2)
     out = {
         "date": today.isoformat(),
         "updated_at": now().strftime("%d %b %Y %H:%M:%S IST"),

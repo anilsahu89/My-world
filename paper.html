@@ -1627,15 +1627,35 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
 
     var open = d.open || [], closed = (d.closed || []).slice().reverse();
     document.getElementById("hmOpenCount").textContent = "(" + open.length + ")";
+    var liveTotal = 0, anyLive = false;
     var ow = document.getElementById("hmOpenWrap");
     ow.innerHTML = open.length ? tbl(
-      ["Entry", "Symbol", "Signal Wk", "Qty", "Entry ₹", "RSI@", "Invested ₹"],
+      ["Entry", "Symbol", "Signal Wk", "Qty", "Entry ₹",
+       '<span title="last traded price — engine refreshes it every market-hours tick; post-close it is the day\'s close (Yahoo, ~15 min delayed)">LTP ₹</span>',
+       '<span title="unrealised, at the LTP shown">Live P&L</span>',
+       "RSI@", "Invested ₹"],
       open.map(function (t) {
+        var ltp = Number(t.ltp), pnl = Number(t.live_pnl), pct = Number(t.live_pct);
+        var hasLive = t.ltp != null && isFinite(ltp) && ltp > 0;
+        if (hasLive) { liveTotal += pnl; anyLive = true; }
         return "<tr><td>" + esc(t.entry_date) + "</td><td><strong>" + esc(t.symbol) +
           "</strong></td><td>" + esc(t.signal_date) + "</td><td>" + esc(t.qty) +
-          "</td><td>" + esc(t.entry) + "</td><td>" + esc(t.rsi_entry) +
+          "</td><td>" + esc(t.entry) + "</td><td>" +
+          (hasLive ? "₹" + ltp.toLocaleString("en-IN",
+              { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : '<span class="muted">—</span>') + '</td><td class="' +
+          (hasLive ? cls(pnl) : "") + '">' +
+          (hasLive ? inr(pnl) + " <span class='muted' style='font-size:0.75em'>(" +
+                     (pct > 0 ? "+" : "") + pct.toFixed(2) + "%)</span>"
+                   : '<span class="muted">—</span>') +
+          "</td><td>" + esc(t.rsi_entry) +
           "</td><td>" + esc(t.invested) + "</td></tr>";
       })) : '<div class="flash">No open HM positions — entries wait for a fresh weekly momentum phase (max 2/week, 5 open).</div>';
+    if (anyLive) {
+      st.innerHTML += ' &nbsp;·&nbsp; open P&L <strong class="' + cls(liveTotal) +
+        '">' + inr(liveTotal) + "</strong> (live" +
+        (d.quote_time ? " · " + esc(d.quote_time) : "") + ")";
+    }
 
     document.getElementById("hmClosedCount").textContent = "(" + closed.length + ")";
     var cw = document.getElementById("hmClosedWrap");
