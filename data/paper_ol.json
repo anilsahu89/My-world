@@ -1,5 +1,5 @@
 {
- "updated_at": "01 Oct 2026 10:39:35 IST",
+ "updated_at": "01 Oct 2026 10:42:59 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -15,37 +15,18 @@
   "vol_note": "volume cap removed 2026-09-28 — est. volume ranks picks only"
  },
  "summary": {
-  "open_count": 7,
-  "closed_count": 122,
+  "open_count": 6,
+  "closed_count": 123,
   "trades_today": 9,
-  "today_pnl": -361.52,
-  "realized_total": -675.47,
-  "unrealized": -151.74,
+  "today_pnl": -505.52,
+  "realized_total": -819.47,
+  "unrealized": -3.34,
   "wins": 61,
-  "losses": 61,
-  "win_rate": 50.0,
+  "losses": 62,
+  "win_rate": 49.6,
   "days": 18
  },
  "open": [
-  {
-   "id": 130,
-   "date": "2026-10-01",
-   "setup": "oh",
-   "symbol": "TORNTPHARM",
-   "side": "SELL",
-   "qty": 2,
-   "entry_time": "09:23:16",
-   "entry_price": 4733.0,
-   "candle_stop": 4800.0,
-   "sl_price": 4824.0,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -144.0,
-   "feed": "angel",
-   "ltp": 4805.0,
-   "pnl_pct": -1.52
-  },
   {
    "id": 132,
    "date": "2026-10-01",
@@ -60,10 +41,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -41.2,
+   "pnl": -30.0,
    "feed": "angel",
-   "ltp": 2288.9,
-   "pnl_pct": -0.45
+   "ltp": 2286.1,
+   "pnl_pct": -0.33
   },
   {
    "id": 134,
@@ -79,10 +60,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -22.94,
+   "pnl": -16.74,
    "feed": "angel",
-   "ltp": 159.36,
-   "pnl_pct": -0.23
+   "ltp": 159.46,
+   "pnl_pct": -0.17
   },
   {
    "id": 135,
@@ -98,10 +79,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 47.6,
+   "pnl": 45.2,
    "feed": "angel",
-   "ltp": 2085.7,
-   "pnl_pct": 0.57
+   "ltp": 2085.1,
+   "pnl_pct": 0.54
   },
   {
    "id": 136,
@@ -117,10 +98,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -32.2,
+   "pnl": -37.8,
    "feed": "angel",
-   "ltp": 355.05,
-   "pnl_pct": -0.32
+   "ltp": 354.85,
+   "pnl_pct": -0.38
   },
   {
    "id": 137,
@@ -136,10 +117,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 20.5,
+   "pnl": 16.5,
    "feed": "angel",
-   "ltp": 962.5,
-   "pnl_pct": 0.21
+   "ltp": 962.1,
+   "pnl_pct": 0.17
   },
   {
    "id": 138,
@@ -155,13 +136,30 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 20.5,
+   "pnl": 19.5,
    "feed": "angel",
-   "ltp": 8089.5,
-   "pnl_pct": 0.25
+   "ltp": 8088.5,
+   "pnl_pct": 0.24
   }
  ],
  "closed": [
+  {
+   "id": 130,
+   "date": "2026-10-01",
+   "setup": "oh",
+   "symbol": "TORNTPHARM",
+   "side": "SELL",
+   "qty": 2,
+   "entry_time": "09:23:16",
+   "entry_price": 4733.0,
+   "candle_stop": 4800.0,
+   "sl_price": 4824.0,
+   "exit_time": "10:40:00",
+   "exit_price": 4805.0,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -144.0,
+   "feed": "angel"
+  },
   {
    "id": 131,
    "date": "2026-10-01",
@@ -2297,9 +2295,9 @@
    "ol": 5,
    "oh": 4,
    "wins": 0,
-   "losses": 2,
-   "pnl": -361.52,
-   "cum": -675.47
+   "losses": 3,
+   "pnl": -505.52,
+   "cum": -819.47
   }
  ]
 }
