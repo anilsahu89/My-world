@@ -790,25 +790,23 @@ main h3 .collapse-btn {
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
 <p class="hint"><strong>Manual trades below</strong> — taken by hand from the Alerts tab (kept separate from the automated strategy above).</p>
 
-<!-- ===================== SUMMARY CARDS ===================== -->
+<!-- ===================== MANUAL BOOK SUMMARY CARDS ===================== -->
 <div class="summary-cards">
   <div class="sum-card">
     <span class="sum-label">Open Positions</span>
-    <span class="sum-value" style="color:var(--green)">0</span>
+    <span class="sum-value" style="color:var(--green)" id="manOpen">0</span>
   </div>
   <div class="sum-card">
     <span class="sum-label">Closed Trades</span>
-    <span class="sum-value">0</span>
+    <span class="sum-value" id="manClosed">0</span>
   </div>
   <div class="sum-card">
     <span class="sum-label">Total Realized P&L</span>
-    <span class="sum-value pos">
-      ₹+0.00
-    </span>
+    <span class="sum-value pos" id="manTotal">₹+0.00</span>
   </div>
   <div class="sum-card">
     <span class="sum-label">Win Rate</span>
-    <span class="sum-value">0%</span>
+    <span class="sum-value" id="manWin">0%</span>
   </div>
 </div>
 
@@ -1417,6 +1415,22 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     });
     return { pnl: pnl, w: w, l: l };
   }
+  // most recent completed trade, ANY month — so every close (+/−) shows on
+  // the board even before the desk books an October trade
+  function lastClose(list, pickDate, pickPnl) {
+    var best = null;
+    list.forEach(function (x) {
+      var d = pickDate(x), key = d == null ? "" : String(d).slice(0, 10);
+      if (!key) return;
+      if (!best || key > best.key) best = { key: key, pnl: Number(pickPnl(x) || 0) };
+    });
+    return best;
+  }
+  var MONS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  function fmtDay(iso) {
+    var d = new Date(iso + "T00:00:00");
+    return isNaN(d) ? iso : d.getDate() + " " + MONS[d.getMonth()];
+  }
   function getJSON(path) {
     return fetch(base + path + "?t=" + Date.now())
       .then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
@@ -1424,13 +1438,16 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
   var DESKS = [
     { name: "⚡ OL/OH Intraday", cap: 100000, src: "/data/paper_ol.json",
       adapt: function (d) { return { t: tally((d && d.closed) || [], function (x) { return x.date; }, function (x) { return x.pnl; }),
+        last: lastClose((d && d.closed) || [], function (x) { return x.date; }, function (x) { return x.pnl; }),
         open: (d && d.open) ? d.open.length : 0, ok: !!d }; } },
     { name: "🧮 QM Swing", cap: 100000, src: "/data/paper_qm.json",
       adapt: function (d) { var c = (d && d.closed) || [];
         return { t: tally(c, function (x) { return x.exit_date || x.date; }, function (x) { return x.pnl; }),
+          last: lastClose(c, function (x) { return x.exit_date || x.date; }, function (x) { return x.pnl; }),
           open: d && d.open ? d.open.length + ((d.pending || []).length) : 0, ok: !!d }; } },
     { name: "📈 HM Positional", cap: 100000, src: "/data/scanners/htf-hm-latest.json",
       adapt: function (d) { return { t: tally((d && d.closed) || [], function (x) { return x.exit_date; }, function (x) { return x.pnl; }),
+        last: lastClose((d && d.closed) || [], function (x) { return x.exit_date; }, function (x) { return x.pnl; }),
         open: d && d.book ? d.book.open : 0, ok: !!d }; } },
     { name: "🕯️ Candle Swing", cap: 100000, src: "/data/cloud_swing_state.json",
       adapt: function (d) { var c = ((d && d.trades) || []).filter(function (x) { return x.status === "CLOSED"; });
@@ -1441,25 +1458,36 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
           }, function (x) { return x.pnl; }),
           open: ((d && d.trades) || []).filter(function (x) { return x.status === "OPEN"; }).length, ok: !!d }; } },
     { name: "🛡️ NIFTY Theta", cap: 150000, src: "/data/scanners/nifty-daily-theta-latest.json",
-      adapt: function (d) { return { t: tally(((d && d.trades) || []).filter(function (x) { return (x.status || "") === "CLOSED"; }),
-          function (x) { return x.exit_date || x.entry_date; }, function (x) { return x.pnl; }),
-        open: ((d && d.trades) || []).filter(function (x) { return (x.status || "") === "OPEN"; }).length, ok: !!d }; } },
+      adapt: function (d) { var c = ((d && d.trades) || []).filter(function (x) { return (x.status || "") === "CLOSED"; });
+        return { t: tally(c, function (x) { return x.exit_date || x.entry_date; }, function (x) { return x.pnl; }),
+          last: lastClose(c, function (x) { return x.exit_date || x.entry_date; }, function (x) { return x.pnl; }),
+          open: ((d && d.trades) || []).filter(function (x) { return (x.status || "") === "OPEN"; }).length, ok: !!d }; } },
     { name: "🏭 Premium Mill", cap: 100000, src: "/data/scanners/nifty-premium-mill-latest.json",
-      adapt: function (d) { return { t: tally(((d && d.trades) || []).filter(function (x) { return (x.status || "") === "CLOSED"; }),
-          function (x) { return x.exit_date || x.entry_date; }, function (x) { return x.pnl; }),
-        open: ((d && d.trades) || []).filter(function (x) { return (x.status || "") === "OPEN"; }).length, ok: !!d }; } },
+      adapt: function (d) { var c = ((d && d.trades) || []).filter(function (x) { return (x.status || "") === "CLOSED"; });
+        return { t: tally(c, function (x) { return x.exit_date || x.entry_date; }, function (x) { return x.pnl; }),
+          last: lastClose(c, function (x) { return x.exit_date || x.entry_date; }, function (x) { return x.pnl; }),
+          open: ((d && d.trades) || []).filter(function (x) { return (x.status || "") === "OPEN"; }).length, ok: !!d }; } },
     { name: "₿ BTC Theta", cap: 150000, src: "/data/paper_btc_theta.json",
-      adapt: function (d) { return { t: tally((d && d.closed) || [], function (x) { return x.exit_at; }, function (x) { return x.pnl_inr; }),
-        open: (d && d.open) ? d.open.length : 0, ok: !!d }; } },
+      adapt: function (d) { var c = (d && d.closed) || [];
+        return { t: tally(c, function (x) { return x.exit_at; }, function (x) { return x.pnl_inr; }),
+          last: lastClose(c, function (x) { return x.exit_at; }, function (x) { return x.pnl_inr; }),
+          open: (d && d.open) ? d.open.length : 0, ok: !!d }; } },
     { name: "🥇 Gold/BTC", cap: 100000, src: "/data/cloud_paper_gc_state.json",
       adapt: function (d) { var c = ((d && d.trades) || []).filter(function (x) { return x.status === "CLOSED"; });
-        return { t: tally(c, function (x) { return x.exit_time; }, function (x) { return x.pnl; }),
+        /* gc rows carry no date field — `session` is the trade's session
+           date (e.g. "2026-09-04"); keying on exit_time (time-only) would
+           never match a month and the desk could never score. P&L is
+           dollar-denominated (₹1L-sized notional) — convert for the race */
+        var fx = function (x) { return Number(x.pnl || 0) * 83; };
+        return { t: tally(c, function (x) { return x.session || x.exit_time; }, fx),
+          last: lastClose(c, function (x) { return x.session || x.exit_time; }, fx),
           open: ((d && d.trades) || []).filter(function (x) { return x.status === "OPEN"; }).length, ok: !!d }; } },
     { name: "✋ Manual", cap: 100000, src: null,
       adapt: function () { var ts = [];
         try { ts = JSON.parse(localStorage.getItem("mahi_paper_trades") || "[]"); } catch (e) {}
         var c = ts.filter(function (x) { return x.exit_date; });
         return { t: tally(c, function (x) { return x.exit_date; }, function (x) { return x.pnl; }),
+          last: lastClose(c, function (x) { return x.exit_date; }, function (x) { return x.pnl; }),
           open: ts.length - c.length, ok: true }; } }
   ];
   function load() {
@@ -1467,35 +1495,53 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       var p = dsk.src ? getJSON(dsk.src) : Promise.resolve(null);
       return p.then(function (d) { return { d: dsk, r: dsk.adapt(d) }; });
     })).then(function (rows) {
-      rows.forEach(function (r) { r.ret = r.r.t.pnl / r.d.cap * 100; });
-      rows.sort(function (a, b) { return b.ret - a.ret; });
+      rows.forEach(function (r) {
+        r.ret = r.r.t.pnl / r.d.cap * 100;
+        r.traded = r.r.t.w + r.r.t.l > 0;
+      });
+      // owner rule (1 Oct): rank by October profit, highest on top; desks
+      // that traded this month always sit above idle ones (a losing month
+      // still ranks above "hasn't traded"); idle desks order by last close
+      rows.sort(function (a, b) {
+        if (a.traded !== b.traded) return a.traded ? -1 : 1;
+        if (a.traded) return b.r.t.pnl - a.r.t.pnl;
+        var ap = a.r.last ? a.r.last.pnl : -Infinity;
+        var bp = b.r.last ? b.r.last.pnl : -Infinity;
+        return bp - ap;
+      });
       var medal = ["🥇", "🥈", "🥉"];
-      var live = rows.filter(function (r) { return r.r.t.w + r.r.t.l > 0; }).length;
+      var live = rows.filter(function (r) { return r.traded; }).length;
       var total = rows.reduce(function (a, r) { return a + r.r.t.pnl; }, 0);
-      document.getElementById("raceLeader").textContent = rows[0].r.t.w + rows[0].r.t.l > 0
-        ? rows[0].name : "—";
+      var topRow = rows[0];
+      document.getElementById("raceLeader").textContent = topRow.traded ? topRow.d.name : "—";
       var best = document.getElementById("raceBest");
-      best.textContent = rows[0].r.t.w + rows[0].r.t.l > 0
-        ? rows[0].ret.toFixed(2) + "%" : "—";
+      best.textContent = topRow.traded ? topRow.ret.toFixed(2) + "%" : "—";
       var tot = document.getElementById("raceTotal");
       tot.textContent = inr(total); tot.className = "sum-value " + (total >= 0 ? "pos" : "neg");
       document.getElementById("raceLive").textContent = live + "/" + rows.length;
       document.getElementById("raceStatus").className = "flash";
       document.getElementById("raceStatus").innerHTML =
-        "October mandate month: <strong>" + esc(MONTH) + "</strong> · ranked on realized P&L of trades closed this month ÷ assigned capital · QM re-based to ₹1L/₹5k lots on 1 Oct (book was empty — clean switch)";
-      var trs = rows.map(function (r, i) {
-        var traded = r.r.t.w + r.r.t.l > 0;
-        return "<tr" + (traded ? "" : ' style="opacity:0.55"') + "><td>" +
-          (traded ? (medal[i] || (i + 1)) : (i + 1)) + "</td><td><strong>" + esc(r.d.name) +
+        "October mandate month: <strong>" + esc(MONTH) + "</strong> · ranked on October closed-trade profit ₹, highest → lowest (every close updates it within a minute) · <strong>Last Close</strong> = each desk's most recent completed trade, any month · QM re-based to ₹1L/₹5k lots on 1 Oct";
+      var rank = 0;
+      var trs = rows.map(function (r) {
+        rank++;
+        var lc = r.r.last;
+        return "<tr" + (r.traded ? "" : ' style="opacity:0.55"') + "><td>" +
+          (r.traded ? (medal[rank - 1] || rank) : rank) + "</td><td><strong>" + esc(r.d.name) +
           "</strong></td><td>₹" + (r.d.cap / 100000).toFixed(1).replace(/\.0$/, "") + "L" +
           (r.d.cap === 150000 ? ' <span class="muted">(selling)</span>' : "") + "</td>" +
           '<td class="' + (r.r.t.pnl > 0 ? "ok" : (r.r.t.pnl < 0 ? "bad" : "")) + '">' + inr(r.r.t.pnl) + "</td>" +
-          '<td class="' + (r.ret > 0 ? "ok" : (r.ret < 0 ? "bad" : "")) + '">' + (traded ? r.ret.toFixed(2) + "%" : "—") + "</td>" +
-          "<td>" + (traded ? r.r.t.w + "W / " + r.r.t.l + "L" : "") + "</td>" +
-          "<td>" + r.r.open + "</td><td>" + (r.r.ok ? (traded ? "✅ trading" : "⚠️ no " + MONTH + " trades yet") : "⚠️ no data") + "</td></tr>";
+          '<td class="' + (r.ret > 0 ? "ok" : (r.ret < 0 ? "bad" : "")) + '">' + (r.traded ? r.ret.toFixed(2) + "%" : "—") + "</td>" +
+          "<td>" + (r.traded ? r.r.t.w + "W / " + r.r.t.l + "L" : "") + "</td>" +
+          '<td class="' + (lc && lc.pnl > 0 ? "ok" : (lc && lc.pnl < 0 ? "bad" : "")) + '">' +
+          (lc ? inr(lc.pnl) + ' <span class="muted" style="font-size:0.75em">· ' + esc(fmtDay(lc.key)) + "</span>"
+              : '<span class="muted">never</span>') + "</td>" +
+          "<td>" + r.r.open + "</td><td>" + (r.r.ok ? (r.traded ? "✅ trading" : "⚠️ no " + MONTH + " trades yet") : "⚠️ no data") + "</td></tr>";
       });
       document.getElementById("raceTableWrap").innerHTML =
-        "<table><thead><tr><th>#</th><th>Desk</th><th>Capital</th><th>Month P&L</th><th>Return</th><th>Trades</th><th>Open</th><th>Status</th></tr></thead><tbody>" +
+        "<table><thead><tr><th>#</th><th>Desk</th><th>Capital</th><th>Month P&L</th><th>Return</th><th>Trades</th>" +
+        '<th title="most recent completed trade, any month — shows up here the minute it books">Last Close</th>' +
+        "<th>Open</th><th>Status</th></tr></thead><tbody>" +
         trs.join("") + "</tbody></table>";
     });
   }
@@ -1822,7 +1868,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
   <script src="static/direct-scan.js"></script>
   <script src="static/gc-scan.js"></script>
   <script src="static/f3-scan.js"></script>
-  <script src="static/app.js?v=3"></script>
+  <script src="static/app.js?v=4"></script>
 
 <script>
 /* ===== Manual tab: stock search -> take trade -> open/closed book ===== */

@@ -455,17 +455,17 @@
     for (var i = 0; i < closes.length; i++) { totalRealized += closes[i].pnl || 0; if ((closes[i].pnl || 0) > 0) wins++; }
     var winRate = closes.length > 0 ? (wins / closes.length * 100).toFixed(1) : 0;
 
-    var summary = document.querySelector(".summary-cards");
-    if (summary) {
-      var vals = summary.querySelectorAll(".sum-value");
-      if (vals.length >= 4) {
-        vals[0].textContent = opens.length;
-        vals[1].textContent = closes.length;
-        var pnlEl = vals[2];
-        pnlEl.textContent = "₹" + (totalRealized >= 0 ? "+" : "") + totalRealized.toLocaleString("en-IN", { minimumFractionDigits: 2 });
-        pnlEl.className = "sum-value " + (totalRealized >= 0 ? "pos" : "neg");
-        vals[3].textContent = winRate + "%";
-      }
+    // manual-book cards — MUST target these ids, not the first
+    // .summary-cards on the page (that's the October Race's card row;
+    // positional targeting clobbered the race leaderboard every tick)
+    var ids = ["manOpen", "manClosed", "manTotal", "manWin"];
+    var els = ids.map(function (id) { return document.getElementById(id); });
+    if (els[0] && els[1] && els[2] && els[3]) {
+      els[0].textContent = opens.length;
+      els[1].textContent = closes.length;
+      els[2].textContent = "₹" + (totalRealized >= 0 ? "+" : "") + totalRealized.toLocaleString("en-IN", { minimumFractionDigits: 2 });
+      els[2].className = "sum-value " + (totalRealized >= 0 ? "pos" : "neg");
+      els[3].textContent = winRate + "%";
     }
   }
 
