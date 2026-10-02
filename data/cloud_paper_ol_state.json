@@ -2268,5 +2268,29 @@
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-09-28"
+ "f3_done_date": "2026-09-28",
+ "reentry_watch": [],
+ "vol_blocked": {
+  "date": "2026-10-02",
+  "ol": {
+   "low_vol": [],
+   "no_vol_data": []
+  },
+  "oh": {
+   "low_vol": [],
+   "no_vol_data": [
+    "ADANIPORTS",
+    "AUBANK",
+    "CHOLAFIN",
+    "BAJAJHLDNG",
+    "ICICIAMC",
+    "ITC",
+    "GODREJCP",
+    "HUDCO",
+    "JSWENERGY",
+    "MRF",
+    "PIIND"
+   ]
+  }
+ }
 }
