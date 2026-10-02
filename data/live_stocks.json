@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-02T13:16:53.925101+05:30",
+ "fetched_at": "2026-10-02T13:20:04.036705+05:30",
  "source": "angel-smartapi",
  "universe": "NSE200",
  "count": 200,
@@ -16,7 +16,7 @@
    "low": 1008.0,
    "volume": 1213803,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ABB",
@@ -30,7 +30,7 @@
    "low": 6735.0,
    "volume": 240835,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ABCAPITAL",
@@ -44,7 +44,7 @@
    "low": 370.2,
    "volume": 5001023,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ADANIENSOL",
@@ -58,7 +58,7 @@
    "low": 1309.1,
    "volume": 7267118,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ADANIENT",
@@ -72,7 +72,7 @@
    "low": 2772.0,
    "volume": 2100334,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ADANIGREEN",
@@ -86,7 +86,7 @@
    "low": 1260.3,
    "volume": 6355094,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ADANIPORTS",
@@ -100,7 +100,7 @@
    "low": 1716.0,
    "volume": 2157928,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ADANIPOWER",
@@ -114,7 +114,7 @@
    "low": 193.1,
    "volume": 33548439,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ALKEM",
@@ -128,7 +128,7 @@
    "low": 5110.0,
    "volume": 291015,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "AMBUJACEM",
@@ -142,7 +142,7 @@
    "low": 356.3,
    "volume": 3893265,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "APLAPOLLO",
@@ -156,7 +156,7 @@
    "low": 2059.5,
    "volume": 1615913,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "APOLLOHOSP",
@@ -170,7 +170,7 @@
    "low": 7910.0,
    "volume": 939105,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ASHOKLEY",
@@ -184,7 +184,7 @@
    "low": 148.5,
    "volume": 20574319,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ASIANPAINT",
@@ -198,7 +198,7 @@
    "low": 2377.0,
    "volume": 1005836,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ASTRAL",
@@ -212,7 +212,7 @@
    "low": 1316.1,
    "volume": 299231,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ATGL",
@@ -226,7 +226,7 @@
    "low": 572.05,
    "volume": 812043,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "AUBANK",
@@ -240,7 +240,7 @@
    "low": 974.2,
    "volume": 2487890,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "AUROPHARMA",
@@ -254,7 +254,7 @@
    "low": 1654.2,
    "volume": 1074057,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "AXISBANK",
@@ -268,7 +268,7 @@
    "low": 1215.3,
    "volume": 7005197,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BAJAJ-AUTO",
@@ -282,7 +282,7 @@
    "low": 9900.0,
    "volume": 1491300,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BAJAJFINSV",
@@ -296,7 +296,7 @@
    "low": 1703.4,
    "volume": 2292234,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BAJAJHLDNG",
@@ -310,7 +310,7 @@
    "low": 10415.0,
    "volume": 39942,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BAJFINANCE",
@@ -324,7 +324,7 @@
    "low": 937.3,
    "volume": 5698769,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BANKBARODA",
@@ -338,7 +338,7 @@
    "low": 229.52,
    "volume": 9034271,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BANKINDIA",
@@ -352,7 +352,7 @@
    "low": 126.73,
    "volume": 4296454,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BDL",
@@ -366,7 +366,7 @@
    "low": 1071.2,
    "volume": 928850,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BEL",
@@ -380,7 +380,7 @@
    "low": 378.65,
    "volume": 10250149,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BHARATFORG",
@@ -394,7 +394,7 @@
    "low": 1845.2,
    "volume": 1151437,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BHARTIARTL",
@@ -408,7 +408,7 @@
    "low": 1726.3,
    "volume": 5609657,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BHEL",
@@ -422,7 +422,7 @@
    "low": 411.35,
    "volume": 12669050,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BIOCON",
@@ -436,7 +436,7 @@
    "low": 363.6,
    "volume": 2525268,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BLUESTARCO",
@@ -450,7 +450,7 @@
    "low": 1444.0,
    "volume": 962569,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BOSCHLTD",
@@ -464,7 +464,7 @@
    "low": 44410.0,
    "volume": 48572,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BPCL",
@@ -478,7 +478,7 @@
    "low": 297.1,
    "volume": 5618518,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BRITANNIA",
@@ -492,7 +492,7 @@
    "low": 4737.0,
    "volume": 362699,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "BSE",
@@ -506,7 +506,7 @@
    "low": 3000.0,
    "volume": 6273089,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "CANBK",
@@ -520,7 +520,7 @@
    "low": 116.51,
    "volume": 13953325,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "CGPOWER",
@@ -534,7 +534,7 @@
    "low": 859.6,
    "volume": 4633143,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "CHOLAFIN",
@@ -548,7 +548,7 @@
    "low": 1563.2,
    "volume": 1699959,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "CIPLA",
@@ -562,7 +562,7 @@
    "low": 1333.4,
    "volume": 921789,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "COALINDIA",
@@ -576,7 +576,7 @@
    "low": 416.3,
    "volume": 7514836,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "COCHINSHIP",
@@ -590,7 +590,7 @@
    "low": 1265.6,
    "volume": 727942,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "COFORGE",
@@ -604,7 +604,7 @@
    "low": 1763.6,
    "volume": 3419070,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "COLPAL",
@@ -618,7 +618,7 @@
    "low": 1716.1,
    "volume": 412868,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "CONCOR",
@@ -632,7 +632,7 @@
    "low": 436.35,
    "volume": 877730,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "COROMANDEL",
@@ -646,7 +646,7 @@
    "low": 1701.0,
    "volume": 239111,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "CUMMINSIND",
@@ -660,7 +660,7 @@
    "low": 4760.0,
    "volume": 393680,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "DABUR",
@@ -674,7 +674,7 @@
    "low": 373.2,
    "volume": 2455226,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "DIVISLAB",
@@ -688,7 +688,7 @@
    "low": 9078.0,
    "volume": 567310,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "DIXON",
@@ -702,7 +702,7 @@
    "low": 12651.0,
    "volume": 258830,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "DLF",
@@ -716,7 +716,7 @@
    "low": 650.55,
    "volume": 6264045,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "DMART",
@@ -730,7 +730,7 @@
    "low": 3781.4,
    "volume": 652283,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "DRREDDY",
@@ -744,7 +744,7 @@
    "low": 1194.9,
    "volume": 2607818,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "EICHERMOT",
@@ -758,7 +758,7 @@
    "low": 6840.0,
    "volume": 817452,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ENRIN",
@@ -772,7 +772,7 @@
    "low": 3187.0,
    "volume": 1649842,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ETERNAL",
@@ -786,7 +786,7 @@
    "low": 309.8,
    "volume": 29716584,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "EXIDEIND",
@@ -800,7 +800,7 @@
    "low": 403.8,
    "volume": 2369486,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "FEDERALBNK",
@@ -814,7 +814,7 @@
    "low": 313.75,
    "volume": 11278668,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "FORTIS",
@@ -828,7 +828,7 @@
    "low": 745.35,
    "volume": 6942851,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "GAIL",
@@ -842,7 +842,7 @@
    "low": 168.55,
    "volume": 6882008,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "GLENMARK",
@@ -856,7 +856,7 @@
    "low": 2279.3,
    "volume": 972522,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "GMRAIRPORT",
@@ -870,7 +870,7 @@
    "low": 91.63,
    "volume": 15683898,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "GODFRYPHLP",
@@ -884,7 +884,7 @@
    "low": 1830.0,
    "volume": 256983,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "GODREJCP",
@@ -898,7 +898,7 @@
    "low": 838.0,
    "volume": 838419,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "GODREJPROP",
@@ -912,7 +912,7 @@
    "low": 1566.6,
    "volume": 496337,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "GRASIM",
@@ -926,7 +926,7 @@
    "low": 2944.4,
    "volume": 1385746,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "GROWW",
@@ -940,7 +940,7 @@
    "low": 178.01,
    "volume": 18076780,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "GVT&D",
@@ -954,7 +954,7 @@
    "low": 4213.3,
    "volume": 784543,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "HAL",
@@ -968,7 +968,7 @@
    "low": 4559.3,
    "volume": 739864,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "HAVELLS",
@@ -982,7 +982,7 @@
    "low": 1019.7,
    "volume": 2030089,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "HCLTECH",
@@ -996,7 +996,7 @@
    "low": 1228.9,
    "volume": 3430282,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "HDFCAMC",
@@ -1010,7 +1010,7 @@
    "low": 2269.7,
    "volume": 1134071,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "HDFCBANK",
@@ -1024,7 +1024,7 @@
    "low": 707.1,
    "volume": 37389857,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "HDFCLIFE",
@@ -1038,7 +1038,7 @@
    "low": 517.4,
    "volume": 4008935,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "HEROMOTOCO",
@@ -1052,7 +1052,7 @@
    "low": 5051.0,
    "volume": 862662,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "HINDALCO",
@@ -1066,7 +1066,7 @@
    "low": 923.5,
    "volume": 5877840,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "HINDPETRO",
@@ -1080,7 +1080,7 @@
    "low": 344.0,
    "volume": 5754484,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "HINDUNILVR",
@@ -1094,7 +1094,7 @@
    "low": 1826.9,
    "volume": 1331680,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "HINDZINC",
@@ -1108,7 +1108,7 @@
    "low": 547.2,
    "volume": 3165448,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "HUDCO",
@@ -1122,7 +1122,7 @@
    "low": 159.51,
    "volume": 3136559,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "HYUNDAI",
@@ -1136,7 +1136,7 @@
    "low": 2002.0,
    "volume": 1795808,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ICICIAMC",
@@ -1150,7 +1150,7 @@
    "low": 3055.0,
    "volume": 524043,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ICICIBANK",
@@ -1164,7 +1164,7 @@
    "low": 1308.4,
    "volume": 13163495,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ICICIGI",
@@ -1178,7 +1178,7 @@
    "low": 1562.6,
    "volume": 1189772,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "IDEA",
@@ -1192,7 +1192,7 @@
    "low": 12.5,
    "volume": 612490273,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "IDFCFIRSTB",
@@ -1206,7 +1206,7 @@
    "low": 79.53,
    "volume": 24434109,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "INDHOTEL",
@@ -1220,7 +1220,7 @@
    "low": 712.3,
    "volume": 4023940,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "INDIANB",
@@ -1234,7 +1234,7 @@
    "low": 786.85,
    "volume": 671392,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "INDIGO",
@@ -1248,7 +1248,7 @@
    "low": 4878.0,
    "volume": 592514,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "INDUSINDBK",
@@ -1262,7 +1262,7 @@
    "low": 880.3,
    "volume": 1761249,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "INDUSTOWER",
@@ -1276,7 +1276,7 @@
    "low": 370.0,
    "volume": 9498411,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "INFY",
@@ -1290,7 +1290,7 @@
    "low": 999.15,
    "volume": 15166446,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "IOC",
@@ -1304,7 +1304,7 @@
    "low": 131.2,
    "volume": 12239747,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "IRCTC",
@@ -1318,7 +1318,7 @@
    "low": 446.8,
    "volume": 1528758,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "IREDA",
@@ -1332,7 +1332,7 @@
    "low": 108.53,
    "volume": 5290233,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "IRFC",
@@ -1346,7 +1346,7 @@
    "low": 76.51,
    "volume": 12764829,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ITC",
@@ -1360,7 +1360,7 @@
    "low": 254.65,
    "volume": 16447266,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "JINDALSTEL",
@@ -1374,7 +1374,7 @@
    "low": 1079.0,
    "volume": 862948,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "JIOFIN",
@@ -1388,7 +1388,7 @@
    "low": 208.5,
    "volume": 28082023,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "JSWENERGY",
@@ -1402,7 +1402,7 @@
    "low": 475.1,
    "volume": 1851516,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "JSWSTEEL",
@@ -1416,7 +1416,7 @@
    "low": 1214.8,
    "volume": 3158301,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "JUBLFOOD",
@@ -1430,7 +1430,7 @@
    "low": 437.95,
    "volume": 1560787,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "KALYANKJIL",
@@ -1444,7 +1444,7 @@
    "low": 522.5,
    "volume": 7831270,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "KEI",
@@ -1458,7 +1458,7 @@
    "low": 4424.2,
    "volume": 320912,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "KOTAKBANK",
@@ -1472,7 +1472,7 @@
    "low": 416.05,
    "volume": 76637247,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "KPITTECH",
@@ -1486,7 +1486,7 @@
    "low": 484.5,
    "volume": 1989750,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "LAURUSLABS",
@@ -1500,7 +1500,7 @@
    "low": 1952.1,
    "volume": 1459687,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "LENSKART",
@@ -1514,7 +1514,7 @@
    "low": 674.5,
    "volume": 5044066,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "LGEINDIA",
@@ -1528,7 +1528,7 @@
    "low": 1692.7,
    "volume": 560330,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "LICHSGFIN",
@@ -1542,7 +1542,7 @@
    "low": 499.25,
    "volume": 5986497,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "LODHA",
@@ -1556,7 +1556,7 @@
    "low": 1083.3,
    "volume": 2249380,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "LT",
@@ -1570,7 +1570,7 @@
    "low": 3655.9,
    "volume": 2220932,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "LTF",
@@ -1584,7 +1584,7 @@
    "low": 261.75,
    "volume": 7097076,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "LTM",
@@ -1598,7 +1598,7 @@
    "low": 3945.5,
    "volume": 479221,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "LUPIN",
@@ -1612,7 +1612,7 @@
    "low": 2004.2,
    "volume": 825892,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "M&M",
@@ -1626,7 +1626,7 @@
    "low": 2812.0,
    "volume": 5453321,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "M&MFIN",
@@ -1640,7 +1640,7 @@
    "low": 315.45,
    "volume": 3088333,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "MANKIND",
@@ -1654,7 +1654,7 @@
    "low": 2476.1,
    "volume": 427905,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "MARICO",
@@ -1668,7 +1668,7 @@
    "low": 766.25,
    "volume": 1777571,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "MARUTI",
@@ -1682,7 +1682,7 @@
    "low": 11305.0,
    "volume": 885820,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "MAXHEALTH",
@@ -1696,7 +1696,7 @@
    "low": 902.05,
    "volume": 5464461,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "MAZDOCK",
@@ -1710,7 +1710,7 @@
    "low": 2031.2,
    "volume": 648362,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "MCX",
@@ -1724,7 +1724,7 @@
    "low": 3193.6,
    "volume": 2002629,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "MFSL",
@@ -1738,7 +1738,7 @@
    "low": 1364.4,
    "volume": 1151973,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "MOTHERSON",
@@ -1752,7 +1752,7 @@
    "low": 153.81,
    "volume": 23039471,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "MOTILALOFS",
@@ -1766,7 +1766,7 @@
    "low": 965.05,
    "volume": 1607962,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "MPHASIS",
@@ -1780,7 +1780,7 @@
    "low": 2160.1,
    "volume": 1178274,
    "ol": true,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "MRF",
@@ -1794,7 +1794,7 @@
    "low": 122745.0,
    "volume": 3448,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "MUTHOOTFIN",
@@ -1808,7 +1808,7 @@
    "low": 2676.9,
    "volume": 553592,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "NATIONALUM",
@@ -1822,7 +1822,7 @@
    "low": 329.5,
    "volume": 4672624,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "NAUKRI",
@@ -1836,7 +1836,7 @@
    "low": 1180.3,
    "volume": 2219568,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "NESTLEIND",
@@ -1850,7 +1850,7 @@
    "low": 1295.0,
    "volume": 1626876,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "NHPC",
@@ -1864,7 +1864,7 @@
    "low": 70.25,
    "volume": 10903143,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "NMDC",
@@ -1878,7 +1878,7 @@
    "low": 73.71,
    "volume": 17077400,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "NTPC",
@@ -1892,7 +1892,7 @@
    "low": 313.05,
    "volume": 10094465,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "NYKAA",
@@ -1906,7 +1906,7 @@
    "low": 316.0,
    "volume": 7907193,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "OBEROIRLTY",
@@ -1920,7 +1920,7 @@
    "low": 1726.6,
    "volume": 282807,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "OFSS",
@@ -1934,7 +1934,7 @@
    "low": 10263.0,
    "volume": 194062,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "OIL",
@@ -1948,7 +1948,7 @@
    "low": 434.65,
    "volume": 2266203,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ONGC",
@@ -1962,7 +1962,7 @@
    "low": 220.6,
    "volume": 13099985,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "PAGEIND",
@@ -1976,7 +1976,7 @@
    "low": 36055.0,
    "volume": 40495,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "PATANJALI",
@@ -1990,7 +1990,7 @@
    "low": 348.55,
    "volume": 4327803,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "PAYTM",
@@ -2004,7 +2004,7 @@
    "low": 1629.0,
    "volume": 1936812,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "PERSISTENT",
@@ -2018,7 +2018,7 @@
    "low": 5250.5,
    "volume": 506268,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "PFC",
@@ -2032,7 +2032,7 @@
    "low": 313.35,
    "volume": 9777829,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "PHOENIXLTD",
@@ -2046,7 +2046,7 @@
    "low": 1911.8,
    "volume": 555494,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "PIDILITIND",
@@ -2060,7 +2060,7 @@
    "low": 1456.8,
    "volume": 867267,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "PIIND",
@@ -2074,7 +2074,7 @@
    "low": 2220.0,
    "volume": 125263,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "PNB",
@@ -2088,7 +2088,7 @@
    "low": 109.37,
    "volume": 11365686,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "POLICYBZR",
@@ -2102,7 +2102,7 @@
    "low": 963.9,
    "volume": 14061779,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "POLYCAB",
@@ -2116,7 +2116,7 @@
    "low": 7883.0,
    "volume": 463691,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "POWERGRID",
@@ -2130,7 +2130,7 @@
    "low": 252.35,
    "volume": 10976701,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "POWERINDIA",
@@ -2144,7 +2144,7 @@
    "low": 30520.0,
    "volume": 145146,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "PREMIERENE",
@@ -2158,7 +2158,7 @@
    "low": 860.1,
    "volume": 1259157,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "PRESTIGE",
@@ -2172,7 +2172,7 @@
    "low": 1445.0,
    "volume": 1381292,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "RADICO",
@@ -2186,7 +2186,7 @@
    "low": 4234.8,
    "volume": 426809,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "RECLTD",
@@ -2200,7 +2200,7 @@
    "low": 286.2,
    "volume": 9069239,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "RELIANCE",
@@ -2214,7 +2214,7 @@
    "low": 1160.8,
    "volume": 16771221,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "RVNL",
@@ -2228,7 +2228,7 @@
    "low": 194.05,
    "volume": 6247340,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "SAIL",
@@ -2242,7 +2242,7 @@
    "low": 170.67,
    "volume": 26206885,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "SBICARD",
@@ -2256,7 +2256,7 @@
    "low": 560.15,
    "volume": 962872,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "SBILIFE",
@@ -2270,7 +2270,7 @@
    "low": 1674.8,
    "volume": 3329860,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "SBIN",
@@ -2284,7 +2284,7 @@
    "low": 945.8,
    "volume": 7390452,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "SHREECEM",
@@ -2298,7 +2298,7 @@
    "low": 21355.0,
    "volume": 59306,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "SHRIRAMFIN",
@@ -2312,7 +2312,7 @@
    "low": 936.0,
    "volume": 5599670,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "SIEMENS",
@@ -2326,7 +2326,7 @@
    "low": 3709.5,
    "volume": 243713,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "SOLARINDS",
@@ -2340,7 +2340,7 @@
    "low": 18786.0,
    "volume": 204788,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "SRF",
@@ -2354,7 +2354,7 @@
    "low": 2431.7,
    "volume": 352530,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "SUNPHARMA",
@@ -2368,7 +2368,7 @@
    "low": 1792.6,
    "volume": 2314700,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "SUPREMEIND",
@@ -2382,7 +2382,7 @@
    "low": 3286.9,
    "volume": 167968,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "SUZLON",
@@ -2396,7 +2396,7 @@
    "low": 38.4,
    "volume": 53247107,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "SWIGGY",
@@ -2410,7 +2410,7 @@
    "low": 235.5,
    "volume": 13785398,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TATACAP",
@@ -2424,7 +2424,7 @@
    "low": 313.55,
    "volume": 2467983,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TATACOMM",
@@ -2438,7 +2438,7 @@
    "low": 1617.5,
    "volume": 140782,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TATACONSUM",
@@ -2452,7 +2452,7 @@
    "low": 945.0,
    "volume": 1829307,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TATAELXSI",
@@ -2466,7 +2466,7 @@
    "low": 3046.2,
    "volume": 333513,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TATAINVEST",
@@ -2480,7 +2480,7 @@
    "low": 604.0,
    "volume": 283865,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TATAPOWER",
@@ -2494,7 +2494,7 @@
    "low": 346.4,
    "volume": 4222986,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TATASTEEL",
@@ -2508,7 +2508,7 @@
    "low": 175.75,
    "volume": 47659952,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TCS",
@@ -2522,7 +2522,7 @@
    "low": 2045.1,
    "volume": 3428501,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TECHM",
@@ -2536,7 +2536,7 @@
    "low": 1512.0,
    "volume": 2663224,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TIINDIA",
@@ -2550,7 +2550,7 @@
    "low": 2307.3,
    "volume": 471021,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TITAN",
@@ -2564,7 +2564,7 @@
    "low": 4491.0,
    "volume": 694098,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TMCV",
@@ -2578,7 +2578,7 @@
    "low": 404.1,
    "volume": 7408903,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TMPV",
@@ -2592,7 +2592,7 @@
    "low": 273.35,
    "volume": 15258191,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TORNTPHARM",
@@ -2606,7 +2606,7 @@
    "low": 4717.3,
    "volume": 357701,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TRENT",
@@ -2620,7 +2620,7 @@
    "low": 2545.8,
    "volume": 896919,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "TVSMOTOR",
@@ -2634,7 +2634,7 @@
    "low": 3930.1,
    "volume": 1234692,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ULTRACEMCO",
@@ -2648,7 +2648,7 @@
    "low": 10612.0,
    "volume": 570684,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "UNIONBANK",
@@ -2662,7 +2662,7 @@
    "low": 164.81,
    "volume": 7875995,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "UNITDSPR",
@@ -2676,7 +2676,7 @@
    "low": 1316.5,
    "volume": 1003620,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "UPL",
@@ -2690,7 +2690,7 @@
    "low": 511.2,
    "volume": 2466891,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "VBL",
@@ -2704,7 +2704,7 @@
    "low": 415.35,
    "volume": 8516414,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "VEDL",
@@ -2718,7 +2718,7 @@
    "low": 247.25,
    "volume": 10131800,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "VMM",
@@ -2732,7 +2732,7 @@
    "low": 98.42,
    "volume": 11791052,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "VOLTAS",
@@ -2746,7 +2746,7 @@
    "low": 1040.6,
    "volume": 638996,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "WAAREEENER",
@@ -2760,7 +2760,7 @@
    "low": 2301.1,
    "volume": 841593,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "WIPRO",
@@ -2774,7 +2774,7 @@
    "low": 157.25,
    "volume": 18521731,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "YESBANK",
@@ -2788,7 +2788,7 @@
    "low": 20.51,
    "volume": 80611659,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   },
   {
    "symbol": "ZYDUSLIFE",
@@ -2802,7 +2802,7 @@
    "low": 1123.7,
    "volume": 2547369,
    "ol": false,
-   "market_time": 1790927213
+   "market_time": 1790927404
   }
  ]
 }
