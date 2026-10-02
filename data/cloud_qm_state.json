@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 3,
+ "next_id": 4,
  "trades": [
   {
    "id": 1,
@@ -43,8 +43,29 @@
    "pnl": null,
    "mark": null,
    "note": "new 52w closing high 2005.1, vol 1.6x"
+  },
+  {
+   "id": 3,
+   "signal_date": "2026-10-02",
+   "symbol": "WELSPUNLIV",
+   "setup": "QM-52W",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "invested": null,
+   "booked": 0.0,
+   "avg_count": 0,
+   "trail": false,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null,
+   "mark": null,
+   "note": "new 52w closing high 239.2, vol 4.3x"
   }
  ],
- "done_date": "2026-10-01",
+ "done_date": "2026-10-02",
  "circuit_breaker": false
 }
