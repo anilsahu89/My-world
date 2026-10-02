@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-02T14:01:14.704592+05:30",
+ "fetched_at": "2026-10-02T14:04:24.143714+05:30",
  "chartink_raw_count": 1,
  "with_volume": [
   {
@@ -12,7 +12,7 @@
    "avg_vol_20d": 359319,
    "ol_diff": 0.0,
    "vol_ratio": 3.28,
-   "est_full_vol_ratio": 4.3,
+   "est_full_vol_ratio": 4.25,
    "shares": 4,
    "invested": 9000,
    "sl_price": 2149.3,
@@ -39,7 +39,7 @@
     "avg_vol_20d": 1178299,
     "ol_diff": 0.0,
     "vol_ratio": 2.11,
-    "est_full_vol_ratio": 2.77,
+    "est_full_vol_ratio": 2.74,
     "shares": 10,
     "invested": 9870,
     "sl_price": 1014.04,
@@ -61,7 +61,7 @@
     "avg_vol_20d": 1784172,
     "ol_diff": 0.0,
     "vol_ratio": 1.76,
-    "est_full_vol_ratio": 2.31,
+    "est_full_vol_ratio": 2.28,
     "shares": 61,
     "invested": 9853,
     "sl_price": 168.78,
@@ -83,7 +83,7 @@
     "avg_vol_20d": 10711562,
     "ol_diff": 0.0,
     "vol_ratio": 1.54,
-    "est_full_vol_ratio": 2.01,
+    "est_full_vol_ratio": 1.99,
     "shares": 39,
     "invested": 9980,
     "sl_price": 264.01,
@@ -105,7 +105,7 @@
     "avg_vol_20d": 410234,
     "ol_diff": 0.1,
     "vol_ratio": 1.28,
-    "est_full_vol_ratio": 1.67,
+    "est_full_vol_ratio": 1.66,
     "shares": 3,
     "invested": 9253,
     "sl_price": 3136.71,
@@ -116,7 +116,9 @@
     "price": 3084.4,
     "date": "2026-10-02 00:00:00",
     "in_nse200": true
-   },
+   }
+  ],
+  "without_volume": [
    {
     "symbol": "CHOLAFIN",
     "yf_open": 1619.7,
@@ -127,7 +129,7 @@
     "avg_vol_20d": 1481520,
     "ol_diff": 0.0,
     "vol_ratio": 1.15,
-    "est_full_vol_ratio": 1.5,
+    "est_full_vol_ratio": 1.49,
     "shares": 6,
     "invested": 9480,
     "sl_price": 1627.8,
@@ -138,9 +140,7 @@
     "price": 1580.0,
     "date": "2026-10-02 00:00:00",
     "in_nse200": true
-   }
-  ],
-  "without_volume": [
+   },
    {
     "symbol": "JSWENERGY",
     "yf_open": 493.0,
@@ -151,7 +151,7 @@
     "avg_vol_20d": 1650616,
     "ol_diff": 0.0,
     "vol_ratio": 1.12,
-    "est_full_vol_ratio": 1.47,
+    "est_full_vol_ratio": 1.46,
     "shares": 20,
     "invested": 9700,
     "sl_price": 495.46,
@@ -173,7 +173,7 @@
     "avg_vol_20d": 2008620,
     "ol_diff": 0.0,
     "vol_ratio": 1.07,
-    "est_full_vol_ratio": 1.41,
+    "est_full_vol_ratio": 1.39,
     "shares": 5,
     "invested": 8689,
     "sl_price": 1794.93,
@@ -195,7 +195,7 @@
     "avg_vol_20d": 3235,
     "ol_diff": 0.0,
     "vol_ratio": 1.07,
-    "est_full_vol_ratio": 1.4,
+    "est_full_vol_ratio": 1.38,
     "shares": 0,
     "invested": 0,
     "sl_price": 125725.5,
@@ -217,7 +217,7 @@
     "avg_vol_20d": 41915,
     "ol_diff": 0.0,
     "vol_ratio": 0.95,
-    "est_full_vol_ratio": 1.25,
+    "est_full_vol_ratio": 1.24,
     "shares": 0,
     "invested": 0,
     "sl_price": 10828.87,
@@ -239,7 +239,7 @@
     "avg_vol_20d": 1381393,
     "ol_diff": 0.0,
     "vol_ratio": 0.61,
-    "est_full_vol_ratio": 0.8,
+    "est_full_vol_ratio": 0.79,
     "shares": 11,
     "invested": 9240,
     "sl_price": 856.26,
