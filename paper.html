@@ -380,7 +380,7 @@ main h3 .collapse-btn {
 <section id="raceSection" class="pt-panel active">
   <h2 style="color:#ffd54f">
     🏆 October Race — ₹1 Lakh per Setup
-    <span class="muted" style="font-size:0.75rem">— October mandate (1 Oct 2026): every desk races ₹1L; theta &amp; BTC theta may stretch to ₹1.5L for selling margin · QM moved to ₹1L on 1 Oct — all nine desks now race equal ₹1L books (theta/BTC 1.5L) · old caps like 5 trades/setup stay where they fit the ₹1L book · ranked by October realized P&amp;L ÷ assigned capital · updates every minute</span>
+    <span class="muted" style="font-size:0.75rem">— October mandate (1 Oct 2026): every desk races ₹1L; theta &amp; BTC theta may stretch to ₹1.5L for selling margin · QM moved to ₹1L on 1 Oct · LTP joined 3 Oct on its ₹5L NK-model book — ten desks racing (most on ₹1L; theta/BTC 1.5L) · old caps like 5 trades/setup stay where they fit the ₹1L book · ranked by October realized P&amp;L ÷ assigned capital · updates every minute</span>
   </h2>
   <div id="raceStatus" class="flash">Loading October leaderboard…</div>
 
@@ -1626,6 +1626,11 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         return { t: tally(c, function (x) { return x.exit_date || x.entry_date; }, function (x) { return x.pnl; }),
           last: lastClose(c, function (x) { return x.exit_date || x.entry_date; }, function (x) { return x.pnl; }),
           open: ((d && d.trades) || []).filter(function (x) { return (x.status || "") === "OPEN"; }).length, ok: !!d }; } },
+    { name: "💎 NIFTY Long-Term Premium", cap: 500000, src: "/data/paper_nifty_ltp.json",
+      adapt: function (d) { var c = ((d && d.trades) || []).filter(function (x) { return x.exit; });
+        return { t: tally(c, function (x) { return x.exit; }, function (x) { return x.pnl; }),
+          last: lastClose(c, function (x) { return x.exit; }, function (x) { return x.pnl; }),
+          open: (d && d.open) ? d.open.length : 0, ok: !!d }; } },
     { name: "₿ BTC Theta", cap: 150000, src: "/data/paper_btc_theta.json",
       adapt: function (d) { var c = (d && d.closed) || [];
         return { t: tally(c, function (x) { return x.exit_at; }, function (x) { return x.pnl_inr; }),
