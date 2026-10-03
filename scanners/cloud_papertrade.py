@@ -855,7 +855,9 @@ def commit_state() -> None:
              "scanners/papertrades/nifty_premium_mill_trades.csv",
              "scanners/papertrades/nifty_premium_mill_log.csv",
              "data/scanners/htf-hm-latest.json",
-             "scanners/papertrades/htf_hm_trades.csv"]
+             "scanners/papertrades/htf_hm_trades.csv",
+             "data/cloud_nifty_ltp_state.json",
+             "data/paper_nifty_ltp.json"]
     for f in files:
         subprocess.run(["git", "add", "--", f], cwd=ROOT,
                        check=False, capture_output=True)
@@ -892,7 +894,7 @@ def maybe_start_poller() -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("desk", choices=("nse", "gc", "swing", "poller", "all"))
+    parser.add_argument("desk", choices=("nse", "gc", "swing", "poller", "ltp", "all"))
     args = parser.parse_args()
     DATA.mkdir(exist_ok=True)
     if args.desk == "poller":
@@ -914,6 +916,9 @@ def main() -> None:
     if args.desk in ("swing", "all"):
         import cloud_swing
         cloud_swing.run_day()
+    if args.desk in ("ltp", "all"):
+        import cloud_nifty_ltp
+        cloud_nifty_ltp.run_day()
     if args.desk == "gc":
         # Scheduled gc ticks run every 15 min around the clock — piggyback
         # the other desks on them so the system needs no extra workflow
@@ -946,6 +951,14 @@ def main() -> None:
             cloud_btc_theta.tick()
         except Exception as e:
             print(f"btc theta tick failed: {e}", flush=True)
+        # NIFTY Long-Term Premium desk (NK video rules, 2026-10-03): EOD
+        # bhavcopy cadence — first weekday tick >= 18:45 IST scans far-expiry
+        # discounts, opens/manages the structures; done_date-guarded
+        try:
+            import cloud_nifty_ltp
+            cloud_nifty_ltp.tick()
+        except Exception as e:
+            print(f"nifty ltp tick failed: {e}", flush=True)
     commit_state()
     maybe_start_poller()
 
