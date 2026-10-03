@@ -369,6 +369,7 @@ main h3 .collapse-btn {
   <button class="pt-tab" data-panel="swingSection">🕯️ Candle Swing</button>
   <button class="pt-tab" data-panel="thetaSection">🛡️ NIFTY Theta</button>
   <button class="pt-tab" data-panel="millSection">🏭 Premium Mill</button>
+  <button class="pt-tab" data-panel="ltpSection">💎 NIFTY Long-Term Premium</button>
   <button class="pt-tab" data-panel="btcThetaSection">₿ BTC Theta</button>
   <button class="pt-tab" data-panel="gcSection">🥇 Gold/BTC</button>
   <button class="pt-tab" data-panel="manualPanel">✋ Manual</button>
@@ -516,6 +517,164 @@ main h3 .collapse-btn {
   <h3 style="margin-top:2rem">🔴 Closed Trades <span class="muted" id="pmClosedCount">(0)</span></h3>
   <div class="table-wrap" id="pmClosedWrap"><div class="flash">No closed mill trades yet.</div></div>
 </section>
+
+<hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
+
+<!-- ===================== NIFTY LONG-TERM PREMIUM — NK SIR DISCOUNT DESK ===================== -->
+<section id="ltpSection" class="pt-panel">
+  <h2 style="color:#b98cff">
+    💎 NIFTY Long-Term Premium — Discount Harvest
+    <span class="muted" style="font-size:0.75rem">— NK sir's rule (video 03 Oct): buy the far-expiry option trading below its near-IV fair value, eat weekly premium against it · 14-mo replay PF 3.04 · EOD bhavcopy cadence · GitHub Actions</span>
+  </h2>
+  <div id="ltpStatus" class="flash">Loading Long-Term Premium desk…</div>
+
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">Open Structure</span>
+      <span class="sum-value" style="color:var(--green)" id="ltpOpen">—</span></div>
+    <div class="sum-card"><span class="sum-label">Realized ₹</span>
+      <span class="sum-value" id="ltpTotal">—</span></div>
+    <div class="sum-card"><span class="sum-label">This Month</span>
+      <span class="sum-value" id="ltpMonth">—</span></div>
+    <div class="sum-card"><span class="sum-label">Win Rate</span>
+      <span class="sum-value" id="ltpWin">—</span></div>
+    <div class="sum-card"><span class="sum-label">Near IV / 20W-SMA</span>
+      <span class="sum-value" style="font-size:1rem" id="ltpLevels">—</span></div>
+  </div>
+
+  <h3 style="margin-top:1.5rem">🔍 Discount Board <span class="muted">(far expiries ≥ 45 DTE priced below near-IV fair value — signal at ≥ 20%)</span></h3>
+  <div class="table-wrap" id="ltpBoardWrap"><div class="flash">Board loading…</div></div>
+  <p class="hint" id="ltpBlocked" style="margin:0.5rem 0 0"></p>
+
+  <h3 style="margin-top:1.5rem">🟢 Open Structure</h3>
+  <div class="table-wrap" id="ltpOpenWrap"><div class="flash">No open structure.</div></div>
+
+  <h3 style="margin-top:1.5rem">🔴 Closed <span class="muted" id="ltpClosedCount">(0)</span></h3>
+  <div class="table-wrap" id="ltpClosedWrap"><div class="flash">No closed trades yet — the desk starts fresh; first signal window opens on the next trading evening.</div></div>
+</section>
+
+<script>
+/* ===== NIFTY Long-Term Premium desk — renders data/paper_nifty_ltp.json ===== */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  function esc(s) { var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function inr(n) { if (n == null || isNaN(n)) return "—";
+    var neg = n < 0;
+    return (neg ? "−₹" : "₹") + Math.abs(n).toLocaleString("en-IN",
+      { maximumFractionDigits: 0 }); }
+  function cls(n) { return n > 0 ? "ok" : (n < 0 ? "bad" : ""); }
+  function set(id, html) { var el = document.getElementById(id);
+    if (el) el.innerHTML = html; }
+
+  function render(d) {
+    var s = d.summary || {};
+    var el = document.getElementById("ltpStatus");
+    el.innerHTML = "Updated " + esc(d.updated_at) + " (bhav " + esc(d.bhav_date) + ") &nbsp;·&nbsp; " +
+      "BUY the discounted far expiry (≤5% OTM, 225 qty) + SELL the nearest weekly against it 1:1 · " +
+      "+70-pt target · 4-day time-stop · close-through-short = cost exit · −70-pt hard stop · shorts roll weekly · max 4/month";
+    el.classList.remove("flash");
+    var op = d.open || [];
+    set("ltpOpen", op.length ? (op[0].side.toUpperCase() + " · " +
+      (op[0].points >= 0 ? "+" : "−") + Math.abs(op[0].points) + " pts") : "none");
+    set("ltpTotal", inr(s.realized));
+    document.getElementById("ltpTotal").className =
+      "sum-value " + ((s.realized || 0) >= 0 ? "pos" : "neg");
+    set("ltpMonth", (s.this_month || 0) + " / 4 trades");
+    set("ltpWin", (s.win_rate || 0) + "% <span class='muted' style='font-size:0.7em'>(" +
+      (s.wins || 0) + "W / " + Math.max(0, (s.closed || 0) - (s.wins || 0)) + "L)</span>");
+    var lv = d.levels || {};
+    set("ltpLevels", (lv.near_iv != null ? (lv.near_iv * 100).toFixed(1) + "%" : "—") +
+      " · " + (lv.weekly_20sma != null ? Math.round(lv.weekly_20sma).toLocaleString("en-IN") : "—"));
+
+    var board = d.board || [];
+    var bw = document.getElementById("ltpBoardWrap");
+    if (!board.length) {
+      bw.innerHTML = '<div class="flash">No far-expiry discounts on the board today (≥12% below near-IV fair value). The desk only trades ≥20%.</div>';
+    } else {
+      var rows = board.map(function (b) {
+        var hot = b.discount >= 0.20;
+        return '<tr' + (hot ? ' style="background:rgba(79,195,247,.08)"' : "") + '>' +
+          "<td>" + esc(b.expiry) + " <span class='muted'>(" + b.dte + "d)</span></td>" +
+          "<td><strong>" + b.strike + (b.opt === "CE" ? "C" : "P") + "</strong>" +
+          (hot ? ' <span class="badge badge-green">signal</span>' : "") + "</td>" +
+          "<td>₹" + b.price + "</td><td>₹" + b.fair + "</td>" +
+          '<td class="' + (hot ? "ok" : "") + '"><strong>' + Math.round(b.discount * 100) + "%</strong></td>" +
+          '<td class="ok">+' + b.edge_pts + " pts</td>" +
+          "<td>" + b.vol.toLocaleString("en-IN") + "</td>" +
+          "<td>" + (b.own_iv != null ? (b.own_iv * 100).toFixed(1) + "%" : "—") + "</td></tr>";
+      }).join("");
+      bw.innerHTML = "<table><thead><tr><th>Expiry</th><th>Strike</th>" +
+        "<th>Traded ₹</th><th>Fair ₹ (near IV)</th><th>Discount</th><th>Edge</th>" +
+        "<th>Volume</th><th>Own IV</th></tr></thead><tbody>" + rows + "</tbody></table>";
+    }
+    set("ltpBlocked", (d.blocked || []).length
+      ? "No new entry today: " + esc(d.blocked.join(" · "))
+      : (op.length ? "" : "Scanning every trading evening after the bhavcopy lands (≥18:45 IST)."));
+
+    var ow = document.getElementById("ltpOpenWrap");
+    if (!op.length) {
+      ow.innerHTML = '<div class="flash">No open structure — waiting for a ≥20% far-expiry discount.</div>';
+    } else {
+      var t = op[0], f = t.far, sh = t.shorts || [];
+      var srows = sh.map(function (x) {
+        return "<tr><td>SELL " + (t.side === "call" ? "CALL" : "PUT") + "</td>" +
+          "<td>" + x.strike + "</td><td>" + esc(x.expiry) + "</td>" +
+          "<td>" + x.qty + "</td><td>₹" + x.entry + "</td><td>₹" + (x.mark != null ? x.mark : "—") + "</td>" +
+          "<td>" + (x.exit ? "closed" : (x.rolled ? "rolled" : "live")) + "</td></tr>";
+      }).join("");
+      ow.innerHTML = "<table><thead><tr><th>Leg</th><th>Strike</th><th>Expiry</th>" +
+        "<th>Qty</th><th>Entry ₹</th><th>Mark ₹</th><th>State</th></tr></thead><tbody>" +
+        "<tr><td><strong>BUY " + (t.side === "call" ? "CALL" : "PUT") +
+        ' <span class="badge badge-green">discount</span></strong></td>' +
+        "<td><strong>" + f.strike + "</strong></td><td>" + esc(f.expiry) + "</td>" +
+        "<td>" + f.qty + "</td><td>₹" + f.entry + "</td><td>₹" + f.mark + "</td><td>live</td></tr>" +
+        srows + "</tbody></table>" +
+        '<p class="hint" style="margin:0.5rem 0 0">Day ' + t.days + ' of 4 · position ' +
+        (t.points >= 0 ? "+" : "−") + Math.abs(t.points) + " pts (target +70, stop −70) · shorts decay while the discounted far leg holds value.</p>";
+    }
+
+    var closed = d.trades || [];
+    set("ltpClosedCount", "(" + (s.closed || 0) + ")");
+    var cw = document.getElementById("ltpClosedWrap");
+    var cl = closed.filter(function (t) { return t.exit; });
+    if (!cl.length) {
+      cw.innerHTML = '<div class="flash">No closed trades yet.</div>';
+    } else {
+      var rows = cl.slice().reverse().map(function (t) {
+        var win = (t.pnl || 0) > 0;
+        return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
+          "<td>" + esc(t.entry) + "</td><td>" + esc(t.exit) + "</td>" +
+          "<td>" + (t.side === "call" ? "CALL" : "PUT") + "</td>" +
+          "<td>" + Math.round((t.discount_at_entry || 0) * 100) + "%</td>" +
+          "<td>" + esc(t.reason) + "</td>" +
+          '<td class="' + cls(t.points) + '">' + (t.points >= 0 ? "+" : "−") + Math.abs(t.points) + "</td>" +
+          '<td class="' + cls(t.pnl) + '">' + inr(t.pnl) + "</td></tr>";
+      }).join("");
+      cw.innerHTML = "<table><thead><tr><th>Entry</th><th>Exit</th><th>Side</th>" +
+        "<th>Disc@Entry</th><th>Reason</th><th>Pts</th><th>P&L ₹</th></tr></thead><tbody>" +
+        rows + "</tbody></table>";
+    }
+  }
+
+  function load() {
+    fetch(base + "/data/paper_nifty_ltp.json?t=" + Date.now())
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(render)
+      .catch(function () {
+        var el = document.getElementById("ltpStatus");
+        if (el) { el.className = "flash";
+          el.textContent = "⚠️ Could not load Long-Term Premium data — the desk publishes every trading evening after 18:45 IST."; }
+      });
+  }
+  load();
+  setInterval(load, 60000);
+})();
+</script>
 
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
 

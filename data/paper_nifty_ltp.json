@@ -1,0 +1,48 @@
+{
+ "updated_at": "03 Oct 2026 20:37 IST",
+ "bhav_date": "2026-09-30",
+ "desk": "NIFTY Long-Term Premium",
+ "status": "RUNNING",
+ "strategy": {
+  "rule": "NK sir (video SMky9fADQZw): BUY the discounted far-expiry NIFTY option (fair value from near-month IV), SELL nearer-weekly premium against it \u2014 buyer at discount + seller at price. Discounted CALL -> 1:2 ratio (profits if market falls OR rises; only fast momentum hurts). Discounted PUT -> spread. Shorts 1:1 (defined risk). 3 lots (225 qty) per Rs 5L model book.",
+  "exits": "target +70 pts \u00b7 time-stop 4 trading days \u00b7 momentum exit on close through the short strike +/-25 pt buffer \u00b7 expired shorts rolled to the next weekly (keep selling)",
+  "caps": "max 4 trades/month \u00b7 1 open structure \u00b7 signal: discount >= 20%",
+  "cadence": "EOD bhavcopy marks (intraday fills approximated by closes)",
+  "source": "NK Stock Talk session 2026-10-03; rules doc NK_NIFTY_PREMIUM_RULES.md"
+ },
+ "levels": {
+  "spot": 22649.8,
+  "weekly_20sma": 23842.9,
+  "near_iv": 0.119,
+  "bias": "below (put side)"
+ },
+ "board": [
+  {
+   "expiry": "2026-12-29",
+   "strike": 23250.0,
+   "opt": "PE",
+   "dte": 90,
+   "price": 557.4,
+   "vol": 35,
+   "fair": 658.9,
+   "discount": 0.154,
+   "edge_pts": 101.5,
+   "own_iv": 0.096
+  }
+ ],
+ "blocked": [
+  "desk armed \u2014 first live scan Monday 18:45 IST"
+ ],
+ "open": [],
+ "trades": [],
+ "summary": {
+  "trades": 0,
+  "closed": 0,
+  "open": 0,
+  "this_month": 0,
+  "wins": 0,
+  "win_rate": 0,
+  "realized": 0,
+  "unrealized": 0
+ }
+}
