@@ -857,7 +857,10 @@ def commit_state() -> None:
              "data/scanners/htf-hm-latest.json",
              "scanners/papertrades/htf_hm_trades.csv",
              "data/cloud_nifty_ltp_state.json",
-             "data/paper_nifty_ltp.json"]
+             "data/paper_nifty_ltp.json",
+             "data/cloud_future_arb_state.json",
+             "data/paper_future_arb.json",
+             "scanners/papertrades/future_arbitaage_open_*.csv"]
     for f in files:
         subprocess.run(["git", "add", "--", f], cwd=ROOT,
                        check=False, capture_output=True)
@@ -959,6 +962,14 @@ def main() -> None:
             cloud_nifty_ltp.tick()
         except Exception as e:
             print(f"nifty ltp tick failed: {e}", flush=True)
+        # Future Arbitrage desk (vault Arbitage 2.x, owner go 2026-10-03):
+        # engine.run daily after the bhavcopy lands — exits, entries under the
+        # v2.1 rules, MTM; snapshot + NSE-200 situation list published
+        try:
+            import cloud_future_arb
+            cloud_future_arb.tick()
+        except Exception as e:
+            print(f"future arb tick failed: {e}", flush=True)
     commit_state()
     maybe_start_poller()
 

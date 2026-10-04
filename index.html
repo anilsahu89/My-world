@@ -578,6 +578,7 @@
       j("/data/scanners/nifty-daily-theta-latest.json"),
       j("/data/scanners/nifty-premium-mill-latest.json"),
       j("/data/paper_nifty_ltp.json"),
+      j("/data/paper_future_arb.json"),
       j("/data/paper_btc_theta.json"),
       j("/data/paper_qm.json"),
       j("/data/swing_picks.json"),
@@ -587,8 +588,8 @@
   }
 
   function render(res) {
-    var ol = res[0], theta = res[1], mill = res[2], ltp = res[3],
-        btc = res[4], qm = res[5], sw = res[6], gc = res[7], ls = res[8];
+    var ol = res[0], theta = res[1], mill = res[2], ltp = res[3], arb = res[4],
+        btc = res[5], qm = res[6], sw = res[7], gc = res[8], ls = res[9];
     var rows = [];
 
     /* 1 · Intraday O=L/O=H (NSE, ₹) */
@@ -640,6 +641,16 @@
         losses: Math.max(0, (lp.closed || 0) - (lp.wins || 0)),
         wr: lp.win_rate, real: num(lp.realized), unrl: num(lp.unrealized) });
     } else rows.push(dead("💎 NIFTY Long-Term Premium", "discount desk · first scan Mon 18:45 IST"));
+
+    /* 2d · Future Arbitrage (₹) — vault rules desk */
+    if (arb && arb.summary) {
+      var as = arb.summary;
+      rows.push({ name: "🎯 Future Arbitrage",
+        sub: "vault basis harvest · " + (arb.updated_at || ""),
+        cur: "₹", open: as.open || 0, closed: as.closed || 0,
+        wins: null, losses: null, wr: null,
+        real: num(as.realized), unrl: num(as.mtm) });
+    } else rows.push(dead("🎯 Future Arbitrage", "basis desk · runs daily 18:45 IST"));
 
     /* 3 · BTC Theta 0DTE condor (₹) */
     if (btc && btc.summary) {

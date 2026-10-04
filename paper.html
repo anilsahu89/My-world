@@ -370,6 +370,7 @@ main h3 .collapse-btn {
   <button class="pt-tab" data-panel="thetaSection">🛡️ NIFTY Theta</button>
   <button class="pt-tab" data-panel="millSection">🏭 Premium Mill</button>
   <button class="pt-tab" data-panel="ltpSection">💎 NIFTY Long-Term Premium</button>
+  <button class="pt-tab" data-panel="arbSection">🎯 Future Arbitrage</button>
   <button class="pt-tab" data-panel="btcThetaSection">₿ BTC Theta</button>
   <button class="pt-tab" data-panel="gcSection">🥇 Gold/BTC</button>
   <button class="pt-tab" data-panel="manualPanel">✋ Manual</button>
@@ -380,7 +381,7 @@ main h3 .collapse-btn {
 <section id="raceSection" class="pt-panel active">
   <h2 style="color:#ffd54f">
     🏆 October Race — ₹1 Lakh per Setup
-    <span class="muted" style="font-size:0.75rem">— October mandate (1 Oct 2026): every desk races ₹1L; theta &amp; BTC theta may stretch to ₹1.5L for selling margin · QM moved to ₹1L on 1 Oct · LTP joined 3 Oct on its ₹5L NK-model book — ten desks racing (most on ₹1L; theta/BTC 1.5L) · old caps like 5 trades/setup stay where they fit the ₹1L book · ranked by October realized P&amp;L ÷ assigned capital · updates every minute</span>
+    <span class="muted" style="font-size:0.75rem">— October mandate (1 Oct 2026): every desk races ₹1L; theta &amp; BTC theta may stretch to ₹1.5L for selling margin · QM moved to ₹1L on 1 Oct · LTP joined 3 Oct on its ₹5L NK-model book; Future Arbitrage joined 3 Oct (₹1L pilot) — eleven desks racing · old caps like 5 trades/setup stay where they fit the ₹1L book · ranked by October realized P&amp;L ÷ assigned capital · updates every minute</span>
   </h2>
   <div id="raceStatus" class="flash">Loading October leaderboard…</div>
 
@@ -669,6 +670,145 @@ main h3 .collapse-btn {
         var el = document.getElementById("ltpStatus");
         if (el) { el.className = "flash";
           el.textContent = "⚠️ Could not load Long-Term Premium data — the desk publishes every trading evening after 18:45 IST."; }
+      });
+  }
+  load();
+  setInterval(load, 60000);
+})();
+</script>
+
+<hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
+
+<!-- ===================== FUTURE ARBITRAGE — VAULT RULES DESK ===================== -->
+<section id="arbSection" class="pt-panel">
+  <h2 style="color:#66bb6a">
+    🎯 Future Arbitrage — Basis Harvest
+    <span class="muted" style="font-size:0.75rem">— vault Arbitage 2.x rules (ARBITAGE_2_0_RULES.md) · spot > current > next ⇒ BUY current-month, SELL next-month, exit on convergence or expiry · v2.1 gates · ₹1L pilot · 1-yr backtest: strict variant 91.7% WR, 2% maxDD · daily 18:45 IST · GitHub Actions</span>
+  </h2>
+  <div id="arbStatus" class="flash">Loading Future Arbitrage desk…</div>
+
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">Open Spreads</span>
+      <span class="sum-value" style="color:var(--green)" id="arbOpen">—</span></div>
+    <div class="sum-card"><span class="sum-label">Realized ₹</span>
+      <span class="sum-value" id="arbTotal">—</span></div>
+    <div class="sum-card"><span class="sum-label">Equity (₹1L book)</span>
+      <span class="sum-value" id="arbEquity">—</span></div>
+    <div class="sum-card"><span class="sum-label">Preset</span>
+      <span class="sum-value" style="font-size:1rem" id="arbPreset">—</span></div>
+  </div>
+
+  <h3 style="margin-top:1.5rem">🔍 Today's Situation Board <span class="muted">(NSE-200 stocks in the raw double-discount shape — "har gap arbitrage nahi hai")</span></h3>
+  <div class="table-wrap" id="arbSituationWrap"><div class="flash">Situation board loading…</div></div>
+
+  <h3 style="margin-top:1.5rem">🟢 Open Spreads</h3>
+  <div class="table-wrap" id="arbOpenWrap"><div class="flash">No open spreads.</div></div>
+
+  <h3 style="margin-top:1.5rem">🔴 Closed <span class="muted" id="arbClosedCount">(0)</span></h3>
+  <div class="table-wrap" id="arbClosedWrap"><div class="flash">No closed trades yet.</div></div>
+</section>
+
+<script>
+/* ===== Future Arbitrage desk — renders data/paper_future_arb.json ===== */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  function esc(s) { var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function inr(n) { if (n == null || isNaN(n)) return "—";
+    var neg = n < 0;
+    return (neg ? "−₹" : "₹") + Math.abs(n).toLocaleString("en-IN",
+      { maximumFractionDigits: 0 }); }
+  function cls(n) { return n > 0 ? "ok" : (n < 0 ? "bad" : ""); }
+  function set(id, html) { var el = document.getElementById(id);
+    if (el) el.innerHTML = html; }
+
+  function render(d) {
+    var s = d.summary || {};
+    var el = document.getElementById("arbStatus");
+    el.innerHTML = "Updated " + esc(d.updated_at) + " (bhav " + esc(d.bhav_date) + ") &nbsp;·&nbsp; " +
+      "engine runs daily after the bhavcopy: exits (current future closes back at/above spot = convergence, or expiry), kill-switch check, entries under the " + esc(d.preset || "v2.1") + " gates, MTM mark";
+    el.classList.remove("flash");
+    set("arbOpen", String(s.open != null ? s.open : "—"));
+    set("arbTotal", inr(s.realized));
+    document.getElementById("arbTotal").className =
+      "sum-value " + ((s.realized || 0) >= 0 ? "pos" : "neg");
+    set("arbEquity", inr(s.equity));
+    set("arbPreset", esc(d.preset || "v2.1"));
+
+    var sit = d.situation || [];
+    var sw = document.getElementById("arbSituationWrap");
+    if (!sit.length) {
+      sw.innerHTML = '<div class="flash">No NSE-200 stock is in the double-discount shape today (spot > current > next).</div>';
+    } else {
+      var rows = sit.map(function (x) {
+        var pass = x.v21_pass, v20 = x.v20_pass;
+        var badge = pass ? '<span class="badge badge-green">v2.1 pass</span>'
+          : (v20 ? '<span class="badge badge-green">v2.0 pass</span>' : "");
+        return '<tr' + (pass ? ' style="background:rgba(79,195,247,.08)"' : "") + '>' +
+          "<td><strong>" + esc(x.symbol) + "</strong> " + badge + "</td>" +
+          "<td>" + x.spot + "</td><td>" + x.current + "</td><td>" + x.next + "</td>" +
+          '<td class="' + (x.basis >= 10 ? "ok" : "") + '"><strong>' + x.basis + "</strong></td>" +
+          "<td>" + x.spread + "</td><td>" + x.basis_pct + "%</td>" +
+          "<td>" + x.vol_curr + " / " + x.vol_next + "</td><td>" + x.dte + "d</td>" +
+          '<td class="muted" style="font-size:0.75rem">' + (pass ? "all filters clear" : esc(x.verdict.replace("rejected: ", ""))) + "</td></tr>";
+      }).join("");
+      sw.innerHTML = "<table><thead><tr><th>Stock</th><th>Spot</th><th>Current Fut</th>" +
+        "<th>Next Fut</th><th>Basis</th><th>Spread</th><th>Basis %</th>" +
+        "<th>Vol (cur/next)</th><th>DTE</th><th>Verdict</th></tr></thead><tbody>" +
+        rows + "</tbody></table>" +
+        '<p class="hint" style="margin:0.5rem 0 0">v2.1 pass = tradeable today under the strict vault gates (basis ≥₹20 & ≥1.5% of spot, spread ≤ half the basis, next-month volume ≥500, 7–21 days to expiry). v2.0 pass = the baseline rule set. Everything else is listed with the exact filter it fails — the "har gap arbitrage nahi hai" board.</p>';
+    }
+
+    var open = d.open || [];
+    var ow = document.getElementById("arbOpenWrap");
+    if (!open.length) {
+      ow.innerHTML = '<div class="flash">No open spreads — entries fire the same evening a stock clears the gates.</div>';
+    } else {
+      var rows = open.map(function (o) {
+        return '<tr><td><strong>' + esc(o.symbol) + "</strong></td><td>" + esc(o.entry_date) + "</td>" +
+          "<td>BUY " + esc(o.current_expiry) + " @ " + o.entry_current + "</td>" +
+          "<td>SELL " + esc(o.next_expiry) + " @ " + o.entry_next + "</td>" +
+          "<td>" + o.basis + "</td><td>" + o.spread + "</td><td>" + o.lot + "</td>" +
+          "<td>₹" + Number(o.spread_value).toLocaleString("en-IN") + "</td></tr>";
+      }).join("");
+      ow.innerHTML = "<table><thead><tr><th>Stock</th><th>Entered</th><th>Long Leg</th>" +
+        "<th>Short Leg</th><th>Basis</th><th>Spread</th><th>Lot</th><th>Spread ₹/lot</th></tr></thead><tbody>" +
+        rows + "</tbody></table>" +
+        '<p class="hint" style="margin:0.5rem 0 0">Exit: the current-month future closes back at/above spot (convergence — the basis was harvested), or expiry day. Max loss scenario is bounded by the entry filters; daily kill-switch at −₹15,000.</p>';
+    }
+
+    var closed = d.closed || [];
+    set("arbClosedCount", "(" + closed.length + ")");
+    var cw = document.getElementById("arbClosedWrap");
+    if (!closed.length) {
+      cw.innerHTML = '<div class="flash">No closed trades yet — first spreads entered Oct 1 are still converging.</div>';
+    } else {
+      var rows = closed.slice().reverse().map(function (t) {
+        var win = (t.pnl || 0) > 0;
+        return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
+          "<td><strong>" + esc(t.symbol) + "</strong></td>" +
+          "<td>" + esc(t.entry_date) + "</td><td>" + esc(t.exit_date) + "</td>" +
+          "<td>" + esc((t.reason || "").replace("SL_current_future_matched_or_crossed_spot", "convergence")) + "</td>" +
+          '<td class="' + cls(t.pnl) + '">' + inr(t.pnl) + "</td></tr>";
+      }).join("");
+      cw.innerHTML = "<table><thead><tr><th>Stock</th><th>Entered</th><th>Exited</th>" +
+        "<th>Reason</th><th>P&L ₹</th></tr></thead><tbody>" + rows + "</tbody></table>";
+    }
+  }
+
+  function load() {
+    fetch(base + "/data/paper_future_arb.json?t=" + Date.now())
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(render)
+      .catch(function () {
+        var el = document.getElementById("arbStatus");
+        if (el) { el.className = "flash";
+          el.textContent = "⚠️ Could not load Future Arbitrage data — the desk publishes every trading evening after 18:45 IST."; }
       });
   }
   load();
@@ -1626,6 +1766,11 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         return { t: tally(c, function (x) { return x.exit_date || x.entry_date; }, function (x) { return x.pnl; }),
           last: lastClose(c, function (x) { return x.exit_date || x.entry_date; }, function (x) { return x.pnl; }),
           open: ((d && d.trades) || []).filter(function (x) { return (x.status || "") === "OPEN"; }).length, ok: !!d }; } },
+    { name: "🎯 Future Arbitrage", cap: 100000, src: "/data/paper_future_arb.json",
+      adapt: function (d) { var c = (d && d.closed) || [];
+        return { t: tally(c, function (x) { return x.exit_date; }, function (x) { return x.pnl; }),
+          last: lastClose(c, function (x) { return x.exit_date; }, function (x) { return x.pnl; }),
+          open: (d && d.open) ? d.open.length : 0, ok: !!d }; } },
     { name: "💎 NIFTY Long-Term Premium", cap: 500000, src: "/data/paper_nifty_ltp.json",
       adapt: function (d) { var c = ((d && d.trades) || []).filter(function (x) { return x.exit; });
         return { t: tally(c, function (x) { return x.exit; }, function (x) { return x.pnl; }),
