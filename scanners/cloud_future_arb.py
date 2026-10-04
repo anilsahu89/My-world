@@ -191,6 +191,11 @@ def run_day() -> dict:
     import engine as arb_engine
     cfg = config_mod.load()
 
+    # pre-run book for the Telegram diff (what opened / closed today)
+    prev_open_syms = {r["symbol"] for r in _book()[0]}
+    prev_closed_keys = {(r["symbol"], r.get("exit_date"))
+                        for r in _book()[1]}
+
     # engine runs only for the real session day (entries/exits/mtm);
     # a stale bhav just re-publishes the snapshot
     result = {"entered": [], "kill_switch_tripped": False, "open_mtm": 0.0}
@@ -234,6 +239,30 @@ def run_day() -> dict:
                     "kill_switch": result.get("kill_switch_tripped", False)},
     }
     snap["bhav_date"] = bhav_day.isoformat()
+
+    # Telegram alerts for what this run changed (best-effort)
+    try:
+        opens_now, closed_now, _ = _book()
+        import telegram_notify
+        for o in snap["open"]:
+            if o["symbol"] not in prev_open_syms:
+                telegram_notify.notify(
+                    f"⚡ OPEN · Future Arbitrage\n"
+                    f"BUY {o['symbol']} {o['current_expiry']} @ ₹{float(o['entry_current']):.2f}\n"
+                    f"SELL {o['next_expiry']} @ ₹{float(o['entry_next']):.2f}\n"
+                    f"basis ₹{o['basis']} · spread ₹{o['spread']} · lot {o['lot']} "
+                    f"(preset {cfg.preset})")
+        for c in closed_now:
+            key = (c["symbol"], c.get("exit_date"))
+            if key not in prev_closed_keys:
+                telegram_notify.notify(
+                    f"✅ CLOSE · Future Arbitrage\n"
+                    f"{c['symbol']} (entered {c['entry_date']})\n"
+                    f"reason {(c.get('reason') or '').replace('SL_current_future_matched_or_crossed_spot', 'convergence (current future back at spot)')}\n"
+                    f"P&L ₹{float(c.get('pnl') or 0):+,.0f}")
+    except Exception as e:
+        print(f"arb telegram notify failed: {e}", flush=True)
+
     _write(SNAPSHOT_FILE, snap)
     if bhav_day == today:
         state["done_date"] = bhav_day.isoformat()
