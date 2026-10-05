@@ -1,9 +1,9 @@
 {
- "fetched_at": "2026-10-05 16:21:53",
- "latest_date": "2026-10-01",
+ "fetched_at": "2026-10-05 17:30:26",
+ "latest_date": "2026-10-05",
  "universe_count": 197,
  "shorts_count": 0,
- "longs_count": 4,
+ "longs_count": 5,
  "shorts": [],
  "longs": [
   {
@@ -39,6 +39,23 @@
    "primary_date": "2026-09-28",
    "alert_date": "2026-09-29",
    "score": 26.6
+  },
+  {
+   "kind": "bb",
+   "type": "LONG",
+   "symbol": "JIOFIN",
+   "entry_price": 212.5,
+   "sl_price": 210.12,
+   "target_price": 217.25,
+   "rr": 2.0,
+   "wick_pct": 52,
+   "vol_multiple": 2.0,
+   "rsi": 23,
+   "rsi_pass": false,
+   "primary_range": 4.75,
+   "primary_date": "2026-09-30",
+   "alert_date": "2026-10-01",
+   "score": 26.5
   },
   {
    "kind": "bb",
