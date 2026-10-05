@@ -2271,26 +2271,47 @@
  "f3_done_date": "2026-10-02",
  "reentry_watch": [],
  "vol_blocked": {
-  "date": "2026-10-02",
+  "date": "2026-10-05",
   "ol": {
    "low_vol": [],
-   "no_vol_data": []
+   "no_vol_data": [
+    "ADANIPOWER",
+    "ADANIENSOL",
+    "APOLLOHOSP",
+    "ASHOKLEY",
+    "BAJFINANCE",
+    "BDL",
+    "AMBUJACEM",
+    "BHARTIARTL",
+    "BPCL",
+    "GODFRYPHLP",
+    "INDHOTEL",
+    "HAL",
+    "GODREJCP",
+    "NYKAA",
+    "HDFCAMC",
+    "INDIANB",
+    "DIXON",
+    "HINDPETRO",
+    "LGEINDIA",
+    "NTPC",
+    "MAZDOCK",
+    "KOTAKBANK",
+    "PHOENIXLTD",
+    "SAIL",
+    "RELIANCE",
+    "POWERGRID",
+    "SBICARD",
+    "ONGC",
+    "TRENT",
+    "UNITDSPR",
+    "TATAPOWER",
+    "VBL"
+   ]
   },
   "oh": {
    "low_vol": [],
-   "no_vol_data": [
-    "ADANIPORTS",
-    "AUBANK",
-    "CHOLAFIN",
-    "BAJAJHLDNG",
-    "ICICIAMC",
-    "ITC",
-    "GODREJCP",
-    "HUDCO",
-    "JSWENERGY",
-    "MRF",
-    "PIIND"
-   ]
+   "no_vol_data": []
   }
  }
 }
