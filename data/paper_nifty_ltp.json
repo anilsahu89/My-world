@@ -1,6 +1,6 @@
 {
- "updated_at": "03 Oct 2026 20:37 IST",
- "bhav_date": "2026-09-30",
+ "updated_at": "05 Oct 2026 12:03 IST",
+ "bhav_date": "2026-10-01",
  "desk": "NIFTY Long-Term Premium",
  "status": "RUNNING",
  "strategy": {
@@ -11,27 +11,14 @@
   "source": "NK Stock Talk session 2026-10-03; rules doc NK_NIFTY_PREMIUM_RULES.md"
  },
  "levels": {
-  "spot": 22649.8,
-  "weekly_20sma": 23842.9,
-  "near_iv": 0.119,
+  "spot": 22462.8,
+  "weekly_20sma": 23779.2,
+  "near_iv": 0.121,
   "bias": "below (put side)"
  },
- "board": [
-  {
-   "expiry": "2026-12-29",
-   "strike": 23250.0,
-   "opt": "PE",
-   "dte": 90,
-   "price": 557.4,
-   "vol": 35,
-   "fair": 658.9,
-   "discount": 0.154,
-   "edge_pts": 101.5,
-   "own_iv": 0.096
-  }
- ],
+ "board": [],
  "blocked": [
-  "desk armed \u2014 first live scan Monday 18:45 IST"
+  "no discount >= 20% (best 0%)"
  ],
  "open": [],
  "trades": [],

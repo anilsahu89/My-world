@@ -475,9 +475,18 @@ def run_day() -> dict:
         else:
             cands = [b for b in board if b["discount"] >= TRADE_DISCOUNT]
             if not cands:
-                best = board[0]["discount"] * 100 if board else 0
+                # report the TRUE best discount on the chain, even below the
+                # board-display gate, so "why no trade" is answerable at a glance
+                global BOARD_DISCOUNT
+                saved_gate = BOARD_DISCOUNT
+                try:
+                    BOARD_DISCOUNT = -9
+                    all_rows = discount_board(opts, day, spot, iv)
+                finally:
+                    BOARD_DISCOUNT = saved_gate
+                best_pct = max((b["discount"] for b in all_rows), default=0) * 100
                 blocked.append(f"no discount >= {TRADE_DISCOUNT:.0%} "
-                               f"(best {best:.0f}%)")
+                               f"(best {best_pct:.0f}% of {len(all_rows)} scanned)")
             else:
                 best = cands[0]
                 want = "call" if best["opt"] == "CE" else "put"
