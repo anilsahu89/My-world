@@ -28,7 +28,10 @@
    "reason": "",
    "pnl": 0.0,
    "weeks_held": 0,
-   "notes": "HM momentum BUY-MOMENTUM"
+   "notes": "HM momentum BUY-MOMENTUM",
+   "ltp": 360.0,
+   "live_pnl": -141.45,
+   "live_pct": -0.57
   },
   {
    "symbol": "CARBORUNIV",
@@ -44,8 +47,12 @@
    "reason": "",
    "pnl": 0.0,
    "weeks_held": 0,
-   "notes": "HM momentum BUY-MOMENTUM"
+   "notes": "HM momentum BUY-MOMENTUM",
+   "ltp": 1267.6,
+   "live_pnl": -207.1,
+   "live_pct": -0.85
   }
  ],
- "closed": []
+ "closed": [],
+ "quote_time": "05 Oct 21:07:06 IST"
 }
