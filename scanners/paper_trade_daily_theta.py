@@ -20,9 +20,15 @@ Monday = 1 DTE and Friday = 4 DTE under the new calendar):
 """
 
 import csv, io, math, urllib.request, zipfile
-from datetime import datetime, date, timedelta
+from datetime import datetime, date, timedelta, timezone
 from pathlib import Path
 from collections import defaultdict
+
+IST = timezone(timedelta(hours=5, minutes=30))
+
+
+def ist_today() -> date:
+    return datetime.now(IST).date()
 
 import telegram_notify
 
@@ -89,7 +95,29 @@ def load_spot_vix(day):
             with SPOT_VIX_FILE.open("a", newline="") as f:
                 csv.writer(f).writerow([day.isoformat(), spot, vix])
             return spot, vix
-    except:
+    except Exception:
+        pass
+    # yfinance fallback — NSE archives 403 datacenter IPs regularly
+    try:
+        import yfinance as yf
+        kw = dict(interval="1d", progress=False, threads=False,
+                  auto_adjust=False)
+        s = yf.download("^NSEI", start=day.isoformat(),
+                        end=(day + timedelta(days=1)).isoformat(), **kw)
+        v = yf.download("^INDIAVIX", start=day.isoformat(),
+                        end=(day + timedelta(days=1)).isoformat(), **kw)
+        if s is not None and not s.empty and v is not None and not v.empty:
+            spot = float(s["Close"].iloc[-1].iloc[0]
+                         if hasattr(s["Close"].iloc[-1], "iloc")
+                         else s["Close"].iloc[-1])
+            vix = float(v["Close"].iloc[-1].iloc[0]
+                        if hasattr(v["Close"].iloc[-1], "iloc")
+                        else v["Close"].iloc[-1])
+            if spot and vix:
+                with SPOT_VIX_FILE.open("a", newline="") as fh:
+                    csv.writer(fh).writerow([day.isoformat(), spot, vix])
+                return spot, vix
+    except Exception:
         pass
     return None, None
 
@@ -218,7 +246,9 @@ def _alert_open(sig):
 def check_signal(day):
     """Check if a trade signal exists on this day."""
     if day.weekday() not in ENTRY_DAYS:
-        return None, f"Not Mon/Tue/Wed ({day.strftime('%a')}) — skip"
+        names = ["Mon", "Tue", "Wed", "Thu", "Fri"][day.weekday()]
+        return None, (f"{names} is not an entry day "
+                      "(Mon/Tue/Wed/Fri, 1-4 DTE gate) — skip")
 
     spot, vix = load_spot_vix(day)
     if spot is None:

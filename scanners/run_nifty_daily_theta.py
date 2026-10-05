@@ -80,7 +80,7 @@ def main():
             output["report"] = report
             output["text_report"] = stdout.strip() if stdout.strip() else "Daily Theta check complete."
 
-            if "SIGNAL" in stdout.upper() or "ENTRY" in stdout.upper():
+            if "✅ SIGNAL" in stdout or "✅ ENTERED" in stdout:
                 output["status"] = "new_signal"
 
     except subprocess.TimeoutExpired:
