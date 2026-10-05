@@ -386,6 +386,7 @@ def run_day(dry: bool = False) -> dict:
             trades.append({"id": state["next_id"], "signal_date": today,
                            "symbol": cand["sym"], "setup": cand["setup"],
                            "side": "BUY", "status": "PENDING",
+                           "ref_close": round(float(cand.get("close") or 0), 2),
                            "entry_date": None, "qty": None, "entry": None,
                            "invested": None, "booked": 0.0, "avg_count": 0,
                            "trail": False, "sessions": 0, "exit": None,
@@ -419,7 +420,7 @@ def _close(t: dict, px: float, reason: str) -> None:
 def export(state: dict) -> dict:
     trades = state["trades"]
     fields = ("id", "signal_date", "symbol", "setup", "side", "status",
-              "entry_date", "qty", "entry", "invested", "booked",
+              "ref_close", "entry_date", "qty", "entry", "invested", "booked",
               "avg_count", "trail", "sessions", "mark", "exit", "reason",
               "pnl", "note")
 

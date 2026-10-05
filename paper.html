@@ -2089,11 +2089,19 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     w.textContent = (s.win_rate || 0) + "% (" + (s.wins || 0) + "W/" + (s.losses || 0) + "L)";
     var rows = (d.pending || []).concat((d.open || []).concat((d.closed || []).slice(0, 20)));
     var h = "<table><thead><tr><th>Signal</th><th>Symbol</th><th>Status</th><th>Qty</th>" +
-      "<th>Entry (avg)</th><th>Invested</th><th>Booked</th><th>Mark</th><th>Sess</th><th>Exit</th><th>P&L</th>" +
+      "<th>Entry (avg)</th><th>Invested</th><th>Booked</th><th>Mark</th><th>Sess</th><th>Exit</th><th>P&L</th><th></th>" +
       "</tr></thead><tbody>";
+    var taken = qmTaken();
     rows.forEach(function (t) {
+      var isPend = t.status === "PENDING";
+      var took = taken.indexOf(t.symbol) !== -1;
+      var action = isPend
+        ? (took ? '<span class="muted">taken ✓</span>'
+                : '<button class="btn" data-qmsym="' + esc(t.symbol) + '" data-qmref="' + esc(t.ref_close || "") + '" title="take this signal now into your Manual book (₹5k lot) at live LTP, or the signal-day close if no live price">✋ Take</button>')
+        : "";
       h += "<tr><td>" + esc(t.signal_date) + "</td>" +
-        "<td><strong>" + esc(t.symbol) + "</strong></td>" +
+        "<td><strong>" + esc(t.symbol) + "</strong>" +
+          (isPend && t.note ? '<div class="muted" style="font-size:0.72rem">' + esc(t.note) + "</div>" : "") + "</td>" +
         "<td>" + esc(t.status) + (t.trail ? " 🚩trail" : "") + (t.avg_count ? " (avg)" : "") + "</td>" +
         "<td>" + (t.qty != null ? t.qty : "—") + "</td>" +
         "<td>" + (t.entry != null ? t.entry + (t.entry_date ? " (" + esc(t.entry_date).slice(5) + ")" : "") : "next open") + "</td>" +
@@ -2102,9 +2110,72 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         "<td>" + (t.mark != null ? t.mark : "—") + "</td>" +
         "<td>" + (t.sessions || 0) + "</td>" +
         "<td>" + (t.exit != null ? t.exit + " " + esc(t.reason || "") : "—") + "</td>" +
-        '<td class="' + cls(t.pnl) + '">' + (t.pnl != null ? fmt(t.pnl) : "—") + "</td></tr>";
+        '<td class="' + cls(t.pnl) + '">' + (t.pnl != null ? fmt(t.pnl) : "—") + "</td>" +
+        "<td>" + action + "</td></tr>";
     });
-    document.getElementById("qmWrap").innerHTML = h + "</tbody></table>";
+    document.getElementById("qmWrap").innerHTML = h + "</tbody></table>" +
+      '<p class="hint" style="margin:0.5rem 0 0">✋ Take = take a PENDING signal immediately at live LTP into your Manual book (₹5k lot, same as the QM desk) — for when you don\'t want to wait for the engine\'s next-open fill. The QM engine itself fills pendings at the next session\'s open during the 17:35 scan.</p>';
+    bindTakeButtons();
+  }
+
+  /* --- manual take for PENDING signals (browser-side, Manual book) ----- */
+  function qmTaken() {
+    try { return JSON.parse(localStorage.getItem("mahi_qm_taken") || "[]"); }
+    catch (e) { return []; }
+  }
+  function bindTakeButtons() {
+    var btns = document.querySelectorAll("button[data-qmsym]");
+    if (!btns.length) return;
+    var quotes = null;
+    function fill(btn, sym) {
+      var live = parseFloat((quotes[sym] || {}).ltp);
+      var ref = parseFloat(btn.getAttribute("data-qmref"));
+      var price = NaN, src = "";
+      if (live > 0) { price = live; src = ""; }
+      else if (ref > 0) { price = ref; src = " (signal-day close)"; }
+      if (!(price > 0)) {
+        btn.textContent = "no price — use ✋ Manual tab";
+        btn.disabled = true;
+        return;
+      }
+      var qty = Math.max(1, Math.floor(5000 / price));
+      btn.textContent = "✋ " + sym + " ₹" + price.toFixed(2) + src + " × " + qty +
+        " = ₹" + Math.round(price * qty).toLocaleString("en-IN") + " — click to confirm";
+      btn.onclick = function () {
+        window.addPaperTrade({
+          strategy: "qm-manual", symbol: sym,
+          entry_date: new Date().toISOString().slice(0, 10),
+          entry_price: price, sl_price: 0, quantity: qty,
+          invested: +(price * qty).toFixed(2),
+          note: "QM pending signal taken manually" + (src ? " at signal close" : "")
+        });
+        try {
+          var taken = qmTaken();
+          if (taken.indexOf(sym) === -1) { taken.push(sym);
+            localStorage.setItem("mahi_qm_taken", JSON.stringify(taken)); }
+        } catch (e) {}
+        btn.outerHTML = '<span class="muted">taken ✓ into Manual book</span>';
+      };
+    }
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        var sym = b.getAttribute("data-qmsym");
+        if (!window.addPaperTrade) { alert("Manual book unavailable."); return; }
+        if (quotes) { fill(b, sym); return; }
+        b.textContent = "fetching price…";
+        fetch(base + "/data/live_stocks.json?t=" + Date.now())
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            quotes = {};
+            (d.stocks || []).forEach(function (s) { quotes[s.symbol] = s; });
+            fill(b, sym);
+          })
+          .catch(function () {
+            b.textContent = "no live px — use ✋ Manual tab";
+            b.disabled = true;
+          });
+      });
+    });
   }
   function load() {
     fetch(base + "/data/paper_qm.json?t=" + Date.now())
