@@ -254,7 +254,6 @@ def run_day() -> None:
             nse_tick()
             theta_tick()
             mill_tick()
-            htf_hm_tick()
             btc_tick()
             commit_and_push()
         except Exception as e:
@@ -288,6 +287,14 @@ def run_evening() -> None:
             commit_and_push()
         except Exception as e:
             print(f"qm run failed: {e}", flush=True)
+        # HM Positional desk — its tick gates itself to >=15:35 IST and the
+        # day loop ends 15:05, so it was previously UNREACHABLE (the desk
+        # only ever scanned when run by hand). Run it here, post-close.
+        try:
+            htf_hm_tick()
+            commit_and_push()
+        except Exception as e:
+            print(f"htf-hm run failed: {e}", flush=True)
         # BB Trap scan (EOD bhavcopies) — ported from the throttled cron
         try:
             import subprocess
@@ -297,6 +304,13 @@ def run_evening() -> None:
                                timeout=25 * 60)
             print(f"bhavcopy fetch: {r.stdout.strip()}", flush=True)
             if r.returncode == 0:
+                # rebuild the avg20 volume cache from the fresh bhavcopies so
+                # the OL/OH entry cap never depends on a throttled Yahoo call
+                try:
+                    cp.refresh_vol_cache_from_bhav(cp.ROOT / "bhav")
+                    commit_and_push()
+                except Exception as e:
+                    print(f"vol cache rebuild failed: {e}", flush=True)
                 subprocess.run([sys.executable,
                                 str(cp.ROOT / "scanners" / "gen_bbtrap_json.py"),
                                 "--bhav-dir", "bhav",

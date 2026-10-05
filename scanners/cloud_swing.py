@@ -83,13 +83,18 @@ def detect(df: pd.DataFrame) -> list[tuple[str, str, float]]:
 
 
 def fetch_daily(ticker: str) -> pd.DataFrame | None:
-    df = yf.download(ticker, period="1y", interval="1d",
-                     progress=False, threads=False, auto_adjust=False)
-    if df is None or df.empty:
+    try:
+        df = yf.download(ticker, period="1y", interval="1d",
+                         progress=False, threads=False, auto_adjust=False)
+        if df is None or df.empty:
+            return None
+        if isinstance(df.columns, pd.MultiIndex):
+            df.columns = df.columns.get_level_values(0)
+        if df.columns.duplicated().any():     # yf sometimes returns dup cols
+            df = df.loc[:, ~df.columns.duplicated()]
+        return df
+    except Exception:
         return None
-    if isinstance(df.columns, pd.MultiIndex):
-        df.columns = df.columns.get_level_values(0)
-    return df
 
 
 def _ticker_for(t: dict) -> str:

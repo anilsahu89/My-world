@@ -25,6 +25,7 @@ NSE rules = the tuned local engine (parity since 2026-09-20):
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import math
 from datetime import datetime, time
@@ -42,6 +43,7 @@ NSE_STATE = DATA / "cloud_paper_ol_state.json"
 GC_STATE = DATA / "cloud_paper_gc_state.json"
 NSE_SNAPSHOT = DATA / "paper_ol.json"
 GC_SNAPSHOT = DATA / "paper_gc.json"
+VOL_AVG_CACHE = DATA / "vol_avg20.json"   # avg20 volumes, built from bhavcopies
 
 NSE_CAPITAL = 10_000.0
 NSE_TOL = 0.10
@@ -155,21 +157,44 @@ def _yahoo_quotes() -> dict[str, dict]:
     volume_bars = yf.download([f"{s}.NS" for s in candidates], period="30d", interval="1d",
                               group_by="ticker", progress=False, threads=True, auto_adjust=False)
     session_fraction = max(0.20, min(1.0, (now().hour * 60 + now().minute - 555) / 375))
+    vol_cache = read_json(VOL_AVG_CACHE, {})
+    cache_dirty = False
+    today_iso = now().date().isoformat()
     for symbol in candidates:
         quote = quotes[symbol]
         quote["vol_known"] = False
+        average, source = 0.0, ""
         try:
             frame = flatten(volume_bars[f"{symbol}.NS"].copy())
             history = frame["Volume"].iloc[:-1].tail(20)
             average = float(history.mean()) if len(history) else 0.0
             # <5 history bars = throttled/partial download, not a real
-            # avg20 — mark unknown so the entry cap blocks it VISIBLY
-            # (vol_blocked) instead of silently treating it as low volume
-            quote["vol_known"] = bool(len(history) >= 5 and average > 0)
-            quote["vol_ratio"] = (quote["volume"] / session_fraction / average
-                                  if quote["vol_known"] else 0.0)
+            # avg20 — fall back to the bhavcopy-built cache below
+            if len(history) >= 5 and average > 0:
+                source = "yahoo"
         except (KeyError, TypeError, ValueError):
-            quote["vol_ratio"] = 0.0
+            average = 0.0
+        if source == "yahoo":
+            vol_cache[symbol] = {"avg": round(average, 0), "asof": today_iso}
+            cache_dirty = True
+        else:
+            # avg20 is a 20-DAY average — a copy a few days old is still a
+            # genuine volume baseline; a throttle must not veto every entry
+            cached = vol_cache.get(symbol)
+            try:
+                age = (now().date()
+                       - datetime.strptime(cached.get("asof", ""), "%Y-%m-%d").date()).days
+            except ValueError:
+                age = 9999
+            if cached and 0 <= age <= 10:
+                average = float(cached["avg"])
+                source = "cache"
+        quote["vol_known"] = bool(average > 0 and source)
+        quote["vol_src"] = source
+        quote["vol_ratio"] = (quote["volume"] / session_fraction / average
+                              if quote["vol_known"] else 0.0)
+    if cache_dirty:
+        write_json(VOL_AVG_CACHE, vol_cache)
     return quotes
 
 
@@ -273,10 +298,16 @@ def _fire_reentries(state: dict, moment: datetime, bars, watches: list) -> None:
 
 def manage_nse(state: dict, quotes: dict, moment: datetime) -> None:
     today, stamp = moment.date().isoformat(), moment.strftime("%H:%M:%S")
-    for trade in [t for t in state["trades"]
-                  if t.get("status") == "OPEN" and t.get("date") == today]:
+    for trade in [t for t in state["trades"] if t.get("status") == "OPEN"]:
+        stale = trade.get("date") != today
         quote = quotes.get(trade["symbol"])
         if not quote:
+            continue
+        if stale:
+            # intraday trade whose square-off day was missed (relay died,
+            # cron dropped) — it must never survive into later sessions;
+            # close at the first price we can see, flagged EOD-LATE
+            close(trade, quote["ltp"], "EOD-LATE", stamp)
             continue
         # strict-breach: SL sits 0.5% beyond the day extreme at entry, so the
         # cumulative-extreme check only fires on a genuinely NEW extreme
@@ -614,6 +645,49 @@ def export_f3_picks(state: dict, today: str) -> None:
     })
 
 
+def refresh_vol_cache_from_bhav(bhav_dir: Path | None = None) -> int:
+    """Rebuild data/vol_avg20.json from the CM bhavcopy zips fetch_bhavcopies
+    pulls every evening — a Yahoo-independent avg20 volume baseline so the
+    restored entry cap can't be vetoed by a throttled Yahoo morning.
+
+    Uses the last 20 available zips per symbol (EQ series only). Returns the
+    number of symbols written."""
+    import zipfile
+    from datetime import timedelta
+
+    bhav_dir = Path(bhav_dir) if bhav_dir else ROOT / "bhav"
+    zips = sorted(bhav_dir.glob("cm_*.zip"))[-20:]
+    if not zips:
+        return 0
+    sums: dict[str, list[float]] = {}
+    for zp in zips:
+        try:
+            with zipfile.ZipFile(zp) as zf:
+                csv_name = next(n for n in zf.namelist() if n.lower().endswith(".csv"))
+                import csv as _csv
+                for row in _csv.DictReader(
+                        io.TextIOWrapper(zf.open(csv_name), encoding="utf-8-sig")):
+                    if row.get("SctySrs") != "EQ":
+                        continue
+                    sym = (row.get("TckrSymb") or "").strip()
+                    vol = row.get("TtlTradgVol") or ""
+                    if sym and vol:
+                        sums.setdefault(sym, []).append(float(vol))
+        except Exception as e:
+            print(f"vol cache: skip {zp.name}: {e}", flush=True)
+            continue
+    cache = read_json(VOL_AVG_CACHE, {})
+    asof = now().date().isoformat()
+    n = 0
+    for sym, vols in sums.items():
+        if len(vols) >= 5:
+            cache[sym] = {"avg": round(sum(vols) / len(vols), 0), "asof": asof}
+            n += 1
+    write_json(VOL_AVG_CACHE, cache)
+    print(f"vol cache rebuilt from {len(zips)} bhavcopies: {n} symbols", flush=True)
+    return n
+
+
 def refresh_hm_quotes() -> None:
     """Live LTP + unrealised P&L for the HM Positional desk's OPEN rows.
 
@@ -856,6 +930,7 @@ def commit_state() -> None:
              "scanners/papertrades/nifty_premium_mill_log.csv",
              "data/scanners/htf-hm-latest.json",
              "scanners/papertrades/htf_hm_trades.csv",
+             "data/vol_avg20.json",
              "data/cloud_nifty_ltp_state.json",
              "data/paper_nifty_ltp.json",
              "data/cloud_future_arb_state.json",

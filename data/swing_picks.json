@@ -1,11 +1,11 @@
 {
- "updated_at": "29 Sep 2026 13:58:53 IST",
+ "updated_at": "05 Oct 2026 11:02:04 IST",
  "rule": "top-3 candlestick setups (backtested 5y): MARU-at-low BUY PF 1.39 · ShootingStar+VOL SELL PF 1.15 · Engulf-at-low BUY PF 1.13 | entry next open, SL=pattern extreme, target 2R, 10-session stop | max 5 concurrent",
  "note": "NSE backtested; GOLD/BTC patterns untested (trial). Runs in the cloud (GitHub Actions) — no Mac required.",
  "end_date": "2026-12-31",
  "summary": {
   "open": 0,
-  "pending": 0,
+  "pending": 1,
   "closed": 17,
   "wins": 6,
   "losses": 11,
@@ -14,7 +14,26 @@
   "pnl_usd": 0
  },
  "open": [],
- "pending": [],
+ "pending": [
+  {
+   "id": 18,
+   "signal_date": "2026-10-05",
+   "market": "NSE",
+   "symbol": "ETERNAL",
+   "setup": "CS-ENGF",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 308.1,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  }
+ ],
  "closed": [
   {
    "id": 1,

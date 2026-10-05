@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 18,
+ "next_id": 19,
  "trades": [
   {
    "id": 1,
@@ -307,7 +307,25 @@
    "exit": 185.31,
    "reason": "MANUAL-CLOSE",
    "pnl": -312.4
+  },
+  {
+   "id": 18,
+   "signal_date": "2026-10-05",
+   "market": "NSE",
+   "symbol": "ETERNAL",
+   "setup": "CS-ENGF",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 308.1,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
   }
  ],
- "done_date": "2026-09-25"
+ "done_date": "2026-10-05"
 }

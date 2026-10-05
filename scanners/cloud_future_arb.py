@@ -55,6 +55,52 @@ def _write(p: Path, payload) -> None:
     p.write_text(json.dumps(payload, indent=1, default=str) + "\n")
 
 
+# ---------------------------------------------------- bhav self-fetch -------
+
+FO_URL = "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_{yyyymmdd}_F_0000.csv.zip"
+CM_URL = "https://nsearchives.nseindia.com/content/cm/BhavCopy_NSE_CM_0_0_0_{yyyymmdd}_F_0000.csv.zip"
+UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/125 Safari/537.36"
+
+
+def _ensure_bhav(today: date, lookback: int = 7) -> int:
+    """Download missing CM+FO bhavcopy zips for the last `lookback` weekdays
+    into data/raw. The desk reads LOCAL zips and they were only ever produced
+    by the retired Mac launchd job — on GitHub Actions the desk starved
+    (stuck on its first day's bhav). Runs before every scan."""
+    import time as _time
+    import urllib.request
+    from datetime import timedelta
+
+    raw = BASE / "data" / "raw"
+    raw.mkdir(parents=True, exist_ok=True)
+    got = 0
+    for i in range(lookback):
+        d = today - timedelta(days=i)
+        if d.weekday() >= 5:
+            continue
+        ymd = d.strftime("%Y%m%d")
+        for kind, url in (("cm", CM_URL), ("fo", FO_URL)):
+            path = raw / f"{kind}_{ymd}.zip"
+            if path.exists() and path.stat().st_size > 20_000:
+                continue
+            try:
+                req = urllib.request.Request(
+                    url.format(yyyymmdd=ymd),
+                    headers={"User-Agent": UA, "Accept": "application/zip",
+                             "Referer": "https://www.nseindia.com/"})
+                with urllib.request.urlopen(req, timeout=30) as r:
+                    body = r.read()
+                if body.startswith(b"PK"):
+                    path.write_bytes(body)
+                    got += 1
+                    _time.sleep(0.6)
+            except Exception:
+                continue    # 404 = not published yet; other failures retry next run
+    if got:
+        print(f"bhav self-fetch: {got} new zip(s)", flush=True)
+    return got
+
+
 # ------------------------------------------------------- situation list ----
 
 def _load_day(day: date):
@@ -182,6 +228,10 @@ def run_day() -> dict:
     today = now.date()
     if now.weekday() >= 5:
         return {"skipped": "weekend"}
+    try:
+        _ensure_bhav(today)
+    except Exception as e:
+        print(f"bhav self-fetch failed: {e}", flush=True)
     bhav_day = _latest_bhav_day(today)
     if bhav_day is None:
         return {"skipped": "no bhavcopy"}
