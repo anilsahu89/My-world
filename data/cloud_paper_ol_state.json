@@ -2274,7 +2274,17 @@
   "date": "2026-10-06",
   "ol": {
    "low_vol": [],
-   "no_vol_data": []
+   "no_vol_data": [
+    "INDHOTEL",
+    "HAL",
+    "OBEROIRLTY",
+    "MRF",
+    "PFC",
+    "RELIANCE",
+    "SHREECEM",
+    "ZYDUSLIFE",
+    "UPL"
+   ]
   },
   "oh": {
    "low_vol": [],
