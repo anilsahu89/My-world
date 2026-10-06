@@ -1,12 +1,12 @@
 {
   "strategy": "nifty-daily-theta",
-  "scanned_at": "2026-10-05 11:39:15 IST",
-  "scan_date": "2026-10-05",
+  "scanned_at": "2026-10-06 09:30:49 IST",
+  "scan_date": "2026-10-06",
   "trades": [],
   "trade_count": 0,
-  "status": "new_signal",
+  "status": "success",
   "report": {
     "open_position": "Checking open positions..."
   },
-  "text_report": "===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA UPDATE \u2014 Thu, 01 Oct 2026\n===============================================================================================\n\n  Checking open positions...\n  No exits today.\n\n  Checking for new signal...\n  Not Mon/Tue/Wed (Thu) \u2014 skip\n  No trades yet."
+  "text_report": "===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA UPDATE \u2014 Tue, 06 Oct 2026\n===============================================================================================\n\n  Checking open positions...\n  No exits today.\n\n  Checking for new signal...\n  VIX rising 14.4 > 9d avg 13.3 \u2014 skip (falling-VIX gate)\n  No trades yet."
 }
