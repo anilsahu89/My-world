@@ -1,7 +1,63 @@
 {
- "date": "2026-10-02",
- "scanned_at": "14:39:14",
+ "date": "2026-10-06",
+ "scanned_at": "12:22:48",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 5,
- "signals": []
+ "signals": [
+  {
+   "symbol": "TIINDIA",
+   "drive_pct": 2.92,
+   "qty": 4,
+   "entry": 2446.4,
+   "sl": 2300.64,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "PIDILITIND",
+   "drive_pct": 1.82,
+   "qty": 6,
+   "entry": 1506.4,
+   "sl": 1466.33,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "DABUR",
+   "drive_pct": 1.49,
+   "qty": 25,
+   "entry": 385.85,
+   "sl": 373.57,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "SBILIFE",
+   "drive_pct": 1.33,
+   "qty": 5,
+   "entry": 1749.1,
+   "sl": 1701.45,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "SIEMENS",
+   "drive_pct": 1.29,
+   "qty": 2,
+   "entry": 3812.3,
+   "sl": 3676.53,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  }
+ ]
 }
