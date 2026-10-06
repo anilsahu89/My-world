@@ -1,6 +1,6 @@
 {
  "date": "2026-10-06",
- "scanned_at": "15:00:16",
+ "scanned_at": "15:03:34",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 5,
  "signals": [
@@ -10,10 +10,10 @@
    "qty": 4,
    "entry": 2446.4,
    "sl": 2300.64,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 2455.4,
+   "reason": "EOD",
+   "pnl": 36.0
   },
   {
    "symbol": "PIDILITIND",
@@ -21,10 +21,10 @@
    "qty": 6,
    "entry": 1506.4,
    "sl": 1466.33,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 1516.2,
+   "reason": "EOD",
+   "pnl": 58.8
   },
   {
    "symbol": "DABUR",
@@ -32,10 +32,10 @@
    "qty": 25,
    "entry": 385.85,
    "sl": 373.57,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 388.5,
+   "reason": "EOD",
+   "pnl": 66.25
   },
   {
    "symbol": "SBILIFE",
@@ -43,10 +43,10 @@
    "qty": 5,
    "entry": 1749.1,
    "sl": 1701.45,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 1742.5,
+   "reason": "EOD",
+   "pnl": -33.0
   },
   {
    "symbol": "SIEMENS",
@@ -54,10 +54,10 @@
    "qty": 2,
    "entry": 3812.3,
    "sl": 3676.53,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 3837.0,
+   "reason": "EOD",
+   "pnl": 49.4
   }
  ]
 }
