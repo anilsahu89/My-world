@@ -1,5 +1,5 @@
 {
- "updated_at": "06 Oct 2026 05:34:02 IST",
+ "updated_at": "06 Oct 2026 05:49:04 IST",
  "status": "RUNNING",
  "strategy": {
   "rule": "BTC weekly theta, 0.01 BTC \u2014 v3 bulletproof shape",
@@ -41,8 +41,8 @@
    "close_cost_usd": null,
    "reason": null,
    "pnl_inr": null,
-   "mark_usd": 102.3,
-   "spot_now": 85879.0
+   "mark_usd": 102.4,
+   "spot_now": 85894.0
   }
  ],
  "closed": [
