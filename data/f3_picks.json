@@ -1,6 +1,6 @@
 {
  "date": "2026-10-06",
- "scanned_at": "14:13:58",
+ "scanned_at": "14:17:14",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 5,
  "signals": [
