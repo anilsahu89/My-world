@@ -2094,6 +2094,12 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     var taken = qmTaken();
     rows.forEach(function (t) {
       var isPend = t.status === "PENDING";
+      // engine sets pnl only at close — open rows show live unrealized:
+      // booked + qty x (mark - entry), the engine's own close formula
+      var pnlShow = t.pnl;
+      if (pnlShow == null && t.status === "OPEN" && t.mark != null && t.entry != null) {
+        pnlShow = (t.booked || 0) + (t.qty || 0) * (t.mark - t.entry);
+      }
       var took = taken.indexOf(t.symbol) !== -1;
       var action = isPend
         ? (took ? '<span class="muted">taken ✓</span>'
@@ -2107,14 +2113,14 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         "<td>" + (t.entry != null ? t.entry + (t.entry_date ? " (" + esc(t.entry_date).slice(5) + ")" : "") : "next open") + "</td>" +
         "<td>" + (t.invested != null ? "₹" + Math.round(t.invested).toLocaleString("en-IN") : "—") + "</td>" +
         '<td class="' + cls(t.booked) + '">' + (t.booked ? fmt(t.booked) : "—") + "</td>" +
-        "<td>" + (t.mark != null ? t.mark : "—") + "</td>" +
+        "<td>" + (t.mark != null ? Math.round(t.mark * 100) / 100 : "—") + "</td>" +
         "<td>" + (t.sessions || 0) + "</td>" +
         "<td>" + (t.exit != null ? t.exit + " " + esc(t.reason || "") : "—") + "</td>" +
-        '<td class="' + cls(t.pnl) + '">' + (t.pnl != null ? fmt(t.pnl) : "—") + "</td>" +
+        '<td class="' + cls(pnlShow) + '">' + (pnlShow != null ? fmt(pnlShow) : "—") + "</td>" +
         "<td>" + action + "</td></tr>";
     });
     document.getElementById("qmWrap").innerHTML = h + "</tbody></table>" +
-      '<p class="hint" style="margin:0.5rem 0 0">✋ Take = take a PENDING signal immediately at live LTP into your Manual book (₹5k lot, same as the QM desk) — for when you don\'t want to wait for the engine\'s next-open fill. The QM engine itself fills pendings at the next session\'s open during the 17:35 scan.</p>';
+      '<p class="hint" style="margin:0.5rem 0 0">✋ Take = take a PENDING signal immediately at live LTP into your Manual book (₹5k lot, same as the QM desk) — for when you don\'t want to wait for the engine\'s next-open fill. The QM engine itself fills pendings at the next session\'s open during the 17:35 scan. OPEN rows show <em>unrealized</em> P&L (mark − entry) until they close.</p>';
     bindTakeButtons();
   }
 
