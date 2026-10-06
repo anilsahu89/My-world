@@ -1,12 +1,37 @@
 {
   "strategy": "nifty-daily-theta",
-  "scanned_at": "2026-10-06 09:30:49 IST",
+  "scanned_at": "2026-10-06 23:08:59 IST",
   "scan_date": "2026-10-06",
-  "trades": [],
-  "trade_count": 0,
+  "trades": [
+    {
+      "entry_date": "2026-10-06",
+      "direction": "BEAR_CALL",
+      "opt_type": "CE",
+      "short_strike": "23100.0",
+      "long_strike": "23200.0",
+      "expiry": "2026-10-13",
+      "dte": "7",
+      "spot_entry": "22776.1",
+      "vix_entry": "13.6",
+      "vix_regime": "rising",
+      "short_premium": "32.75",
+      "long_premium": "19.3",
+      "net_credit": "13.45",
+      "sma": "23201.7",
+      "status": "OPEN",
+      "exit_date": "",
+      "exit_reason": "",
+      "exit_credit": "",
+      "pnl": "",
+      "holding_days": "",
+      "spot_exit": "",
+      "notes": ""
+    }
+  ],
+  "trade_count": 1,
   "status": "success",
   "report": {
-    "open_position": "Checking open positions..."
+    "open_position": ""
   },
-  "text_report": "===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA UPDATE \u2014 Tue, 06 Oct 2026\n===============================================================================================\n\n  Checking open positions...\n  No exits today.\n\n  Checking for new signal...\n  VIX rising 14.4 > 9d avg 13.3 \u2014 skip (falling-VIX gate)\n  No trades yet."
+  "text_report": "===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA UPDATE \u2014 Tue, 06 Oct 2026\n===============================================================================================\n\n  Checking open positions...\n  No exits today.\n\n  Checking for new signal...\n  \u23f8\ufe0f  Open position exists \u2014 waiting for exit before new entry\n\n===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA \u2014 PAPER TRADES\n  Rules: Mon/Tue/Wed/Fri 1PM | VIX<22 (regime recorded) | 300OTM | 100pt spread | 50% target\n===============================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit  DTE Expiry         VIX\n  --------------------------------------------------------------------------------\n  2026-10-06   BEAR_CALL  23100.0 23200.0 CE   \u20b9  13.4    7 2026-10-13   13.6"
 }

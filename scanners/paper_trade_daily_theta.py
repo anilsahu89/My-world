@@ -8,9 +8,11 @@ Rules (DTE fix, 30 Sep 2026 — NIFTY weeklies expire TUESDAYS now; the
 Monday = 1 DTE and Friday = 4 DTE under the new calendar):
   - Entry: Mon, Tue, Wed, Fri after 1 PM (the 1-4 DTE gate does the work)
   - VIX < 22 (skip if higher)
-  - Falling-VIX gate (Trader's Table Ep2, 30 Sep 2026): skip new entries when
-    today's VIX is above its own 9-day average — 1y backtest: worst trade
-    -₹2,145 vs -₹7,312, PF 2.78→5.85, maxDD→0, net +₹10.4k vs +₹16.8k
+  - VIX regime (falling vs 9d avg) RECORDED on the trade, not a veto —
+    owner directive 6 Oct 2026: daily frequency first, win-rate tuning
+    later. (1y backtest had shown the falling-VIX filter helps: worst
+    -₹2,145 vs -₹7,312, PF 2.78→5.85 — data kept on each trade so the
+    filter can be re-enabled selectively later)
   - Above 20 SMA → Bull Put | Below → Bear Call
   - Sell 300 OTM, Buy 400 OTM (100pt spread)
   - Nearest expiry 1-4 DTE
@@ -46,7 +48,10 @@ VIX_MAX = 22
 VIX_SMA_PERIOD = 9  # falling-VIX gate: no fresh entries when VIX > its own 9-day avg
 PROFIT_PCT = 0.50
 MIN_CREDIT = 3.0
-MAX_DTE = 4
+MAX_DTE = 8   # owner 6 Oct: cover every day — NIFTY weeklies expire TUESDAYS,
+              # so a 1-4 window made Tue (expiry, 0 DTE) / Wed (6) / Thu (5)
+              # structurally untradeable; 8 lets Wed/Thu sell next week's
+              # spread and Tue to roll into it
 ENTRY_DAYS = [0, 1, 2, 4]  # Mon-Wed + Fri; 1-4 DTE gate filters to Mon/Fri
 
 
@@ -257,13 +262,15 @@ def check_signal(day):
     if vix > VIX_MAX:
         return None, f"VIX {vix:.1f} > {VIX_MAX} — skip"
 
-    # falling-VIX gate (entries only; open trades are managed as usual)
+    # VIX regime (entries only; open trades are managed as usual). Owner
+    # directive 6 Oct: take the daily trade regardless of VIX trend — the
+    # regime is RECORDED on the trade instead of vetoing it (win-rate can
+    # be tuned later; trade frequency is the primary goal)
+    vix_regime = "unknown"
     vix_vals = load_vix_history(day, VIX_SMA_PERIOD - 1) + [vix]
     if len(vix_vals) == VIX_SMA_PERIOD:
         vix_sma = sum(vix_vals) / VIX_SMA_PERIOD
-        if vix > vix_sma:
-            return None, (f"VIX rising {vix:.1f} > 9d avg {vix_sma:.1f} — "
-                          f"skip (falling-VIX gate)")
+        vix_regime = "falling" if vix <= vix_sma else "rising"
 
     spot_hist = load_spot_history(day)
     if len(spot_hist) < BB_PERIOD:
@@ -307,11 +314,13 @@ def check_signal(day):
         "entry_date": day.isoformat(), "direction": direction, "opt_type": opt_type,
         "short_strike": short_s, "long_strike": long_s, "expiry": exp_str, "dte": dte,
         "spot_entry": round(spot, 1), "vix_entry": round(vix, 1),
+        "vix_regime": vix_regime,
         "short_premium": round(opts[short_key]["close"], 2),
         "long_premium": round(opts[long_key]["close"], 2),
         "net_credit": round(credit, 2), "sma": round(sma, 1),
     }
-    return signal, f"✅ SIGNAL: {direction} {short_s}/{long_s} {opt_type} | Credit ₹{credit:.1f} | VIX {vix:.1f} | DTE {dte}"
+    return signal, (f"✅ SIGNAL: {direction} {short_s}/{long_s} {opt_type} | "
+                    f"Credit ₹{credit:.1f} | VIX {vix:.1f} ({vix_regime}) | DTE {dte}")
 
 
 def update_exits(day):
@@ -403,7 +412,7 @@ def print_report():
 
     print(f"\n{'='*95}")
     print(f"  💰 NIFTY DAILY THETA — PAPER TRADES")
-    print(f"  Rules: Mon-Wed 1PM | VIX<{VIX_MAX} + falling (9d avg) | {SHORT_OTM}OTM | {SPREAD_WIDTH}pt spread | 50% target")
+    print(f"  Rules: Mon/Tue/Wed/Fri 1PM | VIX<{VIX_MAX} (regime recorded) | {SHORT_OTM}OTM | {SPREAD_WIDTH}pt spread | 50% target")
     print(f"{'='*95}")
 
     if open_t:

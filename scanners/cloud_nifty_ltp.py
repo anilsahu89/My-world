@@ -26,7 +26,8 @@ limitation: his intraday fills are approximated by EOD closes):
   * momentum: close beyond short strike +/-150 -> exit     ("fast momentum = cost exit")
   * shorts that expire while the trade is open are rolled to the next
     weekly at the current rule strike                      ("niche ka sell karte rahenge")
-  * max 4 new trades per calendar month                    ("mahine me chaar baar")
+  * max 10 new trades per calendar month (owner raised from 4 on 6 Oct —
+    trade-frequency-first; was "mahine me chaar baar")
   * max 1 open structure
 Sizing: 3 lots (225 qty) per Rs 5L model book — the video's capital story.
 
@@ -57,8 +58,10 @@ STATE_FILE = BASE.parent / "data" / "cloud_nifty_ltp_state.json"
 SNAPSHOT_FILE = BASE.parent / "data" / "paper_nifty_ltp.json"
 
 FAR_MIN_DTE = 45          # "long term": beyond current + next month
-BOARD_DISCOUNT = 0.12     # show on the board
-TRADE_DISCOUNT = 0.20     # NK's example ~40%; 20% is the conservative gate
+BOARD_DISCOUNT = 0.04     # show on the board
+TRADE_DISCOUNT = 0.05     # owner directive 6 Oct: frequency first (was 20% —
+                          # a week of scans showed best 7.4-15.4%, zero trades);
+                          # raise the gate back once the book has mileage
 MIN_PREMIUM = 100.0       # Rs — points worth harvesting
 MIN_VOL = 5               # contracts traded — price must be real
 TARGET_PTS = 70.0         # per 225 qty
@@ -76,7 +79,7 @@ SHORT_MULT = 1            # 1:1 spread both sides. The video's call side was a
 FAR_MONEYNESS_MAX = 1.05  # far strike within 5% of spot (replay: every
                           # disaster had the far leg 10-13% OTM — a delta-poor
                           # long leg cannot hedge the shorts through a gap)
-MAX_TRADES_MONTH = 4
+MAX_TRADES_MONTH = 10
 QTY = 225                 # 3 lots x 75
 R_FREE = 0.065
 IST_WEEKEND = (5, 6)

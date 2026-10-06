@@ -1,0 +1,2 @@
+entry_date,direction,opt_type,short_strike,long_strike,expiry,dte,spot_entry,vix_entry,vix_regime,short_premium,long_premium,net_credit,sma,status,exit_date,exit_reason,exit_credit,pnl,holding_days,spot_exit,notes
+2026-10-06,BEAR_CALL,CE,23100.0,23200.0,2026-10-13,7,22776.1,13.6,rising,32.75,19.3,13.45,23201.7,OPEN,,,,,,,
