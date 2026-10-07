@@ -1,6 +1,6 @@
 {
- "date": "2026-10-05",
- "updated_at": "05 Oct 2026 17:28:23 IST",
+ "date": "2026-10-07",
+ "updated_at": "07 Oct 2026 17:31:30 IST",
  "rule": "HM Positional (NK Hilega-Milega on weekly bars): enter when RSI9>50 & red WMA21(RSI)<RSI9 & green WMA3(RSI)>red newly true on a completed week; exit weekly RSI<50 (TREND-END) or >=86 (RSI86-BOOK). 5y backtest PF 2.19, avg +4.8%/trade. Book: Rs1L (Oct mandate), Rs20k lots, max 5 open, max 2 new/week. Monthly tab = investing watchlist (RSI9>50, red inside).",
  "book": {
   "capital": 100000.0,
@@ -28,10 +28,7 @@
    "reason": "",
    "pnl": 0.0,
    "weeks_held": 0,
-   "notes": "HM momentum BUY-MOMENTUM",
-   "ltp": 363.05,
-   "live_pnl": 69.0,
-   "live_pct": 0.28
+   "notes": "HM momentum BUY-MOMENTUM"
   },
   {
    "symbol": "CARBORUNIV",
@@ -47,12 +44,8 @@
    "reason": "",
    "pnl": 0.0,
    "weeks_held": 0,
-   "notes": "HM momentum BUY-MOMENTUM",
-   "ltp": 1269.6,
-   "live_pnl": -169.1,
-   "live_pct": -0.7
+   "notes": "HM momentum BUY-MOMENTUM"
   }
  ],
- "closed": [],
- "quote_time": "06 Oct 16:18:50 IST"
+ "closed": []
 }
