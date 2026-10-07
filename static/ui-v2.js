@@ -72,10 +72,18 @@
       setTimeout(reveal, 0);
     });
 
-    /* 4. status bar: NSE session state + how fresh each desk's data is */
+    /* 4. status bar: NSE session state + how fresh each desk's data is
+       (inserts before the desk tabs on paper.html, at the top of main
+       everywhere else) */
     safe(function () {
       var row = document.querySelector(".pt-tabs");
-      if (!row || !row.parentNode) return;
+      var anchor, mode;
+      if (row && row.parentNode) { anchor = row; mode = "before"; }
+      else {
+        anchor = document.querySelector("main");
+        if (!anchor) return;
+        mode = "first";
+      }
       var barEl = document.createElement("div");
       barEl.id = "ui-statusbar";
       barEl.innerHTML =
@@ -84,7 +92,8 @@
         '<button type="button" id="ui-fresh-btn" aria-expanded="false">Data details</button>' +
         '<button type="button" id="ui-classic">Classic view</button>' +
         '<ul id="ui-fresh-list" hidden></ul>';
-      row.parentNode.insertBefore(barEl, row);
+      if (mode === "before") row.parentNode.insertBefore(barEl, row);
+      else anchor.insertBefore(barEl, anchor.firstChild);
       document.getElementById("ui-classic").addEventListener("click", function () { setOff(true); });
       var list = document.getElementById("ui-fresh-list"), btn = document.getElementById("ui-fresh-btn");
       btn.addEventListener("click", function () {

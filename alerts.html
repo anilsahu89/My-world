@@ -214,6 +214,11 @@
   /* Broken link styling */
   .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
   </style>
+  <!-- UI-V2 START (undo with: bash ui-v2.sh off) -->
+  <script>try{var q=new URLSearchParams(location.search);if(q.get("classic")==="1")localStorage.setItem("ui_v2_off","1");if(q.get("classic")==="0")localStorage.removeItem("ui_v2_off");if(localStorage.getItem("ui_v2_off")!=="1")document.documentElement.classList.add("ui-v2")}catch(e){document.documentElement.classList.add("ui-v2")}</script>
+  <link rel="stylesheet" href="static/ui-v2.css?v=2">
+  <script defer src="static/ui-v2.js?v=2"></script>
+  <!-- UI-V2 END -->
 </head>
 <body>
   <!-- Settings Modal -->
