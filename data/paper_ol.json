@@ -1,5 +1,5 @@
 {
- "updated_at": "07 Oct 2026 09:32:48 IST",
+ "updated_at": "07 Oct 2026 09:34:21 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -24,7 +24,7 @@
    "no_vol_data": 0
   },
   "oh": {
-   "low_vol": 0,
+   "low_vol": 40,
    "no_vol_data": 59
   }
  },
