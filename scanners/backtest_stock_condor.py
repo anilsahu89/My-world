@@ -1,25 +1,25 @@
 #!/usr/bin/env python3
-"""Stock Premium Condor — 24-month backtest.
+"""Stock Premium Spread — monthly single-sided hedged credit spread backtest.
 
-Owner brief (7 Oct 2026): sell MONTHLY options on ONE stock with a hedge,
-strikes anchored to the stock's own trailing average monthly move, keep
-eating premium; hedge keeps us alive on fast moves either way. Vault rules
-apply (strategies/stock-premium-mill.md): F&O-only, liquid, always hedged,
-50% profit exit, SL at the strike->hedge midpoint, enter the day after the
-monthly expiry.
+Owner brief v2 (7 Oct 2026): drop the both-sides condor. Sell ONE side only —
+the side the 20-SMA trend favors (vault rule: above 20 SMA -> Bull Put,
+below -> Bear Call) — hedged for large moves, strikes anchored to the
+stock's trailing average monthly move. Defined risk: max loss per cycle is
+the spread width minus credit. Frequency-first: every month, every stock.
 
-Mechanics per monthly cycle (per stock):
-  entry day    = first trading day after the stock's monthly expiry
-                 (NSE stock monthlies expire the last Tuesday)
-  avg move     = mean |monthly % close| over the trailing 24 months
-  short put    = nearest strike <= spot * (1 - 1.25 * avg_move)
-  short call   = nearest strike >= spot * (1 + 1.25 * avg_move)
-  long put     = nearest strike <= spot * (1 - 2.25 * avg_move)
-  long call    = nearest strike >= spot * (1 + 2.25 * avg_move)
-  premiums     = REAL closes from that day's FO bhavcopy
-  exits        = 50% of net credit (BS-marked daily) | spot through the
-                 short->hedge midpoint | expiry intrinsic
-Settlement spot = parity spot on entry; daily closes from Yahoo.
+Usage:
+  python3 backtest_stock_condor.py K_SHORT K_HEDGE SL_POLICY SIDE STOCKS
+    K_SHORT   short strike distance in avg-monthly-moves (e.g. 1.0)
+    K_HEDGE   hedge distance   in avg-monthly-moves (e.g. 2.0)
+    SL_POLICY mid | short | hedge | none
+    SIDE      single | both
+    STOCKS    comma list (default all five tested)
+
+Cycle: entry = first trading day after the stock's monthly expiry (last
+Tuesday); premiums = REAL closes from that day's FO bhavcopy; exits =
+50% of net credit (BS-marked daily on the trend-scaled Yahoo path),
+SL per policy, else expiry intrinsic. Corporate actions (bonus/split)
+handled by rescaling the path to the entry-day parity spot.
 """
 from __future__ import annotations
 
@@ -29,19 +29,22 @@ import json
 import math
 import zipfile
 import urllib.request
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 
 import yfinance as yf
 import pandas as pd
 import sys
 
-STOCKS = ["ZYDUSLIFE", "ICICIBANK", "CIPLA"]
-K_SHORT = float(sys.argv[1]) if len(sys.argv) > 1 else 1.25   # short strikes (x avg move)
-K_HEDGE = float(sys.argv[2]) if len(sys.argv) > 2 else 2.25   # hedges (x avg move)
-SL_POLICY = sys.argv[3] if len(sys.argv) > 3 else "mid"       # mid | hedge | none
+K_SHORT = float(sys.argv[1]) if len(sys.argv) > 1 else 1.25
+K_HEDGE = float(sys.argv[2]) if len(sys.argv) > 2 else 2.25
+SL_POLICY = sys.argv[3] if len(sys.argv) > 3 else "mid"     # mid|short|hedge|none
+SIDE = sys.argv[4] if len(sys.argv) > 4 else "single"       # single|both
+STOCKS = (sys.argv[5].split(",") if len(sys.argv) > 5
+          else ["ZYDUSLIFE", "ICICIBANK", "CIPLA", "HDFCBANK", "RELIANCE"])
+
 MIN_DTE, MAX_DTE = 15, 60
 MIN_SHORT_PREMIUM = 2.0
-TARGET_PCT = 0.50       # exit at 50% of net credit
+TARGET_PCT = 0.50
 R_FREE = 0.065
 FO_URL = "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_{ymd}_F_0000.csv.zip"
 UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -50,11 +53,11 @@ UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
 CACHE = "/tmp/condor-bhav"
 
 
-# ------------------------------------------------------------------ greeks --
-def _norm_pdf(x): return math.exp(-x * x / 2) / math.sqrt(2 * math.pi)
+def _norm_pdf(x):
+    return math.exp(-x * x / 2) / math.sqrt(2 * math.pi)
 
 
-def bs_price(spot, strike, t_years, iv, call: bool, r=R_FREE):
+def bs_price(spot, strike, t_years, iv, call, r=R_FREE):
     if t_years <= 0 or iv <= 0 or spot <= 0 or strike <= 0:
         return max(0.0, spot - strike) if call else max(0.0, strike - spot)
     d1 = (math.log(spot / strike) + (r + iv * iv / 2) * t_years) / (iv * math.sqrt(t_years))
@@ -65,10 +68,10 @@ def bs_price(spot, strike, t_years, iv, call: bool, r=R_FREE):
     return max(px, 0.0)
 
 
-def implied_iv(price, spot, strike, t_years, call: bool):
-    lo, hi = 0.01, 5.0
+def implied_iv(price, spot, strike, t_years, call):
     if price <= 0 or t_years <= 0:
         return None
+    lo, hi = 0.01, 5.0
     for _ in range(60):
         mid = (lo + hi) / 2
         p = bs_price(spot, strike, t_years, mid, call)
@@ -81,17 +84,14 @@ def implied_iv(price, spot, strike, t_years, call: bool):
     return (lo + hi) / 2
 
 
-# ------------------------------------------------------------------- data ---
 def last_tuesday(year: int, month: int) -> date:
-    d = date(year, month, 1)
     nxt = date(year + (month == 12), (month % 12) + 1, 1) - timedelta(days=1)
-    while nxt.weekday() != 1:            # Tuesday
+    while nxt.weekday() != 1:
         nxt -= timedelta(days=1)
-    return d if False else nxt
+    return nxt
 
 
 def fetch_fo(ymd_day: date) -> dict | None:
-    """FO bhav rows for one day -> {symbol: {'sto': rows, 'stf': rows}} (cached)."""
     import os
     os.makedirs(CACHE, exist_ok=True)
     p = f"{CACHE}/fo_{ymd_day:%Y%m%d}.zip"
@@ -127,7 +127,6 @@ def fetch_fo(ymd_day: date) -> dict | None:
 
 
 def pick(strikes: list[float], target: float, below: bool) -> float | None:
-    """Nearest available strike at-or-beyond target (safer side)."""
     if below:
         cands = [s for s in strikes if s <= target]
         return max(cands) if cands else None
@@ -135,22 +134,20 @@ def pick(strikes: list[float], target: float, below: bool) -> float | None:
     return min(cands) if cands else None
 
 
-# ------------------------------------------------------------------- main ---
 def main() -> None:
     today = date(2026, 10, 7)
-    start = today - timedelta(days=800)
-    print(f"downloading 26mo daily closes for {STOCKS} …", flush=True)
-    px = yf.download([s + ".NS" for s in STOCKS], start=start.isoformat(),
+    closes = {}
+    print(f"downloading daily closes for {STOCKS} …", flush=True)
+    px = yf.download([s + ".NS" for s in STOCKS],
+                     start=(today - timedelta(days=800)).isoformat(),
                      interval="1d", group_by="ticker", progress=False,
                      threads=True, auto_adjust=False)
-    closes = {}
     for s in STOCKS:
-        df = px[s + ".NS"].dropna(subset=["Close"])
-        closes[s] = df["Close"]
+        closes[s] = px[s + ".NS"].dropna(subset=["Close"])["Close"]
 
-    # monthly cycles: entry = first trading day after each last-Tuesday
     months = []
-    y, m = (today - timedelta(days=800)).year, (today - timedelta(days=800)).month
+    anchor = today - timedelta(days=800)
+    y, m = anchor.year, anchor.month
     while date(y, m, 1) < date(today.year, today.month, 1):
         months.append((y, m))
         m += 1
@@ -158,11 +155,10 @@ def main() -> None:
             y, m = y + 1, 1
 
     results = {s: [] for s in STOCKS}
-    cycle_log = []
+    log = []
 
     for (y, m) in months:
         exp_day = last_tuesday(y, m)
-        # entry = next trading day after expiry (from the stock's own calendar)
         cal = closes[STOCKS[0]]
         after = cal.index[cal.index.date > exp_day]
         if after.empty:
@@ -170,147 +166,168 @@ def main() -> None:
         entry_day = after[0].date()
         if entry_day >= today:
             continue
-        # the monthly expiry this cycle settles on = last Tuesday of NEXT month
         nm_y, nm_m = (y + m // 12, m % 12 + 1)
         settle_day = last_tuesday(nm_y, nm_m)
 
         bhav = fetch_fo(entry_day)
         if not bhav:
-            print(f"  {entry_day}: bhav unavailable — cycle skipped", flush=True)
             continue
 
         for s in STOCKS:
             book = bhav.get(s)
             if not book or not book["sto"]:
                 continue
-            # trailing avg monthly move as of entry (24m, no lookahead)
             series = closes[s][closes[s].index.date <= entry_day]
+            if len(series) < 240:
+                continue
             mclose = series.resample("ME").last().dropna()
             if len(mclose) < 13:
                 continue
-            avg_move = float((mclose.pct_change().dropna().abs().tail(24).mean())) \
-                if len(mclose) >= 13 else None
+            avg_move = float(mclose.pct_change().dropna().abs().tail(24).mean())
             if not avg_move:
                 continue
-            spot = None
-            try:                       # parity spot from ATM CE/PE of near expiry
-                sto = book["sto"]
-                exps = sorted({r["XpryDt"][:10] for r in sto
-                               if MIN_DTE <= (date.fromisoformat(r["XpryDt"][:10])
-                                              - entry_day).days <= MAX_DTE})
-                if not exps:
-                    continue
-                expiry = exps[0]
-                dte = (date.fromisoformat(expiry) - entry_day).days
-                strikes_all = sorted({float(r["StrkPric"]) for r in sto
-                                      if r["XpryDt"][:10] == expiry})
-                atm = min(strikes_all, key=lambda k: abs(k - series.iloc[-1]))
-                px_map = {(float(r["StrkPric"]), r["OptnTp"]): float(r["ClsPric"] or 0)
-                          for r in sto if r["XpryDt"][:10] == expiry}
-                ce, pe = px_map.get((atm, "CE")), px_map.get((atm, "PE"))
-                if ce and pe:
-                    spot = atm + ce - pe
-            except Exception:
+            sto = book["sto"]
+            exps = sorted({r["XpryDt"][:10] for r in sto
+                           if MIN_DTE <= (date.fromisoformat(r["XpryDt"][:10])
+                                          - entry_day).days <= MAX_DTE})
+            if not exps:
                 continue
-            if not spot or spot <= 0:
-                continue
-
-            step = avg_move
-            sp_t = spot * (1 - K_SHORT * step)
-            sc_t = spot * (1 + K_SHORT * step)
-            lp_t = spot * (1 - K_HEDGE * step)
-            lc_t = spot * (1 + K_HEDGE * step)
-            ladder = sorted({float(r["StrkPric"]) for r in book["sto"]
-                             if r["XpryDt"][:10] == expiry})
-            sp = pick(ladder, sp_t, below=True)
-            sc = pick(ladder, sc_t, below=False)
-            lp = pick(ladder, lp_t, below=True)
-            lc = pick(ladder, lc_t, below=False)
-            if not (sp and sc and lp and lc) or not (lp < sp < spot < sc < lc):
-                continue
+            expiry = exps[0]
+            dte = (date.fromisoformat(expiry) - entry_day).days
             px_map = {(float(r["StrkPric"]), r["OptnTp"]): float(r["ClsPric"] or 0)
-                      for r in book["sto"] if r["XpryDt"][:10] == expiry}
-            prem = {k: px_map.get((k, o), 0.0)
-                    for k, o in ((sp, "PE"), (sc, "CE"), (lp, "PE"), (lc, "CE"))}
-            if any(v < MIN_SHORT_PREMIUM for k, v in prem.items() if k in (sp, sc)):
+                      for r in sto if r["XpryDt"][:10] == expiry}
+            strikes_all = sorted({k[0] for k in px_map})
+            atm = min(strikes_all, key=lambda k: abs(k - series.iloc[-1]))
+            ce, pe = px_map.get((atm, "CE")), px_map.get((atm, "PE"))
+            if not ce or not pe:
                 continue
-            credit = prem[sp] + prem[sc] - prem[lp] - prem[lc]
-            if credit <= 0:
+            spot = atm + ce - pe                    # parity spot, bhav scale
+            px_last = float(series.iloc[-1])
+            scale = spot / px_last if px_last > 0 and \
+                abs(spot - px_last) / px_last > 0.20 else 1.0
+
+            sma20 = float(series.tail(20).mean())
+            side = "put" if spot > sma20 else "call"
+            if side == "put":
+                s1 = pick(strikes_all, spot * (1 - K_SHORT * avg_move), True)
+                h1 = pick(strikes_all, spot * (1 - K_HEDGE * avg_move), True)
+                call1 = False
+                breach = (lambda c: c <= (s1 + h1) / 2 if SL_POLICY == "mid"
+                          else c <= s1 if SL_POLICY == "short"
+                          else c <= h1 if SL_POLICY == "hedge" else False)
+            else:
+                s1 = pick(strikes_all, spot * (1 + K_SHORT * avg_move), False)
+                h1 = pick(strikes_all, spot * (1 + K_HEDGE * avg_move), False)
+                call1 = True
+                breach = (lambda c: c >= (s1 + h1) / 2 if SL_POLICY == "mid"
+                          else c >= s1 if SL_POLICY == "short"
+                          else c >= h1 if SL_POLICY == "hedge" else False)
+            if not (s1 and h1) or s1 == h1:
+                continue
+            prem_s = px_map.get((s1, "CE" if call1 else "PE"), 0.0)
+            prem_h = px_map.get((h1, "CE" if call1 else "PE"), 0.0)
+            if SIDE == "both":
+                # condor mode (kept for comparison)
+                if side == "put":
+                    s2t = spot * (1 + K_SHORT * avg_move); h2t = spot * (1 + K_HEDGE * avg_move)
+                else:
+                    s2t = spot * (1 - K_SHORT * avg_move); h2t = spot * (1 - K_HEDGE * avg_move)
+                s2 = pick(strikes_all, s2t, s2t < spot)
+                h2 = pick(strikes_all, h2t, h2t < spot)
+                if not (s2 and h2) or s2 == h2:
+                    continue
+                o2 = "CE" if side == "put" else "PE"
+                prem = {**(px_map.get((s2, o2), 0.0),)} if False else None
+                prem_s2 = px_map.get((s2, o2), 0.0)
+                prem_h2 = px_map.get((h2, o2), 0.0)
+                prem_s += prem_s2
+                prem_h += prem_h2
+                legs = [(s1, call1, True), (h1, call1, False),
+                        (s2, not call1, True), (h2, not call1, False)]
+            else:
+                legs = [(s1, call1, True), (h1, call1, False)]
+            credit = prem_s - prem_h
+            if prem_s < MIN_SHORT_PREMIUM or credit <= 0:
                 continue
 
             t_years = dte / 365.0
             ivs = {}
-            for k, o in ((sp, "PE"), (sc, "CE"), (lp, "PE"), (lc, "CE")):
-                iv = implied_iv(prem[k], spot, k, t_years, o == "CE")
-                ivs[(k, o)] = iv or 0.55
-            put_mid, call_mid = (sp + lp) / 2, (sc + lc) / 2
+            for k, is_call, _is_short in legs:
+                key = "CE" if is_call else "PE"
+                iv = implied_iv(px_map.get((k, key), 0.0), spot, k, t_years, is_call)
+                ivs[(k, is_call)] = iv or 0.55
 
-            # daily simulation entry -> expiry
+            def pos_value(c, rem):
+                v = 0.0
+                for k, is_call, is_short in legs:
+                    t = bs_price(c, k, rem, ivs[(k, is_call)], is_call)
+                    v += t if is_short else -t
+                return v
+
             path = closes[s][(closes[s].index.date > entry_day)
                              & (closes[s].index.date <= settle_day)]
-            pnl = None; exit_reason = "expiry"; exit_day = settle_day
-            remaining = t_years
-            days_total = max(1, len(path))
-            for i, (ts, close) in enumerate(path.items()):
+            if scale != 1.0:
+                path = path * scale
+            pnl = None; exit_reason = "expiry"
+            for ts, close in path.items():
                 d = ts.date()
                 rem = max(0.0, (settle_day - d).days / 365.0)
                 if rem <= 0:
                     break
-                value = (bs_price(close, sp, rem, ivs[(sp, "PE")], False)
-                         + bs_price(close, sc, rem, ivs[(sc, "CE")], True)
-                         + bs_price(close, lp, rem, ivs[(lp, "PE")], False)
-                         + bs_price(close, lc, rem, ivs[(lc, "CE")], True))
+                value = pos_value(close, rem)
                 if value <= credit * TARGET_PCT:
-                    pnl = credit - value; exit_reason = "target-50%"; exit_day = d
+                    pnl = credit - value; exit_reason = "target-50%"
                     break
-                breached = (close <= put_mid or close >= call_mid if SL_POLICY == "mid"
-                            else close <= lp or close >= lc if SL_POLICY == "hedge"
-                            else close <= sp or close >= sc if SL_POLICY == "short"
-                            else False)
-                if breached:
-                    pnl = credit - value; exit_reason = f"SL-{SL_POLICY}"; exit_day = d
+                if breach(close):
+                    pnl = credit - value; exit_reason = f"SL-{SL_POLICY}"
                     break
             if pnl is None:
                 c = float(path.iloc[-1]) if len(path) else spot
-                intrinsic = max(0.0, sp - c) + max(0.0, c - sc)
-                pnl = credit - intrinsic; exit_reason = "expiry"
-            results[s].append({"entry": entry_day.isoformat(), "expiry": settle_day.isoformat(),
-                               "credit": round(credit, 2), "pnl": round(pnl, 2),
-                               "reason": exit_reason, "spot0": round(spot, 1),
-                               "sp": sp, "sc": sc, "lp": lp, "lc": lc,
+                intr = 0.0
+                for k, is_call, is_short in legs:
+                    intr += max(0.0, (c - k) if is_call else (k - c)) \
+                        * (1 if is_short else -1)
+                pnl = credit - intr
+            results[s].append({"entry": entry_day.isoformat(),
+                               "expiry": settle_day.isoformat(),
+                               "side": side, "credit": round(credit, 2),
+                               "pnl": round(pnl, 2), "reason": exit_reason,
+                               "short": s1, "hedge": h1, "spot0": round(spot, 1),
                                "avg_move": round(avg_move * 100, 2), "dte": dte})
-            cycle_log.append(f"  {s:11s} {entry_day} cr {credit:6.2f} → pnl {pnl:+7.2f} "
-                             f"({exit_reason}) sp{sp:.0f}/sc{sc:.0f}")
+            log.append(f"  {s:11s} {entry_day} {side:5s} cr {credit:6.2f} "
+                       f"→ pnl {pnl:+7.2f} ({exit_reason}) s{s1:.0f}/h{h1:.0f}")
 
-    print("\n".join(cycle_log[-24:]))
+    print("\n".join(log[-15:]))
     print("\n" + "=" * 78)
-    grand = {"trades": 0, "wins": 0, "pnl": 0.0, "gross_win": 0.0, "gross_loss": 0.0}
+    grand = {"n": 0, "w": 0, "pnl": 0.0, "gw": 0.0, "gl": 0.0}
     for s in STOCKS:
         rs = results[s]
         if not rs:
             print(f"{s}: no trades"); continue
         pnl = [r["pnl"] for r in rs]
         wins = [p for p in pnl if p > 0]
-        losses = [p for p in pnl if p <= 0]
-        gw, gl = sum(wins), -sum(losses)
+        gl = -sum(p for p in pnl if p <= 0)
+        gw = sum(wins)
         reasons = {}
         for r in rs: reasons[r["reason"]] = reasons.get(r["reason"], 0) + 1
-        print(f"\n{s} — {len(rs)} monthly cycles ({rs[0]['entry']} → {rs[-1]['entry']})")
+        sides = {}
+        for r in rs: sides[r["side"]] = sides.get(r["side"], 0) + 1
+        print(f"\n{s} — {len(rs)} cycles ({rs[0]['entry']} → {rs[-1]['entry']})")
         print(f"  win rate   : {len(wins)}/{len(rs)} = {len(wins)/len(rs)*100:.0f}%")
-        print(f"  total P&L  : {sum(pnl):+,.1f} pts  | avg {sum(pnl)/len(rs):+,.2f}/cycle")
-        print(f"  avg credit : {sum(r['credit'] for r in rs)/len(rs):.2f} pts/month")
+        print(f"  total P&L  : {sum(pnl):+,.1f} pts | avg {sum(pnl)/len(rs):+,.2f}/cycle")
+        print(f"  avg credit : {sum(r['credit'] for r in rs)/len(rs):.2f} pts")
         print(f"  best/worst : {max(pnl):+,.1f} / {min(pnl):+,.1f} pts")
-        print(f"  profit fac : {(gw/gl):.2f}" if gl else "  profit fac : inf (no losses)")
-        print(f"  exits      : {reasons}")
-        grand["trades"] += len(rs); grand["wins"] += len(wins)
-        grand["pnl"] += sum(pnl); grand["gross_win"] += gw; grand["gross_loss"] += gl
+        print(f"  profit fac : {gw/gl:.2f}" if gl else "  profit fac : inf")
+        print(f"  exits      : {reasons} | sides: {sides}")
+        grand["n"] += len(rs); grand["w"] += len(wins)
+        grand["pnl"] += sum(pnl); grand["gw"] += gw; grand["gl"] += gl
     print("\n" + "=" * 78)
-    print(f"COMBINED: {grand['trades']} cycles | win rate "
-          f"{grand['wins']}/{grand['trades']} = {grand['wins']/max(1,grand['trades'])*100:.0f}% | "
-          f"total {grand['pnl']:+,.1f} pts | PF "
-          f"{grand['gross_win']/max(1e-9, grand['gross_loss']):.2f}")
+    pf = grand["gw"] / max(1e-9, grand["gl"])
+    print(f"COMBINED ({SIDE}, K {K_SHORT}/{K_HEDGE}, SL {SL_POLICY}): "
+          f"{grand['n']} cycles | win {grand['w']}/{grand['n']} = "
+          f"{grand['w']/max(1,grand['n'])*100:.0f}% | total {grand['pnl']:+,.1f} pts "
+          f"| PF {pf:.2f}")
     json.dump(results, open("/tmp/condor-backtest.json", "w"), indent=1)
-    print("saved /tmp/condor-backtest.json")
 
 
 if __name__ == "__main__":
