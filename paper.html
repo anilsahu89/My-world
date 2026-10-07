@@ -989,14 +989,14 @@ main h3 .collapse-btn {
 <section id="thetaSection" class="pt-panel">
   <h2 style="color:#4fc3f7">
     🛡️ Nifty Daily Theta — Hedged Credit Spread
-    <span class="muted" style="font-size:0.75rem">— backtested 92.9% WR, PF 1.77 · falling-VIX gate added 30 Sep (1-yr retest: worst trade −₹2.1k vs −₹7.3k) · Mon–Wed 09:15 IST · GitHub Actions</span>
+    <span class="muted" style="font-size:0.75rem">— 300-OTM 100-pt hedged spread · VIX ≤ 22 + falling-VIX gate · entries Mon/Tue/Wed/Fri (1–4 DTE) · relay ticks daily post-close</span>
   </h2>
   <div id="thetaStatus" class="flash">Loading Daily Theta desk…</div>
 
   <div class="actions" style="margin:0.75rem 0">
     <button class="btn btn-primary run-scan-btn" data-slug="nifty-daily-theta" onclick="runScanner(this)">▶ Run scan now</button>
     <span class="run-status"></span>
-    <span class="meta-pill">scheduled: Mon–Wed 09:15 IST</span>
+    <span class="meta-pill">entries: Mon/Tue/Wed/Fri · relay ticks daily</span>
   </div>
 
   <div class="summary-cards">
@@ -1021,7 +1021,7 @@ main h3 .collapse-btn {
 <section id="qmSection" class="pt-panel">
   <h2 style="color:#ff9800">
     🧮 QM — Quantity Model (Trading as a Business)
-    <span class="muted" style="font-size:0.75rem">— NK's ₹30k-lot system, daily bars, runs Sep 2026</span>
+    <span class="muted" style="font-size:0.75rem">— NK's momentum system on daily bars · ₹1L book, ₹5k lots (October race) · scans 17:35 IST on completed candles, fills next open</span>
   </h2>
   <div id="qmStatus" class="flash">Loading QM desk…</div>
   <div class="summary-cards">
@@ -1085,29 +1085,6 @@ main h3 .collapse-btn {
   <h3 style="margin-top:1.5rem">📋 Swing Trade Ledger</h3>
   <div class="table-wrap" id="swWrap"></div>
 </section>
-
-<hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
-<p class="hint"><strong>Manual trades below</strong> — taken by hand from the Alerts tab (kept separate from the automated strategy above).</p>
-
-<!-- ===================== MANUAL BOOK SUMMARY CARDS ===================== -->
-<div class="summary-cards">
-  <div class="sum-card">
-    <span class="sum-label">Open Positions</span>
-    <span class="sum-value" style="color:var(--green)" id="manOpen">0</span>
-  </div>
-  <div class="sum-card">
-    <span class="sum-label">Closed Trades</span>
-    <span class="sum-value" id="manClosed">0</span>
-  </div>
-  <div class="sum-card">
-    <span class="sum-label">Total Realized P&L</span>
-    <span class="sum-value pos" id="manTotal">₹+0.00</span>
-  </div>
-  <div class="sum-card">
-    <span class="sum-label">Win Rate</span>
-    <span class="sum-value" id="manWin">0%</span>
-  </div>
-</div>
 
 <!-- ===================== MANUAL: SEARCH & TAKE + BOOK ===================== -->
 <div id="manualPanel" class="pt-panel">
@@ -1603,7 +1580,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
   "use strict";
   var base = "";
   if (location.hostname.endsWith(".github.io")) {
-    var seg = location.pathname.replace(/^\+/, "").split("/")[0];
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
     if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
   }
   function esc(s) { var d = document.createElement("div"); d.textContent = s == null ? "" : String(s); return d.innerHTML; }
