@@ -1,7 +1,7 @@
 {
   "strategy": "nifty-premium-mill",
-  "scanned_at": "2026-10-06 09:30:51 IST",
-  "scan_date": "2026-10-06",
+  "scanned_at": "2026-10-07 09:20:51 IST",
+  "scan_date": "2026-10-07",
   "trades": [
     {
       "entry_date": "2026-07-14",
@@ -33,5 +33,5 @@
     "open_position": "Checking open positions...",
     "net_pnl": "1 trades | WR 100% | Net P&L \u20b92,250"
   },
-  "text_report": "==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL UPDATE \u2014 Tue, 06 Oct 2026\n==========================================================================================\n\n  Checking open positions...\n  No exits today.\n\n  Checking for new signal...\n  No options data\n\n==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL \u2014 PAPER TRADES\n  Rules: Tuesday entry | VIX 10.0-18.0 | 250OTM | 100pt spread | 50% target\n==========================================================================================\n\n  \ud83d\udd34 CLOSED TRADES (1):\n  Entry        Exit         Dir        Reason            Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-07-14   2026-09-30   BULL_PUT   expiry           \u20b9  30.0 \u20b9    2250   78d \u2705\n\n  \ud83d\udcc8 SUMMARY: 1 trades | WR 100% | Net P&L \u20b92,250"
+  "text_report": "==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL UPDATE \u2014 Wed, 07 Oct 2026\n==========================================================================================\n\n  Checking open positions...\n  No exits today.\n\n  Checking for new signal...\n  No options data\n\n==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL \u2014 PAPER TRADES\n  Rules: Tuesday entry | VIX 10.0-18.0 | 250OTM | 100pt spread | 50% target\n==========================================================================================\n\n  \ud83d\udd34 CLOSED TRADES (1):\n  Entry        Exit         Dir        Reason            Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-07-14   2026-09-30   BULL_PUT   expiry           \u20b9  30.0 \u20b9    2250   78d \u2705\n\n  \ud83d\udcc8 SUMMARY: 1 trades | WR 100% | Net P&L \u20b92,250"
 }
