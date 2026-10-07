@@ -41,10 +41,12 @@ SL_POLICY = sys.argv[3] if len(sys.argv) > 3 else "mid"     # mid|short|hedge|no
 SIDE = sys.argv[4] if len(sys.argv) > 4 else "single"       # single|both
 STOCKS = (sys.argv[5].split(",") if len(sys.argv) > 5
           else ["ZYDUSLIFE", "ICICIBANK", "CIPLA", "HDFCBANK", "RELIANCE"])
+TARGET_PCT = float(sys.argv[6]) if len(sys.argv) > 6 else 0.50   # profit target
+MAX_REENTRY = int(sys.argv[7]) if len(sys.argv) > 7 else 0       # re-entries/cycle
+MTM_STOP = float(sys.argv[8]) if len(sys.argv) > 8 else 0        # cycle loss cap (pts)
 
 MIN_DTE, MAX_DTE = 15, 60
 MIN_SHORT_PREMIUM = 2.0
-TARGET_PCT = 0.50
 R_FREE = 0.065
 FO_URL = "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_{ymd}_F_0000.csv.zip"
 UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -268,34 +270,81 @@ def main() -> None:
                              & (closes[s].index.date <= settle_day)]
             if scale != 1.0:
                 path = path * scale
-            pnl = None; exit_reason = "expiry"
+
+            # manage the cycle: a 50% target hit frees the position — with
+            # MAX_REENTRY > 0, re-sell the same side at fresh strikes from
+            # the current spot (IV held at the entry short-leg IV) while
+            # >=3 trading days remain; an SL ends the whole cycle
+            pnl_total = 0.0
+            credits = credit
+            reentries = 0
+            exit_reason = "expiry"
+            cur_s, cur_h, cur_call, cur_credit = s1, h1, call1, credit
+            pos_active = True
             for ts, close in path.items():
                 d = ts.date()
                 rem = max(0.0, (settle_day - d).days / 365.0)
-                if rem <= 0:
-                    break
+                if rem <= 0 or not pos_active:
+                    continue
                 value = pos_value(close, rem)
-                if value <= credit * TARGET_PCT:
-                    pnl = credit - value; exit_reason = "target-50%"
-                    break
+                if value <= cur_credit * TARGET_PCT:
+                    pnl_total += cur_credit - value
+                    exit_reason = "target"
+                    if reentries < MAX_REENTRY:
+                        days_left = sum(1 for t2 in path.index
+                                        if t2.date() > d)
+                        if days_left >= 3:
+                            reentries += 1
+                            step = avg_move
+                            if side == "put":
+                                s1n = pick(strikes_all, close * (1 - K_SHORT * step), True)
+                                h1n = pick(strikes_all, close * (1 - K_HEDGE * step), True)
+                                calln = False
+                            else:
+                                s1n = pick(strikes_all, close * (1 + K_SHORT * step), False)
+                                h1n = pick(strikes_all, close * (1 + K_HEDGE * step), False)
+                                calln = True
+                            if s1n and h1n and s1n != h1n:
+                                ps = bs_price(close, s1n, rem, ivs[(s1, call1)], calln)
+                                ph = bs_price(close, h1n, rem, ivs[(s1, call1)], calln)
+                                if ps - ph > 0.5:
+                                    cur_s, cur_h, cur_call, cur_credit = s1n, h1n, calln, ps - ph
+                                    pos_active = True
+                                    continue
+                    pos_active = False
+                    continue
                 if breach(close):
-                    pnl = credit - value; exit_reason = f"SL-{SL_POLICY}"
-                    break
-            if pnl is None:
+                    pnl_total += cur_credit - value
+                    pos_active = False
+                    exit_reason = f"SL-{SL_POLICY}"
+                    continue
+                if MTM_STOP > 0 and (value - cur_credit) >= MTM_STOP:
+                    # cycle money-stop: cap the month's loss at MTM_STOP pts
+                    # (₹ = pts x lot). Ends the cycle — no re-entry after a
+                    # stopped-out position.
+                    pnl_total += cur_credit - value
+                    pos_active = False
+                    exit_reason = f"SL-MTM{MTM_STOP:g}"
+                    continue
+            if pos_active:
                 c = float(path.iloc[-1]) if len(path) else spot
                 intr = 0.0
-                for k, is_call, is_short in legs:
+                for k, is_call, is_short in [(cur_s, cur_call, True), (cur_h, cur_call, False)]:
                     intr += max(0.0, (c - k) if is_call else (k - c)) \
                         * (1 if is_short else -1)
-                pnl = credit - intr
+                pnl_total += cur_credit - intr
+            pnl = pnl_total
+            credit = credits
             results[s].append({"entry": entry_day.isoformat(),
                                "expiry": settle_day.isoformat(),
-                               "side": side, "credit": round(credit, 2),
+                               "side": side, "credit": round(credits, 2),
                                "pnl": round(pnl, 2), "reason": exit_reason,
                                "short": s1, "hedge": h1, "spot0": round(spot, 1),
                                "avg_move": round(avg_move * 100, 2), "dte": dte})
-            log.append(f"  {s:11s} {entry_day} {side:5s} cr {credit:6.2f} "
-                       f"→ pnl {pnl:+7.2f} ({exit_reason}) s{s1:.0f}/h{h1:.0f}")
+            log.append(f"  {s:11s} {entry_day} {side:5s} cr {credits:6.2f} "
+                       f"→ pnl {pnl:+7.2f} ({exit_reason}"
+                       f"{', +' + str(reentries) + ' re' if reentries else ''}) "
+                       f"s{s1:.0f}/h{h1:.0f}")
 
     print("\n".join(log[-15:]))
     print("\n" + "=" * 78)
