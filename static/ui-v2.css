@@ -1,0 +1,93 @@
+/* ui-v2.css — optional look-and-feel layer for paper.html.
+   Everything is scoped under html.ui-v2, so removing that class (or the
+   3-line block in paper.html) restores the classic look exactly. */
+
+html.ui-v2 { --ui-topbar-h: 0px; color-scheme: dark; }
+
+/* --- top bar + page frame ------------------------------------------------ */
+html.ui-v2 .topbar { flex-wrap: wrap; gap: 0.4rem 1.1rem; padding: 0.6rem 1.25rem; }
+html.ui-v2 .topbar nav { gap: 0.9rem; overflow-x: auto; scrollbar-width: none; white-space: nowrap; }
+html.ui-v2 .topbar nav::-webkit-scrollbar { display: none; }
+html.ui-v2 main { padding-bottom: 3rem; }
+
+/* --- status bar (market state + data freshness) ------------------------- */
+html.ui-v2 #ui-statusbar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem;
+  margin: 0.25rem 0 0.75rem; padding: 0.55rem 0.9rem;
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 0.85rem; color: var(--muted);
+}
+html.ui-v2 #ui-statusbar .ui-dot {
+  display: inline-block; width: 0.55rem; height: 0.55rem; border-radius: 50%;
+  background: var(--grey); margin-right: 0.4rem; vertical-align: baseline;
+}
+html.ui-v2 #ui-statusbar .ui-dot.on  { background: var(--green); }
+html.ui-v2 #ui-statusbar .ui-dot.amber { background: #d29922; }
+html.ui-v2 #ui-statusbar .ui-dot.bad { background: var(--red); }
+html.ui-v2 #ui-statusbar .ui-spacer { margin-left: auto; }
+html.ui-v2 #ui-statusbar button, html.ui-v2 #ui-restore {
+  background: transparent; color: var(--muted); border: 1px solid var(--border);
+  border-radius: 14px; padding: 0.2rem 0.7rem; font-size: 0.8rem; cursor: pointer;
+}
+html.ui-v2 #ui-statusbar button:hover { color: var(--text); border-color: var(--accent); }
+html.ui-v2 #ui-fresh-list {
+  flex-basis: 100%; margin: 0; padding: 0.4rem 0 0; list-style: none;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.25rem 1rem;
+  border-top: 1px solid var(--border);
+}
+html.ui-v2 #ui-fresh-list[hidden] { display: none; }
+html.ui-v2 #ui-fresh-list li { display: flex; justify-content: space-between; gap: 0.5rem; }
+
+/* --- desk tabs: single scrolling row, sits below the top bar ------------- */
+html.ui-v2 .pt-tabs {
+  flex-wrap: nowrap; overflow-x: auto; gap: 6px;
+  top: var(--ui-topbar-h); background: var(--bg);
+  margin: 0.5rem 0 1.25rem; padding: 0.55rem 0;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+html.ui-v2 .pt-tabs::-webkit-scrollbar { display: none; }
+html.ui-v2 .pt-tab { flex: 0 0 auto; white-space: nowrap; transition: background 0.12s, border-color 0.12s; }
+html.ui-v2 .pt-tab.active { background: rgba(63,185,80,0.2); border-color: var(--green); }
+
+/* --- desk header: long rule text folds to one line, click to expand ------ */
+html.ui-v2 .pt-panel > h2 { line-height: 1.35; }
+html.ui-v2 .pt-panel > h2 > span.muted.ui-rules {
+  display: block; margin-top: 0.3rem; font-weight: 400; cursor: pointer;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+html.ui-v2 .pt-panel > h2 > span.muted.ui-rules::before { content: "Rules ▸ "; color: var(--accent); font-weight: 600; }
+html.ui-v2 .pt-panel > h2 > span.muted.ui-rules.open { white-space: normal; line-height: 1.55; }
+html.ui-v2 .pt-panel > h2 > span.muted.ui-rules.open::before { content: "Rules ▾ "; }
+
+/* --- summary cards: even grid ------------------------------------------- */
+html.ui-v2 .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.65rem; }
+html.ui-v2 .sum-card { min-width: 0; }
+html.ui-v2 .sum-label { text-transform: none; letter-spacing: 0; font-size: 0.82rem; }
+html.ui-v2 .sum-value { font-size: clamp(1.1rem, 1.2rem + 0.6vw, 1.5rem); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+
+/* --- tables and empty states -------------------------------------------- */
+html.ui-v2 .table-wrap { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+html.ui-v2 .table-wrap td, html.ui-v2 .table-wrap th { font-variant-numeric: tabular-nums; }
+html.ui-v2 .table-wrap tbody tr:hover { background: rgba(255,255,255,0.03); }
+html.ui-v2 .flash { border-style: dashed; color: var(--muted); }
+
+/* --- accessibility ------------------------------------------------------- */
+html.ui-v2 a:focus-visible, html.ui-v2 button:focus-visible, html.ui-v2 input:focus-visible,
+html.ui-v2 select:focus-visible, html.ui-v2 summary:focus-visible, html.ui-v2 .ui-rules:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) { html.ui-v2 * { transition: none !important; animation: none !important; } }
+
+/* --- phones -------------------------------------------------------------- */
+@media (max-width: 640px) {
+  html.ui-v2 main { padding: 0.9rem; }
+  html.ui-v2 .topbar { padding: 0.5rem 0.9rem; }
+  html.ui-v2 #ui-statusbar .ui-spacer { margin-left: 0; }
+}
+
+/* shown only in classic mode so the new look is one tap away */
+#ui-restore {
+  position: fixed; right: 12px; bottom: 12px; z-index: 60;
+  background: var(--panel); color: var(--muted); border: 1px solid var(--border);
+  border-radius: 14px; padding: 0.3rem 0.8rem; font-size: 0.8rem; cursor: pointer;
+}
