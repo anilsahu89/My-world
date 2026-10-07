@@ -49,6 +49,7 @@ import io
 import math
 import urllib.request
 import zipfile
+import json
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -106,7 +107,9 @@ def read_zip_csv(path: Path):
 
 def load_bhav(day) -> dict:
     """NIFTY IDO rows for a date -> {(expiry, strike, opt): {close, vol}}.
-    Downloads the FO bhavcopy when missing (same source as the theta desk)."""
+    Downloads the FO bhavcopy when missing (same source as the theta desk).
+    A saved response must start with the PK zip magic — NSE sometimes returns
+    200 with an HTML error page, which would crash read_zip_csv later."""
     ymd = day.strftime("%Y%m%d")
     path = RAW_DIR / f"fo_{ymd}.zip"
     if not path.exists():
@@ -117,8 +120,13 @@ def load_bhav(day) -> dict:
                 "User-Agent": "Mozilla/5.0",
                 "Referer": "https://www.nseindia.com/"})
             with urllib.request.urlopen(req, timeout=25) as resp:
-                path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_bytes(resp.read())
+                body = resp.read()
+            if not body.startswith(b"PK"):
+                print(f"bhavcopy {ymd}: not a zip (NSE error page)",
+                      flush=True)
+                return {}
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(body)
         except Exception as e:
             print(f"bhavcopy {ymd} unavailable: {e}", flush=True)
             return {}
@@ -392,6 +400,25 @@ def _notify(state, tr, event):
         pass
 
 
+def publish_blocked(now, state, reason: str) -> None:
+    """Keep the portal JSON alive even when no bhavcopy loads — stale-silent
+    days read as a dead desk (Oct 5-7: cloud JSON frozen for 2 days)."""
+    p = SNAPSHOT_FILE
+    try:
+        payload = json.loads(p.read_text()) if p.exists() else {}
+    except Exception:
+        payload = {}
+    payload["updated_at"] = now.strftime("%d %b %Y %H:%M IST")
+    payload["bhav_date"] = state.get("done_date") or ""
+    payload["desk"] = "NIFTY Long-Term Premium"
+    payload["status"] = "DEGRADED"
+    payload["blocked"] = [reason]
+    try:
+        write_json(p, payload)
+    except Exception as e:
+        print(f"publish_blocked failed: {e}", flush=True)
+
+
 def run_day() -> dict:
     """One EOD update: mark/exit opens, then scan for a new entry."""
     now = _now_ist()
@@ -401,24 +428,27 @@ def run_day() -> dict:
     day = now.date()
     if now.weekday() in IST_WEEKEND:
         return {"skipped": "weekend"}
-    # the bhavcopy being processed (today once it lands, else most recent)
-    opts = load_bhav(day)
-    bhav_date = day.isoformat()
+    # the bhavcopy being processed: today if published, else walk back over
+    # recent days (runners could not fetch some days — never go silent, the
+    # 7-day walk mirrors the future-arb desk's proven self-fetch pattern)
+    opts, bhav_date, day = None, None, None
+    probe = now.date()
+    for _ in range(7):
+        if probe.weekday() not in IST_WEEKEND:
+            cand = load_bhav(probe)
+            if cand:
+                opts = cand
+                bhav_date = probe.isoformat()
+                day = probe
+                break
+            if state.get("done_date") == probe.isoformat():
+                break          # nothing newer than what we already processed
+        probe -= timedelta(days=1)
     if not opts:
-        local = sorted(RAW_DIR.glob("fo_*.zip"))
-        if not local:
-            return {"skipped": "no bhavcopy"}
-        last = local[-1].stem.replace("fo_", "")
-        try:
-            d = datetime.strptime(last, "%Y%m%d").date()
-        except ValueError:
-            return {"skipped": "bad bhavcopy cache"}
-        if state.get("done_date") == d.isoformat():
-            return {"skipped": "already done"}
-        opts = load_bhav(d)
-        bhav_date = d.isoformat()
-        day = d
-    elif state.get("done_date") == bhav_date:
+        publish_blocked(now, state,
+                        "no bhavcopy available (downloads failing)")
+        return {"skipped": "no bhavcopy"}
+    if state.get("done_date") == bhav_date:
         return {"skipped": "already done"}
 
     spot = parity_spot(opts, day)

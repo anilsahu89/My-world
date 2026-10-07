@@ -1,35 +1,121 @@
 {
- "updated_at": "05 Oct 2026 12:03 IST",
- "bhav_date": "2026-10-01",
+ "updated_at": "07 Oct 2026 20:17 IST",
+ "bhav_date": "2026-10-07",
  "desk": "NIFTY Long-Term Premium",
  "status": "RUNNING",
  "strategy": {
   "rule": "NK sir (video SMky9fADQZw): BUY the discounted far-expiry NIFTY option (fair value from near-month IV), SELL nearer-weekly premium against it \u2014 buyer at discount + seller at price. Discounted CALL -> 1:2 ratio (profits if market falls OR rises; only fast momentum hurts). Discounted PUT -> spread. Shorts 1:1 (defined risk). 3 lots (225 qty) per Rs 5L model book.",
   "exits": "target +70 pts \u00b7 time-stop 4 trading days \u00b7 momentum exit on close through the short strike +/-25 pt buffer \u00b7 expired shorts rolled to the next weekly (keep selling)",
-  "caps": "max 4 trades/month \u00b7 1 open structure \u00b7 signal: discount >= 20%",
+  "caps": "max 10 trades/month \u00b7 1 open structure \u00b7 signal: discount >= 5%",
   "cadence": "EOD bhavcopy marks (intraday fills approximated by closes)",
   "source": "NK Stock Talk session 2026-10-03; rules doc NK_NIFTY_PREMIUM_RULES.md"
  },
  "levels": {
-  "spot": 22462.8,
-  "weekly_20sma": 23779.2,
-  "near_iv": 0.121,
+  "spot": 22590.9,
+  "weekly_20sma": 23787.1,
+  "near_iv": 0.119,
   "bias": "below (put side)"
  },
- "board": [],
- "blocked": [
-  "no discount >= 20% (best 0%)"
+ "board": [
+  {
+   "expiry": "2026-12-29",
+   "strike": 23700.0,
+   "opt": "CE",
+   "dte": 83,
+   "price": 212.55,
+   "vol": 454,
+   "fair": 224.7,
+   "discount": 0.054,
+   "edge_pts": 12.1,
+   "own_iv": 0.115
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 23550.0,
+   "opt": "CE",
+   "dte": 83,
+   "price": 253.25,
+   "vol": 156,
+   "fair": 267.3,
+   "discount": 0.053,
+   "edge_pts": 14.1,
+   "own_iv": 0.115
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 23450.0,
+   "opt": "CE",
+   "dte": 83,
+   "price": 285.6,
+   "vol": 111,
+   "fair": 299.0,
+   "discount": 0.045,
+   "edge_pts": 13.4,
+   "own_iv": 0.115
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 23600.0,
+   "opt": "CE",
+   "dte": 83,
+   "price": 241.55,
+   "vol": 513,
+   "fair": 252.5,
+   "discount": 0.043,
+   "edge_pts": 10.9,
+   "own_iv": 0.116
+  }
  ],
- "open": [],
- "trades": [],
+ "blocked": [],
+ "open": [
+  {
+   "id": 1,
+   "side": "call",
+   "entry": "2026-10-07",
+   "days": 1,
+   "points": 0.0,
+   "far": {
+    "expiry": "2026-12-29",
+    "strike": 23700.0,
+    "qty": 225,
+    "entry": 212.55,
+    "mark": 212.55,
+    "exit": null,
+    "exit_date": null
+   },
+   "shorts": [
+    {
+     "expiry": "2026-10-13",
+     "strike": 22850.0,
+     "qty": 225,
+     "entry": 41.9,
+     "mark": 41.9,
+     "exit": null,
+     "exit_date": null
+    }
+   ]
+  }
+ ],
+ "trades": [
+  {
+   "id": 1,
+   "side": "call",
+   "entry": "2026-10-07",
+   "exit": null,
+   "reason": null,
+   "points": null,
+   "pnl": null,
+   "discount_at_entry": 0.054
+  }
+ ],
  "summary": {
-  "trades": 0,
+  "trades": 1,
   "closed": 0,
-  "open": 0,
-  "this_month": 0,
+  "open": 1,
+  "this_month": 1,
   "wins": 0,
   "win_rate": 0,
   "realized": 0,
-  "unrealized": 0
+  "unrealized": 0.0
  }
 }
