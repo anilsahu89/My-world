@@ -1,6 +1,6 @@
 {
- "date": "2026-10-05",
- "updated_at": "05 Oct 2026 17:26:46 IST",
+ "date": "2026-10-07",
+ "updated_at": "07 Oct 2026 17:29:26 IST",
  "nifty_gate": {
   "hm_buy_state": false,
   "above_sma20": false,
@@ -9,103 +9,58 @@
  "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM buy state) · 52-week closing high (vol ≥1.5x) · BB Blast squeeze on daily/weekly/monthly (NIFTY > SMA20) · 50-day return must beat NIFTY (RS-50 gate) · NIFTY-500 · ₹5cr turnover · entries capped 2/day by the desk",
  "signals": [
   {
-   "sym": "CYIENT",
+   "sym": "AEGISLOG",
    "setup": "QM-BBd",
-   "rsi": 69.8,
-   "note": "BB squeeze rank 11% blast on d bars",
-   "close": 1140.2,
-   "date": "2026-10-05",
-   "rs50": 1.357
+   "rsi": 64.4,
+   "note": "BB squeeze rank 0% blast on d bars",
+   "close": 1460.2,
+   "date": "2026-10-07",
+   "rs50": 1.138
   },
   {
-   "sym": "RRKABEL",
+   "sym": "ASAHIINDIA",
+   "setup": "QM-BBd",
+   "rsi": 52.3,
+   "note": "BB squeeze rank 16% blast on d bars",
+   "close": 976.25,
+   "date": "2026-10-07",
+   "rs50": 1.121
+  },
+  {
+   "sym": "CPPLUS",
    "setup": "QM-HM",
-   "rsi": 80.6,
-   "note": "RSI9 81 V-turn above rising SMA20",
-   "close": 2648.0,
-   "date": "2026-10-05",
-   "rs50": 1.062
+   "rsi": 71.7,
+   "note": "RSI9 72 V-turn above rising SMA20",
+   "close": 4064.9,
+   "date": "2026-10-07",
+   "rs50": 1.187
   },
   {
-   "sym": "LGEINDIA",
-   "setup": "QM-HM",
-   "rsi": 88.4,
-   "note": "RSI9 88 V-turn above rising SMA20",
-   "close": 1770.9,
-   "date": "2026-10-05",
-   "rs50": 1.16
-  },
-  {
-   "sym": "DCMSHRIRAM",
-   "setup": "QM-HM",
-   "rsi": 63.0,
-   "note": "RSI9 63 V-turn above rising SMA20",
-   "close": 1044.55,
-   "date": "2026-10-05",
-   "rs50": 1.039
-  },
-  {
-   "sym": "WHIRLPOOL",
-   "setup": "QM-HM",
-   "rsi": 75.1,
-   "note": "RSI9 75 V-turn above rising SMA20",
-   "close": 871.75,
-   "date": "2026-10-05",
-   "rs50": 1.13
-  },
-  {
-   "sym": "ABDL",
-   "setup": "QM-HM",
-   "rsi": 63.5,
-   "note": "RSI9 63 V-turn above rising SMA20",
-   "close": 696.75,
-   "date": "2026-10-05",
-   "rs50": 1.122
-  },
-  {
-   "sym": "ELECON",
-   "setup": "QM-HM",
-   "rsi": 62.5,
-   "note": "RSI9 63 V-turn above rising SMA20",
-   "close": 446.35,
-   "date": "2026-10-05",
-   "rs50": 1.059
-  },
-  {
-   "sym": "VBL",
-   "setup": "QM-HM",
-   "rsi": 65.4,
-   "note": "RSI9 65 V-turn above rising SMA20",
-   "close": 439.6,
-   "date": "2026-10-05",
-   "rs50": 0.962
-  },
-  {
-   "sym": "JSWINFRA",
-   "setup": "QM-HM",
-   "rsi": 59.8,
-   "note": "RSI9 60 V-turn above rising SMA20",
-   "close": 359.4,
-   "date": "2026-10-05",
-   "rs50": 1.114
-  },
-  {
-   "sym": "CASTROLIND",
-   "setup": "QM-HM",
-   "rsi": 67.3,
-   "note": "RSI9 67 V-turn above rising SMA20",
-   "close": 199.51,
-   "date": "2026-10-05",
-   "rs50": 1.08
-  },
-  {
-   "sym": "REDINGTON",
+   "sym": "PTCIL",
    "setup": "QM-52W",
-   "rsi": 66.5,
-   "note": "new 52w closing high 412.8, vol 1.8x",
-   "close": 412.75,
-   "date": "2026-10-05",
-   "rs50": 1.593
+   "rsi": 74.8,
+   "note": "new 52w closing high 24685.0, vol 4.7x",
+   "close": 24685.0,
+   "date": "2026-10-07",
+   "rs50": 1.381
+  },
+  {
+   "sym": "GLAND",
+   "setup": "QM-52W",
+   "rsi": 74.1,
+   "note": "new 52w closing high 3150.6, vol 3.3x",
+   "close": 3150.6,
+   "date": "2026-10-07",
+   "rs50": 1.239
+  },
+  {
+   "sym": "THELEELA",
+   "setup": "QM-52W",
+   "rsi": 74.1,
+   "note": "new 52w closing high 602.5, vol 1.6x",
+   "close": 602.45,
+   "date": "2026-10-07",
+   "rs50": 1.267
   }
  ]
 }
