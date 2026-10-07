@@ -6,8 +6,9 @@ Checks for trade signals, tracks open/closed positions, calculates P&L.
 Modernized rules (30 Sep 2026 — NIFTY weeklies now expire TUESDAYS, so the
 old "Tuesday entry" is re-anchored on days-to-expiry; calibration from the
 1-year real-premium backtest in nifty_premium_backtest/):
-  - Entry: any weekday when the nearest weekly expiry is 1-4 DTE out
-    (in practice Monday = 1 DTE and Friday = 4 DTE)
+  - Entry: any weekday when the nearest weekly expiry is 1-8 DTE out
+    (7 Oct: widened from 4 — under Tuesday expiries the 1-4 window left
+    only Mon/Fri tradeable and structurally excluded Tue/Wed/Thu)
   - VIX gate: 10-18 (the old 12-16 goldilocks skipped half the year)
   - Direction: Above 20 SMA → Bull Put | Below → Bear Call
   - Sell 250 OTM, Buy 350 OTM (100pt spread)
@@ -36,7 +37,7 @@ SHORT_OTM = 250
 PROFIT_TARGET_PCT = 0.50
 VIX_MIN = 10.0
 VIX_MAX = 18.0
-MAX_DTE = 4
+MAX_DTE = 8   # was 4: under Tuesday expiries 1-4 excluded Tue/Wed/Thu structurally (theta got the same fix 6 Oct, c83d4fe — owner frequency-first)
 
 
 def parse_date(s):
@@ -55,6 +56,11 @@ def read_zip_csv(path):
         with zf.open(names[0]) as raw:
             text = io.TextIOWrapper(raw, encoding="utf-8-sig", newline="")
             yield from csv.DictReader(text)
+
+
+def _ist_today():
+    from datetime import timezone as tz, timedelta as td
+    return datetime.now(tz(td(hours=5, minutes=30))).date()
 
 
 def load_spot_vix(day):
@@ -114,20 +120,65 @@ def load_nifty_options(day):
                 "User-Agent": "Mozilla/5.0", "Referer": "https://www.nseindia.com/"
             })
             with urllib.request.urlopen(req, timeout=20) as resp:
+                body = resp.read()
+            if not body.startswith(b"PK"):
+                print("mill: bhavcopy response not a zip (NSE error page)",
+                      flush=True)
+                body = None
+            if body is not None:
                 fo_path.parent.mkdir(parents=True, exist_ok=True)
-                fo_path.write_bytes(resp.read())
-        except:
-            return {}
+                fo_path.write_bytes(body)
+        except Exception:
+            body = None
 
-    opts = {}
-    for row in read_zip_csv(fo_path):
-        if row.get("TckrSymb") == "NIFTY" and row.get("FinInstrmTp") == "IDO":
-            close = to_float(row.get("ClsPric", 0))
-            vol = int(float(row.get("TtlTradgVol", 0) or 0))
-            if close > 0 and vol > 0:
-                key = (row.get("XpryDt", "")[:10], float(row.get("StrkPric", 0)), row.get("OptnTp", ""))
-                opts[key] = {"close": close, "vol": vol}
-    return opts
+    if fo_path.exists():
+        opts = {}
+        for row in read_zip_csv(fo_path):
+            if row.get("TckrSymb") == "NIFTY" and row.get("FinInstrmTp") == "IDO":
+                close = to_float(row.get("ClsPric", 0))
+                vol = int(float(row.get("TtlTradgVol", 0) or 0))
+                if close > 0 and vol > 0:
+                    key = (row.get("XpryDt", "")[:10], float(row.get("StrkPric", 0)), row.get("OptnTp", ""))
+                    opts[key] = {"close": close, "vol": vol}
+        if opts:
+            return opts
+
+    # yfinance live-chain fallback (theta-desk pattern, 7 Oct 2026): the FO
+    # bhavcopy path has never worked from Actions runners; today's live
+    # ^NSEI chain is cached to the shared flat file so exits reuse it
+    if day == _ist_today():
+        try:
+            import yfinance as yf
+            tk = yf.Ticker("^NSEI")
+            live = {}
+            from datetime import date as _d
+            for exp in (tk.expirations or []):
+                dte = (_d.fromisoformat(exp) - day).days
+                if not (1 <= dte <= 10):
+                    continue
+                ch = tk.option_chain(exp)
+                for typ, frame in (("CE", ch.calls), ("PE", ch.puts)):
+                    for _, r in frame.iterrows():
+                        px = to_float(r.get("lastPrice"))
+                        if px > 0:
+                            live[(exp, float(r["strike"]), typ)] = {
+                                "close": px, "vol": to_int(r.get("volume"))}
+            if live:
+                NIFTY_OPTS_FILE.parent.mkdir(parents=True, exist_ok=True)
+                is_new = not NIFTY_OPTS_FILE.exists()
+                with NIFTY_OPTS_FILE.open("a", newline="") as fh:
+                    w = csv.writer(fh)
+                    if is_new:
+                        w.writerow(["date", "expiry", "strike", "opt_type",
+                                    "close", "volume"])
+                    for (exp, strike, typ), v in live.items():
+                        w.writerow([day.isoformat(), exp, strike, typ,
+                                    v["close"], v["vol"]])
+                print(f"mill: yf chain fallback {len(live)} rows", flush=True)
+                return live
+        except Exception as e:
+            print(f"mill: yf chain fallback failed: {e}", flush=True)
+    return {}
 
 
 def load_spot_history(day, n=25):

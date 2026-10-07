@@ -83,7 +83,7 @@ def main():
             output["text_report"] = stdout.strip() if stdout.strip() else "Premium Mill check complete."
 
             # Determine if there was a new signal
-            if "NEW SIGNAL" in stdout.upper() or "ENTRY SIGNAL" in stdout.upper():
+            if "\u2705 SIGNAL" in stdout or "\u2705 ENTERED" in stdout:
                 output["status"] = "new_signal"
 
     except subprocess.TimeoutExpired:
