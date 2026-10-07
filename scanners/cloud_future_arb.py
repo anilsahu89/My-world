@@ -161,6 +161,11 @@ def situation_list(day: date):
             continue
         basis, spread = s - c1, c1 - c2
         dte = (cur["exp"] - day).days
+        # display prefilter (7 Oct): rows with no realistic path to ever
+        # passing cluttered the board — near-zero discounts and dead-far-leg
+        # names. Trading gates below are untouched.
+        if basis / s < 0.003 or (nxt["vol"] < 100 and basis < 10):
+            continue
         v20_ok = (basis >= r20.min_basis and spread <= basis * r20.max_spread_to_basis
                   and spread * cur["lot"] >= r20.min_spread_value
                   and cur["vol"] >= r20.min_current_volume
