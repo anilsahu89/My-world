@@ -250,7 +250,11 @@ def run_day() -> dict:
     # a stale bhav just re-publishes the snapshot
     result = {"entered": [], "kill_switch_tripped": False, "open_mtm": 0.0}
     if state.get("done_date") != bhav_day.isoformat() and bhav_day == today:
-        result = arb_engine.run(today, cfg, broker_mode="paper")
+        try:
+            result = arb_engine.run(today, cfg, broker_mode="paper")
+        except Exception as e:
+            result["error"] = f"engine failed: {type(e).__name__}: {str(e)[:120]}"
+            print(f"arb engine failed: {e}", flush=True)
 
     opens, closed, realized = _book()
     mtm = float(result.get("open_mtm", 0.0) or 0.0)
@@ -288,6 +292,13 @@ def run_day() -> dict:
                     "entered_today": result.get("entered", []),
                     "kill_switch": result.get("kill_switch_tripped", False)},
     }
+    if result.get("error"):
+        snap["status"] = "DEGRADED"
+        snap["blocked"] = [result["error"]]
+    if (bhav_day - _now_ist().date()).days >= 3:
+        snap["status"] = "DEGRADED"
+        snap.setdefault("blocked", []).append(
+            f"stale bhavcopy ({bhav_day}) — downloads failing on runner")
     snap["bhav_date"] = bhav_day.isoformat()
 
     # Telegram alerts for what this run changed (best-effort)
