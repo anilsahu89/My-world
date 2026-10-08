@@ -139,16 +139,15 @@ def _load_day(day: date):
 
 
 def situation_list(day: date):
-    """NSE-200 stocks in the raw pattern with per-rule verdicts."""
-    from backtest_future_arbitaage import StrategyRules
+    """NSE-200 stocks in the raw pattern with per-rule verdicts
+    (verdicts computed against the LIVE preset, not a hardcoded one)."""
+    import config as config_mod
+    rl = config_mod.load().rules
     n200 = {s.strip() for s in NSE200.read_text().splitlines()
             if s.strip() and not s.startswith("symbol")}
     spots, futs = _load_day(day)
     if not spots:
         return []
-    r20 = StrategyRules()          # v2.0 baseline
-    r21_pass = ("basis>=20 & >=1.5%", "spread<=0.5x basis", "next-vol>=500",
-                "7-21 dte")
     out = []
     for sym in sorted(set(futs) & (n200 & set(spots))):
         fs = sorted(futs[sym], key=lambda f: f["exp"])
@@ -166,29 +165,35 @@ def situation_list(day: date):
         # names. Trading gates below are untouched.
         if basis / s < 0.003 or (nxt["vol"] < 100 and basis < 10):
             continue
-        v20_ok = (basis >= r20.min_basis and spread <= basis * r20.max_spread_to_basis
-                  and spread * cur["lot"] >= r20.min_spread_value
-                  and cur["vol"] >= r20.min_current_volume
-                  and nxt["vol"] >= r20.min_next_volume)
-        v21_ok = v20_ok and basis >= 20.0 and basis / s >= 0.015 \
-            and spread <= 0.5 * basis and nxt["vol"] >= 500 and 7 <= dte <= 21
+        ok = (basis >= rl.min_basis
+              and basis / s * 100 >= rl.min_basis_pct
+              and spread <= basis * rl.max_spread_to_basis
+              and spread * cur["lot"] >= rl.min_spread_value
+              and cur["vol"] >= rl.min_current_volume
+              and nxt["vol"] >= rl.min_next_volume
+              and rl.min_days_to_expiry <= dte <= rl.max_days_to_expiry)
         fails = []
-        if basis < 20: fails.append(f"basis<20 ({basis:.1f})")
-        if basis / s < 0.015: fails.append("basis<1.5%")
-        if spread > 0.5 * basis: fails.append("spread>half-basis")
-        if nxt["vol"] < 500: fails.append(f"nextvol<500 ({nxt['vol']})")
-        if not (7 <= dte <= 21): fails.append(f"dte {dte}")
+        if basis < rl.min_basis:
+            fails.append(f"basis<{rl.min_basis:g} ({basis:.1f})")
+        if basis / s * 100 < rl.min_basis_pct:
+            fails.append(f"basis<{rl.min_basis_pct:g}%")
+        if spread > rl.max_spread_to_basis * basis:
+            fails.append(f"spread>{rl.max_spread_to_basis:g}x-basis")
+        if nxt["vol"] < rl.min_next_volume:
+            fails.append(f"nextvol<{rl.min_next_volume:g} ({nxt['vol']})")
+        if not (rl.min_days_to_expiry <= dte <= rl.max_days_to_expiry):
+            fails.append(f"dte {dte}")
         out.append(dict(
             symbol=sym, spot=s, current=c1, next=c2,
             basis=round(basis, 2), spread=round(spread, 2),
             basis_pct=round(basis / s * 100, 2),
             spread_value=round(spread * cur["lot"]), lot=cur["lot"],
             vol_curr=cur["vol"], vol_next=nxt["vol"], dte=dte,
-            v20_pass=v20_ok, v21_pass=v21_ok,
-            verdict=("v2.1 pass" if v21_ok else
-                     ("v2.0 pass" if v20_ok else "rejected: " + "; ".join(fails[:3]))),
+            preset=rl.name, preset_pass=ok,
+            verdict=(f"{rl.name} pass" if ok else
+                     "rejected: " + "; ".join(fails[:3])),
         ))
-    out.sort(key=lambda x: (not x["v21_pass"], not x["v20_pass"], -x["basis_pct"]))
+    out.sort(key=lambda x: (not x["preset_pass"], -x["basis_pct"]))
     return out
 
 
@@ -245,6 +250,7 @@ def run_day() -> dict:
     import config as config_mod
     import engine as arb_engine
     cfg = config_mod.load()
+    rl = cfg.rules
 
     # pre-run book for the Telegram diff (what opened / closed today)
     prev_open_syms = {r["symbol"] for r in _book()[0]}
@@ -273,8 +279,11 @@ def run_day() -> dict:
                      "future > next-month future and the gaps pass the filters, BUY the "
                      "current-month future and SELL the next-month — collect the basis as it "
                      "converges. Direction-immune. Exit: current future closes back at/above "
-                     "spot, or expiry. v2.1 gates: basis>=20 & >=1.5% of spot, spread<=half "
-                     "the basis, next-vol>=500, entries 7-21 days before expiry. "
+                     "spot, or expiry. "
+                     + f"Live preset {cfg.preset}: basis>={rl.min_basis:g} & >={rl.min_basis_pct:g}% "
+                       f"of spot, spread<={rl.max_spread_to_basis:g}x basis, "
+                       f"next-vol>={rl.min_next_volume:g}, entries {rl.min_days_to_expiry}-"
+                       f"{rl.max_days_to_expiry} days before expiry. "
                      "Rs 1L pilot, 1 lot, max 3 concurrent, Rs 15k/day kill-switch."),
             "source": "video SMky9fADQZw: 'not every gap is arbitrage — track the pair's history'",
         },

@@ -751,9 +751,8 @@ main h3 .collapse-btn {
       sw.innerHTML = '<div class="flash">No NSE-200 stock is in the double-discount shape today (spot > current > next).</div>';
     } else {
       var rows = sit.map(function (x) {
-        var pass = x.v21_pass, v20 = x.v20_pass;
-        var badge = pass ? '<span class="badge badge-green">v2.1 pass</span>'
-          : (v20 ? '<span class="badge badge-green">v2.0 pass</span>' : "");
+        var pass = x.preset_pass;
+        var badge = pass ? '<span class="badge badge-green">' + esc(x.preset || "pass") + '</span>' : "";
         return '<tr' + (pass ? ' style="background:rgba(79,195,247,.08)"' : "") + '>' +
           "<td><strong>" + esc(x.symbol) + "</strong> " + badge + "</td>" +
           "<td>" + x.spot + "</td><td>" + x.current + "</td><td>" + x.next + "</td>" +

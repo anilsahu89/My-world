@@ -48,7 +48,24 @@ V21 = bt.StrategyRules(
     max_days_to_expiry=21,
 )
 
-_PRESETS = {"v2.0": V20, "v2": V20, "2.0": V20, "v2.1": V21, "v21": V21, "2.1": V21}
+# R1 — frequency-first relaxation, owner-approved 7 Oct 2026 after the
+# 1-year real-premium comparison (34t +137,105 WR71% vs v2.1's 12t +85,315
+# WR92%; worst -2,750). Keeps the spread gate meaningful (0.6x, tighter
+# than v2.0's 1.0x — the BLUESTARCO loser class) and the 7-21 DTE window.
+R1 = bt.StrategyRules(
+    name="R1 relaxed",
+    min_basis=10.0,
+    min_basis_pct=1.0,
+    max_spread_to_basis=0.6,
+    min_spread_value=2000.0,
+    min_current_volume=100,
+    min_next_volume=250,
+    min_days_to_expiry=7,
+    max_days_to_expiry=21,
+)
+
+_PRESETS = {"v2.0": V20, "v2": V20, "2.0": V20, "v2.1": V21, "v21": V21,
+            "2.1": V21, "r1": R1, "v2.2": R1, "2.2": R1}
 
 
 def get_preset(name: str | None = None) -> bt.StrategyRules:
