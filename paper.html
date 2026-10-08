@@ -1036,8 +1036,11 @@ main h3 .collapse-btn {
     <div class="sum-card"><span class="sum-label">Unrealized (₹)</span><span class="sum-value" id="qmUnreal">—</span></div>
     <div class="sum-card"><span class="sum-label">Win Rate</span><span class="sum-value" id="qmWin">—</span></div>
   </div>
-  <h3 style="margin-top:1.5rem">📋 QM Trade Ledger</h3>
-  <div class="table-wrap" id="qmWrap"></div>
+  <h3 style="color:var(--green);margin-top:1.5rem">🟢 Open Positions <span class="muted" id="qmOpenCount">(0)</span></h3>
+  <div class="table-wrap" id="qmOpenWrap"><div class="flash">No open QM positions — pending signals fill at the next session's open.</div></div>
+
+  <h3 style="margin-top:2rem">🔴 Closed Trades <span class="muted" id="qmClosedCount">(0)</span></h3>
+  <div class="table-wrap" id="qmClosedWrap"><div class="flash">No closed QM trades yet.</div></div>
 </section>
 
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
@@ -1086,8 +1089,11 @@ main h3 .collapse-btn {
     <div class="sum-card"><span class="sum-label">Gold/BTC P&L ($)</span><span class="sum-value" id="swUsd">—</span></div>
     <div class="sum-card"><span class="sum-label">Win Rate</span><span class="sum-value" id="swWin">—</span></div>
   </div>
-  <h3 style="margin-top:1.5rem">📋 Swing Trade Ledger</h3>
-  <div class="table-wrap" id="swWrap"></div>
+  <h3 style="color:var(--green);margin-top:1.5rem">🟢 Open Positions <span class="muted" id="swOpenCount">(0)</span></h3>
+  <div class="table-wrap" id="swOpenWrap"><div class="flash">No open swing positions.</div></div>
+
+  <h3 style="margin-top:2rem">🔴 Closed Trades <span class="muted" id="swClosedCount">(0)</span></h3>
+  <div class="table-wrap" id="swClosedWrap"><div class="flash">No closed swing trades yet.</div></div>
 </section>
 
 <!-- ===================== MANUAL: SEARCH & TAKE + BOOK ===================== -->
@@ -2023,40 +2029,74 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     r.textContent = fmt(s.realized); r.className = "sum-value " + ((s.realized || 0) >= 0 ? "pos" : "neg");
     u.textContent = fmt(s.unrealized); u.className = "sum-value " + ((s.unrealized || 0) >= 0 ? "pos" : "neg");
     w.textContent = (s.win_rate || 0) + "% (" + (s.wins || 0) + "W/" + (s.losses || 0) + "L)";
-    var rows = (d.pending || []).concat((d.open || []).concat((d.closed || []).slice(0, 20)));
-    var h = "<table><thead><tr><th>Signal</th><th>Symbol</th><th>Status</th><th>Qty</th>" +
-      "<th>Entry (avg)</th><th>Invested</th><th>Booked</th><th>Mark</th><th>Sess</th><th>Exit</th><th>P&L</th><th></th>" +
-      "</tr></thead><tbody>";
     var taken = qmTaken();
-    rows.forEach(function (t) {
-      var isPend = t.status === "PENDING";
-      // engine sets pnl only at close — open rows show live unrealized:
-      // booked + qty x (mark - entry), the engine's own close formula
-      var pnlShow = t.pnl;
-      if (pnlShow == null && t.status === "OPEN" && t.mark != null && t.entry != null) {
-        pnlShow = (t.booked || 0) + (t.qty || 0) * (t.mark - t.entry);
-      }
+    function qmTakeBtn(t, isPend) {
+      if (!isPend) return "";
       var took = taken.indexOf(t.symbol) !== -1;
-      var action = isPend
-        ? (took ? '<span class="muted">taken ✓</span>'
-                : '<button class="btn" data-qmsym="' + esc(t.symbol) + '" data-qmref="' + esc(t.ref_close || "") + '" title="take this signal now into your Manual book (₹5k lot) at live LTP, or the signal-day close if no live price">✋ Take</button>')
-        : "";
-      h += "<tr><td>" + esc(t.signal_date) + "</td>" +
-        "<td><strong>" + esc(t.symbol) + "</strong>" +
-          (isPend && t.note ? '<div class="muted" style="font-size:0.72rem">' + esc(t.note) + "</div>" : "") + "</td>" +
-        "<td>" + esc(t.status) + (t.trail ? " 🚩trail" : "") + (t.avg_count ? " (avg)" : "") + "</td>" +
-        "<td>" + (t.qty != null ? t.qty : "—") + "</td>" +
-        "<td>" + (t.entry != null ? t.entry + (t.entry_date ? " (" + esc(t.entry_date).slice(5) + ")" : "") : "next open") + "</td>" +
-        "<td>" + (t.invested != null ? "₹" + Math.round(t.invested).toLocaleString("en-IN") : "—") + "</td>" +
-        '<td class="' + cls(t.booked) + '">' + (t.booked ? fmt(t.booked) : "—") + "</td>" +
-        "<td>" + (t.mark != null ? Math.round(t.mark * 100) / 100 : "—") + "</td>" +
-        "<td>" + (t.sessions || 0) + "</td>" +
-        "<td>" + (t.exit != null ? t.exit + " " + esc(t.reason || "") : "—") + "</td>" +
-        '<td class="' + cls(pnlShow) + '">' + (pnlShow != null ? fmt(pnlShow) : "—") + "</td>" +
-        "<td>" + action + "</td></tr>";
-    });
-    document.getElementById("qmWrap").innerHTML = h + "</tbody></table>" +
-      '<p class="hint" style="margin:0.5rem 0 0">✋ Take = take a PENDING signal immediately at live LTP into your Manual book (₹5k lot, same as the QM desk) — for when you don\'t want to wait for the engine\'s next-open fill. The QM engine itself fills pendings at the next session\'s open during the 17:35 scan. OPEN rows show <em>unrealized</em> P&L (mark − entry) until they close.</p>';
+      return took ? '<span class="muted">taken \u2713</span>'
+        : '<button class="btn" data-qmsym="' + esc(t.symbol) + '" data-qmref="' + esc(t.ref_close || "") + '" title="take this signal now into your Manual book (\u20b95k lot) at live LTP, or the signal-day close if no live price">\u270b Take</button>';
+    }
+    var pend = d.pending || [], open = d.open || [];
+    document.getElementById("qmOpenCount").textContent =
+      "(" + open.length + (pend.length ? " + " + pend.length + " pending" : "") + ")";
+    var ow = document.getElementById("qmOpenWrap");
+    if (!pend.length && !open.length) {
+      ow.innerHTML = '<div class="flash">No open QM positions \u2014 pending signals fill at the next session\u2019s open.</div>';
+    } else {
+      var h = "<table><thead><tr><th>Signal</th><th>Symbol</th><th>Status</th><th>Qty</th>" +
+        "<th>Entry (avg)</th><th>Invested</th><th>Booked</th><th>Mark</th><th>Sess</th><th>Live P&L</th><th></th>" +
+        "</tr></thead><tbody>";
+      pend.concat(open).forEach(function (t) {
+        var isPend = t.status === "PENDING";
+        var pnlShow = t.pnl;
+        if (pnlShow == null && t.status === "OPEN" && t.mark != null && t.entry != null) {
+          pnlShow = (t.booked || 0) + (t.qty || 0) * (t.mark - t.entry);
+        }
+        h += "<tr><td>" + esc(t.signal_date) + "</td>" +
+          "<td><strong>" + esc(t.symbol) + "</strong>" +
+            (isPend && t.note ? '<div class="muted" style="font-size:0.72rem">' + esc(t.note) + "</div>" : "") + "</td>" +
+          "<td>" + (isPend ? '<span class="badge badge-grey">PENDING</span>' : esc(t.status)) +
+            (t.trail ? " \U0001F6A9trail" : "") + (t.avg_count ? " (avg)" : "") + "</td>" +
+          "<td>" + (t.qty != null ? t.qty : "\u2014") + "</td>" +
+          "<td>" + (t.entry != null ? t.entry + (t.entry_date ? " (" + esc(t.entry_date).slice(5) + ")" : "") : "next open") + "</td>" +
+          "<td>" + (t.invested != null ? "\u20b9" + Math.round(t.invested).toLocaleString("en-IN") : "\u2014") + "</td>" +
+          '<td class="' + cls(t.booked) + '">' + (t.booked ? fmt(t.booked) : "\u2014") + "</td>" +
+          "<td>" + (t.mark != null ? Math.round(t.mark * 100) / 100 : "\u2014") + "</td>" +
+          "<td>" + (t.sessions || 0) + "</td>" +
+          '<td class="' + cls(pnlShow) + '">' + (pnlShow != null ? fmt(pnlShow) : "\u2014") + "</td>" +
+          "<td>" + qmTakeBtn(t, isPend) + "</td></tr>";
+      });
+      ow.innerHTML = h + "</tbody></table>" +
+        '<p class="hint" style="margin:0.5rem 0 0">\u270b Take = take a PENDING signal now at live LTP into your Manual book (\u20b95k lot). The QM engine itself fills pendings at the next session\u2019s open during the 17:35 scan. OPEN rows show <em>unrealized</em> P&L (mark \u2212 entry) until they close.</p>';
+    }
+
+    var closed = (d.closed || []).slice(-30).reverse();
+    document.getElementById("qmClosedCount").textContent = "(" + (d.closed || []).length + ")";
+    var cw = document.getElementById("qmClosedWrap");
+    if (!closed.length) {
+      cw.innerHTML = '<div class="flash">No closed QM trades yet.</div>';
+    } else {
+      var h2 = "<table><thead><tr><th>Signal</th><th>Symbol</th><th>Reason</th><th>Qty</th>" +
+        "<th>Entry</th><th>Exit</th><th>Invested</th><th>Booked</th><th>Held</th><th>P&L</th><th></th>" +
+        "</tr></thead><tbody>";
+      closed.forEach(function (t) {
+        var win = Number(t.pnl) > 0;
+        h2 += '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
+          "<td>" + esc(t.signal_date) + "</td>" +
+          "<td><strong>" + esc(t.symbol) + "</strong></td>" +
+          "<td>" + esc(t.reason || "\u2014") + "</td>" +
+          "<td>" + (t.qty != null ? t.qty : "\u2014") + "</td>" +
+          "<td>" + (t.entry != null ? t.entry : "\u2014") + "</td>" +
+          "<td>" + (t.exit != null ? t.exit : "\u2014") + "</td>" +
+          "<td>" + (t.invested != null ? "\u20b9" + Math.round(t.invested).toLocaleString("en-IN") : "\u2014") + "</td>" +
+          '<td class="' + cls(t.booked) + '">' + (t.booked ? fmt(t.booked) : "\u2014") + "</td>" +
+          "<td>" + (t.sessions || 0) + "d</td>" +
+          '<td class="' + cls(Number(t.pnl)) + '">' + fmt(Number(t.pnl)) + "</td>" +
+          '<td><span class="badge ' + (win ? "badge-green" : "badge-red") + '">' +
+          (win ? "WIN" : "LOSS") + "</span></td></tr>";
+      });
+      cw.innerHTML = h2 + "</tbody></table>";
+    }
     bindTakeButtons();
   }
 
@@ -2159,21 +2199,54 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     a.textContent = fmt(s.pnl_inr, "inr"); a.className = "sum-value " + ((s.pnl_inr || 0) >= 0 ? "pos" : "neg");
     b.textContent = fmt(s.pnl_usd, "$"); b.className = "sum-value " + ((s.pnl_usd || 0) >= 0 ? "pos" : "neg");
     w.textContent = (s.win_rate || 0) + "% (" + (s.wins || 0) + "W/" + (s.losses || 0) + "L)";
-    var rows = (d.open || []).concat(d.pending || []).concat((d.closed || []).slice(0, 20));
-    var h = "<table><thead><tr><th>Signal</th><th>Mkt</th><th>Symbol</th><th>Setup</th>" +
-      "<th>Side</th><th>Status</th><th>Entry</th><th>SL</th><th>TGT</th><th>Sess</th><th>Exit</th><th>P&L</th>" +
-      "</tr></thead><tbody>";
-    rows.forEach(function (t) {
-      h += "<tr><td>" + esc(t.signal_date) + "</td><td>" + esc(t.market) + "</td>" +
-        "<td><strong>" + esc(t.symbol) + "</strong></td><td>" + esc(t.setup) + "</td>" +
-        "<td>" + esc(t.side) + "</td><td>" + esc(t.status) + "</td>" +
-        "<td>" + (t.entry != null ? t.entry + (t.entry_date ? " (" + esc(t.entry_date).slice(5) + ")" : "") : "next open") + "</td>" +
-        "<td>" + (t.sl != null ? t.sl : "—") + "</td><td>" + (t.tgt != null ? t.tgt : "—") + "</td>" +
-        "<td>" + (t.sessions || 0) + "</td>" +
-        "<td>" + (t.exit != null ? t.exit + " " + esc(t.reason || "") : "—") + "</td>" +
-        '<td class="' + cls(t.pnl) + '">' + (t.pnl != null ? fmt(t.pnl, t.market === "NSE" ? "inr" : "$") : "—") + "</td></tr>";
-    });
-    document.getElementById("swWrap").innerHTML = h + "</tbody></table>";
+    var pend = d.pending || [], open = d.open || [];
+    document.getElementById("swOpenCount").textContent =
+      "(" + open.length + (pend.length ? " + " + pend.length + " pending" : "") + ")";
+    var ow = document.getElementById("swOpenWrap");
+    if (!pend.length && !open.length) {
+      ow.innerHTML = '<div class="flash">No open swing positions \u2014 signals fill at the next session\u2019s open.</div>';
+    } else {
+      var h = "<table><thead><tr><th>Signal</th><th>Mkt</th><th>Symbol</th><th>Setup</th>" +
+        "<th>Side</th><th>Status</th><th>Entry</th><th>SL</th><th>TGT</th><th>Sess</th><th>Live P&L</th>" +
+        "</tr></thead><tbody>";
+      pend.concat(open).forEach(function (t) {
+        var cur = t.market === "NSE" ? "inr" : "$";
+        h += "<tr><td>" + esc(t.signal_date) + "</td><td>" + esc(t.market) + "</td>" +
+          "<td><strong>" + esc(t.symbol) + "</strong></td><td>" + esc(t.setup) + "</td>" +
+          "<td>" + esc(t.side) + "</td><td>" +
+          (t.status === "PENDING" ? '<span class="badge badge-grey">PENDING</span>' : esc(t.status)) + "</td>" +
+          "<td>" + (t.entry != null ? t.entry + (t.entry_date ? " (" + esc(t.entry_date).slice(5) + ")" : "") : "next open") + "</td>" +
+          "<td>" + (t.sl != null ? t.sl : "\u2014") + "</td><td>" + (t.tgt != null ? t.tgt : "\u2014") + "</td>" +
+          "<td>" + (t.sessions || 0) + "</td>" +
+          '<td class="' + cls(t.pnl) + '">' + (t.pnl != null ? fmt(t.pnl, cur) : "\u2014") + "</td></tr>";
+      });
+      ow.innerHTML = h + "</tbody></table>";
+    }
+
+    var closed = (d.closed || []).slice(-30).reverse();
+    document.getElementById("swClosedCount").textContent = "(" + (d.closed || []).length + ")";
+    var cw = document.getElementById("swClosedWrap");
+    if (!closed.length) {
+      cw.innerHTML = '<div class="flash">No closed swing trades yet.</div>';
+    } else {
+      var h2 = "<table><thead><tr><th>Signal</th><th>Mkt</th><th>Symbol</th><th>Side</th>" +
+        "<th>Entry</th><th>Exit</th><th>Reason</th><th>Sess</th><th>P&L</th><th></th>" +
+        "</tr></thead><tbody>";
+      closed.forEach(function (t) {
+        var win = Number(t.pnl) > 0, cur = t.market === "NSE" ? "inr" : "$";
+        h2 += '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
+          "<td>" + esc(t.signal_date) + "</td><td>" + esc(t.market) + "</td>" +
+          "<td><strong>" + esc(t.symbol) + "</strong></td><td>" + esc(t.side) + "</td>" +
+          "<td>" + (t.entry != null ? t.entry : "\u2014") + "</td>" +
+          "<td>" + (t.exit != null ? t.exit : "\u2014") + "</td>" +
+          "<td>" + esc(t.reason || "\u2014") + "</td>" +
+          "<td>" + (t.sessions || 0) + "</td>" +
+          '<td class="' + cls(Number(t.pnl)) + '">' + fmt(Number(t.pnl), cur) + "</td>" +
+          '<td><span class="badge ' + (win ? "badge-green" : "badge-red") + '">' +
+          (win ? "WIN" : "LOSS") + "</span></td></tr>";
+      });
+      cw.innerHTML = h2 + "</tbody></table>";
+    }
   }
   function load() {
     fetch(base + "/data/swing_picks.json?t=" + Date.now())
