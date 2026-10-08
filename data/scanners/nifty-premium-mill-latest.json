@@ -1,7 +1,7 @@
 {
   "strategy": "nifty-premium-mill",
-  "scanned_at": "2026-10-07 09:20:51 IST",
-  "scan_date": "2026-10-07",
+  "scanned_at": "2026-10-08 09:24:13 IST",
+  "scan_date": "2026-10-08",
   "trades": [
     {
       "entry_date": "2026-07-14",
@@ -25,13 +25,36 @@
       "holding_days": "78",
       "spot_exit": "24187.7",
       "notes": ""
+    },
+    {
+      "entry_date": "2026-10-07",
+      "direction": "BEAR_CALL",
+      "opt_type": "CE",
+      "short_strike": "22900.0",
+      "long_strike": "23000.0",
+      "expiry": "2026-10-13",
+      "spot_entry": "22603.0",
+      "vix_entry": "13.9",
+      "short_premium": "32.15",
+      "long_premium": "18.65",
+      "net_credit": "13.5",
+      "sma": "23145.6",
+      "status": "OPEN",
+      "exit_date": "",
+      "exit_reason": "",
+      "exit_short_prem": "",
+      "exit_long_prem": "",
+      "pnl": "",
+      "holding_days": "",
+      "spot_exit": "",
+      "notes": ""
     }
   ],
   "log_entries": 0,
-  "status": "new_signal",
+  "status": "success",
   "report": {
-    "open_position": "Checking open positions...",
+    "open_position": "",
     "net_pnl": "1 trades | WR 100% | Net P&L \u20b92,250"
   },
-  "text_report": "==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL UPDATE \u2014 Wed, 07 Oct 2026\n==========================================================================================\n\n  Checking open positions...\n  No exits today.\n\n  Checking for new signal...\n  No options data\n\n==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL \u2014 PAPER TRADES\n  Rules: Tuesday entry | VIX 10.0-18.0 | 250OTM | 100pt spread | 50% target\n==========================================================================================\n\n  \ud83d\udd34 CLOSED TRADES (1):\n  Entry        Exit         Dir        Reason            Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-07-14   2026-09-30   BULL_PUT   expiry           \u20b9  30.0 \u20b9    2250   78d \u2705\n\n  \ud83d\udcc8 SUMMARY: 1 trades | WR 100% | Net P&L \u20b92,250"
+  "text_report": "==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL UPDATE \u2014 Thu, 08 Oct 2026\n==========================================================================================\n\n  Checking open positions...\nmill: yf chain fallback failed: 'Ticker' object has no attribute 'expirations'\n  No exits today.\n\n  Checking for new signal...\nmill: yf chain fallback failed: 'Ticker' object has no attribute 'expirations'\n  No options data\n\n==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL \u2014 PAPER TRADES\n  Rules: Tuesday entry | VIX 10.0-18.0 | 250OTM | 100pt spread | 50% target\n==========================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit Expiry         VIX     Spot\n  -------------------------------------------------------------------------------------\n  2026-10-07   BEAR_CALL  22900.0 23000.0 CE   \u20b9  13.5 2026-10-13   13.9  22603.0\n\n  \ud83d\udd34 CLOSED TRADES (1):\n  Entry        Exit         Dir        Reason            Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-07-14   2026-09-30   BULL_PUT   expiry           \u20b9  30.0 \u20b9    2250   78d \u2705\n\n  \ud83d\udcc8 SUMMARY: 1 trades | WR 100% | Net P&L \u20b92,250"
 }

@@ -1,7 +1,7 @@
 {
   "strategy": "nifty-daily-theta",
-  "scanned_at": "2026-10-07 09:20:49 IST",
-  "scan_date": "2026-10-07",
+  "scanned_at": "2026-10-08 09:24:10 IST",
+  "scan_date": "2026-10-08",
   "trades": [
     {
       "entry_date": "2026-10-06",
@@ -18,6 +18,30 @@
       "long_premium": "19.3",
       "net_credit": "13.45",
       "sma": "23201.7",
+      "status": "CLOSED",
+      "exit_date": "2026-10-07",
+      "exit_reason": "profit_50pct",
+      "exit_credit": "4.15",
+      "pnl": "697.5",
+      "holding_days": "1",
+      "spot_exit": "22603.0",
+      "notes": ""
+    },
+    {
+      "entry_date": "2026-10-07",
+      "direction": "BEAR_CALL",
+      "opt_type": "CE",
+      "short_strike": "22950.0",
+      "long_strike": "23050.0",
+      "expiry": "2026-10-13",
+      "dte": "6",
+      "spot_entry": "22603.0",
+      "vix_entry": "13.9",
+      "vix_regime": "rising",
+      "short_premium": "24.35",
+      "long_premium": "13.8",
+      "net_credit": "10.55",
+      "sma": "23145.6",
       "status": "OPEN",
       "exit_date": "",
       "exit_reason": "",
@@ -28,10 +52,11 @@
       "notes": ""
     }
   ],
-  "trade_count": 1,
+  "trade_count": 2,
   "status": "success",
   "report": {
-    "open_position": ""
+    "open_position": "",
+    "net_pnl": "1 trades | WR 100% | Net P&L \u20b9698"
   },
-  "text_report": "===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA UPDATE \u2014 Wed, 07 Oct 2026\n===============================================================================================\n\n  Checking open positions...\n  No exits today.\n\n  Checking for new signal...\n  \u23f8\ufe0f  Open position exists \u2014 waiting for exit before new entry\n\n===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA \u2014 PAPER TRADES\n  Rules: Mon/Tue/Wed/Fri 1PM | VIX<22 (regime recorded) | 300OTM | 100pt spread | 50% target\n===============================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit  DTE Expiry         VIX\n  --------------------------------------------------------------------------------\n  2026-10-06   BEAR_CALL  23100.0 23200.0 CE   \u20b9  13.4    7 2026-10-13   13.6"
+  "text_report": "===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA UPDATE \u2014 Thu, 08 Oct 2026\n===============================================================================================\n\n  Checking open positions...\n  No exits today.\n\n  Checking for new signal...\n  \u23f8\ufe0f  Open position exists \u2014 waiting for exit before new entry\n\n===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA \u2014 PAPER TRADES\n  Rules: Mon/Tue/Wed/Fri 1PM | VIX<22 (regime recorded) | 300OTM | 100pt spread | 50% target\n===============================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit  DTE Expiry         VIX\n  --------------------------------------------------------------------------------\n  2026-10-07   BEAR_CALL  22950.0 23050.0 CE   \u20b9  10.6    6 2026-10-13   13.9\n\n  \ud83d\udd34 CLOSED TRADES (1):\n  Entry        Exit         Dir        Reason          Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-10-06   2026-10-07   BEAR_CALL  profit_50pct   \u20b9  13.4 \u20b9     698    1d \u2705\n\n  \ud83d\udcc8 SUMMARY: 1 trades | WR 100% | Net P&L \u20b9698"
 }
