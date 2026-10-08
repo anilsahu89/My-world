@@ -427,6 +427,10 @@ def export(state: dict) -> dict:
     def row(t): return {k: t.get(k) for k in fields}
 
     opens = [row(t) for t in trades if t["status"] == "OPEN"]
+    for r in opens:                      # live MTM on the ledger rows —
+        if r.get("mark"):                # open positions showed pnl "—"
+            r["pnl"] = round((r.get("booked") or 0)
+                             + (r["mark"] - r["entry"]) * r["qty"], 2)
     pend = [row(t) for t in trades if t["status"] == "PENDING"]
     closed = [row(t) for t in trades if t["status"] == "CLOSED"]
     wins = [t for t in closed if (t.get("pnl") or 0) > 0]
