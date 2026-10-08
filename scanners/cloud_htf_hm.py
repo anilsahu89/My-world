@@ -286,15 +286,29 @@ def run(output: Path) -> dict:
     invested = sum(t["invested"] for t in trades if t["status"] == "OPEN")
     # live columns for the paper page: today's close per open position
     # (market-hours ticks in cloud_papertrade.refresh_hm_quotes keep them
-    # moving intraday; display-only fields, never written to the CSV)
+    # moving intraday; display-only fields, never written to the CSV).
+    # When this EOD pass has no fresh price (Yahoo throttle etc.), carry
+    # the PREVIOUS published LTP forward instead of blanking the columns —
+    # the 17:35 rewrite once wiped them to null every evening.
+    prev = {}
+    try:
+        prev = json.loads(OUT_DEFAULT.read_text()) if OUT_DEFAULT.exists() else {}
+    except Exception:
+        prev = {}
     for t in trades:
         if t["status"] != "OPEN":
             continue
         px = px_today.get(t["symbol"])
-        if px and px > 0:
-            t["ltp"] = round(px, 2)
-            t["live_pnl"] = round(t["qty"] * (px - t["entry"]), 2)
-            t["live_pct"] = round((px / t["entry"] - 1) * 100, 2)
+        if not (px and px > 0):
+            old = next((o for o in prev.get("open", [])
+                        if o.get("symbol") == t["symbol"]), {})
+            for k in ("ltp", "live_pnl", "live_pct"):
+                if old.get(k) is not None:
+                    t[k] = old[k]
+            continue
+        t["ltp"] = round(px, 2)
+        t["live_pnl"] = round(t["qty"] * (px - t["entry"]), 2)
+        t["live_pct"] = round((px / t["entry"] - 1) * 100, 2)
     out = {
         "date": today.isoformat(),
         "updated_at": now().strftime("%d %b %Y %H:%M:%S IST"),

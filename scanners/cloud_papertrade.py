@@ -758,24 +758,63 @@ def refresh_hm_quotes() -> None:
         opens = [t for t in data.get("open", []) if t.get("status") == "OPEN"]
         if not opens:
             return
-        bars = yf.download([f"{t['symbol']}.NS" for t in opens], period="1d",
-                           interval="5m", group_by="ticker", progress=False,
-                           threads=True, auto_adjust=False)
+
+        def fill(t, px):
+            if not px or not math.isfinite(px) or px <= 0:
+                return False
+            t["ltp"] = round(px, 2)
+            t["live_pnl"] = round(t["qty"] * (px - t["entry"]), 2)
+            t["live_pct"] = round((px / t["entry"] - 1) * 100, 2)
+            return True
+
         changed = False
-        for t in opens:
+        # 1) intraday 5-min bars (Yahoo throttles Actions runner IPs, so
+        #    this alone left the LTP columns blank all morning on cloud)
+        try:
+            bars = yf.download([f"{t['symbol']}.NS" for t in opens], period="1d",
+                               interval="5m", group_by="ticker", progress=False,
+                               threads=True, auto_adjust=False)
+            for t in opens:
+                try:
+                    frame = flatten(bars[f"{t['symbol']}.NS"].copy())
+                    if frame is None or frame.empty:
+                        continue
+                    changed |= fill(t, float(frame["Close"].iloc[-1]))
+                except (KeyError, TypeError, ValueError, IndexError):
+                    continue
+        except Exception as e:
+            print(f"hm 5m bars failed: {e}", flush=True)
+
+        # 2) anything still blank -> Angel live LTP (works on Actions),
+        #    then the day close — max 5 symbols, one light call each
+        missing = [t for t in opens if not t.get("ltp")]
+        if missing:
             try:
-                frame = flatten(bars[f"{t['symbol']}.NS"].copy())
-                if frame is None or frame.empty:
-                    continue
-                ltp = float(frame["Close"].iloc[-1])
-                if not math.isfinite(ltp) or ltp <= 0:
-                    continue
-                t["ltp"] = round(ltp, 2)
-                t["live_pnl"] = round(t["qty"] * (ltp - t["entry"]), 2)
-                t["live_pct"] = round((ltp / t["entry"] - 1) * 100, 2)
-                changed = True
-            except (KeyError, TypeError, ValueError, IndexError):
-                continue
+                import angel_feed
+                if angel_feed.available():
+                    q = angel_feed.quotes([t["symbol"] for t in missing])
+                    for t in missing:
+                        changed |= fill(t, (q.get(t["symbol"]) or {}).get("ltp"))
+            except Exception as e:
+                print(f"hm angel fallback failed: {e}", flush=True)
+            missing = [t for t in opens if not t.get("ltp")]
+            if missing:
+                try:
+                    bars = yf.download([f"{t['symbol']}.NS" for t in missing],
+                                       period="1d", interval="1d",
+                                       group_by="ticker", progress=False,
+                                       threads=True, auto_adjust=False)
+                    for t in missing:
+                        try:
+                            frame = flatten(bars[f"{t['symbol']}.NS"].copy())
+                            if frame is None or frame.empty:
+                                continue
+                            changed |= fill(t, float(frame["Close"].iloc[-1]))
+                        except (KeyError, TypeError, ValueError, IndexError):
+                            continue
+                except Exception as e:
+                    print(f"hm day-close fallback failed: {e}", flush=True)
+
         if changed:
             data["quote_time"] = now().strftime("%d %b %H:%M:%S IST")
             write_json(path, data)
