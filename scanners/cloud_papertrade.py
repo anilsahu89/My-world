@@ -112,20 +112,45 @@ def nse_symbols() -> list[str]:
     return [row.strip().split(",")[0] for row in rows[1:] if row.strip()]
 
 
+_YAHOO_FALLBACK_ALERTED = False
+
+
 def nse_quotes() -> dict[str, dict]:
-    """Live day-OHLC quotes for the universe. Angel SmartAPI when its
-    credentials are present (real-time, TOTP auto-login), Yahoo's delayed
-    feed as automatic fallback — the desk never skips a poll over auth."""
-    global FEED_NAME
+    """Live day-OHLC quotes for the universe, layered so the desk never
+    skips a poll over auth: Kite Connect (real-time, TOTP auto-login) ->
+    Angel SmartAPI (real-time) -> Yahoo (delayed). Whichever answers sets
+    FEED_NAME for the portal badge; landing on the delayed feed raises a
+    one-per-process Telegram alert so the degradation is visible."""
+    global FEED_NAME, _YAHOO_FALLBACK_ALERTED
+    try:
+        import kite_feed
+        if kite_feed.available():
+            q = kite_feed.quotes(nse_symbols())
+            if len(q) >= 100:            # healthy universe coverage
+                FEED_NAME = "kite"
+                return q
+    except Exception as e:
+        print(f"kite feed unavailable, falling back to angel/yahoo: {e}")
     try:
         import angel_feed
         if angel_feed.available():
             q = angel_feed.quotes(nse_symbols())
-            if len(q) >= 100:            # healthy universe coverage
+            if len(q) >= 100:
                 FEED_NAME = "angel"
                 return q
     except Exception as e:
         print(f"angel feed unavailable, falling back to yahoo: {e}")
+    FEED_NAME = "yahoo"
+    if not _YAHOO_FALLBACK_ALERTED:
+        _YAHOO_FALLBACK_ALERTED = True
+        try:
+            import telegram_notify
+            telegram_notify.notify(
+                "\u26A0\uFE0F Quotes on the DELAYED Yahoo fallback\n"
+                "Kite and Angel One both unavailable for this poll \u2014 "
+                "fills are approximate until a real-time feed returns.")
+        except Exception:
+            pass
     return _yahoo_quotes()
 
 

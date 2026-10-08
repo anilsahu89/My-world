@@ -1268,7 +1268,9 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     var el = document.getElementById("autoStatus");
     var feed = d.feed === "kite"
       ? '<span class="badge badge-green">Kite · real-time</span>'
-      : '<span class="badge badge-red" title="No Kite login this morning — ' +
+      : d.feed === "angel"
+      ? '<span class="badge badge-green">Angel · real-time</span>'
+      : '<span class="badge badge-red" title="Kite and Angel both unavailable this poll — ' +
         'fills are approximate">Yahoo · delayed</span>';
     var st = d.status === "DONE"
       ? '<span class="badge">SQUARED OFF</span>'

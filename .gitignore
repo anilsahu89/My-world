@@ -4,3 +4,4 @@ __pycache__
 data/raw/
 bhav/
 scanners/telegram.json
+scanners/kite.json

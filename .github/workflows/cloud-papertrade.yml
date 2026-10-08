@@ -50,7 +50,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install market-data dependencies
-        run: pip install yfinance pandas numpy pyotp
+        run: pip install yfinance pandas numpy pyotp kiteconnect
       - name: Choose scheduled desk
         id: desk
         run: |
@@ -73,6 +73,11 @@ jobs:
           POLLER_MODE: ${{ inputs.mode }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          KITE_API_KEY: ${{ secrets.KITE_API_KEY }}
+          KITE_API_SECRET: ${{ secrets.KITE_API_SECRET }}
+          KITE_USER_ID: ${{ secrets.KITE_USER_ID }}
+          KITE_PASSWORD: ${{ secrets.KITE_PASSWORD }}
+          KITE_TOTP_SECRET: ${{ secrets.KITE_TOTP_SECRET }}
         run: python3 scanners/cloud_papertrade.py "${{ steps.desk.outputs.value }}"
       - name: Commit changed state
         run: |
