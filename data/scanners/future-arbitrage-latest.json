@@ -1,9 +1,23 @@
 {
   "strategy": "future-arbitrage",
-  "scanned_at": null,
-  "status": "never_run",
-  "scan_date": null,
+  "scanned_at": "2026-10-08 23:37:57 IST",
+  "scan_date": "2026-10-08",
+  "status": "success",
+  "preset": "r1",
   "signals": 0,
-  "table": {"headers": [], "rows": []},
-  "text_report": "No scans have been run yet. Click 'Run scan now' to fetch the latest data."
+  "summary": {
+    "scan_date": "2026-10-08",
+    "candidates": 0,
+    "open_positions": 0,
+    "day_realized_pnl": 0.0,
+    "realized_pnl_cumulative": -2502.5,
+    "open_mtm": 0.0,
+    "kill_switch": false,
+    "closed_today": 0
+  },
+  "table": {
+    "headers": [],
+    "rows": []
+  },
+  "text_report": "No future arbitrage signals found for 2026-10-08."
 }
