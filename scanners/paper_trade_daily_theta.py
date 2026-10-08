@@ -374,6 +374,14 @@ def update_exits(day):
             exit_reason = "sl_strike_hit"
             exit_pnl = (credit - current_spread) * NIFTY_LOT
 
+        if not exit_reason and short_key in opts and long_key in opts:
+            # persist the MTM mark on open rows (portal Open P&L column) —
+            # only when today's bhavcopy actually carried these strikes;
+            # otherwise leave absent so the portal shows "—" not a fake 0
+            t["mark_credit"] = round(current_spread, 2)
+            t["live_pnl"] = round((credit - current_spread) * NIFTY_LOT, 2)
+            t["mark_date"] = day.isoformat()
+
         if exit_reason:
             t["status"] = "CLOSED"
             _alert_close(t)
@@ -390,7 +398,11 @@ def update_exits(day):
 
     with TRADES_FILE.open("w", newline="") as f:
         if updated:
-            w = csv.DictWriter(f, fieldnames=list(updated[0].keys()))
+            # union of keys across rows: new mark columns on open rows must
+            # not break the writer when older rows lack them
+            fieldnames = list(dict.fromkeys(
+                k for r in updated for k in r.keys()))
+            w = csv.DictWriter(f, fieldnames=fieldnames)
             w.writeheader()
             w.writerows(updated)
 

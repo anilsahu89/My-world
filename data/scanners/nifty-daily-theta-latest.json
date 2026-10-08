@@ -1,6 +1,6 @@
 {
   "strategy": "nifty-daily-theta",
-  "scanned_at": "2026-10-08 09:24:10 IST",
+  "scanned_at": "2026-10-08 11:53:36 IST",
   "scan_date": "2026-10-08",
   "trades": [
     {
@@ -25,7 +25,10 @@
       "pnl": "697.5",
       "holding_days": "1",
       "spot_exit": "22603.0",
-      "notes": ""
+      "notes": "",
+      "mark_credit": "",
+      "live_pnl": "",
+      "mark_date": ""
     },
     {
       "entry_date": "2026-10-07",
@@ -49,7 +52,10 @@
       "pnl": "",
       "holding_days": "",
       "spot_exit": "",
-      "notes": ""
+      "notes": "",
+      "mark_credit": "10.55",
+      "live_pnl": "0.0",
+      "mark_date": "2026-10-08"
     }
   ],
   "trade_count": 2,

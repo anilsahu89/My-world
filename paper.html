@@ -1584,13 +1584,21 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       ow.innerHTML = '<div class="flash">No open Daily Theta position right now.</div>';
     } else {
       var orows = open.map(function (t) {
+        var lp = Number(t.live_pnl);
+        var hasMark = t.live_pnl != null && isFinite(lp);
         return "<tr><td>" + esc(t.entry_date) + "</td><td>" + esc(t.direction) + "</td>" +
           "<td>" + esc(t.short_strike) + " / " + esc(t.long_strike) + " " + esc(t.opt_type) + "</td>" +
           "<td>" + inr(t.net_credit).replace("+", "") + "</td><td>" + esc(t.expiry) + " (" + esc(t.dte) + "d)</td>" +
-          "<td>" + esc(t.spot_entry) + "</td><td>" + esc(t.vix_entry) + "</td></tr>";
+          "<td>" + esc(t.spot_entry) + "</td><td>" + esc(t.vix_entry) + "</td>" +
+          '<td class="' + (hasMark ? cls(lp) : "") + '">' +
+          (hasMark ? inr(lp) + ' <span class="muted" style="font-size:0.7em">@' +
+                      esc(t.mark_date || "") + "</span>"
+                   : '<span class="muted">—</span>') + "</td></tr>";
       }).join("");
       ow.innerHTML = "<table><thead><tr><th>Entry</th><th>Direction</th><th>Short/Long Strike</th>" +
-        "<th>Net Credit</th><th>Expiry</th><th>Spot@Entry</th><th>VIX@Entry</th></tr></thead><tbody>" + orows + "</tbody></table>";
+        "<th>Net Credit</th><th>Expiry</th><th>Spot@Entry</th><th>VIX@Entry</th>" +
+        '<th title="mark-to-market at the last scan (bhavcopy premiums): credit minus current spread x 75">Open P&L</th>' +
+        "</tr></thead><tbody>" + orows + "</tbody></table>";
     }
     document.getElementById("thClosedCount").textContent = "(" + closed.length + ")";
     var cw = document.getElementById("thClosedWrap");
@@ -1843,14 +1851,21 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       ow.innerHTML = '<div class="flash">No open mill position — next entry window is the 1–4 DTE run-up to a Tuesday expiry (Monday/Friday).</div>';
     } else {
       var orows = open.map(function (t) {
+        var lp = Number(t.live_pnl);
+        var hasMark = t.live_pnl != null && isFinite(lp);
         return "<tr><td>" + esc(t.entry_date) + "</td><td>" + esc(t.direction) + "</td>" +
           "<td>" + esc(t.short_strike) + " / " + esc(t.long_strike) + " " + esc(t.opt_type) + "</td>" +
           "<td>" + esc(t.expiry) + "</td><td>₹" + esc(t.net_credit) + "</td>" +
-          "<td>" + esc(t.spot_entry) + "</td><td>" + esc(t.vix_entry) + "</td></tr>";
+          "<td>" + esc(t.spot_entry) + "</td><td>" + esc(t.vix_entry) + "</td>" +
+          '<td class="' + (hasMark ? cls(lp) : "") + '">' +
+          (hasMark ? inr(lp) + ' <span class="muted" style="font-size:0.7em">@' +
+                      esc(t.mark_date || "") + "</span>"
+                   : '<span class="muted">—</span>') + "</td></tr>";
       }).join("");
       ow.innerHTML = "<table><thead><tr><th>Entry</th><th>Direction</th><th>Strikes</th>" +
-        "<th>Expiry</th><th>Credit ₹</th><th>Spot@Entry</th><th>VIX@Entry</th></tr></thead><tbody>" +
-        orows + "</tbody></table>";
+        "<th>Expiry</th><th>Credit ₹</th><th>Spot@Entry</th><th>VIX@Entry</th>" +
+        '<th title="mark-to-market at the last scan (bhavcopy premiums): credit minus current spread x 75">Open P&L</th>' +
+        "</tr></thead><tbody>" + orows + "</tbody></table>";
     }
     document.getElementById("pmClosedCount").textContent = "(" + closed.length + ")";
     var cw = document.getElementById("pmClosedWrap");
@@ -1996,7 +2011,9 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       });
   }
   load();
+  loadQuotes();
   setInterval(load, 60000);
+  setInterval(loadQuotes, 60000);
 })();
 </script>
 
@@ -2016,7 +2033,19 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     var s = Math.abs(n).toLocaleString("en-IN", {maximumFractionDigits: 0});
     return (n < 0 ? "−" : "+") + "₹" + s;
   }
+  var ltpMap = {};                    // live NSE quotes for open rows
+  function loadQuotes() {
+    fetch(base + "/data/live_stocks.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !d.stocks) return;
+        d.stocks.forEach(function (q) { ltpMap[q.symbol] = parseFloat(q.ltp); });
+        if (window.__lastQm) render(window.__lastQm);
+      }).catch(function () {});
+  }
+
   function render(d) {
+    window.__lastQm = d;
     var s = d.summary || {};
     var el = document.getElementById("qmStatus");
     el.className = "flash";
@@ -2049,8 +2078,13 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       pend.concat(open).forEach(function (t) {
         var isPend = t.status === "PENDING";
         var pnlShow = t.pnl;
-        if (pnlShow == null && t.status === "OPEN" && t.mark != null && t.entry != null) {
-          pnlShow = (t.booked || 0) + (t.qty || 0) * (t.mark - t.entry);
+        if (t.status === "OPEN" && t.entry != null) {
+          var live = ltpMap[t.symbol];
+          if (isFinite(live) && live > 0) {          // live LTP beats the EOD mark
+            pnlShow = (t.booked || 0) + (t.qty || 0) * (live - t.entry);
+          } else if (pnlShow == null && t.mark != null) {
+            pnlShow = (t.booked || 0) + (t.qty || 0) * (t.mark - t.entry);
+          }
         }
         h += "<tr><td>" + esc(t.signal_date) + "</td>" +
           "<td><strong>" + esc(t.symbol) + "</strong>" +
@@ -2186,7 +2220,19 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     var s = Math.abs(n).toLocaleString("en-IN", {maximumFractionDigits: 0});
     return (n < 0 ? "−" : "+") + (cur === "$" ? "$" + s : "₹" + s);
   }
+  var ltpMap = {};                    // live NSE quotes for open rows
+  function loadQuotes() {
+    fetch(base + "/data/live_stocks.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !d.stocks) return;
+        d.stocks.forEach(function (q) { ltpMap[q.symbol] = parseFloat(q.ltp); });
+        if (window.__lastSw) render(window.__lastSw);
+      }).catch(function () {});
+  }
+
   function render(d) {
+    window.__lastSw = d;
     var s = d.summary || {};
     var el = document.getElementById("swingStatus");
     el.className = "flash";
@@ -2211,6 +2257,14 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         "</tr></thead><tbody>";
       pend.concat(open).forEach(function (t) {
         var cur = t.market === "NSE" ? "inr" : "$";
+        var pnlShow = t.pnl;
+        if (t.status === "OPEN" && t.market === "NSE" && t.entry != null) {
+          var live = ltpMap[t.symbol];
+          if (isFinite(live) && live > 0) {          // live LTP beats EOD mark
+            pnlShow = (t.qty || 0) * (t.side === "SELL" ? t.entry - live
+                                                      : live - t.entry);
+          }
+        }
         h += "<tr><td>" + esc(t.signal_date) + "</td><td>" + esc(t.market) + "</td>" +
           "<td><strong>" + esc(t.symbol) + "</strong></td><td>" + esc(t.setup) + "</td>" +
           "<td>" + esc(t.side) + "</td><td>" +
@@ -2218,7 +2272,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
           "<td>" + (t.entry != null ? t.entry + (t.entry_date ? " (" + esc(t.entry_date).slice(5) + ")" : "") : "next open") + "</td>" +
           "<td>" + (t.sl != null ? t.sl : "\u2014") + "</td><td>" + (t.tgt != null ? t.tgt : "\u2014") + "</td>" +
           "<td>" + (t.sessions || 0) + "</td>" +
-          '<td class="' + cls(t.pnl) + '">' + (t.pnl != null ? fmt(t.pnl, cur) : "\u2014") + "</td></tr>";
+          '<td class="' + cls(pnlShow) + '">' + (pnlShow != null ? fmt(pnlShow, cur) : "\u2014") + "</td></tr>";
       });
       ow.innerHTML = h + "</tbody></table>";
     }
@@ -2255,7 +2309,9 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       .catch(function () {});
   }
   load();
+  loadQuotes();
   setInterval(load, 60000);
+  setInterval(loadQuotes, 60000);
 })();
 </script>
 
