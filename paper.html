@@ -2472,7 +2472,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       cw.innerHTML = '<div class="flash">No closed manual trades yet.</div>';
     } else {
       cw.innerHTML = "<table><thead><tr><th>Symbol</th><th>Entry</th><th>Exit</th>" +
-        "<th>Entry ₹</th><th>Exit ₹</th><th>Reason</th><th>P&L</th><th></th></tr></thead><tbody>" +
+        "<th>Entry ₹</th><th>Exit ₹</th><th>Reason</th><th>P&L</th><th></th><th></th></tr></thead><tbody>" +
         closed.slice(0, 50).map(function (t) {
           var w = (t.pnl || 0) > 0;
           return '<tr class="' + (w ? "row-win" : "row-loss") + '"><td><strong>' +
@@ -2480,8 +2480,20 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
             esc(t.exit_date || "—") + "</td><td>₹" + t.entry_price + "</td><td>₹" +
             (t.exit_price != null ? t.exit_price : "—") + "</td><td>" + esc(t.exit_reason || "—") +
             '</td><td class="' + cls(t.pnl) + '">' + inr(t.pnl) + '</td><td><span class="badge ' +
-            (w ? "badge-green" : "badge-red") + '">' + (w ? "WIN" : "LOSS") + "</span></td></tr>";
+            (w ? "badge-green" : "badge-red") + '">' + (w ? "WIN" : "LOSS") + "</span></td>" +
+            '<td><button class="btn" data-del="' + esc(String(t.id)) +
+            '" title="remove this entry from the manual book (wrong price, duplicate, misclick)">✖ Del</button></td></tr>';
         }).join("") + "</tbody></table>";
+      cw.querySelectorAll("button[data-del]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          var id = b.getAttribute("data-del");
+          var keep = book().filter(function (x) { return String(x.id) !== id; });
+          try {
+            localStorage.setItem(KEY, JSON.stringify(keep));
+          } catch (e) {}
+          renderBook();
+        });
+      });
     }
   }
 
