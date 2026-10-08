@@ -46,11 +46,11 @@
    "close_cost_usd": null,
    "reason": null,
    "pnl_inr": null,
-   "mark_usd": -236.0,
-   "spot_now": 82004.0
+   "mark_usd": -227.0,
+   "spot_now": 82141.0
   }
  ],
  "last_entry_date": "2026-09-30",
- "last_tick_ts": 1791467098.3060946,
+ "last_tick_ts": 1791468003.4158025,
  "last_entry_week": "2026-W40"
 }
