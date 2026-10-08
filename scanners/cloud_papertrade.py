@@ -115,16 +115,53 @@ def nse_symbols() -> list[str]:
 _YAHOO_FALLBACK_ALERTED = False
 
 
+def _yahoo_fallback_alert(kite_cfg: bool, angel_cfg: bool) -> None:
+    """Tell the owner a market-hours poll ran on the delayed feed — but
+    only when it is real news: a real-time feed WAS configured and failed.
+    Off-hours polls on Yahoo are normal (Angel throttles overnight), an
+    unconfigured feed is never 'down', and a file stamp throttles repeats
+    to one alert per 30 minutes across runs."""
+    moment = now()
+    if moment.weekday() >= 5 or not (time(9, 15) <= moment.time() <= time(15, 30)):
+        return
+    down = []
+    if kite_cfg:
+        down.append("Kite")
+    if angel_cfg:
+        down.append("Angel One")
+    if not down:                      # pre-Kite normal state: angel not set up
+        return
+    import time as _t
+    stamp = DATA / ".feed_alert_ts"
+    try:
+        if stamp.exists() and _t.time() - float(stamp.read_text() or 0) < 1800:
+            return
+        stamp.write_text(str(_t.time()))
+    except Exception:
+        pass
+    try:
+        import telegram_notify
+        telegram_notify.notify(
+            "\u26A0\uFE0F Quotes on the DELAYED Yahoo fallback (market hours)\n"
+            + " + ".join(down)
+            + " failed this poll \u2014 auto-retry on the next one; "
+              "fills are approximate meanwhile.")
+    except Exception:
+        pass
+
+
 def nse_quotes() -> dict[str, dict]:
     """Live day-OHLC quotes for the universe, layered so the desk never
     skips a poll over auth: Kite Connect (real-time, TOTP auto-login) ->
     Angel SmartAPI (real-time) -> Yahoo (delayed). Whichever answers sets
-    FEED_NAME for the portal badge; landing on the delayed feed raises a
-    one-per-process Telegram alert so the degradation is visible."""
+    FEED_NAME for the portal badge. Until Kite keys arrive the layer stays
+    dormant and Angel serves exactly as before."""
     global FEED_NAME, _YAHOO_FALLBACK_ALERTED
+    kite_cfg = angel_cfg = False
     try:
         import kite_feed
-        if kite_feed.available():
+        kite_cfg = kite_feed.available()
+        if kite_cfg:
             q = kite_feed.quotes(nse_symbols())
             if len(q) >= 100:            # healthy universe coverage
                 FEED_NAME = "kite"
@@ -133,7 +170,8 @@ def nse_quotes() -> dict[str, dict]:
         print(f"kite feed unavailable, falling back to angel/yahoo: {e}")
     try:
         import angel_feed
-        if angel_feed.available():
+        angel_cfg = angel_feed.available()
+        if angel_cfg:
             q = angel_feed.quotes(nse_symbols())
             if len(q) >= 100:
                 FEED_NAME = "angel"
@@ -143,14 +181,7 @@ def nse_quotes() -> dict[str, dict]:
     FEED_NAME = "yahoo"
     if not _YAHOO_FALLBACK_ALERTED:
         _YAHOO_FALLBACK_ALERTED = True
-        try:
-            import telegram_notify
-            telegram_notify.notify(
-                "\u26A0\uFE0F Quotes on the DELAYED Yahoo fallback\n"
-                "Kite and Angel One both unavailable for this poll \u2014 "
-                "fills are approximate until a real-time feed returns.")
-        except Exception:
-            pass
+        _yahoo_fallback_alert(kite_cfg, angel_cfg)
     return _yahoo_quotes()
 
 
