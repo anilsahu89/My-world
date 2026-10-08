@@ -1115,7 +1115,20 @@ def main() -> None:
             import cloud_swing
             if read_json(cloud_swing.STATE_FILE, {}).get("done_date") \
                     != moment.date().isoformat():
-                cloud_swing.run_day()
+                try:
+                    cloud_swing.run_day()
+                except Exception as e:
+                    # unguarded, a bad symbol once killed the whole evening
+                    # tick and froze the swing desk for days (5-7 Oct)
+                    print(f"swing EOD run failed: {e}", flush=True)
+                    try:
+                        import telegram_notify
+                        telegram_notify.notify(
+                            "\u26A0\uFE0F Candle Swing EOD scan failed\n"
+                            + str(e)[:300]
+                            + "\nDesk state unchanged; retried next tick.")
+                    except Exception:
+                        pass
         # BTC 0DTE theta desk (rulebook BTC_0DTE_RULES.md v2): 24/7 market,
         # piggybacks on every gc tick — marks/exits continuously, opens the
         # daily structure inside its 13:30-15:29 IST entry window

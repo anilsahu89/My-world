@@ -1,11 +1,11 @@
 {
- "updated_at": "05 Oct 2026 11:02:04 IST",
- "rule": "top-3 candlestick setups (backtested 5y): MARU-at-low BUY PF 1.39 · ShootingStar+VOL SELL PF 1.15 · Engulf-at-low BUY PF 1.13 | entry next open, SL=pattern extreme, target 2R, 10-session stop | max 5 concurrent",
- "note": "NSE backtested; GOLD/BTC patterns untested (trial). Runs in the cloud (GitHub Actions) — no Mac required.",
+ "updated_at": "08 Oct 2026 11:37:32 IST",
+ "rule": "top-3 candlestick setups (backtested 5y): MARU-at-low BUY PF 1.39 \u00b7 ShootingStar+VOL SELL PF 1.15 \u00b7 Engulf-at-low BUY PF 1.13 | entry next open, SL=pattern extreme, target 2R, 10-session stop | max 5 concurrent",
+ "note": "NSE backtested; GOLD/BTC patterns untested (trial). Runs in the cloud (GitHub Actions) \u2014 no Mac required.",
  "end_date": "2026-12-31",
  "summary": {
-  "open": 0,
-  "pending": 1,
+  "open": 3,
+  "pending": 0,
   "closed": 17,
   "wins": 6,
   "losses": 11,
@@ -13,8 +13,7 @@
   "pnl_inr": -463.05,
   "pnl_usd": 0
  },
- "open": [],
- "pending": [
+ "open": [
   {
    "id": 18,
    "signal_date": "2026-10-05",
@@ -22,18 +21,55 @@
    "symbol": "ETERNAL",
    "setup": "CS-ENGF",
    "side": "BUY",
-   "status": "PENDING",
-   "entry_date": null,
-   "qty": null,
-   "entry": null,
+   "status": "OPEN",
+   "entry_date": "2026-10-08",
+   "qty": 30,
+   "entry": 328.0,
    "sl": 308.1,
-   "tgt": null,
+   "tgt": 367.8,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "id": 19,
+   "signal_date": "2026-10-08",
+   "market": "NSE",
+   "symbol": "IFCI",
+   "setup": "CS-MARU",
+   "side": "BUY",
+   "status": "OPEN",
+   "entry_date": "2026-10-08",
+   "qty": 145,
+   "entry": 68.95,
+   "sl": 63.3,
+   "tgt": 80.25,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "id": 20,
+   "signal_date": "2026-10-08",
+   "market": "NSE",
+   "symbol": "NIVABUPA",
+   "setup": "CS-PINS",
+   "side": "SELL",
+   "status": "OPEN",
+   "entry_date": "2026-10-08",
+   "qty": 127,
+   "entry": 78.13,
+   "sl": 83.5,
+   "tgt": 67.39,
    "sessions": 0,
    "exit": null,
    "reason": null,
    "pnl": null
   }
  ],
+ "pending": [],
  "closed": [
   {
    "id": 1,
