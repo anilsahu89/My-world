@@ -41,16 +41,16 @@
    "debit_usd": 670.6,
    "hawa_usd": 796.4,
    "fees_usd": 50.3,
-   "status": "OPEN",
-   "exit_at": null,
-   "close_cost_usd": null,
-   "reason": null,
-   "pnl_inr": null,
+   "status": "CLOSED",
+   "exit_at": "2026-10-09 17:31",
+   "close_cost_usd": 0,
+   "reason": "EXPIRY",
+   "pnl_inr": -184.0,
    "mark_usd": -300.1,
-   "spot_now": 82327.0
+   "spot_now": 82486.0
   }
  ],
  "last_entry_date": "2026-09-30",
- "last_tick_ts": 1791522923.2134225,
+ "last_tick_ts": 1791547305.8304653,
  "last_entry_week": "2026-W40"
 }
