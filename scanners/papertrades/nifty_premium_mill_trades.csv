@@ -1,3 +1,3 @@
-entry_date,direction,opt_type,short_strike,long_strike,expiry,spot_entry,vix_entry,short_premium,long_premium,net_credit,sma,status,exit_date,exit_reason,exit_short_prem,exit_long_prem,pnl,holding_days,spot_exit,notes
-2026-07-14,BULL_PUT,PE,23850.0,23750.0,2026-07-21,24052.0,13.8,110.75,80.75,30.0,24044.1,CLOSED,2026-09-30,expiry,110.75,80.75,2250.0,78,24187.7,
-2026-10-07,BEAR_CALL,CE,22900.0,23000.0,2026-10-13,22603.0,13.9,32.15,18.65,13.5,23145.6,OPEN,,,,,,,,
+entry_date,direction,opt_type,short_strike,long_strike,expiry,spot_entry,vix_entry,short_premium,long_premium,net_credit,sma,status,exit_date,exit_reason,exit_short_prem,exit_long_prem,pnl,holding_days,spot_exit,notes,mark_credit,live_pnl,mark_date
+2026-07-14,BULL_PUT,PE,23850.0,23750.0,2026-07-21,24052.0,13.8,110.75,80.75,30.0,24044.1,CLOSED,2026-09-30,expiry,110.75,80.75,2250.0,78,24187.7,,,,
+2026-10-07,BEAR_CALL,CE,22900.0,23000.0,2026-10-13,22603.0,13.9,32.15,18.65,13.5,23145.6,OPEN,,,,,,,,,13.5,0.0,2026-10-08
