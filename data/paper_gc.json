@@ -1,5 +1,5 @@
 {
- "updated_at": "09 Oct 2026 19:17:17 IST",
+ "updated_at": "09 Oct 2026 19:22:19 IST",
  "status": "RUNNING",
  "summary": {
   "open_count": 2,
@@ -24,8 +24,8 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.48,
-   "ltp": 82491.43
+   "pnl": 0.34,
+   "ltp": 82692.87
   },
   {
    "id": 26,
@@ -40,8 +40,8 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.56,
-   "ltp": 82491.43
+   "pnl": 0.7,
+   "ltp": 82692.87
   }
  ],
  "closed": [
