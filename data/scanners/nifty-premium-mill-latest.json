@@ -1,7 +1,7 @@
 {
   "strategy": "nifty-premium-mill",
-  "scanned_at": "2026-10-08 11:53:37 IST",
-  "scan_date": "2026-10-08",
+  "scanned_at": "2026-10-09 09:23:01 IST",
+  "scan_date": "2026-10-09",
   "trades": [
     {
       "entry_date": "2026-07-14",
@@ -24,10 +24,7 @@
       "pnl": "2250.0",
       "holding_days": "78",
       "spot_exit": "24187.7",
-      "notes": "",
-      "mark_credit": "",
-      "live_pnl": "",
-      "mark_date": ""
+      "notes": ""
     },
     {
       "entry_date": "2026-10-07",
@@ -50,10 +47,7 @@
       "pnl": "",
       "holding_days": "",
       "spot_exit": "",
-      "notes": "",
-      "mark_credit": "13.5",
-      "live_pnl": "0.0",
-      "mark_date": "2026-10-08"
+      "notes": ""
     }
   ],
   "log_entries": 0,
@@ -62,5 +56,5 @@
     "open_position": "",
     "net_pnl": "1 trades | WR 100% | Net P&L \u20b92,250"
   },
-  "text_report": "==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL UPDATE \u2014 Thu, 08 Oct 2026\n==========================================================================================\n\n  Checking open positions...\nmill: yf chain fallback failed: 'Ticker' object has no attribute 'expirations'\n  No exits today.\n\n  Checking for new signal...\nmill: yf chain fallback failed: 'Ticker' object has no attribute 'expirations'\n  No options data\n\n==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL \u2014 PAPER TRADES\n  Rules: Tuesday entry | VIX 10.0-18.0 | 250OTM | 100pt spread | 50% target\n==========================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit Expiry         VIX     Spot\n  -------------------------------------------------------------------------------------\n  2026-10-07   BEAR_CALL  22900.0 23000.0 CE   \u20b9  13.5 2026-10-13   13.9  22603.0\n\n  \ud83d\udd34 CLOSED TRADES (1):\n  Entry        Exit         Dir        Reason            Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-07-14   2026-09-30   BULL_PUT   expiry           \u20b9  30.0 \u20b9    2250   78d \u2705\n\n  \ud83d\udcc8 SUMMARY: 1 trades | WR 100% | Net P&L \u20b92,250"
+  "text_report": "==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL UPDATE \u2014 Fri, 09 Oct 2026\n==========================================================================================\n\n  Checking open positions...\nmill: yf chain fallback failed: 'Ticker' object has no attribute 'expirations'\n  No exits today.\n\n  Checking for new signal...\nmill: yf chain fallback failed: 'Ticker' object has no attribute 'expirations'\n  No options data\n\n==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL \u2014 PAPER TRADES\n  Rules: Tuesday entry | VIX 10.0-18.0 | 250OTM | 100pt spread | 50% target\n==========================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit Expiry         VIX     Spot\n  -------------------------------------------------------------------------------------\n  2026-10-07   BEAR_CALL  22900.0 23000.0 CE   \u20b9  13.5 2026-10-13   13.9  22603.0\n\n  \ud83d\udd34 CLOSED TRADES (1):\n  Entry        Exit         Dir        Reason            Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-07-14   2026-09-30   BULL_PUT   expiry           \u20b9  30.0 \u20b9    2250   78d \u2705\n\n  \ud83d\udcc8 SUMMARY: 1 trades | WR 100% | Net P&L \u20b92,250"
 }

@@ -1,9 +1,9 @@
 {
- "updated_at": "08 Oct 2026 09:28:25 IST",
+ "updated_at": "09 Oct 2026 09:22:59 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
- "today": "2026-10-08",
+ "today": "2026-10-09",
  "strategy": {
   "rule": "first 5-min candle O=L -> BUY / O=H -> SELL (entries from 09:20, opening candle complete), ₹10,000/stock",
   "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
@@ -21,11 +21,11 @@
  "vol_blocked": {
   "ol": {
    "low_vol": 0,
-   "no_vol_data": 0
+   "no_vol_data": 21
   },
   "oh": {
    "low_vol": 0,
-   "no_vol_data": 43
+   "no_vol_data": 0
   }
  },
  "summary": {
