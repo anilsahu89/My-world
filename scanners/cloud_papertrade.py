@@ -108,6 +108,18 @@ FEED_NAME = "yahoo"            # set per run: "angel" when SmartAPI answered
 
 
 def nse_symbols() -> list[str]:
+    """Scan universe — NIFTY-500 (owner, 9 Oct: was NSE-200; the 3x volume
+    gate and Rs50 floor stay, so the tail's illiquid names self-filter).
+    Falls back to the old 200 list if the 500 file is missing."""
+    f500 = DATA / "nifty500_symbols.csv"
+    if f500.exists():
+        syms = []
+        for row in f500.read_text().splitlines()[1:]:
+            f = row.split(",")
+            if len(f) >= 4 and f[3].strip() == "EQ":
+                syms.append(f[2].strip().upper())
+        if len(syms) >= 400:
+            return syms
     rows = (DATA / "nse200_symbols.csv").read_text().splitlines()
     return [row.strip().split(",")[0] for row in rows[1:] if row.strip()]
 
@@ -187,11 +199,16 @@ def nse_quotes() -> dict[str, dict]:
 
 def _yahoo_quotes() -> dict[str, dict]:
     symbols = nse_symbols()
-    tickers = [f"{symbol}.NS" for symbol in symbols]
-    bars = yf.download(tickers, period="2d", interval="1d", group_by="ticker",
-                       progress=False, threads=True, auto_adjust=False)
     quotes: dict[str, dict] = {}
-    for symbol, ticker in zip(symbols, tickers):
+    for chunk_start in range(0, len(symbols), 150):
+      symbols_c = symbols[chunk_start:chunk_start + 150]
+      tickers = [f"{symbol}.NS" for symbol in symbols_c]
+      try:
+        bars = yf.download(tickers, period="2d", interval="1d", group_by="ticker",
+                           progress=False, threads=True, auto_adjust=False)
+      except Exception:
+        continue
+      for symbol, ticker in zip(symbols_c, tickers):
         try:
             frame = flatten(bars[ticker].copy())
             if frame is None or len(frame) < 2:
