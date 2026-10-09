@@ -1,17 +1,17 @@
 {
- "updated_at": "08 Oct 2026 17:25:04 IST",
+ "updated_at": "09 Oct 2026 17:27:58 IST",
  "rule": "QM (Quantity Model, NK's 'Trading as a Business'): signals from HM-buy / 52W-high / BB-Blast(d,w,m) on NIFTY-500 · ₹5k (5% of ₹1L) lots · max 2 new/day · +12% book half & trail at cost · RSI9≥86 exit all · never book losses, average once at −50% · 50%-blocked circuit breaker",
  "note": "Daily-bar desk, scans after 17:30 IST. Position sizing is the edge — fills at next open.",
  "summary": {
-  "open": 7,
-  "pending": 1,
+  "open": 8,
+  "pending": 2,
   "closed": 0,
   "wins": 0,
   "losses": 0,
   "win_rate": 0,
   "realized": 0,
-  "unrealized": -885.43,
-  "invested": 33428.0,
+  "unrealized": -644.15,
+  "invested": 38303.0,
   "circuit_breaker": false
  },
  "open": [
@@ -30,11 +30,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 3,
-   "mark": 110.86000061035156,
+   "sessions": 4,
+   "mark": 110.43000030517578,
    "exit": null,
    "reason": null,
-   "pnl": 123.28,
+   "pnl": 103.5,
    "note": "RSI9 56 V-turn above rising SMA20"
   },
   {
@@ -52,11 +52,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 3,
-   "mark": 1918.0999755859375,
+   "sessions": 4,
+   "mark": 1933.5999755859375,
    "exit": null,
    "reason": null,
-   "pnl": -175.6,
+   "pnl": -144.6,
    "note": "new 52w closing high 2005.1, vol 1.6x"
   },
   {
@@ -74,11 +74,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 3,
-   "mark": 229.38999938964844,
+   "sessions": 4,
+   "mark": 223.75,
    "exit": null,
    "reason": null,
-   "pnl": -254.31,
+   "pnl": -372.75,
    "note": "new 52w closing high 239.2, vol 4.3x"
   },
   {
@@ -96,11 +96,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 2,
-   "mark": 1099.4000244140625,
+   "sessions": 3,
+   "mark": 1158.800048828125,
    "exit": null,
    "reason": null,
-   "pnl": -79.2,
+   "pnl": 158.4,
    "note": "BB squeeze rank 11% blast on d bars"
   },
   {
@@ -118,11 +118,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 2,
-   "mark": 2717.39990234375,
+   "sessions": 3,
+   "mark": 2705.60009765625,
    "exit": null,
    "reason": null,
-   "pnl": -135.2,
+   "pnl": -158.8,
    "note": "RSI9 81 V-turn above rising SMA20"
   },
   {
@@ -140,11 +140,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 1,
-   "mark": 1391.5999755859375,
+   "sessions": 2,
+   "mark": 1388.9000244140625,
    "exit": null,
    "reason": null,
-   "pnl": -246.9,
+   "pnl": -255.0,
    "note": "BB squeeze rank 0% blast on d bars"
   },
   {
@@ -162,23 +162,45 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 1,
-   "mark": 956.5499877929688,
+   "sessions": 2,
+   "mark": 945.9500122070312,
    "exit": null,
    "reason": null,
-   "pnl": -117.5,
+   "pnl": -170.5,
    "note": "BB squeeze rank 16% blast on d bars"
-  }
- ],
- "pending": [
+  },
   {
    "id": 8,
    "signal_date": "2026-10-08",
    "symbol": "ICICIGI",
    "setup": "QM-HM",
    "side": "BUY",
-   "status": "PENDING",
+   "status": "OPEN",
    "ref_close": 1623.7,
+   "entry_date": "2026-10-09",
+   "qty": 3.0,
+   "entry": 1625.0,
+   "invested": 4875.0,
+   "booked": 0.0,
+   "avg_count": 0,
+   "trail": false,
+   "sessions": 1,
+   "mark": 1690.199951171875,
+   "exit": null,
+   "reason": null,
+   "pnl": 195.6,
+   "note": "RSI9 66 V-turn above rising SMA20"
+  }
+ ],
+ "pending": [
+  {
+   "id": 9,
+   "signal_date": "2026-10-09",
+   "symbol": "CPPLUS",
+   "setup": "QM-HM",
+   "side": "BUY",
+   "status": "PENDING",
+   "ref_close": 4185.2,
    "entry_date": null,
    "qty": null,
    "entry": null,
@@ -191,7 +213,29 @@
    "exit": null,
    "reason": null,
    "pnl": null,
-   "note": "RSI9 66 V-turn above rising SMA20"
+   "note": "RSI9 81 V-turn above rising SMA20"
+  },
+  {
+   "id": 10,
+   "signal_date": "2026-10-09",
+   "symbol": "LGEINDIA",
+   "setup": "QM-HM",
+   "side": "BUY",
+   "status": "PENDING",
+   "ref_close": 1757.0,
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "invested": null,
+   "booked": 0.0,
+   "avg_count": 0,
+   "trail": false,
+   "sessions": 0,
+   "mark": null,
+   "exit": null,
+   "reason": null,
+   "pnl": null,
+   "note": "RSI9 58 V-turn above rising SMA20"
   }
  ],
  "closed": []
