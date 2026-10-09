@@ -1,11 +1,11 @@
 {
- "updated_at": "09 Oct 2026 02:46:59 IST",
+ "updated_at": "09 Oct 2026 06:11:01 IST",
  "status": "RUNNING",
  "summary": {
-  "open_count": 2,
+  "open_count": 3,
   "closed_count": 23,
   "realized_total": -0.29,
-  "unrealized": 0.72,
+  "unrealized": 0.56,
   "wins": 5,
   "losses": 18,
   "win_rate": 21.7
@@ -24,8 +24,8 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.34,
-   "ltp": 4158.3
+   "pnl": -0.48,
+   "ltp": 4168.0
   },
   {
    "id": 25,
@@ -40,8 +40,24 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 1.06,
-   "ltp": 81671.87
+   "pnl": 1.04,
+   "ltp": 81696.56
+  },
+  {
+   "id": 26,
+   "session": "2026-10-09",
+   "setup": "ol",
+   "symbol": "BTC",
+   "side": "BUY",
+   "qty": 0.0007,
+   "entry_time": "06:10:58",
+   "entry_price": 81696.56,
+   "sl_price": 81223.77,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "ltp": 81696.56
   }
  ],
  "closed": [
