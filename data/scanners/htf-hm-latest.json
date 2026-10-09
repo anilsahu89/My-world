@@ -1,6 +1,6 @@
 {
- "date": "2026-10-08",
- "updated_at": "08 Oct 2026 17:26:35 IST",
+ "date": "2026-10-09",
+ "updated_at": "09 Oct 2026 17:29:24 IST",
  "rule": "HM Positional (NK Hilega-Milega on weekly bars): enter when RSI9>50 & red WMA21(RSI)<RSI9 & green WMA3(RSI)>red newly true on a completed week; exit weekly RSI<50 (TREND-END) or >=86 (RSI86-BOOK). 5y backtest PF 2.19, avg +4.8%/trade. Book: Rs1L (Oct mandate), Rs20k lots, max 5 open, max 2 new/week. Monthly tab = investing watchlist (RSI9>50, red inside).",
  "book": {
   "capital": 100000.0,
@@ -53,6 +53,5 @@
    "live_pct": -6.29
   }
  ],
- "closed": [],
- "quote_time": "09 Oct 10:51:36 IST"
+ "closed": []
 }
