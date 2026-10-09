@@ -2390,7 +2390,15 @@
   },
   "oh": {
    "low_vol": [],
-   "no_vol_data": []
+   "no_vol_data": [
+    "BHEL",
+    "ABB",
+    "HYUNDAI",
+    "MAZDOCK",
+    "TVSMOTOR",
+    "RELIANCE",
+    "SIEMENS"
+   ]
   }
  }
 }
