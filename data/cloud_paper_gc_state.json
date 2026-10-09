@@ -381,11 +381,11 @@
    "entry_time": "05:42:07",
    "entry_price": 4134.8,
    "sl_price": 4191.96,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN"
+   "exit_time": "07:26:43",
+   "exit_price": 4191.96,
+   "reason": "SL",
+   "pnl": -0.83,
+   "status": "CLOSED"
   },
   {
    "id": 25,
