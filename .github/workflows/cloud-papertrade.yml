@@ -50,7 +50,12 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install market-data dependencies
-        run: pip install yfinance pandas numpy pyotp kiteconnect
+        run: |
+          pip install yfinance pandas numpy pyotp
+          # kite layer is optional — a slow/blocked PyPI moment here must
+          # never stall the engine's market-hours runs (suspected cause of
+          # the 9 Oct morning blackout); kite_feed degrades silently without it
+          pip install kiteconnect || echo "kiteconnect unavailable - kite layer stays dormant"
       - name: Choose scheduled desk
         id: desk
         run: |
