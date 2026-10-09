@@ -1,5 +1,5 @@
 {
- "updated_at": "09 Oct 2026 17:31:46 IST",
+ "updated_at": "09 Oct 2026 17:46:50 IST",
  "status": "RUNNING",
  "strategy": {
   "rule": "BTC weekly theta, 0.01 BTC \u2014 v3 bulletproof shape",
@@ -71,8 +71,6 @@
   }
  ],
  "log": [
-  "settle 9OCT26: hawa intrinsic $0, fence salvaged $536",
-  "CLOSE EXPIRY pnl Rs-184",
   "no position; weekly entry window is Monday 13:30-15:29 IST"
  ]
 }
