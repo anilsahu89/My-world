@@ -1,5 +1,5 @@
 {
- "updated_at": "11 Oct 2026 22:59:19 IST",
+ "updated_at": "11 Oct 2026 23:19:20 IST",
  "engine": "cloud gc desk (GitHub Actions relay — no Mac needed)",
  "markets": [
   {
@@ -24,10 +24,10 @@
    "yahoo": "BTC-USD",
    "session": "2026-10-11",
    "open": 82910.796875,
-   "high": 83947.921875,
+   "high": 84110.546875,
    "low": 82715.5,
-   "ltp": 83900.9375,
-   "chg_pct": 1.19,
+   "ltp": 83890.0625,
+   "chg_pct": 1.18,
    "minutes_since_open": null,
    "entry_window_open": false,
    "ol": false,
