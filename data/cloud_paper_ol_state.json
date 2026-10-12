@@ -2361,43 +2361,33 @@
  "f3_done_date": "2026-10-06",
  "reentry_watch": [],
  "vol_blocked": {
-  "date": "2026-10-09",
+  "date": "2026-10-12",
   "ol": {
    "low_vol": [],
-   "no_vol_data": [
-    "ADANIGREEN",
-    "ASTRAL",
-    "ABCAPITAL",
-    "COLPAL",
-    "GODFRYPHLP",
-    "INDHOTEL",
-    "NYKAA",
-    "KPITTECH",
-    "MARICO",
-    "INFY",
-    "MUTHOOTFIN",
-    "LTM",
-    "IREDA",
-    "LUPIN",
-    "NTPC",
-    "NAUKRI",
-    "OFSS",
-    "POWERGRID",
-    "PERSISTENT",
-    "TCS",
-    "WIPRO"
-   ]
+   "no_vol_data": []
   },
   "oh": {
    "low_vol": [],
    "no_vol_data": [
-    "BHEL",
-    "ABB",
-    "HYUNDAI",
-    "MAZDOCK",
-    "TVSMOTOR",
-    "RELIANCE",
-    "SIEMENS"
+    "AXISBANK",
+    "CHALET",
+    "GILLETTE",
+    "NYKAA",
+    "ESCORTS",
+    "GESHIP",
+    "INDHOTEL",
+    "IKS",
+    "KARURVYSYA",
+    "MRPL",
+    "MRF",
+    "PTCIL",
+    "NIVABUPA",
+    "PATANJALI",
+    "PWL",
+    "PETRONET",
+    "SYRMA",
+    "TECHM",
+    "UTIAMC"
    ]
   }
  }
