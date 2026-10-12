@@ -1,6 +1,6 @@
 {
- "fetched_at": "2026-10-09 22:58:55",
- "latest_date": "2026-10-09",
+ "fetched_at": "2026-10-12 16:35:51",
+ "latest_date": "2026-10-12",
  "universe_count": 197,
  "shorts_count": 0,
  "longs_count": 4,
@@ -60,19 +60,19 @@
   {
    "kind": "bb",
    "type": "LONG",
-   "symbol": "JIOFIN",
-   "entry_price": 212.5,
-   "sl_price": 210.12,
-   "target_price": 217.25,
+   "symbol": "APOLLOHOSP",
+   "entry_price": 8027.5,
+   "sl_price": 7885.25,
+   "target_price": 8312.0,
    "rr": 2.0,
-   "wick_pct": 52,
-   "vol_multiple": 2.0,
-   "rsi": 23,
+   "wick_pct": 69,
+   "vol_multiple": 1.6,
+   "rsi": 28,
    "rsi_pass": false,
-   "primary_range": 4.75,
-   "primary_date": "2026-09-30",
-   "alert_date": "2026-10-01",
-   "score": 26.5
+   "primary_range": 284.5,
+   "primary_date": "2026-10-08",
+   "alert_date": "2026-10-09",
+   "score": 26.6
   }
  ]
 }
