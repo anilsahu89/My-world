@@ -590,8 +590,10 @@ def main():
             trades.append(signal)
             _alert_open(signal)
             fields = list(signal.keys())
+            for _r in trades:
+                fields += [k for k in _r if k not in fields]
             with TRADES_FILE.open("w", newline="") as f:
-                w = csv.DictWriter(f, fieldnames=fields)
+                w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
                 w.writeheader()
                 w.writerows(trades)
 

@@ -551,8 +551,10 @@ def main():
             trades.append(new_trade)
             _alert_open(new_trade)
             fields = list(new_trade.keys())
+            for _r in trades:                   # keep every historic column
+                fields += [k for k in _r if k not in fields]
             with TRADES_FILE.open("w", newline="") as f:
-                w = csv.DictWriter(f, fieldnames=fields)
+                w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
                 w.writeheader()
                 w.writerows(trades)
             print(f"\n  ✅ ENTERED: {signal['direction']}")
