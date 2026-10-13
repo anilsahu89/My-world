@@ -2444,6 +2444,16 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     renderBook();
   });
 
+  function optMark(t) {
+    if (t.strategy !== "nifty-opt") return null;
+    var m = /NIFTY (\d{2})(\d{2})(\d{2}) (\d+(?:\.\d+)?) (CE|PE)/.exec(t.symbol || "");
+    if (!m) return null;
+    var exp = "20" + m[1] + "-" + m[2] + "-" + m[3];
+    var k = parseFloat(m[4]), typ = m[5];
+    var row = chain.filter(function (o) {
+      return o.expiry === exp && o.strike === k && o.type === typ; })[0];
+    return row && row.close > 0 ? row.close : null;
+  }
   function renderBook() {
     var trades = book();
     var opens = trades.filter(function (t) { return t.status === "OPEN"; });
@@ -2451,8 +2461,11 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     var realized = 0, wins = 0, unreal = 0;
     closed.forEach(function (t) { realized += t.pnl || 0; if ((t.pnl || 0) > 0) wins++; });
     opens.forEach(function (t) {
-      var q = ltp[t.symbol], sgn = t.side === "SELL" ? -1 : 1;
-      if (q) unreal += sgn * ((parseFloat(q.ltp) || 0) - t.entry_price) * t.quantity;
+      var sgn = t.side === "SELL" ? -1 : 1;
+      var q = ltp[t.symbol];
+      if (q) { unreal += sgn * ((parseFloat(q.ltp) || 0) - t.entry_price) * t.quantity; return; }
+      var om = optMark(t);                      // NIFTY options: chain mark
+      if (om != null) unreal += sgn * (om - t.entry_price) * t.quantity;
     });
     function set(id, v) { document.getElementById(id).textContent = v; }
     set("mnOpen", opens.length); set("mnClosed", closed.length);
@@ -2471,6 +2484,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         opens.map(function (t) {
           var q = ltp[t.symbol], l = q ? parseFloat(q.ltp) : null;
           var sgn = t.side === "SELL" ? -1 : 1;
+          if (l == null && t.strategy === "nifty-opt") l = optMark(t);
           var u = l != null ? sgn * (l - t.entry_price) * t.quantity : null;
           var shortBadge = t.side === "SELL" ? ' <span class="badge badge-grey">SHORT</span>' : "";
           return "<tr><td><strong>" + esc(t.symbol) + "</strong>" + shortBadge + "</td><td>" + esc(t.entry_date) +

@@ -54,10 +54,50 @@ def configured() -> bool:
 
 
 def notify(text: str) -> bool:
-    """Send one message. Never raises; returns success."""
+    """Send one message. Never raises; returns success.
+
+    Spam guard (13 Oct 2026 — owner hit a 90-alert day): identical text is
+    suppressed for 6 hours, and a hard cap of 40 sends/day applies beyond
+    which messages are counted instead of delivered. Distinct events
+    (different symbol/price) always pass; loops and repeated feed-flap
+    warnings cannot flood the chat any more."""
     tok, chat = _cfg()
     if not tok or not chat:
         return False
+    import hashlib
+    import time as _t
+    state_p = ROOT / "data" / ".tg_state.json"
+    try:
+        state = json.loads(state_p.read_text())
+    except Exception:
+        state = {}
+    now = _t.time()
+    today = _t.strftime("%Y-%m-%d")
+    if state.get("day") != today:
+        state = {"day": today, "count": 0, "suppressed": 0}
+    h = "h_" + hashlib.md5(text.strip().encode()).hexdigest()
+    last = state.get(h) or 0
+    if now - last < 6 * 3600:            # identical text within 6h -> mute
+        state[h] = now
+        state["suppressed"] = state.get("suppressed", 0) + 1
+        try:
+            state_p.write_text(json.dumps(state))
+        except OSError:
+            pass
+        return True
+    if state.get("count", 0) >= 40:      # daily hard cap
+        state["suppressed"] = state.get("suppressed", 0) + 1
+        try:
+            state_p.write_text(json.dumps(state))
+        except OSError:
+            pass
+        return True
+    state[h] = now
+    state["count"] = state.get("count", 0) + 1
+    try:
+        state_p.write_text(json.dumps(state))
+    except OSError:
+        pass
     try:
         req = urllib.request.Request(
             f"https://api.telegram.org/bot{tok}/sendMessage",
