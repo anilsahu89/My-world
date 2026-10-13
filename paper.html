@@ -2446,7 +2446,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
 
   function optMark(t) {
     if (t.strategy !== "nifty-opt") return null;
-    var m = /NIFTY (\d{2})(\d{2})(\d{2}) (\d+(?:\.\d+)?) (CE|PE)/.exec(t.symbol || "");
+    var m = /NIFTY (\d{2})(\d{2})(\d{2}) (\d+(?:\.\d+)?)(CE|PE)/.exec(t.symbol || "");
     if (!m) return null;
     var exp = "20" + m[1] + "-" + m[2] + "-" + m[3];
     var k = parseFloat(m[4]), typ = m[5];
