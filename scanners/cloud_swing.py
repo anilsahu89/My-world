@@ -113,6 +113,11 @@ def run_day() -> dict:
         except (FileNotFoundError, json.JSONDecodeError):
             return export(state)
     trades = state["trades"]
+    try:
+        import close_requests
+        _swing_refs = set(close_requests.consume("swing"))
+    except Exception:
+        _swing_refs = set()
 
     # 1) manage open positions with today's bar (SL first = conservative)
     for t in [x for x in trades if x["status"] == "OPEN"]:
@@ -123,7 +128,9 @@ def run_day() -> dict:
         px_hi, px_lo, px_cl = float(last["High"]), float(last["Low"]), float(last["Close"])
         t["sessions"] = (t.get("sessions") or 0) + 1
         exit_px = reason = None
-        if t["side"] == "BUY":
+        if str(t.get("id")) in _swing_refs:
+            exit_px, reason = px_cl, "MANUAL"
+        elif t["side"] == "BUY":
             if px_lo <= t["sl"]:
                 exit_px, reason = t["sl"], "SL"
             elif px_hi >= t["tgt"]:

@@ -842,6 +842,20 @@ def refresh_hm_quotes() -> None:
 def update_nse(state: dict) -> dict:
     moment = now()
     quotes = nse_quotes()
+    try:
+        import close_requests
+        _refs = set(close_requests.consume("ol"))
+        for _t in state["trades"]:
+            if _t.get("status") == "OPEN" and str(_t.get("id")) in _refs:
+                _q = quotes.get(_t["symbol"])
+                if _q:
+                    _sign = 1 if _t["side"] == "BUY" else -1
+                    _t.update(status="CLOSED", exit_time=now().strftime("%H:%M:%S"),
+                              exit_price=round(_q["ltp"], 2), reason="MANUAL",
+                              pnl=round(_sign * (_q["ltp"] - _t["entry_price"]) * _t["qty"], 2))
+                    print(f"manual close ol: {_t['symbol']} @{_q['ltp']}", flush=True)
+    except Exception as e:
+        print(f"close-requests ol: {e}", flush=True)
     manage_nse(state, quotes, moment)
     candle_close_exits(state, moment)
     enter_nse(state, quotes, moment)
@@ -958,9 +972,18 @@ def export_gc_scan(state: dict, quotes: dict) -> None:
 def update_gc(state: dict) -> dict:
     moment, stamp = now(), now().strftime("%H:%M:%S")
     quotes = {symbol: quote for symbol in GC_MARKETS if (quote := market_quote(symbol))}
+    try:
+        import close_requests
+        _gc_refs = set(close_requests.consume("gc"))
+    except Exception:
+        _gc_refs = set()
     for trade in state["trades"]:
         quote = quotes.get(trade["symbol"])
         if trade.get("status") != "OPEN" or not quote:
+            continue
+        if str(trade.get("id")) in _gc_refs:
+            close(trade, quote["ltp"], "MANUAL", stamp)
+            print(f"manual close gc: {trade['symbol']} @{quote['ltp']}", flush=True)
             continue
         hit = quote["low"] <= trade["sl_price"] if trade["side"] == "BUY" else quote["high"] >= trade["sl_price"]
         if hit:
@@ -1042,6 +1065,11 @@ def commit_state() -> None:
              "scanners/papertrades/nifty_premium_mill_log.csv",
              "data/scanners/htf-hm-latest.json",
              "scanners/papertrades/htf_hm_trades.csv",
+             "data/close_requests/ol.json", "data/close_requests/gc.json",
+             "data/close_requests/qm.json", "data/close_requests/swing.json",
+             "data/close_requests/hm.json", "data/close_requests/theta.json",
+             "data/close_requests/mill.json", "data/close_requests/btc.json",
+             "data/close_requests/arb.json",
              "data/vol_avg20.json",
              "data/cloud_nifty_ltp_state.json",
              "data/paper_nifty_ltp.json",

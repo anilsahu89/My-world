@@ -316,7 +316,23 @@ def tick(throttle_sec: int = 900) -> None:
     log: list[str] = []
     tdy = now().date().isoformat()
 
+    try:
+        import close_requests
+        _btc_refs = set(close_requests.consume("btc"))
+    except Exception:
+        _btc_refs = set()
+
     for tr in [t for t in trades if t["status"] == "OPEN"]:
+        if str(tr.get("id")) in _btc_refs:
+            try:
+                mark_trade(tr, log)
+            except Exception as e:
+                log.append(f"manual mark failed: {e}")
+            _mu = tr.get("mark_usd") or 0.0
+            _close(tr, (tr.get("credit_usd") or 0.0) - _mu, "MANUAL",
+                   _mu * tr.get("lot", 0.01) * USD_INR, log)
+            print(f"manual close btc: id {tr.get('id')}", flush=True)
+            continue
         exp_ts = None
         try:
             exp_ts = datetime.strptime(tr["expiry"], "%d%b%y").replace(

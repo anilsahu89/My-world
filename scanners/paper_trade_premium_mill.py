@@ -341,6 +341,12 @@ def update_positions(day):
     opts = load_nifty_options(day)
     spot, vix = load_spot_vix(day)
 
+    try:
+        import close_requests
+        mill_reqs = close_requests.consume("mill")
+    except Exception:
+        mill_reqs = []
+
     updated = []
     closed_today = []
     day_pnl = 0.0
@@ -358,7 +364,7 @@ def update_positions(day):
         current_spread = short_now - long_now
         credit = float(t["net_credit"])
 
-        exit_reason = None
+        exit_reason = "MANUAL" if mill_reqs else None
         exit_pnl = None
 
         # Expiry — settle at the EXPIRY-day spot (history), not today's

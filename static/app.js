@@ -107,6 +107,47 @@
       });
   }
 
+
+  // ---------------------------------------------------------------------------
+  // Manual close requests for engine desks (8 Oct 2026): commit a ref into
+  // data/close_requests/<desk>.json; the desk's next scan closes it at its
+  // own price with reason MANUAL.
+  // ---------------------------------------------------------------------------
+  window.requestDeskClose = function (desk, ref, sym) {
+    var label = (sym ? sym + " " : "") + "(" + desk + ")";
+    if (!confirm("Request close of " + label + "?\nIt will close at the desk's NEXT scan price — " +
+      "intraday desks within minutes, EOD desks at the next evening scan.")) return false;
+    ghApi("/contents/data/close_requests/" + desk + ".json?ref=main")
+      .then(function (r) { return r.json(); })
+      .catch(function () { return null; })
+      .then(function (cur) {
+        var list = [];
+        try {
+          list = JSON.parse(decodeURIComponent(escape(atob(
+            (cur && cur.content || "").replace(/\n/g, ""))))) || [];
+        } catch (e) {}
+        ref = String(ref);
+        if (list.indexOf(ref) === -1) list.push(ref);
+        var body = { message: "close request: " + desk + " " + ref + " " + (sym || ""),
+                     content: btoa(unescape(encodeURIComponent(JSON.stringify(list)))),
+                     branch: "main" };
+        if (cur && cur.sha) body.sha = cur.sha;
+        return ghApi("/contents/data/close_requests/" + desk + ".json",
+          { method: "PUT", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body) });
+      })
+      .then(function () {
+        alert("✅ Close requested for " + label + " — it will execute at the desk's next scan.");
+        document.querySelectorAll('[data-closebtn="' + desk + ":" + ref + '"]').forEach(function (b) {
+          b.outerHTML = '<span class="muted">close requested ✓</span>';
+        });
+      })
+      .catch(function (e) {
+        alert("⚠️ Could not submit close request: " + (e && e.message ? e.message : e));
+      });
+    return false;
+  };
+
   // Settings modal
   window.openSettings = function () {
     var modal = document.getElementById("settingsModal");

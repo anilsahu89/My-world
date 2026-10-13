@@ -332,6 +332,12 @@ def update_exits(day):
     opts = load_nifty_options(day)
     spot, vix = load_spot_vix(day)
 
+    try:
+        import close_requests
+        theta_reqs = close_requests.consume("theta")
+    except Exception:
+        theta_reqs = []
+
     updated = []
     closed_today = []
     day_pnl = 0.0
@@ -352,8 +358,13 @@ def update_exits(day):
         exit_reason = None
         exit_pnl = None
 
+        if theta_reqs:      # portal manual close at the current spread
+            exit_reason = "MANUAL"
+            exit_credit = round(current_spread, 2)
+            exit_pnl = (credit - current_spread) * NIFTY_LOT
+
         exp_date = parse_date(t["expiry"])
-        if day >= exp_date and spot:
+        if day >= exp_date and spot and exit_reason != "MANUAL":
             exit_reason = "expiry"
             if t["opt_type"] == "PE":
                 si = max(float(t["short_strike"]) - spot, 0)

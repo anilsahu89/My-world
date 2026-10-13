@@ -200,8 +200,21 @@ def run(output: Path) -> dict:
                 if w.index[-1] >= pd.Timestamp(today) - timedelta(days=7)}
 
     # ---- exits first (weekly close basis; price at today's close) ----
+    try:
+        import close_requests
+        _hm_refs = set(close_requests.consume("hm"))
+    except Exception:
+        _hm_refs = set()
     for t in trades:
         if t["status"] != "OPEN":
+            continue
+        if t["symbol"] in _hm_refs:
+            px = px_today.get(t["symbol"]) or t["entry"]
+            t.update(status="CLOSED", exit_date=today.isoformat(), exit=round(px, 2),
+                     reason="MANUAL",
+                     pnl=round(t["qty"] * (px - t["entry"]) - t["qty"] * t["entry"] * COST, 2),
+                     weeks_held=t["weeks_held"] + 1)
+            print(f"manual close hm: {t['symbol']} @{px:.1f}", flush=True)
             continue
         w = weekly.get(t["symbol"])
         if w is None or len(w) < 2:

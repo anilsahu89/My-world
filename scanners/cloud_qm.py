@@ -282,6 +282,11 @@ def run_day(dry: bool = False) -> dict:
 
     # ---- 2) manage opens on today's completed bar ----
     blocked = 0.0
+    try:
+        import close_requests
+        _qm_refs = set(close_requests.consume("qm"))
+    except Exception:
+        _qm_refs = set()
     for t in [x for x in trades if x["status"] == "OPEN"]:
         df = fetch_5y(f"{t['symbol']}.NS")
         if df is None:
@@ -291,6 +296,9 @@ def run_day(dry: bool = False) -> dict:
         t["sessions"] = (t.get("sessions") or 0) + 1
         r0 = float(rsi9(df["Close"]).iloc[-1])
         entry = t["entry"]
+        if str(t.get("id")) in _qm_refs:
+            _close(t, c, "MANUAL")
+            continue
         if r0 >= RSI_EXIT:
             _close(t, c, "RSI86")
             continue

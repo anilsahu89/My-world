@@ -949,6 +949,10 @@ main h3 .collapse-btn {
           '<p class="hint" style="margin:0.5rem 0 0">Gap = how far spot must move before a short strike goes in-the-money. ' +
           "Wings = the long options bought ~$1,000 beyond each short — they cap the worst day at wing-width minus credit, so a big BTC crash is a known, small loss instead of an open-ended one.</p>";
       }
+      if (t.id != null) {
+        ow.innerHTML += '<div style="margin-top:8px"><button class="btn" style="padding:2px 12px" title="close at the next 15-min tick mark" onclick="return requestDeskClose(\'btc\',\'' + t.id + '\',\'BTC weekly fence\')">✕ close this structure</button>' +
+          '<span class="muted" style="font-size:0.75rem"> — executes at the next 15-min tick\u2019s mark</span></div>';
+      }
     }
 
     var closed = d.closed || [];
@@ -1336,6 +1340,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         '<td class="' + cls(pnl) + '">' + inr(pnl, true) + "</td>" +
         '<td class="' + cls(pct) + '">' +
         (pct != null ? (pct > 0 ? "+" : "") + pct.toFixed(2) + "%" : "—") + "</td>" +
+        "<td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next engine tick price\" onclick=\"return requestDeskClose('ol','" + t.id + "','" + esc(t.symbol) + "')\">✕ close</button></td>" +
         "</tr>";
     }).join("");
     wrap.innerHTML = "<table><thead><tr>" +
@@ -1494,7 +1499,8 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
           "<td>" + esc(t.side) + "</td><td>" + t.qty + "</td>" +
           "<td>" + esc(t.entry_time) + "</td><td>" + (t.setup.indexOf("DESK") === 0 ? usd(t.entry_price) + " cr" : px(t.entry_price)) + "</td>" +
           "<td>" + px(t.sl_price) + "</td><td>" + (t.ltp != null ? px(t.ltp) : "—") + "</td>" +
-          '<td class="' + cls(t.pnl) + '">' + usd(t.pnl, true) + "</td></tr>";
+          '<td class="' + cls(t.pnl) + '">' + usd(t.pnl, true) + "</td>" +
+          "<td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next gc tick price\" onclick=\"return requestDeskClose('gc','" + t.id + "','" + esc(t.symbol) + "')\">✕ close</button></td></tr>";
       }).join("");
       ow.innerHTML = "<table><thead><tr><th>Market</th><th>Setup</th><th>Side</th><th>Qty</th>" +
         "<th>Entry Time</th><th>Entry</th><th>SL</th><th>Last</th><th>P&L</th>" +
@@ -1593,7 +1599,8 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
           '<td class="' + (hasMark ? cls(lp) : "") + '">' +
           (hasMark ? inr(lp) + ' <span class="muted" style="font-size:0.7em">@' +
                       esc(t.mark_date || "") + "</span>"
-                   : '<span class="muted">—</span>') + "</td></tr>";
+                   : '<span class="muted">—</span>') + "</td>" +
+          "<td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next scan's spread price\" onclick=\"return requestDeskClose('theta','open','NIFTY spread')\">✕ close</button></td></tr>";
       }).join("");
       ow.innerHTML = "<table><thead><tr><th>Entry</th><th>Direction</th><th>Short/Long Strike</th>" +
         "<th>Net Credit</th><th>Expiry</th><th>Spot@Entry</th><th>VIX@Entry</th>" +
@@ -1860,7 +1867,8 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
           '<td class="' + (hasMark ? cls(lp) : "") + '">' +
           (hasMark ? inr(lp) + ' <span class="muted" style="font-size:0.7em">@' +
                       esc(t.mark_date || "") + "</span>"
-                   : '<span class="muted">—</span>') + "</td></tr>";
+                   : '<span class="muted">—</span>') + "</td>" +
+          "<td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next scan's spread price\" onclick=\"return requestDeskClose('mill','open','NIFTY spread')\">✕ close</button></td></tr>";
       }).join("");
       ow.innerHTML = "<table><thead><tr><th>Entry</th><th>Direction</th><th>Strikes</th>" +
         "<th>Expiry</th><th>Credit ₹</th><th>Spot@Entry</th><th>VIX@Entry</th>" +
@@ -1962,7 +1970,8 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
                      (pct > 0 ? "+" : "") + pct.toFixed(2) + "%)</span>"
                    : '<span class="muted">—</span>') +
           "</td><td>" + esc(t.rsi_entry) +
-          "</td><td>" + esc(t.invested) + "</td></tr>";
+          "</td><td>" + esc(t.invested) +
+          "</td><td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next post-close scan price\" onclick=\"return requestDeskClose('hm','" + esc(t.symbol) + "','" + esc(t.symbol) + "')\">✕ close</button></td></tr>";
       })) : '<div class="flash">No open HM positions — entries wait for a fresh weekly momentum phase (max 2/week, 5 open).</div>';
     if (anyLive) {
       st.innerHTML += ' &nbsp;·&nbsp; open P&L <strong class="' + cls(liveTotal) +
@@ -2098,7 +2107,8 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
           "<td>" + (t.mark != null ? Math.round(t.mark * 100) / 100 : "\u2014") + "</td>" +
           "<td>" + (t.sessions || 0) + "</td>" +
           '<td class="' + cls(pnlShow) + '">' + (pnlShow != null ? fmt(pnlShow) : "\u2014") + "</td>" +
-          "<td>" + qmTakeBtn(t, isPend) + "</td></tr>";
+          "<td>" + qmTakeBtn(t, isPend) +
+            (t.status === "OPEN" ? ' <button class="btn" style="padding:1px 8px;font-size:0.72rem" title="close at the next 17:35 scan price" onclick="return requestDeskClose(\'qm\',\'' + t.id + '\',\'' + esc(t.symbol) + '\')">✕ close</button>' : "") + "</td></tr>";
       });
       ow.innerHTML = h + "</tbody></table>" +
         '<p class="hint" style="margin:0.5rem 0 0">\u270b Take = take a PENDING signal now at live LTP into your Manual book (\u20b95k lot). The QM engine itself fills pendings at the next session\u2019s open during the 17:35 scan. OPEN rows show <em>unrealized</em> P&L (mark \u2212 entry) until they close.</p>';
@@ -2272,7 +2282,8 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
           "<td>" + (t.entry != null ? t.entry + (t.entry_date ? " (" + esc(t.entry_date).slice(5) + ")" : "") : "next open") + "</td>" +
           "<td>" + (t.sl != null ? t.sl : "\u2014") + "</td><td>" + (t.tgt != null ? t.tgt : "\u2014") + "</td>" +
           "<td>" + (t.sessions || 0) + "</td>" +
-          '<td class="' + cls(pnlShow) + '">' + (pnlShow != null ? fmt(pnlShow, cur) : "\u2014") + "</td></tr>";
+          '<td class="' + cls(pnlShow) + '">' + (pnlShow != null ? fmt(pnlShow, cur) : "\u2014") + "</td>" +
+          (t.status === "OPEN" ? "<td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next 16:30 scan price\" onclick=\"return requestDeskClose('swing','" + t.id + "','" + esc(t.symbol) + "')\">✕ close</button></td>" : "") + "</tr>";
       });
       ow.innerHTML = h + "</tbody></table>";
     }
@@ -2319,7 +2330,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
   <script src="static/direct-scan.js"></script>
   <script src="static/gc-scan.js"></script>
   <script src="static/f3-scan.js"></script>
-  <script src="static/app.js?v=4"></script>
+  <script src="static/app.js?v=5"></script>
 
 <script>
 /* ===== Manual tab: stock search -> take trade -> open/closed book ===== */
