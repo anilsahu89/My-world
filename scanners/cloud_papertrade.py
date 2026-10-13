@@ -1070,6 +1070,7 @@ def commit_state() -> None:
              "data/close_requests/hm.json", "data/close_requests/theta.json",
              "data/close_requests/mill.json", "data/close_requests/btc.json",
              "data/close_requests/arb.json",
+             "scanners/data/nifty_options_daily.csv",
              "data/vol_avg20.json",
              "data/cloud_nifty_ltp_state.json",
              "data/paper_nifty_ltp.json",

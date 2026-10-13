@@ -170,20 +170,63 @@ def load_nifty_options(day):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Referer": "https://www.nseindia.com/"})
             with urllib.request.urlopen(req, timeout=20) as resp:
+                body = resp.read()
+            if not body.startswith(b"PK"):
+                print("theta: bhavcopy response not a zip (NSE error page)", flush=True)
+                body = None
+            if body is not None:
                 fo_path.parent.mkdir(parents=True, exist_ok=True)
-                fo_path.write_bytes(resp.read())
-        except:
-            return {}
+                fo_path.write_bytes(body)
+        except Exception:
+            body = None
 
-    opts = {}
-    for row in read_zip_csv(fo_path):
-        if row.get("TckrSymb") == "NIFTY" and row.get("FinInstrmTp") == "IDO":
-            close = to_float(row.get("ClsPric", 0))
-            vol = to_int(row.get("TtlTradgVol", 0))
-            if close > 0 and vol > 0:
-                key = (row.get("XpryDt", "")[:10], float(row.get("StrkPric", 0)), row.get("OptnTp", ""))
-                opts[key] = {"close": close, "vol": vol}
-    return opts
+    if fo_path.exists():
+        opts = {}
+        for row in read_zip_csv(fo_path):
+            if row.get("TckrSymb") == "NIFTY" and row.get("FinInstrmTp") == "IDO":
+                close = to_float(row.get("ClsPric", 0))
+                vol = to_int(row.get("TtlTradgVol", 0))
+                if close > 0 and vol > 0:
+                    key = (row.get("XpryDt", "")[:10], float(row.get("StrkPric", 0)), row.get("OptnTp", ""))
+                    opts[key] = {"close": close, "vol": vol}
+        if opts:
+            return opts
+
+    # yfinance live-chain fallback (today only; mirrors the mill desk) —
+    # the bhavcopy path has never worked from Actions runners
+    if day == ist_today():
+        try:
+            import yfinance as yf
+            tk = yf.Ticker("^NSEI")
+            _exps = getattr(tk, "expirations", None) or tk.options
+            live = {}
+            for exp in (_exps or []):
+                dte = (parse_date(exp) - day).days
+                if not (1 <= dte <= 10):
+                    continue
+                ch = tk.option_chain(exp)
+                for typ, frame in (("CE", ch.calls), ("PE", ch.puts)):
+                    for _, r in frame.iterrows():
+                        px = to_float(r.get("lastPrice"))
+                        if px > 0:
+                            live[(exp, float(r["strike"]), typ)] = {
+                                "close": px, "vol": to_int(r.get("volume"))}
+            if live:
+                NIFTY_OPTS_FILE.parent.mkdir(parents=True, exist_ok=True)
+                is_new = not NIFTY_OPTS_FILE.exists()
+                with NIFTY_OPTS_FILE.open("a", newline="") as fh:
+                    w = csv.writer(fh)
+                    if is_new:
+                        w.writerow(["date", "expiry", "strike", "opt_type",
+                                    "close", "volume"])
+                    for (exp, strike, typ), v in live.items():
+                        w.writerow([day.isoformat(), exp, strike, typ,
+                                    v["close"], v["vol"]])
+                print(f"theta: yf chain fallback {len(live)} rows", flush=True)
+                return live
+        except Exception as e:
+            print(f"theta: yf chain fallback failed: {e}", flush=True)
+    return {}
 
 
 def get_nearest_expiry(opts, day, max_days=MAX_DTE):

@@ -152,7 +152,10 @@ def load_nifty_options(day):
             tk = yf.Ticker("^NSEI")
             live = {}
             from datetime import date as _d
-            for exp in (tk.expirations or []):
+            _exps = getattr(tk, "expirations", None)
+            if not _exps:
+                _exps = tk.options          # older yfinance
+            for exp in (_exps or []):
                 dte = (_d.fromisoformat(exp) - day).days
                 if not (1 <= dte <= 10):
                     continue

@@ -469,11 +469,13 @@
       if (trades[i].id === tradeId && trades[i].status === "OPEN") {
         var entryPrice = trades[i].entry_price;
         var quantity = trades[i].quantity;
+        var shortSide = trades[i].side === "SELL";   // sold option: profit = entry - exit
+        var sign = shortSide ? -1 : 1;
         trades[i].exit_price = parseFloat(exitPrice);
         trades[i].exit_date = exitDate;
         trades[i].exit_reason = exitReason;
-        trades[i].pnl = parseFloat((quantity * (exitPrice - entryPrice)).toFixed(2));
-        trades[i].pnl_pct = parseFloat(((exitPrice - entryPrice) / entryPrice * 100).toFixed(2));
+        trades[i].pnl = parseFloat((quantity * sign * (exitPrice - entryPrice)).toFixed(2));
+        trades[i].pnl_pct = parseFloat((sign * (exitPrice - entryPrice) / entryPrice * 100).toFixed(2));
         trades[i].status = "CLOSED";
         trades[i].closed_at = new Date().toISOString();
         savePaperTrades(trades);

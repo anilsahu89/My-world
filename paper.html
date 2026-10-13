@@ -1117,6 +1117,23 @@ main h3 .collapse-btn {
 
   <div class="table-wrap" id="manualResults"><div class="flash">Type to search the live universe.</div></div>
 
+  <div style="margin-top:1.5rem;border:1px solid rgba(79,195,247,0.35);border-radius:8px;padding:1rem">
+    <strong style="color:#4fc3f7">⚡ NIFTY Option — take a CE/PE paper trade</strong>
+    <div class="muted" style="font-size:0.78rem;margin-top:0.2rem">
+      premiums come from the chain the theta/mill scans cache daily — always check/edit before confirming · lot = 75 · SELL = you receive the premium (profit when it decays)
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-top:0.8rem">
+      <label style="font-size:0.8rem">Expiry<br><select id="optExpiry" style="min-width:110px"></select></label>
+      <label style="font-size:0.8rem">Type<br><select id="optType"><option value="CE">CE</option><option value="PE">PE</option></select></label>
+      <label style="font-size:0.8rem">Strike<br><select id="optStrike" style="min-width:110px"></select></label>
+      <label style="font-size:0.8rem">Side<br><select id="optSide"><option value="BUY">BUY</option><option value="SELL">SELL</option></select></label>
+      <label style="font-size:0.8rem">Lots (75)<br><input id="optLots" type="number" value="1" min="1" max="10" style="width:70px"></label>
+      <label style="font-size:0.8rem">Premium ₹<br><input id="optPrem" type="number" step="0.05" min="0.05" style="width:95px"></label>
+      <button class="btn btn-primary" id="optTake">➕ Take option</button>
+      <span class="muted" id="optNote" style="font-size:0.78rem">loading chain…</span>
+    </div>
+  </div>
+
   <div id="manualTakeForm" style="display:none;margin-top:1rem;border:1px solid rgba(63,185,80,0.35);border-radius:8px;padding:1rem">
     <strong id="mtSymbol" style="color:var(--green)"></strong>
     <span class="muted" id="mtName"></span>
@@ -2330,7 +2347,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
   <script src="static/direct-scan.js"></script>
   <script src="static/gc-scan.js"></script>
   <script src="static/f3-scan.js"></script>
-  <script src="static/app.js?v=5"></script>
+  <script src="static/app.js?v=6"></script>
 
 <script>
 /* ===== Manual tab: stock search -> take trade -> open/closed book ===== */
@@ -2434,8 +2451,8 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     var realized = 0, wins = 0, unreal = 0;
     closed.forEach(function (t) { realized += t.pnl || 0; if ((t.pnl || 0) > 0) wins++; });
     opens.forEach(function (t) {
-      var q = ltp[t.symbol];
-      if (q) unreal += ((parseFloat(q.ltp) || 0) - t.entry_price) * t.quantity;
+      var q = ltp[t.symbol], sgn = t.side === "SELL" ? -1 : 1;
+      if (q) unreal += sgn * ((parseFloat(q.ltp) || 0) - t.entry_price) * t.quantity;
     });
     function set(id, v) { document.getElementById(id).textContent = v; }
     set("mnOpen", opens.length); set("mnClosed", closed.length);
@@ -2453,8 +2470,10 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         "<th>Entry ₹</th><th>LTP</th><th>Unrealized</th><th></th></tr></thead><tbody>" +
         opens.map(function (t) {
           var q = ltp[t.symbol], l = q ? parseFloat(q.ltp) : null;
-          var u = l != null ? (l - t.entry_price) * t.quantity : null;
-          return "<tr><td><strong>" + esc(t.symbol) + "</strong></td><td>" + esc(t.entry_date) +
+          var sgn = t.side === "SELL" ? -1 : 1;
+          var u = l != null ? sgn * (l - t.entry_price) * t.quantity : null;
+          var shortBadge = t.side === "SELL" ? ' <span class="badge badge-grey">SHORT</span>' : "";
+          return "<tr><td><strong>" + esc(t.symbol) + "</strong>" + shortBadge + "</td><td>" + esc(t.entry_date) +
             "</td><td>" + t.quantity + "</td><td>₹" + t.entry_price + "</td><td>" +
             (l != null ? "₹" + l : "—") + '</td><td class="' + cls(u) + '">' + inr(u) +
             '</td><td><button class="btn" data-close="' + t.id + '">✖ Close</button></td></tr>';
@@ -2510,6 +2529,86 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
 
   document.getElementById("manualSearch").addEventListener("input", renderResults);
   document.getElementById("manualRefresh").addEventListener("click", loadUniverse);
+
+  // ----- NIFTY option manual taking (chain cached by theta/mill scans) -----
+  var chain = [];
+  function loadOptChain() {
+    fetch(base + "/scanners/data/nifty_options_daily.csv?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.text() : ""; })
+      .then(function (txt) {
+        var byDate = {};
+        txt.split("\n").forEach(function (line) {
+          var p = line.split(",");
+          if (p.length > 5 && /^\d{4}-\d{2}-\d{2}$/.test(p[0])) {
+            byDate[p[0]] = byDate[p[0]] || [];
+            byDate[p[0]].push({ expiry: p[1], strike: parseFloat(p[2]),
+                                type: p[3], close: parseFloat(p[4]) });
+          }
+        });
+        var dates = Object.keys(byDate).sort();
+        chain = dates.length ? byDate[dates[dates.length - 1]] : [];
+        var note = document.getElementById("optNote");
+        if (!chain.length) {
+          note.textContent = "no cached chain yet — take a Theta/Mill scan, or type the premium manually";
+          return;
+        }
+        note.textContent = "chain: " + chain.length + " rows from " + dates[dates.length - 1] +
+          (dates[dates.length - 1] === new Date().toISOString().slice(0, 10)
+            ? " (today)" : " (stale — edit premium)");
+        var exps = [];
+        chain.forEach(function (o) { if (exps.indexOf(o.expiry) < 0) exps.push(o.expiry); });
+        exps.sort(); exps = exps.slice(0, 8);
+        var es = document.getElementById("optExpiry");
+        es.innerHTML = exps.map(function (e) { return "<option>" + e + "</option>"; }).join("");
+        fillStrikes();
+      })
+      .catch(function () {
+        document.getElementById("optNote").textContent = "chain unavailable — type the premium manually";
+      });
+  }
+  function fillStrikes() {
+    var exp = document.getElementById("optExpiry").value;
+    var typ = document.getElementById("optType").value;
+    var ks = chain.filter(function (o) { return o.expiry === exp && o.type === typ; })
+                  .map(function (o) { return o.strike; }).sort(function (a, b) { return a - b; });
+    document.getElementById("optStrike").innerHTML = ks.map(function (k) {
+      return "<option>" + k + "</option>"; }).join("");
+    fillPremium();
+  }
+  function fillPremium() {
+    var exp = document.getElementById("optExpiry").value;
+    var typ = document.getElementById("optType").value;
+    var k = parseFloat(document.getElementById("optStrike").value);
+    var row = chain.filter(function (o) {
+      return o.expiry === exp && o.type === typ && o.strike === k; })[0];
+    if (row && row.close > 0) document.getElementById("optPrem").value = row.close.toFixed(2);
+  }
+  document.getElementById("optExpiry").addEventListener("change", fillStrikes);
+  document.getElementById("optType").addEventListener("change", fillStrikes);
+  document.getElementById("optStrike").addEventListener("change", fillPremium);
+  document.getElementById("optTake").addEventListener("click", function () {
+    var exp = document.getElementById("optExpiry").value;
+    var typ = document.getElementById("optType").value;
+    var k = document.getElementById("optStrike").value;
+    var side = document.getElementById("optSide").value;
+    var lots = parseInt(document.getElementById("optLots").value, 10) || 1;
+    var prem = parseFloat(document.getElementById("optPrem").value);
+    if (!exp || !k || !(prem > 0)) { alert("Pick expiry/strike and set a premium."); return; }
+    var qty = lots * 75;
+    var sym = "NIFTY " + exp.replace(/-/g, "").slice(2) + " " + k + typ +
+              (side === "SELL" ? " (S)" : "");
+    if (!confirm("Take " + side + " " + sym + " · " + lots + " lot(s) = " + qty +
+                 " qty @ ₹" + prem.toFixed(2) + "?")) return;
+    window.addPaperTrade({
+      strategy: "nifty-opt", symbol: sym, side: side,
+      entry_date: new Date().toISOString().slice(0, 10),
+      entry_price: prem, sl_price: 0, quantity: qty,
+      invested: +(prem * qty).toFixed(2),
+      note: side === "SELL" ? "short option — premium received" : ""
+    });
+    renderBook();
+  });
+  loadOptChain();
   // close modal: fill exit price with the current market price on request
   document.getElementById("closeUseLtp").addEventListener("click", function () {
     var px = this.getAttribute("data-ltp");
