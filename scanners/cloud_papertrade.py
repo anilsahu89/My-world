@@ -1199,6 +1199,15 @@ def main() -> None:
             cloud_future_arb.tick()
         except Exception as e:
             print(f"future arb tick failed: {e}", flush=True)
+        # theta/mill retry on the 24/7 chain (13 Oct directive: desks must
+        # self-heal — a data failure at 09:20 must not cost the day). Their
+        # ticks are flag-guarded and only flag on healthy scans.
+        try:
+            import market_poller
+            market_poller.theta_tick()
+            market_poller.mill_tick()
+        except Exception as e:
+            print(f"theta/mill retry failed: {e}", flush=True)
     commit_state()
     maybe_start_poller()
 

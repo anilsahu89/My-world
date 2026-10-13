@@ -173,11 +173,15 @@ def theta_tick() -> None:
         cwd=str(cp.ROOT), capture_output=True, text=True, timeout=300)
     print(f"theta scan: rc={r.returncode} "
           f"{(r.stdout or '')[-200:]}", flush=True)
-    if r.returncode == 0 and out.exists():
-        try:
+    # retry discipline (13 Oct): a DATA failure must not lock the day —
+    # only a healthy scan (real data, rules decision made) sets the flag
+    try:
+        import desk_retry
+        if r.returncode == 0 and out.exists() \
+                and desk_retry.healthy("theta", desk_retry.last_output("theta")):
             flag.write_text(today)
-        except OSError:
-            pass
+    except OSError:
+        pass
 
 
 def mill_tick() -> None:
@@ -204,11 +208,14 @@ def mill_tick() -> None:
         cwd=str(cp.ROOT), capture_output=True, text=True, timeout=300)
     print(f"mill scan: rc={r.returncode} "
           f"{(r.stdout or '')[-200:]}", flush=True)
-    if r.returncode == 0 and out.exists():
-        try:
+    # same retry discipline as theta: flag only on a healthy scan
+    try:
+        import desk_retry
+        if r.returncode == 0 and out.exists() \
+                and desk_retry.healthy("mill", desk_retry.last_output("mill")):
             flag.write_text(today)
-        except OSError:
-            pass
+    except OSError:
+        pass
 
 
 def htf_hm_tick() -> None:
