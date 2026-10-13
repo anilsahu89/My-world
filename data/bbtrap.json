@@ -1,9 +1,9 @@
 {
- "fetched_at": "2026-10-13 16:35:43",
- "latest_date": "2026-10-12",
+ "fetched_at": "2026-10-13 17:30:26",
+ "latest_date": "2026-10-13",
  "universe_count": 197,
  "shorts_count": 0,
- "longs_count": 4,
+ "longs_count": 5,
  "shorts": [],
  "longs": [
   {
@@ -73,6 +73,23 @@
    "primary_date": "2026-10-08",
    "alert_date": "2026-10-09",
    "score": 26.6
+  },
+  {
+   "kind": "bb",
+   "type": "LONG",
+   "symbol": "NTPC",
+   "entry_price": 310.0,
+   "sl_price": 307.6,
+   "target_price": 314.8,
+   "rr": 2.0,
+   "wick_pct": 50,
+   "vol_multiple": 1.7,
+   "rsi": 31,
+   "rsi_pass": false,
+   "primary_range": 4.8,
+   "primary_date": "2026-10-09",
+   "alert_date": "2026-10-12",
+   "score": 26.0
   }
  ]
 }
