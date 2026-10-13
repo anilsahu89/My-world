@@ -2361,34 +2361,33 @@
  "f3_done_date": "2026-10-12",
  "reentry_watch": [],
  "vol_blocked": {
-  "date": "2026-10-12",
+  "date": "2026-10-13",
   "ol": {
    "low_vol": [],
-   "no_vol_data": []
+   "no_vol_data": [
+    "BSOFT",
+    "BAYERCROP",
+    "BHARTIARTL",
+    "CASTROLIND",
+    "DOMS",
+    "DALBHARAT",
+    "IPCALAB",
+    "ITI",
+    "INDIACEM",
+    "INDIANB",
+    "IREDA",
+    "KPITTECH",
+    "MEESHO",
+    "MPHASIS",
+    "PHOENIXLTD",
+    "RECLTD",
+    "TECHNOE",
+    "TECHM"
+   ]
   },
   "oh": {
    "low_vol": [],
-   "no_vol_data": [
-    "AXISBANK",
-    "CHALET",
-    "GILLETTE",
-    "NYKAA",
-    "ESCORTS",
-    "GESHIP",
-    "INDHOTEL",
-    "IKS",
-    "KARURVYSYA",
-    "MRPL",
-    "MRF",
-    "PTCIL",
-    "NIVABUPA",
-    "PATANJALI",
-    "PWL",
-    "PETRONET",
-    "SYRMA",
-    "TECHM",
-    "UTIAMC"
-   ]
+   "no_vol_data": []
   }
  }
 }
