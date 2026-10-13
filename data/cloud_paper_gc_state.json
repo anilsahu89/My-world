@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 30,
+ "next_id": 31,
  "trades": [
   {
    "session": "2026-09-04",
@@ -466,6 +466,22 @@
    "reason": "SL",
    "pnl": -0.39,
    "status": "CLOSED"
+  },
+  {
+   "id": 30,
+   "session": "2026-10-12",
+   "setup": "oh",
+   "symbol": "GOLD",
+   "side": "SELL",
+   "qty": 0.0143,
+   "entry_time": "06:48:59",
+   "entry_price": 4187.4,
+   "sl_price": 4249.64,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN"
   }
  ],
  "seeded": true
