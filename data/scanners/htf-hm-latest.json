@@ -1,38 +1,19 @@
 {
- "date": "2026-10-12",
- "updated_at": "12 Oct 2026 17:30:51 IST",
+ "date": "2026-10-13",
+ "updated_at": "13 Oct 2026 17:28:28 IST",
  "rule": "HM Positional (NK Hilega-Milega on weekly bars): enter when RSI9>50 & red WMA21(RSI)<RSI9 & green WMA3(RSI)>red newly true on a completed week; exit weekly RSI<50 (TREND-END) or >=86 (RSI86-BOOK). 5y backtest PF 2.19, avg +4.8%/trade. Book: Rs1L (Oct mandate), Rs20k lots, max 5 open, max 2 new/week. Monthly tab = investing watchlist (RSI9>50, red inside).",
  "book": {
   "capital": 100000.0,
   "open": 2,
-  "invested": 49272.95,
-  "realized": 0,
+  "invested": 24291.5,
+  "realized": -74.94,
   "wins": 0,
-  "losses": 0,
+  "losses": 1,
   "win_rate": 0.0
  },
  "signals": [],
  "monthly_watchlist": [],
  "open": [
-  {
-   "symbol": "JSWINFRA",
-   "signal_date": "2026-09-25",
-   "entry_date": "2026-09-30",
-   "entry": 362.05,
-   "qty": 69.0,
-   "invested": 24981.45,
-   "rsi_entry": 71.8,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "weeks_held": 0,
-   "notes": "HM momentum BUY-MOMENTUM",
-   "ltp": 339.85,
-   "live_pnl": -1531.8,
-   "live_pct": -6.13
-  },
   {
    "symbol": "CARBORUNIV",
    "signal_date": "2026-09-25",
@@ -53,5 +34,22 @@
    "live_pct": -6.29
   }
  ],
- "closed": []
+ "closed": [
+  {
+   "symbol": "JSWINFRA",
+   "signal_date": "2026-09-25",
+   "entry_date": "2026-09-30",
+   "entry": 362.05,
+   "qty": 69.0,
+   "invested": 24981.45,
+   "rsi_entry": 71.8,
+   "status": "CLOSED",
+   "exit_date": "2026-10-13",
+   "exit": 362.05,
+   "reason": "MANUAL",
+   "pnl": -74.94,
+   "weeks_held": 1,
+   "notes": "HM momentum BUY-MOMENTUM"
+  }
+ ]
 }
