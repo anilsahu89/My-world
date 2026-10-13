@@ -179,3 +179,84 @@ def _selftest() -> int:
 
 if __name__ == "__main__":
     sys.exit(_selftest())
+
+
+def option_chain_nifty(max_expiries: int = 3) -> dict:
+    """NIFTY option chain via SmartAPI (scrip master + quote API) — the
+    fallback when Yahoo fails. Returns {(exp_iso, strike, type): {close, vol}}
+    keyed like the desks' flat-file rows."""
+    import datetime as _dt
+    master = requests.get(
+        "https://margincalculator.angelbroking.com/OpenAPI_File/files/"
+        "OpenAPIScripMaster.json", timeout=90).json()
+    today = _dt.date.today()
+    rows = []
+    for r in master:
+        if (r.get("exch_seg") != "NFO" or r.get("name") != "NIFTY"
+                or r.get("instrumenttype") != "OPTIDX"):
+            continue
+        sym = r["symbol"]
+        if not (sym.endswith("CE") or sym.endswith("PE")):
+            continue
+        rows.append(dict(token=r["token"], symbol=sym,
+                         expiry=_dt.datetime.strptime(
+                             r["expiry"], "%d%b%Y").date().isoformat(),
+                         strike=float(r["strike"]) / 100.0,
+                         type=sym[-2:]))
+    exps = sorted({r["expiry"] for r in rows if r["expiry"] >= today.isoformat()})
+    sel = [r for r in rows if r["expiry"] in exps[:max_expiries]]
+    meta = {r["symbol"]: r for r in sel}
+
+    c = _creds()
+    jwt = login()
+    out = {}
+    for i in range(0, len(sel), BATCH):
+        chunk = sel[i:i + BATCH]
+        d = None
+        for attempt in (1, 2):              # one retry per batch
+            try:
+                r = requests.post(
+                    f"{BASE_URL}/rest/secure/angelbroking/market/v1/quote/",
+                    headers=_headers(c["api_key"], jwt),
+                    json={"mode": "FULL",
+                          "exchangeTokens": {"NFO": [x["token"] for x in chunk]}},
+                    timeout=30)
+                d = r.json()
+                break
+            except Exception:
+                if attempt == 2:
+                    d = None
+                time.sleep(1.5)
+        if d is None or not d.get("status"):
+            continue                        # skip the batch, keep the rest
+        for row in d.get("data", {}).get("fetched", []):
+            m = meta.get(row.get("tradingSymbol") or row.get("symbol"))
+            if not m:
+                continue
+            ltp = row.get("ltp")
+            if ltp in (None, ""):
+                continue
+            out[(m["expiry"], m["strike"], m["type"])] = {
+                "close": float(ltp),
+                "vol": int(float(row.get("tradeVolume") or 0))}
+        if i + BATCH < len(sel):
+            time.sleep(0.35)
+    if not out:
+        raise RuntimeError("Angel option chain: every batch failed")
+    return out
+
+
+def write_flat_chain_csv(day, live: dict) -> None:
+    """Append/refresh NIFTY_OPTS_FILE rows for `day` from a live dict."""
+    import csv as _csv
+    flat = Path(__file__).parent / "data" / "nifty_options_daily.csv"
+    flat.parent.mkdir(parents=True, exist_ok=True)
+    is_new = not flat.exists()
+    with flat.open("a", newline="") as fh:
+        w = _csv.writer(fh)
+        if is_new:
+            w.writerow(["date", "expiry", "strike", "opt_type", "close",
+                        "volume"])
+        for (exp, strike, typ), v in sorted(live.items()):
+            w.writerow([day.isoformat(), exp, strike, typ,
+                        v["close"], v["vol"]])

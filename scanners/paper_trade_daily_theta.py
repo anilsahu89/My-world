@@ -226,6 +226,19 @@ def load_nifty_options(day):
                 return live
         except Exception as e:
             print(f"theta: yf chain fallback failed: {e}", flush=True)
+    
+
+    # last resort: Angel One SmartAPI (creds in GH secrets / local json)
+    if day == ist_today():
+        try:
+            import angel_feed as af
+            live = af.option_chain_nifty()
+            if live:
+                af.write_flat_chain_csv(day, live)
+                print(f"theta: angel chain fallback {len(live)} rows", flush=True)
+                return live
+        except Exception as e:
+            print(f"theta: angel fallback failed: {e}", flush=True)
     return {}
 
 
