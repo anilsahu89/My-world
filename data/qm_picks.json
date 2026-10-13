@@ -1,6 +1,6 @@
 {
- "date": "2026-10-12",
- "updated_at": "12 Oct 2026 17:28:40 IST",
+ "date": "2026-10-13",
+ "updated_at": "13 Oct 2026 17:26:14 IST",
  "nifty_gate": {
   "hm_buy_state": false,
   "above_sma20": false,
@@ -9,76 +9,31 @@
  "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM buy state) · 52-week closing high (vol ≥1.5x) · BB Blast squeeze on daily/weekly/monthly (NIFTY > SMA20) · 50-day return must beat NIFTY (RS-50 gate) · NIFTY-500 · ₹5cr turnover · entries capped 2/day by the desk",
  "signals": [
   {
-   "sym": "NETWEB",
+   "sym": "ECLERX",
    "setup": "QM-BBd",
-   "rsi": 77.9,
+   "rsi": 67.8,
    "note": "BB squeeze rank 7% blast on d bars",
-   "close": 5001.0,
-   "date": "2026-10-12",
-   "rs50": 1.192
+   "close": 1964.5,
+   "date": "2026-10-13",
+   "rs50": 1.028
   },
   {
-   "sym": "GALLANTT",
-   "setup": "QM-BBd",
-   "rsi": 70.3,
-   "note": "BB squeeze rank 20% blast on d bars",
-   "close": 595.6,
-   "date": "2026-10-12",
-   "rs50": 1.018
-  },
-  {
-   "sym": "POWERINDIA",
+   "sym": "BALRAMCHIN",
    "setup": "QM-HM",
-   "rsi": 65.6,
-   "note": "RSI9 66 V-turn above rising SMA20",
-   "close": 31290.0,
-   "date": "2026-10-12",
-   "rs50": 1.001
-  },
-  {
-   "sym": "KEI",
-   "setup": "QM-HM",
-   "rsi": 61.2,
-   "note": "RSI9 61 V-turn above rising SMA20",
-   "close": 4654.2,
-   "date": "2026-10-12",
-   "rs50": 0.97
+   "rsi": 62.4,
+   "note": "RSI9 62 V-turn above rising SMA20",
+   "close": 720.2,
+   "date": "2026-10-13",
+   "rs50": 1.208
   },
   {
    "sym": "THELEELA",
    "setup": "QM-HM",
-   "rsi": 70.2,
-   "note": "RSI9 70 V-turn above rising SMA20",
-   "close": 594.75,
-   "date": "2026-10-12",
-   "rs50": 1.271
-  },
-  {
-   "sym": "AIIL",
-   "setup": "QM-HM",
-   "rsi": 55.0,
-   "note": "RSI9 55 V-turn above rising SMA20",
-   "close": 551.85,
-   "date": "2026-10-12",
-   "rs50": 1.011
-  },
-  {
-   "sym": "PTCIL",
-   "setup": "QM-52W",
-   "rsi": 86.8,
-   "note": "new 52w closing high 25715.0, vol 1.9x",
-   "close": 25715.0,
-   "date": "2026-10-12",
-   "rs50": 1.445
-  },
-  {
-   "sym": "PNBHOUSING",
-   "setup": "QM-52W",
-   "rsi": 82.2,
-   "note": "new 52w closing high 1200.0, vol 1.6x",
-   "close": 1200.0,
-   "date": "2026-10-12",
-   "rs50": 1.162
+   "rsi": 71.7,
+   "note": "RSI9 72 V-turn above rising SMA20",
+   "close": 601.25,
+   "date": "2026-10-13",
+   "rs50": 1.284
   }
  ]
 }
