@@ -535,13 +535,20 @@ def main():
 
     # 2. Check for new signal (Tuesday only)
     print(f"\n  Checking for new signal...")
-    signal, msg = check_for_signal(day)
-    print(f"  {msg}")
+    trades = list(csv.DictReader(TRADES_FILE.open())) if TRADES_FILE.exists() else []
+    has_open = any(t["status"] == "OPEN" for t in trades)
+    if has_open:
+        # max 1 open position — without this guard every scan re-alerted
+        # and appended a duplicate spread (13 Oct: 10-20 alerts via the
+        # 15-min retry chain)
+        print("  \u23f8\ufe0f  Open position exists — waiting for exit before new entry")
+        signal = None
+    else:
+        signal, msg = check_for_signal(day)
+        print(f"  {msg}")
 
     if signal:
         # Add new trade
-        trades = list(csv.DictReader(TRADES_FILE.open())) if TRADES_FILE.exists() else []
-        # Check if already entered on this date
         already = any(t["entry_date"] == signal["entry_date"] and t["status"] == "OPEN" for t in trades)
         if not already:
             new_trade = {**signal,
