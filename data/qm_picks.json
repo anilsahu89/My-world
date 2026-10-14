@@ -1,6 +1,6 @@
 {
- "date": "2026-10-13",
- "updated_at": "13 Oct 2026 17:26:14 IST",
+ "date": "2026-10-14",
+ "updated_at": "14 Oct 2026 17:28:13 IST",
  "nifty_gate": {
   "hm_buy_state": false,
   "above_sma20": false,
@@ -9,31 +9,49 @@
  "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM buy state) · 52-week closing high (vol ≥1.5x) · BB Blast squeeze on daily/weekly/monthly (NIFTY > SMA20) · 50-day return must beat NIFTY (RS-50 gate) · NIFTY-500 · ₹5cr turnover · entries capped 2/day by the desk",
  "signals": [
   {
-   "sym": "ECLERX",
+   "sym": "FLUOROCHEM",
    "setup": "QM-BBd",
-   "rsi": 67.8,
-   "note": "BB squeeze rank 7% blast on d bars",
-   "close": 1964.5,
-   "date": "2026-10-13",
-   "rs50": 1.028
+   "rsi": 65.4,
+   "note": "BB squeeze rank 5% blast on d bars",
+   "close": 4632.1,
+   "date": "2026-10-14",
+   "rs50": 1.033
   },
   {
-   "sym": "BALRAMCHIN",
-   "setup": "QM-HM",
-   "rsi": 62.4,
-   "note": "RSI9 62 V-turn above rising SMA20",
-   "close": 720.2,
-   "date": "2026-10-13",
-   "rs50": 1.208
+   "sym": "JINDALSAW",
+   "setup": "QM-BBd",
+   "rsi": 66.2,
+   "note": "BB squeeze rank 20% blast on d bars",
+   "close": 297.1,
+   "date": "2026-10-14",
+   "rs50": 1.146
   },
   {
-   "sym": "THELEELA",
+   "sym": "MRPL",
+   "setup": "QM-BBd",
+   "rsi": 67.2,
+   "note": "BB squeeze rank 20% blast on d bars",
+   "close": 185.26,
+   "date": "2026-10-14",
+   "rs50": 1.064
+  },
+  {
+   "sym": "CHENNPETRO",
    "setup": "QM-HM",
-   "rsi": 71.7,
-   "note": "RSI9 72 V-turn above rising SMA20",
-   "close": 601.25,
-   "date": "2026-10-13",
-   "rs50": 1.284
+   "rsi": 59.2,
+   "note": "RSI9 59 V-turn above rising SMA20",
+   "close": 1546.1,
+   "date": "2026-10-14",
+   "rs50": 1.166
+  },
+  {
+   "sym": "BHEL",
+   "setup": "QM-52W",
+   "rsi": 76.0,
+   "note": "new 52w closing high 464.0, vol 3.4x",
+   "close": 464.0,
+   "date": "2026-10-14",
+   "rs50": 1.129
   }
  ]
 }
