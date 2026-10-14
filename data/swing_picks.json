@@ -1,11 +1,11 @@
 {
- "updated_at": "13 Oct 2026 03:07:30 IST",
+ "updated_at": "14 Oct 2026 17:27:49 IST",
  "rule": "top-3 candlestick setups (backtested 5y): MARU-at-low BUY PF 1.39 · ShootingStar+VOL SELL PF 1.15 · Engulf-at-low BUY PF 1.13 | entry next open, SL=pattern extreme, target 2R, 10-session stop | max 5 concurrent",
  "note": "NSE backtested; GOLD/BTC patterns untested (trial). Runs in the cloud (GitHub Actions) — no Mac required.",
  "end_date": "2026-12-31",
  "summary": {
   "open": 3,
-  "pending": 0,
+  "pending": 2,
   "closed": 17,
   "wins": 6,
   "losses": 11,
@@ -27,7 +27,7 @@
    "entry": 328.0,
    "sl": 308.1,
    "tgt": 367.8,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -45,7 +45,7 @@
    "entry": 68.95,
    "sl": 63.3,
    "tgt": 80.25,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -63,13 +63,50 @@
    "entry": 78.13,
    "sl": 83.5,
    "tgt": 67.39,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null
   }
  ],
- "pending": [],
+ "pending": [
+  {
+   "id": 21,
+   "signal_date": "2026-10-14",
+   "market": "NSE",
+   "symbol": "JSWENERGY",
+   "setup": "CS-MARU",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 460.55,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "id": 22,
+   "signal_date": "2026-10-14",
+   "market": "NSE",
+   "symbol": "GROWW",
+   "setup": "CS-PINS",
+   "side": "SELL",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 197.49,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  }
+ ],
  "closed": [
   {
    "id": 1,

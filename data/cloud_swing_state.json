@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 21,
+ "next_id": 23,
  "trades": [
   {
    "id": 1,
@@ -321,7 +321,7 @@
    "entry": 328.0,
    "sl": 308.1,
    "tgt": 367.8,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -339,7 +339,7 @@
    "entry": 68.95,
    "sl": 63.3,
    "tgt": 80.25,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null,
@@ -358,12 +358,48 @@
    "entry": 78.13,
    "sl": 83.5,
    "tgt": 67.39,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null,
    "note": "manual intraday fill at LTP (owner request)"
+  },
+  {
+   "id": 21,
+   "signal_date": "2026-10-14",
+   "market": "NSE",
+   "symbol": "JSWENERGY",
+   "setup": "CS-MARU",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 460.55,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "id": 22,
+   "signal_date": "2026-10-14",
+   "market": "NSE",
+   "symbol": "GROWW",
+   "setup": "CS-PINS",
+   "side": "SELL",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 197.49,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
   }
  ],
- "done_date": "2026-10-13"
+ "done_date": "2026-10-14"
 }
