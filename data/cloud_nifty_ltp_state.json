@@ -1,11 +1,11 @@
 {
- "done_date": "2026-10-07",
+ "done_date": "2026-10-14",
  "trades": [
   {
    "id": 1,
    "side": "call",
    "entry_date": "2026-10-07",
-   "days_seen": 1,
+   "days_seen": 2,
    "status": "OPEN",
    "spot_entry": 22590.899999999998,
    "iv_near_entry": 0.119,
@@ -15,7 +15,7 @@
     "strike": 23700.0,
     "qty": 225,
     "entry": 212.55,
-    "mark": 212.55,
+    "mark": 221.6,
     "exit": null,
     "exit_date": null
    },
@@ -26,8 +26,18 @@
      "qty": 225,
      "entry": 41.9,
      "mark": 41.9,
+     "exit": 41.9,
+     "exit_date": "2026-10-14"
+    },
+    {
+     "expiry": "2026-10-19",
+     "strike": 22850.0,
+     "qty": 225,
+     "entry": 49.1,
+     "mark": 49.1,
      "exit": null,
-     "exit_date": null
+     "exit_date": null,
+     "rolled": true
     }
    ],
    "pnl": null,
