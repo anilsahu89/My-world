@@ -371,7 +371,7 @@ main h3 .collapse-btn {
   <button class="pt-tab" data-panel="autoSection">⚡ Intraday O=L/O=H</button>
   <button class="pt-tab" data-panel="qmSection">🧮 QM Swing</button>
   <button class="pt-tab" data-panel="hmHtfSection">📈 HM Positional</button>
-  <button class="pt-tab" data-panel="swingSection">🕯️ Candle Swing</button>
+  <button class="pt-tab" data-panel="swingSection">🕯️ HM Swing</button>
   <button class="pt-tab" data-panel="thetaSection">🛡️ NIFTY Theta</button>
   <button class="pt-tab" data-panel="millSection">🏭 Premium Mill</button>
   <button class="pt-tab" data-panel="ltpSection">💎 NIFTY Long-Term Premium</button>
@@ -402,7 +402,7 @@ main h3 .collapse-btn {
   <div class="table-wrap" id="raceTableWrap"><div class="flash">Computing standings…</div></div>
 
   <h3 style="margin-top:2rem">💡 Mandate Notes</h3>
-  <div class="flash" id="raceNotes">· OL/OH: ₹10k × up to 10 positions (5 per setup × 2 setups) = ₹1L max — 5-per-setup rule unchanged · HM Positional: ₹20k × 5 open = ₹1L · Theta/Mill: one ₹7.5k-margin spread at a time · BTC: defined-risk 0.01 BTC condor · Candle Swing &amp; GC sized within ₹1L · Manual: your trades, ₹1L book.</div>
+  <div class="flash" id="raceNotes">· OL/OH: ₹10k × up to 10 positions (5 per setup × 2 setups) = ₹1L max — 5-per-setup rule unchanged · HM Positional: ₹20k × 5 open = ₹1L · Theta/Mill: one ₹7.5k-margin spread at a time · BTC: defined-risk 0.01 BTC condor · HM Swing &amp; GC sized within ₹1L · Manual: your trades, ₹1L book.</div>
 </section>
 
 <section id="autoSection" class="pt-panel">
@@ -1106,10 +1106,10 @@ main h3 .collapse-btn {
 
 <section id="swingSection" class="pt-panel">
   <h2 style="color:#7c4dff">
-    🕯️ Candlestick Swing — top-3 patterns
+    🕯️ HM Swing — weekly Hilega-Milega (buy & sell)
     <span class="muted" style="font-size:0.75rem">— backtested 5y on NSE-500, runs Sep 2026</span>
   </h2>
-  <div id="swingStatus" class="flash">Loading candlestick swing desk…</div>
+  <div id="swingStatus" class="flash">Loading HM Swing desk…</div>
   <div class="summary-cards">
     <div class="sum-card"><span class="sum-label">Open</span><span class="sum-value" style="color:var(--green)" id="swOpen">—</span></div>
     <div class="sum-card"><span class="sum-label">Pending (fills next open)</span><span class="sum-value" id="swPend">—</span></div>
@@ -1119,10 +1119,10 @@ main h3 .collapse-btn {
     <div class="sum-card"><span class="sum-label">Win Rate</span><span class="sum-value" id="swWin">—</span></div>
   </div>
   <h3 style="color:var(--green);margin-top:1.5rem">🟢 Open Positions <span class="muted" id="swOpenCount">(0)</span></h3>
-  <div class="table-wrap" id="swOpenWrap"><div class="flash">No open swing positions.</div></div>
+  <div class="table-wrap" id="swOpenWrap"><div class="flash">No open HM Swing positions.</div></div>
 
   <h3 style="margin-top:2rem">🔴 Closed Trades <span class="muted" id="swClosedCount">(0)</span></h3>
-  <div class="table-wrap" id="swClosedWrap"><div class="flash">No closed swing trades yet.</div></div>
+  <div class="table-wrap" id="swClosedWrap"><div class="flash">No closed HM Swing trades yet.</div></div>
 </section>
 
 <!-- ===================== MANUAL: SEARCH & TAKE + BOOK ===================== -->
@@ -1783,7 +1783,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       adapt: function (d) { return { t: tally((d && d.closed) || [], function (x) { return x.exit_date; }, function (x) { return x.pnl; }),
         last: lastClose((d && d.closed) || [], function (x) { return x.exit_date; }, function (x) { return x.pnl; }),
         open: d && d.book ? d.book.open : 0, ok: !!d }; } },
-    { name: "🕯️ Candle Swing", cap: 100000, src: "/data/cloud_swing_state.json",
+    { name: "🕯️ HM Swing", cap: 100000, src: "/data/cloud_swing_state.json",
       adapt: function (d) { var c = ((d && d.trades) || []).filter(function (x) { return x.status === "CLOSED"; });
         /* swing state has no exit date — approximate: entry + sessions days */
         return { t: tally(c, function (x) {
@@ -2347,7 +2347,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
 </script>
 
 <script>
-/* Candlestick swing desk — data/swing_picks.json (EOD desk, marks daily) */
+/* HM Swing desk — weekly Hilega-Milega buy/sell (data/swing_picks.json) */
 (function () {
   "use strict";
   var base = "";
@@ -2392,7 +2392,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       "(" + open.length + (pend.length ? " + " + pend.length + " pending" : "") + ")";
     var ow = document.getElementById("swOpenWrap");
     if (!pend.length && !open.length) {
-      ow.innerHTML = '<div class="flash">No open swing positions \u2014 signals fill at the next session\u2019s open.</div>';
+      ow.innerHTML = '<div class="flash">No open HM Swing positions \u2014 weekly signals fill at the next session open.</div>';
     } else {
       var h = "<table><thead><tr><th>Signal</th><th>Mkt</th><th>Symbol</th><th>Setup</th>" +
         "<th>Side</th><th>Status</th><th>Entry</th><th>SL</th><th>TGT</th><th>Sess</th><th>Live P&L</th>" +
@@ -2424,7 +2424,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     document.getElementById("swClosedCount").textContent = "(" + (d.closed || []).length + ")";
     var cw = document.getElementById("swClosedWrap");
     if (!closed.length) {
-      cw.innerHTML = '<div class="flash">No closed swing trades yet.</div>';
+      cw.innerHTML = '<div class="flash">No closed HM Swing trades yet.</div>';
     } else {
       var h2 = "<table><thead><tr><th>Signal</th><th>Mkt</th><th>Symbol</th><th>Side</th>" +
         "<th>Entry</th><th>Exit</th><th>Reason</th><th>Sess</th><th>P&L</th><th></th>" +
