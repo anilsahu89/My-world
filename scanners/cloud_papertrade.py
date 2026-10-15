@@ -1,2 +1,0 @@
-NSE_RVOL_OL = 1.0
-NSE_RVOL_OH = 0.8
