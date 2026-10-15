@@ -370,7 +370,7 @@ main h3 .collapse-btn {
   <button class="pt-tab active" data-panel="raceSection">🏆 October Race</button>
   <button class="pt-tab" data-panel="autoSection">⚡ Intraday O=L/O=H</button>
   <button class="pt-tab" data-panel="qmSection">🧮 QM Swing</button>
-  <button class="pt-tab" data-panel="hmHtfSection">📈 HM Positional</button>
+  <button class="pt-tab" data-panel="hmHtfSection">📈 Intraday HM</button>
   <button class="pt-tab" data-panel="swingSection">🕯️ HM Swing</button>
   <button class="pt-tab" data-panel="thetaSection">🛡️ NIFTY Theta</button>
   <button class="pt-tab" data-panel="millSection">🏭 Premium Mill</button>
@@ -402,7 +402,7 @@ main h3 .collapse-btn {
   <div class="table-wrap" id="raceTableWrap"><div class="flash">Computing standings…</div></div>
 
   <h3 style="margin-top:2rem">💡 Mandate Notes</h3>
-  <div class="flash" id="raceNotes">· OL/OH: ₹10k × up to 10 positions (5 per setup × 2 setups) = ₹1L max — 5-per-setup rule unchanged · HM Positional: ₹20k × 5 open = ₹1L · Theta/Mill: one ₹7.5k-margin spread at a time · BTC: defined-risk 0.01 BTC condor · HM Swing &amp; GC sized within ₹1L · Manual: your trades, ₹1L book.</div>
+  <div class="flash" id="raceNotes">· OL/OH: ₹10k × up to 10 positions (5 per setup × 2 setups) = ₹1L max — 5-per-setup rule unchanged · Intraday HM: ₹10k × 5 open = ₹1L · Theta/Mill: one ₹7.5k-margin spread at a time · BTC: defined-risk 0.01 BTC condor · HM Swing &amp; GC sized within ₹1L · Manual: your trades, ₹1L book.</div>
 </section>
 
 <section id="autoSection" class="pt-panel">
@@ -1078,10 +1078,10 @@ main h3 .collapse-btn {
 <!-- ===================== HM POSITIONAL — HILEGA MILEGA ON WEEKLY BARS ===================== -->
 <section id="hmHtfSection" class="pt-panel">
   <h2 style="color:#81c784">
-    📈 HM Positional — Hilega-Milega Weekly
+    📈 Intraday HM — HTF bias + 1H Hilega-Milega
     <span class="muted" style="font-size:0.75rem">— NK sir's HM on higher time frames: enter when RSI9(w)&gt;50 · red WMA21(RSI) below RSI · green WMA3 above red (momentum phase); exit weekly RSI&lt;50 or ≥86 · 5-yr backtest PF 2.19, avg +4.8%/trade · monthly tab below = investing watchlist (PF 4.22) · day relay ticks it post-close</span>
   </h2>
-  <div id="hmStatus" class="flash">Loading HM Positional desk…</div>
+  <div id="hmStatus" class="flash">Loading Intraday HM desk…</div>
 
   <div class="summary-cards">
     <div class="sum-card"><span class="sum-label">Open Positions</span><span class="sum-value" style="color:var(--green)" id="hmOpen">—</span></div>
@@ -1779,7 +1779,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         return { t: tally(c, function (x) { return x.exit_date || x.date; }, function (x) { return x.pnl; }),
           last: lastClose(c, function (x) { return x.exit_date || x.date; }, function (x) { return x.pnl; }),
           open: d && d.open ? d.open.length + ((d.pending || []).length) : 0, ok: !!d }; } },
-    { name: "📈 HM Positional", cap: 100000, src: "/data/scanners/htf-hm-latest.json",
+    { name: "📈 Intraday HM", cap: 100000, src: "/data/scanners/htf-hm-latest.json",
       adapt: function (d) { return { t: tally((d && d.closed) || [], function (x) { return x.exit_date; }, function (x) { return x.pnl; }),
         last: lastClose((d && d.closed) || [], function (x) { return x.exit_date; }, function (x) { return x.pnl; }),
         open: d && d.book ? d.book.open : 0, ok: !!d }; } },
@@ -1987,7 +1987,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
 </script>
 
 <script>
-/* ===== HM Positional desk — data/scanners/htf-hm-latest.json
+/* ===== Intraday HM desk — data/scanners/htf-hm-latest.json
    (NK Hilega-Milega weekly momentum; day relay ticks it post-close) ===== */
 (function () {
   "use strict";
@@ -2094,7 +2094,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       .catch(function () {
         var el = document.getElementById("hmStatus");
         if (el) { el.className = "flash";
-          el.textContent = "⚠️ Could not load HM Positional data yet."; }
+          el.textContent = "⚠️ Could not load Intraday HM data yet."; }
       });
   }
   load();
