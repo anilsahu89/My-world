@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import urllib.request
 from pathlib import Path
@@ -53,14 +54,33 @@ def configured() -> bool:
     return bool(tok and chat)
 
 
-def notify(text: str) -> bool:
-    """Send one message. Never raises; returns success.
+_TRADE_HEADER = re.compile(r"\b(OPEN|CLOSE|RE-ENTRY(?: \d+)?)\s*·")
 
-    Spam guard (13 Oct 2026 — owner hit a 90-alert day): identical text is
-    suppressed for 6 hours, and a hard cap of 40 sends/day applies beyond
-    which messages are counted instead of delivered. Distinct events
-    (different symbol/price) always pass; loops and repeated feed-flap
-    warnings cannot flood the chat any more."""
+
+def is_trade_event(text: str) -> bool:
+    """True only for a trade OPEN / CLOSE / RE-ENTRY message (header line
+    looks like '⚡ OPEN · desk' or '✅ CLOSE · desk (reason)')."""
+    lines = (text or "").strip().splitlines()
+    return bool(lines and _TRADE_HEADER.search(lines[0]))
+
+
+def notify(text: str, force: bool = False) -> bool:
+    """Send one TRADE alert. Never raises; returns success.
+
+    Owner rule (15 Oct 2026): Telegram is for trades only — a message goes
+    out when a paper trade is OPENED or CLOSED, nothing else. Feed
+    warnings, scan failures and status text are printed to the run log
+    instead (force=True is only for the one-off setup test message).
+
+    Duplicate guard: the same trade event (header + symbol/qty line) is sent
+    once per day. If a run loses its ledger write (cancelled job / git
+    reset) and re-fires the same OPEN or CLOSE, it is muted rather than
+    re-sent. A hard cap of 40 sends/day remains as a last-resort backstop."""
+    if not force and not is_trade_event(text):
+        print("telegram: non-trade message kept in log only -> "
+              + (text or "").strip().splitlines()[0][:120]
+              if (text or "").strip() else "telegram: empty message skipped")
+        return False
     tok, chat = _cfg()
     if not tok or not chat:
         return False
@@ -75,9 +95,12 @@ def notify(text: str) -> bool:
     today = _t.strftime("%Y-%m-%d")
     if state.get("day") != today:
         state = {"day": today, "count": 0, "suppressed": 0}
-    h = "h_" + hashlib.md5(text.strip().encode()).hexdigest()
+    # trade-event identity = first two lines (event header + side/symbol/qty),
+    # NOT the full text: prices, P&L and times differ on a re-fired duplicate
+    ident = "\n".join(text.strip().splitlines()[:2])
+    h = "h_" + hashlib.md5(ident.encode()).hexdigest()
     last = state.get(h) or 0
-    if now - last < 6 * 3600:            # identical text within 6h -> mute
+    if now - last < 20 * 3600:           # same trade event today -> mute
         state[h] = now
         state["suppressed"] = state.get("suppressed", 0) + 1
         try:
@@ -151,7 +174,7 @@ def _detect_and_test() -> int:
         CFG_FILE.write_text(json.dumps(cfg, indent=1) + "\n")
         print(f"chat_id {cfg['chat_id']} saved to {CFG_FILE.name}")
     ok = notify("✅ Mahi paper-trade alerts are LIVE.\n"
-                "Every open/close from the desks lands here.")
+                "Every open/close from the desks lands here.", force=True)
     print("test send:", "sent" if ok else "FAILED")
     return 0 if ok else 1
 

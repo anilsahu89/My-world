@@ -91,5 +91,10 @@ jobs:
           git rebase --abort >/dev/null 2>&1 || true
           git add -A -- data/
           git diff --cached --quiet || git commit -m "chore: cloud paper trade $(date -u +%Y-%m-%dT%H:%MZ)"
-          git pull --rebase origin main || { git rebase --abort >/dev/null 2>&1 || true; git reset --hard origin/main; }
-          git push || true
+          # keep this run's generated ledger on conflicts (-X theirs = ours
+          # while rebasing) instead of discarding it with reset --hard, which
+          # lost trades after their Telegram alert had already gone out
+          git pull --rebase origin main \
+            || { git rebase --abort >/dev/null 2>&1 || true; git pull --rebase -X theirs origin main; } \
+            || { git rebase --abort >/dev/null 2>&1 || true; git reset --hard origin/main; }
+          git push || { git pull --rebase -X theirs origin main && git push; } || true

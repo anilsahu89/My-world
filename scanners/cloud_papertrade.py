@@ -1058,6 +1058,7 @@ def commit_state() -> None:
              "data/alerts.json", "data/live_stocks.json",
              "data/gc_scan.json", "data/f3_picks.json",
              "data/bbtrap.json",
+             "data/.tg_state.json",   # alert dedupe state — must survive relay restarts
              "data/scanners/nifty-daily-theta-latest.json",
              "scanners/papertrades/daily_theta_trades.csv",
              "data/scanners/nifty-premium-mill-latest.json",

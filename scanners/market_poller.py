@@ -61,8 +61,17 @@ def commit_and_push() -> None:
         _git("pull", "--rebase", "origin", "main")
         if _git("push", "origin", "main").returncode != 0:
             _git("rebase", "--abort")
-            _git("reset", "--hard", "origin/main")
-            _git("push", "origin", "main")
+            # 15 Oct 2026: never throw away this run's ledger commit on a
+            # conflict. The old `reset --hard origin/main` erased freshly
+            # opened/closed trades AFTER their Telegram alert was sent, so
+            # the next tick re-fired the same alerts with no trade on the
+            # page. On conflict in generated data files, keep OUR side
+            # (-X theirs = the commit being replayed = ours in a rebase).
+            _git("pull", "--rebase", "-X", "theirs", "origin", "main")
+            if _git("push", "origin", "main").returncode != 0:
+                _git("rebase", "--abort")
+                _git("reset", "--hard", "origin/main")
+                _git("push", "origin", "main")
 
 
 def _api(method: str, path: str, body: dict | None = None):
