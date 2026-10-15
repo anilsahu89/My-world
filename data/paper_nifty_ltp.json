@@ -1,6 +1,6 @@
 {
- "updated_at": "15 Oct 2026 18:47 IST",
- "bhav_date": "2026-10-14",
+ "updated_at": "15 Oct 2026 19:47 IST",
+ "bhav_date": "2026-10-15",
  "desk": "NIFTY Long-Term Premium",
  "status": "RUNNING",
  "strategy": {
@@ -11,169 +11,135 @@
   "source": "NK Stock Talk session 2026-10-03; rules doc NK_NIFTY_PREMIUM_RULES.md"
  },
  "levels": {
-  "spot": 22613.2,
+  "spot": 22946.1,
   "weekly_20sma": 23755.4,
-  "near_iv": 0.131,
+  "near_iv": 0.121,
   "bias": "below (put side)"
  },
  "board": [
   {
-   "expiry": "2026-12-29",
-   "strike": 23700.0,
-   "opt": "CE",
-   "dte": 76,
-   "price": 221.6,
-   "vol": 10195,
-   "fair": 247.6,
-   "discount": 0.105,
-   "edge_pts": 26.0,
-   "own_iv": 0.124
-  },
-  {
-   "expiry": "2026-12-29",
-   "strike": 23650.0,
-   "opt": "CE",
-   "dte": 76,
-   "price": 237.9,
-   "vol": 160,
-   "fair": 261.6,
-   "discount": 0.091,
-   "edge_pts": 23.7,
-   "own_iv": 0.124
-  },
-  {
-   "expiry": "2026-12-29",
-   "strike": 23600.0,
-   "opt": "CE",
-   "dte": 76,
-   "price": 251.7,
-   "vol": 863,
-   "fair": 276.2,
-   "discount": 0.089,
-   "edge_pts": 24.5,
-   "own_iv": 0.124
-  },
-  {
-   "expiry": "2026-12-29",
-   "strike": 23450.0,
-   "opt": "CE",
-   "dte": 76,
-   "price": 297.25,
-   "vol": 105,
-   "fair": 323.7,
-   "discount": 0.082,
-   "edge_pts": 26.5,
-   "own_iv": 0.124
-  },
-  {
-   "expiry": "2026-12-29",
-   "strike": 23550.0,
-   "opt": "CE",
-   "dte": 76,
-   "price": 270.0,
-   "vol": 132,
-   "fair": 291.4,
-   "discount": 0.073,
-   "edge_pts": 21.4,
-   "own_iv": 0.125
-  },
-  {
-   "expiry": "2026-12-29",
-   "strike": 23500.0,
-   "opt": "CE",
-   "dte": 76,
-   "price": 285.3,
-   "vol": 6526,
-   "fair": 307.2,
-   "discount": 0.071,
-   "edge_pts": 21.9,
-   "own_iv": 0.125
-  },
-  {
-   "expiry": "2026-12-29",
-   "strike": 23400.0,
-   "opt": "CE",
-   "dte": 76,
-   "price": 321.5,
-   "vol": 413,
-   "fair": 340.8,
-   "discount": 0.057,
-   "edge_pts": 19.3,
-   "own_iv": 0.126
-  },
-  {
-   "expiry": "2026-12-29",
-   "strike": 23350.0,
-   "opt": "CE",
-   "dte": 76,
-   "price": 339.65,
-   "vol": 67,
-   "fair": 358.6,
-   "discount": 0.053,
-   "edge_pts": 19.0,
-   "own_iv": 0.126
-  },
-  {
-   "expiry": "2026-12-29",
-   "strike": 23300.0,
-   "opt": "CE",
-   "dte": 76,
-   "price": 361.3,
-   "vol": 235,
-   "fair": 377.0,
-   "discount": 0.042,
-   "edge_pts": 15.7,
-   "own_iv": 0.127
-  },
-  {
    "expiry": "2027-06-29",
-   "strike": 22500.0,
+   "strike": 24000.0,
    "opt": "CE",
-   "dte": 258,
-   "price": 1566.0,
-   "vol": 87,
-   "fair": 1631.8,
-   "discount": 0.04,
-   "edge_pts": 65.8,
-   "own_iv": 0.121
+   "dte": 257,
+   "price": 847.75,
+   "vol": 876,
+   "fair": 940.8,
+   "discount": 0.099,
+   "edge_pts": 93.0,
+   "own_iv": 0.109
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 24050.0,
+   "opt": "CE",
+   "dte": 75,
+   "price": 193.75,
+   "vol": 541,
+   "fair": 212.3,
+   "discount": 0.087,
+   "edge_pts": 18.5,
+   "own_iv": 0.116
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 23950.0,
+   "opt": "CE",
+   "dte": 75,
+   "price": 221.05,
+   "vol": 247,
+   "fair": 239.3,
+   "discount": 0.076,
+   "edge_pts": 18.2,
+   "own_iv": 0.116
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 23900.0,
+   "opt": "CE",
+   "dte": 75,
+   "price": 235.35,
+   "vol": 1651,
+   "fair": 253.8,
+   "discount": 0.073,
+   "edge_pts": 18.4,
+   "own_iv": 0.116
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 23850.0,
+   "opt": "CE",
+   "dte": 75,
+   "price": 249.5,
+   "vol": 88,
+   "fair": 268.9,
+   "discount": 0.072,
+   "edge_pts": 19.4,
+   "own_iv": 0.116
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 24000.0,
+   "opt": "CE",
+   "dte": 75,
+   "price": 211.1,
+   "vol": 33710,
+   "fair": 225.5,
+   "discount": 0.064,
+   "edge_pts": 14.4,
+   "own_iv": 0.117
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 23800.0,
+   "opt": "CE",
+   "dte": 75,
+   "price": 272.05,
+   "vol": 1114,
+   "fair": 284.6,
+   "discount": 0.044,
+   "edge_pts": 12.6,
+   "own_iv": 0.118
+  },
+  {
+   "expiry": "2027-03-30",
+   "strike": 24000.0,
+   "opt": "CE",
+   "dte": 166,
+   "price": 565.45,
+   "vol": 7537,
+   "fair": 590.2,
+   "discount": 0.042,
+   "edge_pts": 24.7,
+   "own_iv": 0.117
   }
  ],
  "blocked": [],
  "open": [
   {
-   "id": 1,
+   "id": 2,
    "side": "call",
-   "entry": "2026-10-07",
-   "days": 2,
-   "points": 9.0,
+   "entry": "2026-10-15",
+   "days": 1,
+   "points": 0.0,
    "far": {
-    "expiry": "2026-12-29",
-    "strike": 23700.0,
+    "expiry": "2027-06-29",
+    "strike": 24000.0,
     "qty": 225,
-    "entry": 212.55,
-    "mark": 221.6,
+    "entry": 847.75,
+    "mark": 847.75,
     "exit": null,
     "exit_date": null
    },
    "shorts": [
     {
-     "expiry": "2026-10-13",
-     "strike": 22850.0,
-     "qty": 225,
-     "entry": 41.9,
-     "mark": 41.9,
-     "exit": 41.9,
-     "exit_date": "2026-10-14"
-    },
-    {
      "expiry": "2026-10-19",
-     "strike": 22850.0,
+     "strike": 23200.0,
      "qty": 225,
-     "entry": 49.1,
-     "mark": 49.1,
+     "entry": 26.85,
+     "mark": 26.85,
      "exit": null,
-     "exit_date": null,
-     "rolled": true
+     "exit_date": null
     }
    ]
   }
@@ -183,21 +149,31 @@
    "id": 1,
    "side": "call",
    "entry": "2026-10-07",
+   "exit": "2026-10-15",
+   "reason": "MOMENTUM",
+   "points": -27.0,
+   "pnl": -6075.0,
+   "discount_at_entry": 0.054
+  },
+  {
+   "id": 2,
+   "side": "call",
+   "entry": "2026-10-15",
    "exit": null,
    "reason": null,
    "points": null,
    "pnl": null,
-   "discount_at_entry": 0.054
+   "discount_at_entry": 0.099
   }
  ],
  "summary": {
-  "trades": 1,
-  "closed": 0,
+  "trades": 2,
+  "closed": 1,
   "open": 1,
-  "this_month": 1,
+  "this_month": 2,
   "wins": 0,
-  "win_rate": 0,
-  "realized": 0,
-  "unrealized": 2036.25
+  "win_rate": 0.0,
+  "realized": -6075.0,
+  "unrealized": 0.0
  }
 }
