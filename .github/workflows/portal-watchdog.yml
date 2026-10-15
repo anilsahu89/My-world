@@ -1,0 +1,70 @@
+name: Portal Watchdog
+# Checks every paper-trade tab; auto-fixes stale desks / dead relay.
+on:
+  schedule:
+    # ~every 20 min around the clock (GitHub may throttle)
+    - cron: "5,25,45 * * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "check-only | fix (default)"
+        required: false
+        default: "fix"
+      force:
+        description: "Optional single fix: relay|nse|gc|btc_theta|qm|swing|ltp|arb"
+        required: false
+        default: ""
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Dependencies
+        run: |
+          pip install -q yfinance pandas requests pytz
+          pip install -q SmartAPI || pip install -q smartapi-python || true
+      - name: Run watchdog
+        env:
+          ANGEL_API_KEY: ${{ secrets.ANGEL_API_KEY }}
+          ANGEL_CLIENT_CODE: ${{ secrets.ANGEL_CLIENT_CODE }}
+          ANGEL_PASSWORD: ${{ secrets.ANGEL_PASSWORD }}
+          ANGEL_TOTP_SECRET: ${{ secrets.ANGEL_TOTP_SECRET }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # Set repo variable WATCHDOG_TELEGRAM=1 to get ops alerts on Telegram
+          WATCHDOG_TELEGRAM: ${{ vars.WATCHDOG_TELEGRAM }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          MODE="${{ github.event.inputs.mode || 'fix' }}"
+          FORCE="${{ github.event.inputs.force || '' }}"
+          ARGS=""
+          if [ "$MODE" = "check-only" ]; then ARGS="--check-only"; fi
+          if [ -n "$FORCE" ]; then ARGS="--fix $FORCE"; fi
+          python3 scanners/portal_watchdog.py $ARGS || true
+      - name: Commit health + any desk snapshots
+        run: |
+          git config user.name "portal-watchdog"
+          git config user.email "portal-watchdog@users.noreply.github.com"
+          git add data/portal_health.json \
+            data/paper_ol.json data/cloud_paper_ol_state.json \
+            data/paper_gc.json data/cloud_paper_gc_state.json \
+            data/paper_btc_theta.json data/cloud_btc_theta_state.json \
+            data/paper_qm.json data/cloud_qm_state.json \
+            data/swing_picks.json data/cloud_swing_state.json \
+            data/paper_nifty_ltp.json data/cloud_nifty_ltp_state.json \
+            data/paper_future_arb.json data/cloud_future_arb_state.json \
+            data/relay_status.json 2>/dev/null || true
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: portal watchdog $(date -u +%Y-%m-%dT%H:%MZ)"
+            git pull --rebase --autostash origin main || true
+            git push origin HEAD:main || git push
+          fi
