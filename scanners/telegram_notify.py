@@ -54,14 +54,32 @@ def configured() -> bool:
     return bool(tok and chat)
 
 
-_TRADE_HEADER = re.compile(r"\b(OPEN|CLOSE|RE-ENTRY(?: \d+)?)\s*·")
+# Trade-only gate (owner 15 Oct 2026, hardened same day):
+# line 1 must be an OPEN / CLOSE / RE-ENTRY header with a middle-dot desk tag.
+# Also accepts ASCII '-' or '|' as the separator (some desks differ).
+_TRADE_HEADER = re.compile(
+    r"\b(OPEN|CLOSE|RE-ENTRY(?:\s+\d+)?)\s*[·\-|]\s*\S+",
+    re.IGNORECASE,
+)
 
 
 def is_trade_event(text: str) -> bool:
-    """True only for a trade OPEN / CLOSE / RE-ENTRY message (header line
-    looks like '⚡ OPEN · desk' or '✅ CLOSE · desk (reason)')."""
-    lines = (text or "").strip().splitlines()
-    return bool(lines and _TRADE_HEADER.search(lines[0]))
+    """True only for a trade OPEN / CLOSE / RE-ENTRY message.
+
+    Header examples that PASS:
+      '⚡ OPEN · O=L/O=H (OL)'
+      '✅ CLOSE · Candle Swing (SL)'
+      '⚡ RE-ENTRY 1 · O=L/O=H (OH)'
+    Everything else (feed warnings, scan failures, status) is rejected.
+    """
+    lines = [ln for ln in (text or "").strip().splitlines() if ln.strip()]
+    if not lines:
+        return False
+    if not _TRADE_HEADER.search(lines[0]):
+        return False
+    # Require at least a second line (symbol / side / qty) so a bare header
+    # cannot slip through.
+    return len(lines) >= 2
 
 
 def notify(text: str, force: bool = False) -> bool:
@@ -75,11 +93,14 @@ def notify(text: str, force: bool = False) -> bool:
     Duplicate guard: the same trade event (header + symbol/qty line) is sent
     once per day. If a run loses its ledger write (cancelled job / git
     reset) and re-fires the same OPEN or CLOSE, it is muted rather than
-    re-sent. A hard cap of 40 sends/day remains as a last-resort backstop."""
+    re-sent. A hard cap of 20 sends/day remains as a last-resort backstop."""
     if not force and not is_trade_event(text):
-        print("telegram: non-trade message kept in log only -> "
-              + (text or "").strip().splitlines()[0][:120]
-              if (text or "").strip() else "telegram: empty message skipped")
+        first = ""
+        try:
+            first = (text or "").strip().splitlines()[0][:120]
+        except IndexError:
+            first = "(empty)"
+        print(f"telegram: non-trade message kept in log only -> {first}")
         return False
     tok, chat = _cfg()
     if not tok or not chat:
@@ -107,14 +128,16 @@ def notify(text: str, force: bool = False) -> bool:
             state_p.write_text(json.dumps(state))
         except OSError:
             pass
-        return True
-    if state.get("count", 0) >= 40:      # daily hard cap
+        print(f"telegram: duplicate muted -> {ident.splitlines()[0][:80]}")
+        return False
+    if state.get("count", 0) >= 20:      # daily hard cap (was 40)
         state["suppressed"] = state.get("suppressed", 0) + 1
         try:
             state_p.write_text(json.dumps(state))
         except OSError:
             pass
-        return True
+        print("telegram: daily cap 20 reached, suppressing")
+        return False
     state[h] = now
     state["count"] = state.get("count", 0) + 1
     try:
