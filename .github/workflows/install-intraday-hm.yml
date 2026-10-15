@@ -1,0 +1,39 @@
+name: Install Intraday HM
+on:
+  workflow_dispatch:
+  push:
+    branches: [fix/intraday-hm]
+    paths:
+      - 'scanners/_install_intraday_hm.py'
+      - 'scanners/_ihm.b64.0'
+      - 'scanners/_ihm.b64.1'
+      - 'scanners/_ihm.b64.2'
+      - 'scanners/_ihm.b64.3'
+      - 'scanners/_patch_poller_ihm.py'
+      - 'scanners/_patch_intraday_hm_html.py'
+      - '.github/workflows/install-intraday-hm.yml'
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/intraday-hm
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Apply engine + poller + HTML
+        run: |
+          python3 scanners/_install_intraday_hm.py
+          python3 scanners/_patch_poller_ihm.py
+          python3 scanners/_patch_intraday_hm_html.py || true
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add scanners/cloud_htf_hm.py scanners/market_poller.py paper.html || true
+          if git diff --staged --quiet; then echo none; else
+            git commit -m 'feat: Intraday HM (HTF bias + 1H) — replace HM Positional'
+            git push origin fix/intraday-hm
+          fi
