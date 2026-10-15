@@ -1,0 +1,33 @@
+name: Install HM Swing
+on:
+  workflow_dispatch:
+  push:
+    branches: [fix/hm-swing]
+    paths:
+      - 'scanners/_patch_to_hm_swing.py'
+      - 'scanners/_patch_hm_swing_html.py'
+      - '.github/workflows/install-hm-swing.yml'
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/hm-swing
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Apply HM Swing engine + portal labels
+        run: |
+          python3 scanners/_patch_to_hm_swing.py
+          python3 scanners/_patch_hm_swing_html.py
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add scanners/cloud_swing.py paper.html
+          if git diff --staged --quiet; then echo none; else
+            git commit -m 'feat(swing): HM weekly buy/sell — retire candlestick patterns'
+            git push origin fix/hm-swing
+          fi

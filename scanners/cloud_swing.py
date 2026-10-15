@@ -32,9 +32,10 @@ OUT = DATA / "swing_picks.json"
 IST = ZoneInfo("Asia/Kolkata")
 
 MARKETS = {"GOLD": "GC=F", "BTC": "BTC-USD"}
-CFG = {"end_date": "2026-12-31", "capital_inr": 10_000.0, "capital_usd": 60.0,
-       "max_open": 3, "rr": 2.0, "max_sessions": 10}
-ENABLED_SETUPS = {"CS-PINS", "CS-ENGF"}  # CS-MARU paused (0/6 live)
+CFG = {"end_date": "2026-12-31", "capital_inr": 10_000.0,
+       "max_open": 5, "rr": 2.0, "max_sessions": 15, "min_spread": 3.0,
+       "max_new_per_day": 3}
+ENABLED_SETUPS = {"HM-BUY", "HM-SELL"}  # CS-MARU paused (0/6 live)
 
 
 def now() -> datetime:
@@ -52,41 +53,69 @@ def write_state(state: dict) -> None:
     STATE_FILE.write_text(json.dumps(state, indent=1, ensure_ascii=False) + "\n")
 
 
-def detect(df: pd.DataFrame) -> list[tuple[str, str, float]]:
-    """(setup, side, sl_px) signals on the LAST completed bar."""
-    o = df["Open"].values
-    h, l, c, v = (df[k].values for k in ("High", "Low", "Close", "Volume"))
-    n = len(df)
-    if n < 30:
+
+def rsi9(c):
+    import numpy as np
+    d = c.diff()
+    up = d.clip(lower=0)
+    dn = -d.clip(upper=0)
+    ma_up = up.ewm(alpha=1/9, min_periods=9, adjust=False).mean()
+    ma_dn = dn.ewm(alpha=1/9, min_periods=9, adjust=False).mean()
+    rs = ma_up / ma_dn.replace(0, float("nan"))
+    return 100 - (100 / (1 + rs))
+
+
+def wma(s, n):
+    import numpy as np
+    w = np.arange(1, n + 1, dtype=float)
+    return s.rolling(n).apply(lambda x: (x * w).sum() / w.sum(), raw=True)
+
+
+def weekly_hm(df):
+    if df is None or len(df) < 80:
+        return None
+    w = df.resample("W-FRI").agg(
+        {"Open": "first", "High": "max", "Low": "min",
+         "Close": "last", "Volume": "sum"}).dropna(subset=["Close"])
+    if len(w) < 30:
+        return None
+    r = rsi9(w["Close"])
+    w = w.assign(rsi=r, red=wma(r, 21), green=wma(r, 3)).dropna(
+        subset=["rsi", "red", "green"])
+    return w if len(w) >= 5 else None
+
+
+def detect(df):
+    """Weekly HM newly-true signals. Returns list of (setup, side, sl_px)."""
+    w = weekly_hm(df)
+    if w is None or len(w) < 4:
         return []
-    i = n - 1
-    body = abs(float(c[i]) - float(o[i]))
-    rng = max(h[i] - l[i], 1e-9)
-    up_wick = h[i] - max(o[i], c[i])
-    lo20 = min(l[i - 19:i + 1])
-    atr = (sum(float(h[j] - l[j]) for j in range(i - 14, i)) / 14) or 1e-9
-    volavg = (sum(float(v[j]) for j in range(i - 20, i)) / 20) or 1e-9
-    rose3 = sum(c[i - k] > c[i - k - 1] for k in range(3)) >= 2
-    fell3 = sum(c[i - k] < c[i - k - 1] for k in range(3)) >= 2
-    at_low = (l[i] - lo20) / lo20 < 0.01
+    last, prev = w.iloc[-1], w.iloc[-2]
+    r, red, g = float(last["rsi"]), float(last["red"]), float(last["green"])
+    r1, red1, g1 = float(prev["rsi"]), float(prev["red"]), float(prev["green"])
+    spread = max(r, red, g) - min(r, red, g)
+    if spread < CFG.get("min_spread", 3.0):
+        return []
+    lo3 = float(w["Low"].iloc[-3:].min())
+    hi3 = float(w["High"].iloc[-3:].max())
+    buy_now = r > 50 and red < r and g > red
+    buy_prev = r1 > 50 and red1 < r1 and g1 > red1
+    sell_now = r < 50 and red > r and g < red
+    sell_prev = r1 < 50 and red1 > r1 and g1 < red1
     sigs = []
-    green = c[i] > o[i]
-    red = c[i] < o[i]
-    if green and body >= 0.85 * rng and rng >= 1.5 * atr and at_low:
-        sigs.append(("CS-MARU", "BUY", float(l[i])))
-    if red and up_wick >= 2 * body and (h[i] - max(o[i], c[i])) / rng >= 0.5 \
-            and rose3 and v[i] >= 1.5 * volavg:
-        sigs.append(("CS-PINS", "SELL", float(h[i])))
-    if green and i >= 1 and c[i - 1] < o[i - 1] and c[i] > o[i - 1] \
-            and o[i] < c[i - 1] and fell3 and at_low:
-        sigs.append(("CS-ENGF", "BUY", float(l[i])))
+    if buy_now and not buy_prev:
+        sigs.append(("HM-BUY", "BUY", lo3 * 0.995))
+    if sell_now and not sell_prev:
+        sigs.append(("HM-SELL", "SELL", hi3 * 1.005))
     return sigs
+
+
 
 
 def fetch_daily(ticker: str) -> pd.DataFrame | None:
     try:
-        df = yf.download(ticker, period="1y", interval="1d",
-                         progress=False, threads=False, auto_adjust=False)
+        df = yf.download(ticker, period="2y", interval="1d",
+                         progress=False, threads=False, auto_adjust=True)
         if df is None or df.empty:
             return None
         if isinstance(df.columns, pd.MultiIndex):
@@ -142,7 +171,7 @@ def run_day() -> dict:
             elif px_lo <= t["tgt"]:
                 exit_px, reason = t["tgt"], "TGT2R"
         if exit_px is None and t["sessions"] >= CFG["max_sessions"]:
-            exit_px, reason = px_cl, "TIME10"
+            exit_px, reason = px_cl, "TIME15"
         if exit_px is not None:
             sign = 1 if t["side"] == "BUY" else -1
             t.update(status="CLOSED", exit=round(exit_px, 2), reason=reason,
@@ -152,7 +181,7 @@ def run_day() -> dict:
                 emoji = "\u2705" if t["pnl"] > 0 else "\U0001F6D1"
                 cur = "$" if t.get("market") != "NSE" else "\u20b9"
                 telegram_notify.notify(
-                    emoji + " CLOSE \u00b7 Candle Swing (" + reason + ")\n"
+                    emoji + " CLOSE \u00b7 HM Swing (" + reason + ")\n"
                     + t["symbol"] + " " + t["side"] + " qty " + str(t["qty"])
                     + "\nP&L " + cur + "{:,.0f}".format(t["pnl"]))
             except Exception:
@@ -180,7 +209,7 @@ def run_day() -> dict:
             import telegram_notify
             cur = "$" if t.get("market") != "NSE" else "\u20b9"
             telegram_notify.notify(
-                "\U0001F486 OPEN \u00b7 Candle Swing\n"
+                "\U0001F486 OPEN \u00b7 HM Swing\n"
                 + t["symbol"] + " " + t["side"] + " qty " + str(qty)
                 + "\nentry " + cur + "{:,.2f}".format(entry))
         except Exception:
@@ -189,7 +218,7 @@ def run_day() -> dict:
     # 3) scan today's completed bars for NEW signals (fill tomorrow at open)
     open_n = sum(1 for t in trades if t["status"] == "OPEN")
     existing = {(t["symbol"], t["setup"], t["signal_date"]) for t in trades}
-    prio = {"CS-PINS": 0, "CS-ENGF": 1, "CS-MARU": 9}
+    prio = {"HM-BUY": 0, "HM-SELL": 1}
     cands = []
 
     def consider(market: str, symbol: str, df: pd.DataFrame) -> None:
@@ -262,11 +291,11 @@ def export(state: dict) -> dict:
     wins = [t for t in closed if (t["pnl"] or 0) > 0]
     payload = {
         "updated_at": now().strftime("%d %b %Y %H:%M:%S IST"),
-        "rule": "top-3 candlestick setups (backtested 5y): MARU-at-low BUY "
+        "rule": "HM Swing (weekly): BUY RSI9>50 red<RSI green>red · SELL RSI9<50 red>RSI green<red · next open · 3w extreme SL · 2R · 15 sessions · max 5"
                 "PF 1.39 · ShootingStar+VOL SELL PF 1.15 · Engulf-at-low BUY "
                 "PF 1.13 | entry next open, SL=pattern extreme, target 2R, "
                 "10-session stop | max 5 concurrent",
-        "note": "NSE backtested; GOLD/BTC patterns untested (trial). "
+        "note": "Candlestick CS-MARU/PINS/ENGF retired 15 Oct 2026. Same HM lines as HM Positional."
                 "Runs in the cloud (GitHub Actions) — no Mac required.",
         "end_date": CFG["end_date"],
         "summary": {"open": len(opens), "pending": len(pend),
