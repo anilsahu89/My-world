@@ -4,46 +4,32 @@ p = Path("paper.html")
 html = p.read_text()
 
 if "hmbOpenPnl" not in html:
-    old = (
-        '  <div class="summary-cards">\n'
-        '    <div class="sum-card"><span class="sum-label">Last Scan</span><span class="sum-value" id="hmbScan">—</span></div>\n'
-        '    <div class="sum-card"><span class="sum-label">Status</span><span class="sum-value" id="hmbStatusV">—</span></div>\n'
-        '    <div class="sum-card"><span class="sum-label">Live States Tracked</span><span class="sum-value" id="hmbStates">—</span></div>\n'
-        '  </div>\n\n'
-        '  <h3 style="color:var(--green)">📊 HM States — BTC & Gold, all frames</h3>\n'
-        '  <div class="table-wrap" id="hmbTableWrap"><div class="flash">Loading…</div></div>\n\n'
-        '  <h3 style="margin-top:2rem">📜 Desk Log</h3>\n'
-        '  <pre id="hmbLog" style="white-space:pre-wrap;font-size:0.75rem;color:var(--muted);background:rgba(0,0,0,0.2);padding:0.8rem;border-radius:8px;max-height:320px;overflow:auto">—</pre>\n'
-        '</section>'
+    marker = '<div class="sum-card"><span class="sum-label">Live States Tracked</span><span class="sum-value" id="hmbStates">—</span></div>'
+    if marker not in html:
+        raise SystemExit("hmbStates marker missing")
+    extra = (
+        '\n    <div class="sum-card"><span class="sum-label">Open</span><span class="sum-value" id="hmbOpenN">—</span></div>'
+        '\n    <div class="sum-card"><span class="sum-label">Open P&L (₹)</span><span class="sum-value" id="hmbOpenPnl">—</span></div>'
+        '\n    <div class="sum-card"><span class="sum-label">Realized P&L (₹)</span><span class="sum-value" id="hmbRealized">—</span></div>'
+        '\n    <div class="sum-card"><span class="sum-label">Net P&L (₹)</span><span class="sum-value" id="hmbNet">—</span></div>'
     )
-    new = (
-        '  <div class="summary-cards">\n'
-        '    <div class="sum-card"><span class="sum-label">Last Scan</span><span class="sum-value" id="hmbScan">—</span></div>\n'
-        '    <div class="sum-card"><span class="sum-label">Status</span><span class="sum-value" id="hmbStatusV">—</span></div>\n'
-        '    <div class="sum-card"><span class="sum-label">Open</span><span class="sum-value" id="hmbOpenN">—</span></div>\n'
-        '    <div class="sum-card"><span class="sum-label">Open P&L (₹)</span><span class="sum-value" id="hmbOpenPnl">—</span></div>\n'
-        '    <div class="sum-card"><span class="sum-label">Realized P&L (₹)</span><span class="sum-value" id="hmbRealized">—</span></div>\n'
-        '    <div class="sum-card"><span class="sum-label">Net P&L (₹)</span><span class="sum-value" id="hmbNet">—</span></div>\n'
-        '  </div>\n\n'
+    html = html.replace(marker, marker + extra, 1)
+    anchor = '  <h3 style="color:var(--green)">📊 HM States — BTC & Gold, all frames</h3>'
+    if anchor not in html:
+        raise SystemExit("states h3 missing")
+    open_block = (
         '  <h3 style="color:var(--green)">🟢 Open positions <span class="muted" id="hmbOpenCount">(0)</span></h3>\n'
         '  <div class="table-wrap" id="hmbOpenWrap"><div class="flash">No open HM BTC/Gold positions.</div></div>\n\n'
         '  <h3 style="margin-top:1.5rem;color:var(--red)">🔴 Closed <span class="muted" id="hmbClosedCount">(0)</span></h3>\n'
         '  <div class="table-wrap" id="hmbClosedWrap"><div class="flash">No closed trades yet.</div></div>\n\n'
-        '  <h3 style="margin-top:1.5rem;color:var(--green)">📊 HM States — BTC & Gold, all frames</h3>\n'
-        '  <div class="table-wrap" id="hmbTableWrap"><div class="flash">Loading…</div></div>\n\n'
-        '  <h3 style="margin-top:2rem">📜 Desk Log</h3>\n'
-        '  <pre id="hmbLog" style="white-space:pre-wrap;font-size:0.75rem;color:var(--muted);background:rgba(0,0,0,0.2);padding:0.8rem;border-radius:8px;max-height:320px;overflow:auto">—</pre>\n'
-        '</section>'
     )
-    if old not in html:
-        raise SystemExit("cards block not found")
-    html = html.replace(old, new, 1)
-    print("cards patched")
+    html = html.replace(anchor, open_block + anchor, 1)
+    print("cards+tables inserted")
 else:
     print("cards already present")
 
 needle = 'document.getElementById("hmbStatusV").textContent = esc(d.status || "—");\n        document.getElementById("hmbStates").textContent = String(d.signals || 0);'
-if "function inr" in html and "hmbOpenWrap" in html and needle not in html:
+if "hmbOpenWrap" in html and "function inr" in html and "book.open_pnl_inr" in html:
     print("js already patched")
 elif needle not in html:
     raise SystemExit("js needle not found")
@@ -83,4 +69,4 @@ else:
     print("js patched")
 
 p.write_text(html)
-print("ok", "hmbOpenPnl" in html, "inr(" in html)
+print("ok", "hmbOpenPnl" in html)
