@@ -1,0 +1,40 @@
+name: Apply RVOL gate fix
+on:
+  workflow_dispatch:
+  push:
+    branches: [fix/rvol-1.0-0.8]
+    paths:
+      - '.github/workflows/apply-rvol-fix.yml'
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/rvol-1.0-0.8
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Lower RVOL thresholds
+        run: |
+          set -e
+          FILE=scanners/cloud_papertrade.py
+          # Lower OL 1.5 -> 1.0 and OH 1.2 -> 0.8
+          sed -i 's/NSE_RVOL_OL = 1\.5/NSE_RVOL_OL = 1.0/' "$FILE"
+          sed -i 's/NSE_RVOL_OH = 1\.2/NSE_RVOL_OH = 0.8/' "$FILE"
+          # Update inline comments on those lines if still present
+          sed -i 's/# O=L long  (was 3.0 on the old scale)/# O=L long  (lowered 15 Oct from 1.5 \u2014 restart flow, tune from vol_audit)/' "$FILE"
+          sed -i 's/# O=H short (was 1.5 on the old scale)/# O=H short (lowered 15 Oct from 1.2 \u2014 restart flow, tune from vol_audit)/' "$FILE"
+          grep -n 'NSE_RVOL_O[LH]' "$FILE" | head -5
+      - name: Commit if changed
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add scanners/cloud_papertrade.py
+          if git diff --staged --quiet; then
+            echo 'No changes to commit'
+          else
+            git commit -m 'fix(nse): lower RVOL gates OL=1.0 OH=0.8 so O=L/O=H can trade again'
+            git push origin fix/rvol-1.0-0.8
+          fi
