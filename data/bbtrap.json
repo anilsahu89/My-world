@@ -1,28 +1,29 @@
 {
- "fetched_at": "2026-10-15 14:06:46",
- "latest_date": "2026-10-14",
+ "fetched_at": "2026-10-15 17:31:53",
+ "latest_date": "2026-10-15",
  "universe_count": 197,
- "shorts_count": 0,
- "longs_count": 4,
- "shorts": [],
- "longs": [
+ "shorts_count": 1,
+ "longs_count": 3,
+ "shorts": [
   {
    "kind": "bb",
-   "type": "LONG",
-   "symbol": "BAJAJ-AUTO",
-   "entry_price": 9884.0,
-   "sl_price": 9830.5,
-   "target_price": 9991.0,
-   "rr": 2.0,
-   "wick_pct": 58,
+   "type": "SHORT",
+   "symbol": "ICICIGI",
+   "entry_price": 1713.0,
+   "sl_price": 1726.38,
+   "target_price": 1677.32,
+   "rr": 2.7,
+   "wick_pct": 56,
    "vol_multiple": 2.8,
-   "rsi": 10,
-   "rsi_pass": false,
-   "primary_range": 107.0,
-   "primary_date": "2026-10-06",
-   "alert_date": "2026-10-07",
-   "score": 28.5
-  },
+   "rsi": 74,
+   "rsi_pass": true,
+   "primary_range": 44.6,
+   "primary_date": "2026-10-13",
+   "alert_date": "2026-10-14",
+   "score": 45.0
+  }
+ ],
+ "longs": [
   {
    "kind": "bb",
    "type": "LONG",
