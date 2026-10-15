@@ -59,8 +59,8 @@ NSE_MIN_VOL_OL = 3.0           # legacy value, no longer used for entries
 # day's volume expected by this time). 1.0 = a normal session. Deliberately
 # LOW to start trading again; vol_audit in the snapshot logs every
 # candidate's RVOL so the thresholds can be tuned from real data.
-NSE_RVOL_OL = 1.5              # O=L long  (was 3.0 on the old scale)
-NSE_RVOL_OH = 1.2              # O=H short (was 1.5 on the old scale)
+NSE_RVOL_OL = 1.0              # O=L long  (lowered 15 Oct from 1.5 2014 restart flow, tune from vol_audit)
+NSE_RVOL_OH = 0.8              # O=H short (lowered 15 Oct from 1.2 2014 restart flow, tune from vol_audit)
 # cumulative share of a normal day's volume traded N minutes after 09:15
 # IST — an ASSUMED U-shaped NSE profile (tune with vol_audit data)
 VOL_PROFILE = [(0, 0.0), (5, 0.05), (10, 0.08), (15, 0.11), (30, 0.17),
