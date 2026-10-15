@@ -285,12 +285,24 @@ def main():
     report = "\n".join(lines)
     print(report)
 
+    # open positions for the portal (side label segregates the setup kind)
+    side_label = {"GAP-ANGLE-BUY": "BUY", "GAP-ANGLE-BUY-SUB50": "BUY · sub-50",
+                  "GAP-ANGLE-SELL": "SELL", "GAP-ANGLE-SELL-OVER50": "SELL · over-50",
+                  "NEW-LOW-TRICK-SHORT": "SHORT · new-low"}
+    open_rows = [{"asset": r["asset"], "frame": r["frame"], "setup": r["setup"],
+                  "side": side_label.get(r["setup"], side_of(r["setup"])),
+                  "entry_date": r["entry_date"], "entry_price": r["entry_price"],
+                  "stop_ref": r.get("stop_ref", ""), "lots": r["lots"],
+                  "capital": r["capital"]} for _, r in led.iterrows()
+                 if r["status"] == "OPEN"]
+
     JSON_OUT.parent.mkdir(parents=True, exist_ok=True)
     JSON_OUT.write_text(json.dumps({
         "strategy": "hm-btc-gold",
         "scanned_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
         "status": "success",
         "signals": sum(len(e["entry_candidates"]) for e in rows),
+        "open": open_rows,
         "table": {"headers": ["Asset", "Frame", "Bar", "RSI", "Red", "Green", "Gap", "Angle", "Setups"],
                   "rows": [[e["asset"], e["frame"], e["date"], e["rsi"], e["red"], e["green"], e["gap"], e["angle"],
                             ", ".join(s for s, _, _f in e["entry_candidates"]) or (", ".join(e["setups"]) or ("NEW-LOW-TRICK" if e["trick"] else ""))] for e in rows]},
