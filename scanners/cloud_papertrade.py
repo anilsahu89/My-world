@@ -59,8 +59,8 @@ NSE_MIN_VOL_OL = 3.0           # legacy value, no longer used for entries
 # day's volume expected by this time). 1.0 = a normal session. Deliberately
 # LOW to start trading again; vol_audit in the snapshot logs every
 # candidate's RVOL so the thresholds can be tuned from real data.
-NSE_RVOL_OL = 1.5              # O=L long  (was 3.0 on the old scale)
-NSE_RVOL_OH = 1.2              # O=H short (was 1.5 on the old scale)
+NSE_RVOL_OL = 1.0              # O=L long  (lowered 15 Oct from 1.5 — restart flow)
+NSE_RVOL_OH = 0.8              # O=H short (lowered 15 Oct from 1.2 — restart flow)
 # cumulative share of a normal day's volume traded N minutes after 09:15
 # IST — an ASSUMED U-shaped NSE profile (tune with vol_audit data)
 VOL_PROFILE = [(0, 0.0), (5, 0.05), (10, 0.08), (15, 0.11), (30, 0.17),
@@ -109,6 +109,14 @@ def read_json(path: Path, fallback):
 
 def write_json(path: Path, value) -> None:
     path.write_text(json.dumps(value, indent=1, ensure_ascii=False) + "\n")
+
+
+def _persist_nse(state: dict) -> None:
+    """Write ledger to disk BEFORE Telegram so an alert never outlives the trade."""
+    try:
+        write_json(NSE_STATE, state)
+    except Exception as e:
+        print(f"persist nse state failed: {e}", flush=True)
 
 
 def empty_state() -> dict:
@@ -183,15 +191,8 @@ def _yahoo_fallback_alert(kite_cfg: bool, angel_cfg: bool) -> None:
         stamp.write_text(str(_t.time()))
     except Exception:
         pass
-    try:
-        import telegram_notify
-        telegram_notify.notify(
-            "\u26A0\uFE0F Quotes on the DELAYED Yahoo fallback (market hours)\n"
-            + " + ".join(down)
-            + " failed this poll \u2014 auto-retry on the next one; "
-              "fills are approximate meanwhile.")
-    except Exception:
-        pass
+    print("feed warning: delayed Yahoo fallback (market hours): " + " + ".join(down), flush=True)
+
 
 
 def _attach_volume(quotes: dict[str, dict]) -> None:
@@ -590,6 +591,7 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
                 "exit_time": None, "exit_price": None, "reason": None, "pnl": None,
                 "status": "OPEN", "feed": FEED_NAME})
             state["next_id"] += 1
+            _persist_nse(state)
             try:
                 telegram_notify.notify(
                     f"⚡ OPEN · O=L/O=H ({setup.upper()})\n"
@@ -607,12 +609,20 @@ def f3_scan(state: dict, quotes: dict, moment: datetime) -> None:
         return
     if not (F3_WINDOW[0] <= moment.time() <= F3_WINDOW[1]):
         return
-    state["f3_done_date"] = today
+    # f3_done_date set only after a successful scan (below)
     if nifty_bias() != 1:
+        print("f3_scan: NIFTY bias not long — retry later in window", flush=True)
         return
     symbols = nse_symbols()
-    bars = yf.download([f"{s}.NS" for s in symbols], period="5d", interval="1h",
-                       group_by="ticker", progress=False, threads=True, auto_adjust=False)
+    try:
+        bars = yf.download([f"{s}.NS" for s in symbols], period="5d", interval="1h",
+                           group_by="ticker", progress=False, threads=True, auto_adjust=False)
+    except Exception as e:
+        print(f"f3_scan: hourly bars download failed — retry later: {e}", flush=True)
+        return
+    if bars is None or getattr(bars, "empty", False):
+        print("f3_scan: empty hourly bars — retry later", flush=True)
+        return
     picks = []
     for symbol in symbols:
         try:
@@ -633,6 +643,8 @@ def f3_scan(state: dict, quotes: dict, moment: datetime) -> None:
         except (KeyError, TypeError, ValueError, IndexError):
             continue
     picks.sort(reverse=True)
+    # Successful scan — mark done even if 0 picks
+    state["f3_done_date"] = today
     stamp = moment.strftime("%H:%M:%S")
     already = {t["symbol"] for t in state["trades"]
                if t.get("date") == today and t.get("setup") == "f3"}
@@ -650,6 +662,7 @@ def f3_scan(state: dict, quotes: dict, moment: datetime) -> None:
             "exit_time": None, "exit_price": None, "reason": None, "pnl": None,
             "status": "OPEN", "feed": f"{FEED_NAME}-f3", "drive_pct": round(drive, 2)})
         state["next_id"] += 1
+        _persist_nse(state)
         try:
             telegram_notify.notify(
                 f"⚡ OPEN · First-3 momentum\n"
@@ -1262,14 +1275,8 @@ def main() -> None:
                     # unguarded, a bad symbol once killed the whole evening
                     # tick and froze the swing desk for days (5-7 Oct)
                     print(f"swing EOD run failed: {e}", flush=True)
-                    try:
-                        import telegram_notify
-                        telegram_notify.notify(
-                            "\u26A0\uFE0F Candle Swing EOD scan failed\n"
-                            + str(e)[:300]
-                            + "\nDesk state unchanged; retried next tick.")
-                    except Exception:
-                        pass
+                    print(f"swing EOD failed (telegram suppressed): {e}", flush=True)
+
         # BTC 0DTE theta desk (rulebook BTC_0DTE_RULES.md v2): 24/7 market,
         # piggybacks on every gc tick — marks/exits continuously, opens the
         # daily structure inside its 13:30-15:29 IST entry window
