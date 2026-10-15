@@ -1,0 +1,34 @@
+name: Install HM BTC/Gold INR P&L
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scanners/_install_hmb_pnl.py'
+      - 'scanners/_hmb_desk.b64.0'
+      - 'scanners/_hmb_desk.b64.1'
+      - 'scanners/_patch_hmb_pnl_html.py'
+      - '.github/workflows/install-hmb-pnl.yml'
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Apply desk + HTML
+        run: |
+          python3 scanners/_install_hmb_pnl.py
+          python3 scanners/_patch_hmb_pnl_html.py
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add scanners/hm_btc_gold_desk.py paper.html || true
+          if git diff --staged --quiet; then echo none; else
+            git commit -m 'feat(hm-btc-gold): engine + portal INR P&L columns'
+            git push
+          fi
