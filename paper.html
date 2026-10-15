@@ -1009,9 +1009,19 @@ main h3 .collapse-btn {
     <div class="sum-card"><span class="sum-label">Last Scan</span><span class="sum-value" id="hmbScan">—</span></div>
     <div class="sum-card"><span class="sum-label">Status</span><span class="sum-value" id="hmbStatusV">—</span></div>
     <div class="sum-card"><span class="sum-label">Live States Tracked</span><span class="sum-value" id="hmbStates">—</span></div>
+    <div class="sum-card"><span class="sum-label">Open</span><span class="sum-value" id="hmbOpenN">—</span></div>
+    <div class="sum-card"><span class="sum-label">Open P&L (₹)</span><span class="sum-value" id="hmbOpenPnl">—</span></div>
+    <div class="sum-card"><span class="sum-label">Realized P&L (₹)</span><span class="sum-value" id="hmbRealized">—</span></div>
+    <div class="sum-card"><span class="sum-label">Net P&L (₹)</span><span class="sum-value" id="hmbNet">—</span></div>
   </div>
 
   <h3 style="color:var(--green)">📊 HM States — BTC &amp; Gold, all frames</h3>
+    <h3 style="color:var(--green)">🟢 Open positions <span class="muted" id="hmbOpenCount">(0)</span></h3>
+  <div class="table-wrap" id="hmbOpenWrap"><div class="flash">No open HM BTC/Gold positions.</div></div>
+
+  <h3 style="margin-top:1.5rem;color:var(--red)">🔴 Closed <span class="muted" id="hmbClosedCount">(0)</span></h3>
+  <div class="table-wrap" id="hmbClosedWrap"><div class="flash">No closed trades yet.</div></div>
+
   <div class="table-wrap" id="hmbTableWrap"><div class="flash">Loading…</div></div>
 
   <h3 style="margin-top:2rem">📜 Desk Log</h3>
@@ -2317,7 +2327,35 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         document.getElementById("hmbScan").textContent =
           esc((d.scanned_at || "").replace(" IST", ""));
         document.getElementById("hmbStatusV").textContent = esc(d.status || "—");
-        document.getElementById("hmbStates").textContent = String(d.signals || 0);
+        var book = d.book || {}, opens = d.open || [], closed = d.closed || [];
+        function inr(n){ if(n==null||n===""||isNaN(Number(n)))return "—"; var v=Number(n); return "₹"+(v>0?"+":"")+v.toLocaleString("en-IN",{maximumFractionDigits:0}); }
+        function clsP(n){ n=Number(n); if(isNaN(n)||n===0)return ""; return n>0?"pos":"neg"; }
+        var oN=document.getElementById("hmbOpenN"); if(oN)oN.textContent=String(book.open!=null?book.open:opens.length);
+        var opEl=document.getElementById("hmbOpenPnl"); if(opEl){opEl.textContent=inr(book.open_pnl_inr);opEl.className="sum-value "+clsP(book.open_pnl_inr);}
+        var rzEl=document.getElementById("hmbRealized"); if(rzEl){rzEl.textContent=inr(book.realized_pnl_inr);rzEl.className="sum-value "+clsP(book.realized_pnl_inr);}
+        var ntEl=document.getElementById("hmbNet"); if(ntEl){ntEl.textContent=inr(book.net_pnl_inr);ntEl.className="sum-value "+clsP(book.net_pnl_inr);}
+        var oc=document.getElementById("hmbOpenCount"); if(oc)oc.textContent="("+opens.length+")";
+        var ow=document.getElementById("hmbOpenWrap");
+        if(ow){ if(!opens.length) ow.innerHTML='<div class="flash">No open HM BTC/Gold positions.</div>';
+          else { var h="<table><thead><tr><th>Asset</th><th>Frame</th><th>Setup</th><th>Side</th><th>Entry</th><th>Mark</th><th>Capital</th><th>P&L (₹)</th><th>%</th></tr></thead><tbody>";
+            opens.forEach(function(t){ h+="<tr><td><strong>"+esc(t.asset)+"</strong></td><td>"+esc(t.frame)+"</td><td>"+esc(t.setup)+"</td><td>"+esc(t.side)+"</td>"
+              +"<td>"+(t.entry_price!=null?Number(t.entry_price).toLocaleString():"—")+"</td>"
+              +"<td>"+(t.mark!=null?Number(t.mark).toLocaleString():"—")+"</td>"
+              +"<td>₹"+Number(t.capital||0).toLocaleString("en-IN")+"</td>"
+              +'<td class="'+clsP(t.pnl_inr)+'"><strong>'+inr(t.pnl_inr)+"</strong></td>"
+              +'<td class="'+clsP(t.pnl_pct)+'">'+(t.pnl_pct!=null?(Number(t.pnl_pct)>0?"+":"")+Number(t.pnl_pct).toFixed(2)+"%":"—")+"</td></tr>"; });
+            ow.innerHTML=h+"</tbody></table>"; } }
+        var cc=document.getElementById("hmbClosedCount"); if(cc)cc.textContent="("+closed.length+")";
+        var cw=document.getElementById("hmbClosedWrap");
+        if(cw){ if(!closed.length) cw.innerHTML='<div class="flash">No closed trades yet.</div>';
+          else { var h2="<table><thead><tr><th>Asset</th><th>Frame</th><th>Setup</th><th>Side</th><th>Entry</th><th>Exit</th><th>Reason</th><th>P&L (₹)</th></tr></thead><tbody>";
+            closed.slice().reverse().forEach(function(t){ var win=Number(t.pnl_inr)>0; h2+='<tr class="'+(win?"row-win":"row-loss")+'"><td><strong>'+esc(t.asset)+"</strong></td><td>"+esc(t.frame)+"</td><td>"+esc(t.setup)+"</td><td>"+esc(t.side)+"</td>"
+              +"<td>"+(t.entry_price!=null?Number(t.entry_price).toLocaleString():"—")+"</td>"
+              +"<td>"+(t.exit_price!=null?Number(t.exit_price).toLocaleString():"—")+"</td>"
+              +"<td>"+esc(t.exit_reason||"—")+"</td>"
+              +'<td class="'+clsP(t.pnl_inr)+'"><strong>'+inr(t.pnl_inr)+"</strong></td></tr>"; });
+            cw.innerHTML=h2+"</tbody></table>"; } }
+
         var rows = (d.table || {}).rows || [], heads = (d.table || {}).headers || [];
         var tw = document.getElementById("hmbTableWrap");
         if (!rows.length) {
