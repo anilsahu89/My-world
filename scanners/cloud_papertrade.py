@@ -185,11 +185,10 @@ def _yahoo_fallback_alert(kite_cfg: bool, angel_cfg: bool) -> None:
         pass
     try:
         import telegram_notify
-        telegram_notify.notify(
-            "\u26A0\uFE0F Quotes on the DELAYED Yahoo fallback (market hours)\n"
-            + " + ".join(down)
-            + " failed this poll \u2014 auto-retry on the next one; "
-              "fills are approximate meanwhile.")
+        # owner directive 15 Oct: Telegram carries ONLY trade open/close
+        # events. Feed health is a console/status matter, not an alert.
+        print(f"feed fallback active (market hours): {' + '.join(down)} — "
+              f"retry next poll; fills approximate meanwhile", flush=True)
     except Exception:
         pass
 
