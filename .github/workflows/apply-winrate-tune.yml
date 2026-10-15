@@ -1,0 +1,33 @@
+name: Apply win-rate tune
+on:
+  workflow_dispatch:
+  push:
+    branches: [fix/winrate-tune]
+    paths:
+      - 'scanners/_patch_winrate.py'
+      - 'scanners/_patch_swing_qm.py'
+      - '.github/workflows/apply-winrate-tune.yml'
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/winrate-tune
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Patch engines
+        run: |
+          python3 scanners/_patch_winrate.py
+          python3 scanners/_patch_swing_qm.py
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add scanners/cloud_papertrade.py scanners/cloud_swing.py scanners/cloud_qm.py
+          if git diff --staged --quiet; then echo none; else
+            git commit -m 'fix: win-rate tune — O=L/O=H/F3, pause CS-MARU, QM caps'
+            git push origin fix/winrate-tune
+          fi

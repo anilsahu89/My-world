@@ -59,8 +59,8 @@ NSE_MIN_VOL_OL = 3.0           # legacy value, no longer used for entries
 # day's volume expected by this time). 1.0 = a normal session. Deliberately
 # LOW to start trading again; vol_audit in the snapshot logs every
 # candidate's RVOL so the thresholds can be tuned from real data.
-NSE_RVOL_OL = 1.5              # O=L long  (was 3.0 on the old scale)
-NSE_RVOL_OH = 1.2              # O=H short (was 1.5 on the old scale)
+NSE_RVOL_OL = 1.3              # O=L long — stricter (win-rate tune 15 Oct)              # O=L long  (was 3.0 on the old scale)
+NSE_RVOL_OH = 1.0              # O=H short — moderate (win-rate tune 15 Oct)              # O=H short (was 1.5 on the old scale)
 # cumulative share of a normal day's volume traded N minutes after 09:15
 # IST — an ASSUMED U-shaped NSE profile (tune with vol_audit data)
 VOL_PROFILE = [(0, 0.0), (5, 0.05), (10, 0.08), (15, 0.11), (30, 0.17),
@@ -70,9 +70,12 @@ NSE_ENTRY_CUTOFF = time(9, 45)
 NSE_TIME_STOP = time(10, 45)  # scratch ol longs not in profit by now
 NSE_SQUARE_OFF = time(15, 0)
 NSE_REENTRY = True             # re-entry after a stopped O=L/O=H trade
-NSE_REENTRY_MAX = 2            # max re-entries per symbol+setup per day
+NSE_REENTRY_MAX = 1            # max re-entries (was 2)
+NSE_REENTRY_OL = False         # O=L: no re-entry
+NSE_MAX_LOSS = 100.0           # INR hard cap risk per name
 F3_WINDOW = (time(12, 20), time(13, 30))
-F3_MAX_TRADES = 5
+F3_MAX_TRADES = 3              # quality over quantity (was 5)
+F3_MIN_DRIVE = 0.4             # min drive % for First-3
 
 GC_MARKETS = {"GOLD": "GC=F", "BTC": "BTC-USD"}
 GC_CAPITAL = 60.0
@@ -357,6 +360,8 @@ def _watch_reentry(state: dict, trade: dict, today: str, stamp: str) -> None:
     papertrade_ol/analysis (see REENTRY_TEST_NOTES.md)."""
     if not NSE_REENTRY or trade.get("setup") not in ("ol", "oh"):
         return
+    if trade.get("setup") == "ol" and not NSE_REENTRY_OL:
+        return
     if trade.get("reason") not in ("SL", "CANDLE-CLOSE"):
         return
     armed = {"symbol": trade["symbol"], "setup": trade["setup"],
@@ -549,7 +554,7 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
         # falling one; unknown bias blocks longs, not shorts
         if setup == "ol" and bias != 1:
             continue
-        if setup == "oh" and bias == 1:
+        if setup == "oh" and bias != -1:
             continue
         # volume gate (rebuilt 15 Oct): RVOL vs time-of-day expectation —
         # O=L >= NSE_RVOL_OL, O=H >= NSE_RVOL_OH. Blocked picks are counted
@@ -577,15 +582,20 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
             ext = quote["ltp"] / quote["open"]
             if (setup == "ol" and ext > 1.03) or (setup == "oh" and ext < 0.97):
                 continue
-            qty = int(NSE_CAPITAL / quote["ltp"])
+            entry_px = quote["ltp"]
+            sl_px = (quote["low"] if side == "BUY" else quote["high"]) * (
+                0.995 if side == "BUY" else 1.005)
+            qty = int(NSE_CAPITAL / entry_px) if entry_px > 0 else 0
+            risk = abs(entry_px - sl_px)
+            if risk > 0 and NSE_MAX_LOSS > 0:
+                qty = min(qty, max(1, int(NSE_MAX_LOSS / risk)))
             if qty < 1:
                 continue
             state["trades"].append({"id": state["next_id"], "date": today, "setup": setup,
                 "symbol": symbol, "side": side, "qty": qty, "entry_time": stamp,
-                "entry_price": round(quote["ltp"], 2),
+                "entry_price": round(entry_px, 2),
                 "candle_stop": round(quote["low"] if side == "BUY" else quote["high"], 2),
-                "sl_price": round((quote["low"] if side == "BUY" else quote["high"])
-                                  * (0.995 if side == "BUY" else 1.005), 2),
+                "sl_price": round(sl_px, 2),
                 "exit_time": None, "exit_price": None, "reason": None, "pnl": None,
                 "status": "OPEN", "feed": FEED_NAME})
             state["next_id"] += 1
@@ -635,12 +645,16 @@ def f3_scan(state: dict, quotes: dict, moment: datetime) -> None:
     stamp = moment.strftime("%H:%M:%S")
     already = {t["symbol"] for t in state["trades"]
                if t.get("date") == today and t.get("setup") == "f3"}
-    for drive, symbol, _, sl in [p for p in picks if p[1] not in already][:F3_MAX_TRADES]:
+    ranked = [p for p in picks if p[1] not in already and p[0] >= F3_MIN_DRIVE]
+    for drive, symbol, _, sl in ranked[:F3_MAX_TRADES]:
         quote = quotes.get(symbol)
         if not quote:
             continue
         entry = quote["ltp"]            # fill where the market is NOW
-        qty = int(NSE_CAPITAL / entry)
+        qty = int(NSE_CAPITAL / entry) if entry > 0 else 0
+        risk = abs(entry - sl * 0.995)
+        if risk > 0 and NSE_MAX_LOSS > 0:
+            qty = min(qty, max(1, int(NSE_MAX_LOSS / risk)))
         if qty < 1:
             continue
         state["trades"].append({"id": state["next_id"], "date": today, "setup": "f3",

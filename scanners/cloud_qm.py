@@ -47,9 +47,10 @@ IST = ZoneInfo("Asia/Kolkata")
 CAPITAL = 100_000.0   # October race mandate (1 Oct 2026): every desk Rs1L
 LOT = 5_000.0          # 5% lots — max 16 open x Rs5k = Rs80k fits the Rs1L book
 MAX_NEW_PER_DAY = 2
-MAX_OPEN = 16
+MAX_OPEN = 10               # win-rate/capital tune 15 Oct (was 16)
 BOOK_AT = 0.12
 RSI_EXIT = 86
+TIME_STOP_SESSIONS = 45      # free capital if stuck underwater this long
 AVG_AT = 0.50
 COST = 0.003
 MIN_TURNOVER = 5e7
@@ -301,6 +302,8 @@ def run_day(dry: bool = False) -> dict:
             continue
         if r0 >= RSI_EXIT:
             _close(t, c, "RSI86")
+        elif int(t.get("sessions") or 0) >= TIME_STOP_SESSIONS and float(t.get("pnl") or 0) < 0:
+            _close(t, c, "TIME45")
             continue
         if not t.get("trail") and c >= entry * (1 + BOOK_AT):
             half = t["qty"] / 2
