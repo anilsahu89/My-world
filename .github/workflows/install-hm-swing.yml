@@ -4,7 +4,7 @@ on:
   push:
     branches: [fix/hm-swing]
     paths:
-      - 'scanners/_install_hm_swing.py'
+      - 'scanners/_patch_to_hm_swing.py'
       - 'scanners/_patch_hm_swing_html.py'
       - '.github/workflows/install-hm-swing.yml'
 
@@ -18,9 +18,9 @@ jobs:
         with:
           ref: fix/hm-swing
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Install cloud_swing.py + patch paper.html
+      - name: Apply HM Swing engine + portal labels
         run: |
-          python3 scanners/_install_hm_swing.py
+          python3 scanners/_patch_to_hm_swing.py
           python3 scanners/_patch_hm_swing_html.py
       - name: Commit
         run: |
