@@ -33,7 +33,8 @@ IST = ZoneInfo("Asia/Kolkata")
 
 MARKETS = {"GOLD": "GC=F", "BTC": "BTC-USD"}
 CFG = {"end_date": "2026-12-31", "capital_inr": 10_000.0, "capital_usd": 60.0,
-       "max_open": 5, "rr": 2.0, "max_sessions": 10}
+       "max_open": 3, "rr": 2.0, "max_sessions": 10}
+ENABLED_SETUPS = {"CS-PINS", "CS-ENGF"}  # CS-MARU paused (0/6 live)
 
 
 def now() -> datetime:
@@ -188,12 +189,14 @@ def run_day() -> dict:
     # 3) scan today's completed bars for NEW signals (fill tomorrow at open)
     open_n = sum(1 for t in trades if t["status"] == "OPEN")
     existing = {(t["symbol"], t["setup"], t["signal_date"]) for t in trades}
-    prio = {"CS-MARU": 0, "CS-PINS": 1, "CS-ENGF": 2}
+    prio = {"CS-PINS": 0, "CS-ENGF": 1, "CS-MARU": 9}
     cands = []
 
     def consider(market: str, symbol: str, df: pd.DataFrame) -> None:
         d = df.iloc[-1].name.strftime("%Y-%m-%d")
         for setup, side, sl in detect(df):
+            if setup not in ENABLED_SETUPS:
+                continue
             if (symbol, setup, d) in existing:
                 continue
             cands.append((prio[setup], market, symbol, setup, side, sl, d))
