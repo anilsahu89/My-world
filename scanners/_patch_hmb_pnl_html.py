@@ -4,36 +4,55 @@ p = Path("paper.html")
 html = p.read_text()
 
 if "hmbOpenPnl" not in html:
-    marker = '<div class="sum-card"><span class="sum-label">Live States Tracked</span><span class="sum-value" id="hmbStates">—</span></div>'
+    marker = 'id="hmbStates"'
     if marker not in html:
-        raise SystemExit("hmbStates marker missing")
+        raise SystemExit("hmbStates missing")
+    # insert summary cards after the Live States sum-card closing div
+    live = '<div class="sum-card"><span class="sum-label">Live States Tracked</span><span class="sum-value" id="hmbStates">—</span></div>'
+    if live not in html:
+        # tolerate any dash in the em-dash slot
+        import re
+        m = re.search(r'<div class="sum-card"><span class="sum-label">Live States Tracked</span><span class="sum-value" id="hmbStates">.</span></div>', html)
+        if not m:
+            raise SystemExit("live card not found")
+        live = m.group(0)
     extra = (
         '\n    <div class="sum-card"><span class="sum-label">Open</span><span class="sum-value" id="hmbOpenN">—</span></div>'
         '\n    <div class="sum-card"><span class="sum-label">Open P&L (₹)</span><span class="sum-value" id="hmbOpenPnl">—</span></div>'
         '\n    <div class="sum-card"><span class="sum-label">Realized P&L (₹)</span><span class="sum-value" id="hmbRealized">—</span></div>'
         '\n    <div class="sum-card"><span class="sum-label">Net P&L (₹)</span><span class="sum-value" id="hmbNet">—</span></div>'
     )
-    html = html.replace(marker, marker + extra, 1)
-    anchor = '  <h3 style="color:var(--green)">📊 HM States — BTC & Gold, all frames</h3>'
-    if anchor not in html:
-        raise SystemExit("states h3 missing")
+    html = html.replace(live, live + extra, 1)
+    wrap = '<div class="table-wrap" id="hmbTableWrap">'
+    if wrap not in html:
+        raise SystemExit("hmbTableWrap missing")
     open_block = (
         '  <h3 style="color:var(--green)">🟢 Open positions <span class="muted" id="hmbOpenCount">(0)</span></h3>\n'
         '  <div class="table-wrap" id="hmbOpenWrap"><div class="flash">No open HM BTC/Gold positions.</div></div>\n\n'
         '  <h3 style="margin-top:1.5rem;color:var(--red)">🔴 Closed <span class="muted" id="hmbClosedCount">(0)</span></h3>\n'
         '  <div class="table-wrap" id="hmbClosedWrap"><div class="flash">No closed trades yet.</div></div>\n\n'
+        '  '
     )
-    html = html.replace(anchor, open_block + anchor, 1)
+    html = html.replace(wrap, open_block + wrap, 1)
     print("cards+tables inserted")
 else:
     print("cards already present")
 
 needle = 'document.getElementById("hmbStatusV").textContent = esc(d.status || "—");\n        document.getElementById("hmbStates").textContent = String(d.signals || 0);'
-if "hmbOpenWrap" in html and "function inr" in html and "book.open_pnl_inr" in html:
+if "hmbOpenWrap" in html and "book.open_pnl_inr" in html:
     print("js already patched")
 elif needle not in html:
-    raise SystemExit("js needle not found")
+    # try flexible dash
+    import re
+    m = re.search(r'document\.getElementById\("hmbStatusV"\)\.textContent = esc\(d\.status \|\| "."\);\s*document\.getElementById\("hmbStates"\)\.textContent = String\(d\.signals \|\| 0\);', html)
+    if not m:
+        raise SystemExit("js needle not found")
+    needle = m.group(0)
+    do_js = True
 else:
+    do_js = True
+
+if "book.open_pnl_inr" not in html:
     inject = (
         'document.getElementById("hmbStatusV").textContent = esc(d.status || "—");\n'
         '        var book = d.book || {}, opens = d.open || [], closed = d.closed || [];\n'
