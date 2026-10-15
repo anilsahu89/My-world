@@ -1,57 +1,39 @@
 {
- "date": "2026-10-14",
- "updated_at": "14 Oct 2026 17:28:13 IST",
+ "date": "2026-10-15",
+ "updated_at": "15 Oct 2026 17:28:12 IST",
  "nifty_gate": {
   "hm_buy_state": false,
-  "above_sma20": false,
+  "above_sma20": true,
   "note": "informational only — entry gates removed 1 Oct (RS-50 is the filter)"
  },
  "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM buy state) · 52-week closing high (vol ≥1.5x) · BB Blast squeeze on daily/weekly/monthly (NIFTY > SMA20) · 50-day return must beat NIFTY (RS-50 gate) · NIFTY-500 · ₹5cr turnover · entries capped 2/day by the desk",
  "signals": [
   {
-   "sym": "FLUOROCHEM",
-   "setup": "QM-BBd",
-   "rsi": 65.4,
-   "note": "BB squeeze rank 5% blast on d bars",
-   "close": 4632.1,
-   "date": "2026-10-14",
-   "rs50": 1.033
-  },
-  {
-   "sym": "JINDALSAW",
-   "setup": "QM-BBd",
-   "rsi": 66.2,
-   "note": "BB squeeze rank 20% blast on d bars",
-   "close": 297.1,
-   "date": "2026-10-14",
-   "rs50": 1.146
-  },
-  {
-   "sym": "MRPL",
-   "setup": "QM-BBd",
-   "rsi": 67.2,
-   "note": "BB squeeze rank 20% blast on d bars",
-   "close": 185.26,
-   "date": "2026-10-14",
-   "rs50": 1.064
-  },
-  {
-   "sym": "CHENNPETRO",
+   "sym": "KOTAKBANK",
    "setup": "QM-HM",
-   "rsi": 59.2,
-   "note": "RSI9 59 V-turn above rising SMA20",
-   "close": 1546.1,
-   "date": "2026-10-14",
-   "rs50": 1.166
+   "rsi": 76.9,
+   "note": "RSI9 77 V-turn above rising SMA20",
+   "close": 447.95,
+   "date": "2026-10-15",
+   "rs50": 1.126
   },
   {
-   "sym": "BHEL",
-   "setup": "QM-52W",
-   "rsi": 76.0,
-   "note": "new 52w closing high 464.0, vol 3.4x",
-   "close": 464.0,
-   "date": "2026-10-14",
-   "rs50": 1.129
+   "sym": "NUVOCO",
+   "setup": "QM-HM",
+   "rsi": 71.2,
+   "note": "RSI9 71 V-turn above rising SMA20",
+   "close": 335.9,
+   "date": "2026-10-15",
+   "rs50": 0.964
+  },
+  {
+   "sym": "RITES",
+   "setup": "QM-HM",
+   "rsi": 57.5,
+   "note": "RSI9 57 V-turn above rising SMA20",
+   "close": 214.27,
+   "date": "2026-10-15",
+   "rs50": 0.991
   }
  ]
 }
