@@ -279,17 +279,17 @@ def mill_tick() -> None:
 
 
 def htf_hm_tick() -> None:
-    """HM Positional desk — NK's Hilega-Milega on WEEKLY bars (momentum-phase
-    entries; 5y backtest PF 2.19, avg +4.8%/trade). Once per weekday AFTER
-    15:35 IST: the 490 x 5y yf sweep takes minutes and must never block
-    market-hours ticks; weekly bars complete at Friday close anyway."""
+    """Intraday HM desk — HTF (weekly+daily) bias, entries on 1H HM.
+    Runs during market hours about every 30 minutes."""
     moment = cp.now()
-    if moment.weekday() >= 5 or moment.time() < dtime(15, 35):
+    if moment.weekday() >= 5:
+        return
+    if moment.time() < dtime(9, 30) or moment.time() > dtime(15, 20):
         return
     flag = cp.ROOT / "data" / "scanners" / ".htfhm_last_run"
-    today = moment.date().isoformat()
+    bucket = moment.strftime("%Y-%m-%d %H:") + ("30" if moment.minute >= 30 else "00")
     try:
-        if flag.exists() and flag.read_text().strip() == today:
+        if flag.exists() and flag.read_text().strip() == bucket:
             return
     except OSError:
         pass
@@ -298,12 +298,12 @@ def htf_hm_tick() -> None:
     r = subprocess.run(
         [sys.executable, str(cp.ROOT / "scanners" / "cloud_htf_hm.py"),
          "--output", str(out)],
-        cwd=str(cp.ROOT), capture_output=True, text=True, timeout=2400)
-    print(f"htf-hm scan: rc={r.returncode} "
-          f"{(r.stdout or '')[-200:]}", flush=True)
+        cwd=str(cp.ROOT), capture_output=True, text=True, timeout=1800)
+    print(f"intraday-hm scan: rc={r.returncode} "
+          f"{(r.stdout or "")[-300:]}", flush=True)
     if r.returncode == 0 and out.exists():
         try:
-            flag.write_text(today)
+            flag.write_text(bucket)
         except OSError:
             pass
 
