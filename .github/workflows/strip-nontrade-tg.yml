@@ -1,10 +1,6 @@
 name: Strip non-trade Telegram calls
 on:
-  workflow_dispatch:
-  push:
-    branches: [fix/telegram-trade-only]
-    paths:
-      - '.github/workflows/strip-nontrade-tg.yml'
+  workflow_dispatch:   # manual only — the trade-only rule already ships on main
 
 jobs:
   strip:
@@ -83,7 +79,7 @@ jobs:
           else:
               print("swing EOD block not found")
           if not changed:
-              raise SystemExit("no replacements made")
+              print("nothing to strip — branch already trade-only")
           p.write_text(text)
           print("ok")
           PY
