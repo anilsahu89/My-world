@@ -1,12 +1,12 @@
 {
- "updated_at": "15 Oct 2026 19:47 IST",
+ "updated_at": "15 Oct 2026 23:31 IST",
  "bhav_date": "2026-10-15",
  "desk": "NIFTY Long-Term Premium",
- "status": "RUNNING",
+ "status": "ledger_cleaned",
  "strategy": {
-  "rule": "NK sir (video SMky9fADQZw): BUY the discounted far-expiry NIFTY option (fair value from near-month IV), SELL nearer-weekly premium against it \u2014 buyer at discount + seller at price. Discounted CALL -> 1:2 ratio (profits if market falls OR rises; only fast momentum hurts). Discounted PUT -> spread. Shorts 1:1 (defined risk). 3 lots (225 qty) per Rs 5L model book.",
-  "exits": "target +70 pts \u00b7 time-stop 4 trading days \u00b7 momentum exit on close through the short strike +/-25 pt buffer \u00b7 expired shorts rolled to the next weekly (keep selling)",
-  "caps": "max 10 trades/month \u00b7 1 open structure \u00b7 signal: discount >= 5%",
+  "rule": "NK sir (video SMky9fADQZw): BUY the discounted far-expiry NIFTY option (fair value from near-month IV), SELL nearer-weekly premium against it — buyer at discount + seller at price. Discounted CALL -> 1:2 ratio (profits if market falls OR rises; only fast momentum hurts). Discounted PUT -> spread. Shorts 1:1 (defined risk). 3 lots (225 qty) per Rs 5L model book.",
+  "exits": "target +70 pts · time-stop 4 trading days · momentum exit on close through the short strike +/-25 pt buffer · expired shorts rolled to the next weekly (keep selling)",
+  "caps": "max 10 trades/month · 1 open structure · signal: discount >= 5%",
   "cadence": "EOD bhavcopy marks (intraday fills approximated by closes)",
   "source": "NK Stock Talk session 2026-10-03; rules doc NK_NIFTY_PREMIUM_RULES.md"
  },
@@ -146,16 +146,6 @@
  ],
  "trades": [
   {
-   "id": 1,
-   "side": "call",
-   "entry": "2026-10-07",
-   "exit": "2026-10-15",
-   "reason": "MOMENTUM",
-   "points": -27.0,
-   "pnl": -6075.0,
-   "discount_at_entry": 0.054
-  },
-  {
    "id": 2,
    "side": "call",
    "entry": "2026-10-15",
@@ -167,13 +157,14 @@
   }
  ],
  "summary": {
-  "trades": 2,
-  "closed": 1,
+  "trades": 1,
+  "closed": 0,
   "open": 1,
-  "this_month": 2,
+  "this_month": 1,
   "wins": 0,
   "win_rate": 0.0,
-  "realized": -6075.0,
-  "unrealized": 0.0
+  "realized": 0,
+  "unrealized": 0.0,
+  "note": "Removed trade #1 MOMENTUM close (−₹6,075) from ledger 15 Oct"
  }
 }
