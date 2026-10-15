@@ -4,11 +4,7 @@ on:
   push:
     branches: [fix/intraday-hm]
     paths:
-      - 'scanners/_install_intraday_hm.py'
-      - 'scanners/_ihm.b64.0'
-      - 'scanners/_ihm.b64.1'
-      - 'scanners/_ihm.b64.2'
-      - 'scanners/_ihm.b64.3'
+      - 'scanners/_patch_to_intraday_hm.py'
       - 'scanners/_patch_poller_ihm.py'
       - 'scanners/_patch_intraday_hm_html.py'
       - '.github/workflows/install-intraday-hm.yml'
@@ -25,7 +21,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Apply engine + poller + HTML
         run: |
-          python3 scanners/_install_intraday_hm.py
+          python3 scanners/_patch_to_intraday_hm.py
           python3 scanners/_patch_poller_ihm.py
           python3 scanners/_patch_intraday_hm_html.py || true
       - name: Commit
