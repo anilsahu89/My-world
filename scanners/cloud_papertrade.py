@@ -48,8 +48,23 @@ VOL_AVG_CACHE = DATA / "vol_avg20.json"   # avg20 volumes, built from bhavcopies
 NSE_CAPITAL = 10_000.0
 NSE_TOL = 0.10
 NSE_MIN_PRICE = 50.0
-NSE_MIN_VOL = 1.5              # O=H short entry cap (and alerts-page split)
-NSE_MIN_VOL_OL = 3.0           # O=L long entry cap (PF 8.1 backtest)
+NSE_MIN_VOL = 1.5              # alerts-page split only (full-day-estimate scale)
+NSE_MIN_VOL_OL = 3.0           # legacy value, no longer used for entries
+# 15 Oct 2026 — ENTRY volume gate rebuilt. The old gate (O=L 3.0x / O=H 1.5x
+# of a "full-day estimate", cumulative volume / 0.20-floor session fraction)
+# needed ~60% of a whole day's average volume to trade inside the first
+# 10-30 minutes — essentially never — and on the Kite/Angel feeds the ratio
+# was never computed at all (vol_known unset -> every pick "no_vol_data").
+# New gate: RVOL = cumulative volume so far / (avg20 x share of a normal
+# day's volume expected by this time). 1.0 = a normal session. Deliberately
+# LOW to start trading again; vol_audit in the snapshot logs every
+# candidate's RVOL so the thresholds can be tuned from real data.
+NSE_RVOL_OL = 1.5              # O=L long  (was 3.0 on the old scale)
+NSE_RVOL_OH = 1.2              # O=H short (was 1.5 on the old scale)
+# cumulative share of a normal day's volume traded N minutes after 09:15
+# IST — an ASSUMED U-shaped NSE profile (tune with vol_audit data)
+VOL_PROFILE = [(0, 0.0), (5, 0.05), (10, 0.08), (15, 0.11), (30, 0.17),
+               (45, 0.22), (60, 0.26), (120, 0.40), (240, 0.65), (375, 1.0)]
 NSE_MAX_PER_SETUP = 5
 NSE_ENTRY_CUTOFF = time(9, 45)
 NSE_TIME_STOP = time(10, 45)  # scratch ol longs not in profit by now
@@ -66,6 +81,23 @@ GC_TOL = 0.001
 
 def now() -> datetime:
     return datetime.now(IST)
+
+
+def expected_volume_fraction(moment: datetime) -> float:
+    """Share of a normal day's volume expected to have traded by `moment`
+    (linear interpolation over VOL_PROFILE, floored so a 09:15 print can't
+    divide by ~0)."""
+    mins = (moment.hour * 60 + moment.minute + moment.second / 60) - 555
+    if mins >= VOL_PROFILE[-1][0]:
+        return 1.0
+    prev_m, prev_f = VOL_PROFILE[0]
+    for m, f in VOL_PROFILE[1:]:
+        if mins <= m:
+            span = m - prev_m
+            frac = prev_f + (f - prev_f) * ((mins - prev_m) / span if span else 1.0)
+            return max(0.03, frac)
+        prev_m, prev_f = m, f
+    return 1.0
 
 
 def read_json(path: Path, fallback):
@@ -162,6 +194,32 @@ def _yahoo_fallback_alert(kite_cfg: bool, angel_cfg: bool) -> None:
         pass
 
 
+def _attach_volume(quotes: dict[str, dict]) -> None:
+    """Give real-time (Kite / Angel) quotes the volume fields the entry gate
+    needs. Those feeds return cumulative day volume but never set vol_known /
+    vol_ratio, so since they took over every O=L/O=H pick was rejected as
+    'no_vol_data'. avg20 comes from the bhavcopy-built cache (no network);
+    vol_ratio is RVOL vs the time-of-day expectation. Never raises."""
+    try:
+        moment = now()
+        frac = expected_volume_fraction(moment)
+        cache = read_json(VOL_AVG_CACHE, {})
+        today = moment.date()
+        for symbol, q in quotes.items():
+            q["vol_known"], q["vol_ratio"] = False, 0.0
+            c = cache.get(symbol)
+            try:
+                age = (today - datetime.strptime(c.get("asof", ""), "%Y-%m-%d").date()).days
+                avg = float(c.get("avg") or 0)
+            except (ValueError, AttributeError, TypeError):
+                continue
+            if 0 <= age <= 10 and avg > 0:
+                q["vol_known"], q["vol_src"] = True, "cache"
+                q["vol_ratio"] = float(q.get("volume") or 0) / (avg * frac)
+    except Exception as e:
+        print(f"attach volume failed: {e}", flush=True)
+
+
 def nse_quotes() -> dict[str, dict]:
     """Live day-OHLC quotes for the universe, layered so the desk never
     skips a poll over auth: Kite Connect (real-time, TOTP auto-login) ->
@@ -177,6 +235,7 @@ def nse_quotes() -> dict[str, dict]:
             q = kite_feed.quotes(nse_symbols())
             if len(q) >= 100:            # healthy universe coverage
                 FEED_NAME = "kite"
+                _attach_volume(q)
                 return q
     except Exception as e:
         print(f"kite feed unavailable, falling back to angel/yahoo: {e}")
@@ -187,6 +246,7 @@ def nse_quotes() -> dict[str, dict]:
             q = angel_feed.quotes(nse_symbols())
             if len(q) >= 100:
                 FEED_NAME = "angel"
+                _attach_volume(q)
                 return q
     except Exception as e:
         print(f"angel feed unavailable, falling back to yahoo: {e}")
@@ -229,7 +289,7 @@ def _yahoo_quotes() -> dict[str, dict]:
         return quotes
     volume_bars = yf.download([f"{s}.NS" for s in candidates], period="30d", interval="1d",
                               group_by="ticker", progress=False, threads=True, auto_adjust=False)
-    session_fraction = max(0.20, min(1.0, (now().hour * 60 + now().minute - 555) / 375))
+    session_fraction = expected_volume_fraction(now())
     vol_cache = read_json(VOL_AVG_CACHE, {})
     cache_dirty = False
     today_iso = now().date().isoformat()
@@ -264,7 +324,7 @@ def _yahoo_quotes() -> dict[str, dict]:
                 source = "cache"
         quote["vol_known"] = bool(average > 0 and source)
         quote["vol_src"] = source
-        quote["vol_ratio"] = (quote["volume"] / session_fraction / average
+        quote["vol_ratio"] = (quote["volume"] / (average * session_fraction)
                               if quote["vol_known"] else 0.0)
     if cache_dirty:
         write_json(VOL_AVG_CACHE, vol_cache)
@@ -462,6 +522,18 @@ def _vol_block(state: dict, today: str, setup: str, symbol: str, reason: str) ->
         bucket[reason].append(symbol)
 
 
+def _vol_audit(state: dict, today: str, setup: str, symbol: str, rvol: float) -> None:
+    """Keep the day's best RVOL per O=L/O=H candidate (open==low / open==high
+    within tolerance) so the volume thresholds can be tuned from real
+    numbers instead of guesses. Surfaced top-15 in the snapshot."""
+    va = state.get("vol_audit") or {}
+    if va.get("date") != today:
+        va = {"date": today, "ol": {}, "oh": {}}
+        state["vol_audit"] = va
+    bucket = va.setdefault(setup, {})
+    bucket[symbol] = round(max(float(rvol or 0), bucket.get(symbol, 0.0)), 2)
+
+
 def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
     today, stamp = moment.date().isoformat(), moment.strftime("%H:%M:%S")
     # 2026-09-28 opening-candle rules: entries start once the FIRST 5-min
@@ -480,9 +552,10 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
             continue
         if setup == "oh" and bias == 1:
             continue
-        # volume cap (restored 2026-10-01): O=L 3.0x avg20, O=H 1.5x —
-        # fewer, higher-quality entries; blocked picks are counted
-        min_vol = NSE_MIN_VOL_OL if setup == "ol" else NSE_MIN_VOL
+        # volume gate (rebuilt 15 Oct): RVOL vs time-of-day expectation —
+        # O=L >= NSE_RVOL_OL, O=H >= NSE_RVOL_OH. Blocked picks are counted
+        # and every candidate's RVOL is logged (vol_audit) for tuning.
+        min_vol = NSE_RVOL_OL if setup == "ol" else NSE_RVOL_OH
         eligible = []
         for symbol, quote in quotes.items():
             edge = abs(quote["open"] - quote["low"]) if setup == "ol" else abs(quote["high"] - quote["open"])
@@ -493,6 +566,7 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
             if not quote.get("vol_known"):
                 _vol_block(state, today, setup, symbol, "no_vol_data")
                 continue
+            _vol_audit(state, today, setup, symbol, quote.get("vol_ratio", 0))
             if quote.get("vol_ratio", 0) < min_vol:
                 _vol_block(state, today, setup, symbol, "low_vol")
                 continue
@@ -856,10 +930,23 @@ def update_nse(state: dict) -> dict:
                     print(f"manual close ol: {_t['symbol']} @{_q['ltp']}", flush=True)
     except Exception as e:
         print(f"close-requests ol: {e}", flush=True)
-    manage_nse(state, quotes, moment)
-    candle_close_exits(state, moment)
-    enter_nse(state, quotes, moment)
-    f3_scan(state, quotes, moment)
+    # 15 Oct 2026: each step is isolated. A bare exception in any one of
+    # them (a Yahoo hang in candle_close_exits / f3_scan, say) used to abort
+    # the whole tick BEFORE the snapshot write and the relay's commit, which
+    # froze the board and made every later step look dead. Errors are now
+    # recorded in state["engine_errors"] and shown in the snapshot.
+    errors = []
+    for step_name, step in (("manage_nse", lambda: manage_nse(state, quotes, moment)),
+                            ("candle_close_exits", lambda: candle_close_exits(state, moment)),
+                            ("enter_nse", lambda: enter_nse(state, quotes, moment)),
+                            ("f3_scan", lambda: f3_scan(state, quotes, moment))):
+        try:
+            step()
+        except Exception as e:
+            import traceback
+            print(f"{step_name} failed: {e}\n{traceback.format_exc()[-600:]}", flush=True)
+            errors.append(f"{moment.strftime('%H:%M')} {step_name}: {str(e)[:160]}")
+    state["engine_errors"] = (state.get("engine_errors", []) + errors)[-10:]
     try:
         export_alerts_json(quotes, moment.date().isoformat())
     except Exception as e:
@@ -914,9 +1001,16 @@ def nse_snapshot(state: dict, quotes: dict, today: str) -> dict:
                          "reentry": "after a candle-close/backstop stop: re-enter same side when a completed 5-min candle closes back beyond the stopped level (fill at candle close, stops recomputed) — max 2 per stock/day; TSTOP/EOD never re-enter",
                          "square_off": "15:00", "entry_cutoff": "09:45",
                          "time_stop_long": "10:45", "nifty_gate": True,
-                         "min_vol_mult": 1.5, "min_vol_mult_by_setup": {"ol": 3.0},
-                         "vol_note": "volume cap restored 2026-10-01 — cap-free live run 28-30 Sep confirmed fewer, better trades"},
+                         "min_vol_mult": NSE_RVOL_OH,
+                         "min_vol_mult_by_setup": {"ol": NSE_RVOL_OL, "oh": NSE_RVOL_OH},
+                         "vol_note": "15 Oct: volume gate = RVOL (cumulative volume vs time-of-day expectation, 1.0 = normal day) — O=L >= "
+                                     f"{NSE_RVOL_OL}, O=H >= {NSE_RVOL_OH}; deliberately low, tuned from vol_audit"},
             "vol_blocked": vol_blocked,
+            "vol_audit": ({s: dict(sorted(((state.get("vol_audit") or {}).get(s) or {}).items(),
+                                          key=lambda kv: -kv[1])[:15])
+                           for s in ("ol", "oh")}
+                          if (state.get("vol_audit") or {}).get("date") == today else {}),
+            "engine_errors": state.get("engine_errors", [])[-5:],
             "summary": {"open_count": len(opens), "closed_count": len(closed), "trades_today": today_row["trades"] if today_row else 0,
                         "today_pnl": today_row["pnl"] if today_row else 0, "realized_total": realized, "unrealized": unrealized,
                         "wins": wins, "losses": len(closed) - wins, "win_rate": round(wins / len(closed) * 100, 1) if closed else 0,

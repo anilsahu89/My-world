@@ -52,26 +52,77 @@ def _git(*args):
                           capture_output=True, text=True)
 
 
-def commit_and_push() -> None:
-    cp.commit_state()
-    # a previous half-finished rebase (push collision) leaves the repo
-    # unusable and git exits 128 — always clear it first, never raise
-    _git("rebase", "--abort")
-    if _git("push", "origin", "main").returncode != 0:
-        _git("pull", "--rebase", "origin", "main")
-        if _git("push", "origin", "main").returncode != 0:
-            _git("rebase", "--abort")
-            # 15 Oct 2026: never throw away this run's ledger commit on a
-            # conflict. The old `reset --hard origin/main` erased freshly
-            # opened/closed trades AFTER their Telegram alert was sent, so
-            # the next tick re-fired the same alerts with no trade on the
-            # page. On conflict in generated data files, keep OUR side
-            # (-X theirs = the commit being replayed = ours in a rebase).
-            _git("pull", "--rebase", "-X", "theirs", "origin", "main")
-            if _git("push", "origin", "main").returncode != 0:
+_BOT = ["-c", "user.name=papertrade-bot",
+        "-c", "user.email=papertrade-bot@users.noreply.github.com"]
+STATUS_FILE = cp.ROOT / "data" / "relay_status.json"
+_RELAY = {"last_push": "none yet", "last_push_ok": None}
+
+
+def write_status(mode: str, errors: list[str] | None = None) -> None:
+    """data/relay_status.json — one glance at whether the relay is ticking,
+    what failed, and whether its last push landed (15 Oct 2026: the day relay
+    ran 5+ hours on 13 Oct without a single commit and nothing said why)."""
+    try:
+        STATUS_FILE.parent.mkdir(parents=True, exist_ok=True)
+        STATUS_FILE.write_text(json.dumps({
+            "mode": mode,
+            "last_tick": cp.now().strftime("%d %b %Y %H:%M:%S IST"),
+            "errors": (errors or [])[-6:],
+            "last_push_ok": _RELAY["last_push_ok"],
+            "last_push": _RELAY["last_push"],
+            "run_id": os.environ.get("GITHUB_RUN_ID", "local"),
+        }, indent=1) + "\n")
+    except Exception:
+        pass
+
+
+def commit_and_push() -> bool:
+    """Commit this tick's output and get it onto origin/main WITHOUT losing it.
+
+    15 Oct 2026 — root cause of the frozen NSE board: commit_state() stages a
+    fixed file list, so any other generated file (flags, guard state, new
+    desks' outputs) stayed dirty and made `git pull --rebase` refuse; several
+    listed files (alerts.json, live_stocks.json, bbtrap.json) are ALSO written
+    by other bots, so rebases conflicted — and the old fallback was
+    `reset --hard origin/main`, which silently erased the tick's ledger.
+    Now: sweep every generated path into the commit, retry
+    fetch + rebase (-X theirs = our generated data wins), fall back to a
+    merge (-X ours), and NEVER reset: an unpushed commit just retries on the
+    next tick. Returns True when the push landed. Never raises."""
+    try:
+        cp.commit_state()
+        for sweep_path in ("data", "scanners/papertrades", "scanners/data"):
+            # one path at a time: git aborts the whole `add` if any single
+            # pathspec matches nothing, which would silently stage nothing
+            if (cp.ROOT / sweep_path).exists():
+                _git("add", "-A", "--", sweep_path)
+        if _git("diff", "--cached", "--quiet").returncode != 0:
+            _git(*_BOT, "commit", "-q", "-m",
+                 f"chore: paper trade state {cp.now().strftime('%Y-%m-%dT%H:%M')} (relay)")
+        # a previous half-finished rebase/merge leaves git unusable (exit 128)
+        _git("rebase", "--abort")
+        _git("merge", "--abort")
+        detail = ""
+        for _ in range(4):
+            r = _git("push", "origin", "main")
+            if r.returncode == 0:
+                _RELAY.update(last_push="ok", last_push_ok=True)
+                return True
+            detail = (r.stderr or r.stdout or "")[-180:].replace("\n", " ")
+            _git("fetch", "-q", "origin", "main")
+            rb = _git(*_BOT, "rebase", "-X", "theirs", "--autostash", "origin/main")
+            if rb.returncode != 0:
                 _git("rebase", "--abort")
-                _git("reset", "--hard", "origin/main")
-                _git("push", "origin", "main")
+                mg = _git(*_BOT, "merge", "-X", "ours", "--no-edit", "origin/main")
+                if mg.returncode != 0:
+                    _git("merge", "--abort")
+                    detail += " | merge: " + (mg.stderr or mg.stdout)[-120:].replace("\n", " ")
+        _RELAY.update(last_push=f"FAILED after 4 tries: {detail}", last_push_ok=False)
+        print(f"relay: push failed (commit kept for next tick): {detail}", flush=True)
+    except Exception as e:
+        _RELAY.update(last_push=f"exception: {e}", last_push_ok=False)
+        print(f"relay: commit_and_push error: {e}", flush=True)
+    return False
 
 
 def _api(method: str, path: str, body: dict | None = None):
@@ -266,14 +317,21 @@ def run_day() -> None:
         now = cp.now()
         if now.weekday() >= 5 or now.time() >= DAY_END:
             break
-        try:
-            nse_tick()
-            theta_tick()
-            mill_tick()
-            btc_tick()
-            commit_and_push()
-        except Exception as e:
-            print(f"day tick failed: {e}", flush=True)
+        # each step isolated: one failing step (NSE engine, theta, mill...)
+        # must never skip the others or — worst — the commit, which is what
+        # froze the board for two days (13-15 Oct)
+        errs = []
+        for name, step in (("nse", nse_tick), ("theta", theta_tick),
+                           ("mill", mill_tick), ("btc", btc_tick)):
+            try:
+                step()
+            except Exception as e:
+                import traceback
+                print(f"day tick: {name} failed: {e}\n"
+                      f"{traceback.format_exc()[-500:]}", flush=True)
+                errs.append(f"{cp.now().strftime('%H:%M')} {name}: {str(e)[:160]}")
+        write_status("day", errs)
+        commit_and_push()
         dense = dtime(9, 14) <= now.time() <= dtime(9, 50)
         time.sleep(60 if dense else 180)
     try:                                   # final square-off pass
@@ -338,12 +396,29 @@ def run_evening() -> None:
                 print("bbtrap scan done", flush=True)
         except Exception as e:
             print(f"bbtrap scan failed: {e}", flush=True)
+    last_eod = 0.0
     while cp.now().time() < EVE_END:
+        errs = []
         try:
             gc_tick()
-            commit_and_push()
         except Exception as e:
             print(f"evening gc tick failed: {e}", flush=True)
+            errs.append(f"gc: {str(e)[:160]}")
+        # NIFTY Long-Term Premium + Future Arbitrage: these two EOD-bhavcopy
+        # desks were only ever called from the scheduled `gc` cron branch,
+        # which this relay's long-running jobs starve (concurrency group), so
+        # both sat frozen since 7 Oct. Same guards as there: weekday, >=18:45
+        # IST, done_date-guarded, retried until the bhavcopy lands.
+        if time.time() - last_eod > 900:
+            last_eod = time.time()
+            for mod_name in ("cloud_nifty_ltp", "cloud_future_arb"):
+                try:
+                    __import__(mod_name).tick()
+                except Exception as e:
+                    print(f"evening {mod_name} failed: {e}", flush=True)
+                    errs.append(f"{mod_name}: {str(e)[:160]}")
+        write_status("evening", errs)
+        commit_and_push()
         time.sleep(300)
     print("relay: evening done -> gcwatch", flush=True)
     dispatch_poller("gcwatch")
@@ -360,11 +435,14 @@ def run_gcwatch() -> None:
             print("relay: gcwatch -> day poller", flush=True)
             dispatch_poller("day")
             return
+        errs = []
         try:
             gc_tick()
-            commit_and_push()
         except Exception as e:
             print(f"gcwatch tick failed: {e}", flush=True)
+            errs.append(f"gc: {str(e)[:160]}")
+        write_status("gcwatch", errs)
+        commit_and_push()
         gold_window = dtime(5, 25) <= now.time() <= dtime(7, 35)
         time.sleep(900 if gold_window else 1200)
     print("relay: gcwatch span done -> next gcwatch", flush=True)

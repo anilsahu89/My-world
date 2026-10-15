@@ -1307,12 +1307,14 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     var vb = d.vol_blocked || {};
     var lowVol = ((vb.ol || {}).low_vol || 0) + ((vb.oh || {}).low_vol || 0);
     var noData = ((vb.ol || {}).no_vol_data || 0) + ((vb.oh || {}).no_vol_data || 0);
-    var vcap = ' &nbsp;·&nbsp; <span class="badge badge-grey" title="volume cap restored 2026-10-01: ' +
-      'O=L needs est. volume ≥ 3× avg20, O=H ≥ 1.5× — fewer, better trades">' +
+    var sv = (d.strategy || {}).min_vol_mult_by_setup || {};
+    var olX = sv.ol != null ? sv.ol : 1.5, ohX = sv.oh != null ? sv.oh : ((d.strategy || {}).min_vol_mult || 1.2);
+    var vcap = ' &nbsp;·&nbsp; <span class="badge badge-grey" title="volume gate (RVOL = volume so far vs a normal ' +
+      'day at this time, 1.0 = normal): O=L needs ≥ ' + olX + '×, O=H ≥ ' + ohX + '× — tuned from vol_audit">' +
       (lowVol || noData
-        ? "VOL CAP: " + lowVol + " blocked (low vol)" +
+        ? "VOL GATE: " + lowVol + " blocked (low vol)" +
           (noData ? " · " + noData + " (no vol data)" : "")
-        : "VOL CAP ON · O=L 3× / O=H 1.5×") + "</span>";
+        : "VOL GATE · O=L " + olX + "× / O=H " + ohX + "×") + "</span>";
     el.innerHTML = "Updated " + esc(d.updated_at) + " &nbsp;·&nbsp; " + feed +
       " &nbsp;·&nbsp; " + st + vcap +
       ' &nbsp;·&nbsp; <span class="muted">auto-refreshes every 60s' +
