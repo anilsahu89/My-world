@@ -377,6 +377,7 @@ main h3 .collapse-btn {
   <button class="pt-tab" data-panel="ltpSection">💎 NIFTY Long-Term Premium</button>
   <button class="pt-tab" data-panel="arbSection">🎯 Future Arbitrage</button>
   <button class="pt-tab" data-panel="btcThetaSection">₿ BTC Theta</button>
+  <button class="pt-tab" data-panel="hmBtcSection">🔗 HM BTC/Gold</button>
   <button class="pt-tab" data-panel="gcSection">🥇 Gold/BTC</button>
   <button class="pt-tab" data-panel="manualPanel">✋ Manual</button>
 </div>
@@ -992,6 +993,27 @@ main h3 .collapse-btn {
 </script>
 
 <hr style="border-color:var(--border);margin:2.5rem 0 1.5rem">
+
+<!-- ===================== HM BTC/GOLD — MULTI-ASSET HM DESK ===================== -->
+<section id="hmBtcSection" class="pt-panel">
+  <h2 style="color:#b39ddb">
+    🔗 HM BTC/Gold — Multi-Asset Hilega-Milega
+    <span class="muted" style="font-size:0.75rem">— all HM setups, both directions, on 1h/daily/weekly: gap-angle BUY (red below green+black, RSI&gt;50), gap-angle SELL (red above, RSI&lt;50), sub-50/over-50 half-size variants, New-Low-Trick shorts · ₹25k lots, max 5 open · exits: trend-end (RSI 50 cross), RSI 86/14 booking, trick invalidation · 24/7 gc tick</span>
+  </h2>
+  <div id="hmbStatus" class="flash">Loading HM BTC/Gold desk…</div>
+
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">Last Scan</span><span class="sum-value" id="hmbScan">—</span></div>
+    <div class="sum-card"><span class="sum-label">Status</span><span class="sum-value" id="hmbStatusV">—</span></div>
+    <div class="sum-card"><span class="sum-label">Live States Tracked</span><span class="sum-value" id="hmbStates">—</span></div>
+  </div>
+
+  <h3 style="color:var(--green)">📊 HM States — BTC &amp; Gold, all frames</h3>
+  <div class="table-wrap" id="hmbTableWrap"><div class="flash">Loading…</div></div>
+
+  <h3 style="margin-top:2rem">📜 Desk Log</h3>
+  <pre id="hmbLog" style="white-space:pre-wrap;font-size:0.75rem;color:var(--muted);background:rgba(0,0,0,0.2);padding:0.8rem;border-radius:8px;max-height:320px;overflow:auto">—</pre>
+</section>
 
 <!-- ===================== NIFTY DAILY THETA — HEDGED CREDIT SPREAD ===================== -->
 <section id="thetaSection" class="pt-panel">
@@ -2227,6 +2249,60 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) { if (d) render(d); })
       .catch(function () {});
+  }
+  load();
+  setInterval(load, 60000);
+})();
+</script>
+
+<script>
+/* ===== HM BTC/Gold desk — data/scanners/hm-btc-gold-latest.json
+   (multi-asset Hilega-Milega: gap-angle both directions + New Low Trick,
+   1h/daily/weekly on BTC and Gold; 24/7 gc tick) ===== */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  function esc(s) { var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function load() {
+    fetch(base + "/data/scanners/hm-btc-gold-latest.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d) return;
+        var st = document.getElementById("hmbStatus");
+        st.className = "flash";
+        st.innerHTML = "Desk updated " + esc(d.scanned_at || "") + " · status: " +
+          esc(d.status || "") + " · setups tracked across BTC & Gold, 1h/daily/weekly";
+        document.getElementById("hmbScan").textContent =
+          esc((d.scanned_at || "").replace(" IST", ""));
+        document.getElementById("hmbStatusV").textContent = esc(d.status || "—");
+        document.getElementById("hmbStates").textContent = String(d.signals || 0);
+        var rows = (d.table || {}).rows || [], heads = (d.table || {}).headers || [];
+        var tw = document.getElementById("hmbTableWrap");
+        if (!rows.length) {
+          tw.innerHTML = '<div class="flash">No asset/frame currently in an HM state.</div>';
+        } else {
+          var trs = rows.map(function (r) {
+            var setups = String(r[r.length - 1] || "");
+            var live = setups.indexOf("GAP-ANGLE") === 0 || setups.indexOf("NEW-LOW") === 0;
+            return "<tr" + (live ? ' style="background:rgba(179,157,219,.08)"' : "") + ">" +
+              r.map(function (cell) { return "<td>" + esc(cell) + "</td>"; }).join("") +
+              "</tr>";
+          }).join("");
+          tw.innerHTML = "<table><thead><tr>" + heads.map(function (h) {
+            return "<th>" + esc(h) + "</th>"; }).join("") + "</tr></thead><tbody>" +
+            trs + "</tbody></table>";
+        }
+        document.getElementById("hmbLog").textContent = d.text_report || "—";
+      })
+      .catch(function () {
+        var el = document.getElementById("hmbStatus");
+        if (el) el.textContent = "⚠️ Could not load HM BTC/Gold data — the gc tick publishes every 15 min.";
+      });
   }
   load();
   setInterval(load, 60000);
