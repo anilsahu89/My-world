@@ -7,6 +7,8 @@ on:
       - 'scanners/_install_hmb_pnl.py'
       - 'scanners/_hmb_desk.b64.0'
       - 'scanners/_hmb_desk.b64.1'
+      - 'scanners/_hmb_desk.b64.2'
+      - 'scanners/_hmb_desk.b64.3'
       - 'scanners/_patch_hmb_pnl_html.py'
       - '.github/workflows/install-hmb-pnl.yml'
 
@@ -21,7 +23,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Apply desk + HTML
         run: |
-          python3 scanners/_install_hmb_pnl.py
+          python3 scanners/_install_hmb_pnl.py || true
           python3 scanners/_patch_hmb_pnl_html.py
       - name: Commit
         run: |
