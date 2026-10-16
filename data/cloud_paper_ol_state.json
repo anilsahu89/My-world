@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 148,
+ "next_id": 149,
  "trades": [
   {
    "id": 1,
@@ -2427,6 +2427,26 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 148,
+   "date": "2026-10-16",
+   "setup": "oh",
+   "symbol": "TATACOMM",
+   "side": "SELL",
+   "qty": 5,
+   "entry_time": "11:01:19",
+   "entry_price": 1768.3,
+   "candle_stop": 1777.0,
+   "sl_price": 1785.88,
+   "reentry_seq": 1,
+   "reentry_level": 1769.0,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
   }
  ],
  "seeded": true,
@@ -2438,14 +2458,6 @@
    "side": "SELL",
    "level": 216.01,
    "stopped_at": "10:01:16",
-   "date": "2026-10-16"
-  },
-  {
-   "symbol": "TATACOMM",
-   "setup": "oh",
-   "side": "SELL",
-   "level": 1769.0,
-   "stopped_at": "10:55:00",
    "date": "2026-10-16"
   }
  ],

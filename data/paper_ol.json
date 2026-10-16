@@ -1,5 +1,5 @@
 {
- "updated_at": "16 Oct 2026 10:58:17 IST",
+ "updated_at": "16 Oct 2026 11:01:49 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,12 +51,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 2,
+  "open_count": 3,
   "closed_count": 139,
-  "trades_today": 4,
+  "trades_today": 5,
   "today_pnl": -157.34,
   "realized_total": -558.22,
-  "unrealized": 13.92,
+  "unrealized": 10.88,
   "wins": 71,
   "losses": 68,
   "win_rate": 51.1,
@@ -77,9 +77,9 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 27.12,
+   "pnl": 26.88,
    "feed": "angel",
-   "ltp": 132.99,
+   "ltp": 133.0,
    "pnl_pct": 0.84
   },
   {
@@ -96,10 +96,31 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -13.2,
+   "pnl": -16.0,
    "feed": "angel",
-   "ltp": 1599.0,
-   "pnl_pct": -0.41
+   "ltp": 1600.4,
+   "pnl_pct": -0.5
+  },
+  {
+   "id": 148,
+   "date": "2026-10-16",
+   "setup": "oh",
+   "symbol": "TATACOMM",
+   "side": "SELL",
+   "qty": 5,
+   "entry_time": "11:01:19",
+   "entry_price": 1768.3,
+   "candle_stop": 1777.0,
+   "sl_price": 1785.88,
+   "reentry_seq": 1,
+   "reentry_level": 1769.0,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 1768.3,
+   "pnl_pct": -0.0
   }
  ],
  "closed": [
@@ -2538,9 +2559,9 @@
   },
   {
    "date": "2026-10-16",
-   "trades": 4,
+   "trades": 5,
    "ol": 0,
-   "oh": 4,
+   "oh": 5,
    "wins": 0,
    "losses": 2,
    "pnl": -157.34,
