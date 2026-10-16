@@ -1,133 +1,36 @@
 {
- "updated_at": "15 Oct 2026 23:31 IST",
- "bhav_date": "2026-10-15",
+ "updated_at": "16 Oct 2026 18:46 IST",
+ "bhav_date": "2026-10-16",
  "desk": "NIFTY Long-Term Premium",
- "status": "ledger_cleaned",
+ "status": "RUNNING",
  "strategy": {
-  "rule": "NK sir (video SMky9fADQZw): BUY the discounted far-expiry NIFTY option (fair value from near-month IV), SELL nearer-weekly premium against it — buyer at discount + seller at price. Discounted CALL -> 1:2 ratio (profits if market falls OR rises; only fast momentum hurts). Discounted PUT -> spread. Shorts 1:1 (defined risk). 3 lots (225 qty) per Rs 5L model book.",
-  "exits": "target +70 pts · time-stop 4 trading days · momentum exit on close through the short strike +/-25 pt buffer · expired shorts rolled to the next weekly (keep selling)",
-  "caps": "max 10 trades/month · 1 open structure · signal: discount >= 5%",
+  "rule": "NK sir (video SMky9fADQZw): BUY the discounted far-expiry NIFTY option (fair value from near-month IV), SELL nearer-weekly premium against it \u2014 buyer at discount + seller at price. Discounted CALL -> 1:2 ratio (profits if market falls OR rises; only fast momentum hurts). Discounted PUT -> spread. Shorts 1:1 (defined risk). 3 lots (225 qty) per Rs 5L model book.",
+  "exits": "target +70 pts \u00b7 time-stop 4 trading days \u00b7 momentum exit on close through the short strike +/-25 pt buffer \u00b7 expired shorts rolled to the next weekly (keep selling)",
+  "caps": "max 10 trades/month \u00b7 1 open structure \u00b7 signal: discount >= 5%",
   "cadence": "EOD bhavcopy marks (intraday fills approximated by closes)",
   "source": "NK Stock Talk session 2026-10-03; rules doc NK_NIFTY_PREMIUM_RULES.md"
  },
  "levels": {
-  "spot": 22946.1,
-  "weekly_20sma": 23755.4,
-  "near_iv": 0.121,
+  "spot": 23103.5,
+  "weekly_20sma": 23762.9,
+  "near_iv": 0.111,
   "bias": "below (put side)"
  },
- "board": [
-  {
-   "expiry": "2027-06-29",
-   "strike": 24000.0,
-   "opt": "CE",
-   "dte": 257,
-   "price": 847.75,
-   "vol": 876,
-   "fair": 940.8,
-   "discount": 0.099,
-   "edge_pts": 93.0,
-   "own_iv": 0.109
-  },
-  {
-   "expiry": "2026-12-29",
-   "strike": 24050.0,
-   "opt": "CE",
-   "dte": 75,
-   "price": 193.75,
-   "vol": 541,
-   "fair": 212.3,
-   "discount": 0.087,
-   "edge_pts": 18.5,
-   "own_iv": 0.116
-  },
-  {
-   "expiry": "2026-12-29",
-   "strike": 23950.0,
-   "opt": "CE",
-   "dte": 75,
-   "price": 221.05,
-   "vol": 247,
-   "fair": 239.3,
-   "discount": 0.076,
-   "edge_pts": 18.2,
-   "own_iv": 0.116
-  },
-  {
-   "expiry": "2026-12-29",
-   "strike": 23900.0,
-   "opt": "CE",
-   "dte": 75,
-   "price": 235.35,
-   "vol": 1651,
-   "fair": 253.8,
-   "discount": 0.073,
-   "edge_pts": 18.4,
-   "own_iv": 0.116
-  },
-  {
-   "expiry": "2026-12-29",
-   "strike": 23850.0,
-   "opt": "CE",
-   "dte": 75,
-   "price": 249.5,
-   "vol": 88,
-   "fair": 268.9,
-   "discount": 0.072,
-   "edge_pts": 19.4,
-   "own_iv": 0.116
-  },
-  {
-   "expiry": "2026-12-29",
-   "strike": 24000.0,
-   "opt": "CE",
-   "dte": 75,
-   "price": 211.1,
-   "vol": 33710,
-   "fair": 225.5,
-   "discount": 0.064,
-   "edge_pts": 14.4,
-   "own_iv": 0.117
-  },
-  {
-   "expiry": "2026-12-29",
-   "strike": 23800.0,
-   "opt": "CE",
-   "dte": 75,
-   "price": 272.05,
-   "vol": 1114,
-   "fair": 284.6,
-   "discount": 0.044,
-   "edge_pts": 12.6,
-   "own_iv": 0.118
-  },
-  {
-   "expiry": "2027-03-30",
-   "strike": 24000.0,
-   "opt": "CE",
-   "dte": 166,
-   "price": 565.45,
-   "vol": 7537,
-   "fair": 590.2,
-   "discount": 0.042,
-   "edge_pts": 24.7,
-   "own_iv": 0.117
-  }
- ],
+ "board": [],
  "blocked": [],
  "open": [
   {
    "id": 2,
    "side": "call",
    "entry": "2026-10-15",
-   "days": 1,
-   "points": 0.0,
+   "days": 2,
+   "points": 54.9,
    "far": {
     "expiry": "2027-06-29",
     "strike": 24000.0,
     "qty": 225,
     "entry": 847.75,
-    "mark": 847.75,
+    "mark": 926.65,
     "exit": null,
     "exit_date": null
    },
@@ -137,7 +40,7 @@
      "strike": 23200.0,
      "qty": 225,
      "entry": 26.85,
-     "mark": 26.85,
+     "mark": 50.8,
      "exit": null,
      "exit_date": null
     }
@@ -162,9 +65,8 @@
   "open": 1,
   "this_month": 1,
   "wins": 0,
-  "win_rate": 0.0,
+  "win_rate": 0,
   "realized": 0,
-  "unrealized": 0.0,
-  "note": "Removed trade #1 MOMENTUM close (−₹6,075) from ledger 15 Oct"
+  "unrealized": 12363.75
  }
 }
