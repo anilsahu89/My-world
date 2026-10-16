@@ -1,5 +1,5 @@
 {
- "updated_at": "16 Oct 2026 10:54:50 IST",
+ "updated_at": "16 Oct 2026 10:58:17 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,15 +51,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 3,
-  "closed_count": 138,
+  "open_count": 2,
+  "closed_count": 139,
   "trades_today": 4,
-  "today_pnl": -82.34,
-  "realized_total": -483.22,
-  "unrealized": -47.36,
+  "today_pnl": -157.34,
+  "realized_total": -558.22,
+  "unrealized": 13.92,
   "wins": 71,
-  "losses": 67,
-  "win_rate": 51.4,
+  "losses": 68,
+  "win_rate": 51.1,
   "days": 20
  },
  "open": [
@@ -77,29 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 30.24,
+   "pnl": 27.12,
    "feed": "angel",
-   "ltp": 132.86,
-   "pnl_pct": 0.94
-  },
-  {
-   "id": 145,
-   "date": "2026-10-16",
-   "setup": "oh",
-   "symbol": "TATACOMM",
-   "side": "SELL",
-   "qty": 2,
-   "entry_time": "09:44:38",
-   "entry_price": 1736.5,
-   "candle_stop": 1769.0,
-   "sl_price": 1777.84,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -73.4,
-   "feed": "angel",
-   "ltp": 1773.2,
-   "pnl_pct": -2.11
+   "ltp": 132.99,
+   "pnl_pct": 0.84
   },
   {
    "id": 147,
@@ -115,13 +96,30 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -4.2,
+   "pnl": -13.2,
    "feed": "angel",
-   "ltp": 1594.5,
-   "pnl_pct": -0.13
+   "ltp": 1599.0,
+   "pnl_pct": -0.41
   }
  ],
  "closed": [
+  {
+   "id": 145,
+   "date": "2026-10-16",
+   "setup": "oh",
+   "symbol": "TATACOMM",
+   "side": "SELL",
+   "qty": 2,
+   "entry_time": "09:44:38",
+   "entry_price": 1736.5,
+   "candle_stop": 1769.0,
+   "sl_price": 1777.84,
+   "exit_time": "10:55:00",
+   "exit_price": 1774.0,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -75.0,
+   "feed": "angel"
+  },
   {
    "id": 146,
    "date": "2026-10-16",
@@ -2544,9 +2542,9 @@
    "ol": 0,
    "oh": 4,
    "wins": 0,
-   "losses": 1,
-   "pnl": -82.34,
-   "cum": -483.22
+   "losses": 2,
+   "pnl": -157.34,
+   "cum": -558.22
   }
  ]
 }
