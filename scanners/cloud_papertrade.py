@@ -1174,6 +1174,7 @@ def commit_state() -> None:
              "scanners/papertrades/nifty_premium_mill_log.csv",
              "data/scanners/htf-hm-latest.json",
              "scanners/papertrades/htf_hm_trades.csv",
+             "data/cloud_intraday_hm_state.json",
              "data/close_requests/ol.json", "data/close_requests/gc.json",
              "data/close_requests/qm.json", "data/close_requests/swing.json",
              "data/close_requests/hm.json", "data/close_requests/theta.json",
