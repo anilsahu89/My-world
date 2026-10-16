@@ -1089,7 +1089,7 @@ main h3 .collapse-btn {
 <section id="hmHtfSection" class="pt-panel">
   <h2 style="color:#81c784">
     📈 Intraday HM — HTF bias + 1H Hilega-Milega
-    <span class="muted" style="font-size:0.75rem">— NK sir's HM on higher time frames: enter when RSI9(w)&gt;50 · red WMA21(RSI) below RSI · green WMA3 above red (momentum phase); exit weekly RSI&lt;50 or ≥86 · 5-yr backtest PF 2.19, avg +4.8%/trade · monthly tab below = investing watchlist (PF 4.22) · day relay ticks it post-close</span>
+    <span class="muted" style="font-size:0.75rem">— weekly+daily HM set the bias, enter on the 1H HM flip in that direction · ₹10k lots, max 5 open, 3 new/day · SL/TGT at 1:1.5 · scans every 30 min during market hours · closes: 1H state flip or RSI-86 book</span>
   </h2>
   <div id="hmStatus" class="flash">Loading Intraday HM desk…</div>
 
@@ -2039,17 +2039,30 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     var liveTotal = 0, anyLive = false;
     var ow = document.getElementById("hmOpenWrap");
     ow.innerHTML = open.length ? tbl(
-      ["Entry", "Symbol", "Signal Wk", "Qty", "Entry ₹",
+      ["Entry", "Symbol",
+       '<span title="what kind of trade this is — direction and setup family">Kind</span>',
+       '<span title="weekly / daily HM state at entry — the HTF bias that gated the trade">HTF W/D</span>',
+       "Qty", "Entry ₹",
        '<span title="last traded price — engine refreshes it every market-hours tick; post-close it is the day\'s close (Yahoo, ~15 min delayed)">LTP ₹</span>',
        '<span title="unrealised, at the LTP shown">Live P&L</span>',
-       "RSI@", "Invested ₹"],
+       "SL", "TGT", "Invested ₹"],
       open.map(function (t) {
         var ltp = Number(t.ltp), pnl = Number(t.live_pnl), pct = Number(t.live_pct);
         var hasLive = t.ltp != null && isFinite(ltp) && ltp > 0;
         if (hasLive) { liveTotal += pnl; anyLive = true; }
-        return "<tr><td>" + esc(t.entry_date) + "</td><td><strong>" + esc(t.symbol) +
-          "</strong></td><td>" + esc(t.signal_date) + "</td><td>" + esc(t.qty) +
-          "</td><td>" + esc(t.entry) + "</td><td>" +
+        var setup = String(t.setup || "");
+        var kind = setup.indexOf("NEW-LOW") >= 0 ? "NEW-LOW"
+                 : (setup.indexOf("BUY") >= 0 ? "BUY" : "SELL");
+        var kBadge = kind === "BUY"
+          ? '<span class="badge badge-green">' + kind + "</span>"
+          : '<span class="badge badge-red">' + kind + "</span>";
+        var htf = (t.htf_weekly ? String(t.htf_weekly).replace("SELL-MOMENTUM", "SELL").replace("BUY-MOMENTUM", "BUY") : "—")
+          + " / " + (t.htf_daily ? String(t.htf_daily).replace("SELL-MOMENTUM", "SELL").replace("BUY-MOMENTUM", "BUY") : "—");
+        return "<tr><td>" + esc(t.entry_date) + " " + esc(t.entry_time || "") +
+          "</td><td><strong>" + esc(t.symbol) + "</strong></td>" +
+          '<td>' + kBadge + "</td>" +
+          '<td class="muted" style="font-size:0.75rem">' + esc(htf) + "</td>" +
+          "<td>" + esc(t.qty) + "</td><td>" + esc(t.entry) + "</td><td>" +
           (hasLive ? "₹" + ltp.toLocaleString("en-IN",
               { minimumFractionDigits: 2, maximumFractionDigits: 2 })
             : '<span class="muted">—</span>') + '</td><td class="' +
@@ -2057,10 +2070,10 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
           (hasLive ? inr(pnl) + " <span class='muted' style='font-size:0.75em'>(" +
                      (pct > 0 ? "+" : "") + pct.toFixed(2) + "%)</span>"
                    : '<span class="muted">—</span>') +
-          "</td><td>" + esc(t.rsi_entry) +
-          "</td><td>" + esc(t.invested) +
-          "</td><td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next post-close scan price\" onclick=\"return requestDeskClose('hm','" + esc(t.symbol) + "','" + esc(t.symbol) + "')\">✕ close</button></td></tr>";
-      })) : '<div class="flash">No open HM positions — entries wait for a fresh weekly momentum phase (max 2/week, 5 open).</div>';
+          "</td><td>" + (t.sl != null ? t.sl : "—") + "</td><td>" +
+          (t.tgt != null ? t.tgt : "—") + "</td><td>" + esc(t.invested) +
+          "</td><td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next scan price (30-min tick)\" onclick=\"return requestDeskClose('hm','" + esc(t.id) + "','" + esc(t.symbol) + "')\">✕ close</button></td></tr>";
+      })) : '<div class="flash">No open Intraday HM positions — entries fire on a 1H HM flip aligned with the weekly+daily bias (max 3/day, 5 open).</div>';
     if (anyLive) {
       st.innerHTML += ' &nbsp;·&nbsp; open P&L <strong class="' + cls(liveTotal) +
         '">' + inr(liveTotal) + "</strong> (live" +
