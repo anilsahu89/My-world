@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 149,
+ "next_id": 150,
  "trades": [
   {
    "id": 1,
@@ -2447,20 +2447,31 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 149,
+   "date": "2026-10-16",
+   "setup": "oh",
+   "symbol": "JIOFIN",
+   "side": "SELL",
+   "qty": 46,
+   "entry_time": "11:08:20",
+   "entry_price": 215.88,
+   "candle_stop": 218.5,
+   "sl_price": 219.59,
+   "reentry_seq": 1,
+   "reentry_level": 216.01,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
   }
  ],
  "seeded": true,
  "f3_done_date": "2026-10-12",
- "reentry_watch": [
-  {
-   "symbol": "JIOFIN",
-   "setup": "oh",
-   "side": "SELL",
-   "level": 216.01,
-   "stopped_at": "10:01:16",
-   "date": "2026-10-16"
-  }
- ],
+ "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-10-16",
   "ol": {

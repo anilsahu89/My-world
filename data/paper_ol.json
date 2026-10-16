@@ -1,5 +1,5 @@
 {
- "updated_at": "16 Oct 2026 11:05:17 IST",
+ "updated_at": "16 Oct 2026 11:08:50 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,12 +51,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 3,
+  "open_count": 4,
   "closed_count": 139,
-  "trades_today": 5,
+  "trades_today": 6,
   "today_pnl": -157.34,
   "realized_total": -558.22,
-  "unrealized": 24.5,
+  "unrealized": 29.8,
   "wins": 71,
   "losses": 68,
   "win_rate": 51.1,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 21.6,
+   "pnl": 22.32,
    "feed": "angel",
-   "ltp": 133.22,
-   "pnl_pct": 0.67
+   "ltp": 133.19,
+   "pnl_pct": 0.69
   },
   {
    "id": 147,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -18.6,
+   "pnl": -12.0,
    "feed": "angel",
-   "ltp": 1601.7,
-   "pnl_pct": -0.58
+   "ltp": 1598.4,
+   "pnl_pct": -0.38
   },
   {
    "id": 148,
@@ -117,10 +117,31 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 21.5,
+   "pnl": 25.0,
    "feed": "angel",
-   "ltp": 1764.0,
-   "pnl_pct": 0.24
+   "ltp": 1763.3,
+   "pnl_pct": 0.28
+  },
+  {
+   "id": 149,
+   "date": "2026-10-16",
+   "setup": "oh",
+   "symbol": "JIOFIN",
+   "side": "SELL",
+   "qty": 46,
+   "entry_time": "11:08:20",
+   "entry_price": 215.88,
+   "candle_stop": 218.5,
+   "sl_price": 219.59,
+   "reentry_seq": 1,
+   "reentry_level": 216.01,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -5.52,
+   "feed": "angel",
+   "ltp": 216.0,
+   "pnl_pct": -0.06
   }
  ],
  "closed": [
@@ -2559,9 +2580,9 @@
   },
   {
    "date": "2026-10-16",
-   "trades": 5,
+   "trades": 6,
    "ol": 0,
-   "oh": 5,
+   "oh": 6,
    "wins": 0,
    "losses": 2,
    "pnl": -157.34,
