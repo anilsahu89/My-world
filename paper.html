@@ -6,6 +6,7 @@
   <title>Paper Trades · Mahi Future Investment Portal</title>
   <script>(function(){var h=location.hostname,seg=location.pathname.replace(/^\/+/,"").split("/")[0],prefix=(h.endsWith(".github.io")&&seg&&!/\.html?$/i.test(seg))?"/"+seg+"/":"/",d=document.createElement("base");d.href=prefix;document.head.prepend(d)})()</script>
   <link rel="stylesheet" href="static/style.css?v=3">
+  <script src="static/trade-templates.js?v=3"></script>
   <link rel="icon" type="image/png" href="static/logo.png">
   
 <style>
@@ -646,6 +647,9 @@ main h3 .collapse-btn {
         srows + "</tbody></table>" +
         '<p class="hint" style="margin:0.5rem 0 0">Day ' + t.days + ' of 4 · position ' +
         (t.points >= 0 ? "+" : "−") + Math.abs(t.points) + " pts (target +70, stop −70) · shorts decay while the discounted far leg holds value.</p>";
+      ow.innerHTML = '<div id="ltpTT"></div><details style="margin-top:10px"><summary class="muted">Leg detail (far leg + shorts)</summary>' + ow.innerHTML + "</details>";
+      TradeTemplates.open(ow.querySelector("#ltpTT"), [TradeTemplates.adapt.ltpOpen(t)],
+        { desk: "ltp", noTotals: true });
     }
 
     var closed = d.trades || [];
@@ -655,19 +659,8 @@ main h3 .collapse-btn {
     if (!cl.length) {
       cw.innerHTML = '<div class="flash">No closed trades yet.</div>';
     } else {
-      var rows = cl.slice().reverse().map(function (t) {
-        var win = (t.pnl || 0) > 0;
-        return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
-          "<td>" + esc(t.entry) + "</td><td>" + esc(t.exit) + "</td>" +
-          "<td>" + (t.side === "call" ? "CALL" : "PUT") + "</td>" +
-          "<td>" + Math.round((t.discount_at_entry || 0) * 100) + "%</td>" +
-          "<td>" + esc(t.reason) + "</td>" +
-          '<td class="' + cls(t.points) + '">' + (t.points >= 0 ? "+" : "−") + Math.abs(t.points) + "</td>" +
-          '<td class="' + cls(t.pnl) + '">' + inr(t.pnl) + "</td></tr>";
-      }).join("");
-      cw.innerHTML = "<table><thead><tr><th>Entry</th><th>Exit</th><th>Side</th>" +
-        "<th>Disc@Entry</th><th>Reason</th><th>Pts</th><th>P&L ₹</th></tr></thead><tbody>" +
-        rows + "</tbody></table>";
+      TradeTemplates.closed(cw, cl.slice().reverse().map(function (t) { return TradeTemplates.adapt.ltpClosed(t); }),
+        { desk: "ltp" });
     }
   }
 
@@ -777,17 +770,8 @@ main h3 .collapse-btn {
     if (!open.length) {
       ow.innerHTML = '<div class="flash">No open spreads — entries fire the same evening a stock clears the gates.</div>';
     } else {
-      var rows = open.map(function (o) {
-        return '<tr><td><strong>' + esc(o.symbol) + "</strong></td><td>" + esc(o.entry_date) + "</td>" +
-          "<td>BUY " + esc(o.current_expiry) + " @ " + o.entry_current + "</td>" +
-          "<td>SELL " + esc(o.next_expiry) + " @ " + o.entry_next + "</td>" +
-          "<td>" + o.basis + "</td><td>" + o.spread + "</td><td>" + o.lot + "</td>" +
-          "<td>₹" + Number(o.spread_value).toLocaleString("en-IN") + "</td></tr>";
-      }).join("");
-      ow.innerHTML = "<table><thead><tr><th>Stock</th><th>Entered</th><th>Long Leg</th>" +
-        "<th>Short Leg</th><th>Basis</th><th>Spread</th><th>Lot</th><th>Spread ₹/lot</th></tr></thead><tbody>" +
-        rows + "</tbody></table>" +
-        '<p class="hint" style="margin:0.5rem 0 0">Exit: the current-month future closes back at/above spot (convergence — the basis was harvested), or expiry day. Max loss scenario is bounded by the entry filters; daily kill-switch at −₹15,000.</p>';
+      TradeTemplates.open(ow, open.map(function (o) { return TradeTemplates.adapt.arb(o); }),
+        { desk: "arb", footer: "Exit: the current-month future closes back at/above spot (convergence \u2014 the basis was harvested), or expiry day. Max loss scenario is bounded by the entry filters; daily kill-switch at \u2212\u20b915,000." });
     }
 
     var closed = d.closed || [];
@@ -796,16 +780,8 @@ main h3 .collapse-btn {
     if (!closed.length) {
       cw.innerHTML = '<div class="flash">No closed trades yet — first spreads entered Oct 1 are still converging.</div>';
     } else {
-      var rows = closed.slice().reverse().map(function (t) {
-        var win = (t.pnl || 0) > 0;
-        return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
-          "<td><strong>" + esc(t.symbol) + "</strong></td>" +
-          "<td>" + esc(t.entry_date) + "</td><td>" + esc(t.exit_date) + "</td>" +
-          "<td>" + esc((t.reason || "").replace("SL_current_future_matched_or_crossed_spot", "convergence")) + "</td>" +
-          '<td class="' + cls(t.pnl) + '">' + inr(t.pnl) + "</td></tr>";
-      }).join("");
-      cw.innerHTML = "<table><thead><tr><th>Stock</th><th>Entered</th><th>Exited</th>" +
-        "<th>Reason</th><th>P&L ₹</th></tr></thead><tbody>" + rows + "</tbody></table>";
+      TradeTemplates.closed(cw, closed.slice().reverse().map(function (t) { return TradeTemplates.adapt.arb(t); }),
+        { desk: "arb" });
     }
   }
 
@@ -953,10 +929,9 @@ main h3 .collapse-btn {
           '<p class="hint" style="margin:0.5rem 0 0">Gap = how far spot must move before a short strike goes in-the-money. ' +
           "Wings = the long options bought ~$1,000 beyond each short — they cap the worst day at wing-width minus credit, so a big BTC crash is a known, small loss instead of an open-ended one.</p>";
       }
-      if (t.id != null) {
-        ow.innerHTML += '<div style="margin-top:8px"><button class="btn" style="padding:2px 12px" title="close at the next 15-min tick mark" onclick="return requestDeskClose(\'btc\',\'' + t.id + '\',\'BTC weekly fence\')">✕ close this structure</button>' +
-          '<span class="muted" style="font-size:0.75rem"> — executes at the next 15-min tick\u2019s mark</span></div>';
-      }
+      ow.innerHTML = '<div id="btTT"></div><details style="margin-top:10px"><summary class="muted">Leg, strike-gap &amp; wing detail</summary>' + ow.innerHTML + "</details>";
+      TradeTemplates.open(ow.querySelector("#btTT"), [TradeTemplates.adapt.btcOpen(t)],
+        { desk: "btc", closeHint: "closes at the next 15-min tick mark", noTotals: true });
     }
 
     var closed = d.closed || [];
@@ -965,16 +940,8 @@ main h3 .collapse-btn {
     if (!closed.length) {
       cw.innerHTML = '<div class="flash">No closed condors yet.</div>';
     } else {
-      var rows = closed.slice().reverse().map(function (t) {
-        var win = (t.pnl_inr || 0) > 0, k = t.strikes || {};
-        return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
-          "<td>" + esc(t.entry_at) + "</td><td>" + k.sc + "C / " + k.sp + "P</td>" +
-          "<td>" + usd(t.credit_usd) + "</td><td>" + esc(t.reason) + "</td>" +
-          '<td class="' + cls(t.pnl_inr) + '">' + inr(t.pnl_inr) + "</td></tr>";
-      }).join("");
-      cw.innerHTML = "<table><thead><tr><th>Opened</th><th>Strikes</th>" +
-        "<th>Credit</th><th>Reason</th><th>P&L ₹</th></tr></thead><tbody>" +
-        rows + "</tbody></table>";
+      TradeTemplates.closed(cw, closed.slice().reverse().map(function (t) { return TradeTemplates.adapt.btcClosed(t); }),
+        { desk: "btc" });
     }
     set("btLog", (d.log || []).map(function (l) { return "• " + esc(l); })
       .join("<br>"));
@@ -1375,78 +1342,17 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
 
   function renderOpen(trades) {
     document.getElementById("autoOpenCount").textContent = "(" + trades.length + ")";
-    var wrap = document.getElementById("autoOpenWrap");
-    if (!trades.length) {
-      wrap.innerHTML = '<div class="flash">No open positions right now.</div>';
-      return;
-    }
-    var rows = trades.map(function (t) {
-      var pnl = t.pnl, pct = t.pnl_pct;
-      return "<tr>" +
-        "<td><strong>" + esc(t.symbol) + "</strong></td>" +
-        "<td>" + setupBadge(t) + "</td>" +
-        "<td>" + sideBadge(t) + "</td>" +
-        "<td>" + t.qty + "</td>" +
-        "<td>" + esc(t.entry_time) + "</td>" +
-        "<td>" + inr(t.entry_price) + "</td>" +
-        "<td>" + inr(t.sl_price) + "</td>" +
-        "<td>" + (t.ltp != null ? inr(t.ltp) : "—") + "</td>" +
-        '<td class="' + cls(pnl) + '">' + inr(pnl, true) + "</td>" +
-        '<td class="' + cls(pct) + '">' +
-        (pct != null ? (pct > 0 ? "+" : "") + pct.toFixed(2) + "%" : "—") + "</td>" +
-        "<td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next engine tick price\" onclick=\"return requestDeskClose('ol','" + t.id + "','" + esc(t.symbol) + "')\">✕ close</button></td>" +
-        "</tr>";
-    }).join("");
-    wrap.innerHTML = "<table><thead><tr>" +
-      "<th>Symbol</th><th>Setup</th><th>Side</th><th>Qty</th><th>Entry Time</th>" +
-      "<th>Entry ₹</th><th>SL ₹</th><th>LTP ₹</th><th>P&L</th><th>P&L %</th>" +
-      "</tr></thead><tbody>" + rows + "</tbody></table>";
+    TradeTemplates.open(document.getElementById("autoOpenWrap"),
+      trades.map(function (t) { return TradeTemplates.adapt.ol(t); }),
+      { desk: "ol", closeHint: "closes at the next engine tick price", empty: "No open positions right now." });
   }
 
   function renderClosed(trades) {
     document.getElementById("autoClosedCount").textContent = "(" + trades.length + ")";
-    var wrap = document.getElementById("autoClosedWrap");
-    if (!trades.length) {
-      wrap.innerHTML = '<div class="flash">No closed trades yet.</div>';
-      return;
-    }
-    var shown = showAllClosed ? trades : trades.slice(0, CLOSED_LIMIT);
-    var rows = shown.map(function (t) {
-      var win = (t.pnl || 0) > 0;
-      return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
-        "<td>" + esc(t.date) + "</td>" +
-        "<td>" + setupBadge(t) + "</td>" +
-        "<td><strong>" + esc(t.symbol) + "</strong></td>" +
-        "<td>" + sideBadge(t) + "</td>" +
-        "<td>" + t.qty + "</td>" +
-        "<td>" + esc(t.entry_time) + "</td>" +
-        "<td>" + inr(t.entry_price) + "</td>" +
-        "<td>" + esc(t.exit_time || "—") + "</td>" +
-        "<td>" + inr(t.exit_price) + "</td>" +
-        "<td>" + esc(t.reason || "—") + "</td>" +
-        '<td class="' + cls(t.pnl) + '">' + inr(t.pnl, true) + "</td>" +
-        "<td><span class='badge " + (win ? "badge-green" : "badge-red") + "'>" +
-        (win ? "WIN" : "LOSS") + "</span></td>" +
-        "</tr>";
-    }).join("");
-    var more = "";
-    if (trades.length > CLOSED_LIMIT) {
-      more = '<div style="padding:8px;text-align:center">' +
-        '<button class="btn" onclick="window.__autoToggleClosed()"">' +
-        (showAllClosed ? "Show latest " + CLOSED_LIMIT + " only"
-                       : "Show all " + trades.length + " trades") + "</button></div>";
-    }
-    wrap.innerHTML = "<table><thead><tr>" +
-      "<th>Date</th><th>Setup</th><th>Symbol</th><th>Side</th><th>Qty</th>" +
-      "<th>Entry Time</th><th>Entry ₹</th><th>Exit Time</th><th>Exit ₹</th>" +
-      "<th>Reason</th><th>P&L</th><th></th>" +
-      "</tr></thead><tbody>" + rows + "</tbody></table>" + more;
+    TradeTemplates.closed(document.getElementById("autoClosedWrap"),
+      trades.map(function (t) { return TradeTemplates.adapt.ol(t); }),
+      { desk: "ol", limit: CLOSED_LIMIT, empty: "No closed trades yet." });
   }
-
-  window.__autoToggleClosed = function () {
-    showAllClosed = !showAllClosed;
-    if (window.__lastAuto) renderClosed(window.__lastAuto.closed || []);
-  };
 
   function renderDaily(days) {
     var wrap = document.getElementById("autoDailyWrap");
@@ -1544,43 +1450,13 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
 
     document.getElementById("gcOpenCount").textContent = "(" + (d.open || []).length + ")";
     var ow = document.getElementById("gcOpenWrap");
-    if (!(d.open || []).length) {
-      ow.innerHTML = '<div class="flash">No open Gold/BTC positions.</div>';
-    } else {
-      var rows = d.open.map(function (t) {
-        return "<tr><td><strong>" + esc(t.symbol) + "</strong></td>" +
-          "<td>" + (t.setup === "ol" ? "O=L" : (t.setup === "oh" ? "O=H" : esc(t.setup))) + "</td>" +
-          "<td>" + esc(t.side) + "</td><td>" + t.qty + "</td>" +
-          "<td>" + esc(t.entry_time) + "</td><td>" + (t.setup.indexOf("DESK") === 0 ? usd(t.entry_price) + " cr" : px(t.entry_price)) + "</td>" +
-          "<td>" + px(t.sl_price) + "</td><td>" + (t.ltp != null ? px(t.ltp) : "—") + "</td>" +
-          '<td class="' + cls(t.pnl) + '">' + usd(t.pnl, true) + "</td>" +
-          "<td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next gc tick price\" onclick=\"return requestDeskClose('gc','" + t.id + "','" + esc(t.symbol) + "')\">✕ close</button></td></tr>";
-      }).join("");
-      ow.innerHTML = "<table><thead><tr><th>Market</th><th>Setup</th><th>Side</th><th>Qty</th>" +
-        "<th>Entry Time</th><th>Entry</th><th>SL</th><th>Last</th><th>P&L</th>" +
-        "</tr></thead><tbody>" + rows + "</tbody></table>";
-    }
+    TradeTemplates.open(ow, (d.open || []).map(function (t) { return TradeTemplates.adapt.gc(t); }),
+      { desk: "gc", closeHint: "closes at the next gc tick price", empty: "No open Gold/BTC positions." });
 
     document.getElementById("gcClosedCount").textContent = "(" + (d.closed || []).length + ")";
-    var cw = document.getElementById("gcClosedWrap");
-    if (!(d.closed || []).length) {
-      cw.innerHTML = '<div class="flash">No closed Gold/BTC trades yet.</div>';
-    } else {
-      var crows = d.closed.map(function (t) {
-        var win = (t.pnl || 0) > 0;
-        return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
-          "<td>" + esc(t.session) + "</td><td><strong>" + esc(t.symbol) + "</strong></td>" +
-          "<td>" + (t.setup === "ol" ? "O=L" : (t.setup === "oh" ? "O=H" : esc(t.setup))) + "</td><td>" + esc(t.side) + "</td>" +
-          "<td>" + t.qty + "</td><td>" + esc(t.entry_time) + "</td><td>" + (t.setup.indexOf("DESK") === 0 ? usd(t.entry_price) + " cr" : px(t.entry_price)) + "</td>" +
-          "<td>" + (t.exit_price != null ? px(t.exit_price) + " @ " + esc(t.exit_time || "") : "—") + "</td>" +
-          "<td>" + esc(t.reason || "—") + '</td><td class="' + cls(t.pnl) + '">' + usd(t.pnl, true) + "</td>" +
-          "<td><span class='badge " + (win ? "badge-green" : "badge-red") + "'>" +
-          (win ? "WIN" : "LOSS") + "</span></td></tr>";
-      }).join("");
-      cw.innerHTML = "<table><thead><tr><th>Session</th><th>Market</th><th>Setup</th><th>Side</th>" +
-        "<th>Qty</th><th>Entry Time</th><th>Entry</th><th>Exit</th><th>Reason</th><th>P&L</th><th></th>" +
-        "</tr></thead><tbody>" + crows + "</tbody></table>";
-    }
+    TradeTemplates.closed(document.getElementById("gcClosedWrap"),
+      (d.closed || []).map(function (t) { return TradeTemplates.adapt.gc(t); }),
+      { desk: "gc", limit: 50, empty: "No closed Gold/BTC trades yet." });
   }
 
   function renderHm(hm) {
@@ -1589,25 +1465,8 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     var wrap = document.getElementById("hmgcOpenWrap");
     if (!cnt || !wrap) return;
     cnt.textContent = "(" + opens.length + ")";
-    if (!opens.length) {
-      wrap.innerHTML = '<div class="flash">No open HM setup positions.</div>';
-      return;
-    }
-    var sideCls = { "BUY": "badge-green", "SELL": "badge-red" };
-    var rows = opens.map(function (o) {
-      var sc = o.side.indexOf("SHORT") === 0 ? "badge-grey"
-             : (sideCls[o.side] || "badge-green");
-      return '<tr><td><strong>' + esc(o.asset) + "</strong></td><td>" + esc(o.frame) +
-        "</td><td>" + esc(o.setup) + '</td><td><span class="badge ' + sc + '">' +
-        esc(o.side) + "</span></td><td>" + esc(o.entry_date) + "</td><td>" +
-        esc(Number(o.entry_price).toLocaleString("en-US",
-            { maximumFractionDigits: 2 })) + "</td><td>" + esc(o.lots) +
-        "</td><td>" + esc(o.stop_ref != "" ? Number(o.stop_ref).toLocaleString("en-US",
-            { maximumFractionDigits: 0 }) : "—") + "</td></tr>";
-    }).join("");
-    wrap.innerHTML = "<table><thead><tr><th>Asset</th><th>Frame</th><th>Setup</th>" +
-      "<th>Side</th><th>Entry</th><th>Entry Price</th><th>Lots</th><th>Stop Ref</th>" +
-      "</tr></thead><tbody>" + rows + "</tbody></table>";
+    TradeTemplates.open(wrap, opens.map(function (o) { return TradeTemplates.adapt.hmgc(o); }),
+      { desk: "hmgc", noTotals: true, empty: "No open HM setup positions." });
   }
   function loadHm() {
     fetch(base + "/data/scanners/hm-btc-gold-latest.json?t=" + Date.now())
@@ -1674,45 +1533,14 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     document.getElementById("thVix").textContent = open.length ? open[0].vix_entry : "< 22 required";
     document.getElementById("thOpenCount").textContent = "(" + open.length + ")";
     var ow = document.getElementById("thOpenWrap");
-    if (!open.length) {
-      ow.innerHTML = '<div class="flash">No open Daily Theta position right now.</div>';
-    } else {
-      var orows = open.map(function (t) {
-        var lp = Number(t.live_pnl);
-        var hasMark = t.live_pnl != null && isFinite(lp);
-        return "<tr><td>" + esc(t.entry_date) + "</td><td>" + esc(t.direction) + "</td>" +
-          "<td>" + esc(t.short_strike) + " / " + esc(t.long_strike) + " " + esc(t.opt_type) + "</td>" +
-          "<td>" + inr(t.net_credit).replace("+", "") + "</td><td>" + esc(t.expiry) + " (" + esc(t.dte) + "d)</td>" +
-          "<td>" + esc(t.spot_entry) + "</td><td>" + esc(t.vix_entry) + "</td>" +
-          '<td class="' + (hasMark ? cls(lp) : "") + '">' +
-          (hasMark ? inr(lp) + ' <span class="muted" style="font-size:0.7em">@' +
-                      esc(t.mark_date || "") + "</span>"
-                   : '<span class="muted">—</span>') + "</td>" +
-          "<td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next scan's spread price\" onclick=\"return requestDeskClose('theta','open','NIFTY spread')\">✕ close</button></td></tr>";
-      }).join("");
-      ow.innerHTML = "<table><thead><tr><th>Entry</th><th>Direction</th><th>Short/Long Strike</th>" +
-        "<th>Net Credit</th><th>Expiry</th><th>Spot@Entry</th><th>VIX@Entry</th>" +
-        '<th title="mark-to-market at the last scan (bhavcopy premiums): credit minus current spread x 75">Open P&L</th>' +
-        "</tr></thead><tbody>" + orows + "</tbody></table>";
-    }
+    var thCtx = { desk: "theta" };
+    TradeTemplates.open(ow, open.map(function (t) { return TradeTemplates.adapt.spread(t, thCtx); }),
+      { desk: "theta", closeHint: "closes at the next scan's spread price", noTotals: true,
+        empty: "No open Daily Theta position right now." });
     document.getElementById("thClosedCount").textContent = "(" + closed.length + ")";
-    var cw = document.getElementById("thClosedWrap");
-    if (!closed.length) {
-      cw.innerHTML = '<div class="flash">No closed Daily Theta trades yet.</div>';
-    } else {
-      var crows = closed.slice().reverse().map(function (t) {
-        var win = Number(t.pnl) > 0;
-        return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
-          "<td>" + esc(t.entry_date) + "</td><td>" + esc(t.exit_date) + "</td><td>" + esc(t.direction) + "</td>" +
-          "<td>" + esc(t.short_strike) + "/" + esc(t.long_strike) + " " + esc(t.opt_type) + "</td>" +
-          "<td>" + esc(t.exit_reason) + "</td>" +
-          '<td class="' + cls(t.pnl) + '">' + inr(t.pnl) + "</td>" +
-          "<td>" + esc(t.holding_days) + "d</td>" +
-          "<td><span class='badge " + (win ? "badge-green" : "badge-red") + "'>" + (win ? "WIN" : "LOSS") + "</span></td></tr>";
-      }).join("");
-      cw.innerHTML = "<table><thead><tr><th>Entry</th><th>Exit</th><th>Direction</th><th>Strikes</th>" +
-        "<th>Reason</th><th>P&L</th><th>Held</th><th></th></tr></thead><tbody>" + crows + "</tbody></table>";
-    }
+    TradeTemplates.closed(document.getElementById("thClosedWrap"),
+      closed.slice().reverse().map(function (t) { return TradeTemplates.adapt.spread(t, thCtx); }),
+      { desk: "theta", empty: "No closed Daily Theta trades yet." });
   }
   function load() {
     fetch(base + "/data/scanners/nifty-daily-theta-latest.json?t=" + Date.now())
@@ -1942,44 +1770,15 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         wins.length + "W/" + (closed.length - wins.length) + "L)</span>" : "—";
     document.getElementById("pmOpenCount").textContent = "(" + open.length + ")";
     var ow = document.getElementById("pmOpenWrap");
-    if (!open.length) {
-      ow.innerHTML = '<div class="flash">No open mill position — next entry window is the 1–4 DTE run-up to a Tuesday expiry (Monday/Friday).</div>';
-    } else {
-      var orows = open.map(function (t) {
-        var lp = Number(t.live_pnl);
-        var hasMark = t.live_pnl != null && isFinite(lp);
-        return "<tr><td>" + esc(t.entry_date) + "</td><td>" + esc(t.direction) + "</td>" +
-          "<td>" + esc(t.short_strike) + " / " + esc(t.long_strike) + " " + esc(t.opt_type) + "</td>" +
-          "<td>" + esc(t.expiry) + "</td><td>₹" + esc(t.net_credit) + "</td>" +
-          "<td>" + esc(t.spot_entry) + "</td><td>" + esc(t.vix_entry) + "</td>" +
-          '<td class="' + (hasMark ? cls(lp) : "") + '">' +
-          (hasMark ? inr(lp) + ' <span class="muted" style="font-size:0.7em">@' +
-                      esc(t.mark_date || "") + "</span>"
-                   : '<span class="muted">—</span>') + "</td>" +
-          "<td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next scan's spread price\" onclick=\"return requestDeskClose('mill','open','NIFTY spread')\">✕ close</button></td></tr>";
-      }).join("");
-      ow.innerHTML = "<table><thead><tr><th>Entry</th><th>Direction</th><th>Strikes</th>" +
-        "<th>Expiry</th><th>Credit ₹</th><th>Spot@Entry</th><th>VIX@Entry</th>" +
-        '<th title="mark-to-market at the last scan (bhavcopy premiums): credit minus current spread x 75">Open P&L</th>' +
-        "</tr></thead><tbody>" + orows + "</tbody></table>";
-    }
+    var pmCtx = { desk: "mill", tgtRule: function (t, q) {
+      return "50% of credit (₹" + Math.round(Number(t.net_credit) * q * 0.5).toLocaleString("en-IN") + ")"; } };
+    TradeTemplates.open(ow, open.map(function (t) { return TradeTemplates.adapt.spread(t, pmCtx); }),
+      { desk: "mill", closeHint: "closes at the next scan's spread price", noTotals: true,
+        empty: "No open mill position \u2014 next entry window is the 1\u20134 DTE run-up to a Tuesday expiry (Monday/Friday)." });
     document.getElementById("pmClosedCount").textContent = "(" + closed.length + ")";
-    var cw = document.getElementById("pmClosedWrap");
-    if (!closed.length) {
-      cw.innerHTML = '<div class="flash">No closed mill trades yet.</div>';
-    } else {
-      var crows = closed.slice().reverse().map(function (t) {
-        var w = Number(t.pnl) > 0;
-        return '<tr class="' + (w ? "row-win" : "row-loss") + '">' +
-          "<td>" + esc(t.entry_date) + "</td><td>" + esc(t.exit_date || "—") + "</td>" +
-          "<td>" + esc(t.direction) + "</td>" +
-          "<td>" + esc(t.short_strike) + "/" + esc(t.long_strike) + " " + esc(t.opt_type) + "</td>" +
-          "<td>" + esc(t.exit_reason || "—") + '</td>' +
-          '<td class="' + cls(Number(t.pnl)) + '">' + inr(Number(t.pnl)) + "</td></tr>";
-      }).join("");
-      cw.innerHTML = "<table><thead><tr><th>Entry</th><th>Exit</th><th>Direction</th><th>Strikes</th>" +
-        "<th>Reason</th><th>P&L</th></tr></thead><tbody>" + crows + "</tbody></table>";
-    }
+    TradeTemplates.closed(document.getElementById("pmClosedWrap"),
+      closed.slice().reverse().map(function (t) { return TradeTemplates.adapt.spread(t, pmCtx); }),
+      { desk: "mill", empty: "No closed mill trades yet." });
   }
   function load() {
     fetch(base + "/data/scanners/nifty-premium-mill-latest.json?t=" + Date.now())
@@ -2038,42 +1837,13 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     document.getElementById("hmOpenCount").textContent = "(" + open.length + ")";
     var liveTotal = 0, anyLive = false;
     var ow = document.getElementById("hmOpenWrap");
-    ow.innerHTML = open.length ? tbl(
-      ["Entry", "Symbol",
-       '<span title="what kind of trade this is — direction and setup family">Kind</span>',
-       '<span title="weekly / daily HM state at entry — the HTF bias that gated the trade">HTF W/D</span>',
-       "Qty", "Entry ₹",
-       '<span title="last traded price — engine refreshes it every market-hours tick; post-close it is the day\'s close (Yahoo, ~15 min delayed)">LTP ₹</span>',
-       '<span title="unrealised, at the LTP shown">Live P&L</span>',
-       "SL", "TGT", "Invested ₹"],
-      open.map(function (t) {
-        var ltp = Number(t.ltp), pnl = Number(t.live_pnl), pct = Number(t.live_pct);
-        var hasLive = t.ltp != null && isFinite(ltp) && ltp > 0;
-        if (hasLive) { liveTotal += pnl; anyLive = true; }
-        var setup = String(t.setup || "");
-        var kind = setup.indexOf("NEW-LOW") >= 0 ? "NEW-LOW"
-                 : (setup.indexOf("BUY") >= 0 ? "BUY" : "SELL");
-        var kBadge = kind === "BUY"
-          ? '<span class="badge badge-green">' + kind + "</span>"
-          : '<span class="badge badge-red">' + kind + "</span>";
-        var htf = (t.htf_weekly ? String(t.htf_weekly).replace("SELL-MOMENTUM", "SELL").replace("BUY-MOMENTUM", "BUY") : "—")
-          + " / " + (t.htf_daily ? String(t.htf_daily).replace("SELL-MOMENTUM", "SELL").replace("BUY-MOMENTUM", "BUY") : "—");
-        return "<tr><td>" + esc(t.entry_date) + " " + esc(t.entry_time || "") +
-          "</td><td><strong>" + esc(t.symbol) + "</strong></td>" +
-          '<td>' + kBadge + "</td>" +
-          '<td class="muted" style="font-size:0.75rem">' + esc(htf) + "</td>" +
-          "<td>" + esc(t.qty) + "</td><td>" + esc(t.entry) + "</td><td>" +
-          (hasLive ? "₹" + ltp.toLocaleString("en-IN",
-              { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-            : '<span class="muted">—</span>') + '</td><td class="' +
-          (hasLive ? cls(pnl) : "") + '">' +
-          (hasLive ? inr(pnl) + " <span class='muted' style='font-size:0.75em'>(" +
-                     (pct > 0 ? "+" : "") + pct.toFixed(2) + "%)</span>"
-                   : '<span class="muted">—</span>') +
-          "</td><td>" + (t.sl != null ? t.sl : "—") + "</td><td>" +
-          (t.tgt != null ? t.tgt : "—") + "</td><td>" + esc(t.invested) +
-          "</td><td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next scan price (30-min tick)\" onclick=\"return requestDeskClose('hm','" + esc(t.id) + "','" + esc(t.symbol) + "')\">✕ close</button></td></tr>";
-      })) : '<div class="flash">No open Intraday HM positions — entries fire on a 1H HM flip aligned with the weekly+daily bias (max 3/day, 5 open).</div>';
+    open.forEach(function (t) {
+      var lp = Number(t.live_pnl), l = Number(t.ltp);
+      if (t.ltp != null && isFinite(l) && l > 0 && isFinite(lp)) { liveTotal += lp; anyLive = true; }
+    });
+    TradeTemplates.open(ow, open.map(function (t) { return TradeTemplates.adapt.hm(t); }),
+      { desk: "hm", closeHint: "closes at the next scan price (30-min tick)",
+        empty: "No open Intraday HM positions \u2014 entries fire on a 1H HM flip aligned with the weekly+daily bias (max 3/day, 5 open)." });
     if (anyLive) {
       st.innerHTML += ' &nbsp;·&nbsp; open P&L <strong class="' + cls(liveTotal) +
         '">' + inr(liveTotal) + "</strong> (live" +
@@ -2082,15 +1852,8 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
 
     document.getElementById("hmClosedCount").textContent = "(" + closed.length + ")";
     var cw = document.getElementById("hmClosedWrap");
-    cw.innerHTML = closed.length ? tbl(
-      ["Entry", "Exit", "Symbol", "Reason", "Weeks", "P&L"],
-      closed.map(function (t) {
-        return '<tr class="' + (Number(t.pnl) > 0 ? "row-win" : "row-loss") + '">' +
-          "<td>" + esc(t.entry_date) + "</td><td>" + esc(t.exit_date || "—") +
-          "</td><td><strong>" + esc(t.symbol) + "</strong></td><td>" + esc(t.reason || "—") +
-          "</td><td>" + esc(t.weeks_held) + '</td><td class="' + cls(Number(t.pnl)) + '">' +
-          inr(Number(t.pnl)) + "</td></tr>";
-      })) : '<div class="flash">No closed HM trades yet.</div>';
+    TradeTemplates.closed(cw, closed.map(function (t) { return TradeTemplates.adapt.hm(t); }),
+      { desk: "hm", empty: "No closed HM trades yet." });
 
     var sigs = (d.signals || []).slice(0, 10);
     document.getElementById("hmSigWrap").innerHTML = sigs.length ? tbl(
@@ -2121,9 +1884,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       });
   }
   load();
-  loadQuotes();
   setInterval(load, 60000);
-  setInterval(loadQuotes, 60000);
 })();
 </script>
 
@@ -2178,70 +1939,22 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     var pend = d.pending || [], open = d.open || [];
     document.getElementById("qmOpenCount").textContent =
       "(" + open.length + (pend.length ? " + " + pend.length + " pending" : "") + ")";
-    var ow = document.getElementById("qmOpenWrap");
-    if (!pend.length && !open.length) {
-      ow.innerHTML = '<div class="flash">No open QM positions \u2014 pending signals fill at the next session\u2019s open.</div>';
-    } else {
-      var h = "<table><thead><tr><th>Signal</th><th>Symbol</th><th>Status</th><th>Qty</th>" +
-        "<th>Entry (avg)</th><th>Invested</th><th>Booked</th><th>Mark</th><th>Sess</th><th>Live P&L</th><th></th>" +
-        "</tr></thead><tbody>";
-      pend.concat(open).forEach(function (t) {
-        var isPend = t.status === "PENDING";
-        var pnlShow = t.pnl;
-        if (t.status === "OPEN" && t.entry != null) {
-          var live = ltpMap[t.symbol];
-          if (isFinite(live) && live > 0) {          // live LTP beats the EOD mark
-            pnlShow = (t.booked || 0) + (t.qty || 0) * (live - t.entry);
-          } else if (pnlShow == null && t.mark != null) {
-            pnlShow = (t.booked || 0) + (t.qty || 0) * (t.mark - t.entry);
-          }
-        }
-        h += "<tr><td>" + esc(t.signal_date) + "</td>" +
-          "<td><strong>" + esc(t.symbol) + "</strong>" +
-            (isPend && t.note ? '<div class="muted" style="font-size:0.72rem">' + esc(t.note) + "</div>" : "") + "</td>" +
-          "<td>" + (isPend ? '<span class="badge badge-grey">PENDING</span>' : esc(t.status)) +
-            (t.trail ? " \U0001F6A9trail" : "") + (t.avg_count ? " (avg)" : "") + "</td>" +
-          "<td>" + (t.qty != null ? t.qty : "\u2014") + "</td>" +
-          "<td>" + (t.entry != null ? t.entry + (t.entry_date ? " (" + esc(t.entry_date).slice(5) + ")" : "") : "next open") + "</td>" +
-          "<td>" + (t.invested != null ? "\u20b9" + Math.round(t.invested).toLocaleString("en-IN") : "\u2014") + "</td>" +
-          '<td class="' + cls(t.booked) + '">' + (t.booked ? fmt(t.booked) : "\u2014") + "</td>" +
-          "<td>" + (t.mark != null ? Math.round(t.mark * 100) / 100 : "\u2014") + "</td>" +
-          "<td>" + (t.sessions || 0) + "</td>" +
-          '<td class="' + cls(pnlShow) + '">' + (pnlShow != null ? fmt(pnlShow) : "\u2014") + "</td>" +
-          "<td>" + qmTakeBtn(t, isPend) +
-            (t.status === "OPEN" ? ' <button class="btn" style="padding:1px 8px;font-size:0.72rem" title="close at the next 17:35 scan price" onclick="return requestDeskClose(\'qm\',\'' + t.id + '\',\'' + esc(t.symbol) + '\')">✕ close</button>' : "") + "</td></tr>";
-      });
-      ow.innerHTML = h + "</tbody></table>" +
-        '<p class="hint" style="margin:0.5rem 0 0">\u270b Take = take a PENDING signal now at live LTP into your Manual book (\u20b95k lot). The QM engine itself fills pendings at the next session\u2019s open during the 17:35 scan. OPEN rows show <em>unrealized</em> P&L (mark \u2212 entry) until they close.</p>';
-    }
+    var qctx = { ltp: ltpMap };
+    TradeTemplates.open(document.getElementById("qmOpenWrap"),
+      pend.concat(open).map(function (t) {
+        var r = TradeTemplates.adapt.qm(t, qctx);
+        r.extra = qmTakeBtn(t, t.status === "PENDING");
+        return r;
+      }),
+      { desk: "qm", closeHint: "closes at the next 17:35 scan price",
+        empty: "No open QM positions \u2014 pending signals fill at the next session\u2019s open.",
+        footer: "\u270b Take = take a PENDING signal now at live LTP into your Manual book (\u20b95k lot). The QM engine itself fills pendings at the next session\u2019s open during the 17:35 scan. OPEN rows show <em>unrealized</em> P&L at the live price (mark \u2212 entry when no live quote) until they close." });
 
     var closed = (d.closed || []).slice(-30).reverse();
     document.getElementById("qmClosedCount").textContent = "(" + (d.closed || []).length + ")";
-    var cw = document.getElementById("qmClosedWrap");
-    if (!closed.length) {
-      cw.innerHTML = '<div class="flash">No closed QM trades yet.</div>';
-    } else {
-      var h2 = "<table><thead><tr><th>Signal</th><th>Symbol</th><th>Reason</th><th>Qty</th>" +
-        "<th>Entry</th><th>Exit</th><th>Invested</th><th>Booked</th><th>Held</th><th>P&L</th><th></th>" +
-        "</tr></thead><tbody>";
-      closed.forEach(function (t) {
-        var win = Number(t.pnl) > 0;
-        h2 += '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
-          "<td>" + esc(t.signal_date) + "</td>" +
-          "<td><strong>" + esc(t.symbol) + "</strong></td>" +
-          "<td>" + esc(t.reason || "\u2014") + "</td>" +
-          "<td>" + (t.qty != null ? t.qty : "\u2014") + "</td>" +
-          "<td>" + (t.entry != null ? t.entry : "\u2014") + "</td>" +
-          "<td>" + (t.exit != null ? t.exit : "\u2014") + "</td>" +
-          "<td>" + (t.invested != null ? "\u20b9" + Math.round(t.invested).toLocaleString("en-IN") : "\u2014") + "</td>" +
-          '<td class="' + cls(t.booked) + '">' + (t.booked ? fmt(t.booked) : "\u2014") + "</td>" +
-          "<td>" + (t.sessions || 0) + "d</td>" +
-          '<td class="' + cls(Number(t.pnl)) + '">' + fmt(Number(t.pnl)) + "</td>" +
-          '<td><span class="badge ' + (win ? "badge-green" : "badge-red") + '">' +
-          (win ? "WIN" : "LOSS") + "</span></td></tr>";
-      });
-      cw.innerHTML = h2 + "</tbody></table>";
-    }
+    TradeTemplates.closed(document.getElementById("qmClosedWrap"),
+      closed.map(function (t) { return TradeTemplates.adapt.qm(t, qctx); }),
+      { desk: "qm", empty: "No closed QM trades yet." });
     bindTakeButtons();
   }
 
@@ -2348,26 +2061,13 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         var rzEl=document.getElementById("hmbRealized"); if(rzEl){rzEl.textContent=inr(book.realized_pnl_inr);rzEl.className="sum-value "+clsP(book.realized_pnl_inr);}
         var ntEl=document.getElementById("hmbNet"); if(ntEl){ntEl.textContent=inr(book.net_pnl_inr);ntEl.className="sum-value "+clsP(book.net_pnl_inr);}
         var oc=document.getElementById("hmbOpenCount"); if(oc)oc.textContent="("+opens.length+")";
-        var ow=document.getElementById("hmbOpenWrap");
-        if(ow){ if(!opens.length) ow.innerHTML='<div class="flash">No open HM BTC/Gold positions.</div>';
-          else { var h="<table><thead><tr><th>Asset</th><th>Frame</th><th>Setup</th><th>Side</th><th>Entry</th><th>Mark</th><th>Capital</th><th>P&L (₹)</th><th>%</th></tr></thead><tbody>";
-            opens.forEach(function(t){ h+="<tr><td><strong>"+esc(t.asset)+"</strong></td><td>"+esc(t.frame)+"</td><td>"+esc(t.setup)+"</td><td>"+esc(t.side)+"</td>"
-              +"<td>"+(t.entry_price!=null?Number(t.entry_price).toLocaleString():"—")+"</td>"
-              +"<td>"+(t.mark!=null?Number(t.mark).toLocaleString():"—")+"</td>"
-              +"<td>₹"+Number(t.capital||0).toLocaleString("en-IN")+"</td>"
-              +'<td class="'+clsP(t.pnl_inr)+'"><strong>'+inr(t.pnl_inr)+"</strong></td>"
-              +'<td class="'+clsP(t.pnl_pct)+'">'+(t.pnl_pct!=null?(Number(t.pnl_pct)>0?"+":"")+Number(t.pnl_pct).toFixed(2)+"%":"—")+"</td></tr>"; });
-            ow.innerHTML=h+"</tbody></table>"; } }
+        TradeTemplates.open(document.getElementById("hmbOpenWrap"),
+          opens.map(function (t) { return TradeTemplates.adapt.hmb(t); }),
+          { desk: "hmb", empty: "No open HM BTC/Gold positions." });
         var cc=document.getElementById("hmbClosedCount"); if(cc)cc.textContent="("+closed.length+")";
-        var cw=document.getElementById("hmbClosedWrap");
-        if(cw){ if(!closed.length) cw.innerHTML='<div class="flash">No closed trades yet.</div>';
-          else { var h2="<table><thead><tr><th>Asset</th><th>Frame</th><th>Setup</th><th>Side</th><th>Entry</th><th>Exit</th><th>Reason</th><th>P&L (₹)</th></tr></thead><tbody>";
-            closed.slice().reverse().forEach(function(t){ var win=Number(t.pnl_inr)>0; h2+='<tr class="'+(win?"row-win":"row-loss")+'"><td><strong>'+esc(t.asset)+"</strong></td><td>"+esc(t.frame)+"</td><td>"+esc(t.setup)+"</td><td>"+esc(t.side)+"</td>"
-              +"<td>"+(t.entry_price!=null?Number(t.entry_price).toLocaleString():"—")+"</td>"
-              +"<td>"+(t.exit_price!=null?Number(t.exit_price).toLocaleString():"—")+"</td>"
-              +"<td>"+esc(t.exit_reason||"—")+"</td>"
-              +'<td class="'+clsP(t.pnl_inr)+'"><strong>'+inr(t.pnl_inr)+"</strong></td></tr>"; });
-            cw.innerHTML=h2+"</tbody></table>"; } }
+        TradeTemplates.closed(document.getElementById("hmbClosedWrap"),
+          closed.slice().reverse().map(function (t) { return TradeTemplates.adapt.hmb(t); }),
+          { desk: "hmb", empty: "No closed trades yet." });
 
         var rows = (d.table || {}).rows || [], heads = (d.table || {}).headers || [];
         var tw = document.getElementById("hmbTableWrap");
@@ -2441,60 +2141,17 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     var pend = d.pending || [], open = d.open || [];
     document.getElementById("swOpenCount").textContent =
       "(" + open.length + (pend.length ? " + " + pend.length + " pending" : "") + ")";
-    var ow = document.getElementById("swOpenWrap");
-    if (!pend.length && !open.length) {
-      ow.innerHTML = '<div class="flash">No open HM Swing positions \u2014 weekly signals fill at the next session open.</div>';
-    } else {
-      var h = "<table><thead><tr><th>Signal</th><th>Mkt</th><th>Symbol</th><th>Setup</th>" +
-        "<th>Side</th><th>Status</th><th>Entry</th><th>SL</th><th>TGT</th><th>Sess</th><th>Live P&L</th>" +
-        "</tr></thead><tbody>";
-      pend.concat(open).forEach(function (t) {
-        var cur = t.market === "NSE" ? "inr" : "$";
-        var pnlShow = t.pnl;
-        if (t.status === "OPEN" && t.market === "NSE" && t.entry != null) {
-          var live = ltpMap[t.symbol];
-          if (isFinite(live) && live > 0) {          // live LTP beats EOD mark
-            pnlShow = (t.qty || 0) * (t.side === "SELL" ? t.entry - live
-                                                      : live - t.entry);
-          }
-        }
-        h += "<tr><td>" + esc(t.signal_date) + "</td><td>" + esc(t.market) + "</td>" +
-          "<td><strong>" + esc(t.symbol) + "</strong></td><td>" + esc(t.setup) + "</td>" +
-          "<td>" + esc(t.side) + "</td><td>" +
-          (t.status === "PENDING" ? '<span class="badge badge-grey">PENDING</span>' : esc(t.status)) + "</td>" +
-          "<td>" + (t.entry != null ? t.entry + (t.entry_date ? " (" + esc(t.entry_date).slice(5) + ")" : "") : "next open") + "</td>" +
-          "<td>" + (t.sl != null ? t.sl : "\u2014") + "</td><td>" + (t.tgt != null ? t.tgt : "\u2014") + "</td>" +
-          "<td>" + (t.sessions || 0) + "</td>" +
-          '<td class="' + cls(pnlShow) + '">' + (pnlShow != null ? fmt(pnlShow, cur) : "\u2014") + "</td>" +
-          (t.status === "OPEN" ? "<td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next 16:30 scan price\" onclick=\"return requestDeskClose('swing','" + t.id + "','" + esc(t.symbol) + "')\">✕ close</button></td>" : "") + "</tr>";
-      });
-      ow.innerHTML = h + "</tbody></table>";
-    }
+    var swCtx = { ltp: ltpMap };
+    TradeTemplates.open(document.getElementById("swOpenWrap"),
+      pend.concat(open).map(function (t) { return TradeTemplates.adapt.swing(t, swCtx); }),
+      { desk: "swing", closeHint: "closes at the next 16:30 scan price",
+        empty: "No open HM Swing positions \u2014 weekly signals fill at the next session open." });
 
     var closed = (d.closed || []).slice(-30).reverse();
     document.getElementById("swClosedCount").textContent = "(" + (d.closed || []).length + ")";
-    var cw = document.getElementById("swClosedWrap");
-    if (!closed.length) {
-      cw.innerHTML = '<div class="flash">No closed HM Swing trades yet.</div>';
-    } else {
-      var h2 = "<table><thead><tr><th>Signal</th><th>Mkt</th><th>Symbol</th><th>Side</th>" +
-        "<th>Entry</th><th>Exit</th><th>Reason</th><th>Sess</th><th>P&L</th><th></th>" +
-        "</tr></thead><tbody>";
-      closed.forEach(function (t) {
-        var win = Number(t.pnl) > 0, cur = t.market === "NSE" ? "inr" : "$";
-        h2 += '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
-          "<td>" + esc(t.signal_date) + "</td><td>" + esc(t.market) + "</td>" +
-          "<td><strong>" + esc(t.symbol) + "</strong></td><td>" + esc(t.side) + "</td>" +
-          "<td>" + (t.entry != null ? t.entry : "\u2014") + "</td>" +
-          "<td>" + (t.exit != null ? t.exit : "\u2014") + "</td>" +
-          "<td>" + esc(t.reason || "\u2014") + "</td>" +
-          "<td>" + (t.sessions || 0) + "</td>" +
-          '<td class="' + cls(Number(t.pnl)) + '">' + fmt(Number(t.pnl), cur) + "</td>" +
-          '<td><span class="badge ' + (win ? "badge-green" : "badge-red") + '">' +
-          (win ? "WIN" : "LOSS") + "</span></td></tr>";
-      });
-      cw.innerHTML = h2 + "</tbody></table>";
-    }
+    TradeTemplates.closed(document.getElementById("swClosedWrap"),
+      closed.map(function (t) { return TradeTemplates.adapt.swing(t, swCtx); }),
+      { desk: "swing", empty: "No closed HM Swing trades yet." });
   }
   function load() {
     fetch(base + "/data/swing_picks.json?t=" + Date.now())
@@ -2641,70 +2298,34 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     document.getElementById("mnUnreal").className = "sum-value " + (unreal >= 0 ? "pos" : "neg");
     set("mnWin", closed.length ? (wins / closed.length * 100).toFixed(1) + "%" : "—");
 
-    var ow = document.getElementById("mnOpenWrap");
-    if (!opens.length) {
-      ow.innerHTML = '<div class="flash">No open manual trades — search above and hit ➕ Take.</div>';
-    } else {
-      ow.innerHTML = "<table><thead><tr><th>Symbol</th><th>Entry</th><th>Qty</th>" +
-        "<th>Entry ₹</th><th>LTP</th><th>Unrealized</th><th></th></tr></thead><tbody>" +
-        opens.map(function (t) {
-          var q = ltp[t.symbol], l = q ? parseFloat(q.ltp) : null;
-          var sgn = t.side === "SELL" ? -1 : 1;
-          if (l == null && t.strategy === "nifty-opt") l = optMark(t);
-          var u = l != null ? sgn * (l - t.entry_price) * t.quantity : null;
-          var shortBadge = t.side === "SELL" ? ' <span class="badge badge-grey">SHORT</span>' : "";
-          return "<tr><td><strong>" + esc(t.symbol) + "</strong>" + shortBadge + "</td><td>" + esc(t.entry_date) +
-            "</td><td>" + t.quantity + "</td><td>₹" + t.entry_price + "</td><td>" +
-            (l != null ? "₹" + l : "—") + '</td><td class="' + cls(u) + '">' + inr(u) +
-            '</td><td><button class="btn" data-close="' + t.id + '">✖ Close</button></td></tr>';
-        }).join("") + "</tbody></table>";
-      ow.querySelectorAll("button[data-close]").forEach(function (b) {
-        b.addEventListener("click", function () {
-          var id = b.getAttribute("data-close");
-          var t = opens.filter(function (x) { return String(x.id) === String(id); })[0];
-          document.getElementById("closeTradeId").value = id;
-          var ltpBtn = document.getElementById("closeUseLtp");
-          var q = t && ltp[t.symbol];
-          if (q && parseFloat(q.ltp) > 0) {
-            ltpBtn.textContent = "⚡ Market: ₹" + q.ltp;
-            ltpBtn.setAttribute("data-ltp", q.ltp);
-          } else {
-            ltpBtn.textContent = "⚡ Market: n/a";
-            ltpBtn.removeAttribute("data-ltp");
-          }
-          document.getElementById("closeModal").style.display = "flex";
-        });
-      });
-    }
-
-    var cw = document.getElementById("mnClosedWrap");
-    if (!closed.length) {
-      cw.innerHTML = '<div class="flash">No closed manual trades yet.</div>';
-    } else {
-      cw.innerHTML = "<table><thead><tr><th>Symbol</th><th>Entry</th><th>Exit</th>" +
-        "<th>Entry ₹</th><th>Exit ₹</th><th>Reason</th><th>P&L</th><th></th><th></th></tr></thead><tbody>" +
-        closed.slice(0, 50).map(function (t) {
-          var w = (t.pnl || 0) > 0;
-          return '<tr class="' + (w ? "row-win" : "row-loss") + '"><td><strong>' +
-            esc(t.symbol) + "</strong></td><td>" + esc(t.entry_date) + "</td><td>" +
-            esc(t.exit_date || "—") + "</td><td>₹" + t.entry_price + "</td><td>₹" +
-            (t.exit_price != null ? t.exit_price : "—") + "</td><td>" + esc(t.exit_reason || "—") +
-            '</td><td class="' + cls(t.pnl) + '">' + inr(t.pnl) + '</td><td><span class="badge ' +
-            (w ? "badge-green" : "badge-red") + '">' + (w ? "WIN" : "LOSS") + "</span></td>" +
-            '<td><button class="btn" data-del="' + esc(String(t.id)) +
-            '" title="remove this entry from the manual book (wrong price, duplicate, misclick)">✖ Del</button></td></tr>';
-        }).join("") + "</tbody></table>";
-      cw.querySelectorAll("button[data-del]").forEach(function (b) {
-        b.addEventListener("click", function () {
-          var id = b.getAttribute("data-del");
-          var keep = book().filter(function (x) { return String(x.id) !== id; });
-          try {
-            localStorage.setItem(KEY, JSON.stringify(keep));
-          } catch (e) {}
-          renderBook();
-        });
-      });
-    }
+    var mctx = {
+      ltp: ltp, optMark: optMark,
+      onClose: function (t) {
+        document.getElementById("closeTradeId").value = t.id;
+        var ltpBtn = document.getElementById("closeUseLtp");
+        var q = ltp[t.symbol];
+        if (q && parseFloat(q.ltp) > 0) {
+          ltpBtn.textContent = "⚡ Market: ₹" + q.ltp;
+          ltpBtn.setAttribute("data-ltp", q.ltp);
+        } else {
+          ltpBtn.textContent = "⚡ Market: n/a";
+          ltpBtn.removeAttribute("data-ltp");
+        }
+        document.getElementById("closeModal").style.display = "flex";
+      },
+      onDelete: function (t) {
+        var id = String(t.id);
+        var keep = book().filter(function (x) { return String(x.id) !== id; });
+        try { localStorage.setItem(KEY, JSON.stringify(keep)); } catch (e) {}
+        renderBook();
+      }
+    };
+    TradeTemplates.open(document.getElementById("mnOpenWrap"),
+      opens.map(function (t) { return TradeTemplates.adapt.manual(t, mctx); }),
+      { desk: "manual", empty: "No open manual trades — search above and hit ➕ Take." });
+    TradeTemplates.closed(document.getElementById("mnClosedWrap"),
+      closed.map(function (t) { return TradeTemplates.adapt.manual(t, mctx); }),
+      { desk: "manual", deletable: true, limit: 50, empty: "No closed manual trades yet." });
   }
 
   document.getElementById("manualSearch").addEventListener("input", renderResults);
