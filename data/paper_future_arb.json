@@ -1,5 +1,5 @@
 {
- "updated_at": "16 Oct 2026 18:46 IST",
+ "updated_at": "16 Oct 2026 19:01 IST",
  "desk": "Future Arbitrage",
  "status": "RUNNING",
  "preset": "r1",
@@ -144,9 +144,7 @@
   "realized": -2502.5,
   "mtm": 0.0,
   "equity": 97497.5,
-  "entered_today": [
-   "Candidate(rank=1, symbol='360ONE', scan_date=datetime.date(2026, 10, 16), spot=1075.0, curr_expiry=datetime.date(2026, 10, 27), next_expiry=datetime.date(2026, 11, 23), curr_future=1062.0, next_future=1055.6, basis=13.0, spread=6.400000000000091, basis_spread_ratio=2.031249999999971, basis_pct=1.2093023255813953, spread_value=3200.0000000000455, lot=500, curr_volume=4977, next_volume=387, days_to_expiry=11)"
-  ],
+  "entered_today": [],
   "kill_switch": false
  },
  "bhav_date": "2026-10-16"
