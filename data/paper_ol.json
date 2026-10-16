@@ -1,9 +1,9 @@
 {
- "updated_at": "13 Oct 2026 09:58:57 IST",
+ "updated_at": "16 Oct 2026 09:45:23 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
- "today": "2026-10-13",
+ "today": "2026-10-16",
  "strategy": {
   "rule": "first 5-min candle O=L -> BUY / O=H -> SELL (entries from 09:20, opening candle complete), ₹10,000/stock",
   "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
@@ -12,35 +12,134 @@
   "entry_cutoff": "09:45",
   "time_stop_long": "10:45",
   "nifty_gate": true,
-  "min_vol_mult": 1.5,
+  "min_vol_mult": 1.0,
   "min_vol_mult_by_setup": {
-   "ol": 3.0
+   "ol": 1.3,
+   "oh": 1.0
   },
-  "vol_note": "volume cap restored 2026-10-01 — cap-free live run 28-30 Sep confirmed fewer, better trades"
+  "vol_note": "15 Oct: volume gate = RVOL (cumulative volume vs time-of-day expectation, 1.0 = normal day) — O=L >= 1.3, O=H >= 1.0; deliberately low, tuned from vol_audit"
  },
  "vol_blocked": {
   "ol": {
    "low_vol": 0,
-   "no_vol_data": 18
+   "no_vol_data": 0
   },
   "oh": {
-   "low_vol": 0,
+   "low_vol": 66,
    "no_vol_data": 0
   }
  },
+ "vol_audit": {
+  "ol": {},
+  "oh": {
+   "LTF": 5.95,
+   "SAMMAANCAP": 3.21,
+   "TATACOMM": 3.21,
+   "JIOFIN": 2.41,
+   "GODREJPROP": 2.09,
+   "COROMANDEL": 1.96,
+   "NESTLEIND": 1.93,
+   "CANFINHOME": 1.63,
+   "ASAHIINDIA": 1.5,
+   "PNB": 1.39,
+   "TEJASNET": 1.18,
+   "CGPOWER": 1.15,
+   "ABB": 1.12,
+   "AMBER": 1.11,
+   "RELIANCE": 1.11
+  }
+ },
+ "engine_errors": [],
  "summary": {
-  "open_count": 0,
+  "open_count": 4,
   "closed_count": 137,
-  "trades_today": 0,
+  "trades_today": 4,
   "today_pnl": 0,
   "realized_total": -400.88,
   "unrealized": 0,
   "wins": 71,
   "losses": 66,
   "win_rate": 51.8,
-  "days": 19
+  "days": 20
  },
- "open": [],
+ "open": [
+  {
+   "id": 144,
+   "date": "2026-10-16",
+   "setup": "oh",
+   "symbol": "SAMMAANCAP",
+   "side": "SELL",
+   "qty": 24,
+   "entry_time": "09:44:38",
+   "entry_price": 134.12,
+   "candle_stop": 137.5,
+   "sl_price": 138.19,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 134.12,
+   "pnl_pct": -0.0
+  },
+  {
+   "id": 145,
+   "date": "2026-10-16",
+   "setup": "oh",
+   "symbol": "TATACOMM",
+   "side": "SELL",
+   "qty": 2,
+   "entry_time": "09:44:38",
+   "entry_price": 1736.5,
+   "candle_stop": 1769.0,
+   "sl_price": 1777.84,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 1736.5,
+   "pnl_pct": -0.0
+  },
+  {
+   "id": 146,
+   "date": "2026-10-16",
+   "setup": "oh",
+   "symbol": "JIOFIN",
+   "side": "SELL",
+   "qty": 46,
+   "entry_time": "09:44:38",
+   "entry_price": 215.3,
+   "candle_stop": 216.01,
+   "sl_price": 217.09,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 215.3,
+   "pnl_pct": -0.0
+  },
+  {
+   "id": 147,
+   "date": "2026-10-16",
+   "setup": "oh",
+   "symbol": "GODREJPROP",
+   "side": "SELL",
+   "qty": 2,
+   "entry_time": "09:44:38",
+   "entry_price": 1592.4,
+   "candle_stop": 1623.4,
+   "sl_price": 1631.52,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 1592.4,
+   "pnl_pct": -0.0
+  }
+ ],
  "closed": [
   {
    "id": 139,
@@ -2439,6 +2538,16 @@
    "wins": 4,
    "losses": 1,
    "pnl": 177.45,
+   "cum": -400.88
+  },
+  {
+   "date": "2026-10-16",
+   "trades": 4,
+   "ol": 0,
+   "oh": 4,
+   "wins": 0,
+   "losses": 0,
+   "pnl": 0,
    "cum": -400.88
   }
  ]
