@@ -1,5 +1,5 @@
 {
- "updated_at": "16 Oct 2026 09:58:14 IST",
+ "updated_at": "16 Oct 2026 10:01:53 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,15 +51,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 4,
-  "closed_count": 137,
+  "open_count": 3,
+  "closed_count": 138,
   "trades_today": 4,
-  "today_pnl": 0,
-  "realized_total": -400.88,
-  "unrealized": -25.84,
+  "today_pnl": -82.34,
+  "realized_total": -483.22,
+  "unrealized": 21.64,
   "wins": 71,
-  "losses": 66,
-  "win_rate": 51.8,
+  "losses": 67,
+  "win_rate": 51.4,
   "days": 20
  },
  "open": [
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 2.4,
+   "pnl": 2.64,
    "feed": "angel",
-   "ltp": 134.02,
-   "pnl_pct": 0.07
+   "ltp": 134.01,
+   "pnl_pct": 0.08
   },
   {
    "id": 145,
@@ -96,29 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 18.0,
+   "pnl": 23.6,
    "feed": "angel",
-   "ltp": 1727.5,
-   "pnl_pct": 0.52
-  },
-  {
-   "id": 146,
-   "date": "2026-10-16",
-   "setup": "oh",
-   "symbol": "JIOFIN",
-   "side": "SELL",
-   "qty": 46,
-   "entry_time": "09:44:38",
-   "entry_price": 215.3,
-   "candle_stop": 216.01,
-   "sl_price": 217.09,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -47.84,
-   "feed": "angel",
-   "ltp": 216.34,
-   "pnl_pct": -0.48
+   "ltp": 1724.7,
+   "pnl_pct": 0.68
   },
   {
    "id": 147,
@@ -134,13 +115,30 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 1.6,
+   "pnl": -4.6,
    "feed": "angel",
-   "ltp": 1591.6,
-   "pnl_pct": 0.05
+   "ltp": 1594.7,
+   "pnl_pct": -0.14
   }
  ],
  "closed": [
+  {
+   "id": 146,
+   "date": "2026-10-16",
+   "setup": "oh",
+   "symbol": "JIOFIN",
+   "side": "SELL",
+   "qty": 46,
+   "entry_time": "09:44:38",
+   "entry_price": 215.3,
+   "candle_stop": 216.01,
+   "sl_price": 217.09,
+   "exit_time": "10:01:16",
+   "exit_price": 217.09,
+   "reason": "SL",
+   "pnl": -82.34,
+   "feed": "angel"
+  },
   {
    "id": 139,
    "date": "2026-10-06",
@@ -2546,9 +2544,9 @@
    "ol": 0,
    "oh": 4,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -400.88
+   "losses": 1,
+   "pnl": -82.34,
+   "cum": -483.22
   }
  ]
 }
