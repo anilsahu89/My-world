@@ -293,15 +293,36 @@ def main():
     print(report)
 
     # open positions for the portal (side label segregates the setup kind)
+    # + live marks: current BTC/Gold price -> per-row P&L (₹, side-signed)
     side_label = {"GAP-ANGLE-BUY": "BUY", "GAP-ANGLE-BUY-SUB50": "BUY · sub-50",
                   "GAP-ANGLE-SELL": "SELL", "GAP-ANGLE-SELL-OVER50": "SELL · over-50",
                   "NEW-LOW-TRICK-SHORT": "SHORT · new-low"}
-    open_rows = [{"asset": r["asset"], "frame": r["frame"], "setup": r["setup"],
+    cur = {}
+    for a, tick in (("BTC", "BTC-USD"), ("GOLD", "GC=F")):
+        try:
+            h = yf.Ticker(tick).history(period="5d", interval="1d")
+            if h is not None and len(h):
+                cur[a] = float(h["Close"].iloc[-1])
+        except Exception:
+            pass
+    open_rows = []
+    open_pnl_inr = 0.0
+    for _, r in led.iterrows():
+        if r["status"] != "OPEN":
+            continue
+        sgn = -1.0 if side_of(r["setup"]) == "SHORT" else 1.0
+        mark = cur.get(r["asset"])
+        pnl_inr = round(sgn * (mark - float(r["entry_price"])) * float(r["lots"]), 2) \
+            if mark else None
+        if pnl_inr:
+            open_pnl_inr += pnl_inr
+        open_rows.append({"asset": r["asset"], "frame": r["frame"], "setup": r["setup"],
                   "side": side_label.get(r["setup"], side_of(r["setup"])),
                   "entry_date": r["entry_date"], "entry_price": r["entry_price"],
                   "stop_ref": r.get("stop_ref", ""), "lots": r["lots"],
-                  "capital": r["capital"]} for _, r in led.iterrows()
-                 if r["status"] == "OPEN"]
+                  "capital": r["capital"], "mark": round(mark, 2) if mark else None,
+                  "pnl_inr": pnl_inr,
+                  "pnl_pct": round((mark/float(r["entry_price"]) - 1) * 100, 2) if mark else None})
 
     JSON_OUT.parent.mkdir(parents=True, exist_ok=True)
     JSON_OUT.write_text(json.dumps({
@@ -310,6 +331,18 @@ def main():
         "status": "success",
         "signals": sum(len(e["entry_candidates"]) for e in rows),
         "open": open_rows,
+        "open_pnl_inr": round(open_pnl_inr, 2),
+        "closed": [{"asset": r["asset"], "frame": r["frame"], "setup": r["setup"],
+                    "side": side_label.get(r["setup"], side_of(r["setup"])),
+                    "entry_date": r["entry_date"], "entry_price": r["entry_price"],
+                    "exit_date": r.get("exit_date", ""), "exit_reason": r.get("exit_reason", ""),
+                    "exit_price": r.get("exit_price", ""), "pnl_inr": float(r.get("pnl") or 0)}
+                   for _, r in led.iterrows() if r["status"] == "CLOSED"],
+        "book": {"open": len(open_rows), "open_pnl_inr": round(open_pnl_inr, 2),
+                 "realized_pnl_inr": round(sum(float(r.get("pnl") or 0) for _, r in led.iterrows()
+                                               if r["status"] == "CLOSED"), 2),
+                 "net_pnl_inr": round(open_pnl_inr + sum(float(r.get("pnl") or 0)
+                                    for _, r in led.iterrows() if r["status"] == "CLOSED"), 2)},
         "table": {"headers": ["Asset", "Frame", "Bar", "RSI", "Red", "Green", "Gap", "Angle", "Setups"],
                   "rows": [[e["asset"], e["frame"], e["date"], e["rsi"], e["red"], e["green"], e["gap"], e["angle"],
                             ", ".join(s for s, _, _f in e["entry_candidates"]) or (", ".join(e["setups"]) or ("NEW-LOW-TRICK" if e["trick"] else ""))] for e in rows]},
