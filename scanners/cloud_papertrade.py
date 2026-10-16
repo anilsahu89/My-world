@@ -28,6 +28,7 @@ import argparse
 import io
 import json
 import math
+import subprocess
 from datetime import datetime, time
 from pathlib import Path
 from zoneinfo import ZoneInfo

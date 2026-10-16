@@ -300,7 +300,7 @@ def htf_hm_tick() -> None:
          "--output", str(out)],
         cwd=str(cp.ROOT), capture_output=True, text=True, timeout=1800)
     print(f"intraday-hm scan: rc={r.returncode} "
-          f"{(r.stdout or "")[-300:]}", flush=True)
+          f"{(r.stdout or '')[-300:]}", flush=True)
     if r.returncode == 0 and out.exists():
         try:
             flag.write_text(bucket)
