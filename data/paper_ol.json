@@ -1,5 +1,5 @@
 {
- "updated_at": "16 Oct 2026 12:17:52 IST",
+ "updated_at": "16 Oct 2026 12:21:54 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,12 +51,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 4,
+  "open_count": 7,
   "closed_count": 139,
-  "trades_today": 6,
+  "trades_today": 9,
   "today_pnl": -157.34,
   "realized_total": -558.22,
-  "unrealized": -65.1,
+  "unrealized": -52.74,
   "wins": 71,
   "losses": 68,
   "win_rate": 51.1,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 2.88,
+   "pnl": 6.96,
    "feed": "angel",
-   "ltp": 134.0,
-   "pnl_pct": 0.09
+   "ltp": 133.83,
+   "pnl_pct": 0.22
   },
   {
    "id": 147,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -33.0,
+   "pnl": -30.2,
    "feed": "angel",
-   "ltp": 1608.9,
-   "pnl_pct": -1.04
+   "ltp": 1607.5,
+   "pnl_pct": -0.95
   },
   {
    "id": 148,
@@ -117,9 +117,9 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 17.0,
+   "pnl": 16.5,
    "feed": "angel",
-   "ltp": 1764.9,
+   "ltp": 1765.0,
    "pnl_pct": 0.19
   },
   {
@@ -138,10 +138,67 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -51.98,
+   "pnl": -46.0,
    "feed": "angel",
-   "ltp": 217.01,
-   "pnl_pct": -0.52
+   "ltp": 216.88,
+   "pnl_pct": -0.46
+  },
+  {
+   "id": 150,
+   "date": "2026-10-16",
+   "setup": "f3",
+   "symbol": "HBLENGINE",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:20:53",
+   "entry_price": 803.6,
+   "sl_price": 699.44,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 11.4,
+   "ltp": 803.6,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 151,
+   "date": "2026-10-16",
+   "setup": "f3",
+   "symbol": "ACC",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:20:53",
+   "entry_price": 1182.5,
+   "sl_price": 1128.13,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 3.06,
+   "ltp": 1182.5,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 152,
+   "date": "2026-10-16",
+   "setup": "f3",
+   "symbol": "CARTRADE",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:20:53",
+   "entry_price": 2988.1,
+   "sl_price": 2870.77,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 3.02,
+   "ltp": 2988.1,
+   "pnl_pct": 0.0
   }
  ],
  "closed": [
@@ -2580,7 +2637,7 @@
   },
   {
    "date": "2026-10-16",
-   "trades": 6,
+   "trades": 9,
    "ol": 0,
    "oh": 6,
    "wins": 0,

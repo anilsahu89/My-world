@@ -1,7 +1,41 @@
 {
- "date": "2026-10-12",
- "scanned_at": "15:07:29",
+ "date": "2026-10-16",
+ "scanned_at": "12:21:54",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
- "max_trades": 5,
- "signals": []
+ "max_trades": 3,
+ "signals": [
+  {
+   "symbol": "HBLENGINE",
+   "drive_pct": 11.4,
+   "qty": 1,
+   "entry": 803.6,
+   "sl": 699.44,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "ACC",
+   "drive_pct": 3.06,
+   "qty": 1,
+   "entry": 1182.5,
+   "sl": 1128.13,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "CARTRADE",
+   "drive_pct": 3.02,
+   "qty": 1,
+   "entry": 2988.1,
+   "sl": 2870.77,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  }
+ ]
 }

@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 150,
+ "next_id": 153,
  "trades": [
   {
    "id": 1,
@@ -2467,10 +2467,64 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 150,
+   "date": "2026-10-16",
+   "setup": "f3",
+   "symbol": "HBLENGINE",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:20:53",
+   "entry_price": 803.6,
+   "sl_price": 699.44,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 11.4
+  },
+  {
+   "id": 151,
+   "date": "2026-10-16",
+   "setup": "f3",
+   "symbol": "ACC",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:20:53",
+   "entry_price": 1182.5,
+   "sl_price": 1128.13,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 3.06
+  },
+  {
+   "id": 152,
+   "date": "2026-10-16",
+   "setup": "f3",
+   "symbol": "CARTRADE",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:20:53",
+   "entry_price": 2988.1,
+   "sl_price": 2870.77,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 3.02
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-10-12",
+ "f3_done_date": "2026-10-16",
  "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-10-16",
