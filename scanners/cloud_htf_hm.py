@@ -115,6 +115,27 @@ def run(output: Path):
     moment=now(); today=moment.date(); state=load_state(); trades=state.get("trades") or []
     manage_open(trades, moment)
     entered=0
+    def publish():
+        # publish current marks/book — the heavy entry scan must never block
+        # P&L updates (rate-limited scans froze the P&L column for a day)
+        opens=[t for t in trades if t.get("status")=="OPEN"]
+        closed=[t for t in trades if t.get("status")=="CLOSED"]
+        wins=[t for t in closed if float(t.get("pnl") or 0)>0]
+        out={"date":today.isoformat(),"updated_at":now().strftime("%d %b %Y %H:%M:%S IST"),
+             "desk":"Intraday HM",
+             "rule":("Intraday HM — HTF bias (weekly+daily) then 1H entry. "
+                     "BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. "
+                     "EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200."),
+             "book":{"capital":CAPITAL,"open":len(opens),"invested":round(sum(float(t.get("invested") or 0) for t in opens),2),
+                     "realized":round(sum(float(t.get("pnl") or 0) for t in closed),2),
+                     "wins":len(wins),"losses":len(closed)-len(wins),
+                     "win_rate":round(len(wins)/len(closed)*100,1) if closed else 0.0},
+             "signals":[{"symbol":t["symbol"],"side":t["side"],"weekly":t.get("htf_weekly"),"daily":t.get("htf_daily"),"setup":t.get("setup")} for t in opens],
+             "monthly_watchlist":[],"open":opens,"closed":closed[-80:],"entered_this_run":entered}
+        output.parent.mkdir(parents=True,exist_ok=True)
+        output.write_text(json.dumps(out,indent=1,ensure_ascii=False)+"\n")
+        return out
+    save_state(state); save_csv(trades); publish()   # marks live before the heavy scan
     if moment.weekday()<5 and dtime(9,30)<=moment.time()<EOD:
         open_n=sum(1 for t in trades if t.get("status")=="OPEN")
         taken=sum(1 for t in trades if t.get("entry_date")==today.isoformat() and t.get("status") in ("OPEN","CLOSED"))
@@ -160,23 +181,7 @@ def run(output: Path):
                 except Exception: pass
             except Exception: pass
             if (i+1)%25==0: time.sleep(0.4)
-    state["trades"]=trades; save_state(state); save_csv(trades)
-    opens=[t for t in trades if t.get("status")=="OPEN"]
-    closed=[t for t in trades if t.get("status")=="CLOSED"]
-    wins=[t for t in closed if float(t.get("pnl") or 0)>0]
-    out={"date":today.isoformat(),"updated_at":moment.strftime("%d %b %Y %H:%M:%S IST"),
-         "desk":"Intraday HM",
-         "rule":("Intraday HM — HTF bias (weekly+daily) then 1H entry. "
-                 "BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. "
-                 "EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200."),
-         "book":{"capital":CAPITAL,"open":len(opens),"invested":round(sum(float(t.get("invested") or 0) for t in opens),2),
-                 "realized":round(sum(float(t.get("pnl") or 0) for t in closed),2),
-                 "wins":len(wins),"losses":len(closed)-len(wins),
-                 "win_rate":round(len(wins)/len(closed)*100,1) if closed else 0.0},
-         "signals":[{"symbol":t["symbol"],"side":t["side"],"weekly":t.get("htf_weekly"),"daily":t.get("htf_daily"),"setup":t.get("setup")} for t in opens],
-         "monthly_watchlist":[],"open":opens,"closed":closed[-80:],"entered_this_run":entered}
-    output.parent.mkdir(parents=True,exist_ok=True)
-    output.write_text(json.dumps(out,indent=1,ensure_ascii=False)+"\n")
+    out=publish()
     return out
 if __name__=="__main__":
     ap=argparse.ArgumentParser(); ap.add_argument("--output",default=str(OUT_DEFAULT)); a=ap.parse_args()
