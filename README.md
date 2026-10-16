@@ -69,3 +69,12 @@ less reliable data source for that day. `alerts.json` includes a
 - For Bitcoin/spot-gold feeds that need zero daily touch at all, that's
   a separate script (Binance/CoinGecko + a metals API) — happy to build
   that next.
+
+## Paper-trade tables (one template for every tab)
+
+Every Open / Closed table on `paper.html` is drawn by `static/trade-templates.js`.
+To add, remove or rename a column on **all** tabs at once, edit `OPEN_COLUMNS` /
+`CLOSED_COLUMNS` in that file. If an engine's JSON changes shape, edit its
+adapter in the same file (`TradeTemplates.adapt.*`). The per-tab code in
+`paper.html` only fetches data and calls `TradeTemplates.open(...)` /
+`TradeTemplates.closed(...)`.
