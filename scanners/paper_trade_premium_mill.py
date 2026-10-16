@@ -553,6 +553,8 @@ def main():
         if not already:
             new_trade = {**signal,
                         "status": "OPEN", "exit_date": "", "exit_reason": "",
+                        "mark_credit": signal["net_credit"], "live_pnl": 0.0,
+                        "mark_date": signal["entry_date"],
                         "exit_short_prem": "", "exit_long_prem": "", "pnl": "",
                         "holding_days": "", "spot_exit": "", "notes": ""}
             trades.append(new_trade)

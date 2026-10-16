@@ -586,6 +586,11 @@ def main():
             signal["holding_days"] = ""
             signal["spot_exit"] = ""
             signal["notes"] = ""
+            # initial MTM mark so the Open P&L column shows 0 (not blank)
+            # from entry day; refreshed by every later scan
+            signal["mark_credit"] = signal["net_credit"]
+            signal["live_pnl"] = 0.0
+            signal["mark_date"] = day.isoformat()
 
             trades.append(signal)
             _alert_open(signal)
