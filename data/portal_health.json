@@ -1,15 +1,15 @@
 {
- "updated_at": "19 Oct 2026 10:48:02 IST",
- "overall": "warn",
+ "updated_at": "19 Oct 2026 16:25:02 IST",
+ "overall": "stale",
  "checks": [
   {
    "id": "relay",
    "label": "Market poller / relay",
-   "status": "ok",
-   "detail": "board ok (0.9m via paper_gc)",
-   "needs_fix": false,
+   "status": "stale",
+   "detail": "board age 77m via paper_gc (limit 25m)",
+   "needs_fix": true,
    "fix": "relay",
-   "age_sec": 51.9,
+   "age_sec": 4594.3,
    "source": "paper_gc"
   },
   {
@@ -27,57 +27,54 @@
    "label": "Intraday O=L/O=H + F3",
    "path": "data/paper_ol.json",
    "status": "ok",
-   "age_min": 0.9,
-   "updated_at": "19 Oct 2026 10:47:10 IST",
-   "detail": "ok age=1m",
+   "age_min": 76.6,
+   "updated_at": "19 Oct 2026 15:08:28 IST",
+   "detail": "ok age=77m",
    "needs_fix": false,
    "fix": "nse",
-   "open_count": 4
+   "open_count": 0
   },
   {
    "id": "gc",
    "label": "Gold / BTC (GC desk)",
    "path": "data/paper_gc.json",
-   "status": "ok",
-   "age_min": 0.9,
-   "updated_at": "19 Oct 2026 10:47:11 IST",
-   "detail": "ok age=1m",
-   "needs_fix": false,
-   "fix": "gc",
-   "open_count": 2
+   "status": "stale",
+   "age_min": 76.6,
+   "updated_at": "19 Oct 2026 15:08:28 IST",
+   "detail": "stale 77m (limit 35m in live window)",
+   "needs_fix": true,
+   "fix": "gc"
   },
   {
    "id": "btc_theta",
    "label": "BTC Theta",
    "path": "data/paper_btc_theta.json",
-   "status": "ok",
-   "age_min": 0.9,
-   "updated_at": "19 Oct 2026 10:47:11 IST",
-   "detail": "ok age=1m",
-   "needs_fix": false,
-   "fix": "btc_theta",
-   "open_count": 0
+   "status": "stale",
+   "age_min": 80.0,
+   "updated_at": "19 Oct 2026 15:05:03 IST",
+   "detail": "stale 80m (limit 35m in live window)",
+   "needs_fix": true,
+   "fix": "btc_theta"
   },
   {
    "id": "qm",
    "label": "QM Swing",
    "path": "data/paper_qm.json",
-   "status": "ok",
-   "age_min": 3783.6,
+   "status": "stale",
+   "age_min": 4120.6,
    "updated_at": "16 Oct 2026 19:44:25 IST",
-   "detail": "ok age=3784m",
-   "needs_fix": false,
-   "fix": "qm",
-   "open_count": 16
+   "detail": "stale 4121m (limit 90m in live window)",
+   "needs_fix": true,
+   "fix": "qm"
   },
   {
    "id": "swing",
    "label": "Candle Swing",
    "path": "data/swing_picks.json",
    "status": "ok",
-   "age_min": 3919.0,
+   "age_min": 4256.0,
    "updated_at": "16 Oct 2026 17:29:04 IST",
-   "detail": "ok age=3919m",
+   "detail": "ok age=4256m",
    "needs_fix": false,
    "fix": "swing",
    "open_count": 0
@@ -87,9 +84,9 @@
    "label": "NIFTY Long-Term Premium",
    "path": "data/paper_nifty_ltp.json",
    "status": "ok",
-   "age_min": 3842.0,
+   "age_min": 4179.0,
    "updated_at": "16 Oct 2026 18:46 IST",
-   "detail": "ok age=3842m",
+   "detail": "ok age=4179m",
    "needs_fix": false,
    "fix": "ltp",
    "open_count": 1
@@ -99,14 +96,35 @@
    "label": "Future Arbitrage",
    "path": "data/paper_future_arb.json",
    "status": "ok",
-   "age_min": 3721.0,
+   "age_min": 4058.0,
    "updated_at": "16 Oct 2026 20:47 IST",
-   "detail": "ok age=3721m",
+   "detail": "ok age=4058m",
    "needs_fix": false,
    "fix": "arb",
    "open_count": 0
   }
  ],
- "fixes": [],
+ "fixes": [
+  {
+   "id": "relay",
+   "result": "maybe_start_poller() called",
+   "reason": "board age 77m via paper_gc (limit 25m)"
+  },
+  {
+   "id": "gc",
+   "result": "gc tick ok",
+   "reason": "stale 77m (limit 35m in live window)"
+  },
+  {
+   "id": "btc_theta",
+   "result": "btc_theta tick ok",
+   "reason": "stale 80m (limit 35m in live window)"
+  },
+  {
+   "id": "qm",
+   "result": "qm run_day ok",
+   "reason": "stale 4121m (limit 90m in live window)"
+  }
+ ],
  "check_only": false
 }
