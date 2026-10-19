@@ -1,6 +1,6 @@
 {
- "updated_at": "16 Oct 2026 18:46 IST",
- "bhav_date": "2026-10-16",
+ "updated_at": "19 Oct 2026 19:31 IST",
+ "bhav_date": "2026-10-19",
  "desk": "NIFTY Long-Term Premium",
  "status": "RUNNING",
  "strategy": {
@@ -11,26 +11,99 @@
   "source": "NK Stock Talk session 2026-10-03; rules doc NK_NIFTY_PREMIUM_RULES.md"
  },
  "levels": {
-  "spot": 23103.5,
-  "weekly_20sma": 23762.9,
-  "near_iv": 0.111,
+  "spot": 22898.7,
+  "weekly_20sma": 23739.0,
+  "near_iv": 0.126,
   "bias": "below (put side)"
  },
- "board": [],
+ "board": [
+  {
+   "expiry": "2027-06-29",
+   "strike": 24000.0,
+   "opt": "CE",
+   "dte": 253,
+   "price": 826.4,
+   "vol": 952,
+   "fair": 940.3,
+   "discount": 0.121,
+   "edge_pts": 113.9,
+   "own_iv": 0.111
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 23350.0,
+   "opt": "PE",
+   "dte": 71,
+   "price": 560.3,
+   "vol": 45,
+   "fair": 594.0,
+   "discount": 0.057,
+   "edge_pts": 33.7,
+   "own_iv": 0.118
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 24000.0,
+   "opt": "CE",
+   "dte": 71,
+   "price": 203.9,
+   "vol": 18974,
+   "fair": 213.6,
+   "discount": 0.045,
+   "edge_pts": 9.7,
+   "own_iv": 0.124
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 23950.0,
+   "opt": "CE",
+   "dte": 71,
+   "price": 216.75,
+   "vol": 34,
+   "fair": 226.7,
+   "discount": 0.044,
+   "edge_pts": 10.0,
+   "own_iv": 0.124
+  },
+  {
+   "expiry": "2027-06-29",
+   "strike": 22500.0,
+   "opt": "CE",
+   "dte": 253,
+   "price": 1710.05,
+   "vol": 1583,
+   "fair": 1787.0,
+   "discount": 0.043,
+   "edge_pts": 77.0,
+   "own_iv": 0.114
+  },
+  {
+   "expiry": "2027-03-30",
+   "strike": 24000.0,
+   "opt": "CE",
+   "dte": 162,
+   "price": 561.25,
+   "vol": 2569,
+   "fair": 584.8,
+   "discount": 0.04,
+   "edge_pts": 23.6,
+   "own_iv": 0.123
+  }
+ ],
  "blocked": [],
  "open": [
   {
    "id": 2,
    "side": "call",
    "entry": "2026-10-15",
-   "days": 2,
-   "points": 54.9,
+   "days": 3,
+   "points": 5.2,
    "far": {
     "expiry": "2027-06-29",
     "strike": 24000.0,
     "qty": 225,
     "entry": 847.75,
-    "mark": 926.65,
+    "mark": 826.4,
     "exit": null,
     "exit_date": null
    },
@@ -40,9 +113,19 @@
      "strike": 23200.0,
      "qty": 225,
      "entry": 26.85,
-     "mark": 50.8,
+     "mark": 0.25,
+     "exit": 0.25,
+     "exit_date": "2026-10-19"
+    },
+    {
+     "expiry": "2026-10-27",
+     "strike": 23150.0,
+     "qty": 225,
+     "entry": 72.1,
+     "mark": 72.1,
      "exit": null,
-     "exit_date": null
+     "exit_date": null,
+     "rolled": true
     }
    ]
   }
@@ -67,6 +150,6 @@
   "wins": 0,
   "win_rate": 0,
   "realized": 0,
-  "unrealized": 12363.75
+  "unrealized": 1181.25
  }
 }
