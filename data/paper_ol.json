@@ -1,5 +1,5 @@
 {
- "updated_at": "19 Oct 2026 09:23:54 IST",
+ "updated_at": "19 Oct 2026 09:26:05 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -34,19 +34,19 @@
   "oh": {
    "AXISBANK": 3.9,
    "BAJAJHFL": 3.02,
+   "FEDERALBNK": 2.35,
    "VTL": 2.19,
-   "FEDERALBNK": 2.13,
    "HDFCBANK": 1.94,
    "NETWEB": 1.5,
    "ZENTEC": 1.41,
+   "ITCHOTELS": 1.35,
    "INFY": 1.32,
    "JSL": 1.19,
-   "AIIL": 0.9,
+   "AIIL": 1.0,
+   "SAMMAANCAP": 0.99,
+   "KIRLOSENG": 0.96,
    "OFSS": 0.89,
-   "AEGISVOPAK": 0.87,
-   "KIRLOSENG": 0.83,
-   "SAMMAANCAP": 0.8,
-   "NYKAA": 0.79
+   "AEGISVOPAK": 0.87
   }
  },
  "engine_errors": [],
@@ -56,7 +56,7 @@
   "trades_today": 4,
   "today_pnl": 0,
   "realized_total": -416.93,
-  "unrealized": 0,
+  "unrealized": 16.47,
   "wins": 75,
   "losses": 71,
   "win_rate": 51.4,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": 2.1,
    "feed": "angel",
-   "ltp": 1237.9,
-   "pnl_pct": -0.0
+   "ltp": 1237.2,
+   "pnl_pct": 0.06
   },
   {
    "id": 154,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": 4.02,
    "feed": "angel",
-   "ltp": 81.85,
-   "pnl_pct": -0.0
+   "ltp": 81.79,
+   "pnl_pct": 0.07
   },
   {
    "id": 155,
@@ -115,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": 4.55,
    "feed": "angel",
-   "ltp": 526.4,
-   "pnl_pct": -0.0
+   "ltp": 526.05,
+   "pnl_pct": 0.07
   },
   {
    "id": 156,
@@ -134,10 +134,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": 5.8,
    "feed": "angel",
-   "ltp": 716.55,
-   "pnl_pct": -0.0
+   "ltp": 715.1,
+   "pnl_pct": 0.2
   }
  ],
  "closed": [
