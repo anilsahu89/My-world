@@ -1,5 +1,5 @@
 {
- "updated_at": "19 Oct 2026 05:41:48 IST",
+ "updated_at": "19 Oct 2026 05:42:17 IST",
  "status": "RUNNING",
  "summary": {
   "open_count": 2,
@@ -18,14 +18,14 @@
    "symbol": "GOLD",
    "side": "BUY",
    "qty": 0.0143,
-   "entry_time": "05:41:46",
-   "entry_price": 4207.4,
+   "entry_time": "05:42:16",
+   "entry_price": 4208.0,
    "sl_price": 4170.14,
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
-   "ltp": 4207.4
+   "pnl": 0.0,
+   "ltp": 4208.0
   },
   {
    "id": 35,
@@ -34,14 +34,14 @@
    "symbol": "BTC",
    "side": "BUY",
    "qty": 0.0007,
-   "entry_time": "05:41:46",
-   "entry_price": 82087.85,
+   "entry_time": "05:42:16",
+   "entry_price": 82083.52,
    "sl_price": 81536.41,
    "exit_time": null,
    "exit_price": null,
    "reason": null,
    "pnl": 0.0,
-   "ltp": 82087.85
+   "ltp": 82083.52
   }
  ],
  "closed": [

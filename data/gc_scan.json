@@ -1,5 +1,5 @@
 {
- "updated_at": "19 Oct 2026 05:41:48 IST",
+ "updated_at": "19 Oct 2026 05:42:17 IST",
  "engine": "cloud gc desk (GitHub Actions relay — no Mac needed)",
  "markets": [
   {
@@ -7,10 +7,10 @@
    "yahoo": "GC=F",
    "session": "2026-10-18",
    "open": 4191.2998046875,
-   "high": 4208.10009765625,
+   "high": 4208.39990234375,
    "low": 4191.10009765625,
-   "ltp": 4207.39990234375,
-   "chg_pct": 0.38,
+   "ltp": 4208.0,
+   "chg_pct": 0.4,
    "minutes_since_open": null,
    "entry_window_open": true,
    "ol": true,
@@ -19,8 +19,8 @@
     "side": "BUY",
     "setup": "ol",
     "qty": 0.0143,
-    "entry_price": 4207.4,
-    "entry_time": "05:41:46",
+    "entry_price": 4208.0,
+    "entry_time": "05:42:16",
     "sl_price": 4170.14,
     "pnl": null
    },
@@ -34,7 +34,7 @@
    "open": 81980.671875,
    "high": 82124.8984375,
    "low": 81946.140625,
-   "ltp": 82087.8515625,
+   "ltp": 82083.5234375,
    "chg_pct": 0.13,
    "minutes_since_open": null,
    "entry_window_open": true,
@@ -44,8 +44,8 @@
     "side": "BUY",
     "setup": "ol",
     "qty": 0.0007,
-    "entry_price": 82087.85,
-    "entry_time": "05:41:46",
+    "entry_price": 82083.52,
+    "entry_time": "05:42:16",
     "sl_price": 81536.41,
     "pnl": null
    },
