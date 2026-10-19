@@ -1,9 +1,9 @@
 {
- "fetched_at": "2026-10-19 14:49:15",
- "latest_date": "2026-10-16",
+ "fetched_at": "2026-10-19 17:30:44",
+ "latest_date": "2026-10-19",
  "universe_count": 197,
  "shorts_count": 1,
- "longs_count": 3,
+ "longs_count": 2,
  "shorts": [
   {
    "kind": "bb",
@@ -40,23 +40,6 @@
    "primary_date": "2026-10-12",
    "alert_date": "2026-10-13",
    "score": 26.8
-  },
-  {
-   "kind": "bb",
-   "type": "LONG",
-   "symbol": "APOLLOHOSP",
-   "entry_price": 8027.5,
-   "sl_price": 7885.25,
-   "target_price": 8312.0,
-   "rr": 2.0,
-   "wick_pct": 69,
-   "vol_multiple": 1.6,
-   "rsi": 28,
-   "rsi_pass": false,
-   "primary_range": 284.5,
-   "primary_date": "2026-10-08",
-   "alert_date": "2026-10-09",
-   "score": 26.6
   },
   {
    "kind": "bb",
