@@ -1,5 +1,5 @@
 {
- "updated_at": "19 Oct 2026 09:29:11 IST",
+ "updated_at": "19 Oct 2026 09:30:41 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -34,7 +34,7 @@
   "oh": {
    "AXISBANK": 3.9,
    "BAJAJHFL": 3.02,
-   "FEDERALBNK": 2.41,
+   "FEDERALBNK": 2.45,
    "VTL": 2.19,
    "HDFCBANK": 1.94,
    "AIIL": 1.5,
@@ -56,7 +56,7 @@
   "trades_today": 4,
   "today_pnl": 0,
   "realized_total": -416.93,
-  "unrealized": 52.99,
+  "unrealized": 60.64,
   "wins": 75,
   "losses": 71,
   "win_rate": 51.4,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 24.3,
+   "pnl": 30.3,
    "feed": "angel",
-   "ltp": 1229.8,
-   "pnl_pct": 0.65
+   "ltp": 1227.8,
+   "pnl_pct": 0.82
   },
   {
    "id": 154,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 11.39,
+   "pnl": 21.44,
    "feed": "angel",
-   "ltp": 81.68,
-   "pnl_pct": 0.21
+   "ltp": 81.53,
+   "pnl_pct": 0.39
   },
   {
    "id": 155,
@@ -115,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 9.1,
+   "pnl": -3.9,
    "feed": "angel",
-   "ltp": 525.7,
-   "pnl_pct": 0.13
+   "ltp": 526.7,
+   "pnl_pct": -0.06
   },
   {
    "id": 156,
@@ -134,10 +134,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 8.2,
+   "pnl": 12.8,
    "feed": "angel",
-   "ltp": 714.5,
-   "pnl_pct": 0.29
+   "ltp": 713.35,
+   "pnl_pct": 0.45
   }
  ],
  "closed": [
