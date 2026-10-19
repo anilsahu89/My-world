@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 30,
+ "next_id": 32,
  "trades": [
   {
    "id": 1,
@@ -413,7 +413,7 @@
    "entry": 570.2,
    "sl": 524.56,
    "tgt": 661.48,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -431,7 +431,7 @@
    "entry": 1264.9,
    "sl": 1184.55,
    "tgt": 1425.6,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -485,7 +485,7 @@
    "entry": 468.0,
    "sl": 425.36,
    "tgt": 553.28,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -525,7 +525,43 @@
    "exit": null,
    "reason": null,
    "pnl": null
+  },
+  {
+   "id": 30,
+   "signal_date": "2026-10-19",
+   "market": "NSE",
+   "symbol": "AIIL",
+   "setup": "HM-BUY",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 524.56,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "id": 31,
+   "signal_date": "2026-10-19",
+   "market": "NSE",
+   "symbol": "AXISBANK",
+   "setup": "HM-BUY",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 1184.55,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
   }
  ],
- "done_date": "2026-10-19"
+ "done_date": "2026-10-20"
 }
