@@ -1677,20 +1677,18 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     if (!open.length) {
       ow.innerHTML = '<div class="flash">No open Daily Theta position right now.</div>';
     } else {
-      var orows = open.map(function (t) {
+                  var orows = open.map(function (t) {
         var lp = Number(t.live_pnl);
-        var hasMark = t.live_pnl != null && isFinite(lp);
-        return "<tr><td>" + esc(t.entry_date) + "</td><td>" + esc(t.direction) + "</td>" +
-          "<td>" + esc(t.short_strike) + " / " + esc(t.long_strike) + " " + esc(t.opt_type) + "</td>" +
-          "<td>" + inr(t.net_credit).replace("+", "") + "</td><td>" + esc(t.expiry) + " (" + esc(t.dte) + "d)</td>" +
-          "<td>" + esc(t.spot_entry) + "</td><td>" + esc(t.vix_entry) + "</td>" +
-          '<td class="' + (hasMark ? cls(lp) : "") + '">' +
-          (hasMark ? inr(lp) + ' <span class="muted" style="font-size:0.7em">@' +
-                      esc(t.mark_date || "") + "</span>"
-                   : '<span class="muted">—</span>') + "</td>" +
-          "<td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next scan's spread price\" onclick=\"return requestDeskClose('theta','open','NIFTY spread')\">✕ close</button></td></tr>";
-      }).join("");
-      ow.innerHTML = "<table><thead><tr><th>Entry</th><th>Direction</th><th>Short/Long Strike</th>" +
+        return { when: t.entry_date, sym: "NIFTY " + t.expiry,
+          kind: "SELL", side: "SELL", qty: 75,
+          entry: t.net_credit, mark: t.mark_credit,
+          pnl: (t.live_pnl != null && isFinite(lp)) ? lp : null };
+      });
+      ow.innerHTML = TradeTable.open(orows,
+        { preHeaders: ["Strikes", "VIX@"],
+          preCells: [function (t) { return esc(t.short_strike) + " / " + esc(t.long_strike) + " " + esc(t.opt_type); },
+                     function (t) { return esc(t.vix_entry); }] })
+    ow.innerHTML = "<table><thead><tr><th>Entry</th><th>Direction</th><th>Short/Long Strike</th>" +
         "<th>Net Credit</th><th>Expiry</th><th>Spot@Entry</th><th>VIX@Entry</th>" +
         '<th title="mark-to-market at the last scan (bhavcopy premiums): credit minus current spread x 75">Open P&L</th>' +
         "</tr></thead><tbody>" + orows + "</tbody></table>";
@@ -2513,7 +2511,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
   <script src="static/direct-scan.js"></script>
   <script src="static/gc-scan.js"></script>
   <script src="static/f3-scan.js"></script>
-  <script src="static/app.js?v=6"></script>
+  <script src="static/app.js?v=7"></script>
 
 <script>
 /* ===== Manual tab: stock search -> take trade -> open/closed book ===== */

@@ -1302,3 +1302,120 @@
     document.body.appendChild(ov);
   });
 })();
+
+// ---------------------------------------------------------------------------
+// TradeTable — the ONE template for every desk's Open + Closed trade tables.
+// Owner directive 16 Oct: column changes happen HERE only, never per desk.
+// Canonical OPEN row:  { when, sym, symNote, kind, kindCls, side, qty, entry,
+//                        mark, pnl, sl, tgt, invested,
+//                        close: {desk, ref, sym} | {modal: id} | null }
+// Canonical CLOSED row:{ whenIn, whenOut, sym, kind, kindCls, side, qty, entry,
+//                        exitPx, reason, hold, pnl, del: id|null }
+// opts.preHeaders / opts.preCell(row) for desk-specific extra columns.
+// opts.cur for "$" on USD books. opts.noClose hides the action column.
+// ---------------------------------------------------------------------------
+window.TradeTable = (function () {
+  function esc(s) { var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function cls(n) { n = Number(n); return isNaN(n) || n === 0 ? "" : (n > 0 ? "ok" : "bad"); }
+  function money(n, cur) {
+    if (n == null || n === "" || isNaN(Number(n))) return "—";
+    var v = Number(n);
+    return (cur || "₹") + Math.abs(v).toLocaleString("en-IN",
+      { maximumFractionDigits: 2 });
+  }
+  function pnlCell(n, cur) {
+    if (n == null || n === "" || isNaN(Number(n))) return "—";
+    var v = Number(n);
+    return '<span class="' + cls(v) + '">' + (v > 0 ? "+" : (v < 0 ? "−" : "")) +
+      (cur || "₹") + Math.abs(v).toLocaleString("en-IN",
+      { maximumFractionDigits: 2 }) + "</span>";
+  }
+  function sideBadge(side) {
+    var s = String(side || "").toUpperCase();
+    if (s.indexOf("BUY") === 0 || s === "LONG" || s === "BULL")
+      return '<span class="badge badge-green">BUY</span>';
+    if (s.indexOf("SELL") === 0 || s === "SHORT" || s === "BEAR")
+      return '<span class="badge badge-red">SELL</span>';
+    return esc(side || "—");
+  }
+  function kindBadge(kind, kindCls) {
+    if (!kind) return "—";
+    var c = kindCls || (String(kind).indexOf("NEW-LOW") >= 0 ? "badge-grey"
+      : (String(kind).indexOf("BUY") >= 0 ? "badge-green" : "badge-red"));
+    return '<span class="badge ' + c + '">' + esc(kind) + "</span>";
+  }
+  function closeCell(c) {
+    if (!c) return "<td></td>";
+    if (c.modal != null)
+      return '<td><button class="btn" data-close="' + esc(c.modal) +
+        '">✖ Close</button></td>';
+    return '<td><button class="btn" style="padding:1px 8px;font-size:0.72rem" ' +
+      'title="close at the desk\u2019s next scan price" onclick="return requestDeskClose(\'' +
+      esc(c.desk) + "','" + esc(String(c.ref)).replace(/'/g, "") + "','" +
+      esc(c.sym || "") + '\')">✕ close</button></td>';
+  }
+  function delCell(id) {
+    if (id == null) return "<td></td>";
+    return '<td><button class="btn" data-del="' + esc(String(id)) +
+      '" title="remove this entry from the book (wrong price, duplicate, misclick)">✖ Del</button></td>';
+  }
+  function num(v) { return (v != null && v !== "") ? esc(v) : "—"; }
+
+  function open(rows, opts) {
+    opts = opts || {};
+    var cur = opts.cur;
+    var preH = (opts.preHeaders || []).map(function (h) { return "<th>" + h + "</th>"; }).join("");
+    var head = "<table><thead><tr><th>Entry</th><th>Asset / Symbol</th><th>Kind</th><th>Side</th><th>Qty</th>" +
+      "<th>Entry</th><th>LTP / Mark</th><th>Live P&L</th><th>SL</th><th>TGT</th><th>Invested</th>" +
+      preH + "<th></th></tr></thead><tbody>";
+    var body = rows.map(function (r) {
+      var pre = (opts.preCells || []).map(function (f) { return "<td>" + f(r) + "</td>"; }).join("");
+      return "<tr>" +
+        "<td>" + esc(r.when || "—") + "</td>" +
+        "<td><strong>" + esc(r.sym || "—") + "</strong>" +
+          (r.symNote ? '<div class="muted" style="font-size:0.72rem">' + esc(r.symNote) + "</div>" : "") + "</td>" +
+        "<td>" + kindBadge(r.kind, r.kindCls) + "</td>" +
+        "<td>" + sideBadge(r.side) + "</td>" +
+        "<td>" + num(r.qty) + "</td>" +
+        "<td>" + money(r.entry, cur) + "</td>" +
+        "<td>" + num(r.mark) + "</td>" +
+        '<td class="' + cls(r.pnl) + '">' + (r.pnl != null ? pnlCell(r.pnl, cur) : "—") + "</td>" +
+        "<td>" + num(r.sl) + "</td><td>" + num(r.tgt) + "</td>" +
+        "<td>" + money(r.invested, cur) + "</td>" + pre +
+        (opts.noClose ? "" : closeCell(r.close)) + "</tr>";
+    }).join("");
+    return head + body + "</tbody></table>";
+  }
+
+  function closed(rows, opts) {
+    opts = opts || {};
+    var cur = opts.cur;
+    var preH = (opts.preHeaders || []).map(function (h) { return "<th>" + h + "</th>"; }).join("");
+    var head = "<table><thead><tr><th>Entry</th><th>Exit</th><th>Asset / Symbol</th><th>Kind</th><th>Side</th><th>Qty</th>" +
+      "<th>Entry</th><th>Exit</th><th>Reason</th><th>P&L</th><th>Result</th>" +
+      preH + (opts.delBtn ? "<th></th>" : "") + "</tr></thead><tbody>";
+    var body = rows.map(function (r) {
+      var win = Number(r.pnl) > 0;
+      var pre = (opts.preCells || []).map(function (f) { return "<td>" + f(r) + "</td>"; }).join("");
+      return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
+        "<td>" + esc(r.whenIn || "—") + "</td>" +
+        "<td>" + esc(r.whenOut || "—") + "</td>" +
+        "<td><strong>" + esc(r.sym || "—") + "</strong></td>" +
+        "<td>" + kindBadge(r.kind, r.kindCls) + "</td>" +
+        "<td>" + sideBadge(r.side) + "</td>" +
+        "<td>" + num(r.qty) + "</td>" +
+        "<td>" + money(r.entry, cur) + "</td>" +
+        "<td>" + money(r.exitPx, cur) + "</td>" +
+        "<td>" + esc(r.reason || "—") + "</td>" +
+        '<td class="' + cls(r.pnl) + '">' + pnlCell(r.pnl, cur) + "</td>" +
+        '<td><span class="badge ' + (win ? "badge-green" : "badge-red") + '">' +
+          (win ? "WIN" : "LOSS") + "</span></td>" + pre +
+        (opts.delBtn ? delCell(r.del) : "") + "</tr>";
+    }).join("");
+    return head + body + "</tbody></table>";
+  }
+
+  return { open: open, closed: closed, esc: esc, cls: cls,
+           money: money, pnlCell: pnlCell, sideBadge: sideBadge, kindBadge: kindBadge };
+})();
