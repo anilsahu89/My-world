@@ -1,5 +1,5 @@
 {
- "updated_at": "19 Oct 2026 10:43:42 IST",
+ "updated_at": "19 Oct 2026 10:47:10 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -67,15 +67,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 7,
-  "closed_count": 147,
+  "open_count": 4,
+  "closed_count": 150,
   "trades_today": 8,
-  "today_pnl": -92.96,
-  "realized_total": -509.89,
-  "unrealized": -89.67,
+  "today_pnl": -209.61,
+  "realized_total": -626.54,
+  "unrealized": 1.5,
   "wins": 75,
-  "losses": 72,
-  "win_rate": 51.0,
+  "losses": 75,
+  "win_rate": 50.0,
   "days": 21
  },
  "open": [
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.6,
+   "pnl": -2.4,
    "feed": "angel",
-   "ltp": 1238.1,
-   "pnl_pct": -0.02
+   "ltp": 1238.7,
+   "pnl_pct": -0.06
   },
   {
    "id": 154,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -10.72,
+   "pnl": -13.4,
    "feed": "angel",
-   "ltp": 82.01,
-   "pnl_pct": -0.2
+   "ltp": 82.05,
+   "pnl_pct": -0.24
   },
   {
    "id": 155,
@@ -131,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 3.25,
+   "pnl": 1.3,
    "feed": "angel",
-   "ltp": 526.15,
-   "pnl_pct": 0.05
+   "ltp": 526.3,
+   "pnl_pct": 0.02
   },
   {
    "id": 156,
@@ -150,11 +150,13 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 14.8,
+   "pnl": 16.0,
    "feed": "angel",
-   "ltp": 712.85,
-   "pnl_pct": 0.52
-  },
+   "ltp": 712.55,
+   "pnl_pct": 0.56
+  }
+ ],
+ "closed": [
   {
    "id": 158,
    "date": "2026-10-19",
@@ -166,13 +168,11 @@
    "entry_price": 573.65,
    "candle_stop": 566.3,
    "sl_price": 563.47,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -3.15,
-   "feed": "angel",
-   "ltp": 573.3,
-   "pnl_pct": -0.06
+   "exit_time": "10:46:43",
+   "exit_price": 572.4,
+   "reason": "TSTOP",
+   "pnl": -11.25,
+   "feed": "angel"
   },
   {
    "id": 159,
@@ -185,13 +185,11 @@
    "entry_price": 81.12,
    "candle_stop": 79.86,
    "sl_price": 79.46,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -51.0,
-   "feed": "angel",
-   "ltp": 80.27,
-   "pnl_pct": -1.05
+   "exit_time": "10:46:43",
+   "exit_price": 80.13,
+   "reason": "TSTOP",
+   "pnl": -59.4,
+   "feed": "angel"
   },
   {
    "id": 160,
@@ -204,16 +202,12 @@
    "entry_price": 868.6,
    "candle_stop": 855.15,
    "sl_price": 850.87,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -42.25,
-   "feed": "angel",
-   "ltp": 860.15,
-   "pnl_pct": -0.97
-  }
- ],
- "closed": [
+   "exit_time": "10:46:43",
+   "exit_price": 859.4,
+   "reason": "TSTOP",
+   "pnl": -46.0,
+   "feed": "angel"
+  },
   {
    "id": 157,
    "date": "2026-10-19",
@@ -2800,9 +2794,9 @@
    "ol": 3,
    "oh": 5,
    "wins": 0,
-   "losses": 1,
-   "pnl": -92.96,
-   "cum": -509.89
+   "losses": 4,
+   "pnl": -209.61,
+   "cum": -626.54
   }
  ]
 }
