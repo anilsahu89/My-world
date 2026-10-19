@@ -1,5 +1,5 @@
 {
- "updated_at": "19 Oct 2026 09:36:49 IST",
+ "updated_at": "19 Oct 2026 09:38:23 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -21,7 +21,7 @@
  },
  "vol_blocked": {
   "ol": {
-   "low_vol": 0,
+   "low_vol": 13,
    "no_vol_data": 0
   },
   "oh": {
@@ -30,7 +30,23 @@
   }
  },
  "vol_audit": {
-  "ol": {},
+  "ol": {
+   "GABRIEL": 7.5,
+   "SBICARD": 2.39,
+   "MAHABANK": 1.43,
+   "INDIANB": 1.38,
+   "SYNGENE": 0.9,
+   "ULTRACEMCO": 0.87,
+   "POWERGRID": 0.79,
+   "ONGC": 0.77,
+   "CIPLA": 0.61,
+   "PHOENIXLTD": 0.52,
+   "BPCL": 0.51,
+   "HINDPETRO": 0.48,
+   "TITAGARH": 0.48,
+   "HDFCAMC": 0.44,
+   "GMRAIRPORT": 0.31
+  },
   "oh": {
    "AXISBANK": 3.9,
    "BAJAJHFL": 3.02,
@@ -51,12 +67,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 5,
+  "open_count": 8,
   "closed_count": 146,
-  "trades_today": 5,
+  "trades_today": 8,
   "today_pnl": 0,
   "realized_total": -416.93,
-  "unrealized": -0.34,
+  "unrealized": -14.06,
   "wins": 75,
   "losses": 71,
   "win_rate": 51.4,
@@ -77,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": -3.6,
    "feed": "angel",
-   "ltp": 1237.9,
-   "pnl_pct": -0.0
+   "ltp": 1239.1,
+   "pnl_pct": -0.1
   },
   {
    "id": 154,
@@ -96,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 2.01,
+   "pnl": 4.69,
    "feed": "angel",
-   "ltp": 81.82,
-   "pnl_pct": 0.04
+   "ltp": 81.78,
+   "pnl_pct": 0.09
   },
   {
    "id": 155,
@@ -115,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 13.65,
+   "pnl": 5.85,
    "feed": "angel",
-   "ltp": 525.35,
-   "pnl_pct": 0.2
+   "ltp": 525.95,
+   "pnl_pct": 0.09
   },
   {
    "id": 156,
@@ -134,10 +150,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -4.0,
+   "pnl": -9.4,
    "feed": "angel",
-   "ltp": 717.55,
-   "pnl_pct": -0.14
+   "ltp": 718.9,
+   "pnl_pct": -0.33
   },
   {
    "id": 157,
@@ -153,10 +169,67 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -12.0,
+   "pnl": -11.6,
    "feed": "angel",
-   "ltp": 326.55,
-   "pnl_pct": -0.46
+   "ltp": 326.5,
+   "pnl_pct": -0.45
+  },
+  {
+   "id": 158,
+   "date": "2026-10-19",
+   "setup": "ol",
+   "symbol": "SBICARD",
+   "side": "BUY",
+   "qty": 9,
+   "entry_time": "09:37:50",
+   "entry_price": 573.65,
+   "candle_stop": 566.3,
+   "sl_price": 563.47,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 573.65,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 159,
+   "date": "2026-10-19",
+   "setup": "ol",
+   "symbol": "MAHABANK",
+   "side": "BUY",
+   "qty": 60,
+   "entry_time": "09:37:50",
+   "entry_price": 81.12,
+   "candle_stop": 79.86,
+   "sl_price": 79.46,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 81.12,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 160,
+   "date": "2026-10-19",
+   "setup": "ol",
+   "symbol": "INDIANB",
+   "side": "BUY",
+   "qty": 5,
+   "entry_time": "09:37:50",
+   "entry_price": 868.6,
+   "candle_stop": 855.15,
+   "sl_price": 850.87,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 868.6,
+   "pnl_pct": 0.0
   }
  ],
  "closed": [
@@ -2725,8 +2798,8 @@
   },
   {
    "date": "2026-10-19",
-   "trades": 5,
-   "ol": 0,
+   "trades": 8,
+   "ol": 3,
    "oh": 5,
    "wins": 0,
    "losses": 0,

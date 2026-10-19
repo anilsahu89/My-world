@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 158,
+ "next_id": 161,
  "trades": [
   {
    "id": 1,
@@ -2611,6 +2611,60 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 158,
+   "date": "2026-10-19",
+   "setup": "ol",
+   "symbol": "SBICARD",
+   "side": "BUY",
+   "qty": 9,
+   "entry_time": "09:37:50",
+   "entry_price": 573.65,
+   "candle_stop": 566.3,
+   "sl_price": 563.47,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
+  },
+  {
+   "id": 159,
+   "date": "2026-10-19",
+   "setup": "ol",
+   "symbol": "MAHABANK",
+   "side": "BUY",
+   "qty": 60,
+   "entry_time": "09:37:50",
+   "entry_price": 81.12,
+   "candle_stop": 79.86,
+   "sl_price": 79.46,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
+  },
+  {
+   "id": 160,
+   "date": "2026-10-19",
+   "setup": "ol",
+   "symbol": "INDIANB",
+   "side": "BUY",
+   "qty": 5,
+   "entry_time": "09:37:50",
+   "entry_price": 868.6,
+   "candle_stop": 855.15,
+   "sl_price": 850.87,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
   }
  ],
  "seeded": true,
@@ -2619,7 +2673,21 @@
  "vol_blocked": {
   "date": "2026-10-19",
   "ol": {
-   "low_vol": [],
+   "low_vol": [
+    "BPCL",
+    "CIPLA",
+    "CUB",
+    "GMRAIRPORT",
+    "HDFCAMC",
+    "HINDPETRO",
+    "ONGC",
+    "PHOENIXLTD",
+    "POWERGRID",
+    "SYNGENE",
+    "TITAGARH",
+    "ULTRACEMCO",
+    "ZYDUSLIFE"
+   ],
    "no_vol_data": []
   },
   "oh": {
@@ -2697,7 +2765,25 @@
  },
  "vol_audit": {
   "date": "2026-10-19",
-  "ol": {},
+  "ol": {
+   "BPCL": 0.51,
+   "MAHABANK": 1.43,
+   "CIPLA": 0.61,
+   "CUB": 0.24,
+   "GABRIEL": 7.5,
+   "GMRAIRPORT": 0.31,
+   "HDFCAMC": 0.44,
+   "HINDPETRO": 0.48,
+   "INDIANB": 1.38,
+   "ONGC": 0.77,
+   "PHOENIXLTD": 0.52,
+   "POWERGRID": 0.79,
+   "SBICARD": 2.39,
+   "SYNGENE": 0.9,
+   "TITAGARH": 0.48,
+   "ULTRACEMCO": 0.87,
+   "ZYDUSLIFE": 0.21
+  },
   "oh": {
    "AEGISVOPAK": 0.87,
    "ANANDRATHI": 0.28,
