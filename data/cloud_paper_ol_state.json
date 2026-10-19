@@ -2605,11 +2605,11 @@
    "entry_price": 325.05,
    "candle_stop": 335.0,
    "sl_price": 336.67,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "10:26:03",
+   "exit_price": 336.67,
+   "reason": "SL",
+   "pnl": -92.96,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {
@@ -2669,7 +2669,16 @@
  ],
  "seeded": true,
  "f3_done_date": "2026-10-16",
- "reentry_watch": [],
+ "reentry_watch": [
+  {
+   "symbol": "FEDERALBNK",
+   "setup": "oh",
+   "side": "SELL",
+   "level": 335.0,
+   "stopped_at": "10:26:03",
+   "date": "2026-10-19"
+  }
+ ],
  "vol_blocked": {
   "date": "2026-10-19",
   "ol": {

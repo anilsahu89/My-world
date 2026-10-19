@@ -1,5 +1,5 @@
 {
- "updated_at": "19 Oct 2026 10:23:01 IST",
+ "updated_at": "19 Oct 2026 10:26:30 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -67,15 +67,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 8,
-  "closed_count": 146,
+  "open_count": 7,
+  "closed_count": 147,
   "trades_today": 8,
-  "today_pnl": 0,
-  "realized_total": -416.93,
-  "unrealized": -32.05,
+  "today_pnl": -92.96,
+  "realized_total": -509.89,
+  "unrealized": 3.1,
   "wins": 75,
-  "losses": 71,
-  "win_rate": 51.4,
+  "losses": 72,
+  "win_rate": 51.0,
   "days": 21
  },
  "open": [
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -16.5,
+   "pnl": -11.1,
    "feed": "angel",
-   "ltp": 1243.4,
-   "pnl_pct": -0.44
+   "ltp": 1241.6,
+   "pnl_pct": -0.3
   },
   {
    "id": 154,
@@ -131,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 7.8,
+   "pnl": -7.15,
    "feed": "angel",
-   "ltp": 525.8,
-   "pnl_pct": 0.11
+   "ltp": 526.95,
+   "pnl_pct": -0.1
   },
   {
    "id": 156,
@@ -150,29 +150,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 14.4,
+   "pnl": 15.2,
    "feed": "angel",
-   "ltp": 712.95,
-   "pnl_pct": 0.5
-  },
-  {
-   "id": 157,
-   "date": "2026-10-19",
-   "setup": "oh",
-   "symbol": "FEDERALBNK",
-   "side": "SELL",
-   "qty": 8,
-   "entry_time": "09:31:43",
-   "entry_price": 325.05,
-   "candle_stop": 335.0,
-   "sl_price": 336.67,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -42.8,
-   "feed": "angel",
-   "ltp": 330.4,
-   "pnl_pct": -1.65
+   "ltp": 712.75,
+   "pnl_pct": 0.53
   },
   {
    "id": 158,
@@ -188,10 +169,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 20.25,
+   "pnl": 22.5,
    "feed": "angel",
-   "ltp": 575.9,
-   "pnl_pct": 0.39
+   "ltp": 576.15,
+   "pnl_pct": 0.44
   },
   {
    "id": 159,
@@ -207,10 +188,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 12.6,
+   "pnl": 13.2,
    "feed": "angel",
-   "ltp": 81.33,
-   "pnl_pct": 0.26
+   "ltp": 81.34,
+   "pnl_pct": 0.27
   },
   {
    "id": 160,
@@ -226,13 +207,30 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -17.75,
+   "pnl": -19.5,
    "feed": "angel",
-   "ltp": 865.05,
-   "pnl_pct": -0.41
+   "ltp": 864.7,
+   "pnl_pct": -0.45
   }
  ],
  "closed": [
+  {
+   "id": 157,
+   "date": "2026-10-19",
+   "setup": "oh",
+   "symbol": "FEDERALBNK",
+   "side": "SELL",
+   "qty": 8,
+   "entry_time": "09:31:43",
+   "entry_price": 325.05,
+   "candle_stop": 335.0,
+   "sl_price": 336.67,
+   "exit_time": "10:26:03",
+   "exit_price": 336.67,
+   "reason": "SL",
+   "pnl": -92.96,
+   "feed": "angel"
+  },
   {
    "id": 150,
    "date": "2026-10-16",
@@ -2802,9 +2800,9 @@
    "ol": 3,
    "oh": 5,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -416.93
+   "losses": 1,
+   "pnl": -92.96,
+   "cum": -509.89
   }
  ]
 }
