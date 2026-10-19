@@ -1,5 +1,5 @@
 {
- "updated_at": "19 Oct 2026 10:09:13 IST",
+ "updated_at": "19 Oct 2026 10:12:39 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -72,7 +72,7 @@
   "trades_today": 8,
   "today_pnl": 0,
   "realized_total": -416.93,
-  "unrealized": -12.39,
+  "unrealized": 16.08,
   "wins": 75,
   "losses": 71,
   "win_rate": 51.4,
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 3.3,
+   "pnl": -2.4,
    "feed": "angel",
-   "ltp": 1236.8,
-   "pnl_pct": 0.09
+   "ltp": 1238.7,
+   "pnl_pct": -0.06
   },
   {
    "id": 154,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -11.39,
+   "pnl": -14.07,
    "feed": "angel",
-   "ltp": 82.02,
-   "pnl_pct": -0.21
+   "ltp": 82.06,
+   "pnl_pct": -0.26
   },
   {
    "id": 155,
@@ -131,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": -6.5,
    "feed": "angel",
-   "ltp": 526.4,
-   "pnl_pct": -0.0
+   "ltp": 526.9,
+   "pnl_pct": -0.09
   },
   {
    "id": 156,
@@ -150,10 +150,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 10.2,
+   "pnl": 12.8,
    "feed": "angel",
-   "ltp": 714.0,
-   "pnl_pct": 0.36
+   "ltp": 713.35,
+   "pnl_pct": 0.45
   },
   {
    "id": 157,
@@ -169,10 +169,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -14.4,
+   "pnl": -8.8,
    "feed": "angel",
-   "ltp": 326.85,
-   "pnl_pct": -0.55
+   "ltp": 326.15,
+   "pnl_pct": -0.34
   },
   {
    "id": 158,
@@ -188,10 +188,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 26.55,
+   "pnl": 35.1,
    "feed": "angel",
-   "ltp": 576.6,
-   "pnl_pct": 0.51
+   "ltp": 577.55,
+   "pnl_pct": 0.68
   },
   {
    "id": 159,
@@ -207,10 +207,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -11.4,
+   "pnl": 13.2,
    "feed": "angel",
-   "ltp": 80.93,
-   "pnl_pct": -0.23
+   "ltp": 81.34,
+   "pnl_pct": 0.27
   },
   {
    "id": 160,
@@ -226,10 +226,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -15.25,
+   "pnl": -13.25,
    "feed": "angel",
-   "ltp": 865.55,
-   "pnl_pct": -0.35
+   "ltp": 865.95,
+   "pnl_pct": -0.31
   }
  ],
  "closed": [
