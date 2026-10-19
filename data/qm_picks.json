@@ -1,6 +1,6 @@
 {
- "date": "2026-10-15",
- "updated_at": "15 Oct 2026 17:28:12 IST",
+ "date": "2026-10-19",
+ "updated_at": "19 Oct 2026 16:25:36 IST",
  "nifty_gate": {
   "hm_buy_state": false,
   "above_sma20": true,
@@ -9,31 +9,31 @@
  "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM buy state) · 52-week closing high (vol ≥1.5x) · BB Blast squeeze on daily/weekly/monthly (NIFTY > SMA20) · 50-day return must beat NIFTY (RS-50 gate) · NIFTY-500 · ₹5cr turnover · entries capped 2/day by the desk",
  "signals": [
   {
-   "sym": "KOTAKBANK",
-   "setup": "QM-HM",
-   "rsi": 76.9,
-   "note": "RSI9 77 V-turn above rising SMA20",
-   "close": 447.95,
-   "date": "2026-10-15",
-   "rs50": 1.126
+   "sym": "INDHOTEL",
+   "setup": "QM-BBw",
+   "rsi": 69.1,
+   "note": "BB squeeze rank 19% blast on w bars",
+   "close": 760.0,
+   "date": "2026-10-19",
+   "rs50": 1.033
   },
   {
-   "sym": "NUVOCO",
+   "sym": "CARTRADE",
    "setup": "QM-HM",
-   "rsi": 71.2,
-   "note": "RSI9 71 V-turn above rising SMA20",
-   "close": 335.9,
-   "date": "2026-10-15",
-   "rs50": 0.964
+   "rsi": 58.3,
+   "note": "RSI9 58 V-turn above rising SMA20",
+   "close": 3032.9,
+   "date": "2026-10-19",
+   "rs50": 1.088
   },
   {
-   "sym": "RITES",
-   "setup": "QM-HM",
-   "rsi": 57.5,
-   "note": "RSI9 57 V-turn above rising SMA20",
-   "close": 214.27,
-   "date": "2026-10-15",
-   "rs50": 0.991
+   "sym": "KARURVYSYA",
+   "setup": "QM-52W",
+   "rsi": 86.6,
+   "note": "new 52w closing high 370.0, vol 3.6x",
+   "close": 370.05,
+   "date": "2026-10-19",
+   "rs50": 1.096
   }
  ]
 }
