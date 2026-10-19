@@ -1,12 +1,12 @@
 {
- "date": "2026-10-16",
- "updated_at": "16 Oct 2026 11:15:09 IST",
+ "date": "2026-10-19",
+ "updated_at": "19 Oct 2026 12:03:18 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 3,
-  "invested": 26283.0,
+  "open": 5,
+  "invested": 45119.0,
   "realized": 0,
   "wins": 0,
   "losses": 0,
@@ -29,6 +29,20 @@
   },
   {
    "symbol": "BIOCON",
+   "side": "SELL",
+   "weekly": "SELL-MOMENTUM",
+   "daily": "SELL-MOMENTUM",
+   "setup": "IHM-SELL"
+  },
+  {
+   "symbol": "EXIDEIND",
+   "side": "SELL",
+   "weekly": "SELL-MOMENTUM",
+   "daily": "SELL-MOMENTUM",
+   "setup": "IHM-SELL"
+  },
+  {
+   "symbol": "GLENMARK",
    "side": "SELL",
    "weekly": "SELL-MOMENTUM",
    "daily": "SELL-MOMENTUM",
@@ -60,8 +74,8 @@
    "htf_weekly": "SELL-MOMENTUM",
    "htf_daily": "SELL",
    "notes": "HTF SELL-MOMENTUM/SELL → 1H IHM-SELL",
-   "ltp": 989.4,
-   "live_pnl": -74.0
+   "ltp": 978.5,
+   "live_pnl": 35.0
   },
   {
    "id": 2,
@@ -86,8 +100,8 @@
    "htf_weekly": "SELL-MOMENTUM",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 3344.3,
-   "live_pnl": -10.2
+   "ltp": 3322.4,
+   "live_pnl": 33.6
   },
   {
    "id": 3,
@@ -112,10 +126,62 @@
    "htf_weekly": "SELL-MOMENTUM",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 350.3,
-   "live_pnl": -23.8
+   "ltp": 343.3,
+   "live_pnl": 172.2
+  },
+  {
+   "id": 4,
+   "symbol": "EXIDEIND",
+   "side": "SELL",
+   "setup": "IHM-SELL",
+   "signal_date": "2026-10-19",
+   "entry_date": "2026-10-19",
+   "entry_time": "12:02",
+   "entry": 367.6,
+   "qty": 27,
+   "invested": 9925.2,
+   "rsi_entry": 20.3,
+   "sl": 373.04,
+   "tgt": 359.43,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "SELL-MOMENTUM",
+   "htf_daily": "SELL-MOMENTUM",
+   "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
+   "ltp": 367.6,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 5,
+   "symbol": "GLENMARK",
+   "side": "SELL",
+   "setup": "IHM-SELL",
+   "signal_date": "2026-10-19",
+   "entry_date": "2026-10-19",
+   "entry_time": "12:02",
+   "entry": 2227.7,
+   "qty": 4,
+   "invested": 8910.8,
+   "rsi_entry": 38.5,
+   "sl": 2274.24,
+   "tgt": 2157.89,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "SELL-MOMENTUM",
+   "htf_daily": "SELL-MOMENTUM",
+   "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
+   "ltp": 2227.7,
+   "live_pnl": 0.0
   }
  ],
  "closed": [],
- "entered_this_run": 0
+ "entered_this_run": 2
 }
