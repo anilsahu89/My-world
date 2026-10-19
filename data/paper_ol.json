@@ -1,5 +1,5 @@
 {
- "updated_at": "19 Oct 2026 09:30:41 IST",
+ "updated_at": "19 Oct 2026 09:32:12 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,12 +51,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 4,
+  "open_count": 5,
   "closed_count": 146,
-  "trades_today": 4,
+  "trades_today": 5,
   "today_pnl": 0,
   "realized_total": -416.93,
-  "unrealized": 60.64,
+  "unrealized": 38.22,
   "wins": 75,
   "losses": 71,
   "win_rate": 51.4,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 30.3,
+   "pnl": 13.2,
    "feed": "angel",
-   "ltp": 1227.8,
-   "pnl_pct": 0.82
+   "ltp": 1233.5,
+   "pnl_pct": 0.36
   },
   {
    "id": 154,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 21.44,
+   "pnl": 7.37,
    "feed": "angel",
-   "ltp": 81.53,
-   "pnl_pct": 0.39
+   "ltp": 81.74,
+   "pnl_pct": 0.13
   },
   {
    "id": 155,
@@ -115,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -3.9,
+   "pnl": 8.45,
    "feed": "angel",
-   "ltp": 526.7,
-   "pnl_pct": -0.06
+   "ltp": 525.75,
+   "pnl_pct": 0.12
   },
   {
    "id": 156,
@@ -134,10 +134,29 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 12.8,
+   "pnl": 9.2,
    "feed": "angel",
-   "ltp": 713.35,
-   "pnl_pct": 0.45
+   "ltp": 714.25,
+   "pnl_pct": 0.32
+  },
+  {
+   "id": 157,
+   "date": "2026-10-19",
+   "setup": "oh",
+   "symbol": "FEDERALBNK",
+   "side": "SELL",
+   "qty": 8,
+   "entry_time": "09:31:43",
+   "entry_price": 325.05,
+   "candle_stop": 335.0,
+   "sl_price": 336.67,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 325.05,
+   "pnl_pct": -0.0
   }
  ],
  "closed": [
@@ -2706,9 +2725,9 @@
   },
   {
    "date": "2026-10-19",
-   "trades": 4,
+   "trades": 5,
    "ol": 0,
-   "oh": 4,
+   "oh": 5,
    "wins": 0,
    "losses": 0,
    "pnl": 0,
