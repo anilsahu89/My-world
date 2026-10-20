@@ -1,9 +1,65 @@
 {
- "fetched_at": "2026-10-20T10:45:47.931199+05:30",
+ "fetched_at": "2026-10-20T14:24:16.666206+05:30",
  "source": "angel-smartapi",
  "universe": "NSE200",
- "count": 299,
+ "count": 498,
  "stocks": [
+  {
+   "symbol": "360ONE",
+   "name": "360 ONE WAM Ltd.",
+   "ltp": 1055.0,
+   "prev_close": 1075.0,
+   "chg": -20.0,
+   "pct": -1.86,
+   "open": 1075.0,
+   "high": 1075.0,
+   "low": 1043.2,
+   "volume": 1696837,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "3MINDIA",
+   "name": "3M India Ltd.",
+   "ltp": 30115.0,
+   "prev_close": 30400.0,
+   "chg": -285.0,
+   "pct": -0.94,
+   "open": 30400.0,
+   "high": 30405.0,
+   "low": 30055.0,
+   "volume": 724,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "AADHARHFC",
+   "name": "Aadhar Housing Finance Ltd.",
+   "ltp": 447.1,
+   "prev_close": 447.0,
+   "chg": 0.1,
+   "pct": 0.02,
+   "open": 445.0,
+   "high": 449.75,
+   "low": 436.5,
+   "volume": 139321,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "AARTIIND",
+   "name": "Aarti Industries Ltd.",
+   "ltp": 479.0,
+   "prev_close": 503.0,
+   "chg": -24.0,
+   "pct": -4.77,
+   "open": 495.0,
+   "high": 495.8,
+   "low": 475.0,
+   "volume": 554747,
+   "ol": false,
+   "market_time": 1792486456
+  },
   {
    "symbol": "AAVAS",
    "name": "Aavas Financiers Ltd.",
@@ -16,7 +72,35 @@
    "low": 1165.0,
    "volume": 63168,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ABB",
+   "name": "ABB India Ltd.",
+   "ltp": 6974.0,
+   "prev_close": 6801.0,
+   "chg": 173.0,
+   "pct": 2.54,
+   "open": 6800.0,
+   "high": 7019.5,
+   "low": 6771.0,
+   "volume": 557390,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ABBOTINDIA",
+   "name": "Abbott India Ltd.",
+   "ltp": 25905.0,
+   "prev_close": 26170.0,
+   "chg": -265.0,
+   "pct": -1.01,
+   "open": 26040.0,
+   "high": 26145.0,
+   "low": 25805.0,
+   "volume": 2009,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "ABCAPITAL",
@@ -30,7 +114,21 @@
    "low": 373.05,
    "volume": 1354690,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ABDL",
+   "name": "Allied Blenders and Distillers Ltd.",
+   "ltp": 739.95,
+   "prev_close": 748.65,
+   "chg": -8.7,
+   "pct": -1.16,
+   "open": 744.95,
+   "high": 750.65,
+   "low": 733.15,
+   "volume": 346823,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "ABFRL",
@@ -44,7 +142,35 @@
    "low": 42.94,
    "volume": 2010790,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ABLBL",
+   "name": "Aditya Birla Lifestyle Brands Ltd.",
+   "ltp": 72.2,
+   "prev_close": 72.72,
+   "chg": -0.52,
+   "pct": -0.72,
+   "open": 72.65,
+   "high": 73.02,
+   "low": 71.66,
+   "volume": 906594,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ABREL",
+   "name": "Aditya Birla Real Estate Ltd.",
+   "ltp": 1098.5,
+   "prev_close": 1120.2,
+   "chg": -21.7,
+   "pct": -1.94,
+   "open": 1120.2,
+   "high": 1130.0,
+   "low": 1095.0,
+   "volume": 59459,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "ABSLAMC",
@@ -58,7 +184,7 @@
    "low": 954.65,
    "volume": 104739,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ACC",
@@ -72,7 +198,7 @@
    "low": 1156.0,
    "volume": 138695,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ACE",
@@ -86,7 +212,7 @@
    "low": 1100.1,
    "volume": 312883,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ACMESOLAR",
@@ -100,7 +226,7 @@
    "low": 402.85,
    "volume": 1532890,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ACUTAAS",
@@ -114,7 +240,7 @@
    "low": 3234.1,
    "volume": 557451,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ADANIENSOL",
@@ -128,7 +254,7 @@
    "low": 1364.0,
    "volume": 1303809,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ADANIENT",
@@ -142,7 +268,7 @@
    "low": 2650.0,
    "volume": 854302,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ADANIGREEN",
@@ -156,7 +282,7 @@
    "low": 1291.0,
    "volume": 965167,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ADANIPORTS",
@@ -170,7 +296,7 @@
    "low": 1746.0,
    "volume": 2526448,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ADANIPOWER",
@@ -184,7 +310,7 @@
    "low": 192.63,
    "volume": 8537257,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "AEGISLOG",
@@ -198,7 +324,7 @@
    "low": 1312.0,
    "volume": 548822,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "AEGISVOPAK",
@@ -212,7 +338,105 @@
    "low": 259.85,
    "volume": 989281,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "AFCONS",
+   "name": "Afcons Infrastructure Ltd.",
+   "ltp": 245.11,
+   "prev_close": 244.36,
+   "chg": 0.75,
+   "pct": 0.31,
+   "open": 243.0,
+   "high": 248.0,
+   "low": 240.3,
+   "volume": 387769,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "AFFLE",
+   "name": "Affle 3i Ltd.",
+   "ltp": 1450.1,
+   "prev_close": 1437.6,
+   "chg": 12.5,
+   "pct": 0.87,
+   "open": 1437.6,
+   "high": 1466.9,
+   "low": 1424.6,
+   "volume": 117092,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "AIAENG",
+   "name": "AIA Engineering Ltd.",
+   "ltp": 3665.2,
+   "prev_close": 3719.7,
+   "chg": -54.5,
+   "pct": -1.47,
+   "open": 3690.1,
+   "high": 3704.8,
+   "low": 3640.1,
+   "volume": 33135,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "AIIL",
+   "name": "Authum Investment & Infrastructure Ltd.",
+   "ltp": 548.95,
+   "prev_close": 571.9,
+   "chg": -22.95,
+   "pct": -4.01,
+   "open": 570.2,
+   "high": 570.2,
+   "low": 543.55,
+   "volume": 112278,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "AJANTPHARM",
+   "name": "Ajanta Pharmaceuticals Ltd.",
+   "ltp": 3298.9,
+   "prev_close": 3329.0,
+   "chg": -30.1,
+   "pct": -0.9,
+   "open": 3325.9,
+   "high": 3387.5,
+   "low": 3285.0,
+   "volume": 36644,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ALKEM",
+   "name": "Alkem Laboratories Ltd.",
+   "ltp": 5004.0,
+   "prev_close": 5050.0,
+   "chg": -46.0,
+   "pct": -0.91,
+   "open": 5042.5,
+   "high": 5099.5,
+   "low": 4975.5,
+   "volume": 95218,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "AMBER",
+   "name": "Amber Enterprises India Ltd.",
+   "ltp": 6529.5,
+   "prev_close": 6668.0,
+   "chg": -138.5,
+   "pct": -2.08,
+   "open": 6695.0,
+   "high": 6725.0,
+   "low": 6501.0,
+   "volume": 67193,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "AMBUJACEM",
@@ -226,7 +450,21 @@
    "low": 356.7,
    "volume": 1571724,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ANANDRATHI",
+   "name": "Anand Rathi Wealth Ltd.",
+   "ltp": 2163.9,
+   "prev_close": 2159.7,
+   "chg": 4.2,
+   "pct": 0.19,
+   "open": 2159.7,
+   "high": 2172.0,
+   "low": 2143.5,
+   "volume": 235630,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "ANANTRAJ",
@@ -240,7 +478,7 @@
    "low": 496.0,
    "volume": 2141048,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ANGELONE",
@@ -254,7 +492,21 @@
    "low": 298.2,
    "volume": 6096648,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ANTHEM",
+   "name": "Anthem Biosciences Ltd.",
+   "ltp": 808.5,
+   "prev_close": 822.15,
+   "chg": -13.65,
+   "pct": -1.66,
+   "open": 822.15,
+   "high": 825.8,
+   "low": 802.85,
+   "volume": 360867,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "ANURAS",
@@ -268,7 +520,7 @@
    "low": 1096.5,
    "volume": 667051,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "APARINDS",
@@ -282,7 +534,21 @@
    "low": 15601.0,
    "volume": 152027,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "APLAPOLLO",
+   "name": "APL Apollo Tubes Ltd.",
+   "ltp": 2144.6,
+   "prev_close": 2152.7,
+   "chg": -8.1,
+   "pct": -0.38,
+   "open": 2139.7,
+   "high": 2155.8,
+   "low": 2121.0,
+   "volume": 381848,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "APOLLOHOSP",
@@ -296,7 +562,35 @@
    "low": 7664.5,
    "volume": 422465,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "APOLLOTYRE",
+   "name": "Apollo Tyres Ltd.",
+   "ltp": 416.75,
+   "prev_close": 408.85,
+   "chg": 7.9,
+   "pct": 1.93,
+   "open": 409.7,
+   "high": 417.45,
+   "low": 406.25,
+   "volume": 538860,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "APTUS",
+   "name": "Aptus Value Housing Finance India Ltd.",
+   "ltp": 213.25,
+   "prev_close": 222.5,
+   "chg": -9.25,
+   "pct": -4.16,
+   "open": 221.6,
+   "high": 221.85,
+   "low": 212.5,
+   "volume": 1143337,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "ARE&M",
@@ -310,7 +604,21 @@
    "low": 731.0,
    "volume": 256665,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ASAHIINDIA",
+   "name": "Asahi India Glass Ltd.",
+   "ltp": 920.3,
+   "prev_close": 923.55,
+   "chg": -3.25,
+   "pct": -0.35,
+   "open": 925.65,
+   "high": 929.95,
+   "low": 915.2,
+   "volume": 34206,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "ASHOKLEY",
@@ -324,7 +632,7 @@
    "low": 147.21,
    "volume": 8502677,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ASIANPAINT",
@@ -338,7 +646,49 @@
    "low": 2310.0,
    "volume": 497488,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ASTERDM",
+   "name": "Aster DM Quality Care Ltd.",
+   "ltp": 667.15,
+   "prev_close": 674.35,
+   "chg": -7.2,
+   "pct": -1.07,
+   "open": 674.4,
+   "high": 684.85,
+   "low": 664.8,
+   "volume": 413105,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ASTRAL",
+   "name": "Astral Ltd.",
+   "ltp": 1428.0,
+   "prev_close": 1427.4,
+   "chg": 0.6,
+   "pct": 0.04,
+   "open": 1422.8,
+   "high": 1438.2,
+   "low": 1418.5,
+   "volume": 243811,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ATGL",
+   "name": "Adani Total Gas Ltd.",
+   "ltp": 573.65,
+   "prev_close": 579.35,
+   "chg": -5.7,
+   "pct": -0.98,
+   "open": 579.1,
+   "high": 582.25,
+   "low": 572.15,
+   "volume": 325938,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "ATHERENERG",
@@ -352,7 +702,21 @@
    "low": 1455.3,
    "volume": 1929718,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ATUL",
+   "name": "Atul Ltd.",
+   "ltp": 6082.0,
+   "prev_close": 6196.5,
+   "chg": -114.5,
+   "pct": -1.85,
+   "open": 6229.0,
+   "high": 6229.0,
+   "low": 6070.0,
+   "volume": 11282,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "AUBANK",
@@ -366,7 +730,21 @@
    "low": 968.7,
    "volume": 1493862,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "AUROPHARMA",
+   "name": "Aurobindo Pharma Ltd.",
+   "ltp": 1621.4,
+   "prev_close": 1666.9,
+   "chg": -45.5,
+   "pct": -2.73,
+   "open": 1662.1,
+   "high": 1681.6,
+   "low": 1615.6,
+   "volume": 736433,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "AWL",
@@ -380,7 +758,7 @@
    "low": 179.2,
    "volume": 5057477,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "AXISBANK",
@@ -394,7 +772,35 @@
    "low": 1225.3,
    "volume": 12762071,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BAJAJ-AUTO",
+   "name": "Bajaj Auto Ltd.",
+   "ltp": 10287.0,
+   "prev_close": 10405.0,
+   "chg": -118.0,
+   "pct": -1.13,
+   "open": 10405.0,
+   "high": 10499.0,
+   "low": 10287.0,
+   "volume": 110832,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BAJAJFINSV",
+   "name": "Bajaj Finserv Ltd.",
+   "ltp": 1700.0,
+   "prev_close": 1729.0,
+   "chg": -29.0,
+   "pct": -1.68,
+   "open": 1730.0,
+   "high": 1734.2,
+   "low": 1694.0,
+   "volume": 969243,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "BAJAJHFL",
@@ -408,7 +814,21 @@
    "low": 81.24,
    "volume": 5243607,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BAJAJHLDNG",
+   "name": "Bajaj Holdings & Investment Ltd.",
+   "ltp": 11265.0,
+   "prev_close": 11198.0,
+   "chg": 67.0,
+   "pct": 0.6,
+   "open": 11198.0,
+   "high": 11310.0,
+   "low": 11103.0,
+   "volume": 25967,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "BAJFINANCE",
@@ -422,7 +842,35 @@
    "low": 955.6,
    "volume": 8308852,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BALKRISIND",
+   "name": "Balkrishna Industries Ltd.",
+   "ltp": 2071.2,
+   "prev_close": 2052.8,
+   "chg": 18.4,
+   "pct": 0.9,
+   "open": 2067.5,
+   "high": 2080.1,
+   "low": 2033.0,
+   "volume": 187143,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BALRAMCHIN",
+   "name": "Balrampur Chini Mills Ltd.",
+   "ltp": 701.85,
+   "prev_close": 721.15,
+   "chg": -19.3,
+   "pct": -2.68,
+   "open": 705.9,
+   "high": 708.3,
+   "low": 692.2,
+   "volume": 970774,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "BANDHANBNK",
@@ -436,7 +884,7 @@
    "low": 163.43,
    "volume": 4983682,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "BANKBARODA",
@@ -450,7 +898,7 @@
    "low": 229.75,
    "volume": 13633759,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "BANKINDIA",
@@ -464,7 +912,49 @@
    "low": 132.83,
    "volume": 14616945,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BATAINDIA",
+   "name": "Bata India Ltd.",
+   "ltp": 635.55,
+   "prev_close": 638.65,
+   "chg": -3.1,
+   "pct": -0.49,
+   "open": 640.95,
+   "high": 644.9,
+   "low": 631.0,
+   "volume": 139806,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BAYERCROP",
+   "name": "Bayer Cropscience Ltd.",
+   "ltp": 3548.2,
+   "prev_close": 3638.8,
+   "chg": -90.6,
+   "pct": -2.49,
+   "open": 3638.4,
+   "high": 3638.5,
+   "low": 3532.0,
+   "volume": 9232,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BBTC",
+   "name": "Bombay Burmah Trading Corporation Ltd.",
+   "ltp": 1232.5,
+   "prev_close": 1246.4,
+   "chg": -13.9,
+   "pct": -1.12,
+   "open": 1249.7,
+   "high": 1258.0,
+   "low": 1214.0,
+   "volume": 38469,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "BDL",
@@ -478,7 +968,7 @@
    "low": 1085.0,
    "volume": 366812,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "BEL",
@@ -492,7 +982,7 @@
    "low": 374.55,
    "volume": 5419051,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "BELRISE",
@@ -506,7 +996,7 @@
    "low": 225.32,
    "volume": 1181565,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "BEML",
@@ -520,7 +1010,35 @@
    "low": 1930.0,
    "volume": 176296,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BERGEPAINT",
+   "name": "Berger Paints India Ltd.",
+   "ltp": 470.0,
+   "prev_close": 473.95,
+   "chg": -3.95,
+   "pct": -0.83,
+   "open": 473.95,
+   "high": 473.95,
+   "low": 466.05,
+   "volume": 114310,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BHARATFORG",
+   "name": "Bharat Forge Ltd.",
+   "ltp": 1798.6,
+   "prev_close": 1835.0,
+   "chg": -36.4,
+   "pct": -1.98,
+   "open": 1835.0,
+   "high": 1840.0,
+   "low": 1792.1,
+   "volume": 429055,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "BHARTIARTL",
@@ -534,7 +1052,21 @@
    "low": 1863.9,
    "volume": 8586339,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BHARTIHEXA",
+   "name": "Bharti Hexacom Ltd.",
+   "ltp": 1632.6,
+   "prev_close": 1621.9,
+   "chg": 10.7,
+   "pct": 0.66,
+   "open": 1610.0,
+   "high": 1649.0,
+   "low": 1579.2,
+   "volume": 164332,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "BHEL",
@@ -548,7 +1080,21 @@
    "low": 425.55,
    "volume": 8639491,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BIKAJI",
+   "name": "Bikaji Foods International Ltd.",
+   "ltp": 466.4,
+   "prev_close": 474.15,
+   "chg": -7.75,
+   "pct": -1.63,
+   "open": 474.15,
+   "high": 475.0,
+   "low": 462.0,
+   "volume": 142201,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "BIOCON",
@@ -562,7 +1108,7 @@
    "low": 340.0,
    "volume": 3222416,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "BLS",
@@ -576,7 +1122,7 @@
    "low": 216.01,
    "volume": 616731,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "BLUEDART",
@@ -590,7 +1136,35 @@
    "low": 4351.0,
    "volume": 9615,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BLUEJET",
+   "name": "Blue Jet Healthcare Ltd.",
+   "ltp": 507.45,
+   "prev_close": 520.65,
+   "chg": -13.2,
+   "pct": -2.54,
+   "open": 523.0,
+   "high": 526.05,
+   "low": 505.1,
+   "volume": 270423,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BLUESTARCO",
+   "name": "Blue Star Ltd.",
+   "ltp": 1571.2,
+   "prev_close": 1567.6,
+   "chg": 3.6,
+   "pct": 0.23,
+   "open": 1559.8,
+   "high": 1577.6,
+   "low": 1545.5,
+   "volume": 194246,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "BOSCHLTD",
@@ -604,7 +1178,35 @@
    "low": 44955.0,
    "volume": 10241,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BPCL",
+   "name": "Bharat Petroleum Corporation Ltd.",
+   "ltp": 294.3,
+   "prev_close": 293.5,
+   "chg": 0.8,
+   "pct": 0.27,
+   "open": 292.0,
+   "high": 298.0,
+   "low": 292.0,
+   "volume": 2432283,
+   "ol": true,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BRIGADE",
+   "name": "Brigade Enterprises Ltd.",
+   "ltp": 571.15,
+   "prev_close": 575.15,
+   "chg": -4.0,
+   "pct": -0.7,
+   "open": 575.0,
+   "high": 584.3,
+   "low": 566.35,
+   "volume": 108944,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "BRITANNIA",
@@ -618,7 +1220,7 @@
    "low": 4703.9,
    "volume": 130763,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "BSE",
@@ -632,7 +1234,91 @@
    "low": 3330.0,
    "volume": 1702894,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "BSOFT",
+   "name": "Birlasoft Ltd.",
+   "ltp": 312.6,
+   "prev_close": 318.2,
+   "chg": -5.6,
+   "pct": -1.76,
+   "open": 317.25,
+   "high": 319.65,
+   "low": 309.1,
+   "volume": 1302001,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CAMS",
+   "name": "Computer Age Management Services Ltd.",
+   "ltp": 687.5,
+   "prev_close": 700.0,
+   "chg": -12.5,
+   "pct": -1.79,
+   "open": 700.0,
+   "high": 700.65,
+   "low": 684.0,
+   "volume": 304532,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CANBK",
+   "name": "Canara Bank",
+   "ltp": 122.0,
+   "prev_close": 118.29,
+   "chg": 3.71,
+   "pct": 3.14,
+   "open": 119.2,
+   "high": 122.78,
+   "low": 118.94,
+   "volume": 31038836,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CANFINHOME",
+   "name": "Can Fin Homes Ltd.",
+   "ltp": 732.2,
+   "prev_close": 732.15,
+   "chg": 0.05,
+   "pct": 0.01,
+   "open": 732.15,
+   "high": 740.0,
+   "low": 726.3,
+   "volume": 91683,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CANHLIFE",
+   "name": "Canara HSBC Life Insurance Company Ltd.",
+   "ltp": 128.12,
+   "prev_close": 130.37,
+   "chg": -2.25,
+   "pct": -1.73,
+   "open": 129.55,
+   "high": 131.15,
+   "low": 125.9,
+   "volume": 1621211,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CAPLIPOINT",
+   "name": "Caplin Point Laboratories Ltd.",
+   "ltp": 2258.8,
+   "prev_close": 2301.3,
+   "chg": -42.5,
+   "pct": -1.85,
+   "open": 2301.3,
+   "high": 2322.1,
+   "low": 2255.0,
+   "volume": 70397,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "CARBORUNIV",
@@ -646,7 +1332,7 @@
    "low": 1080.5,
    "volume": 207116,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "CARTRADE",
@@ -660,7 +1346,7 @@
    "low": 2956.2,
    "volume": 249070,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "CASTROLIND",
@@ -674,7 +1360,21 @@
    "low": 196.05,
    "volume": 2266126,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CCL",
+   "name": "CCL Products (I) Ltd.",
+   "ltp": 986.8,
+   "prev_close": 1008.3,
+   "chg": -21.5,
+   "pct": -2.13,
+   "open": 1020.0,
+   "high": 1022.5,
+   "low": 975.0,
+   "volume": 249871,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "CDSL",
@@ -688,7 +1388,35 @@
    "low": 1266.0,
    "volume": 555214,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CEATLTD",
+   "name": "Ceat Ltd.",
+   "ltp": 3290.5,
+   "prev_close": 3294.9,
+   "chg": -4.4,
+   "pct": -0.13,
+   "open": 3290.9,
+   "high": 3314.3,
+   "low": 3254.2,
+   "volume": 59862,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CEMPRO",
+   "name": "Cemindia Projects Ltd.",
+   "ltp": 1168.8,
+   "prev_close": 1197.7,
+   "chg": -28.9,
+   "pct": -2.41,
+   "open": 1193.0,
+   "high": 1204.2,
+   "low": 1163.7,
+   "volume": 411014,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "CENTRALBK",
@@ -702,7 +1430,7 @@
    "low": 30.9,
    "volume": 11474831,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "CESC",
@@ -716,7 +1444,7 @@
    "low": 133.0,
    "volume": 903439,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "CGCL",
@@ -730,7 +1458,35 @@
    "low": 242.21,
    "volume": 24609198,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CGPOWER",
+   "name": "CG Power and Industrial Solutions Ltd.",
+   "ltp": 855.0,
+   "prev_close": 846.0,
+   "chg": 9.0,
+   "pct": 1.06,
+   "open": 850.2,
+   "high": 865.5,
+   "low": 843.2,
+   "volume": 3963727,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CHALET",
+   "name": "Chalet Hotels Ltd.",
+   "ltp": 842.7,
+   "prev_close": 850.25,
+   "chg": -7.55,
+   "pct": -0.89,
+   "open": 850.25,
+   "high": 858.85,
+   "low": 834.8,
+   "volume": 67634,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "CHAMBLFERT",
@@ -744,7 +1500,7 @@
    "low": 381.5,
    "volume": 288999,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "CHENNPETRO",
@@ -758,7 +1514,7 @@
    "low": 1411.0,
    "volume": 2109928,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "CHOICEIN",
@@ -772,7 +1528,7 @@
    "low": 731.9,
    "volume": 238330,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "CHOLAFIN",
@@ -786,7 +1542,21 @@
    "low": 1548.1,
    "volume": 573647,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CHOLAHLDNG",
+   "name": "Cholamandalam Financial Holdings Ltd.",
+   "ltp": 1362.8,
+   "prev_close": 1360.0,
+   "chg": 2.8,
+   "pct": 0.21,
+   "open": 1360.0,
+   "high": 1381.2,
+   "low": 1351.1,
+   "volume": 97923,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "CIEINDIA",
@@ -800,7 +1570,7 @@
    "low": 370.6,
    "volume": 130615,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "CIPLA",
@@ -814,7 +1584,7 @@
    "low": 1321.6,
    "volume": 1387215,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "CLEAN",
@@ -828,7 +1598,7 @@
    "low": 754.15,
    "volume": 213700,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "COALINDIA",
@@ -842,7 +1612,7 @@
    "low": 411.7,
    "volume": 3094405,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "COCHINSHIP",
@@ -856,7 +1626,7 @@
    "low": 1222.0,
    "volume": 294423,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "COFORGE",
@@ -870,7 +1640,21 @@
    "low": 1916.4,
    "volume": 1309638,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "COHANCE",
+   "name": "Cohance Lifesciences Ltd.",
+   "ltp": 457.7,
+   "prev_close": 464.05,
+   "chg": -6.35,
+   "pct": -1.37,
+   "open": 468.0,
+   "high": 468.0,
+   "low": 456.0,
+   "volume": 354458,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "COLPAL",
@@ -884,7 +1668,35 @@
    "low": 1723.1,
    "volume": 527783,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CONCOR",
+   "name": "Container Corporation of India Ltd.",
+   "ltp": 441.65,
+   "prev_close": 447.95,
+   "chg": -6.3,
+   "pct": -1.41,
+   "open": 448.2,
+   "high": 449.7,
+   "low": 440.0,
+   "volume": 406198,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CONCORDBIO",
+   "name": "Concord Biotech Ltd.",
+   "ltp": 1285.8,
+   "prev_close": 1339.0,
+   "chg": -53.2,
+   "pct": -3.97,
+   "open": 1350.0,
+   "high": 1350.0,
+   "low": 1276.1,
+   "volume": 79842,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "COROMANDEL",
@@ -898,7 +1710,7 @@
    "low": 1740.9,
    "volume": 95818,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "CPPLUS",
@@ -912,7 +1724,49 @@
    "low": 3980.5,
    "volume": 176227,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CRAFTSMAN",
+   "name": "Craftsman Automation Ltd.",
+   "ltp": 11158.0,
+   "prev_close": 10960.0,
+   "chg": 198.0,
+   "pct": 1.81,
+   "open": 10960.0,
+   "high": 11262.0,
+   "low": 10935.0,
+   "volume": 36306,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CREDITACC",
+   "name": "CreditAccess Grameen Ltd.",
+   "ltp": 1226.5,
+   "prev_close": 1233.2,
+   "chg": -6.7,
+   "pct": -0.54,
+   "open": 1233.2,
+   "high": 1247.7,
+   "low": 1219.4,
+   "volume": 76818,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CRISIL",
+   "name": "CRISIL Ltd.",
+   "ltp": 4527.4,
+   "prev_close": 4547.9,
+   "chg": -20.5,
+   "pct": -0.45,
+   "open": 4570.9,
+   "high": 4575.2,
+   "low": 4470.0,
+   "volume": 12480,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "CROMPTON",
@@ -926,7 +1780,7 @@
    "low": 207.89,
    "volume": 8047666,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "CUB",
@@ -940,7 +1794,35 @@
    "low": 225.0,
    "volume": 1115071,
    "ol": true,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CUMMINSIND",
+   "name": "Cummins India Ltd.",
+   "ltp": 4612.0,
+   "prev_close": 4608.0,
+   "chg": 4.0,
+   "pct": 0.09,
+   "open": 4608.0,
+   "high": 4645.4,
+   "low": 4586.9,
+   "volume": 218940,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "CYIENT",
+   "name": "Cyient Ltd.",
+   "ltp": 1172.4,
+   "prev_close": 1194.5,
+   "chg": -22.1,
+   "pct": -1.85,
+   "open": 1194.5,
+   "high": 1204.9,
+   "low": 1162.5,
+   "volume": 300722,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "DABUR",
@@ -954,7 +1836,49 @@
    "low": 377.0,
    "volume": 1103124,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "DALBHARAT",
+   "name": "Dalmia Bharat Ltd.",
+   "ltp": 1622.6,
+   "prev_close": 1684.4,
+   "chg": -61.8,
+   "pct": -3.67,
+   "open": 1669.0,
+   "high": 1690.8,
+   "low": 1611.0,
+   "volume": 45206,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "DATAPATTNS",
+   "name": "Data Patterns (India) Ltd.",
+   "ltp": 4051.8,
+   "prev_close": 4072.0,
+   "chg": -20.2,
+   "pct": -0.5,
+   "open": 4072.0,
+   "high": 4129.9,
+   "low": 4027.0,
+   "volume": 162574,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "DCMSHRIRAM",
+   "name": "DCM Shriram Ltd.",
+   "ltp": 1002.05,
+   "prev_close": 1014.2,
+   "chg": -12.15,
+   "pct": -1.2,
+   "open": 1019.9,
+   "high": 1050.0,
+   "low": 998.8,
+   "volume": 96787,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "DEEPAKFERT",
@@ -968,7 +1892,7 @@
    "low": 1230.0,
    "volume": 1210959,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "DEEPAKNTR",
@@ -982,7 +1906,7 @@
    "low": 1542.0,
    "volume": 81731,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "DELHIVERY",
@@ -996,7 +1920,21 @@
    "low": 396.4,
    "volume": 1220263,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "DEVYANI",
+   "name": "Devyani International Ltd.",
+   "ltp": 118.32,
+   "prev_close": 121.93,
+   "chg": -3.61,
+   "pct": -2.96,
+   "open": 121.83,
+   "high": 122.1,
+   "low": 117.8,
+   "volume": 569778,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "DIVISLAB",
@@ -1010,7 +1948,7 @@
    "low": 9045.0,
    "volume": 448972,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "DIXON",
@@ -1024,7 +1962,21 @@
    "low": 12084.0,
    "volume": 310831,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "DLF",
+   "name": "DLF Ltd.",
+   "ltp": 672.85,
+   "prev_close": 675.0,
+   "chg": -2.15,
+   "pct": -0.32,
+   "open": 684.0,
+   "high": 685.85,
+   "low": 670.05,
+   "volume": 2504625,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "DMART",
@@ -1038,7 +1990,21 @@
    "low": 3296.0,
    "volume": 421181,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "DOMS",
+   "name": "DOMS Industries Ltd.",
+   "ltp": 2074.6,
+   "prev_close": 2104.5,
+   "chg": -29.9,
+   "pct": -1.42,
+   "open": 2104.6,
+   "high": 2119.5,
+   "low": 2069.9,
+   "volume": 8027,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "DRREDDY",
@@ -1052,7 +2018,21 @@
    "low": 1227.0,
    "volume": 1023837,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ECLERX",
+   "name": "eClerx Services Ltd.",
+   "ltp": 1920.0,
+   "prev_close": 1957.0,
+   "chg": -37.0,
+   "pct": -1.89,
+   "open": 1951.2,
+   "high": 1958.5,
+   "low": 1910.0,
+   "volume": 102677,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "EICHERMOT",
@@ -1066,7 +2046,35 @@
    "low": 7308.0,
    "volume": 490129,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "EIDPARRY",
+   "name": "E.I.D. Parry (India) Ltd.",
+   "ltp": 674.05,
+   "prev_close": 694.15,
+   "chg": -20.1,
+   "pct": -2.9,
+   "open": 686.5,
+   "high": 690.0,
+   "low": 671.0,
+   "volume": 272669,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "EIHOTEL",
+   "name": "EIH Ltd.",
+   "ltp": 304.85,
+   "prev_close": 302.25,
+   "chg": 2.6,
+   "pct": 0.86,
+   "open": 302.45,
+   "high": 307.0,
+   "low": 298.0,
+   "volume": 309104,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "ELECON",
@@ -1080,7 +2088,21 @@
    "low": 458.55,
    "volume": 552547,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ELGIEQUIP",
+   "name": "Elgi Equipments Ltd.",
+   "ltp": 544.35,
+   "prev_close": 572.2,
+   "chg": -27.85,
+   "pct": -4.87,
+   "open": 570.55,
+   "high": 572.0,
+   "low": 542.1,
+   "volume": 260373,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "EMAMILTD",
@@ -1094,7 +2116,7 @@
    "low": 370.3,
    "volume": 414526,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "EMCURE",
@@ -1108,7 +2130,7 @@
    "low": 1746.5,
    "volume": 108214,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "EMMVEE",
@@ -1122,7 +2144,7 @@
    "low": 266.55,
    "volume": 2555697,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ENDURANCE",
@@ -1136,7 +2158,7 @@
    "low": 2350.1,
    "volume": 63784,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ENGINERSIN",
@@ -1150,7 +2172,35 @@
    "low": 266.9,
    "volume": 2296228,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ENRIN",
+   "name": "Siemens Energy India Ltd.",
+   "ltp": 2832.0,
+   "prev_close": 2889.0,
+   "chg": -57.0,
+   "pct": -1.97,
+   "open": 2892.6,
+   "high": 2909.8,
+   "low": 2832.0,
+   "volume": 276028,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ERIS",
+   "name": "Eris Lifesciences Ltd.",
+   "ltp": 1120.4,
+   "prev_close": 1144.4,
+   "chg": -24.0,
+   "pct": -2.1,
+   "open": 1144.4,
+   "high": 1148.0,
+   "low": 1111.1,
+   "volume": 28791,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "ESCORTS",
@@ -1164,7 +2214,7 @@
    "low": 2689.0,
    "volume": 44680,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ETERNAL",
@@ -1178,7 +2228,7 @@
    "low": 319.5,
    "volume": 17850721,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "EXIDEIND",
@@ -1192,7 +2242,21 @@
    "low": 358.45,
    "volume": 1599353,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "FACT",
+   "name": "Fertilisers and Chemicals Travancore Ltd.",
+   "ltp": 723.3,
+   "prev_close": 733.2,
+   "chg": -9.9,
+   "pct": -1.35,
+   "open": 734.65,
+   "high": 737.55,
+   "low": 721.05,
+   "volume": 31628,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "FEDERALBNK",
@@ -1206,7 +2270,7 @@
    "low": 321.35,
    "volume": 31072948,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "FINCABLES",
@@ -1220,7 +2284,35 @@
    "low": 1268.1,
    "volume": 1225139,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "FIRSTCRY",
+   "name": "Brainbees Solutions Ltd.",
+   "ltp": 174.18,
+   "prev_close": 178.63,
+   "chg": -4.45,
+   "pct": -2.49,
+   "open": 179.0,
+   "high": 180.01,
+   "low": 173.16,
+   "volume": 836270,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "FIVESTAR",
+   "name": "Five-Star Business Finance Ltd.",
+   "ltp": 501.55,
+   "prev_close": 506.15,
+   "chg": -4.6,
+   "pct": -0.91,
+   "open": 503.0,
+   "high": 511.0,
+   "low": 496.7,
+   "volume": 327111,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "FLUOROCHEM",
@@ -1234,7 +2326,7 @@
    "low": 4350.9,
    "volume": 130457,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "FORCEMOT",
@@ -1248,7 +2340,7 @@
    "low": 17369.0,
    "volume": 48020,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "FORTIS",
@@ -1262,7 +2354,7 @@
    "low": 731.8,
    "volume": 1076545,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "FSL",
@@ -1276,7 +2368,7 @@
    "low": 274.8,
    "volume": 508601,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "GABRIEL",
@@ -1290,7 +2382,7 @@
    "low": 1460.0,
    "volume": 2631119,
    "ol": true,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "GAIL",
@@ -1304,7 +2396,77 @@
    "low": 166.5,
    "volume": 3179082,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "GALLANTT",
+   "name": "Gallantt Ispat Ltd.",
+   "ltp": 626.2,
+   "prev_close": 609.4,
+   "chg": 16.8,
+   "pct": 2.76,
+   "open": 610.65,
+   "high": 678.85,
+   "low": 584.65,
+   "volume": 17327902,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "GESHIP",
+   "name": "Great Eastern Shipping Co. Ltd.",
+   "ltp": 1519.3,
+   "prev_close": 1507.4,
+   "chg": 11.9,
+   "pct": 0.79,
+   "open": 1505.8,
+   "high": 1525.0,
+   "low": 1486.2,
+   "volume": 439944,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "GICRE",
+   "name": "General Insurance Corporation of India",
+   "ltp": 327.2,
+   "prev_close": 327.55,
+   "chg": -0.35,
+   "pct": -0.11,
+   "open": 326.6,
+   "high": 328.15,
+   "low": 320.1,
+   "volume": 398690,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "GILLETTE",
+   "name": "Gillette India Ltd.",
+   "ltp": 7264.0,
+   "prev_close": 7226.5,
+   "chg": 37.5,
+   "pct": 0.52,
+   "open": 7226.5,
+   "high": 7285.0,
+   "low": 7152.5,
+   "volume": 9875,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "GLAND",
+   "name": "Gland Pharma Ltd.",
+   "ltp": 3019.8,
+   "prev_close": 3043.4,
+   "chg": -23.6,
+   "pct": -0.78,
+   "open": 3046.1,
+   "high": 3075.1,
+   "low": 3002.8,
+   "volume": 167122,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "GLAXO",
@@ -1318,7 +2480,21 @@
    "low": 2473.3,
    "volume": 21147,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "GLENMARK",
+   "name": "Glenmark Pharmaceuticals Ltd.",
+   "ltp": 2210.2,
+   "prev_close": 2226.7,
+   "chg": -16.5,
+   "pct": -0.74,
+   "open": 2230.1,
+   "high": 2269.9,
+   "low": 2200.0,
+   "volume": 285702,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "GMDCLTD",
@@ -1332,7 +2508,7 @@
    "low": 456.0,
    "volume": 456655,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "GMRAIRPORT",
@@ -1346,7 +2522,7 @@
    "low": 89.0,
    "volume": 6633009,
    "ol": true,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "GODFRYPHLP",
@@ -1360,7 +2536,21 @@
    "low": 1795.5,
    "volume": 107848,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "GODIGIT",
+   "name": "Go Digit General Insurance Ltd.",
+   "ltp": 287.45,
+   "prev_close": 286.45,
+   "chg": 1.0,
+   "pct": 0.35,
+   "open": 285.0,
+   "high": 293.6,
+   "low": 282.9,
+   "volume": 293171,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "GODREJCP",
@@ -1374,7 +2564,7 @@
    "low": 843.4,
    "volume": 709267,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "GODREJIND",
@@ -1388,7 +2578,35 @@
    "low": 1009.7,
    "volume": 48562,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "GODREJPROP",
+   "name": "Godrej Properties Ltd.",
+   "ltp": 1589.0,
+   "prev_close": 1603.3,
+   "chg": -14.3,
+   "pct": -0.89,
+   "open": 1605.0,
+   "high": 1627.5,
+   "low": 1579.2,
+   "volume": 264019,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "GPIL",
+   "name": "Godawari Power & Ispat Ltd.",
+   "ltp": 207.22,
+   "prev_close": 211.61,
+   "chg": -4.39,
+   "pct": -2.07,
+   "open": 213.0,
+   "high": 213.9,
+   "low": 206.16,
+   "volume": 512824,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "GRANULES",
@@ -1402,7 +2620,49 @@
    "low": 799.3,
    "volume": 874275,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "GRAPHITE",
+   "name": "Graphite India Ltd.",
+   "ltp": 745.5,
+   "prev_close": 770.25,
+   "chg": -24.75,
+   "pct": -3.21,
+   "open": 776.0,
+   "high": 776.0,
+   "low": 740.0,
+   "volume": 500790,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "GRASIM",
+   "name": "Grasim Industries Ltd.",
+   "ltp": 2879.0,
+   "prev_close": 2920.0,
+   "chg": -41.0,
+   "pct": -1.4,
+   "open": 2920.0,
+   "high": 2954.8,
+   "low": 2866.5,
+   "volume": 308699,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "GRAVITA",
+   "name": "Gravita India Ltd.",
+   "ltp": 1447.5,
+   "prev_close": 1479.3,
+   "chg": -31.8,
+   "pct": -2.15,
+   "open": 1488.0,
+   "high": 1497.0,
+   "low": 1441.0,
+   "volume": 147047,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "GROWW",
@@ -1416,7 +2676,7 @@
    "low": 197.61,
    "volume": 20901514,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "GRSE",
@@ -1430,7 +2690,7 @@
    "low": 2082.9,
    "volume": 207103,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "GVT&D",
@@ -1444,7 +2704,21 @@
    "low": 3915.0,
    "volume": 390489,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "HAL",
+   "name": "Hindustan Aeronautics Ltd.",
+   "ltp": 4959.0,
+   "prev_close": 4989.0,
+   "chg": -30.0,
+   "pct": -0.6,
+   "open": 4980.0,
+   "high": 5012.0,
+   "low": 4923.0,
+   "volume": 583323,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "HAVELLS",
@@ -1458,7 +2732,7 @@
    "low": 1098.0,
    "volume": 314312,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "HBLENGINE",
@@ -1472,7 +2746,7 @@
    "low": 800.4,
    "volume": 5497271,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "HCLTECH",
@@ -1486,7 +2760,7 @@
    "low": 1359.0,
    "volume": 3994293,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "HDBFS",
@@ -1500,7 +2774,7 @@
    "low": 504.1,
    "volume": 1655913,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "HDFCAMC",
@@ -1514,7 +2788,7 @@
    "low": 2342.7,
    "volume": 503541,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "HDFCBANK",
@@ -1528,7 +2802,7 @@
    "low": 707.15,
    "volume": 33524133,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "HDFCLIFE",
@@ -1542,7 +2816,49 @@
    "low": 542.3,
    "volume": 1519939,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "HEROMOTOCO",
+   "name": "Hero MotoCorp Ltd.",
+   "ltp": 5230.0,
+   "prev_close": 5225.0,
+   "chg": 5.0,
+   "pct": 0.1,
+   "open": 5228.0,
+   "high": 5299.0,
+   "low": 5183.0,
+   "volume": 366042,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "HEXT",
+   "name": "Hexaware Technologies Ltd.",
+   "ltp": 574.3,
+   "prev_close": 582.75,
+   "chg": -8.45,
+   "pct": -1.45,
+   "open": 580.0,
+   "high": 583.5,
+   "low": 568.05,
+   "volume": 222727,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "HINDALCO",
+   "name": "Hindalco Industries Ltd.",
+   "ltp": 900.45,
+   "prev_close": 908.0,
+   "chg": -7.55,
+   "pct": -0.83,
+   "open": 908.5,
+   "high": 916.7,
+   "low": 899.65,
+   "volume": 2007016,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "HINDCOPPER",
@@ -1556,7 +2872,21 @@
    "low": 438.1,
    "volume": 4249459,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "HINDPETRO",
+   "name": "Hindustan Petroleum Corporation Ltd.",
+   "ltp": 348.5,
+   "prev_close": 346.0,
+   "chg": 2.5,
+   "pct": 0.72,
+   "open": 344.0,
+   "high": 349.55,
+   "low": 344.0,
+   "volume": 3972010,
+   "ol": true,
+   "market_time": 1792486456
   },
   {
    "symbol": "HINDUNILVR",
@@ -1570,7 +2900,7 @@
    "low": 1848.1,
    "volume": 1226363,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "HINDZINC",
@@ -1584,7 +2914,49 @@
    "low": 536.1,
    "volume": 3040983,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "HOMEFIRST",
+   "name": "Home First Finance Company India Ltd.",
+   "ltp": 1055.2,
+   "prev_close": 1099.8,
+   "chg": -44.6,
+   "pct": -4.06,
+   "open": 1096.3,
+   "high": 1096.6,
+   "low": 1052.0,
+   "volume": 326033,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "HONASA",
+   "name": "Honasa Consumer Ltd.",
+   "ltp": 441.4,
+   "prev_close": 452.25,
+   "chg": -10.85,
+   "pct": -2.4,
+   "open": 447.55,
+   "high": 451.6,
+   "low": 433.6,
+   "volume": 926253,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "HONAUT",
+   "name": "Honeywell Automation India Ltd.",
+   "ltp": 31680.0,
+   "prev_close": 32095.0,
+   "chg": -415.0,
+   "pct": -1.29,
+   "open": 32100.0,
+   "high": 32105.0,
+   "low": 31515.0,
+   "volume": 2022,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "HSCL",
@@ -1598,7 +2970,7 @@
    "low": 599.3,
    "volume": 5755200,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "HUDCO",
@@ -1612,7 +2984,7 @@
    "low": 155.5,
    "volume": 2260383,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "HYUNDAI",
@@ -1626,7 +2998,7 @@
    "low": 1947.2,
    "volume": 487177,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ICICIAMC",
@@ -1640,7 +3012,7 @@
    "low": 2752.5,
    "volume": 484366,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ICICIBANK",
@@ -1654,7 +3026,7 @@
    "low": 1377.9,
    "volume": 25149396,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ICICIGI",
@@ -1668,7 +3040,7 @@
    "low": 1642.0,
    "volume": 510963,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ICICIPRULI",
@@ -1682,7 +3054,7 @@
    "low": 435.05,
    "volume": 1000580,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "IDBI",
@@ -1696,7 +3068,7 @@
    "low": 81.99,
    "volume": 9907175,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "IDEA",
@@ -1710,7 +3082,7 @@
    "low": 12.22,
    "volume": 323539893,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "IDFCFIRSTB",
@@ -1724,7 +3096,7 @@
    "low": 76.24,
    "volume": 11815153,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "IEX",
@@ -1738,7 +3110,7 @@
    "low": 104.52,
    "volume": 1901670,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "IFCI",
@@ -1752,7 +3124,35 @@
    "low": 64.22,
    "volume": 13645218,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "IGIL",
+   "name": "International Gemological Institute Ltd.",
+   "ltp": 321.95,
+   "prev_close": 326.7,
+   "chg": -4.75,
+   "pct": -1.45,
+   "open": 326.8,
+   "high": 328.2,
+   "low": 319.05,
+   "volume": 609258,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "IGL",
+   "name": "Indraprastha Gas Ltd.",
+   "ltp": 142.54,
+   "prev_close": 143.06,
+   "chg": -0.52,
+   "pct": -0.36,
+   "open": 143.15,
+   "high": 144.33,
+   "low": 142.18,
+   "volume": 599141,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "IIFL",
@@ -1766,7 +3166,63 @@
    "low": 610.0,
    "volume": 1788198,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "IKS",
+   "name": "Inventurus Knowledge Solutions Ltd.",
+   "ltp": 1685.8,
+   "prev_close": 1731.4,
+   "chg": -45.6,
+   "pct": -2.63,
+   "open": 1745.8,
+   "high": 1745.8,
+   "low": 1678.0,
+   "volume": 68271,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "INDGN",
+   "name": "Indegene Ltd.",
+   "ltp": 588.3,
+   "prev_close": 598.3,
+   "chg": -10.0,
+   "pct": -1.67,
+   "open": 598.25,
+   "high": 598.25,
+   "low": 585.0,
+   "volume": 190116,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "INDHOTEL",
+   "name": "Indian Hotels Co. Ltd.",
+   "ltp": 760.0,
+   "prev_close": 772.1,
+   "chg": -12.1,
+   "pct": -1.57,
+   "open": 773.15,
+   "high": 775.0,
+   "low": 756.55,
+   "volume": 3712637,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "INDIACEM",
+   "name": "India Cements Ltd.",
+   "ltp": 294.35,
+   "prev_close": 302.3,
+   "chg": -7.95,
+   "pct": -2.63,
+   "open": 309.1,
+   "high": 315.0,
+   "low": 286.5,
+   "volume": 2107356,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "INDIAMART",
@@ -1780,7 +3236,21 @@
    "low": 1590.0,
    "volume": 40168,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "INDIANB",
+   "name": "Indian Bank",
+   "ltp": 856.85,
+   "prev_close": 854.1,
+   "chg": 2.75,
+   "pct": 0.32,
+   "open": 855.15,
+   "high": 874.65,
+   "low": 855.15,
+   "volume": 1105179,
+   "ol": true,
+   "market_time": 1792486456
   },
   {
    "symbol": "INDIGO",
@@ -1794,7 +3264,7 @@
    "low": 4663.4,
    "volume": 576282,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "INDUSINDBK",
@@ -1808,7 +3278,7 @@
    "low": 859.7,
    "volume": 1283832,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "INDUSTOWER",
@@ -1822,7 +3292,7 @@
    "low": 379.8,
    "volume": 4693865,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "INFY",
@@ -1836,7 +3306,7 @@
    "low": 1125.1,
    "volume": 13258477,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "INOXWIND",
@@ -1850,7 +3320,21 @@
    "low": 64.78,
    "volume": 8224708,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "INTELLECT",
+   "name": "Intellect Design Arena Ltd.",
+   "ltp": 640.5,
+   "prev_close": 646.4,
+   "chg": -5.9,
+   "pct": -0.91,
+   "open": 648.65,
+   "high": 650.95,
+   "low": 632.5,
+   "volume": 306219,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "IOB",
@@ -1864,7 +3348,7 @@
    "low": 30.61,
    "volume": 2479843,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "IOC",
@@ -1878,7 +3362,35 @@
    "low": 129.36,
    "volume": 4567989,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "IPCALAB",
+   "name": "Ipca Laboratories Ltd.",
+   "ltp": 1814.5,
+   "prev_close": 1832.6,
+   "chg": -18.1,
+   "pct": -0.99,
+   "open": 1832.6,
+   "high": 1853.9,
+   "low": 1797.0,
+   "volume": 167626,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "IRB",
+   "name": "IRB Infrastructure Developers Ltd.",
+   "ltp": 17.37,
+   "prev_close": 17.62,
+   "chg": -0.25,
+   "pct": -1.42,
+   "open": 17.68,
+   "high": 17.68,
+   "low": 17.32,
+   "volume": 4146675,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "IRCON",
@@ -1892,7 +3404,7 @@
    "low": 103.8,
    "volume": 1640229,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "IRCTC",
@@ -1906,7 +3418,7 @@
    "low": 453.4,
    "volume": 561197,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "IREDA",
@@ -1920,7 +3432,7 @@
    "low": 106.2,
    "volume": 4513745,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "IRFC",
@@ -1934,7 +3446,7 @@
    "low": 78.0,
    "volume": 8414248,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ITC",
@@ -1948,7 +3460,7 @@
    "low": 259.95,
    "volume": 11528925,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ITCHOTELS",
@@ -1962,7 +3474,7 @@
    "low": 157.87,
    "volume": 1136523,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ITI",
@@ -1976,7 +3488,35 @@
    "low": 236.51,
    "volume": 134639,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "J&KBANK",
+   "name": "Jammu & Kashmir Bank Ltd.",
+   "ltp": 139.35,
+   "prev_close": 134.33,
+   "chg": 5.02,
+   "pct": 3.74,
+   "open": 135.15,
+   "high": 140.27,
+   "low": 134.35,
+   "volume": 2900382,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "JAINREC",
+   "name": "Jain Resource Recycling Ltd.",
+   "ltp": 285.65,
+   "prev_close": 289.8,
+   "chg": -4.15,
+   "pct": -1.43,
+   "open": 290.5,
+   "high": 297.3,
+   "low": 283.5,
+   "volume": 709296,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "JBMA",
@@ -1990,7 +3530,7 @@
    "low": 527.5,
    "volume": 111655,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "JINDALSAW",
@@ -2004,7 +3544,7 @@
    "low": 278.7,
    "volume": 3510549,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "JINDALSTEL",
@@ -2018,7 +3558,7 @@
    "low": 1032.7,
    "volume": 935822,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "JIOFIN",
@@ -2032,7 +3572,21 @@
    "low": 213.01,
    "volume": 9223615,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "JKCEMENT",
+   "name": "J.K. Cement Ltd.",
+   "ltp": 4878.5,
+   "prev_close": 4923.0,
+   "chg": -44.5,
+   "pct": -0.9,
+   "open": 4906.0,
+   "high": 5008.0,
+   "low": 4851.5,
+   "volume": 19845,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "JKTYRE",
@@ -2046,7 +3600,49 @@
    "low": 331.05,
    "volume": 202730,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "JMFINANCIL",
+   "name": "JM Financial Ltd.",
+   "ltp": 117.24,
+   "prev_close": 121.38,
+   "chg": -4.14,
+   "pct": -3.41,
+   "open": 121.9,
+   "high": 121.9,
+   "low": 116.78,
+   "volume": 1723566,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "JPPOWER",
+   "name": "Jaiprakash Power Ventures Ltd.",
+   "ltp": 14.91,
+   "prev_close": 14.97,
+   "chg": -0.06,
+   "pct": -0.4,
+   "open": 15.0,
+   "high": 15.05,
+   "low": 14.66,
+   "volume": 45542589,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "JSL",
+   "name": "Jindal Stainless Ltd.",
+   "ltp": 734.9,
+   "prev_close": 736.55,
+   "chg": -1.65,
+   "pct": -0.22,
+   "open": 740.0,
+   "high": 747.25,
+   "low": 728.2,
+   "volume": 884801,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "JSWCEMENT",
@@ -2060,7 +3656,7 @@
    "low": 114.8,
    "volume": 1870290,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "JSWDULUX",
@@ -2074,7 +3670,7 @@
    "low": 3026.0,
    "volume": 28270,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "JSWENERGY",
@@ -2088,7 +3684,7 @@
    "low": 478.75,
    "volume": 1408997,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "JSWINFRA",
@@ -2102,7 +3698,7 @@
    "low": 328.15,
    "volume": 871673,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "JSWSTEEL",
@@ -2116,7 +3712,7 @@
    "low": 1211.3,
    "volume": 3320243,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "JUBLFOOD",
@@ -2130,7 +3726,21 @@
    "low": 412.0,
    "volume": 795567,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "JUBLINGREA",
+   "name": "Jubilant Ingrevia Ltd.",
+   "ltp": 623.7,
+   "prev_close": 630.95,
+   "chg": -7.25,
+   "pct": -1.15,
+   "open": 635.15,
+   "high": 635.9,
+   "low": 621.0,
+   "volume": 119235,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "JUBLPHARMA",
@@ -2143,8 +3753,8 @@
    "high": 948.4,
    "low": 931.5,
    "volume": 80672,
-   "ol": true,
-   "market_time": 1792473347
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "JWL",
@@ -2158,7 +3768,21 @@
    "low": 195.6,
    "volume": 1324579,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "JYOTICNC",
+   "name": "Jyoti CNC Automation Ltd.",
+   "ltp": 975.8,
+   "prev_close": 997.2,
+   "chg": -21.4,
+   "pct": -2.15,
+   "open": 996.0,
+   "high": 998.8,
+   "low": 973.2,
+   "volume": 186078,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "KAJARIACER",
@@ -2172,7 +3796,7 @@
    "low": 1201.0,
    "volume": 154450,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "KALYANKJIL",
@@ -2186,7 +3810,7 @@
    "low": 550.0,
    "volume": 2293449,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "KARURVYSYA",
@@ -2200,7 +3824,7 @@
    "low": 355.45,
    "volume": 13858311,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "KAYNES",
@@ -2214,7 +3838,7 @@
    "low": 3236.8,
    "volume": 269611,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "KEC",
@@ -2228,7 +3852,21 @@
    "low": 342.6,
    "volume": 948088,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "KEI",
+   "name": "KEI Industries Ltd.",
+   "ltp": 4442.0,
+   "prev_close": 4482.3,
+   "chg": -40.3,
+   "pct": -0.9,
+   "open": 4494.0,
+   "high": 4520.5,
+   "low": 4420.6,
+   "volume": 210454,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "KFINTECH",
@@ -2242,7 +3880,35 @@
    "low": 866.5,
    "volume": 384352,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "KIMS",
+   "name": "Krishna Institute of Medical Sciences Ltd.",
+   "ltp": 678.5,
+   "prev_close": 685.6,
+   "chg": -7.1,
+   "pct": -1.04,
+   "open": 679.45,
+   "high": 686.0,
+   "low": 667.9,
+   "volume": 399573,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "KIRLOSENG",
+   "name": "Kirloskar Oil Eng Ltd.",
+   "ltp": 1973.2,
+   "prev_close": 2025.6,
+   "chg": -52.4,
+   "pct": -2.59,
+   "open": 2019.0,
+   "high": 2019.0,
+   "low": 1962.1,
+   "volume": 282596,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "KOTAKBANK",
@@ -2256,7 +3922,7 @@
    "low": 438.6,
    "volume": 15004260,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "KPIL",
@@ -2270,7 +3936,7 @@
    "low": 1340.0,
    "volume": 84429,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "KPITTECH",
@@ -2284,7 +3950,35 @@
    "low": 534.5,
    "volume": 1570789,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "KPRMILL",
+   "name": "K.P.R. Mill Ltd.",
+   "ltp": 1069.5,
+   "prev_close": 1100.3,
+   "chg": -30.8,
+   "pct": -2.8,
+   "open": 1109.2,
+   "high": 1112.6,
+   "low": 1065.6,
+   "volume": 142637,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "LALPATHLAB",
+   "name": "Dr. Lal Path Labs Ltd.",
+   "ltp": 1843.7,
+   "prev_close": 1859.9,
+   "chg": -16.2,
+   "pct": -0.87,
+   "open": 1856.0,
+   "high": 1876.1,
+   "low": 1828.4,
+   "volume": 190469,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "LATENTVIEW",
@@ -2298,7 +3992,7 @@
    "low": 236.5,
    "volume": 257984,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "LAURUSLABS",
@@ -2312,7 +4006,7 @@
    "low": 2052.2,
    "volume": 1133053,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "LEMONTREE",
@@ -2326,7 +4020,21 @@
    "low": 111.15,
    "volume": 1750386,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "LENSKART",
+   "name": "Lenskart Solutions Ltd.",
+   "ltp": 639.95,
+   "prev_close": 646.5,
+   "chg": -6.55,
+   "pct": -1.01,
+   "open": 646.85,
+   "high": 651.15,
+   "low": 635.15,
+   "volume": 1787720,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "LGEINDIA",
@@ -2340,7 +4048,7 @@
    "low": 1680.0,
    "volume": 218787,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "LICHSGFIN",
@@ -2354,7 +4062,7 @@
    "low": 510.8,
    "volume": 832228,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "LICI",
@@ -2368,7 +4076,35 @@
    "low": 391.0,
    "volume": 5725234,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "LINDEINDIA",
+   "name": "Linde India Ltd.",
+   "ltp": 6003.5,
+   "prev_close": 6184.5,
+   "chg": -181.0,
+   "pct": -2.93,
+   "open": 6178.5,
+   "high": 6196.0,
+   "low": 5991.5,
+   "volume": 12236,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "LLOYDSME",
+   "name": "Lloyds Metals And Energy Ltd.",
+   "ltp": 1804.1,
+   "prev_close": 1851.7,
+   "chg": -47.6,
+   "pct": -2.57,
+   "open": 1851.7,
+   "high": 1869.0,
+   "low": 1801.0,
+   "volume": 304034,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "LODHA",
@@ -2382,7 +4118,7 @@
    "low": 1027.7,
    "volume": 805992,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "LT",
@@ -2396,7 +4132,7 @@
    "low": 3632.0,
    "volume": 2331147,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "LTF",
@@ -2410,7 +4146,7 @@
    "low": 249.15,
    "volume": 5032735,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "LTFOODS",
@@ -2424,7 +4160,35 @@
    "low": 398.0,
    "volume": 701850,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "LTM",
+   "name": "LTM Ltd.",
+   "ltp": 4264.9,
+   "prev_close": 4390.0,
+   "chg": -125.1,
+   "pct": -2.85,
+   "open": 4228.0,
+   "high": 4360.6,
+   "low": 4142.0,
+   "volume": 850775,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "LTTS",
+   "name": "L&T Technology Services Ltd.",
+   "ltp": 3611.3,
+   "prev_close": 3714.6,
+   "chg": -103.3,
+   "pct": -2.78,
+   "open": 3704.7,
+   "high": 3735.6,
+   "low": 3580.0,
+   "volume": 104714,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "LUPIN",
@@ -2438,7 +4202,7 @@
    "low": 1930.0,
    "volume": 602008,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "M&M",
@@ -2452,7 +4216,7 @@
    "low": 2885.6,
    "volume": 2142503,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "M&MFIN",
@@ -2466,7 +4230,7 @@
    "low": 302.0,
    "volume": 2332226,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "MAHABANK",
@@ -2480,7 +4244,21 @@
    "low": 79.86,
    "volume": 14565080,
    "ol": true,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "MANAPPURAM",
+   "name": "Manappuram Finance Ltd.",
+   "ltp": 319.55,
+   "prev_close": 323.95,
+   "chg": -4.4,
+   "pct": -1.36,
+   "open": 324.75,
+   "high": 325.95,
+   "low": 316.2,
+   "volume": 1895664,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "MANKIND",
@@ -2494,7 +4272,7 @@
    "low": 2246.0,
    "volume": 1228705,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "MAPMYINDIA",
@@ -2508,7 +4286,21 @@
    "low": 871.05,
    "volume": 43836,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "MARICO",
+   "name": "Marico Ltd.",
+   "ltp": 778.0,
+   "prev_close": 785.0,
+   "chg": -7.0,
+   "pct": -0.89,
+   "open": 790.0,
+   "high": 791.85,
+   "low": 776.1,
+   "volume": 1297998,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "MARUTI",
@@ -2522,7 +4314,7 @@
    "low": 11440.0,
    "volume": 453832,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "MAXHEALTH",
@@ -2536,7 +4328,7 @@
    "low": 828.6,
    "volume": 2042848,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "MAZDOCK",
@@ -2550,7 +4342,7 @@
    "low": 2050.0,
    "volume": 290592,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "MCX",
@@ -2564,7 +4356,63 @@
    "low": 3155.6,
    "volume": 1155788,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "MEDANTA",
+   "name": "Global Health Ltd.",
+   "ltp": 1238.1,
+   "prev_close": 1240.0,
+   "chg": -1.9,
+   "pct": -0.15,
+   "open": 1240.8,
+   "high": 1252.6,
+   "low": 1230.0,
+   "volume": 114325,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "MEESHO",
+   "name": "Meesho Ltd.",
+   "ltp": 229.59,
+   "prev_close": 227.2,
+   "chg": 2.39,
+   "pct": 1.05,
+   "open": 227.2,
+   "high": 230.3,
+   "low": 224.73,
+   "volume": 6964195,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "MFSL",
+   "name": "Max Financial Services Ltd.",
+   "ltp": 1281.0,
+   "prev_close": 1294.9,
+   "chg": -13.9,
+   "pct": -1.07,
+   "open": 1287.4,
+   "high": 1293.1,
+   "low": 1262.6,
+   "volume": 911205,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "MGL",
+   "name": "Mahanagar Gas Ltd.",
+   "ltp": 1041.8,
+   "prev_close": 1054.0,
+   "chg": -12.2,
+   "pct": -1.16,
+   "open": 1053.0,
+   "high": 1053.9,
+   "low": 1034.2,
+   "volume": 54238,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "MINDACORP",
@@ -2578,7 +4426,7 @@
    "low": 630.2,
    "volume": 133294,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "MMTC",
@@ -2592,7 +4440,7 @@
    "low": 54.4,
    "volume": 1065503,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "MOTHERSON",
@@ -2606,7 +4454,7 @@
    "low": 157.65,
    "volume": 9408721,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "MOTILALOFS",
@@ -2620,7 +4468,35 @@
    "low": 1014.25,
    "volume": 957323,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "MPHASIS",
+   "name": "MphasiS Ltd.",
+   "ltp": 2500.0,
+   "prev_close": 2500.0,
+   "chg": 0.0,
+   "pct": 0.0,
+   "open": 2515.8,
+   "high": 2515.8,
+   "low": 2453.0,
+   "volume": 765440,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "MRF",
+   "name": "MRF Ltd.",
+   "ltp": 121905.0,
+   "prev_close": 122790.0,
+   "chg": -885.0,
+   "pct": -0.72,
+   "open": 122595.0,
+   "high": 122940.0,
+   "low": 121615.0,
+   "volume": 2209,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "MRPL",
@@ -2634,7 +4510,7 @@
    "low": 172.5,
    "volume": 9487154,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "MSUMI",
@@ -2648,7 +4524,7 @@
    "low": 35.0,
    "volume": 6781634,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "MUTHOOTFIN",
@@ -2662,7 +4538,7 @@
    "low": 2552.0,
    "volume": 354302,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "NAM-INDIA",
@@ -2676,7 +4552,35 @@
    "low": 1033.0,
    "volume": 387722,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "NATCOPHARM",
+   "name": "NATCO Pharma Ltd.",
+   "ltp": 800.85,
+   "prev_close": 785.05,
+   "chg": 15.8,
+   "pct": 2.01,
+   "open": 785.05,
+   "high": 809.8,
+   "low": 779.5,
+   "volume": 768065,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "NATIONALUM",
+   "name": "National Aluminium Co. Ltd.",
+   "ltp": 318.0,
+   "prev_close": 324.25,
+   "chg": -6.25,
+   "pct": -1.93,
+   "open": 324.25,
+   "high": 324.25,
+   "low": 316.9,
+   "volume": 2826003,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "NAUKRI",
@@ -2690,7 +4594,35 @@
    "low": 1220.0,
    "volume": 750602,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "NAVA",
+   "name": "Nava Ltd.",
+   "ltp": 536.2,
+   "prev_close": 545.25,
+   "chg": -9.05,
+   "pct": -1.66,
+   "open": 546.0,
+   "high": 546.0,
+   "low": 534.5,
+   "volume": 120624,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "NAVINFLUOR",
+   "name": "Navin Fluorine International Ltd.",
+   "ltp": 8152.5,
+   "prev_close": 8167.0,
+   "chg": -14.5,
+   "pct": -0.18,
+   "open": 8167.0,
+   "high": 8198.0,
+   "low": 8111.0,
+   "volume": 39470,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "NBCC",
@@ -2704,7 +4636,7 @@
    "low": 73.5,
    "volume": 3369427,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "NCC",
@@ -2718,7 +4650,7 @@
    "low": 126.55,
    "volume": 3270723,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "NESTLEIND",
@@ -2732,7 +4664,7 @@
    "low": 1238.5,
    "volume": 1187523,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "NETWEB",
@@ -2746,7 +4678,7 @@
    "low": 4588.9,
    "volume": 752958,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "NEULANDLAB",
@@ -2760,7 +4692,21 @@
    "low": 19135.0,
    "volume": 31501,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "NEWGEN",
+   "name": "Newgen Software Technologies Ltd.",
+   "ltp": 479.1,
+   "prev_close": 493.9,
+   "chg": -14.8,
+   "pct": -3.0,
+   "open": 493.15,
+   "high": 495.75,
+   "low": 477.5,
+   "volume": 424036,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "NH",
@@ -2774,7 +4720,7 @@
    "low": 1703.0,
    "volume": 100860,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "NHPC",
@@ -2788,7 +4734,7 @@
    "low": 70.56,
    "volume": 8894570,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "NIACL",
@@ -2802,7 +4748,21 @@
    "low": 173.04,
    "volume": 969941,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "NIVABUPA",
+   "name": "Niva Bupa Health Insurance Company Ltd.",
+   "ltp": 76.28,
+   "prev_close": 75.96,
+   "chg": 0.32,
+   "pct": 0.42,
+   "open": 75.96,
+   "high": 78.0,
+   "low": 74.7,
+   "volume": 555803,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "NLCINDIA",
@@ -2816,7 +4776,7 @@
    "low": 243.6,
    "volume": 575935,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "NMDC",
@@ -2830,7 +4790,7 @@
    "low": 70.3,
    "volume": 9863444,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "NSLNISP",
@@ -2844,7 +4804,7 @@
    "low": 39.84,
    "volume": 2774515,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "NTPC",
@@ -2858,7 +4818,7 @@
    "low": 308.1,
    "volume": 7888611,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "NTPCGREEN",
@@ -2872,7 +4832,7 @@
    "low": 87.3,
    "volume": 2200335,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "NUVAMA",
@@ -2886,7 +4846,49 @@
    "low": 1673.0,
    "volume": 169113,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "NUVOCO",
+   "name": "Nuvoco Vistas Corporation Ltd.",
+   "ltp": 341.45,
+   "prev_close": 341.15,
+   "chg": 0.3,
+   "pct": 0.09,
+   "open": 341.0,
+   "high": 353.5,
+   "low": 338.95,
+   "volume": 924467,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "NYKAA",
+   "name": "FSN E-Commerce Ventures Ltd.",
+   "ltp": 336.65,
+   "prev_close": 345.0,
+   "chg": -8.35,
+   "pct": -2.42,
+   "open": 346.8,
+   "high": 348.4,
+   "low": 335.3,
+   "volume": 3892230,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "OBEROIRLTY",
+   "name": "Oberoi Realty Ltd.",
+   "ltp": 1676.4,
+   "prev_close": 1703.0,
+   "chg": -26.6,
+   "pct": -1.56,
+   "open": 1717.0,
+   "high": 1725.0,
+   "low": 1666.8,
+   "volume": 256418,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "OFSS",
@@ -2900,7 +4902,7 @@
    "low": 10134.0,
    "volume": 119668,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "OIL",
@@ -2914,7 +4916,7 @@
    "low": 444.9,
    "volume": 925310,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "OLAELEC",
@@ -2928,7 +4930,7 @@
    "low": 34.28,
    "volume": 16366468,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "OLECTRA",
@@ -2942,7 +4944,7 @@
    "low": 1042.0,
    "volume": 137464,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ONESOURCE",
@@ -2956,7 +4958,7 @@
    "low": 1352.3,
    "volume": 92387,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ONGC",
@@ -2970,7 +4972,7 @@
    "low": 223.0,
    "volume": 5262091,
    "ol": true,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "PAGEIND",
@@ -2984,7 +4986,7 @@
    "low": 35550.0,
    "volume": 8744,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "PARADEEP",
@@ -2998,7 +5000,35 @@
    "low": 143.48,
    "volume": 783988,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "PATANJALI",
+   "name": "Patanjali Foods Ltd.",
+   "ltp": 364.8,
+   "prev_close": 367.3,
+   "chg": -2.5,
+   "pct": -0.68,
+   "open": 367.0,
+   "high": 367.0,
+   "low": 359.45,
+   "volume": 4011352,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "PAYTM",
+   "name": "One 97 Communications Ltd.",
+   "ltp": 1685.8,
+   "prev_close": 1693.5,
+   "chg": -7.7,
+   "pct": -0.45,
+   "open": 1693.5,
+   "high": 1717.0,
+   "low": 1674.1,
+   "volume": 1374419,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "PCBL",
@@ -3012,7 +5042,7 @@
    "low": 301.55,
    "volume": 444566,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "PERSISTENT",
@@ -3026,7 +5056,21 @@
    "low": 5635.0,
    "volume": 1277186,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "PETRONET",
+   "name": "Petronet LNG Ltd.",
+   "ltp": 293.65,
+   "prev_close": 293.0,
+   "chg": 0.65,
+   "pct": 0.22,
+   "open": 291.35,
+   "high": 295.4,
+   "low": 291.05,
+   "volume": 1333698,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "PFC",
@@ -3040,7 +5084,119 @@
    "low": 330.3,
    "volume": 7892261,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "PFIZER",
+   "name": "Pfizer Ltd.",
+   "ltp": 3808.7,
+   "prev_close": 3814.0,
+   "chg": -5.3,
+   "pct": -0.14,
+   "open": 3820.0,
+   "high": 3840.6,
+   "low": 3796.8,
+   "volume": 15484,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "PFOCUS",
+   "name": "Prime Focus Ltd.",
+   "ltp": 288.35,
+   "prev_close": 290.3,
+   "chg": -1.95,
+   "pct": -0.67,
+   "open": 289.5,
+   "high": 297.9,
+   "low": 281.0,
+   "volume": 4068337,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "PGEL",
+   "name": "PG Electroplast Ltd.",
+   "ltp": 508.0,
+   "prev_close": 521.05,
+   "chg": -13.05,
+   "pct": -2.5,
+   "open": 521.0,
+   "high": 522.8,
+   "low": 505.3,
+   "volume": 878350,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "PHOENIXLTD",
+   "name": "Phoenix Mills Ltd.",
+   "ltp": 1884.0,
+   "prev_close": 1896.9,
+   "chg": -12.9,
+   "pct": -0.68,
+   "open": 1885.0,
+   "high": 1929.7,
+   "low": 1884.0,
+   "volume": 423330,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "PIDILITIND",
+   "name": "Pidilite Industries Ltd.",
+   "ltp": 1482.6,
+   "prev_close": 1502.8,
+   "chg": -20.2,
+   "pct": -1.34,
+   "open": 1505.0,
+   "high": 1506.0,
+   "low": 1477.1,
+   "volume": 413687,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "PIIND",
+   "name": "PI Industries Ltd.",
+   "ltp": 2163.5,
+   "prev_close": 2190.0,
+   "chg": -26.5,
+   "pct": -1.21,
+   "open": 2190.0,
+   "high": 2219.6,
+   "low": 2151.0,
+   "volume": 325681,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "PINELABS",
+   "name": "Pine Labs Ltd.",
+   "ltp": 163.79,
+   "prev_close": 165.04,
+   "chg": -1.25,
+   "pct": -0.76,
+   "open": 165.5,
+   "high": 165.89,
+   "low": 163.0,
+   "volume": 4377111,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "PIRAMALFIN",
+   "name": "Piramal Finance Ltd.",
+   "ltp": 1948.7,
+   "prev_close": 1950.3,
+   "chg": -1.6,
+   "pct": -0.08,
+   "open": 1960.0,
+   "high": 1970.2,
+   "low": 1939.0,
+   "volume": 197162,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "PNB",
@@ -3054,7 +5210,21 @@
    "low": 120.0,
    "volume": 78115490,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "PNBHOUSING",
+   "name": "PNB Housing Finance Ltd.",
+   "ltp": 1147.9,
+   "prev_close": 1167.7,
+   "chg": -19.8,
+   "pct": -1.7,
+   "open": 1168.5,
+   "high": 1174.2,
+   "low": 1146.7,
+   "volume": 352954,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "POLICYBZR",
@@ -3068,7 +5238,7 @@
    "low": 1032.0,
    "volume": 1591356,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "POLYCAB",
@@ -3082,7 +5252,7 @@
    "low": 7990.0,
    "volume": 294308,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "POLYMED",
@@ -3096,7 +5266,7 @@
    "low": 1543.0,
    "volume": 55799,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "POONAWALLA",
@@ -3110,7 +5280,7 @@
    "low": 441.55,
    "volume": 1052168,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "POWERGRID",
@@ -3124,7 +5294,7 @@
    "low": 249.15,
    "volume": 8908653,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "POWERINDIA",
@@ -3138,7 +5308,7 @@
    "low": 28605.0,
    "volume": 49179,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "PPLPHARMA",
@@ -3152,7 +5322,7 @@
    "low": 193.81,
    "volume": 1318209,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "PREMIERENE",
@@ -3166,7 +5336,7 @@
    "low": 899.0,
    "volume": 1561240,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "PRESTIGE",
@@ -3180,7 +5350,21 @@
    "low": 1464.0,
    "volume": 287546,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "PTCIL",
+   "name": "PTC Industries Ltd.",
+   "ltp": 25045.0,
+   "prev_close": 24680.0,
+   "chg": 365.0,
+   "pct": 1.48,
+   "open": 24680.0,
+   "high": 25400.0,
+   "low": 24130.0,
+   "volume": 31661,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "PVRINOX",
@@ -3194,7 +5378,7 @@
    "low": 1385.9,
    "volume": 541403,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "PWL",
@@ -3208,7 +5392,21 @@
    "low": 129.1,
    "volume": 3063106,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "RADICO",
+   "name": "Radico Khaitan Ltd",
+   "ltp": 4435.5,
+   "prev_close": 4473.4,
+   "chg": -37.9,
+   "pct": -0.85,
+   "open": 4473.4,
+   "high": 4504.0,
+   "low": 4403.0,
+   "volume": 143055,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "RAILTEL",
@@ -3222,7 +5420,35 @@
    "low": 248.7,
    "volume": 643903,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "RAINBOW",
+   "name": "Rainbow Childrens Medicare Ltd.",
+   "ltp": 1236.0,
+   "prev_close": 1248.9,
+   "chg": -12.9,
+   "pct": -1.03,
+   "open": 1245.3,
+   "high": 1260.0,
+   "low": 1229.8,
+   "volume": 59031,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "RAMCOCEM",
+   "name": "The Ramco Cements Ltd.",
+   "ltp": 787.35,
+   "prev_close": 805.4,
+   "chg": -18.05,
+   "pct": -2.24,
+   "open": 807.5,
+   "high": 807.5,
+   "low": 783.45,
+   "volume": 90228,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "RBLBANK",
@@ -3236,7 +5462,7 @@
    "low": 374.0,
    "volume": 2253293,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "RECLTD",
@@ -3250,7 +5476,21 @@
    "low": 302.0,
    "volume": 3558062,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "REDINGTON",
+   "name": "Redington Ltd.",
+   "ltp": 371.05,
+   "prev_close": 383.5,
+   "chg": -12.45,
+   "pct": -3.25,
+   "open": 385.0,
+   "high": 387.5,
+   "low": 366.2,
+   "volume": 4118778,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "RELIANCE",
@@ -3264,7 +5504,21 @@
    "low": 1201.0,
    "volume": 15572554,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "RHIM",
+   "name": "RHI MAGNESITA INDIA LTD.",
+   "ltp": 361.4,
+   "prev_close": 370.15,
+   "chg": -8.75,
+   "pct": -2.36,
+   "open": 373.0,
+   "high": 373.0,
+   "low": 360.8,
+   "volume": 272327,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "RITES",
@@ -3278,7 +5532,21 @@
    "low": 203.0,
    "volume": 479711,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "RKFORGE",
+   "name": "Ramkrishna Forgings Ltd.",
+   "ltp": 685.0,
+   "prev_close": 691.45,
+   "chg": -6.45,
+   "pct": -0.93,
+   "open": 691.0,
+   "high": 700.8,
+   "low": 678.35,
+   "volume": 375986,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "RPOWER",
@@ -3292,7 +5560,7 @@
    "low": 17.65,
    "volume": 20467940,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "RRKABEL",
@@ -3306,7 +5574,7 @@
    "low": 2326.0,
    "volume": 436615,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "RVNL",
@@ -3320,7 +5588,7 @@
    "low": 194.01,
    "volume": 1970644,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "SAGILITY",
@@ -3334,7 +5602,7 @@
    "low": 43.83,
    "volume": 7146693,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "SAIL",
@@ -3348,7 +5616,7 @@
    "low": 168.3,
    "volume": 4231992,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "SAILIFE",
@@ -3362,7 +5630,7 @@
    "low": 1370.4,
    "volume": 290389,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "SAMMAANCAP",
@@ -3376,7 +5644,63 @@
    "low": 124.1,
    "volume": 10256705,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "SAPPHIRE",
+   "name": "Sapphire Foods India Ltd.",
+   "ltp": 196.22,
+   "prev_close": 197.15,
+   "chg": -0.93,
+   "pct": -0.47,
+   "open": 195.0,
+   "high": 200.05,
+   "low": 194.53,
+   "volume": 227162,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "SARDAEN",
+   "name": "Sarda Energy and Minerals Ltd.",
+   "ltp": 481.0,
+   "prev_close": 488.85,
+   "chg": -7.85,
+   "pct": -1.61,
+   "open": 492.8,
+   "high": 492.8,
+   "low": 480.5,
+   "volume": 211107,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "SAREGAMA",
+   "name": "Saregama India Ltd",
+   "ltp": 510.15,
+   "prev_close": 504.0,
+   "chg": 6.15,
+   "pct": 1.22,
+   "open": 509.0,
+   "high": 512.4,
+   "low": 497.05,
+   "volume": 243094,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "SBFC",
+   "name": "SBFC Finance Ltd.",
+   "ltp": 83.37,
+   "prev_close": 85.2,
+   "chg": -1.83,
+   "pct": -2.15,
+   "open": 85.5,
+   "high": 85.55,
+   "low": 83.0,
+   "volume": 772365,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "SBICARD",
@@ -3390,7 +5714,21 @@
    "low": 565.3,
    "volume": 1501957,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "SBILIFE",
+   "name": "SBI Life Insurance Company Ltd.",
+   "ltp": 1647.8,
+   "prev_close": 1656.8,
+   "chg": -9.0,
+   "pct": -0.54,
+   "open": 1656.0,
+   "high": 1659.0,
+   "low": 1635.3,
+   "volume": 948959,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "SBIN",
@@ -3404,7 +5742,7 @@
    "low": 960.7,
    "volume": 15083265,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "SCHAEFFLER",
@@ -3418,7 +5756,21 @@
    "low": 3603.6,
    "volume": 57628,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "SCHNEIDER",
+   "name": "Schneider Electric Infrastructure Ltd.",
+   "ltp": 1131.1,
+   "prev_close": 1157.5,
+   "chg": -26.4,
+   "pct": -2.28,
+   "open": 1163.8,
+   "high": 1167.4,
+   "low": 1124.0,
+   "volume": 105906,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "SCI",
@@ -3432,7 +5784,21 @@
    "low": 274.2,
    "volume": 1366053,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "SHREECEM",
+   "name": "Shree Cement Ltd.",
+   "ltp": 22290.0,
+   "prev_close": 22460.0,
+   "chg": -170.0,
+   "pct": -0.76,
+   "open": 22455.0,
+   "high": 22920.0,
+   "low": 22290.0,
+   "volume": 62653,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "SHRIRAMFIN",
@@ -3446,7 +5812,49 @@
    "low": 924.0,
    "volume": 3408806,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "SHYAMMETL",
+   "name": "Shyam Metalics and Energy Ltd.",
+   "ltp": 1226.6,
+   "prev_close": 1198.5,
+   "chg": 28.1,
+   "pct": 2.34,
+   "open": 1200.2,
+   "high": 1240.5,
+   "low": 1178.5,
+   "volume": 765369,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "SIEMENS",
+   "name": "Siemens Ltd.",
+   "ltp": 3623.0,
+   "prev_close": 3624.0,
+   "chg": -1.0,
+   "pct": -0.03,
+   "open": 3615.0,
+   "high": 3650.0,
+   "low": 3591.2,
+   "volume": 113112,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "SIGNATURE",
+   "name": "Signatureglobal (India) Ltd.",
+   "ltp": 718.8,
+   "prev_close": 729.85,
+   "chg": -11.05,
+   "pct": -1.51,
+   "open": 729.8,
+   "high": 743.7,
+   "low": 710.65,
+   "volume": 225731,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "SJVN",
@@ -3460,7 +5868,21 @@
    "low": 51.0,
    "volume": 8920563,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "SOBHA",
+   "name": "Sobha Ltd.",
+   "ltp": 1176.0,
+   "prev_close": 1188.4,
+   "chg": -12.4,
+   "pct": -1.04,
+   "open": 1192.7,
+   "high": 1205.6,
+   "low": 1172.0,
+   "volume": 164715,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "SOLARINDS",
@@ -3474,7 +5896,7 @@
    "low": 19700.0,
    "volume": 91543,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "SONACOMS",
@@ -3488,7 +5910,7 @@
    "low": 791.6,
    "volume": 1426449,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "SONATSOFTW",
@@ -3502,7 +5924,21 @@
    "low": 235.35,
    "volume": 1525092,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "SPLPETRO",
+   "name": "Supreme Petrochem Ltd.",
+   "ltp": 761.7,
+   "prev_close": 767.25,
+   "chg": -5.55,
+   "pct": -0.72,
+   "open": 763.55,
+   "high": 796.9,
+   "low": 755.0,
+   "volume": 106028,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "SRF",
@@ -3516,7 +5952,7 @@
    "low": 2415.1,
    "volume": 215333,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "STARHEALTH",
@@ -3530,7 +5966,21 @@
    "low": 540.0,
    "volume": 69243,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "SUMICHEM",
+   "name": "Sumitomo Chemical India Ltd.",
+   "ltp": 392.35,
+   "prev_close": 404.75,
+   "chg": -12.4,
+   "pct": -3.06,
+   "open": 404.0,
+   "high": 404.05,
+   "low": 391.0,
+   "volume": 159012,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "SUNDARMFIN",
@@ -3544,7 +5994,21 @@
    "low": 4200.0,
    "volume": 29378,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "SUNPHARMA",
+   "name": "Sun Pharmaceutical Industries Ltd.",
+   "ltp": 1743.0,
+   "prev_close": 1758.8,
+   "chg": -15.8,
+   "pct": -0.9,
+   "open": 1758.8,
+   "high": 1768.9,
+   "low": 1735.3,
+   "volume": 829445,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "SUNTV",
@@ -3558,7 +6022,7 @@
    "low": 635.0,
    "volume": 340908,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "SUPREMEIND",
@@ -3572,7 +6036,7 @@
    "low": 3588.1,
    "volume": 174317,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "SUZLON",
@@ -3586,7 +6050,7 @@
    "low": 40.25,
    "volume": 65237716,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "SWANCORP",
@@ -3600,7 +6064,7 @@
    "low": 254.1,
    "volume": 363742,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "SWIGGY",
@@ -3614,7 +6078,7 @@
    "low": 228.5,
    "volume": 4800001,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "SYNGENE",
@@ -3628,7 +6092,7 @@
    "low": 382.5,
    "volume": 1709879,
    "ol": true,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "SYRMA",
@@ -3642,7 +6106,7 @@
    "low": 1540.3,
    "volume": 838862,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "TARIL",
@@ -3656,7 +6120,7 @@
    "low": 320.6,
    "volume": 3544760,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "TATACAP",
@@ -3670,7 +6134,7 @@
    "low": 313.65,
    "volume": 1737179,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "TATACHEM",
@@ -3684,7 +6148,7 @@
    "low": 623.5,
    "volume": 2236583,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "TATACOMM",
@@ -3698,7 +6162,7 @@
    "low": 1679.0,
    "volume": 446691,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "TATACONSUM",
@@ -3712,7 +6176,7 @@
    "low": 961.8,
    "volume": 546793,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "TATAELXSI",
@@ -3726,7 +6190,21 @@
    "low": 3765.3,
    "volume": 477758,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "TATAINVEST",
+   "name": "Tata Investment Corporation Ltd.",
+   "ltp": 604.5,
+   "prev_close": 613.55,
+   "chg": -9.05,
+   "pct": -1.48,
+   "open": 611.85,
+   "high": 618.2,
+   "low": 601.05,
+   "volume": 200455,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "TATAPOWER",
@@ -3740,7 +6218,7 @@
    "low": 350.25,
    "volume": 3247837,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "TATASTEEL",
@@ -3754,7 +6232,7 @@
    "low": 173.87,
    "volume": 12638617,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "TATATECH",
@@ -3768,7 +6246,21 @@
    "low": 702.3,
    "volume": 407426,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "TBOTEK",
+   "name": "TBO Tek Ltd.",
+   "ltp": 1613.6,
+   "prev_close": 1627.5,
+   "chg": -13.9,
+   "pct": -0.85,
+   "open": 1608.1,
+   "high": 1640.0,
+   "low": 1606.0,
+   "volume": 90084,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "TCS",
@@ -3782,7 +6274,7 @@
    "low": 2432.1,
    "volume": 8676373,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "TECHM",
@@ -3796,7 +6288,35 @@
    "low": 1752.7,
    "volume": 3946622,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "TECHNOE",
+   "name": "Techno Electric & Engineering Company Ltd.",
+   "ltp": 940.0,
+   "prev_close": 946.6,
+   "chg": -6.6,
+   "pct": -0.7,
+   "open": 947.1,
+   "high": 952.0,
+   "low": 936.8,
+   "volume": 48731,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "TEGA",
+   "name": "Tega Industries Ltd.",
+   "ltp": 1865.4,
+   "prev_close": 1923.1,
+   "chg": -57.7,
+   "pct": -3.0,
+   "open": 1923.1,
+   "high": 1923.1,
+   "low": 1854.1,
+   "volume": 126165,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "TEJASNET",
@@ -3810,7 +6330,35 @@
    "low": 446.0,
    "volume": 1299689,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "TENNIND",
+   "name": "Tenneco Clean Air India Ltd.",
+   "ltp": 449.95,
+   "prev_close": 456.5,
+   "chg": -6.55,
+   "pct": -1.43,
+   "open": 458.0,
+   "high": 460.4,
+   "low": 448.0,
+   "volume": 349872,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "THELEELA",
+   "name": "Leela Palaces Hotels & Resorts Ltd.",
+   "ltp": 622.75,
+   "prev_close": 616.3,
+   "chg": 6.45,
+   "pct": 1.05,
+   "open": 611.0,
+   "high": 635.0,
+   "low": 603.1,
+   "volume": 891559,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "THERMAX",
@@ -3824,7 +6372,7 @@
    "low": 3225.0,
    "volume": 125590,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "TIINDIA",
@@ -3838,7 +6386,21 @@
    "low": 2160.0,
    "volume": 193264,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "TIMKEN",
+   "name": "Timken India Ltd.",
+   "ltp": 2860.8,
+   "prev_close": 2889.6,
+   "chg": -28.8,
+   "pct": -1.0,
+   "open": 2889.6,
+   "high": 2904.0,
+   "low": 2837.9,
+   "volume": 39667,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "TITAGARH",
@@ -3852,7 +6414,7 @@
    "low": 739.0,
    "volume": 146388,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "TITAN",
@@ -3866,7 +6428,7 @@
    "low": 4402.7,
    "volume": 651506,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "TMCV",
@@ -3880,7 +6442,7 @@
    "low": 415.0,
    "volume": 2192941,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "TMPV",
@@ -3894,7 +6456,21 @@
    "low": 277.8,
    "volume": 5268186,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "TORNTPHARM",
+   "name": "Torrent Pharmaceuticals Ltd.",
+   "ltp": 4558.7,
+   "prev_close": 4558.9,
+   "chg": -0.2,
+   "pct": -0.0,
+   "open": 4551.2,
+   "high": 4618.7,
+   "low": 4532.4,
+   "volume": 250305,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "TORNTPOWER",
@@ -3908,7 +6484,35 @@
    "low": 1202.0,
    "volume": 118498,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "TRAVELFOOD",
+   "name": "Travel Food Services Ltd.",
+   "ltp": 1188.8,
+   "prev_close": 1201.3,
+   "chg": -12.5,
+   "pct": -1.04,
+   "open": 1195.3,
+   "high": 1202.0,
+   "low": 1175.5,
+   "volume": 30851,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "TRENT",
+   "name": "Trent Ltd.",
+   "ltp": 2891.6,
+   "prev_close": 2958.7,
+   "chg": -67.1,
+   "pct": -2.27,
+   "open": 2958.0,
+   "high": 2958.0,
+   "low": 2867.0,
+   "volume": 813750,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "TRIDENT",
@@ -3922,7 +6526,21 @@
    "low": 21.9,
    "volume": 2430716,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "TRITURBINE",
+   "name": "Triveni Turbine Ltd.",
+   "ltp": 484.7,
+   "prev_close": 495.9,
+   "chg": -11.2,
+   "pct": -2.26,
+   "open": 494.65,
+   "high": 495.9,
+   "low": 483.0,
+   "volume": 316631,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "TTML",
@@ -3936,7 +6554,35 @@
    "low": 32.76,
    "volume": 871621,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "TVSMOTOR",
+   "name": "TVS Motor Company Ltd.",
+   "ltp": 4074.0,
+   "prev_close": 4095.1,
+   "chg": -21.1,
+   "pct": -0.52,
+   "open": 4094.1,
+   "high": 4138.0,
+   "low": 4055.0,
+   "volume": 472084,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "UBL",
+   "name": "United Breweries Ltd.",
+   "ltp": 1204.8,
+   "prev_close": 1201.6,
+   "chg": 3.2,
+   "pct": 0.27,
+   "open": 1200.0,
+   "high": 1208.9,
+   "low": 1191.5,
+   "volume": 557500,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "UCOBANK",
@@ -3950,7 +6596,7 @@
    "low": 23.55,
    "volume": 5390426,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ULTRACEMCO",
@@ -3964,7 +6610,7 @@
    "low": 10551.0,
    "volume": 609128,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "UNIONBANK",
@@ -3978,7 +6624,35 @@
    "low": 172.42,
    "volume": 45883930,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "UNITDSPR",
+   "name": "United Spirits Ltd.",
+   "ltp": 1364.0,
+   "prev_close": 1380.0,
+   "chg": -16.0,
+   "pct": -1.16,
+   "open": 1372.0,
+   "high": 1384.3,
+   "low": 1360.0,
+   "volume": 317558,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "UNOMINDA",
+   "name": "UNO Minda Ltd.",
+   "ltp": 1087.4,
+   "prev_close": 1108.0,
+   "chg": -20.6,
+   "pct": -1.86,
+   "open": 1105.0,
+   "high": 1115.7,
+   "low": 1083.7,
+   "volume": 168761,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "UPL",
@@ -3992,7 +6666,7 @@
    "low": 526.15,
    "volume": 598405,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "URBANCO",
@@ -4006,7 +6680,35 @@
    "low": 141.0,
    "volume": 22133536,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "USHAMART",
+   "name": "Usha Martin Ltd.",
+   "ltp": 485.15,
+   "prev_close": 491.3,
+   "chg": -6.15,
+   "pct": -1.25,
+   "open": 494.65,
+   "high": 494.65,
+   "low": 483.0,
+   "volume": 481055,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "UTIAMC",
+   "name": "UTI Asset Management Company Ltd.",
+   "ltp": 867.2,
+   "prev_close": 869.9,
+   "chg": -2.7,
+   "pct": -0.31,
+   "open": 872.0,
+   "high": 884.4,
+   "low": 863.35,
+   "volume": 50232,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "VBL",
@@ -4020,7 +6722,7 @@
    "low": 418.5,
    "volume": 4711070,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "VEDL",
@@ -4034,7 +6736,21 @@
    "low": 242.5,
    "volume": 5411850,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "VIJAYA",
+   "name": "Vijaya Diagnostic Centre Ltd.",
+   "ltp": 1368.2,
+   "prev_close": 1381.7,
+   "chg": -13.5,
+   "pct": -0.98,
+   "open": 1370.0,
+   "high": 1378.0,
+   "low": 1354.7,
+   "volume": 184487,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "VMM",
@@ -4042,13 +6758,13 @@
    "ltp": 94.44,
    "prev_close": 96.0,
    "chg": -1.56,
-   "pct": -1.62,
+   "pct": -1.63,
    "open": 96.0,
    "high": 96.2,
    "low": 94.01,
    "volume": 5406486,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "VOLTAS",
@@ -4062,7 +6778,21 @@
    "low": 1013.2,
    "volume": 376832,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "VTL",
+   "name": "Vardhman Textiles Ltd.",
+   "ltp": 527.95,
+   "prev_close": 531.9,
+   "chg": -3.95,
+   "pct": -0.74,
+   "open": 531.0,
+   "high": 531.15,
+   "low": 517.3,
+   "volume": 302820,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "WAAREEENER",
@@ -4076,7 +6806,7 @@
    "low": 2498.0,
    "volume": 878281,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "WELCORP",
@@ -4090,7 +6820,35 @@
    "low": 2536.1,
    "volume": 1023721,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "WELSPUNLIV",
+   "name": "Welspun Living Ltd.",
+   "ltp": 217.32,
+   "prev_close": 219.3,
+   "chg": -1.98,
+   "pct": -0.9,
+   "open": 219.3,
+   "high": 226.9,
+   "low": 215.21,
+   "volume": 3321852,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "WHIRLPOOL",
+   "name": "Whirlpool of India Ltd.",
+   "ltp": 838.75,
+   "prev_close": 850.15,
+   "chg": -11.4,
+   "pct": -1.34,
+   "open": 858.1,
+   "high": 858.1,
+   "low": 832.0,
+   "volume": 246469,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "WIPRO",
@@ -4104,7 +6862,7 @@
    "low": 181.48,
    "volume": 15779196,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "WOCKPHARMA",
@@ -4118,7 +6876,7 @@
    "low": 1900.6,
    "volume": 360528,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "YESBANK",
@@ -4132,7 +6890,7 @@
    "low": 16.81,
    "volume": 206773668,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ZEEL",
@@ -4146,7 +6904,7 @@
    "low": 70.92,
    "volume": 11642458,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ZENSARTECH",
@@ -4160,7 +6918,7 @@
    "low": 498.9,
    "volume": 1621882,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   },
   {
    "symbol": "ZENTEC",
@@ -4174,7 +6932,35 @@
    "low": 1618.3,
    "volume": 153731,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ZFCVINDIA",
+   "name": "ZF Commercial Vehicle Control Systems India Ltd.",
+   "ltp": 2140.8,
+   "prev_close": 2157.0,
+   "chg": -16.2,
+   "pct": -0.75,
+   "open": 2141.1,
+   "high": 2159.1,
+   "low": 2112.0,
+   "volume": 103856,
+   "ol": false,
+   "market_time": 1792486456
+  },
+  {
+   "symbol": "ZYDUSLIFE",
+   "name": "Zydus Lifesciences Ltd.",
+   "ltp": 1113.9,
+   "prev_close": 1123.0,
+   "chg": -9.1,
+   "pct": -0.81,
+   "open": 1116.4,
+   "high": 1134.2,
+   "low": 1110.3,
+   "volume": 253448,
+   "ol": false,
+   "market_time": 1792486456
   },
   {
    "symbol": "ZYDUSWELL",
@@ -4188,7 +6974,7 @@
    "low": 501.55,
    "volume": 61362,
    "ol": false,
-   "market_time": 1792473347
+   "market_time": 1792486456
   }
  ]
 }

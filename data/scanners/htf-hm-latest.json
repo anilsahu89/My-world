@@ -74,8 +74,9 @@
    "htf_weekly": "SELL-MOMENTUM",
    "htf_daily": "SELL",
    "notes": "HTF SELL-MOMENTUM/SELL → 1H IHM-SELL",
-   "ltp": 978.5,
-   "live_pnl": 35.0
+   "ltp": 971.7,
+   "live_pnl": -103.0,
+   "live_pct": -1.05
   },
   {
    "id": 2,
@@ -100,8 +101,9 @@
    "htf_weekly": "SELL-MOMENTUM",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 3322.4,
-   "live_pnl": 33.6
+   "ltp": 3304.0,
+   "live_pnl": -70.4,
+   "live_pct": -1.05
   },
   {
    "id": 3,
@@ -126,8 +128,9 @@
    "htf_weekly": "SELL-MOMENTUM",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 343.3,
-   "live_pnl": 172.2
+   "ltp": 340.0,
+   "live_pnl": -264.6,
+   "live_pct": -2.7
   },
   {
    "id": 4,
@@ -152,8 +155,9 @@
    "htf_weekly": "SELL-MOMENTUM",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 367.6,
-   "live_pnl": 0.0
+   "ltp": 360.35,
+   "live_pnl": -195.75,
+   "live_pct": -1.97
   },
   {
    "id": 5,
@@ -178,10 +182,12 @@
    "htf_weekly": "SELL-MOMENTUM",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 2227.7,
-   "live_pnl": 0.0
+   "ltp": 2210.2,
+   "live_pnl": -70.0,
+   "live_pct": -0.79
   }
  ],
  "closed": [],
- "entered_this_run": 2
+ "entered_this_run": 2,
+ "quote_time": "20 Oct 14:24:16 IST"
 }
