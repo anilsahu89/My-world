@@ -2669,16 +2669,7 @@
  ],
  "seeded": true,
  "f3_done_date": "2026-10-19",
- "reentry_watch": [
-  {
-   "symbol": "FEDERALBNK",
-   "setup": "oh",
-   "side": "SELL",
-   "level": 335.0,
-   "stopped_at": "10:26:03",
-   "date": "2026-10-19"
-  }
- ],
+ "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-10-19",
   "ol": {
