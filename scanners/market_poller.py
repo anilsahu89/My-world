@@ -284,7 +284,10 @@ def htf_hm_tick() -> None:
     moment = cp.now()
     if moment.weekday() >= 5:
         return
-    if moment.time() < dtime(9, 30) or moment.time() > dtime(15, 20):
+    # the tick is invoked from the EVENING job (~20:30-22:00 IST) — the old
+    # 09:30-15:20 guard made it return early every single evening (relocation
+    # bug: desk frozen Oct 19-21). Widen to the evening window.
+    if moment.time() < dtime(15, 30) or moment.time() > dtime(22, 0):
         return
     flag = cp.ROOT / "data" / "scanners" / ".htfhm_last_run"
     bucket = moment.strftime("%Y-%m-%d %H:") + ("30" if moment.minute >= 30 else "00")

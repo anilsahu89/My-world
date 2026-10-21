@@ -1323,7 +1323,7 @@ def main() -> None:
         try:
             r = subprocess.run(
                 [sys.executable, str(ROOT / "scanners" / "hm_btc_gold_desk.py")],
-                cwd=str(ROOT), capture_output=True, text=True, timeout=900)
+                cwd=str(ROOT), capture_output=True, text=True, timeout=1800)
             print(f"hm btc/gold: rc={r.returncode} "
                   f"{(r.stdout or '')[-160:]}", flush=True)
         except Exception as e:

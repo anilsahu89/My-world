@@ -141,6 +141,27 @@ def side_of(setup: str) -> str:
 
 
 def main():
+    try:
+        _run()
+    except SystemExit:
+        raise
+    except Exception as e:
+        # loud degraded status instead of stale-silent (portal shows it)
+        try:
+            JSON_OUT.parent.mkdir(parents=True, exist_ok=True)
+            JSON_OUT.write_text(json.dumps({
+                "strategy": "hm-btc-gold",
+                "scanned_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
+                "status": "DEGRADED", "error": f"{type(e).__name__}: {e}",
+                "signals": 0, "open": [], "closed": [],
+                "table": {"headers": [], "rows": []}, "text_report": str(e)[:200]},
+                indent=2))
+        except Exception:
+            pass
+        raise
+
+
+def _run():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--seed", action="store_true",

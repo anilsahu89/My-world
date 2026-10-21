@@ -1,7 +1,8 @@
 entry_date,asset,frame,setup,side,entry_price,lots,capital,gap_rsi,angle_rsi,rsi_entry,red_entry,green_entry,stop_ref,status,exit_date,exit_reason,exit_price,pnl,pnl_pct,notes
-2026-10-12 00:00,BTC,daily,GAP-ANGLE-SELL,SHORT,81762.56,1.0,25000.0,-14.1,-1.09,40.8,54.8,45.3,81762.56,OPEN,,,,,,SEED: established state (owner instruction)
+2026-10-12 00:00,BTC,daily,GAP-ANGLE-SELL,SHORT,81762.56,1.0,25000.0,-14.1,-1.09,40.8,54.8,45.3,81762.56,CLOSED,2026-10-20 00:00,TREND-END,82941.0,-435.32,-1.74,SEED: established state (owner instruction)
 2026-10-09 00:00,GOLD,weekly,GAP-ANGLE-SELL,SHORT,4216.3,1.0,25000.0,-3.7,-3.25,41.5,45.2,40.9,4216.3,OPEN,,,,,,SEED: established state (owner instruction)
 2026-10-14 01:00,GOLD,1h,NEW-LOW-TRICK-SHORT,SHORT,4171.5,1.0,25000.0,-6.9,-7.16,33.6,40.6,43.0,4171.5,CLOSED,2026-10-16 01:00,INVALIDATED,4195.9,-221.23,-0.88,short; SL = failed-attempt high; target = prior low break
 2026-10-14 05:00,BTC,1h,NEW-LOW-TRICK-SHORT,SHORT,83381.16,1.0,25000.0,-3.6,-2.93,50.8,54.4,56.5,83381.16,CLOSED,2026-10-15 15:00,INVALIDATED,82338.95,237.48,0.95,short; SL = failed-attempt high; target = prior low break
 2026-10-15 11:00,GOLD,1h,GAP-ANGLE-SELL-OVER50,SHORT,4170.7,0.5,12500.0,-5.4,-1.65,54.7,60.0,58.7,4170.7,CLOSED,2026-10-16 01:00,TREND-END,4195.9,-113.03,-0.9,gap+angle
 2026-10-14 00:00,GOLD,daily,NEW-LOW-TRICK-SHORT,SHORT,4107.9,1.0,25000.0,-3.1,-4.7,31.6,34.7,36.1,4107.9,CLOSED,2026-10-15 00:00,INVALIDATED,4170.1,-453.54,-1.81,short; SL = failed-attempt high; target = prior low break
+2026-10-20 00:00,BTC,daily,GAP-ANGLE-BUY,LONG,82941.0,1.0,25000.0,5.3,3.9,53.0,47.7,49.2,82941.0,OPEN,,,,,,gap+angle
