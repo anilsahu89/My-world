@@ -123,6 +123,6 @@ jobs:
             SLUG="${{ github.event.inputs.strategy }}"
             git commit -m "🏃 ${SLUG}: scanner results $(date +'%Y-%m-%d %H:%M IST')"
             git pull --rebase origin main
-            git push
+            git push || { sleep 8; git pull --rebase origin main || true; git push; }  # push retry
             echo "Results committed and pushed."
           fi

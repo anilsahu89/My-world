@@ -47,5 +47,5 @@ jobs:
           # Pull-rebase before pushing, in case another commit landed on
           # main since this job checked out (e.g. you editing a file on
           # GitHub, or a previous run's commit).
-          git pull --rebase origin main
-          git push
+          git pull --rebase origin main || { git rebase --abort 2>/dev/null; git fetch origin; git reset --hard origin/main; echo "rebase race — skipped this run's push (next run regenerates)"; exit 0; }
+          git push || echo "push deferred — next run retries"
