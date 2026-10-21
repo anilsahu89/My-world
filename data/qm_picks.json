@@ -1,6 +1,6 @@
 {
- "date": "2026-10-20",
- "updated_at": "20 Oct 2026 17:26:31 IST",
+ "date": "2026-10-21",
+ "updated_at": "21 Oct 2026 17:29:12 IST",
  "nifty_gate": {
   "hm_buy_state": false,
   "above_sma20": true,
@@ -13,27 +13,63 @@
    "setup": "QM-BBw",
    "rsi": 69.1,
    "note": "BB squeeze rank 19% blast on w bars",
-   "close": 760.0,
-   "date": "2026-10-19",
-   "rs50": 1.033
+   "close": 753.0,
+   "date": "2026-10-21",
+   "rs50": 1.03
   },
   {
-   "sym": "CARTRADE",
+   "sym": "PERSISTENT",
    "setup": "QM-HM",
-   "rsi": 58.3,
-   "note": "RSI9 58 V-turn above rising SMA20",
-   "close": 3032.9,
-   "date": "2026-10-19",
-   "rs50": 1.088
+   "rsi": 67.1,
+   "note": "RSI9 67 V-turn above rising SMA20",
+   "close": 5858.5,
+   "date": "2026-10-21",
+   "rs50": 1.07
   },
   {
-   "sym": "KARURVYSYA",
-   "setup": "QM-52W",
-   "rsi": 86.6,
-   "note": "new 52w closing high 370.0, vol 3.6x",
-   "close": 370.05,
-   "date": "2026-10-19",
-   "rs50": 1.096
+   "sym": "LTTS",
+   "setup": "QM-HM",
+   "rsi": 83.8,
+   "note": "RSI9 84 V-turn above rising SMA20",
+   "close": 3996.3,
+   "date": "2026-10-21",
+   "rs50": 1.11
+  },
+  {
+   "sym": "MPHASIS",
+   "setup": "QM-HM",
+   "rsi": 89.6,
+   "note": "RSI9 90 V-turn above rising SMA20",
+   "close": 2575.0,
+   "date": "2026-10-21",
+   "rs50": 1.04
+  },
+  {
+   "sym": "COFORGE",
+   "setup": "QM-HM",
+   "rsi": 76.5,
+   "note": "RSI9 77 V-turn above rising SMA20",
+   "close": 1951.0,
+   "date": "2026-10-21",
+   "rs50": 1.099
+  },
+  {
+   "sym": "HEXT",
+   "setup": "QM-HM",
+   "rsi": 92.7,
+   "note": "RSI9 93 V-turn above rising SMA20",
+   "close": 604.6,
+   "date": "2026-10-21",
+   "rs50": 1.071
+  },
+  {
+   "sym": "FSL",
+   "setup": "QM-HM",
+   "rsi": 72.0,
+   "note": "RSI9 72 V-turn above rising SMA20",
+   "close": 284.25,
+   "date": "2026-10-21",
+   "rs50": 1.016
   }
  ]
 }
