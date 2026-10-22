@@ -284,10 +284,12 @@ def htf_hm_tick() -> None:
     moment = cp.now()
     if moment.weekday() >= 5:
         return
-    # the tick is invoked from the EVENING job (~20:30-22:00 IST) — the old
-    # 09:30-15:20 guard made it return early every single evening (relocation
-    # bug: desk frozen Oct 19-21). Widen to the evening window.
-    if moment.time() < dtime(15, 30) or moment.time() > dtime(22, 0):
+    # runs in BOTH windows: the day poller (market hours, 30-min buckets)
+    # and the evening job (~20:30-22:00). Each sets its own bucket flag, so
+    # scans fire once per half-hour bucket without double-running.
+    in_day = dtime(9, 30) <= moment.time() <= dtime(15, 20)
+    in_eve = dtime(15, 30) <= moment.time() <= dtime(22, 0)
+    if moment.weekday() >= 5 or not (in_day or in_eve):
         return
     flag = cp.ROOT / "data" / "scanners" / ".htfhm_last_run"
     bucket = moment.strftime("%Y-%m-%d %H:") + ("30" if moment.minute >= 30 else "00")
