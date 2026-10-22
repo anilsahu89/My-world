@@ -1,6 +1,6 @@
 {
- "fetched_at": "2026-10-22 14:26:21",
- "latest_date": "2026-10-21",
+ "fetched_at": "2026-10-22 17:29:59",
+ "latest_date": "2026-10-22",
  "universe_count": 197,
  "shorts_count": 1,
  "longs_count": 1,
@@ -27,19 +27,19 @@
   {
    "kind": "bb",
    "type": "LONG",
-   "symbol": "TIINDIA",
-   "entry_price": 2194.9,
-   "sl_price": 2144.2,
-   "target_price": 2296.3,
+   "symbol": "ALKEM",
+   "entry_price": 5015.0,
+   "sl_price": 4953.0,
+   "target_price": 5139.0,
    "rr": 2.0,
-   "wick_pct": 63,
-   "vol_multiple": 1.8,
-   "rsi": 23,
+   "wick_pct": 55,
+   "vol_multiple": 2.9,
+   "rsi": 36,
    "rsi_pass": false,
-   "primary_range": 101.4,
-   "primary_date": "2026-10-12",
-   "alert_date": "2026-10-13",
-   "score": 26.8
+   "primary_range": 124.0,
+   "primary_date": "2026-10-19",
+   "alert_date": "2026-10-21",
+   "score": 28.6
   }
  ]
 }
