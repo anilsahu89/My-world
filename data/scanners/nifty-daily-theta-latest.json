@@ -1,7 +1,7 @@
 {
   "strategy": "nifty-daily-theta",
-  "scanned_at": "2026-10-21 11:16:53 IST",
-  "scan_date": "2026-10-21",
+  "scanned_at": "2026-10-22 12:24:54 IST",
+  "scan_date": "2026-10-22",
   "trades": [
     {
       "entry_date": "2026-10-06",
@@ -99,13 +99,13 @@
       "long_premium": "50.55",
       "net_credit": "19.5",
       "sma": "23000.6",
-      "status": "OPEN",
-      "exit_date": "",
-      "exit_reason": "",
-      "exit_credit": "",
-      "pnl": "",
-      "holding_days": "",
-      "spot_exit": "",
+      "status": "CLOSED",
+      "exit_date": "2026-10-22",
+      "exit_reason": "sl_strike_hit",
+      "exit_credit": "61.1",
+      "pnl": "-3120.0",
+      "holding_days": "3",
+      "spot_exit": "22597.6",
       "notes": "",
       "mark_credit": "29.85",
       "live_pnl": "-776.25",
@@ -115,8 +115,8 @@
   "trade_count": 4,
   "status": "success",
   "report": {
-    "open_position": "",
-    "net_pnl": "3 trades | WR 100% | Net P&L \u20b92,051"
+    "open_position": "Checking open positions...",
+    "net_pnl": "4 trades | WR 75% | Net P&L \u20b9-1,069"
   },
-  "text_report": "===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA UPDATE \u2014 Wed, 21 Oct 2026\n===============================================================================================\n\n  Checking open positions...\ntheta: angel chain fallback 704 rows\n  No exits today.\n\n  Checking for new signal...\n  \u23f8\ufe0f  Open position exists \u2014 waiting for exit before new entry\n\n===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA \u2014 PAPER TRADES\n  Rules: Mon/Tue/Wed/Fri 1PM | VIX<22 (regime recorded) | 300OTM | 100pt spread | 50% target\n===============================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit  DTE Expiry         VIX\n  --------------------------------------------------------------------------------\n  2026-10-19   BULL_PUT   22800.0 22700.0 PE   \u20b9  19.5    8 2026-10-27   14.5\n\n  \ud83d\udd34 CLOSED TRADES (3):\n  Entry        Exit         Dir        Reason          Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-10-06   2026-10-07   BEAR_CALL  profit_50pct   \u20b9  13.4 \u20b9     698    1d \u2705\n  2026-10-07   2026-10-13   BEAR_CALL  expiry         \u20b9  10.6 \u20b9     791    6d \u2705\n  2026-10-16   2026-10-19   BEAR_CALL  expiry         \u20b9   7.5 \u20b9     562    3d \u2705\n\n  \ud83d\udcc8 SUMMARY: 3 trades | WR 100% | Net P&L \u20b92,051"
+  "text_report": "===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA UPDATE \u2014 Thu, 22 Oct 2026\n===============================================================================================\n\n  Checking open positions...\ntheta: angel chain fallback 704 rows\n  \u274c EXIT: BULL_PUT 22800.0/22700.0 \u2192 sl_strike_hit | P&L \u20b9-3,120\n\n  Checking for new signal...\n  Thu is not an entry day (Mon/Tue/Wed/Fri, 1-4 DTE gate) \u2014 skip\n\n===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA \u2014 PAPER TRADES\n  Rules: Mon/Tue/Wed/Fri 1PM | VIX<22 (regime recorded) | 300OTM | 100pt spread | 50% target\n===============================================================================================\n\n  \ud83d\udd34 CLOSED TRADES (4):\n  Entry        Exit         Dir        Reason          Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-10-06   2026-10-07   BEAR_CALL  profit_50pct   \u20b9  13.4 \u20b9     698    1d \u2705\n  2026-10-07   2026-10-13   BEAR_CALL  expiry         \u20b9  10.6 \u20b9     791    6d \u2705\n  2026-10-16   2026-10-19   BEAR_CALL  expiry         \u20b9   7.5 \u20b9     562    3d \u2705\n  2026-10-19   2026-10-22   BULL_PUT   sl_strike_hit  \u20b9  19.5 \u20b9   -3120    3d \u274c\n\n  \ud83d\udcc8 SUMMARY: 4 trades | WR 75% | Net P&L \u20b9-1,069"
 }
