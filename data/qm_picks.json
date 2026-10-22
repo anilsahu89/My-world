@@ -1,9 +1,9 @@
 {
- "date": "2026-10-21",
- "updated_at": "21 Oct 2026 17:29:12 IST",
+ "date": "2026-10-22",
+ "updated_at": "22 Oct 2026 16:51:49 IST",
  "nifty_gate": {
   "hm_buy_state": false,
-  "above_sma20": true,
+  "above_sma20": false,
   "note": "informational only — entry gates removed 1 Oct (RS-50 is the filter)"
  },
  "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM buy state) · 52-week closing high (vol ≥1.5x) · BB Blast squeeze on daily/weekly/monthly (NIFTY > SMA20) · 50-day return must beat NIFTY (RS-50 gate) · NIFTY-500 · ₹5cr turnover · entries capped 2/day by the desk",
@@ -13,63 +13,45 @@
    "setup": "QM-BBw",
    "rsi": 69.1,
    "note": "BB squeeze rank 19% blast on w bars",
-   "close": 753.0,
-   "date": "2026-10-21",
-   "rs50": 1.03
+   "close": 782.3,
+   "date": "2026-10-22",
+   "rs50": 1.074
   },
   {
-   "sym": "PERSISTENT",
+   "sym": "HAL",
    "setup": "QM-HM",
-   "rsi": 67.1,
-   "note": "RSI9 67 V-turn above rising SMA20",
-   "close": 5858.5,
-   "date": "2026-10-21",
-   "rs50": 1.07
+   "rsi": 71.0,
+   "note": "RSI9 71 V-turn above rising SMA20",
+   "close": 4875.0,
+   "date": "2026-10-22",
+   "rs50": 0.989
   },
   {
-   "sym": "LTTS",
+   "sym": "PVRINOX",
    "setup": "QM-HM",
-   "rsi": 83.8,
-   "note": "RSI9 84 V-turn above rising SMA20",
-   "close": 3996.3,
-   "date": "2026-10-21",
-   "rs50": 1.11
+   "rsi": 85.1,
+   "note": "RSI9 85 V-turn above rising SMA20",
+   "close": 1419.9,
+   "date": "2026-10-22",
+   "rs50": 1.241
   },
   {
-   "sym": "MPHASIS",
+   "sym": "TTML",
    "setup": "QM-HM",
-   "rsi": 89.6,
-   "note": "RSI9 90 V-turn above rising SMA20",
-   "close": 2575.0,
-   "date": "2026-10-21",
-   "rs50": 1.04
+   "rsi": 77.9,
+   "note": "RSI9 78 V-turn above rising SMA20",
+   "close": 38.01,
+   "date": "2026-10-22",
+   "rs50": 0.974
   },
   {
-   "sym": "COFORGE",
-   "setup": "QM-HM",
-   "rsi": 76.5,
-   "note": "RSI9 77 V-turn above rising SMA20",
-   "close": 1951.0,
-   "date": "2026-10-21",
-   "rs50": 1.099
-  },
-  {
-   "sym": "HEXT",
-   "setup": "QM-HM",
-   "rsi": 92.7,
-   "note": "RSI9 93 V-turn above rising SMA20",
-   "close": 604.6,
-   "date": "2026-10-21",
-   "rs50": 1.071
-  },
-  {
-   "sym": "FSL",
-   "setup": "QM-HM",
-   "rsi": 72.0,
-   "note": "RSI9 72 V-turn above rising SMA20",
-   "close": 284.25,
-   "date": "2026-10-21",
-   "rs50": 1.016
+   "sym": "INDHOTEL",
+   "setup": "QM-52W",
+   "rsi": 80.2,
+   "note": "new 52w closing high 782.3, vol 4.1x",
+   "close": 782.3,
+   "date": "2026-10-22",
+   "rs50": 1.074
   }
  ]
 }
