@@ -431,7 +431,7 @@
    "entry": 1264.9,
    "sl": 1184.55,
    "tgt": 1425.6,
-   "sessions": 2,
+   "sessions": 3,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -485,7 +485,7 @@
    "entry": 468.0,
    "sl": 425.36,
    "tgt": 553.28,
-   "sessions": 2,
+   "sessions": 3,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -503,7 +503,7 @@
    "entry": 302.9,
    "sl": 272.13,
    "tgt": 364.44,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -521,7 +521,7 @@
    "entry": 198.0,
    "sl": 179.26,
    "tgt": 235.48,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -533,16 +533,16 @@
    "symbol": "AIIL",
    "setup": "HM-BUY",
    "side": "BUY",
-   "status": "OPEN",
+   "status": "CLOSED",
    "entry_date": "2026-10-21",
    "qty": 18,
    "entry": 545.0,
    "sl": 524.56,
    "tgt": 585.88,
-   "sessions": 0,
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "sessions": 1,
+   "exit": 524.56,
+   "reason": "SL",
+   "pnl": -367.92
   },
   {
    "id": 31,
@@ -557,11 +557,11 @@
    "entry": 1241.0,
    "sl": 1184.55,
    "tgt": 1353.9,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null
   }
  ],
- "done_date": "2026-10-21"
+ "done_date": "2026-10-22"
 }
