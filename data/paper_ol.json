@@ -1,5 +1,5 @@
 {
- "updated_at": "23 Oct 2026 09:25:56 IST",
+ "updated_at": "23 Oct 2026 09:28:09 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -21,7 +21,7 @@
  },
  "vol_blocked": {
   "ol": {
-   "low_vol": 0,
+   "low_vol": 12,
    "no_vol_data": 0
   },
   "oh": {
@@ -30,7 +30,23 @@
   }
  },
  "vol_audit": {
-  "ol": {},
+  "ol": {
+   "UTIAMC": 11.86,
+   "COFORGE": 3.07,
+   "ZENSARTECH": 2.28,
+   "OFSS": 1.65,
+   "ASTRAL": 1.03,
+   "INTELLECT": 0.94,
+   "ASIANPAINT": 0.87,
+   "DRREDDY": 0.69,
+   "INDIAMART": 0.41,
+   "GRASIM": 0.4,
+   "TATACONSUM": 0.4,
+   "SHREECEM": 0.38,
+   "HEROMOTOCO": 0.37,
+   "DALBHARAT": 0.28,
+   "IKS": 0.27
+  },
   "oh": {
    "JSWDULUX": 4.46,
    "FINCABLES": 2.41,
@@ -51,12 +67,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 3,
+  "open_count": 7,
   "closed_count": 154,
-  "trades_today": 3,
+  "trades_today": 7,
   "today_pnl": 0,
   "realized_total": -682.96,
-  "unrealized": 0,
+  "unrealized": -79.0,
   "wins": 77,
   "losses": 77,
   "win_rate": 50.0,
@@ -77,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": -23.5,
    "feed": "angel",
-   "ltp": 400.55,
-   "pnl_pct": -0.0
+   "ltp": 402.9,
+   "pnl_pct": -0.59
   },
   {
    "id": 162,
@@ -96,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": -47.0,
    "feed": "angel",
-   "ltp": 1488.9,
-   "pnl_pct": -0.0
+   "ltp": 1498.3,
+   "pnl_pct": -0.63
   },
   {
    "id": 163,
@@ -115,10 +131,86 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": -8.5,
    "feed": "angel",
-   "ltp": 6275.0,
-   "pnl_pct": -0.0
+   "ltp": 6283.5,
+   "pnl_pct": -0.14
+  },
+  {
+   "id": 164,
+   "date": "2026-10-23",
+   "setup": "ol",
+   "symbol": "UTIAMC",
+   "side": "BUY",
+   "qty": 11,
+   "entry_time": "09:27:35",
+   "entry_price": 844.3,
+   "candle_stop": 841.15,
+   "sl_price": 836.94,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 844.3,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 165,
+   "date": "2026-10-23",
+   "setup": "ol",
+   "symbol": "COFORGE",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "09:27:35",
+   "entry_price": 1971.0,
+   "candle_stop": 1925.0,
+   "sl_price": 1915.38,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 1971.0,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 166,
+   "date": "2026-10-23",
+   "setup": "ol",
+   "symbol": "ZENSARTECH",
+   "side": "BUY",
+   "qty": 10,
+   "entry_time": "09:27:35",
+   "entry_price": 512.4,
+   "candle_stop": 505.55,
+   "sl_price": 503.02,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 512.4,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 167,
+   "date": "2026-10-23",
+   "setup": "ol",
+   "symbol": "OFSS",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "09:27:35",
+   "entry_price": 9931.0,
+   "candle_stop": 9861.0,
+   "sl_price": 9811.69,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 9931.0,
+   "pnl_pct": 0.0
   }
  ],
  "closed": [
@@ -2833,8 +2925,8 @@
   },
   {
    "date": "2026-10-23",
-   "trades": 3,
-   "ol": 0,
+   "trades": 7,
+   "ol": 4,
    "oh": 3,
    "wins": 0,
    "losses": 0,
