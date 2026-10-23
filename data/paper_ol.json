@@ -1,5 +1,5 @@
 {
- "updated_at": "23 Oct 2026 09:43:37 IST",
+ "updated_at": "23 Oct 2026 09:45:08 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -49,7 +49,7 @@
   },
   "oh": {
    "JSWDULUX": 6.61,
-   "FINCABLES": 2.42,
+   "FINCABLES": 2.46,
    "HINDCOPPER": 2.33,
    "ITCHOTELS": 2.12,
    "CHOLAFIN": 2.08,
@@ -72,7 +72,7 @@
   "trades_today": 7,
   "today_pnl": -268.11,
   "realized_total": -951.07,
-  "unrealized": 73.9,
+  "unrealized": 100.5,
   "wins": 77,
   "losses": 80,
   "win_rate": 49.0,
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -7.0,
+   "pnl": 0.5,
    "feed": "angel",
-   "ltp": 401.25,
-   "pnl_pct": -0.17
+   "ltp": 400.5,
+   "pnl_pct": 0.01
   },
   {
    "id": 162,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 47.0,
+   "pnl": 46.0,
    "feed": "angel",
-   "ltp": 1479.5,
-   "pnl_pct": 0.63
+   "ltp": 1479.7,
+   "pnl_pct": 0.62
   },
   {
    "id": 163,
@@ -131,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 63.5,
+   "pnl": 85.0,
    "feed": "angel",
-   "ltp": 6211.5,
-   "pnl_pct": 1.01
+   "ltp": 6190.0,
+   "pnl_pct": 1.35
   },
   {
    "id": 165,
@@ -150,10 +150,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -29.6,
+   "pnl": -31.0,
    "feed": "angel",
-   "ltp": 1941.4,
-   "pnl_pct": -1.5
+   "ltp": 1940.0,
+   "pnl_pct": -1.57
   }
  ],
  "closed": [
