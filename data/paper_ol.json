@@ -1,9 +1,9 @@
 {
- "updated_at": "22 Oct 2026 15:07:34 IST",
+ "updated_at": "23 Oct 2026 09:25:56 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
- "today": "2026-10-22",
+ "today": "2026-10-23",
  "strategy": {
   "rule": "first 5-min candle O=L -> BUY / O=H -> SELL (entries from 09:20, opening candle complete), ₹10,000/stock",
   "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
@@ -19,22 +19,108 @@
   },
   "vol_note": "15 Oct: volume gate = RVOL (cumulative volume vs time-of-day expectation, 1.0 = normal day) — O=L >= 1.3, O=H >= 1.0; deliberately low, tuned from vol_audit"
  },
- "vol_blocked": {},
- "vol_audit": {},
+ "vol_blocked": {
+  "ol": {
+   "low_vol": 0,
+   "no_vol_data": 0
+  },
+  "oh": {
+   "low_vol": 92,
+   "no_vol_data": 0
+  }
+ },
+ "vol_audit": {
+  "ol": {},
+  "oh": {
+   "JSWDULUX": 4.46,
+   "FINCABLES": 2.41,
+   "HINDCOPPER": 2.33,
+   "CHOLAFIN": 2.08,
+   "ABB": 2.01,
+   "ITCHOTELS": 2.0,
+   "GVT&D": 1.87,
+   "SCI": 1.56,
+   "IREDA": 1.48,
+   "ACE": 1.43,
+   "BALKRISIND": 1.43,
+   "PWL": 1.33,
+   "BHEL": 1.21,
+   "IRFC": 1.18,
+   "ARE&M": 1.05
+  }
+ },
  "engine_errors": [],
  "summary": {
-  "open_count": 0,
+  "open_count": 3,
   "closed_count": 154,
-  "trades_today": 0,
+  "trades_today": 3,
   "today_pnl": 0,
   "realized_total": -682.96,
   "unrealized": 0,
   "wins": 77,
   "losses": 77,
   "win_rate": 50.0,
-  "days": 21
+  "days": 22
  },
- "open": [],
+ "open": [
+  {
+   "id": 161,
+   "date": "2026-10-23",
+   "setup": "oh",
+   "symbol": "HINDCOPPER",
+   "side": "SELL",
+   "qty": 10,
+   "entry_time": "09:25:08",
+   "entry_price": 400.55,
+   "candle_stop": 408.0,
+   "sl_price": 410.04,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 400.55,
+   "pnl_pct": -0.0
+  },
+  {
+   "id": 162,
+   "date": "2026-10-23",
+   "setup": "oh",
+   "symbol": "CHOLAFIN",
+   "side": "SELL",
+   "qty": 5,
+   "entry_time": "09:25:08",
+   "entry_price": 1488.9,
+   "candle_stop": 1500.0,
+   "sl_price": 1507.5,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 1488.9,
+   "pnl_pct": -0.0
+  },
+  {
+   "id": 163,
+   "date": "2026-10-23",
+   "setup": "oh",
+   "symbol": "ABB",
+   "side": "SELL",
+   "qty": 1,
+   "entry_time": "09:25:08",
+   "entry_price": 6275.0,
+   "candle_stop": 6430.0,
+   "sl_price": 6462.15,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 6275.0,
+   "pnl_pct": -0.0
+  }
+ ],
  "closed": [
   {
    "id": 158,
@@ -2743,6 +2829,16 @@
    "wins": 2,
    "losses": 6,
    "pnl": -266.03,
+   "cum": -682.96
+  },
+  {
+   "date": "2026-10-23",
+   "trades": 3,
+   "ol": 0,
+   "oh": 3,
+   "wins": 0,
+   "losses": 0,
+   "pnl": 0,
    "cum": -682.96
   }
  ]
