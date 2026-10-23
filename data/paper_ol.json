@@ -1,5 +1,5 @@
 {
- "updated_at": "23 Oct 2026 09:54:49 IST",
+ "updated_at": "23 Oct 2026 09:58:18 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -67,15 +67,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 4,
-  "closed_count": 157,
+  "open_count": 3,
+  "closed_count": 158,
   "trades_today": 7,
-  "today_pnl": -268.11,
-  "realized_total": -951.07,
-  "unrealized": 168.0,
+  "today_pnl": -315.51,
+  "realized_total": -998.47,
+  "unrealized": 216.5,
   "wins": 77,
-  "losses": 80,
-  "win_rate": 49.0,
+  "losses": 81,
+  "win_rate": 48.7,
   "days": 22
  },
  "open": [
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 12.5,
+   "pnl": 17.5,
    "feed": "angel",
-   "ltp": 399.3,
-   "pnl_pct": 0.31
+   "ltp": 398.8,
+   "pnl_pct": 0.44
   },
   {
    "id": 162,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 63.5,
+   "pnl": 56.5,
    "feed": "angel",
-   "ltp": 1476.2,
-   "pnl_pct": 0.85
+   "ltp": 1477.6,
+   "pnl_pct": 0.76
   },
   {
    "id": 163,
@@ -131,29 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 139.0,
+   "pnl": 142.5,
    "feed": "angel",
-   "ltp": 6136.0,
-   "pnl_pct": 2.22
-  },
-  {
-   "id": 165,
-   "date": "2026-10-23",
-   "setup": "ol",
-   "symbol": "COFORGE",
-   "side": "BUY",
-   "qty": 1,
-   "entry_time": "09:27:35",
-   "entry_price": 1971.0,
-   "candle_stop": 1925.0,
-   "sl_price": 1915.38,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -47.0,
-   "feed": "angel",
-   "ltp": 1924.0,
-   "pnl_pct": -2.38
+   "ltp": 6132.5,
+   "pnl_pct": 2.27
   }
  ],
  "closed": [
@@ -172,6 +153,23 @@
    "exit_price": 839.3,
    "reason": "CANDLE-CLOSE",
    "pnl": -55.0,
+   "feed": "angel"
+  },
+  {
+   "id": 165,
+   "date": "2026-10-23",
+   "setup": "ol",
+   "symbol": "COFORGE",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "09:27:35",
+   "entry_price": 1971.0,
+   "candle_stop": 1925.0,
+   "sl_price": 1915.38,
+   "exit_time": "09:55:00",
+   "exit_price": 1923.6,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -47.4,
    "feed": "angel"
   },
   {
@@ -2923,9 +2921,9 @@
    "ol": 4,
    "oh": 3,
    "wins": 0,
-   "losses": 3,
-   "pnl": -268.11,
-   "cum": -951.07
+   "losses": 4,
+   "pnl": -315.51,
+   "cum": -998.47
   }
  ]
 }
