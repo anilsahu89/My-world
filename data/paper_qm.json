@@ -1,5 +1,5 @@
 {
- "updated_at": "22 Oct 2026 21:25:48 IST",
+ "updated_at": "23 Oct 2026 17:20:24 IST",
  "rule": "QM (Quantity Model, NK's 'Trading as a Business'): signals from HM-buy / 52W-high / BB-Blast(d,w,m) on NIFTY-500 · ₹5k (5% of ₹1L) lots · max 2 new/day · +12% book half & trail at cost · RSI9≥86 exit all · never book losses, average once at −50% · 50%-blocked circuit breaker",
  "note": "Daily-bar desk, scans after 17:30 IST. Position sizing is the edge — fills at next open.",
  "summary": {
@@ -10,7 +10,7 @@
   "losses": 0,
   "win_rate": 0,
   "realized": 0,
-  "unrealized": -4604.59,
+  "unrealized": -6025.17,
   "invested": 78472.0,
   "circuit_breaker": true
  },
@@ -30,11 +30,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 12,
-   "mark": 110.94999694824219,
+   "sessions": 13,
+   "mark": 108.94000244140625,
    "exit": null,
    "reason": null,
-   "pnl": 127.42,
+   "pnl": 34.96,
    "note": "RSI9 56 V-turn above rising SMA20"
   },
   {
@@ -52,11 +52,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 12,
-   "mark": 1843.699951171875,
+   "sessions": 13,
+   "mark": 1838.199951171875,
    "exit": null,
    "reason": null,
-   "pnl": -324.4,
+   "pnl": -335.4,
    "note": "new 52w closing high 2005.1, vol 1.6x"
   },
   {
@@ -74,11 +74,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 12,
-   "mark": 213.94000244140625,
+   "sessions": 13,
+   "mark": 209.9199981689453,
    "exit": null,
    "reason": null,
-   "pnl": -578.76,
+   "pnl": -663.18,
    "note": "new 52w closing high 239.2, vol 4.3x"
   },
   {
@@ -96,11 +96,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 11,
-   "mark": 1143.699951171875,
+   "sessions": 12,
+   "mark": 1233.0,
    "exit": null,
    "reason": null,
-   "pnl": 98.0,
+   "pnl": 455.2,
    "note": "BB squeeze rank 11% blast on d bars"
   },
   {
@@ -118,11 +118,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 11,
-   "mark": 2263.10009765625,
+   "sessions": 12,
+   "mark": 2140.0,
    "exit": null,
    "reason": null,
-   "pnl": -1043.8,
+   "pnl": -1290.0,
    "note": "RSI9 81 V-turn above rising SMA20"
   },
   {
@@ -140,11 +140,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 10,
-   "mark": 1304.0999755859375,
+   "sessions": 11,
+   "mark": 1247.199951171875,
    "exit": null,
    "reason": null,
-   "pnl": -509.4,
+   "pnl": -680.1,
    "note": "BB squeeze rank 0% blast on d bars"
   },
   {
@@ -162,11 +162,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 10,
-   "mark": 913.5499877929688,
+   "sessions": 11,
+   "mark": 894.2999877929688,
    "exit": null,
    "reason": null,
-   "pnl": -332.5,
+   "pnl": -428.75,
    "note": "BB squeeze rank 16% blast on d bars"
   },
   {
@@ -184,11 +184,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 9,
-   "mark": 1633.0,
+   "sessions": 10,
+   "mark": 1592.0,
    "exit": null,
    "reason": null,
-   "pnl": 24.0,
+   "pnl": -99.0,
    "note": "RSI9 66 V-turn above rising SMA20"
   },
   {
@@ -206,11 +206,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 8,
-   "mark": 3904.60009765625,
+   "sessions": 9,
+   "mark": 3798.0,
    "exit": null,
    "reason": null,
-   "pnl": -347.4,
+   "pnl": -454.0,
    "note": "RSI9 81 V-turn above rising SMA20"
   },
   {
@@ -228,11 +228,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 8,
-   "mark": 1651.199951171875,
+   "sessions": 9,
+   "mark": 1610.699951171875,
    "exit": null,
    "reason": null,
-   "pnl": -312.3,
+   "pnl": -433.8,
    "note": "RSI9 58 V-turn above rising SMA20"
   },
   {
@@ -250,11 +250,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 7,
-   "mark": 4592.89990234375,
+   "sessions": 8,
+   "mark": 4335.7998046875,
    "exit": null,
    "reason": null,
-   "pnl": -357.1,
+   "pnl": -614.2,
    "note": "BB squeeze rank 7% blast on d bars"
   },
   {
@@ -272,11 +272,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 7,
-   "mark": 550.7000122070312,
+   "sessions": 8,
+   "mark": 541.8499755859375,
    "exit": null,
    "reason": null,
-   "pnl": -402.4,
+   "pnl": -473.2,
    "note": "BB squeeze rank 20% blast on d bars"
   },
   {
@@ -294,11 +294,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 6,
-   "mark": 1930.300048828125,
+   "sessions": 7,
+   "mark": 1891.699951171875,
    "exit": null,
    "reason": null,
-   "pnl": -89.1,
+   "pnl": -204.9,
    "note": "BB squeeze rank 7% blast on d bars"
   },
   {
@@ -316,11 +316,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 6,
-   "mark": 654.75,
+   "sessions": 7,
+   "mark": 639.9000244140625,
    "exit": null,
    "reason": null,
-   "pnl": -458.15,
+   "pnl": -562.1,
    "note": "RSI9 62 V-turn above rising SMA20"
   },
   {
@@ -338,11 +338,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 4,
-   "mark": 437.0,
+   "sessions": 5,
+   "mark": 430.5,
    "exit": null,
    "reason": null,
-   "pnl": -128.7,
+   "pnl": -200.2,
    "note": "RSI9 77 V-turn above rising SMA20"
   },
   {
@@ -360,11 +360,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 4,
-   "mark": 337.70001220703125,
+   "sessions": 5,
+   "mark": 330.6000061035156,
    "exit": null,
    "reason": null,
-   "pnl": 30.0,
+   "pnl": -76.5,
    "note": "RSI9 71 V-turn above rising SMA20"
   }
  ],
