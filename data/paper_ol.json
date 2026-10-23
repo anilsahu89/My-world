@@ -1,5 +1,5 @@
 {
- "updated_at": "23 Oct 2026 09:34:20 IST",
+ "updated_at": "23 Oct 2026 09:35:51 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -67,15 +67,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 7,
-  "closed_count": 154,
+  "open_count": 5,
+  "closed_count": 156,
   "trades_today": 7,
-  "today_pnl": 0,
-  "realized_total": -682.96,
-  "unrealized": -165.5,
+  "today_pnl": -174.31,
+  "realized_total": -857.27,
+  "unrealized": 30.3,
   "wins": 77,
-  "losses": 77,
-  "win_rate": 50.0,
+  "losses": 79,
+  "win_rate": 49.4,
   "days": 22
  },
  "open": [
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -22.5,
+   "pnl": -11.0,
    "feed": "angel",
-   "ltp": 402.8,
-   "pnl_pct": -0.56
+   "ltp": 401.65,
+   "pnl_pct": -0.27
   },
   {
    "id": 162,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 61.5,
+   "pnl": 59.0,
    "feed": "angel",
-   "ltp": 1476.6,
-   "pnl_pct": 0.83
+   "ltp": 1477.1,
+   "pnl_pct": 0.79
   },
   {
    "id": 163,
@@ -131,29 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 65.5,
+   "pnl": 95.0,
    "feed": "angel",
-   "ltp": 6209.5,
-   "pnl_pct": 1.04
-  },
-  {
-   "id": 164,
-   "date": "2026-10-23",
-   "setup": "ol",
-   "symbol": "UTIAMC",
-   "side": "BUY",
-   "qty": 11,
-   "entry_time": "09:27:35",
-   "entry_price": 844.3,
-   "candle_stop": 841.15,
-   "sl_price": 836.94,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -63.8,
-   "feed": "angel",
-   "ltp": 838.5,
-   "pnl_pct": -0.69
+   "ltp": 6180.0,
+   "pnl_pct": 1.51
   },
   {
    "id": 165,
@@ -169,10 +150,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -33.7,
+   "pnl": -38.7,
    "feed": "angel",
-   "ltp": 1937.3,
-   "pnl_pct": -1.71
+   "ltp": 1932.3,
+   "pnl_pct": -1.96
   },
   {
    "id": 166,
@@ -188,10 +169,29 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -72.5,
+   "pnl": -74.0,
    "feed": "angel",
-   "ltp": 505.15,
-   "pnl_pct": -1.41
+   "ltp": 505.0,
+   "pnl_pct": -1.44
+  }
+ ],
+ "closed": [
+  {
+   "id": 164,
+   "date": "2026-10-23",
+   "setup": "ol",
+   "symbol": "UTIAMC",
+   "side": "BUY",
+   "qty": 11,
+   "entry_time": "09:27:35",
+   "entry_price": 844.3,
+   "candle_stop": 841.15,
+   "sl_price": 836.94,
+   "exit_time": "09:35:00",
+   "exit_price": 839.3,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -55.0,
+   "feed": "angel"
   },
   {
    "id": 167,
@@ -204,16 +204,12 @@
    "entry_price": 9931.0,
    "candle_stop": 9861.0,
    "sl_price": 9811.69,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -100.0,
-   "feed": "angel",
-   "ltp": 9831.0,
-   "pnl_pct": -1.01
-  }
- ],
- "closed": [
+   "exit_time": "09:35:22",
+   "exit_price": 9811.69,
+   "reason": "SL",
+   "pnl": -119.31,
+   "feed": "angel"
+  },
   {
    "id": 158,
    "date": "2026-10-19",
@@ -2929,9 +2925,9 @@
    "ol": 4,
    "oh": 3,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -682.96
+   "losses": 2,
+   "pnl": -174.31,
+   "cum": -857.27
   }
  ]
 }
