@@ -1,5 +1,5 @@
 {
- "updated_at": "23 Oct 2026 09:37:23 IST",
+ "updated_at": "23 Oct 2026 09:39:01 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -55,12 +55,12 @@
    "CHOLAFIN": 2.08,
    "ABB": 2.01,
    "GVT&D": 1.9,
-   "ACE": 1.6,
+   "ACE": 1.64,
    "SCI": 1.56,
    "PWL": 1.52,
    "IREDA": 1.48,
    "BALKRISIND": 1.43,
-   "BHEL": 1.37,
+   "BHEL": 1.41,
    "ARE&M": 1.29,
    "IRFC": 1.18
   }
@@ -72,7 +72,7 @@
   "trades_today": 7,
   "today_pnl": -268.11,
   "realized_total": -951.07,
-  "unrealized": 110.4,
+  "unrealized": 104.8,
   "wins": 77,
   "losses": 80,
   "win_rate": 49.0,
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -7.0,
+   "pnl": -12.5,
    "feed": "angel",
-   "ltp": 401.25,
-   "pnl_pct": -0.17
+   "ltp": 401.8,
+   "pnl_pct": -0.31
   },
   {
    "id": 162,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 60.0,
+   "pnl": 59.0,
    "feed": "angel",
-   "ltp": 1476.9,
-   "pnl_pct": 0.81
+   "ltp": 1477.1,
+   "pnl_pct": 0.79
   },
   {
    "id": 163,
@@ -131,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 103.5,
+   "pnl": 96.5,
    "feed": "angel",
-   "ltp": 6171.5,
-   "pnl_pct": 1.65
+   "ltp": 6178.5,
+   "pnl_pct": 1.54
   },
   {
    "id": 165,
@@ -150,10 +150,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -46.1,
+   "pnl": -38.2,
    "feed": "angel",
-   "ltp": 1924.9,
-   "pnl_pct": -2.34
+   "ltp": 1932.8,
+   "pnl_pct": -1.94
   }
  ],
  "closed": [
