@@ -1,5 +1,5 @@
 {
- "updated_at": "23 Oct 2026 09:28:09 IST",
+ "updated_at": "23 Oct 2026 09:29:40 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -25,7 +25,7 @@
    "no_vol_data": 0
   },
   "oh": {
-   "low_vol": 92,
+   "low_vol": 95,
    "no_vol_data": 0
   }
  },
@@ -48,19 +48,19 @@
    "IKS": 0.27
   },
   "oh": {
-   "JSWDULUX": 4.46,
+   "JSWDULUX": 6.53,
    "FINCABLES": 2.41,
    "HINDCOPPER": 2.33,
+   "ITCHOTELS": 2.12,
    "CHOLAFIN": 2.08,
    "ABB": 2.01,
-   "ITCHOTELS": 2.0,
    "GVT&D": 1.87,
    "SCI": 1.56,
+   "ACE": 1.53,
+   "PWL": 1.52,
    "IREDA": 1.48,
-   "ACE": 1.43,
    "BALKRISIND": 1.43,
-   "PWL": 1.33,
-   "BHEL": 1.21,
+   "BHEL": 1.25,
    "IRFC": 1.18,
    "ARE&M": 1.05
   }
@@ -72,7 +72,7 @@
   "trades_today": 7,
   "today_pnl": 0,
   "realized_total": -682.96,
-  "unrealized": -79.0,
+  "unrealized": -47.35,
   "wins": 77,
   "losses": 77,
   "win_rate": 50.0,
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -23.5,
+   "pnl": -16.5,
    "feed": "angel",
-   "ltp": 402.9,
-   "pnl_pct": -0.59
+   "ltp": 402.2,
+   "pnl_pct": -0.41
   },
   {
    "id": 162,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -47.0,
+   "pnl": -4.0,
    "feed": "angel",
-   "ltp": 1498.3,
-   "pnl_pct": -0.63
+   "ltp": 1489.7,
+   "pnl_pct": -0.05
   },
   {
    "id": 163,
@@ -131,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -8.5,
+   "pnl": 22.5,
    "feed": "angel",
-   "ltp": 6283.5,
-   "pnl_pct": -0.14
+   "ltp": 6252.5,
+   "pnl_pct": 0.36
   },
   {
    "id": 164,
@@ -150,10 +150,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": 0.55,
    "feed": "angel",
-   "ltp": 844.3,
-   "pnl_pct": 0.0
+   "ltp": 844.35,
+   "pnl_pct": 0.01
   },
   {
    "id": 165,
@@ -169,10 +169,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -12.4,
    "feed": "angel",
-   "ltp": 1971.0,
-   "pnl_pct": 0.0
+   "ltp": 1958.6,
+   "pnl_pct": -0.63
   },
   {
    "id": 166,
@@ -188,10 +188,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -26.5,
    "feed": "angel",
-   "ltp": 512.4,
-   "pnl_pct": 0.0
+   "ltp": 509.75,
+   "pnl_pct": -0.52
   },
   {
    "id": 167,
@@ -207,10 +207,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -11.0,
    "feed": "angel",
-   "ltp": 9931.0,
-   "pnl_pct": 0.0
+   "ltp": 9920.0,
+   "pnl_pct": -0.11
   }
  ],
  "closed": [
