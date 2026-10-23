@@ -1,5 +1,5 @@
 {
- "updated_at": "23 Oct 2026 09:40:31 IST",
+ "updated_at": "23 Oct 2026 09:42:01 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -62,7 +62,7 @@
    "BALKRISIND": 1.43,
    "BHEL": 1.41,
    "ARE&M": 1.29,
-   "IRFC": 1.18
+   "NAVA": 1.19
   }
  },
  "engine_errors": [],
@@ -72,7 +72,7 @@
   "trades_today": 7,
   "today_pnl": -268.11,
   "realized_total": -951.07,
-  "unrealized": 99.5,
+  "unrealized": 101.2,
   "wins": 77,
   "losses": 80,
   "win_rate": 49.0,
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -4.0,
+   "pnl": -5.0,
    "feed": "angel",
-   "ltp": 400.95,
-   "pnl_pct": -0.1
+   "ltp": 401.05,
+   "pnl_pct": -0.12
   },
   {
    "id": 162,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 47.0,
+   "pnl": 59.5,
    "feed": "angel",
-   "ltp": 1479.5,
-   "pnl_pct": 0.63
+   "ltp": 1477.0,
+   "pnl_pct": 0.8
   },
   {
    "id": 163,
@@ -131,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 92.5,
+   "pnl": 80.5,
    "feed": "angel",
-   "ltp": 6182.5,
-   "pnl_pct": 1.47
+   "ltp": 6194.5,
+   "pnl_pct": 1.28
   },
   {
    "id": 165,
@@ -150,10 +150,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -36.0,
+   "pnl": -33.8,
    "feed": "angel",
-   "ltp": 1935.0,
-   "pnl_pct": -1.83
+   "ltp": 1937.2,
+   "pnl_pct": -1.71
   }
  ],
  "closed": [
