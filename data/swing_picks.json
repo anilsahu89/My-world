@@ -1,16 +1,16 @@
 {
- "updated_at": "23 Oct 2026 17:27:49 IST",
+ "updated_at": "26 Oct 2026 17:27:26 IST",
  "rule": "HM Swing (weekly): BUY RSI9>50 red<RSI green>red · SELL RSI9<50 red>RSI green<red · next open · 3w extreme SL · 2R · 15 sessions · max 5PF 1.39 · ShootingStar+VOL SELL PF 1.15 · Engulf-at-low BUY PF 1.13 | entry next open, SL=pattern extreme, target 2R, 10-session stop | max 5 concurrent",
  "note": "Candlestick CS-MARU/PINS/ENGF retired 15 Oct 2026. Same HM lines as HM Positional.Runs in the cloud (GitHub Actions) — no Mac required.",
  "end_date": "2026-12-31",
  "summary": {
-  "open": 5,
-  "pending": 0,
-  "closed": 24,
+  "open": 4,
+  "pending": 1,
+  "closed": 25,
   "wins": 7,
-  "losses": 17,
-  "win_rate": 29.2,
-  "pnl_inr": -2078.69,
+  "losses": 18,
+  "win_rate": 28.0,
+  "pnl_inr": -3015.69,
   "pnl_usd": 0
  },
  "open": [
@@ -27,7 +27,7 @@
    "entry": 1264.9,
    "sl": 1184.55,
    "tgt": 1425.6,
-   "sessions": 4,
+   "sessions": 5,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -45,7 +45,7 @@
    "entry": 468.0,
    "sl": 425.36,
    "tgt": 553.28,
-   "sessions": 4,
+   "sessions": 5,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -63,25 +63,7 @@
    "entry": 302.9,
    "sl": 272.13,
    "tgt": 364.44,
-   "sessions": 2,
-   "exit": null,
-   "reason": null,
-   "pnl": null
-  },
-  {
-   "id": 29,
-   "signal_date": "2026-10-19",
-   "market": "NSE",
-   "symbol": "GROWW",
-   "setup": "HM-BUY",
-   "side": "BUY",
-   "status": "OPEN",
-   "entry_date": "2026-10-21",
-   "qty": 50,
-   "entry": 198.0,
-   "sl": 179.26,
-   "tgt": 235.48,
-   "sessions": 2,
+   "sessions": 3,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -99,13 +81,32 @@
    "entry": 1241.0,
    "sl": 1184.55,
    "tgt": 1353.9,
-   "sessions": 2,
+   "sessions": 3,
    "exit": null,
    "reason": null,
    "pnl": null
   }
  ],
- "pending": [],
+ "pending": [
+  {
+   "id": 32,
+   "signal_date": "2026-10-26",
+   "market": "NSE",
+   "symbol": "ITCHOTELS",
+   "setup": "HM-BUY",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 152.09,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  }
+ ],
  "closed": [
   {
    "id": 1,
@@ -520,6 +521,24 @@
    "exit": 524.56,
    "reason": "SL",
    "pnl": -775.88
+  },
+  {
+   "id": 29,
+   "signal_date": "2026-10-19",
+   "market": "NSE",
+   "symbol": "GROWW",
+   "setup": "HM-BUY",
+   "side": "BUY",
+   "status": "CLOSED",
+   "entry_date": "2026-10-21",
+   "qty": 50,
+   "entry": 198.0,
+   "sl": 179.26,
+   "tgt": 235.48,
+   "sessions": 3,
+   "exit": 179.26,
+   "reason": "SL",
+   "pnl": -937.0
   },
   {
    "id": 30,

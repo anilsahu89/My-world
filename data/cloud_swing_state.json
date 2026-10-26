@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 32,
+ "next_id": 33,
  "trades": [
   {
    "id": 1,
@@ -431,7 +431,7 @@
    "entry": 1264.9,
    "sl": 1184.55,
    "tgt": 1425.6,
-   "sessions": 4,
+   "sessions": 5,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -485,7 +485,7 @@
    "entry": 468.0,
    "sl": 425.36,
    "tgt": 553.28,
-   "sessions": 4,
+   "sessions": 5,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -503,7 +503,7 @@
    "entry": 302.9,
    "sl": 272.13,
    "tgt": 364.44,
-   "sessions": 2,
+   "sessions": 3,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -515,16 +515,16 @@
    "symbol": "GROWW",
    "setup": "HM-BUY",
    "side": "BUY",
-   "status": "OPEN",
+   "status": "CLOSED",
    "entry_date": "2026-10-21",
    "qty": 50,
    "entry": 198.0,
    "sl": 179.26,
    "tgt": 235.48,
-   "sessions": 2,
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "sessions": 3,
+   "exit": 179.26,
+   "reason": "SL",
+   "pnl": -937.0
   },
   {
    "id": 30,
@@ -557,11 +557,29 @@
    "entry": 1241.0,
    "sl": 1184.55,
    "tgt": 1353.9,
-   "sessions": 2,
+   "sessions": 3,
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "id": 32,
+   "signal_date": "2026-10-26",
+   "market": "NSE",
+   "symbol": "ITCHOTELS",
+   "setup": "HM-BUY",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 152.09,
+   "tgt": null,
+   "sessions": 0,
    "exit": null,
    "reason": null,
    "pnl": null
   }
  ],
- "done_date": "2026-10-23"
+ "done_date": "2026-10-26"
 }
