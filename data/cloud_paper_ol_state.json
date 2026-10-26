@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 173,
+ "next_id": 174,
  "trades": [
   {
    "id": 1,
@@ -2881,6 +2881,26 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 173,
+   "date": "2026-10-26",
+   "setup": "oh",
+   "symbol": "CDSL",
+   "side": "SELL",
+   "qty": 8,
+   "entry_time": "10:21:32",
+   "entry_price": 1187.0,
+   "candle_stop": 1198.2,
+   "sl_price": 1204.19,
+   "reentry_seq": 1,
+   "reentry_level": 1188.5,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
   }
  ],
  "seeded": true,
@@ -2892,14 +2912,6 @@
    "side": "SELL",
    "level": 303.9,
    "stopped_at": "09:53:51",
-   "date": "2026-10-26"
-  },
-  {
-   "symbol": "CDSL",
-   "setup": "oh",
-   "side": "SELL",
-   "level": 1188.5,
-   "stopped_at": "10:07:35",
    "date": "2026-10-26"
   }
  ],

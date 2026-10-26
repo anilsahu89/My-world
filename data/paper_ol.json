@@ -1,5 +1,5 @@
 {
- "updated_at": "26 Oct 2026 10:18:30 IST",
+ "updated_at": "26 Oct 2026 10:22:04 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,12 +51,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 3,
+  "open_count": 4,
   "closed_count": 163,
-  "trades_today": 5,
+  "trades_today": 6,
   "today_pnl": -177.92,
   "realized_total": -945.39,
-  "unrealized": -135.66,
+  "unrealized": -128.28,
   "wins": 80,
   "losses": 83,
   "win_rate": 49.1,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -66.8,
+   "pnl": -54.2,
    "feed": "angel",
-   "ltp": 832.15,
-   "pnl_pct": -2.05
+   "ltp": 829.0,
+   "pnl_pct": -1.66
   },
   {
    "id": 170,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -31.36,
+   "pnl": -32.48,
    "feed": "angel",
-   "ltp": 215.0,
-   "pnl_pct": -0.92
+   "ltp": 215.07,
+   "pnl_pct": -0.95
   },
   {
    "id": 172,
@@ -115,10 +115,31 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -37.5,
+   "pnl": -36.0,
    "feed": "angel",
-   "ltp": 2759.5,
-   "pnl_pct": -1.38
+   "ltp": 2758.0,
+   "pnl_pct": -1.32
+  },
+  {
+   "id": 173,
+   "date": "2026-10-26",
+   "setup": "oh",
+   "symbol": "CDSL",
+   "side": "SELL",
+   "qty": 8,
+   "entry_time": "10:21:32",
+   "entry_price": 1187.0,
+   "candle_stop": 1198.2,
+   "sl_price": 1204.19,
+   "reentry_seq": 1,
+   "reentry_level": 1188.5,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -5.6,
+   "feed": "angel",
+   "ltp": 1187.7,
+   "pnl_pct": -0.06
   }
  ],
  "closed": [
@@ -2996,9 +3017,9 @@
   },
   {
    "date": "2026-10-26",
-   "trades": 5,
+   "trades": 6,
    "ol": 0,
-   "oh": 5,
+   "oh": 6,
    "wins": 0,
    "losses": 2,
    "pnl": -177.92,
