@@ -1,5 +1,5 @@
 {
- "updated_at": "26 Oct 2026 09:29:49 IST",
+ "updated_at": "26 Oct 2026 09:31:19 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -25,7 +25,7 @@
    "no_vol_data": 0
   },
   "oh": {
-   "low_vol": 64,
+   "low_vol": 65,
    "no_vol_data": 0
   }
  },
@@ -36,7 +36,7 @@
    "JKTYRE": 3.68,
    "CARTRADE": 2.09,
    "AFCONS": 1.67,
-   "MAHABANK": 1.61,
+   "MAHABANK": 1.64,
    "TATACONSUM": 1.61,
    "MANAPPURAM": 1.56,
    "CDSL": 1.5,
@@ -56,7 +56,7 @@
   "trades_today": 4,
   "today_pnl": 0,
   "realized_total": -767.47,
-  "unrealized": -85.08,
+  "unrealized": -128.66,
   "wins": 80,
   "losses": 81,
   "win_rate": 49.7,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -40.4,
+   "pnl": -54.4,
    "feed": "angel",
-   "ltp": 825.55,
-   "pnl_pct": -1.24
+   "ltp": 829.05,
+   "pnl_pct": -1.67
   },
   {
    "id": 169,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -42.0,
+   "pnl": -54.0,
    "feed": "angel",
-   "ltp": 302.65,
-   "pnl_pct": -0.7
+   "ltp": 303.25,
+   "pnl_pct": -0.9
   },
   {
    "id": 170,
@@ -115,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -4.48,
+   "pnl": -14.56,
    "feed": "angel",
-   "ltp": 213.32,
-   "pnl_pct": -0.13
+   "ltp": 213.95,
+   "pnl_pct": -0.43
   },
   {
    "id": 171,
@@ -134,10 +134,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 1.8,
+   "pnl": -5.7,
    "feed": "angel",
-   "ltp": 1167.0,
-   "pnl_pct": 0.05
+   "ltp": 1169.5,
+   "pnl_pct": -0.16
   }
  ],
  "closed": [
