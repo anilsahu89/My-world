@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 174,
+ "next_id": 175,
  "trades": [
   {
    "id": 1,
@@ -2901,20 +2901,31 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 174,
+   "date": "2026-10-26",
+   "setup": "oh",
+   "symbol": "JKTYRE",
+   "side": "SELL",
+   "qty": 32,
+   "entry_time": "10:41:56",
+   "entry_price": 303.85,
+   "candle_stop": 308.6,
+   "sl_price": 310.14,
+   "reentry_seq": 1,
+   "reentry_level": 303.9,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
   }
  ],
  "seeded": true,
  "f3_done_date": "2026-10-23",
- "reentry_watch": [
-  {
-   "symbol": "JKTYRE",
-   "setup": "oh",
-   "side": "SELL",
-   "level": 303.9,
-   "stopped_at": "09:53:51",
-   "date": "2026-10-26"
-  }
- ],
+ "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-10-26",
   "ol": {

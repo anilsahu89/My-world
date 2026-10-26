@@ -1,5 +1,5 @@
 {
- "updated_at": "26 Oct 2026 10:38:55 IST",
+ "updated_at": "26 Oct 2026 10:42:20 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,12 +51,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 4,
+  "open_count": 5,
   "closed_count": 163,
-  "trades_today": 6,
+  "trades_today": 7,
   "today_pnl": -177.92,
   "realized_total": -945.39,
-  "unrealized": -151.76,
+  "unrealized": -186.04,
   "wins": 80,
   "losses": 83,
   "win_rate": 49.1,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -59.4,
+   "pnl": -61.4,
    "feed": "angel",
-   "ltp": 830.3,
-   "pnl_pct": -1.82
+   "ltp": 830.8,
+   "pnl_pct": -1.88
   },
   {
    "id": 170,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -16.96,
+   "pnl": -24.64,
    "feed": "angel",
-   "ltp": 214.1,
-   "pnl_pct": -0.5
+   "ltp": 214.58,
+   "pnl_pct": -0.72
   },
   {
    "id": 172,
@@ -115,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -45.0,
+   "pnl": -32.8,
    "feed": "angel",
-   "ltp": 2767.0,
-   "pnl_pct": -1.65
+   "ltp": 2754.8,
+   "pnl_pct": -1.2
   },
   {
    "id": 173,
@@ -136,10 +136,31 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
+   "pnl": -36.8,
+   "feed": "angel",
+   "ltp": 1191.6,
+   "pnl_pct": -0.39
+  },
+  {
+   "id": 174,
+   "date": "2026-10-26",
+   "setup": "oh",
+   "symbol": "JKTYRE",
+   "side": "SELL",
+   "qty": 32,
+   "entry_time": "10:41:56",
+   "entry_price": 303.85,
+   "candle_stop": 308.6,
+   "sl_price": 310.14,
+   "reentry_seq": 1,
+   "reentry_level": 303.9,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
    "pnl": -30.4,
    "feed": "angel",
-   "ltp": 1190.8,
-   "pnl_pct": -0.32
+   "ltp": 304.8,
+   "pnl_pct": -0.31
   }
  ],
  "closed": [
@@ -3017,9 +3038,9 @@
   },
   {
    "date": "2026-10-26",
-   "trades": 6,
+   "trades": 7,
    "ol": 0,
-   "oh": 6,
+   "oh": 7,
    "wins": 0,
    "losses": 2,
    "pnl": -177.92,
