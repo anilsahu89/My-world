@@ -1,5 +1,5 @@
 {
- "updated_at": "26 Oct 2026 09:43:20 IST",
+ "updated_at": "26 Oct 2026 09:44:52 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -34,7 +34,7 @@
   "oh": {
    "SHRIRAMFIN": 3.73,
    "JKTYRE": 3.68,
-   "BATAINDIA": 2.37,
+   "BATAINDIA": 2.42,
    "CARTRADE": 2.09,
    "ASIANPAINT": 1.79,
    "MANAPPURAM": 1.75,
@@ -56,7 +56,7 @@
   "trades_today": 5,
   "today_pnl": 0,
   "realized_total": -767.47,
-  "unrealized": -121.24,
+  "unrealized": -164.6,
   "wins": 80,
   "losses": 81,
   "win_rate": 49.7,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -30.8,
+   "pnl": -38.2,
    "feed": "angel",
-   "ltp": 823.15,
-   "pnl_pct": -0.94
+   "ltp": 825.0,
+   "pnl_pct": -1.17
   },
   {
    "id": 169,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -53.0,
+   "pnl": -67.0,
    "feed": "angel",
-   "ltp": 303.2,
-   "pnl_pct": -0.88
+   "ltp": 303.9,
+   "pnl_pct": -1.11
   },
   {
    "id": 170,
@@ -115,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -16.64,
+   "pnl": -26.4,
    "feed": "angel",
-   "ltp": 214.08,
-   "pnl_pct": -0.49
+   "ltp": 214.69,
+   "pnl_pct": -0.77
   },
   {
    "id": 171,
@@ -134,10 +134,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -1.2,
+   "pnl": -5.7,
    "feed": "angel",
-   "ltp": 1168.0,
-   "pnl_pct": -0.03
+   "ltp": 1169.5,
+   "pnl_pct": -0.16
   },
   {
    "id": 172,
@@ -153,10 +153,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -19.6,
+   "pnl": -27.3,
    "feed": "angel",
-   "ltp": 2741.6,
-   "pnl_pct": -0.72
+   "ltp": 2749.3,
+   "pnl_pct": -1.0
   }
  ],
  "closed": [
