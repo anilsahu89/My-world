@@ -1,5 +1,5 @@
 {
- "updated_at": "26 Oct 2026 09:26:50 IST",
+ "updated_at": "26 Oct 2026 09:28:22 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -39,7 +39,7 @@
    "TATACONSUM": 1.61,
    "MAHABANK": 1.6,
    "CDSL": 1.5,
-   "MANAPPURAM": 1.44,
+   "MANAPPURAM": 1.5,
    "VEDL": 1.44,
    "BANDHANBNK": 1.4,
    "NAVINFLUOR": 1.39,
@@ -56,7 +56,7 @@
   "trades_today": 4,
   "today_pnl": 0,
   "realized_total": -767.47,
-  "unrealized": 44.64,
+  "unrealized": 19.28,
   "wins": 80,
   "losses": 81,
   "win_rate": 49.7,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 13.4,
+   "pnl": 0.8,
    "feed": "angel",
-   "ltp": 812.1,
-   "pnl_pct": 0.41
+   "ltp": 815.25,
+   "pnl_pct": 0.02
   },
   {
    "id": 169,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": -20.0,
    "feed": "angel",
-   "ltp": 300.55,
-   "pnl_pct": -0.0
+   "ltp": 301.55,
+   "pnl_pct": -0.33
   },
   {
    "id": 170,
@@ -115,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 10.24,
+   "pnl": 22.88,
    "feed": "angel",
-   "ltp": 212.4,
-   "pnl_pct": 0.3
+   "ltp": 211.61,
+   "pnl_pct": 0.67
   },
   {
    "id": 171,
@@ -134,10 +134,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 21.0,
+   "pnl": 15.6,
    "feed": "angel",
-   "ltp": 1160.6,
-   "pnl_pct": 0.6
+   "ltp": 1162.4,
+   "pnl_pct": 0.45
   }
  ],
  "closed": [
