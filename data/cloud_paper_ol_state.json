@@ -2971,17 +2971,26 @@
    "sl_price": 2823.15,
    "reentry_seq": 1,
    "reentry_level": 2800.0,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "14:15:00",
+   "exit_price": 2809.9,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -51.9,
+   "status": "CLOSED",
    "feed": "angel"
   }
  ],
  "seeded": true,
  "f3_done_date": "2026-10-26",
- "reentry_watch": [],
+ "reentry_watch": [
+  {
+   "symbol": "CARTRADE",
+   "setup": "oh",
+   "side": "SELL",
+   "level": 2809.1,
+   "stopped_at": "14:15:00",
+   "date": "2026-10-26"
+  }
+ ],
  "vol_blocked": {
   "date": "2026-10-26",
   "ol": {
