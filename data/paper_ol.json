@@ -1,5 +1,5 @@
 {
- "updated_at": "26 Oct 2026 12:19:25 IST",
+ "updated_at": "26 Oct 2026 12:23:18 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,12 +51,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 5,
+  "open_count": 7,
   "closed_count": 163,
-  "trades_today": 7,
+  "trades_today": 9,
   "today_pnl": -177.92,
   "realized_total": -945.39,
-  "unrealized": 58.84,
+  "unrealized": 79.52,
   "wins": 80,
   "losses": 83,
   "win_rate": 49.1,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -24.6,
+   "pnl": -26.8,
    "feed": "angel",
-   "ltp": 821.6,
-   "pnl_pct": -0.75
+   "ltp": 822.15,
+   "pnl_pct": -0.82
   },
   {
    "id": 170,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -4.96,
+   "pnl": -6.08,
    "feed": "angel",
-   "ltp": 213.35,
-   "pnl_pct": -0.15
+   "ltp": 213.42,
+   "pnl_pct": -0.18
   },
   {
    "id": 172,
@@ -115,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -20.4,
+   "pnl": -16.4,
    "feed": "angel",
-   "ltp": 2742.4,
-   "pnl_pct": -0.75
+   "ltp": 2738.4,
+   "pnl_pct": -0.6
   },
   {
    "id": 173,
@@ -136,10 +136,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -9.6,
+   "pnl": -4.0,
    "feed": "angel",
-   "ltp": 1188.2,
-   "pnl_pct": -0.1
+   "ltp": 1187.5,
+   "pnl_pct": -0.04
   },
   {
    "id": 174,
@@ -157,10 +157,48 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 118.4,
+   "pnl": 132.8,
    "feed": "angel",
-   "ltp": 300.15,
-   "pnl_pct": 1.22
+   "ltp": 299.7,
+   "pnl_pct": 1.37
+  },
+  {
+   "id": 175,
+   "date": "2026-10-26",
+   "setup": "f3",
+   "symbol": "IDEA",
+   "side": "BUY",
+   "qty": 124,
+   "entry_time": "12:22:26",
+   "entry_price": 11.97,
+   "sl_price": 11.16,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 2.6,
+   "ltp": 11.97,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 176,
+   "date": "2026-10-26",
+   "setup": "f3",
+   "symbol": "GMRAIRPORT",
+   "side": "BUY",
+   "qty": 28,
+   "entry_time": "12:22:26",
+   "entry_price": 88.43,
+   "sl_price": 84.94,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 2.16,
+   "ltp": 88.43,
+   "pnl_pct": 0.0
   }
  ],
  "closed": [
@@ -3038,7 +3076,7 @@
   },
   {
    "date": "2026-10-26",
-   "trades": 7,
+   "trades": 9,
    "ol": 0,
    "oh": 7,
    "wins": 0,
