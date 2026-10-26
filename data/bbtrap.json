@@ -1,10 +1,28 @@
 {
- "fetched_at": "2026-10-26 14:52:26",
- "latest_date": "2026-10-23",
+ "fetched_at": "2026-10-26 17:29:37",
+ "latest_date": "2026-10-26",
  "universe_count": 197,
- "shorts_count": 0,
- "longs_count": 2,
- "shorts": [],
+ "shorts_count": 1,
+ "longs_count": 5,
+ "shorts": [
+  {
+   "kind": "bb",
+   "type": "SHORT",
+   "symbol": "TCS",
+   "entry_price": 2530.0,
+   "sl_price": 2546.2,
+   "target_price": 2486.8,
+   "rr": 2.7,
+   "wick_pct": 53,
+   "vol_multiple": 1.6,
+   "rsi": 85,
+   "rsi_pass": true,
+   "primary_range": 54.0,
+   "primary_date": "2026-10-22",
+   "alert_date": "2026-10-23",
+   "score": 42.6
+  }
+ ],
  "longs": [
   {
    "kind": "bb",
@@ -26,6 +44,40 @@
   {
    "kind": "bb",
    "type": "LONG",
+   "symbol": "CGPOWER",
+   "entry_price": 813.35,
+   "sl_price": 802.05,
+   "target_price": 835.95,
+   "rr": 2.0,
+   "wick_pct": 64,
+   "vol_multiple": 5.5,
+   "rsi": 37,
+   "rsi_pass": false,
+   "primary_range": 22.6,
+   "primary_date": "2026-10-22",
+   "alert_date": "2026-10-23",
+   "score": 34.2
+  },
+  {
+   "kind": "bb",
+   "type": "LONG",
+   "symbol": "GVT&D",
+   "entry_price": 3700.0,
+   "sl_price": 3634.45,
+   "target_price": 3831.1,
+   "rr": 2.0,
+   "wick_pct": 70,
+   "vol_multiple": 3.1,
+   "rsi": 17,
+   "rsi_pass": false,
+   "primary_range": 131.1,
+   "primary_date": "2026-10-22",
+   "alert_date": "2026-10-23",
+   "score": 29.7
+  },
+  {
+   "kind": "bb",
+   "type": "LONG",
    "symbol": "ALKEM",
    "entry_price": 5015.0,
    "sl_price": 4953.0,
@@ -39,6 +91,23 @@
    "primary_date": "2026-10-19",
    "alert_date": "2026-10-21",
    "score": 28.6
+  },
+  {
+   "kind": "bb",
+   "type": "LONG",
+   "symbol": "RADICO",
+   "entry_price": 4157.3,
+   "sl_price": 4086.15,
+   "target_price": 4299.6,
+   "rr": 2.0,
+   "wick_pct": 75,
+   "vol_multiple": 1.6,
+   "rsi": 46,
+   "rsi_pass": false,
+   "primary_range": 142.3,
+   "primary_date": "2026-10-22",
+   "alert_date": "2026-10-23",
+   "score": 27.0
   }
  ]
 }
