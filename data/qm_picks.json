@@ -1,30 +1,102 @@
 {
- "date": "2026-10-23",
- "updated_at": "23 Oct 2026 17:20:24 IST",
+ "date": "2026-10-26",
+ "updated_at": "26 Oct 2026 16:46:14 IST",
  "nifty_gate": {
   "hm_buy_state": false,
-  "above_sma20": false,
+  "above_sma20": true,
   "note": "informational only — entry gates removed 1 Oct (RS-50 is the filter)"
  },
  "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM buy state) · 52-week closing high (vol ≥1.5x) · BB Blast squeeze on daily/weekly/monthly (NIFTY > SMA20) · 50-day return must beat NIFTY (RS-50 gate) · NIFTY-500 · ₹5cr turnover · entries capped 2/day by the desk",
  "signals": [
   {
-   "sym": "GILLETTE",
+   "sym": "ACUTAAS",
    "setup": "QM-HM",
-   "rsi": 63.9,
-   "note": "RSI9 64 V-turn above rising SMA20",
-   "close": 7220.0,
-   "date": "2026-10-23",
-   "rs50": 0.945
+   "rsi": 65.7,
+   "note": "RSI9 66 V-turn above rising SMA20",
+   "close": 3348.8,
+   "date": "2026-10-26",
+   "rs50": 1.062
   },
   {
-   "sym": "ANANDRATHI",
+   "sym": "MPHASIS",
+   "setup": "QM-HM",
+   "rsi": 72.4,
+   "note": "RSI9 72 V-turn above rising SMA20",
+   "close": 2557.6,
+   "date": "2026-10-26",
+   "rs50": 1.008
+  },
+  {
+   "sym": "COFORGE",
+   "setup": "QM-HM",
+   "rsi": 74.1,
+   "note": "RSI9 74 V-turn above rising SMA20",
+   "close": 1993.0,
+   "date": "2026-10-26",
+   "rs50": 1.106
+  },
+  {
+   "sym": "TECHM",
+   "setup": "QM-HM",
+   "rsi": 87.2,
+   "note": "RSI9 87 V-turn above rising SMA20",
+   "close": 1795.0,
+   "date": "2026-10-26",
+   "rs50": 1.105
+  },
+  {
+   "sym": "ATHERENERG",
+   "setup": "QM-HM",
+   "rsi": 59.6,
+   "note": "RSI9 60 V-turn above rising SMA20",
+   "close": 1575.0,
+   "date": "2026-10-26",
+   "rs50": 1.004
+  },
+  {
+   "sym": "ZENSARTECH",
+   "setup": "QM-HM",
+   "rsi": 78.8,
+   "note": "RSI9 79 V-turn above rising SMA20",
+   "close": 505.3,
+   "date": "2026-10-26",
+   "rs50": 1.022
+  },
+  {
+   "sym": "FEDERALBNK",
+   "setup": "QM-HM",
+   "rsi": 70.4,
+   "note": "RSI9 70 V-turn above rising SMA20",
+   "close": 344.4,
+   "date": "2026-10-26",
+   "rs50": 0.965
+  },
+  {
+   "sym": "BSOFT",
+   "setup": "QM-HM",
+   "rsi": 74.5,
+   "note": "RSI9 75 V-turn above rising SMA20",
+   "close": 306.6,
+   "date": "2026-10-26",
+   "rs50": 0.979
+  },
+  {
+   "sym": "PNB",
+   "setup": "QM-HM",
+   "rsi": 65.2,
+   "note": "RSI9 65 V-turn above rising SMA20",
+   "close": 120.89,
+   "date": "2026-10-26",
+   "rs50": 1.016
+  },
+  {
+   "sym": "IGIL",
    "setup": "QM-52W",
-   "rsi": 100.0,
-   "note": "new 52w closing high 2235.0, vol 1.9x",
-   "close": 2235.0,
-   "date": "2026-10-23",
-   "rs50": 1.036
+   "rsi": 92.0,
+   "note": "new 52w closing high 385.3, vol 2.0x",
+   "close": 385.3,
+   "date": "2026-10-26",
+   "rs50": 1.123
   }
  ]
 }
