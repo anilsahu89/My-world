@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 177,
+ "next_id": 178,
  "trades": [
   {
    "id": 1,
@@ -2957,20 +2957,31 @@
    "status": "OPEN",
    "feed": "angel-f3",
    "drive_pct": 2.16
+  },
+  {
+   "id": 177,
+   "date": "2026-10-26",
+   "setup": "oh",
+   "symbol": "CARTRADE",
+   "side": "SELL",
+   "qty": 3,
+   "entry_time": "13:43:09",
+   "entry_price": 2792.6,
+   "candle_stop": 2809.1,
+   "sl_price": 2823.15,
+   "reentry_seq": 1,
+   "reentry_level": 2800.0,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
   }
  ],
  "seeded": true,
  "f3_done_date": "2026-10-26",
- "reentry_watch": [
-  {
-   "symbol": "CARTRADE",
-   "setup": "oh",
-   "side": "SELL",
-   "level": 2800.0,
-   "stopped_at": "13:35:00",
-   "date": "2026-10-26"
-  }
- ],
+ "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-10-26",
   "ol": {
