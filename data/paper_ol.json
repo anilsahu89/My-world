@@ -1,5 +1,5 @@
 {
- "updated_at": "26 Oct 2026 09:50:50 IST",
+ "updated_at": "26 Oct 2026 09:54:21 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,15 +51,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 5,
-  "closed_count": 161,
+  "open_count": 4,
+  "closed_count": 162,
   "trades_today": 5,
-  "today_pnl": 0,
-  "realized_total": -767.47,
-  "unrealized": -157.16,
+  "today_pnl": -97.4,
+  "realized_total": -864.87,
+  "unrealized": -148.0,
   "wins": 80,
-  "losses": 81,
-  "win_rate": 49.7,
+  "losses": 82,
+  "win_rate": 49.4,
   "days": 23
  },
  "open": [
@@ -77,29 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -36.2,
+   "pnl": -38.6,
    "feed": "angel",
-   "ltp": 824.5,
-   "pnl_pct": -1.11
-  },
-  {
-   "id": 169,
-   "date": "2026-10-26",
-   "setup": "oh",
-   "symbol": "JKTYRE",
-   "side": "SELL",
-   "qty": 20,
-   "entry_time": "09:24:00",
-   "entry_price": 300.55,
-   "candle_stop": 303.9,
-   "sl_price": 305.42,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -70.0,
-   "feed": "angel",
-   "ltp": 304.05,
-   "pnl_pct": -1.16
+   "ltp": 825.1,
+   "pnl_pct": -1.18
   },
   {
    "id": 170,
@@ -115,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -20.96,
+   "pnl": -38.4,
    "feed": "angel",
-   "ltp": 214.35,
-   "pnl_pct": -0.61
+   "ltp": 215.44,
+   "pnl_pct": -1.13
   },
   {
    "id": 171,
@@ -134,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -10.2,
+   "pnl": -38.1,
    "feed": "angel",
-   "ltp": 1171.0,
-   "pnl_pct": -0.29
+   "ltp": 1180.3,
+   "pnl_pct": -1.09
   },
   {
    "id": 172,
@@ -153,13 +134,30 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -19.8,
+   "pnl": -32.9,
    "feed": "angel",
-   "ltp": 2741.8,
-   "pnl_pct": -0.73
+   "ltp": 2754.9,
+   "pnl_pct": -1.21
   }
  ],
  "closed": [
+  {
+   "id": 169,
+   "date": "2026-10-26",
+   "setup": "oh",
+   "symbol": "JKTYRE",
+   "side": "SELL",
+   "qty": 20,
+   "entry_time": "09:24:00",
+   "entry_price": 300.55,
+   "candle_stop": 303.9,
+   "sl_price": 305.42,
+   "exit_time": "09:53:51",
+   "exit_price": 305.42,
+   "reason": "SL",
+   "pnl": -97.4,
+   "feed": "angel"
+  },
   {
    "id": 164,
    "date": "2026-10-23",
@@ -3004,9 +3002,9 @@
    "ol": 0,
    "oh": 5,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -767.47
+   "losses": 1,
+   "pnl": -97.4,
+   "cum": -864.87
   }
  ]
 }
