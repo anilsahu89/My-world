@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 190,
+ "next_id": 191,
  "trades": [
   {
    "id": 1,
@@ -3197,6 +3197,26 @@
    "pnl": -42.4,
    "status": "CLOSED",
    "feed": "angel"
+  },
+  {
+   "id": 190,
+   "date": "2026-10-27",
+   "setup": "oh",
+   "symbol": "PFIZER",
+   "side": "SELL",
+   "qty": 2,
+   "entry_time": "12:06:47",
+   "entry_price": 3696.7,
+   "candle_stop": 3704.5,
+   "sl_price": 3723.02,
+   "reentry_seq": 1,
+   "reentry_level": 3699.1,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
   }
  ],
  "seeded": true,
@@ -3208,22 +3228,6 @@
    "side": "SELL",
    "level": 533.95,
    "stopped_at": "11:49:42",
-   "date": "2026-10-27"
-  },
-  {
-   "symbol": "PFIZER",
-   "setup": "oh",
-   "side": "SELL",
-   "level": 3699.1,
-   "stopped_at": "12:00:00",
-   "date": "2026-10-27"
-  },
-  {
-   "symbol": "PIIND",
-   "setup": "oh",
-   "side": "SELL",
-   "level": 2036.8,
-   "stopped_at": "12:00:00",
    "date": "2026-10-27"
   }
  ],
