@@ -3151,11 +3151,11 @@
    "entry_price": 717.2,
    "candle_stop": 699.0,
    "sl_price": 695.5,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "10:47:51",
+   "exit_price": 715.35,
+   "reason": "TSTOP",
+   "pnl": -7.4,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {

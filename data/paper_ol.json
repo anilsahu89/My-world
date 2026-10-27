@@ -1,5 +1,5 @@
 {
- "updated_at": "27 Oct 2026 10:44:49 IST",
+ "updated_at": "27 Oct 2026 10:48:16 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -67,15 +67,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 8,
-  "closed_count": 174,
+  "open_count": 7,
+  "closed_count": 175,
   "trades_today": 11,
-  "today_pnl": -248.3,
-  "realized_total": -1352.41,
-  "unrealized": -60.25,
+  "today_pnl": -255.7,
+  "realized_total": -1359.81,
+  "unrealized": -54.85,
   "wins": 83,
-  "losses": 91,
-  "win_rate": 47.7,
+  "losses": 92,
+  "win_rate": 47.4,
   "days": 24
  },
  "open": [
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.6,
+   "pnl": -1.8,
    "feed": "angel",
-   "ltp": 1393.4,
-   "pnl_pct": -0.01
+   "ltp": 1393.6,
+   "pnl_pct": -0.02
   },
   {
    "id": 180,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -29.7,
+   "pnl": -28.8,
    "feed": "angel",
-   "ltp": 3684.5,
-   "pnl_pct": -0.81
+   "ltp": 3683.6,
+   "pnl_pct": -0.79
   },
   {
    "id": 181,
@@ -150,10 +150,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -47.4,
+   "pnl": -54.6,
    "feed": "angel",
-   "ltp": 2027.8,
-   "pnl_pct": -0.79
+   "ltp": 2030.2,
+   "pnl_pct": -0.9
   },
   {
    "id": 185,
@@ -169,10 +169,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 53.0,
+   "pnl": 58.6,
    "feed": "angel",
-   "ltp": 1662.5,
-   "pnl_pct": 1.62
+   "ltp": 1665.3,
+   "pnl_pct": 1.79
   },
   {
    "id": 186,
@@ -194,25 +194,6 @@
    "pnl_pct": 0.43
   },
   {
-   "id": 187,
-   "date": "2026-10-27",
-   "setup": "ol",
-   "symbol": "CHOICEIN",
-   "side": "BUY",
-   "qty": 4,
-   "entry_time": "09:28:14",
-   "entry_price": 717.2,
-   "candle_stop": 699.0,
-   "sl_price": 695.5,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -8.0,
-   "feed": "angel",
-   "ltp": 715.2,
-   "pnl_pct": -0.28
-  },
-  {
    "id": 188,
    "date": "2026-10-27",
    "setup": "oh",
@@ -228,10 +209,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -2.1,
+   "pnl": -2.8,
    "feed": "angel",
-   "ltp": 687.65,
-   "pnl_pct": -0.02
+   "ltp": 687.7,
+   "pnl_pct": -0.03
   }
  ],
  "closed": [
@@ -267,6 +248,23 @@
    "exit_price": 76.61,
    "reason": "SL",
    "pnl": -98.21,
+   "feed": "angel"
+  },
+  {
+   "id": 187,
+   "date": "2026-10-27",
+   "setup": "ol",
+   "symbol": "CHOICEIN",
+   "side": "BUY",
+   "qty": 4,
+   "entry_time": "09:28:14",
+   "entry_price": 717.2,
+   "candle_stop": 699.0,
+   "sl_price": 695.5,
+   "exit_time": "10:47:51",
+   "exit_price": 715.35,
+   "reason": "TSTOP",
+   "pnl": -7.4,
    "feed": "angel"
   },
   {
@@ -3314,9 +3312,9 @@
    "ol": 5,
    "oh": 6,
    "wins": 0,
-   "losses": 3,
-   "pnl": -248.3,
-   "cum": -1352.41
+   "losses": 4,
+   "pnl": -255.7,
+   "cum": -1359.81
   }
  ]
 }
