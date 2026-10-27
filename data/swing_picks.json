@@ -1,11 +1,11 @@
 {
- "updated_at": "26 Oct 2026 17:27:26 IST",
+ "updated_at": "27 Oct 2026 17:27:41 IST",
  "rule": "HM Swing (weekly): BUY RSI9>50 red<RSI green>red · SELL RSI9<50 red>RSI green<red · next open · 3w extreme SL · 2R · 15 sessions · max 5PF 1.39 · ShootingStar+VOL SELL PF 1.15 · Engulf-at-low BUY PF 1.13 | entry next open, SL=pattern extreme, target 2R, 10-session stop | max 5 concurrent",
  "note": "Candlestick CS-MARU/PINS/ENGF retired 15 Oct 2026. Same HM lines as HM Positional.Runs in the cloud (GitHub Actions) — no Mac required.",
  "end_date": "2026-12-31",
  "summary": {
-  "open": 4,
-  "pending": 1,
+  "open": 5,
+  "pending": 0,
   "closed": 25,
   "wins": 7,
   "losses": 18,
@@ -27,7 +27,7 @@
    "entry": 1264.9,
    "sl": 1184.55,
    "tgt": 1425.6,
-   "sessions": 5,
+   "sessions": 6,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -45,7 +45,7 @@
    "entry": 468.0,
    "sl": 425.36,
    "tgt": 553.28,
-   "sessions": 5,
+   "sessions": 6,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -63,7 +63,7 @@
    "entry": 302.9,
    "sl": 272.13,
    "tgt": 364.44,
-   "sessions": 3,
+   "sessions": 4,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -81,13 +81,11 @@
    "entry": 1241.0,
    "sl": 1184.55,
    "tgt": 1353.9,
-   "sessions": 3,
+   "sessions": 4,
    "exit": null,
    "reason": null,
    "pnl": null
-  }
- ],
- "pending": [
+  },
   {
    "id": 32,
    "signal_date": "2026-10-26",
@@ -95,18 +93,19 @@
    "symbol": "ITCHOTELS",
    "setup": "HM-BUY",
    "side": "BUY",
-   "status": "PENDING",
-   "entry_date": null,
-   "qty": null,
-   "entry": null,
+   "status": "OPEN",
+   "entry_date": "2026-10-27",
+   "qty": 59,
+   "entry": 169.0,
    "sl": 152.09,
-   "tgt": null,
+   "tgt": 202.82,
    "sessions": 0,
    "exit": null,
    "reason": null,
    "pnl": null
   }
  ],
+ "pending": [],
  "closed": [
   {
    "id": 1,
