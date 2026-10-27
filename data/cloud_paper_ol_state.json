@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 189,
+ "next_id": 190,
  "trades": [
   {
    "id": 1,
@@ -3177,20 +3177,31 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 189,
+   "date": "2026-10-27",
+   "setup": "oh",
+   "symbol": "PIIND",
+   "side": "SELL",
+   "qty": 4,
+   "entry_time": "11:05:02",
+   "entry_price": 2027.4,
+   "candle_stop": 2036.8,
+   "sl_price": 2046.98,
+   "reentry_seq": 1,
+   "reentry_level": 2030.0,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
   }
  ],
  "seeded": true,
  "f3_done_date": "2026-10-26",
- "reentry_watch": [
-  {
-   "symbol": "PIIND",
-   "setup": "oh",
-   "side": "SELL",
-   "level": 2030.0,
-   "stopped_at": "10:50:00",
-   "date": "2026-10-27"
-  }
- ],
+ "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-10-27",
   "ol": {
