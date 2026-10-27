@@ -1,5 +1,5 @@
 {
- "updated_at": "27 Oct 2026 10:48:16 IST",
+ "updated_at": "27 Oct 2026 10:51:41 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -67,15 +67,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 7,
-  "closed_count": 175,
+  "open_count": 6,
+  "closed_count": 176,
   "trades_today": 11,
-  "today_pnl": -255.7,
-  "realized_total": -1359.81,
-  "unrealized": -54.85,
+  "today_pnl": -315.4,
+  "realized_total": -1419.51,
+  "unrealized": -15.4,
   "wins": 83,
-  "losses": 92,
-  "win_rate": 47.4,
+  "losses": 93,
+  "win_rate": 47.2,
   "days": 24
  },
  "open": [
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -1.8,
+   "pnl": -4.8,
    "feed": "angel",
-   "ltp": 1393.6,
-   "pnl_pct": -0.02
+   "ltp": 1394.1,
+   "pnl_pct": -0.06
   },
   {
    "id": 180,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -28.8,
+   "pnl": -34.8,
    "feed": "angel",
-   "ltp": 3683.6,
-   "pnl_pct": -0.79
+   "ltp": 3689.6,
+   "pnl_pct": -0.95
   },
   {
    "id": 181,
@@ -131,29 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -40.15,
+   "pnl": -51.7,
    "feed": "angel",
-   "ltp": 531.6,
-   "pnl_pct": -0.69
-  },
-  {
-   "id": 182,
-   "date": "2026-10-27",
-   "setup": "oh",
-   "symbol": "PIIND",
-   "side": "SELL",
-   "qty": 3,
-   "entry_time": "09:21:35",
-   "entry_price": 2012.0,
-   "candle_stop": 2030.0,
-   "sl_price": 2040.15,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -54.6,
-   "feed": "angel",
-   "ltp": 2030.2,
-   "pnl_pct": -0.9
+   "ltp": 532.65,
+   "pnl_pct": -0.89
   },
   {
    "id": 185,
@@ -169,10 +150,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 58.6,
+   "pnl": 68.0,
    "feed": "angel",
-   "ltp": 1665.3,
-   "pnl_pct": 1.79
+   "ltp": 1670.0,
+   "pnl_pct": 2.08
   },
   {
    "id": 186,
@@ -188,10 +169,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 14.7,
+   "pnl": 13.5,
    "feed": "angel",
-   "ltp": 1144.8,
-   "pnl_pct": 0.43
+   "ltp": 1144.4,
+   "pnl_pct": 0.39
   },
   {
    "id": 188,
@@ -209,10 +190,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -2.8,
+   "pnl": -5.6,
    "feed": "angel",
-   "ltp": 687.7,
-   "pnl_pct": -0.03
+   "ltp": 687.9,
+   "pnl_pct": -0.06
   }
  ],
  "closed": [
@@ -282,6 +263,23 @@
    "exit_price": 689.85,
    "reason": "CANDLE-CLOSE",
    "pnl": -52.65,
+   "feed": "angel"
+  },
+  {
+   "id": 182,
+   "date": "2026-10-27",
+   "setup": "oh",
+   "symbol": "PIIND",
+   "side": "SELL",
+   "qty": 3,
+   "entry_time": "09:21:35",
+   "entry_price": 2012.0,
+   "candle_stop": 2030.0,
+   "sl_price": 2040.15,
+   "exit_time": "10:50:00",
+   "exit_price": 2031.9,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -59.7,
    "feed": "angel"
   },
   {
@@ -3312,9 +3310,9 @@
    "ol": 5,
    "oh": 6,
    "wins": 0,
-   "losses": 4,
-   "pnl": -255.7,
-   "cum": -1359.81
+   "losses": 5,
+   "pnl": -315.4,
+   "cum": -1419.51
   }
  ]
 }

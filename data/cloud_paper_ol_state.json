@@ -3061,11 +3061,11 @@
    "entry_price": 2012.0,
    "candle_stop": 2030.0,
    "sl_price": 2040.15,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "10:50:00",
+   "exit_price": 2031.9,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -59.7,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {
@@ -3181,7 +3181,16 @@
  ],
  "seeded": true,
  "f3_done_date": "2026-10-26",
- "reentry_watch": [],
+ "reentry_watch": [
+  {
+   "symbol": "PIIND",
+   "setup": "oh",
+   "side": "SELL",
+   "level": 2030.0,
+   "stopped_at": "10:50:00",
+   "date": "2026-10-27"
+  }
+ ],
  "vol_blocked": {
   "date": "2026-10-27",
   "ol": {
