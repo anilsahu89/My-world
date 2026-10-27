@@ -1,7 +1,7 @@
 {
   "strategy": "nifty-premium-mill",
-  "scanned_at": "2026-10-26 09:25:19 IST",
-  "scan_date": "2026-10-26",
+  "scanned_at": "2026-10-27 09:23:37 IST",
+  "scan_date": "2026-10-27",
   "trades": [
     {
       "entry_date": "2026-10-12",
@@ -146,12 +146,38 @@
       "long_premium": "28.15",
       "net_credit": "18.45",
       "sma": "22890.9",
-      "status": "OPEN",
-      "exit_date": "",
-      "exit_reason": "",
+      "status": "CLOSED",
+      "exit_date": "2026-10-27",
+      "exit_reason": "expiry",
       "mark_credit": "18.45",
       "live_pnl": "0.0",
       "mark_date": "2026-10-26",
+      "exit_short_prem": "90.4",
+      "exit_long_prem": "52.75",
+      "pnl": "1383.75",
+      "holding_days": "1",
+      "spot_exit": "22697.8",
+      "notes": ""
+    },
+    {
+      "entry_date": "2026-10-27",
+      "direction": "BEAR_CALL",
+      "opt_type": "CE",
+      "short_strike": "22950.0",
+      "long_strike": "23050.0",
+      "expiry": "2026-11-03",
+      "spot_entry": "22697.8",
+      "vix_entry": "17.4",
+      "short_premium": "140.8",
+      "long_premium": "105.1",
+      "net_credit": "35.7",
+      "sma": "22843.7",
+      "status": "OPEN",
+      "exit_date": "",
+      "exit_reason": "",
+      "mark_credit": "35.7",
+      "live_pnl": "0.0",
+      "mark_date": "2026-10-27",
       "exit_short_prem": "",
       "exit_long_prem": "",
       "pnl": "",
@@ -164,7 +190,7 @@
   "status": "new_signal",
   "report": {
     "open_position": "",
-    "net_pnl": "5 trades | WR 60% | Net P&L \u20b9-4,950"
+    "net_pnl": "6 trades | WR 67% | Net P&L \u20b9-3,566"
   },
-  "text_report": "==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL UPDATE \u2014 Mon, 26 Oct 2026\n==========================================================================================\n\n  Checking open positions...\n  \u2705 EXIT: BEAR_CALL 22850.0/22950.0 \u2192 profit_target | P&L \u20b91,099\n\n  Checking for new signal...\n  \u2705 SIGNAL: BEAR_CALL 22700.0/22800.0 CE | Credit \u20b918.5 | VIX 17.9\n\n  \u2705 ENTERED: BEAR_CALL\n     Sell 22700.0 CE @ \u20b946.6\n     Buy  22800.0 CE @ \u20b928.15\n     Net credit: \u20b918.45 | Expiry: 2026-10-27\n\n==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL \u2014 PAPER TRADES\n  Rules: Tuesday entry | VIX 10.0-18.0 | 250OTM | 100pt spread | 50% target\n==========================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit Expiry         VIX     Spot\n  -------------------------------------------------------------------------------------\n  2026-10-26   BEAR_CALL  22700.0 22800.0 CE   \u20b9  18.4 2026-10-27   17.9  22402.8\n\n  \ud83d\udd34 CLOSED TRADES (5):\n  Entry        Exit         Dir        Reason            Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-10-12   2026-10-13   BEAR_CALL  expiry           \u20b9   3.8 \u20b9     281    1d \u2705\n  2026-10-13   2026-10-16   BEAR_CALL  sl_strike_hit    \u20b9  29.8 \u20b9   -3458    3d \u274c\n  2026-10-16   2026-10-19   BEAR_CALL  expiry           \u20b9   9.0 \u20b9     675    3d \u2705\n  2026-10-19   2026-10-22   BULL_PUT   sl_strike_hit    \u20b9  20.9 \u20b9   -3548    3d \u274c\n  2026-10-22   2026-10-26   BEAR_CALL  profit_target    \u20b9  23.4 \u20b9    1099    4d \u2705\n\n  \ud83d\udcc8 SUMMARY: 5 trades | WR 60% | Net P&L \u20b9-4,950"
+  "text_report": "==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL UPDATE \u2014 Tue, 27 Oct 2026\n==========================================================================================\n\n  Checking open positions...\n  \u2705 EXIT: BEAR_CALL 22700.0/22800.0 \u2192 expiry | P&L \u20b91,384\n\n  Checking for new signal...\n  \u2705 SIGNAL: BEAR_CALL 22950.0/23050.0 CE | Credit \u20b935.7 | VIX 17.4\n\n  \u2705 ENTERED: BEAR_CALL\n     Sell 22950.0 CE @ \u20b9140.8\n     Buy  23050.0 CE @ \u20b9105.1\n     Net credit: \u20b935.7 | Expiry: 2026-11-03\n\n==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL \u2014 PAPER TRADES\n  Rules: Tuesday entry | VIX 10.0-18.0 | 250OTM | 100pt spread | 50% target\n==========================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit Expiry         VIX     Spot\n  -------------------------------------------------------------------------------------\n  2026-10-27   BEAR_CALL  22950.0 23050.0 CE   \u20b9  35.7 2026-11-03   17.4  22697.8\n\n  \ud83d\udd34 CLOSED TRADES (6):\n  Entry        Exit         Dir        Reason            Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-10-12   2026-10-13   BEAR_CALL  expiry           \u20b9   3.8 \u20b9     281    1d \u2705\n  2026-10-13   2026-10-16   BEAR_CALL  sl_strike_hit    \u20b9  29.8 \u20b9   -3458    3d \u274c\n  2026-10-16   2026-10-19   BEAR_CALL  expiry           \u20b9   9.0 \u20b9     675    3d \u2705\n  2026-10-19   2026-10-22   BULL_PUT   sl_strike_hit    \u20b9  20.9 \u20b9   -3548    3d \u274c\n  2026-10-22   2026-10-26   BEAR_CALL  profit_target    \u20b9  23.4 \u20b9    1099    4d \u2705\n  2026-10-26   2026-10-27   BEAR_CALL  expiry           \u20b9  18.4 \u20b9    1384    1d \u2705\n\n  \ud83d\udcc8 SUMMARY: 6 trades | WR 67% | Net P&L \u20b9-3,566"
 }
