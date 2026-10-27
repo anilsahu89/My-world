@@ -1,5 +1,5 @@
 {
- "updated_at": "27 Oct 2026 10:37:56 IST",
+ "updated_at": "27 Oct 2026 10:41:22 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -67,15 +67,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 9,
-  "closed_count": 173,
+  "open_count": 8,
+  "closed_count": 174,
   "trades_today": 11,
-  "today_pnl": -150.86,
-  "realized_total": -1254.97,
-  "unrealized": -143.16,
+  "today_pnl": -248.3,
+  "realized_total": -1352.41,
+  "unrealized": -78.9,
   "wins": 83,
-  "losses": 90,
-  "win_rate": 48.0,
+  "losses": 91,
+  "win_rate": 47.7,
   "days": 24
  },
  "open": [
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -11.4,
+   "pnl": -10.8,
    "feed": "angel",
-   "ltp": 1395.2,
-   "pnl_pct": -0.14
+   "ltp": 1395.1,
+   "pnl_pct": -0.13
   },
   {
    "id": 180,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -33.9,
+   "pnl": -32.5,
    "feed": "angel",
-   "ltp": 3688.7,
-   "pnl_pct": -0.93
+   "ltp": 3687.3,
+   "pnl_pct": -0.89
   },
   {
    "id": 181,
@@ -131,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -34.1,
+   "pnl": -45.1,
    "feed": "angel",
-   "ltp": 531.05,
-   "pnl_pct": -0.59
+   "ltp": 532.05,
+   "pnl_pct": -0.78
   },
   {
    "id": 182,
@@ -150,29 +150,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -51.9,
+   "pnl": -51.3,
    "feed": "angel",
-   "ltp": 2029.3,
-   "pnl_pct": -0.86
-  },
-  {
-   "id": 183,
-   "date": "2026-10-27",
-   "setup": "ol",
-   "symbol": "ITCHOTELS",
-   "side": "BUY",
-   "qty": 28,
-   "entry_time": "09:28:14",
-   "entry_price": 171.64,
-   "candle_stop": 169.0,
-   "sl_price": 168.16,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -78.96,
-   "feed": "angel",
-   "ltp": 168.82,
-   "pnl_pct": -1.64
+   "ltp": 2029.1,
+   "pnl_pct": -0.85
   },
   {
    "id": 185,
@@ -188,10 +169,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 48.4,
+   "pnl": 50.0,
    "feed": "angel",
-   "ltp": 1660.2,
-   "pnl_pct": 1.48
+   "ltp": 1661.0,
+   "pnl_pct": 1.53
   },
   {
    "id": 186,
@@ -207,10 +188,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 20.7,
+   "pnl": 18.0,
    "feed": "angel",
-   "ltp": 1146.8,
-   "pnl_pct": 0.61
+   "ltp": 1145.9,
+   "pnl_pct": 0.53
   },
   {
    "id": 187,
@@ -226,10 +207,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -4.8,
+   "pnl": -7.2,
    "feed": "angel",
-   "ltp": 716.0,
-   "pnl_pct": -0.17
+   "ltp": 715.4,
+   "pnl_pct": -0.25
   },
   {
    "id": 188,
@@ -247,13 +228,30 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 2.8,
+   "pnl": -0.0,
    "feed": "angel",
-   "ltp": 687.3,
-   "pnl_pct": 0.03
+   "ltp": 687.5,
+   "pnl_pct": -0.0
   }
  ],
  "closed": [
+  {
+   "id": 183,
+   "date": "2026-10-27",
+   "setup": "ol",
+   "symbol": "ITCHOTELS",
+   "side": "BUY",
+   "qty": 28,
+   "entry_time": "09:28:14",
+   "entry_price": 171.64,
+   "candle_stop": 169.0,
+   "sl_price": 168.16,
+   "exit_time": "10:40:58",
+   "exit_price": 168.16,
+   "reason": "SL",
+   "pnl": -97.44,
+   "feed": "angel"
+  },
   {
    "id": 184,
    "date": "2026-10-27",
@@ -3316,9 +3314,9 @@
    "ol": 5,
    "oh": 6,
    "wins": 0,
-   "losses": 2,
-   "pnl": -150.86,
-   "cum": -1254.97
+   "losses": 3,
+   "pnl": -248.3,
+   "cum": -1352.41
   }
  ]
 }
