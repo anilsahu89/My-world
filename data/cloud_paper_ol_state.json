@@ -3043,11 +3043,11 @@
    "entry_price": 527.95,
    "candle_stop": 533.95,
    "sl_price": 536.62,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "11:49:42",
+   "exit_price": 536.62,
+   "reason": "SL",
+   "pnl": -95.37,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {
@@ -3201,7 +3201,16 @@
  ],
  "seeded": true,
  "f3_done_date": "2026-10-26",
- "reentry_watch": [],
+ "reentry_watch": [
+  {
+   "symbol": "KPITTECH",
+   "setup": "oh",
+   "side": "SELL",
+   "level": 533.95,
+   "stopped_at": "11:49:42",
+   "date": "2026-10-27"
+  }
+ ],
  "vol_blocked": {
   "date": "2026-10-27",
   "ol": {
