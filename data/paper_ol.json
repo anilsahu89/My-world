@@ -1,5 +1,5 @@
 {
- "updated_at": "27 Oct 2026 10:10:11 IST",
+ "updated_at": "27 Oct 2026 10:13:40 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -72,7 +72,7 @@
   "trades_today": 11,
   "today_pnl": -52.65,
   "realized_total": -1156.76,
-  "unrealized": -122.98,
+  "unrealized": -132.21,
   "wins": 83,
   "losses": 89,
   "win_rate": 48.3,
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -21.6,
+   "pnl": -26.4,
    "feed": "angel",
-   "ltp": 1396.9,
-   "pnl_pct": -0.26
+   "ltp": 1397.7,
+   "pnl_pct": -0.32
   },
   {
    "id": 180,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -19.0,
+   "pnl": -25.7,
    "feed": "angel",
-   "ltp": 3673.8,
-   "pnl_pct": -0.52
+   "ltp": 3680.5,
+   "pnl_pct": -0.7
   },
   {
    "id": 181,
@@ -131,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -46.2,
+   "pnl": -25.85,
    "feed": "angel",
-   "ltp": 532.15,
-   "pnl_pct": -0.8
+   "ltp": 530.3,
+   "pnl_pct": -0.45
   },
   {
    "id": 182,
@@ -150,10 +150,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -27.6,
+   "pnl": -26.4,
    "feed": "angel",
-   "ltp": 2021.2,
-   "pnl_pct": -0.46
+   "ltp": 2020.8,
+   "pnl_pct": -0.44
   },
   {
    "id": 183,
@@ -169,10 +169,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -33.32,
+   "pnl": -40.04,
    "feed": "angel",
-   "ltp": 170.45,
-   "pnl_pct": -0.69
+   "ltp": 170.21,
+   "pnl_pct": -0.83
   },
   {
    "id": 184,
@@ -188,10 +188,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -64.66,
+   "pnl": -92.72,
    "feed": "angel",
-   "ltp": 77.16,
-   "pnl_pct": -1.36
+   "ltp": 76.7,
+   "pnl_pct": -1.94
   },
   {
    "id": 185,
@@ -207,10 +207,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 52.0,
+   "pnl": 61.8,
    "feed": "angel",
-   "ltp": 1662.0,
-   "pnl_pct": 1.59
+   "ltp": 1666.9,
+   "pnl_pct": 1.89
   },
   {
    "id": 186,
@@ -226,10 +226,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 24.6,
+   "pnl": 24.9,
    "feed": "angel",
-   "ltp": 1148.1,
-   "pnl_pct": 0.72
+   "ltp": 1148.2,
+   "pnl_pct": 0.73
   },
   {
    "id": 187,
@@ -245,10 +245,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 26.8,
+   "pnl": 28.0,
    "feed": "angel",
-   "ltp": 723.9,
-   "pnl_pct": 0.93
+   "ltp": 724.2,
+   "pnl_pct": 0.98
   },
   {
    "id": 188,
@@ -266,10 +266,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -14.0,
+   "pnl": -9.8,
    "feed": "angel",
-   "ltp": 688.5,
-   "pnl_pct": -0.15
+   "ltp": 688.2,
+   "pnl_pct": -0.1
   }
  ],
  "closed": [
