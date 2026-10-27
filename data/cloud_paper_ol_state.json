@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 191,
+ "next_id": 194,
  "trades": [
   {
    "id": 1,
@@ -3217,10 +3217,64 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 191,
+   "date": "2026-10-27",
+   "setup": "f3",
+   "symbol": "ONESOURCE",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:20:24",
+   "entry_price": 1593.3,
+   "sl_price": 1386.73,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 7.23
+  },
+  {
+   "id": 192,
+   "date": "2026-10-27",
+   "setup": "f3",
+   "symbol": "ACMESOLAR",
+   "side": "BUY",
+   "qty": 3,
+   "entry_time": "12:20:24",
+   "entry_price": 405.0,
+   "sl_price": 377.75,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 4.94
+  },
+  {
+   "id": 193,
+   "date": "2026-10-27",
+   "setup": "f3",
+   "symbol": "MOTILALOFS",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "12:20:24",
+   "entry_price": 964.55,
+   "sl_price": 925.15,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 3.23
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-10-26",
+ "f3_done_date": "2026-10-27",
  "reentry_watch": [
   {
    "symbol": "KPITTECH",

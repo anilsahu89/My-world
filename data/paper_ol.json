@@ -1,5 +1,5 @@
 {
- "updated_at": "27 Oct 2026 12:17:23 IST",
+ "updated_at": "27 Oct 2026 12:21:18 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -67,12 +67,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 5,
+  "open_count": 8,
   "closed_count": 179,
-  "trades_today": 13,
+  "trades_today": 16,
   "today_pnl": -499.87,
   "realized_total": -1603.98,
-  "unrealized": 143.8,
+  "unrealized": 146.8,
   "wins": 83,
   "losses": 96,
   "win_rate": 46.4,
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 43.2,
+   "pnl": 45.6,
    "feed": "angel",
-   "ltp": 1386.1,
-   "pnl_pct": 0.52
+   "ltp": 1385.7,
+   "pnl_pct": 0.55
   },
   {
    "id": 185,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 61.0,
+   "pnl": 69.2,
    "feed": "angel",
-   "ltp": 1666.5,
-   "pnl_pct": 1.86
+   "ltp": 1670.6,
+   "pnl_pct": 2.11
   },
   {
    "id": 186,
@@ -131,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 3.9,
+   "pnl": 2.7,
    "feed": "angel",
-   "ltp": 1141.2,
-   "pnl_pct": 0.11
+   "ltp": 1140.8,
+   "pnl_pct": 0.08
   },
   {
    "id": 188,
@@ -152,10 +152,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 34.3,
+   "pnl": 37.1,
    "feed": "angel",
-   "ltp": 685.05,
-   "pnl_pct": 0.36
+   "ltp": 684.85,
+   "pnl_pct": 0.39
   },
   {
    "id": 190,
@@ -173,10 +173,67 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 1.4,
+   "pnl": -7.8,
    "feed": "angel",
-   "ltp": 3696.0,
-   "pnl_pct": 0.02
+   "ltp": 3700.6,
+   "pnl_pct": -0.11
+  },
+  {
+   "id": 191,
+   "date": "2026-10-27",
+   "setup": "f3",
+   "symbol": "ONESOURCE",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:20:24",
+   "entry_price": 1593.3,
+   "sl_price": 1386.73,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 7.23,
+   "ltp": 1593.3,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 192,
+   "date": "2026-10-27",
+   "setup": "f3",
+   "symbol": "ACMESOLAR",
+   "side": "BUY",
+   "qty": 3,
+   "entry_time": "12:20:24",
+   "entry_price": 405.0,
+   "sl_price": 377.75,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 4.94,
+   "ltp": 405.0,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 193,
+   "date": "2026-10-27",
+   "setup": "f3",
+   "symbol": "MOTILALOFS",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "12:20:24",
+   "entry_price": 964.55,
+   "sl_price": 925.15,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 3.23,
+   "ltp": 964.55,
+   "pnl_pct": 0.0
   }
  ],
  "closed": [
@@ -3342,7 +3399,7 @@
   },
   {
    "date": "2026-10-27",
-   "trades": 13,
+   "trades": 16,
    "ol": 5,
    "oh": 8,
    "wins": 0,
