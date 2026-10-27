@@ -1,7 +1,7 @@
 {
- "updated_at": "27 Oct 2026 13:20:26 IST",
- "feed": "angel",
- "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
+ "updated_at": "27 Oct 2026 13:24:04 IST",
+ "feed": "yahoo",
+ "feed_note": "Cloud engine (GitHub Actions + Yahoo, no Mac needed)",
  "status": "RUNNING",
  "today": "2026-10-27",
  "strategy": {
@@ -72,7 +72,7 @@
   "trades_today": 16,
   "today_pnl": -728.04,
   "realized_total": -1832.15,
-  "unrealized": 250.3,
+  "unrealized": 240.05,
   "wins": 83,
   "losses": 98,
   "win_rate": 45.9,
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 63.0,
+   "pnl": 69.0,
    "feed": "angel",
-   "ltp": 1382.8,
-   "pnl_pct": 0.75
+   "ltp": 1381.8,
+   "pnl_pct": 0.83
   },
   {
    "id": 185,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 68.4,
+   "pnl": 72.0,
    "feed": "angel",
-   "ltp": 1670.2,
-   "pnl_pct": 2.09
+   "ltp": 1672.0,
+   "pnl_pct": 2.2
   },
   {
    "id": 186,
@@ -131,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 32.7,
+   "pnl": null,
    "feed": "angel",
-   "ltp": 1150.8,
-   "pnl_pct": 0.96
+   "ltp": null,
+   "pnl_pct": null
   },
   {
    "id": 188,
@@ -152,10 +152,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 77.7,
+   "pnl": 92.4,
    "feed": "angel",
-   "ltp": 681.95,
-   "pnl_pct": 0.81
+   "ltp": 680.9,
+   "pnl_pct": 0.96
   },
   {
    "id": 192,
@@ -170,11 +170,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.6,
+   "pnl": 1.35,
    "feed": "angel-f3",
    "drive_pct": 4.94,
-   "ltp": 405.2,
-   "pnl_pct": 0.05
+   "ltp": 405.45,
+   "pnl_pct": 0.11
   },
   {
    "id": 193,
@@ -189,11 +189,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 7.9,
+   "pnl": 5.3,
    "feed": "angel-f3",
    "drive_pct": 3.23,
-   "ltp": 968.5,
-   "pnl_pct": 0.41
+   "ltp": 967.2,
+   "pnl_pct": 0.27
   }
  ],
  "closed": [
