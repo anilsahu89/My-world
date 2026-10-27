@@ -1,9 +1,9 @@
 {
- "fetched_at": "2026-10-27 14:51:24",
- "latest_date": "2026-10-26",
+ "fetched_at": "2026-10-27 17:30:46",
+ "latest_date": "2026-10-27",
  "universe_count": 197,
  "shorts_count": 1,
- "longs_count": 5,
+ "longs_count": 8,
  "shorts": [
   {
    "kind": "bb",
@@ -108,6 +108,57 @@
    "primary_date": "2026-10-22",
    "alert_date": "2026-10-23",
    "score": 27.0
+  },
+  {
+   "kind": "bb",
+   "type": "LONG",
+   "symbol": "CONCOR",
+   "entry_price": 411.6,
+   "sl_price": 402.23,
+   "target_price": 430.35,
+   "rr": 2.0,
+   "wick_pct": 53,
+   "vol_multiple": 1.8,
+   "rsi": 31,
+   "rsi_pass": false,
+   "primary_range": 18.75,
+   "primary_date": "2026-10-23",
+   "alert_date": "2026-10-26",
+   "score": 26.2
+  },
+  {
+   "kind": "bb",
+   "type": "LONG",
+   "symbol": "SHRIRAMFIN",
+   "entry_price": 825.0,
+   "sl_price": 780.28,
+   "target_price": 914.45,
+   "rr": 2.0,
+   "wick_pct": 57,
+   "vol_multiple": 1.7,
+   "rsi": 26,
+   "rsi_pass": false,
+   "primary_range": 89.45,
+   "primary_date": "2026-10-23",
+   "alert_date": "2026-10-26",
+   "score": 26.2
+  },
+  {
+   "kind": "bb",
+   "type": "LONG",
+   "symbol": "GODFRYPHLP",
+   "entry_price": 1664.0,
+   "sl_price": 1626.6,
+   "target_price": 1738.8,
+   "rr": 2.0,
+   "wick_pct": 53,
+   "vol_multiple": 1.6,
+   "rsi": 29,
+   "rsi_pass": false,
+   "primary_range": 74.8,
+   "primary_date": "2026-10-23",
+   "alert_date": "2026-10-26",
+   "score": 25.8
   }
  ]
 }
