@@ -3283,14 +3283,6 @@
    "level": 533.95,
    "stopped_at": "11:49:42",
    "date": "2026-10-27"
-  },
-  {
-   "symbol": "PFIZER",
-   "setup": "oh",
-   "side": "SELL",
-   "level": 3704.5,
-   "stopped_at": "12:50:00",
-   "date": "2026-10-27"
   }
  ],
  "vol_blocked": {
