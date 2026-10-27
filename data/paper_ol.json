@@ -1,5 +1,5 @@
 {
- "updated_at": "27 Oct 2026 12:49:12 IST",
+ "updated_at": "27 Oct 2026 12:52:40 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -67,15 +67,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 7,
-  "closed_count": 180,
+  "open_count": 6,
+  "closed_count": 181,
   "trades_today": 16,
-  "today_pnl": -706.44,
-  "realized_total": -1810.55,
-  "unrealized": 180.9,
+  "today_pnl": -728.04,
+  "realized_total": -1832.15,
+  "unrealized": 200.25,
   "wins": 83,
-  "losses": 97,
-  "win_rate": 46.1,
+  "losses": 98,
+  "win_rate": 45.9,
   "days": 24
  },
  "open": [
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 35.4,
+   "pnl": 39.6,
    "feed": "angel",
-   "ltp": 1387.4,
-   "pnl_pct": 0.42
+   "ltp": 1386.7,
+   "pnl_pct": 0.47
   },
   {
    "id": 185,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 72.4,
+   "pnl": 62.6,
    "feed": "angel",
-   "ltp": 1672.2,
-   "pnl_pct": 2.21
+   "ltp": 1667.3,
+   "pnl_pct": 1.91
   },
   {
    "id": 186,
@@ -131,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 64.2,
+   "pnl": 59.4,
    "feed": "angel",
-   "ltp": 1161.3,
-   "pnl_pct": 1.88
+   "ltp": 1159.7,
+   "pnl_pct": 1.74
   },
   {
    "id": 188,
@@ -152,31 +152,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 14.0,
+   "pnl": 23.8,
    "feed": "angel",
-   "ltp": 686.5,
-   "pnl_pct": 0.15
-  },
-  {
-   "id": 190,
-   "date": "2026-10-27",
-   "setup": "oh",
-   "symbol": "PFIZER",
-   "side": "SELL",
-   "qty": 2,
-   "entry_time": "12:06:47",
-   "entry_price": 3696.7,
-   "candle_stop": 3704.5,
-   "sl_price": 3723.02,
-   "reentry_seq": 1,
-   "reentry_level": 3699.1,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -21.6,
-   "feed": "angel",
-   "ltp": 3707.5,
-   "pnl_pct": -0.29
+   "ltp": 685.8,
+   "pnl_pct": 0.25
   },
   {
    "id": 192,
@@ -191,11 +170,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.6,
+   "pnl": 0.45,
    "feed": "angel-f3",
    "drive_pct": 4.94,
-   "ltp": 405.2,
-   "pnl_pct": 0.05
+   "ltp": 405.15,
+   "pnl_pct": 0.04
   },
   {
    "id": 193,
@@ -210,11 +189,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 15.9,
+   "pnl": 14.4,
    "feed": "angel-f3",
    "drive_pct": 3.23,
-   "ltp": 972.5,
-   "pnl_pct": 0.82
+   "ltp": 971.75,
+   "pnl_pct": 0.75
   }
  ],
  "closed": [
@@ -233,6 +212,25 @@
    "reason": "SL",
    "pnl": -206.57,
    "feed": "angel-f3"
+  },
+  {
+   "id": 190,
+   "date": "2026-10-27",
+   "setup": "oh",
+   "symbol": "PFIZER",
+   "side": "SELL",
+   "qty": 2,
+   "entry_time": "12:06:47",
+   "entry_price": 3696.7,
+   "candle_stop": 3704.5,
+   "sl_price": 3723.02,
+   "reentry_seq": 1,
+   "reentry_level": 3699.1,
+   "exit_time": "12:50:00",
+   "exit_price": 3707.5,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -21.6,
+   "feed": "angel"
   },
   {
    "id": 189,
@@ -3400,9 +3398,9 @@
    "ol": 5,
    "oh": 8,
    "wins": 0,
-   "losses": 9,
-   "pnl": -706.44,
-   "cum": -1810.55
+   "losses": 10,
+   "pnl": -728.04,
+   "cum": -1832.15
   }
  ]
 }

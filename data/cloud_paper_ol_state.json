@@ -3211,11 +3211,11 @@
    "sl_price": 3723.02,
    "reentry_seq": 1,
    "reentry_level": 3699.1,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "12:50:00",
+   "exit_price": 3707.5,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -21.6,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {
@@ -3282,6 +3282,14 @@
    "side": "SELL",
    "level": 533.95,
    "stopped_at": "11:49:42",
+   "date": "2026-10-27"
+  },
+  {
+   "symbol": "PFIZER",
+   "setup": "oh",
+   "side": "SELL",
+   "level": 3704.5,
+   "stopped_at": "12:50:00",
    "date": "2026-10-27"
   }
  ],
