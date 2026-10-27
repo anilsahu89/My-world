@@ -1,5 +1,5 @@
 {
- "updated_at": "27 Oct 2026 14:13:13 IST",
+ "updated_at": "27 Oct 2026 14:17:00 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -67,15 +67,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 6,
-  "closed_count": 181,
+  "open_count": 5,
+  "closed_count": 182,
   "trades_today": 16,
-  "today_pnl": -728.04,
-  "realized_total": -1832.15,
-  "unrealized": 245.75,
+  "today_pnl": -731.34,
+  "realized_total": -1835.45,
+  "unrealized": 246.6,
   "wins": 83,
-  "losses": 98,
-  "win_rate": 45.9,
+  "losses": 99,
+  "win_rate": 45.6,
   "days": 24
  },
  "open": [
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 76.2,
+   "pnl": 85.2,
    "feed": "angel",
-   "ltp": 1380.6,
-   "pnl_pct": 0.91
+   "ltp": 1379.1,
+   "pnl_pct": 1.02
   },
   {
    "id": 185,
@@ -112,29 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 59.0,
+   "pnl": 57.0,
    "feed": "angel",
-   "ltp": 1665.5,
-   "pnl_pct": 1.8
-  },
-  {
-   "id": 186,
-   "date": "2026-10-27",
-   "setup": "ol",
-   "symbol": "KAJARIACER",
-   "side": "BUY",
-   "qty": 3,
-   "entry_time": "09:28:14",
-   "entry_price": 1139.9,
-   "candle_stop": 1120.4,
-   "sl_price": 1114.8,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 12.9,
-   "feed": "angel",
-   "ltp": 1144.2,
-   "pnl_pct": 0.38
+   "ltp": 1664.5,
+   "pnl_pct": 1.74
   },
   {
    "id": 188,
@@ -152,10 +133,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 98.0,
+   "pnl": 111.3,
    "feed": "angel",
-   "ltp": 680.5,
-   "pnl_pct": 1.02
+   "ltp": 679.55,
+   "pnl_pct": 1.16
   },
   {
    "id": 192,
@@ -170,11 +151,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.75,
+   "pnl": -0.3,
    "feed": "angel-f3",
    "drive_pct": 4.94,
-   "ltp": 404.75,
-   "pnl_pct": -0.06
+   "ltp": 404.9,
+   "pnl_pct": -0.02
   },
   {
    "id": 193,
@@ -189,11 +170,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.4,
+   "pnl": -6.6,
    "feed": "angel-f3",
    "drive_pct": 3.23,
-   "ltp": 964.75,
-   "pnl_pct": 0.02
+   "ltp": 961.25,
+   "pnl_pct": -0.34
   }
  ],
  "closed": [
@@ -283,6 +264,23 @@
    "exit_price": 76.61,
    "reason": "SL",
    "pnl": -98.21,
+   "feed": "angel"
+  },
+  {
+   "id": 186,
+   "date": "2026-10-27",
+   "setup": "ol",
+   "symbol": "KAJARIACER",
+   "side": "BUY",
+   "qty": 3,
+   "entry_time": "09:28:14",
+   "entry_price": 1139.9,
+   "candle_stop": 1120.4,
+   "sl_price": 1114.8,
+   "exit_time": "14:16:15",
+   "exit_price": 1138.8,
+   "reason": "TSTOP",
+   "pnl": -3.3,
    "feed": "angel"
   },
   {
@@ -3398,9 +3396,9 @@
    "ol": 5,
    "oh": 8,
    "wins": 0,
-   "losses": 10,
-   "pnl": -728.04,
-   "cum": -1832.15
+   "losses": 11,
+   "pnl": -731.34,
+   "cum": -1835.45
   }
  ]
 }
