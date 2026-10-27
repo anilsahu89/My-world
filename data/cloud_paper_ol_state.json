@@ -3025,11 +3025,11 @@
    "entry_price": 3654.8,
    "candle_stop": 3699.1,
    "sl_price": 3717.6,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "12:00:00",
+   "exit_price": 3701.5,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -46.7,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {
@@ -3191,11 +3191,11 @@
    "sl_price": 2046.98,
    "reentry_seq": 1,
    "reentry_level": 2030.0,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "12:00:00",
+   "exit_price": 2038.0,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -42.4,
+   "status": "CLOSED",
    "feed": "angel"
   }
  ],
@@ -3208,6 +3208,22 @@
    "side": "SELL",
    "level": 533.95,
    "stopped_at": "11:49:42",
+   "date": "2026-10-27"
+  },
+  {
+   "symbol": "PFIZER",
+   "setup": "oh",
+   "side": "SELL",
+   "level": 3699.1,
+   "stopped_at": "12:00:00",
+   "date": "2026-10-27"
+  },
+  {
+   "symbol": "PIIND",
+   "setup": "oh",
+   "side": "SELL",
+   "level": 2036.8,
+   "stopped_at": "12:00:00",
    "date": "2026-10-27"
   }
  ],
