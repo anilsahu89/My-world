@@ -588,14 +588,28 @@
       j("/data/paper_qm.json"),
       j("/data/swing_picks.json"),
       j("/data/paper_gc.json"),
-      j("/data/live_stocks.json")
+      j("/data/live_stocks.json"),
+      j("/data/scanners/htf-hm-latest.json"),
+      j("/data/scanners/hm-btc-gold-latest.json")
     ]).then(render);
   }
 
   function render(res) {
     var ol = res[0], theta = res[1], mill = res[2], ltp = res[3], arb = res[4],
-        btc = res[5], qm = res[6], sw = res[7], gc = res[8], ls = res[9];
+        btc = res[5], qm = res[6], sw = res[7], gc = res[8], ls = res[9],
+        ihm = res[10], hmb = res[11];
     var rows = [];
+    // October tally — the exact same month-filter the October Race uses,
+    // so the dashboard and the race can never disagree
+    function octTally(rows_, dk, pk) {
+      var pnl = 0, w = 0, l = 0;
+      (rows_ || []).forEach(function (t) {
+        if (String((dk(t) || "")).indexOf("2026-10") !== 0) return;
+        var v = Number(pk(t) || 0); pnl += v;
+        if (v > 0) w++; else l++;
+      });
+      return pnl;
+    }
 
     /* 1 · Intraday O=L/O=H (NSE, ₹) */
     if (ol && ol.summary) {
@@ -604,7 +618,7 @@
         sub: "NSE stocks · " + (ol.updated_at || ""),
         cur: "₹", open: s.open_count || 0, closed: s.closed_count || 0,
         wins: s.wins || 0, losses: s.losses || 0, wr: s.win_rate,
-        real: num(s.realized_total), unrl: num(s.unrealized) });
+        oct: octTally((s.closed || []), function (x) { return x.date || x.exit_date; }, function (x) { return x.pnl; }), real: num(s.realized_total), unrl: num(s.unrealized) });
     } else rows.push(dead("⚡ Intraday O=L / O=H", "NSE stocks · cloud engine offline"));
 
     /* 2 · NIFTY Daily Theta (₹) — sum of closed-spread P&L */
@@ -618,7 +632,7 @@
         cur: "₹", open: thO.length, closed: thC.length,
         wins: thW, losses: thC.length - thW,
         wr: thC.length ? Math.round(thW / thC.length * 1000) / 10 : 0,
-        real: thReal, unrl: null });
+        oct: octTally((theta.trades || []).filter(function (t) { return t.status === "CLOSED"; }), function (x) { return x.exit_date; }, function (x) { return x.pnl; }), real: thReal, unrl: null });
     } else rows.push(dead("🛡️ NIFTY Daily Theta", "credit spread · no scan data yet"));
 
     /* 2b · Nifty Premium Mill (₹) — hedged credit spread, DTE-anchored */
@@ -633,7 +647,7 @@
         cur: "₹", open: mO.length, closed: mC.length,
         wins: mW, losses: mC.length - mW,
         wr: mC.length ? Math.round(mW / mC.length * 1000) / 10 : 0,
-        real: mReal, unrl: null });
+        oct: octTally((mill.trades || []).filter(function (t) { return t.status === "CLOSED"; }), function (x) { return x.exit_date; }, function (x) { return x.pnl; }), real: mReal, unrl: null });
     } else rows.push(dead("🏭 Nifty Premium Mill", "credit spread · no scan data yet"));
 
     /* 2c · NIFTY Long-Term Premium (₹) — NK discount harvest */
@@ -644,7 +658,7 @@
         cur: "₹", open: lp.open || 0, closed: lp.closed || 0,
         wins: lp.wins || 0,
         losses: Math.max(0, (lp.closed || 0) - (lp.wins || 0)),
-        wr: lp.win_rate, real: num(lp.realized), unrl: num(lp.unrealized) });
+        wr: lp.win_rate, oct: octTally((lp.closed || []), function (x) { return x.exit_date; }, function (x) { return x.pnl; }), real: num(lp.realized), unrl: num(lp.unrealized) });
     } else rows.push(dead("💎 NIFTY Long-Term Premium", "discount desk · first scan Mon 18:45 IST"));
 
     /* 2d · Future Arbitrage (₹) — vault rules desk */
@@ -654,7 +668,7 @@
         sub: "vault basis harvest · " + (arb.updated_at || ""),
         cur: "₹", open: as.open || 0, closed: as.closed || 0,
         wins: null, losses: null, wr: null,
-        real: num(as.realized), unrl: num(as.mtm) });
+        oct: octTally((as.closed || []), function (x) { return x.exit_date; }, function (x) { return x.pnl; }), real: num(as.realized), unrl: num(as.mtm) });
     } else rows.push(dead("🎯 Future Arbitrage", "basis desk · runs daily 18:45 IST"));
 
     /* 3 · BTC Theta 0DTE condor (₹) */
@@ -664,7 +678,7 @@
         sub: "Deribit iron condor · " + (btc.updated_at || ""),
         cur: "₹", open: b.open || 0, closed: b.closed || 0,
         wins: b.wins || 0, losses: b.losses || 0, wr: b.win_rate,
-        real: num(b.realized_inr), unrl: null });
+        oct: octTally((btc.trades || []).filter(function (t) { return t.status === "CLOSED"; }), function (x) { return x.exit_at; }, function (x) { return x.pnl_inr; }), real: num(b.realized_inr), unrl: null });
     } else rows.push(dead("₿ BTC Theta — 0DTE condor", "Deribit desk offline"));
 
     /* 4 · QM Swing (₹) */
@@ -674,7 +688,7 @@
         sub: "quantity model · " + (qm.updated_at || ""),
         cur: "₹", open: (q.open || 0) + " <span class='pl-sub'>+" + (q.pending || 0) + " pending</span>",
         closed: q.closed || 0, wins: q.wins || 0, losses: q.losses || 0,
-        wr: q.win_rate, real: num(q.realized), unrl: num(q.unrealized) });
+        wr: q.win_rate, oct: octTally((qm.closed || []), function (x) { return x.exit_date; }, function (x) { return x.pnl; }), real: num(q.realized), unrl: num(q.unrealized) });
     } else rows.push(dead("🧮 QM Swing ₹10L", "quantity model · desk offline"));
 
     /* 5 · Candle Swing — ₹ main, $ part shown alongside */
@@ -691,7 +705,7 @@
         sub: "top-3 patterns · " + (sw.updated_at || ""),
         cur: "₹", open: w.open || 0, closed: w.closed || 0,
         wins: w.wins || 0, losses: w.losses || 0, wr: w.win_rate,
-        real: num(w.pnl_inr), unrl: marked ? urInr : null, usdPart: true });
+        oct: octTally((sw.closed || []), function (x) { return x.exit_date; }, function (x) { return x.pnl; }), real: num(w.pnl_inr), unrl: marked ? urInr : null, usdPart: true });
       swUsd = { real: num(w.pnl_usd), unrl: marked ? urUsd : null };
     } else rows.push(dead("🕯️ Candle Swing", "EOD desk offline"));
 
@@ -702,8 +716,35 @@
         sub: "CME + UTC sessions · " + (gc.updated_at || ""),
         cur: "$", open: g.open_count || 0, closed: g.closed_count || 0,
         wins: g.wins || 0, losses: g.losses || 0, wr: g.win_rate,
-        real: num(g.realized_total), unrl: num(g.unrealized) });
+        oct: octTally((gc.closed_rows || gc.closed || []), function (x) { return x.date || x.entry_date; }, function (x) { return x.pnl; }), real: num(g.realized_total), unrl: num(g.unrealized) });
     } else rows.push(dead("🥇 Gold/BTC O=L / O=H", "gc tick offline"));
+
+    /* 6b · Intraday HM (₹) — HTF bias + 1H entries */
+    if (ihm) {
+      var io = ihm.open || [], ic = ihm.closed || [];
+      var iPnl = 0; ic.forEach(function (x) { iPnl += Number(x.pnl) || 0; });
+      rows.push({ name: "📈 Intraday HM",
+        sub: "HTF bias + 1H entries · " + (ihm.updated_at || ""),
+        cur: "₹", open: io.length, closed: ic.length,
+        wins: (ihm.book || {}).wins || 0, losses: (ihm.book || {}).losses || 0,
+        wr: (ihm.book || {}).win_rate, real: num((ihm.book || {}).realized),
+        oct: octTally(ic, function (x) { return x.exit_date; }, function (x) { return x.pnl; }),
+        unrl: num((ihm.book || {}).unrealized) });
+    } else rows.push(dead("📈 Intraday HM", "1H entries · desk offline"));
+
+    /* 6c · HM BTC/Gold (₹) — multi-asset HM */
+    if (hmb) {
+      var hb = hmb.book || {}, ho = hmb.open || [], hc = hmb.closed || [];
+      var hPnl = 0; hc.forEach(function (x) { hPnl += Number(x.pnl_inr) || 0; });
+      rows.push({ name: "🔗 HM BTC/Gold",
+        sub: "multi-asset HM · " + (hmb.scanned_at || ""),
+        cur: "₹", open: ho.length, closed: hc.length,
+        wins: hc.filter(function (x) { return Number(x.pnl_inr) > 0; }).length,
+        losses: hc.filter(function (x) { return Number(x.pnl_inr) <= 0; }).length,
+        real: num(hPnl),
+        oct: octTally(hc, function (x) { return x.exit_date; }, function (x) { return x.pnl_inr; }),
+        unrl: num((hmb.book || {}).open_pnl_inr) });
+    } else rows.push(dead("🔗 HM BTC/Gold", "24/7 desk offline"));
 
     /* 7 · Manual browser ledger (₹) */
     var ltpMap = {};
@@ -741,17 +782,20 @@
       var netCell = net == null ? "—" :
         '<strong class="' + cls(net) + '">' + money(r.cur, net, true) + "</strong>";
       if (r.dead) realCell = unrlCell = netCell = '<span class="badge badge-red">offline</span>';
+      var octCell = r.oct == null ? '<span class="muted">—</span>' :
+        '<span class="' + cls(r.oct) + '"><strong>' + money("₹", r.oct, true) + "</strong></span>";
       return "<tr>" +
         "<td><strong>" + esc(r.name) + "</strong>" +
         '<span class="pl-sub">' + (r.dead ? "⚠ " : "") + esc(r.sub) + "</span></td>" +
         "<td>" + openCell + "</td><td>" + (r.closed == null ? "—" : r.closed) + "</td>" +
         "<td>" + wl + "</td><td>" + wrCell + "</td>" +
+        "<td>" + octCell + "</td>" +
         "<td>" + realCell + "</td><td>" + unrlCell + "</td><td>" + netCell + "</td></tr>";
     }).join("");
 
     /* ---- accumulated totals (₹ books and $ books kept separate) ---- */
     function totals(cur) {
-      var t = { open: 0, closed: 0, wins: 0, losses: 0, real: 0, unrl: 0, known: false };
+      var t = { open: 0, closed: 0, wins: 0, losses: 0, real: 0, unrl: 0, oct: 0, known: false };
       rows.forEach(function (r) {
         if (r.dead || r.real == null || r.cur !== cur) return;
         t.known = true;
@@ -759,6 +803,7 @@
         t.closed += parseInt(r.closed, 10) || 0;
         t.wins += r.wins || 0; t.losses += r.losses || 0;
         t.real += r.real; t.unrl += r.unrl || 0;
+        t.oct += r.oct || 0;
       });
       if (cur === "$" && swUsd && swUsd.real != null) {
         t.known = true;
@@ -780,8 +825,24 @@
 
     document.getElementById("plWrap").innerHTML =
       "<table><thead><tr><th>Book</th><th>Open</th><th>Closed</th><th>W / L</th>" +
-      "<th>Win %</th><th>Realized P&L</th><th>Unrealized (open)</th><th>Net P&L</th>" +
+      "<th>Win %</th><th>October P&L</th><th>All-time Realized</th><th>Unrealized (open)</th><th>Net P&L</th>" +
       "</tr></thead><tbody>" + body + "</tbody><tfoot>" +
+      (function () {
+        var o = { open: 0, closed: 0, wins: 0, losses: 0, oct: 0 };
+        rows.forEach(function (r) {
+          if (r.dead || r.cur !== "₹" || r.oct == null) return;
+          o.open += parseInt(r.open, 10) || 0;
+          o.closed += parseInt(r.closed, 10) || 0;
+          o.wins += r.wins || 0; o.losses += r.losses || 0;
+          o.oct += r.oct;
+        });
+        var wr = (o.wins + o.losses) ? Math.round(o.wins / (o.wins + o.losses) * 1000) / 10 + "%" : "—";
+        return '<tr class="pl-total"><td>Σ OCTOBER — ₹ books</td>' +
+          "<td>" + o.open + "</td><td>" + o.closed + "</td>" +
+          "<td>" + o.wins + "W / " + o.losses + "L</td><td>" + wr + "</td>" +
+          '<td class="' + cls(o.oct) + '"><strong>' + money("₹", o.oct, true) + "</strong></td>" +
+          "<td colspan=\"3\"></td></tr>";
+      })() + 
       totalRow("Σ ACCUMULATED — ₹ books", inrT, "₹") +
       totalRow("Σ ACCUMULATED — $ books", usdT, "$") +
       "</tfoot></table>";
