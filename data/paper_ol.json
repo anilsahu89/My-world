@@ -1,5 +1,5 @@
 {
- "updated_at": "27 Oct 2026 09:29:09 IST",
+ "updated_at": "27 Oct 2026 09:30:58 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -39,10 +39,10 @@
    "NATCOPHARM": 1.57,
    "KEI": 1.34,
    "BELRISE": 0.99,
+   "3MINDIA": 0.97,
    "NATIONALUM": 0.97,
    "PHOENIXLTD": 0.94,
-   "ANGELONE": 0.9,
-   "3MINDIA": 0.86,
+   "ANGELONE": 0.91,
    "ENGINERSIN": 0.85,
    "MGL": 0.82,
    "TRAVELFOOD": 0.77
@@ -67,37 +67,18 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 10,
-  "closed_count": 171,
+  "open_count": 9,
+  "closed_count": 172,
   "trades_today": 10,
-  "today_pnl": 0,
-  "realized_total": -1104.11,
-  "unrealized": -52.6,
+  "today_pnl": -52.65,
+  "realized_total": -1156.76,
+  "unrealized": -10.73,
   "wins": 83,
-  "losses": 88,
-  "win_rate": 48.5,
+  "losses": 89,
+  "win_rate": 48.3,
   "days": 24
  },
  "open": [
-  {
-   "id": 178,
-   "date": "2026-10-27",
-   "setup": "oh",
-   "symbol": "HDFCBANK",
-   "side": "SELL",
-   "qty": 13,
-   "entry_time": "09:21:35",
-   "entry_price": 685.8,
-   "candle_stop": 689.7,
-   "sl_price": 693.15,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -52.65,
-   "feed": "angel",
-   "ltp": 689.85,
-   "pnl_pct": -0.59
-  },
   {
    "id": 179,
    "date": "2026-10-27",
@@ -112,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 1.8,
+   "pnl": -6.0,
    "feed": "angel",
-   "ltp": 1393.0,
-   "pnl_pct": 0.02
+   "ltp": 1394.3,
+   "pnl_pct": -0.07
   },
   {
    "id": 180,
@@ -131,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 2.9,
+   "pnl": 10.3,
    "feed": "angel",
-   "ltp": 3651.9,
-   "pnl_pct": 0.08
+   "ltp": 3644.5,
+   "pnl_pct": 0.28
   },
   {
    "id": 181,
@@ -150,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 21.45,
+   "pnl": -2.75,
    "feed": "angel",
-   "ltp": 526.0,
-   "pnl_pct": 0.37
+   "ltp": 528.2,
+   "pnl_pct": -0.05
   },
   {
    "id": 182,
@@ -169,10 +150,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -26.1,
+   "pnl": -17.7,
    "feed": "angel",
-   "ltp": 2020.7,
-   "pnl_pct": -0.43
+   "ltp": 2017.9,
+   "pnl_pct": -0.29
   },
   {
    "id": 183,
@@ -188,10 +169,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": 12.04,
    "feed": "angel",
-   "ltp": 171.64,
-   "pnl_pct": 0.0
+   "ltp": 172.07,
+   "pnl_pct": 0.25
   },
   {
    "id": 184,
@@ -207,10 +188,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -7.32,
    "feed": "angel",
-   "ltp": 78.22,
-   "pnl_pct": 0.0
+   "ltp": 78.1,
+   "pnl_pct": -0.15
   },
   {
    "id": 185,
@@ -226,10 +207,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -0.6,
    "feed": "angel",
-   "ltp": 1636.0,
-   "pnl_pct": 0.0
+   "ltp": 1635.7,
+   "pnl_pct": -0.02
   },
   {
    "id": 186,
@@ -245,10 +226,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": 0.3,
    "feed": "angel",
-   "ltp": 1139.9,
-   "pnl_pct": 0.0
+   "ltp": 1140.0,
+   "pnl_pct": 0.01
   },
   {
    "id": 187,
@@ -264,13 +245,30 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": 1.0,
    "feed": "angel",
-   "ltp": 717.2,
-   "pnl_pct": 0.0
+   "ltp": 717.45,
+   "pnl_pct": 0.03
   }
  ],
  "closed": [
+  {
+   "id": 178,
+   "date": "2026-10-27",
+   "setup": "oh",
+   "symbol": "HDFCBANK",
+   "side": "SELL",
+   "qty": 13,
+   "entry_time": "09:21:35",
+   "entry_price": 685.8,
+   "candle_stop": 689.7,
+   "sl_price": 693.15,
+   "exit_time": "09:30:00",
+   "exit_price": 689.85,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -52.65,
+   "feed": "angel"
+  },
   {
    "id": 177,
    "date": "2026-10-26",
@@ -3299,9 +3297,9 @@
    "ol": 5,
    "oh": 5,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -1104.11
+   "losses": 1,
+   "pnl": -52.65,
+   "cum": -1156.76
   }
  ]
 }
