@@ -1,9 +1,9 @@
 {
- "updated_at": "27 Oct 2026 15:07:26 IST",
+ "updated_at": "28 Oct 2026 09:27:24 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
- "today": "2026-10-27",
+ "today": "2026-10-28",
  "strategy": {
   "rule": "first 5-min candle O=L -> BUY / O=H -> SELL (entries from 09:20, opening candle complete), ₹10,000/stock",
   "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
@@ -21,64 +21,106 @@
  },
  "vol_blocked": {
   "ol": {
-   "low_vol": 46,
+   "low_vol": 0,
    "no_vol_data": 0
   },
   "oh": {
-   "low_vol": 42,
+   "low_vol": 79,
    "no_vol_data": 0
   }
  },
  "vol_audit": {
-  "ol": {
-   "ITCHOTELS": 17.35,
-   "MAHABANK": 10.67,
-   "ATHERENERG": 8.61,
-   "KAJARIACER": 5.04,
-   "CHOICEIN": 2.02,
-   "NATCOPHARM": 1.57,
-   "BANKBARODA": 1.35,
-   "KEI": 1.34,
-   "ENGINERSIN": 1.03,
-   "NATIONALUM": 1.0,
-   "BELRISE": 0.99,
-   "PHOENIXLTD": 0.98,
-   "3MINDIA": 0.97,
-   "ANGELONE": 0.91,
-   "MGL": 0.82
-  },
+  "ol": {},
   "oh": {
-   "HDFCBANK": 1.48,
-   "ICICIBANK": 1.42,
-   "PFIZER": 1.16,
-   "KPITTECH": 1.07,
-   "PIIND": 1.02,
-   "IREDA": 0.97,
-   "NEWGEN": 0.93,
-   "CRISIL": 0.92,
-   "SHREECEM": 0.68,
-   "CHAMBLFERT": 0.67,
-   "SAIL": 0.66,
-   "DABUR": 0.53,
-   "CPPLUS": 0.49,
-   "COLPAL": 0.49,
-   "BANDHANBNK": 0.46
+   "APLAPOLLO": 7.82,
+   "LTFOODS": 4.48,
+   "RADICO": 2.99,
+   "PAGEIND": 2.19,
+   "ABDL": 1.92,
+   "JBMA": 1.52,
+   "ATHERENERG": 1.47,
+   "TATACONSUM": 1.41,
+   "BATAINDIA": 1.4,
+   "AFFLE": 1.13,
+   "JKTYRE": 1.13,
+   "NMDC": 1.1,
+   "CAMS": 1.06,
+   "GODFRYPHLP": 1.0,
+   "ASIANPAINT": 0.97
   }
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 0,
+  "open_count": 3,
   "closed_count": 188,
-  "trades_today": 17,
-  "today_pnl": -512.19,
+  "trades_today": 3,
+  "today_pnl": 0,
   "realized_total": -1616.3,
   "unrealized": 0,
   "wins": 89,
   "losses": 99,
   "win_rate": 47.3,
-  "days": 24
+  "days": 25
  },
- "open": [],
+ "open": [
+  {
+   "id": 195,
+   "date": "2026-10-28",
+   "setup": "oh",
+   "symbol": "APLAPOLLO",
+   "side": "SELL",
+   "qty": 1,
+   "entry_time": "09:25:34",
+   "entry_price": 2166.8,
+   "candle_stop": 2219.0,
+   "sl_price": 2230.09,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 2166.8,
+   "pnl_pct": -0.0
+  },
+  {
+   "id": 196,
+   "date": "2026-10-28",
+   "setup": "oh",
+   "symbol": "RADICO",
+   "side": "SELL",
+   "qty": 1,
+   "entry_time": "09:25:34",
+   "entry_price": 4188.4,
+   "candle_stop": 4290.0,
+   "sl_price": 4311.45,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 4188.4,
+   "pnl_pct": -0.0
+  },
+  {
+   "id": 197,
+   "date": "2026-10-28",
+   "setup": "oh",
+   "symbol": "ABDL",
+   "side": "SELL",
+   "qty": 10,
+   "entry_time": "09:25:34",
+   "entry_price": 665.55,
+   "candle_stop": 672.0,
+   "sl_price": 675.36,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 665.55,
+   "pnl_pct": -0.0
+  }
+ ],
  "closed": [
   {
    "id": 194,
@@ -3404,6 +3446,16 @@
    "wins": 6,
    "losses": 11,
    "pnl": -512.19,
+   "cum": -1616.3
+  },
+  {
+   "date": "2026-10-28",
+   "trades": 3,
+   "ol": 0,
+   "oh": 3,
+   "wins": 0,
+   "losses": 0,
+   "pnl": 0,
    "cum": -1616.3
   }
  ]
