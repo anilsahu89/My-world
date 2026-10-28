@@ -1,5 +1,5 @@
 {
- "updated_at": "28 Oct 2026 14:58:59 IST",
+ "updated_at": "28 Oct 2026 15:02:22 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,57 +51,18 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 2,
-  "closed_count": 191,
+  "open_count": 0,
+  "closed_count": 193,
   "trades_today": 5,
-  "today_pnl": -327.07,
-  "realized_total": -1943.37,
-  "unrealized": 59.0,
-  "wins": 89,
+  "today_pnl": -297.27,
+  "realized_total": -1913.57,
+  "unrealized": 0,
+  "wins": 91,
   "losses": 102,
-  "win_rate": 46.6,
+  "win_rate": 47.2,
   "days": 25
  },
- "open": [
-  {
-   "id": 195,
-   "date": "2026-10-28",
-   "setup": "oh",
-   "symbol": "APLAPOLLO",
-   "side": "SELL",
-   "qty": 1,
-   "entry_time": "09:25:34",
-   "entry_price": 2166.8,
-   "candle_stop": 2219.0,
-   "sl_price": 2230.09,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 3.5,
-   "feed": "angel",
-   "ltp": 2163.3,
-   "pnl_pct": 0.16
-  },
-  {
-   "id": 196,
-   "date": "2026-10-28",
-   "setup": "oh",
-   "symbol": "RADICO",
-   "side": "SELL",
-   "qty": 1,
-   "entry_time": "09:25:34",
-   "entry_price": 4188.4,
-   "candle_stop": 4290.0,
-   "sl_price": 4311.45,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 55.5,
-   "feed": "angel",
-   "ltp": 4132.9,
-   "pnl_pct": 1.33
-  }
- ],
+ "open": [],
  "closed": [
   {
    "id": 199,
@@ -137,6 +98,40 @@
    "exit_price": 382.75,
    "reason": "CANDLE-CLOSE",
    "pnl": -81.55,
+   "feed": "angel"
+  },
+  {
+   "id": 195,
+   "date": "2026-10-28",
+   "setup": "oh",
+   "symbol": "APLAPOLLO",
+   "side": "SELL",
+   "qty": 1,
+   "entry_time": "09:25:34",
+   "entry_price": 2166.8,
+   "candle_stop": 2219.0,
+   "sl_price": 2230.09,
+   "exit_time": "15:02:01",
+   "exit_price": 2166.4,
+   "reason": "EOD",
+   "pnl": 0.4,
+   "feed": "angel"
+  },
+  {
+   "id": 196,
+   "date": "2026-10-28",
+   "setup": "oh",
+   "symbol": "RADICO",
+   "side": "SELL",
+   "qty": 1,
+   "entry_time": "09:25:34",
+   "entry_price": 4188.4,
+   "candle_stop": 4290.0,
+   "sl_price": 4311.45,
+   "exit_time": "15:02:01",
+   "exit_price": 4159.0,
+   "reason": "EOD",
+   "pnl": 29.4,
    "feed": "angel"
   },
   {
@@ -3487,10 +3482,10 @@
    "trades": 5,
    "ol": 0,
    "oh": 5,
-   "wins": 0,
+   "wins": 2,
    "losses": 3,
-   "pnl": -327.07,
-   "cum": -1943.37
+   "pnl": -297.27,
+   "cum": -1913.57
   }
  ]
 }
