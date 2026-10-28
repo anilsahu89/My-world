@@ -1,5 +1,5 @@
 {
- "updated_at": "28 Oct 2026 09:36:36 IST",
+ "updated_at": "28 Oct 2026 09:38:15 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -41,9 +41,9 @@
    "JBMA": 1.52,
    "TATACONSUM": 1.5,
    "ATHERENERG": 1.47,
+   "NMDC": 1.17,
    "AFFLE": 1.13,
    "JKTYRE": 1.13,
-   "NMDC": 1.1,
    "CAMS": 1.06,
    "GODFRYPHLP": 1.0,
    "ASIANPAINT": 0.97
@@ -56,7 +56,7 @@
   "trades_today": 4,
   "today_pnl": 0,
   "realized_total": -1616.3,
-  "unrealized": -51.05,
+  "unrealized": -43.1,
   "wins": 89,
   "losses": 99,
   "win_rate": 47.3,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 3.8,
+   "pnl": -3.3,
    "feed": "angel",
-   "ltp": 2163.0,
-   "pnl_pct": 0.18
+   "ltp": 2170.1,
+   "pnl_pct": -0.15
   },
   {
    "id": 196,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -66.6,
+   "pnl": -62.7,
    "feed": "angel",
-   "ltp": 4255.0,
-   "pnl_pct": -1.59
+   "ltp": 4251.1,
+   "pnl_pct": -1.5
   },
   {
    "id": 197,
@@ -115,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -4.0,
+   "pnl": -3.0,
    "feed": "angel",
-   "ltp": 665.95,
-   "pnl_pct": -0.06
+   "ltp": 665.85,
+   "pnl_pct": -0.05
   },
   {
    "id": 198,
@@ -134,10 +134,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 15.75,
+   "pnl": 25.9,
    "feed": "angel",
-   "ltp": 368.85,
-   "pnl_pct": 0.61
+   "ltp": 367.4,
+   "pnl_pct": 1.0
   }
  ],
  "closed": [
