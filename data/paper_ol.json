@@ -1,5 +1,5 @@
 {
- "updated_at": "28 Oct 2026 09:39:50 IST",
+ "updated_at": "28 Oct 2026 09:41:28 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -37,9 +37,9 @@
    "RADICO": 2.99,
    "PAGEIND": 2.19,
    "ABDL": 1.92,
+   "TATACONSUM": 1.56,
    "BATAINDIA": 1.52,
    "JBMA": 1.52,
-   "TATACONSUM": 1.52,
    "ATHERENERG": 1.47,
    "NMDC": 1.17,
    "AFFLE": 1.16,
@@ -56,7 +56,7 @@
   "trades_today": 4,
   "today_pnl": 0,
   "realized_total": -1616.3,
-  "unrealized": -24.8,
+  "unrealized": -35.35,
   "wins": 89,
   "losses": 99,
   "win_rate": 47.3,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -12.3,
+   "pnl": -11.4,
    "feed": "angel",
-   "ltp": 2179.1,
-   "pnl_pct": -0.57
+   "ltp": 2178.2,
+   "pnl_pct": -0.53
   },
   {
    "id": 196,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -67.1,
+   "pnl": -61.6,
    "feed": "angel",
-   "ltp": 4255.5,
-   "pnl_pct": -1.6
+   "ltp": 4250.0,
+   "pnl_pct": -1.47
   },
   {
    "id": 197,
@@ -115,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 35.0,
+   "pnl": 13.5,
    "feed": "angel",
-   "ltp": 662.05,
-   "pnl_pct": 0.53
+   "ltp": 664.2,
+   "pnl_pct": 0.2
   },
   {
    "id": 198,
@@ -134,10 +134,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 19.6,
+   "pnl": 24.15,
    "feed": "angel",
-   "ltp": 368.3,
-   "pnl_pct": 0.75
+   "ltp": 367.65,
+   "pnl_pct": 0.93
   }
  ],
  "closed": [
