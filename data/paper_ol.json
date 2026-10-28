@@ -1,5 +1,5 @@
 {
- "updated_at": "28 Oct 2026 12:12:13 IST",
+ "updated_at": "28 Oct 2026 12:15:40 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,15 +51,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 4,
-  "closed_count": 188,
+  "open_count": 3,
+  "closed_count": 189,
   "trades_today": 4,
-  "today_pnl": 0,
-  "realized_total": -1616.3,
-  "unrealized": -161.5,
+  "today_pnl": -98.1,
+  "realized_total": -1714.4,
+  "unrealized": -73.0,
   "wins": 89,
-  "losses": 99,
-  "win_rate": 47.3,
+  "losses": 100,
+  "win_rate": 47.1,
   "days": 25
  },
  "open": [
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -10.0,
+   "pnl": -4.6,
    "feed": "angel",
-   "ltp": 2176.8,
-   "pnl_pct": -0.46
+   "ltp": 2171.4,
+   "pnl_pct": -0.21
   },
   {
    "id": 196,
@@ -96,29 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -67.2,
+   "pnl": -62.1,
    "feed": "angel",
-   "ltp": 4255.6,
-   "pnl_pct": -1.6
-  },
-  {
-   "id": 197,
-   "date": "2026-10-28",
-   "setup": "oh",
-   "symbol": "ABDL",
-   "side": "SELL",
-   "qty": 10,
-   "entry_time": "09:25:34",
-   "entry_price": 665.55,
-   "candle_stop": 672.0,
-   "sl_price": 675.36,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -67.5,
-   "feed": "angel",
-   "ltp": 672.3,
-   "pnl_pct": -1.01
+   "ltp": 4250.5,
+   "pnl_pct": -1.48
   },
   {
    "id": 198,
@@ -134,13 +115,30 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -16.8,
+   "pnl": -6.3,
    "feed": "angel",
-   "ltp": 373.5,
-   "pnl_pct": -0.65
+   "ltp": 372.0,
+   "pnl_pct": -0.24
   }
  ],
  "closed": [
+  {
+   "id": 197,
+   "date": "2026-10-28",
+   "setup": "oh",
+   "symbol": "ABDL",
+   "side": "SELL",
+   "qty": 10,
+   "entry_time": "09:25:34",
+   "entry_price": 665.55,
+   "candle_stop": 672.0,
+   "sl_price": 675.36,
+   "exit_time": "12:15:14",
+   "exit_price": 675.36,
+   "reason": "SL",
+   "pnl": -98.1,
+   "feed": "angel"
+  },
   {
    "id": 194,
    "date": "2026-10-27",
@@ -3473,9 +3471,9 @@
    "ol": 0,
    "oh": 4,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -1616.3
+   "losses": 1,
+   "pnl": -98.1,
+   "cum": -1714.4
   }
  ]
 }
