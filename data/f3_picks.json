@@ -1,41 +1,7 @@
 {
- "date": "2026-10-27",
- "scanned_at": "15:07:26",
+ "date": "2026-10-28",
+ "scanned_at": "12:22:34",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
- "signals": [
-  {
-   "symbol": "ONESOURCE",
-   "drive_pct": 7.23,
-   "qty": 1,
-   "entry": 1593.3,
-   "sl": 1386.73,
-   "status": "CLOSED",
-   "exit": 1386.73,
-   "reason": "SL",
-   "pnl": -206.57
-  },
-  {
-   "symbol": "ACMESOLAR",
-   "drive_pct": 4.94,
-   "qty": 3,
-   "entry": 405.0,
-   "sl": 377.75,
-   "status": "CLOSED",
-   "exit": 410.65,
-   "reason": "EOD",
-   "pnl": 16.95
-  },
-  {
-   "symbol": "MOTILALOFS",
-   "drive_pct": 3.23,
-   "qty": 2,
-   "entry": 964.55,
-   "sl": 925.15,
-   "status": "CLOSED",
-   "exit": 965.3,
-   "reason": "EOD",
-   "pnl": 1.5
-  }
- ]
+ "signals": []
 }

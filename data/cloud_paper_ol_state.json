@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 199,
+ "next_id": 200,
  "trades": [
   {
    "id": 1,
@@ -3363,20 +3363,31 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 199,
+   "date": "2026-10-28",
+   "setup": "oh",
+   "symbol": "ABDL",
+   "side": "SELL",
+   "qty": 14,
+   "entry_time": "12:22:06",
+   "entry_price": 669.85,
+   "candle_stop": 677.0,
+   "sl_price": 680.38,
+   "reentry_seq": 1,
+   "reentry_level": 672.0,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-10-27",
- "reentry_watch": [
-  {
-   "symbol": "ABDL",
-   "setup": "oh",
-   "side": "SELL",
-   "level": 672.0,
-   "stopped_at": "12:15:14",
-   "date": "2026-10-28"
-  }
- ],
+ "f3_done_date": "2026-10-28",
+ "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-10-28",
   "ol": {
