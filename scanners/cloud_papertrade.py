@@ -549,6 +549,16 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
     if moment.weekday() >= 5:
         return
     bias = nifty_bias()
+    # daily discipline (Oct ledger deep-dive: 70 trades lost -1586; the same
+    # sequence capped at 4 entries/day lost -799, and stopping after 2 losing
+    # exits saved another ~200). Data-failure blocks don't count as entries.
+    day_oloh = [t for t in state["trades"] if t.get("date") == today
+                and t.get("setup") in ("ol", "oh")]
+    if len(day_oloh) >= 4:
+        return
+    if sum(1 for t in day_oloh if t.get("status") == "CLOSED"
+           and float(t.get("pnl") or 0) <= 0) >= 2:
+        return
     seen = {(t["symbol"], t["setup"]) for t in state["trades"] if t.get("date") == today}
     for setup, side in (("ol", "BUY"), ("oh", "SELL")):
         # NIFTY gate: longs only into a rising tape, shorts only into a

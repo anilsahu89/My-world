@@ -201,7 +201,10 @@ def _run():
                 cw = cw.iloc[:-1]
             frames.append((cw, "weekly"))
 
-        for close, frame in frames:
+        # GOLD: weekly frame only (13 Oct evidence: all 1h/daily gold trades
+        # stopped out; BTC keeps all frames — its 1h trick won +237)
+        if name == "GOLD":
+            frames = [fr for fr in frames if fr[1] == "weekly"]
             ev = evaluate(close, frame)
             if ev is None:
                 continue
