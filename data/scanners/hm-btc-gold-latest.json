@@ -1,6 +1,6 @@
 {
   "strategy": "hm-btc-gold",
-  "scanned_at": "2026-10-28 22:08:07 IST",
+  "scanned_at": "2026-10-28 22:09:45 IST",
   "status": "success",
   "signals": 0,
   "open": [
@@ -16,6 +16,89 @@
       "capital": 25000.0
     }
   ],
+  "open_pnl_inr": 0.0,
+  "closed": [
+    {
+      "asset": "BTC",
+      "frame": "daily",
+      "setup": "GAP-ANGLE-SELL",
+      "side": "SELL",
+      "entry_date": "2026-10-12 00:00",
+      "entry_price": 81762.56,
+      "exit_date": "2026-10-20 00:00",
+      "exit_price": 82941.0,
+      "exit_reason": "TREND-END",
+      "pnl_inr": -435.32
+    },
+    {
+      "asset": "GOLD",
+      "frame": "1h",
+      "setup": "NEW-LOW-TRICK-SHORT",
+      "side": "SHORT \u00b7 new-low",
+      "entry_date": "2026-10-14 01:00",
+      "entry_price": 4171.5,
+      "exit_date": "2026-10-16 01:00",
+      "exit_price": 4195.9,
+      "exit_reason": "INVALIDATED",
+      "pnl_inr": -221.23
+    },
+    {
+      "asset": "BTC",
+      "frame": "1h",
+      "setup": "NEW-LOW-TRICK-SHORT",
+      "side": "SHORT \u00b7 new-low",
+      "entry_date": "2026-10-14 05:00",
+      "entry_price": 83381.16,
+      "exit_date": "2026-10-15 15:00",
+      "exit_price": 82338.95,
+      "exit_reason": "INVALIDATED",
+      "pnl_inr": 237.48
+    },
+    {
+      "asset": "GOLD",
+      "frame": "1h",
+      "setup": "GAP-ANGLE-SELL-OVER50",
+      "side": "SELL \u00b7 over-50",
+      "entry_date": "2026-10-15 11:00",
+      "entry_price": 4170.7,
+      "exit_date": "2026-10-16 01:00",
+      "exit_price": 4195.9,
+      "exit_reason": "TREND-END",
+      "pnl_inr": -113.03
+    },
+    {
+      "asset": "GOLD",
+      "frame": "daily",
+      "setup": "NEW-LOW-TRICK-SHORT",
+      "side": "SHORT \u00b7 new-low",
+      "entry_date": "2026-10-14 00:00",
+      "entry_price": 4107.9,
+      "exit_date": "2026-10-15 00:00",
+      "exit_price": 4170.1,
+      "exit_reason": "INVALIDATED",
+      "pnl_inr": -453.54
+    },
+    {
+      "asset": "BTC",
+      "frame": "daily",
+      "setup": "GAP-ANGLE-BUY",
+      "side": "BUY",
+      "entry_date": "2026-10-20 00:00",
+      "entry_price": 82941.0,
+      "exit_date": "2026-10-27 00:00",
+      "exit_price": 80805.08,
+      "exit_reason": "TREND-END",
+      "pnl_inr": -718.81
+    }
+  ],
+  "book": {
+    "open": 1,
+    "open_pnl_inr": 0.0,
+    "realized_pnl_inr": -1704.45,
+    "net_pnl_inr": -1704.45,
+    "wins": 1,
+    "losses": 5
+  },
   "table": {
     "headers": [
       "Asset",
@@ -33,11 +116,11 @@
         "BTC",
         "1h",
         "2026-10-28 15:00",
-        36.3,
-        57.2,
-        37.5,
-        -20.9,
-        -1.58,
+        36.5,
+        56.9,
+        37.7,
+        -20.4,
+        -1.55,
         "GAP-ANGLE-SELL"
       ],
       [
@@ -75,5 +158,5 @@
       ]
     ]
   },
-  "text_report": "HM BTC/GOLD desk \u2014 Wed 28 Oct 2026 22:08\n\nBTC  1h      2026-10-28 15:00  RSI  36.3 red  57.2 green  37.5 gap  -20.9 ang  -1.58  (state, not fresh)\nBTC  daily   2026-10-27 00:00  RSI  43.3 red  43.7 green  39.7 gap   -0.4 ang   1.08  \nBTC  weekly  2026-10-23 00:00  RSI  61.3 red  57.8 green  62.5 gap    3.5 ang  -3.28  \nGOLD weekly  2026-10-23 00:00  RSI  32.2 red  44.0 green  36.3 gap  -11.8 ang  -1.84  (state, not fresh)\n\nOpen paper positions: 1\n  2026-10-09 00:00 GOLD weekly  GAP-ANGLE-SELL          SHORT @ 4216.3 (25,000)"
+  "text_report": "HM BTC/GOLD desk \u2014 Wed 28 Oct 2026 22:09\n\nBTC  1h      2026-10-28 15:00  RSI  36.5 red  56.9 green  37.7 gap  -20.4 ang  -1.55  (state, not fresh)\nBTC  daily   2026-10-27 00:00  RSI  43.3 red  43.7 green  39.7 gap   -0.4 ang   1.08  \nBTC  weekly  2026-10-23 00:00  RSI  61.3 red  57.8 green  62.5 gap    3.5 ang  -3.28  \nGOLD weekly  2026-10-23 00:00  RSI  32.2 red  44.0 green  36.3 gap  -11.8 ang  -1.84  (state, not fresh)\n\nOpen paper positions: 1\n  2026-10-09 00:00 GOLD weekly  GAP-ANGLE-SELL          SHORT @ 4216.3 (25,000)"
 }
