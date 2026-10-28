@@ -141,40 +141,12 @@ def side_of(setup: str) -> str:
 
 
 def main():
-    try:
-        _run()
-    except SystemExit:
-        raise
-    except Exception as e:
-        # loud degraded status instead of stale-silent (portal shows it)
-        try:
-            JSON_OUT.parent.mkdir(parents=True, exist_ok=True)
-            JSON_OUT.write_text(json.dumps({
-                "strategy": "hm-btc-gold",
-                "scanned_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
-                "status": "DEGRADED", "error": f"{type(e).__name__}: {e}",
-                "signals": 0, "open": [], "closed": [],
-                "table": {"headers": [], "rows": []}, "text_report": str(e)[:200]},
-                indent=2))
-        except Exception:
-            pass
-        raise
-
-
-def _run():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--seed", action="store_true",
                     help="enter the best valid setup per asset+frame even if not fresh (first-fill; marked SEED)")
     args = ap.parse_args()
 
-    # heartbeat first: if downloads stall, the portal still sees a live desk
-    JSON_OUT.parent.mkdir(parents=True, exist_ok=True)
-    JSON_OUT.write_text(json.dumps({
-        "strategy": "hm-btc-gold",
-        "scanned_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
-        "status": "RUNNING", "signals": 0, "open": [],
-        "table": {"headers": [], "rows": []}, "text_report": ""}, indent=2))
     led = load_ledger()
     rows, warns = [], []
     closed_keys = set()
@@ -200,11 +172,11 @@ def _run():
             if len(cw) and cw.index[-1] > cd.index[-1]:
                 cw = cw.iloc[:-1]
             frames.append((cw, "weekly"))
-
-        # GOLD: weekly frame only (13 Oct evidence: all 1h/daily gold trades
-        # stopped out; BTC keeps all frames — its 1h trick won +237)
+        # GOLD: weekly frame only (Oct evidence: all 1h/daily gold trades stopped)
         if name == "GOLD":
             frames = [fr for fr in frames if fr[1] == "weekly"]
+
+        for close, frame in frames:
             ev = evaluate(close, frame)
             if ev is None:
                 continue
@@ -317,36 +289,15 @@ def _run():
     print(report)
 
     # open positions for the portal (side label segregates the setup kind)
-    # + live marks: current BTC/Gold price -> per-row P&L (₹, side-signed)
     side_label = {"GAP-ANGLE-BUY": "BUY", "GAP-ANGLE-BUY-SUB50": "BUY · sub-50",
                   "GAP-ANGLE-SELL": "SELL", "GAP-ANGLE-SELL-OVER50": "SELL · over-50",
                   "NEW-LOW-TRICK-SHORT": "SHORT · new-low"}
-    cur = {}
-    for a, tick in (("BTC", "BTC-USD"), ("GOLD", "GC=F")):
-        try:
-            h = yf.Ticker(tick).history(period="5d", interval="1d")
-            if h is not None and len(h):
-                cur[a] = float(h["Close"].iloc[-1])
-        except Exception:
-            pass
-    open_rows = []
-    open_pnl_inr = 0.0
-    for _, r in led.iterrows():
-        if r["status"] != "OPEN":
-            continue
-        sgn = -1.0 if side_of(r["setup"]) == "SHORT" else 1.0
-        mark = cur.get(r["asset"])
-        pnl_inr = round(sgn * (mark - float(r["entry_price"])) * float(r["lots"]), 2) \
-            if mark else None
-        if pnl_inr:
-            open_pnl_inr += pnl_inr
-        open_rows.append({"asset": r["asset"], "frame": r["frame"], "setup": r["setup"],
+    open_rows = [{"asset": r["asset"], "frame": r["frame"], "setup": r["setup"],
                   "side": side_label.get(r["setup"], side_of(r["setup"])),
                   "entry_date": r["entry_date"], "entry_price": r["entry_price"],
                   "stop_ref": r.get("stop_ref", ""), "lots": r["lots"],
-                  "capital": r["capital"], "mark": round(mark, 2) if mark else None,
-                  "pnl_inr": pnl_inr,
-                  "pnl_pct": round((mark/float(r["entry_price"]) - 1) * 100, 2) if mark else None})
+                  "capital": r["capital"]} for _, r in led.iterrows()
+                 if r["status"] == "OPEN"]
 
     JSON_OUT.parent.mkdir(parents=True, exist_ok=True)
     JSON_OUT.write_text(json.dumps({
@@ -355,18 +306,6 @@ def _run():
         "status": "success",
         "signals": sum(len(e["entry_candidates"]) for e in rows),
         "open": open_rows,
-        "open_pnl_inr": round(open_pnl_inr, 2),
-        "closed": [{"asset": r["asset"], "frame": r["frame"], "setup": r["setup"],
-                    "side": side_label.get(r["setup"], side_of(r["setup"])),
-                    "entry_date": r["entry_date"], "entry_price": r["entry_price"],
-                    "exit_date": r.get("exit_date", ""), "exit_reason": r.get("exit_reason", ""),
-                    "exit_price": r.get("exit_price", ""), "pnl_inr": float(r.get("pnl") or 0)}
-                   for _, r in led.iterrows() if r["status"] == "CLOSED"],
-        "book": {"open": len(open_rows), "open_pnl_inr": round(open_pnl_inr, 2),
-                 "realized_pnl_inr": round(sum(float(r.get("pnl") or 0) for _, r in led.iterrows()
-                                               if r["status"] == "CLOSED"), 2),
-                 "net_pnl_inr": round(open_pnl_inr + sum(float(r.get("pnl") or 0)
-                                    for _, r in led.iterrows() if r["status"] == "CLOSED"), 2)},
         "table": {"headers": ["Asset", "Frame", "Bar", "RSI", "Red", "Green", "Gap", "Angle", "Setups"],
                   "rows": [[e["asset"], e["frame"], e["date"], e["rsi"], e["red"], e["green"], e["gap"], e["angle"],
                             ", ".join(s for s, _, _f in e["entry_candidates"]) or (", ".join(e["setups"]) or ("NEW-LOW-TRICK" if e["trick"] else ""))] for e in rows]},

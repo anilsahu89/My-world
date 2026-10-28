@@ -1,14 +1,79 @@
 {
   "strategy": "hm-btc-gold",
-  "scanned_at": "2026-10-28 22:05:23 IST",
-  "status": "DEGRADED",
-  "error": "NameError: name 'close' is not defined",
+  "scanned_at": "2026-10-28 22:08:07 IST",
+  "status": "success",
   "signals": 0,
-  "open": [],
-  "closed": [],
+  "open": [
+    {
+      "asset": "GOLD",
+      "frame": "weekly",
+      "setup": "GAP-ANGLE-SELL",
+      "side": "SELL",
+      "entry_date": "2026-10-09 00:00",
+      "entry_price": 4216.3,
+      "stop_ref": 4216.3,
+      "lots": 1.0,
+      "capital": 25000.0
+    }
+  ],
   "table": {
-    "headers": [],
-    "rows": []
+    "headers": [
+      "Asset",
+      "Frame",
+      "Bar",
+      "RSI",
+      "Red",
+      "Green",
+      "Gap",
+      "Angle",
+      "Setups"
+    ],
+    "rows": [
+      [
+        "BTC",
+        "1h",
+        "2026-10-28 15:00",
+        36.3,
+        57.2,
+        37.5,
+        -20.9,
+        -1.58,
+        "GAP-ANGLE-SELL"
+      ],
+      [
+        "BTC",
+        "daily",
+        "2026-10-27 00:00",
+        43.3,
+        43.7,
+        39.7,
+        -0.4,
+        1.08,
+        ""
+      ],
+      [
+        "BTC",
+        "weekly",
+        "2026-10-23 00:00",
+        61.3,
+        57.8,
+        62.5,
+        3.5,
+        -3.28,
+        ""
+      ],
+      [
+        "GOLD",
+        "weekly",
+        "2026-10-23 00:00",
+        32.2,
+        44.0,
+        36.3,
+        -11.8,
+        -1.84,
+        "GAP-ANGLE-SELL"
+      ]
+    ]
   },
-  "text_report": "name 'close' is not defined"
+  "text_report": "HM BTC/GOLD desk \u2014 Wed 28 Oct 2026 22:08\n\nBTC  1h      2026-10-28 15:00  RSI  36.3 red  57.2 green  37.5 gap  -20.9 ang  -1.58  (state, not fresh)\nBTC  daily   2026-10-27 00:00  RSI  43.3 red  43.7 green  39.7 gap   -0.4 ang   1.08  \nBTC  weekly  2026-10-23 00:00  RSI  61.3 red  57.8 green  62.5 gap    3.5 ang  -3.28  \nGOLD weekly  2026-10-23 00:00  RSI  32.2 red  44.0 green  36.3 gap  -11.8 ang  -1.84  (state, not fresh)\n\nOpen paper positions: 1\n  2026-10-09 00:00 GOLD weekly  GAP-ANGLE-SELL          SHORT @ 4216.3 (25,000)"
 }
