@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 210,
+ "next_id": 211,
  "trades": [
   {
    "id": 1,
@@ -3565,20 +3565,31 @@
    "status": "OPEN",
    "feed": "angel-f3",
    "drive_pct": 4.17
+  },
+  {
+   "id": 210,
+   "date": "2026-10-29",
+   "setup": "oh",
+   "symbol": "JSWDULUX",
+   "side": "SELL",
+   "qty": 36,
+   "entry_time": "13:14:06",
+   "entry_price": 275.2,
+   "candle_stop": 286.3,
+   "sl_price": 287.73,
+   "reentry_seq": 1,
+   "reentry_level": 276.0,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
   }
  ],
  "seeded": true,
  "f3_done_date": "2026-10-29",
- "reentry_watch": [
-  {
-   "symbol": "JSWDULUX",
-   "setup": "oh",
-   "side": "SELL",
-   "level": 276.0,
-   "stopped_at": "10:47:29",
-   "date": "2026-10-29"
-  }
- ],
+ "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-10-29",
   "ol": {

@@ -1,5 +1,5 @@
 {
- "updated_at": "29 Oct 2026 13:11:04 IST",
+ "updated_at": "29 Oct 2026 13:14:33 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -67,12 +67,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 6,
+  "open_count": 7,
   "closed_count": 197,
-  "trades_today": 10,
+  "trades_today": 11,
   "today_pnl": -204.2,
   "realized_total": -2117.77,
-  "unrealized": 97.55,
+  "unrealized": 113.85,
   "wins": 91,
   "losses": 106,
   "win_rate": 46.2,
@@ -93,10 +93,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 114.7,
+   "pnl": 117.8,
    "feed": "angel",
-   "ltp": 86.99,
-   "pnl_pct": 2.08
+   "ltp": 86.94,
+   "pnl_pct": 2.14
   },
   {
    "id": 205,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 15.8,
+   "pnl": 14.2,
    "feed": "angel",
-   "ltp": 1604.9,
-   "pnl_pct": 0.49
+   "ltp": 1604.1,
+   "pnl_pct": 0.44
   },
   {
    "id": 206,
@@ -133,10 +133,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -44.95,
+   "pnl": -34.8,
    "feed": "angel",
-   "ltp": 69.23,
-   "pnl_pct": -0.45
+   "ltp": 69.16,
+   "pnl_pct": -0.35
   },
   {
    "id": 207,
@@ -151,11 +151,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.55,
+   "pnl": -0.6,
    "feed": "angel-f3",
    "drive_pct": 9.97,
-   "ltp": 540.95,
-   "pnl_pct": 0.1
+   "ltp": 539.8,
+   "pnl_pct": -0.11
   },
   {
    "id": 208,
@@ -170,11 +170,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.65,
+   "pnl": 9.75,
    "feed": "angel-f3",
    "drive_pct": 6.34,
-   "ltp": 18.87,
-   "pnl_pct": 0.05
+   "ltp": 19.01,
+   "pnl_pct": 0.8
   },
   {
    "id": 209,
@@ -189,11 +189,32 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 10.8,
+   "pnl": 7.5,
    "feed": "angel-f3",
    "drive_pct": 4.17,
-   "ltp": 443.75,
-   "pnl_pct": 0.41
+   "ltp": 443.2,
+   "pnl_pct": 0.28
+  },
+  {
+   "id": 210,
+   "date": "2026-10-29",
+   "setup": "oh",
+   "symbol": "JSWDULUX",
+   "side": "SELL",
+   "qty": 36,
+   "entry_time": "13:14:06",
+   "entry_price": 275.2,
+   "candle_stop": 286.3,
+   "sl_price": 287.73,
+   "reentry_seq": 1,
+   "reentry_level": 276.0,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 275.2,
+   "pnl_pct": -0.0
   }
  ],
  "closed": [
@@ -3690,9 +3711,9 @@
   },
   {
    "date": "2026-10-29",
-   "trades": 10,
+   "trades": 11,
    "ol": 3,
-   "oh": 4,
+   "oh": 5,
    "wins": 0,
    "losses": 4,
    "pnl": -204.2,
