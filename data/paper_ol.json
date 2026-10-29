@@ -1,5 +1,5 @@
 {
- "updated_at": "29 Oct 2026 09:23:06 IST",
+ "updated_at": "29 Oct 2026 09:24:45 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -21,7 +21,7 @@
  },
  "vol_blocked": {
   "ol": {
-   "low_vol": 0,
+   "low_vol": 39,
    "no_vol_data": 0
   },
   "oh": {
@@ -30,7 +30,23 @@
   }
  },
  "vol_audit": {
-  "ol": {},
+  "ol": {
+   "JWL": 18.52,
+   "CUB": 10.37,
+   "UNITDSPR": 3.21,
+   "SYRMA": 2.59,
+   "ZENTEC": 1.65,
+   "PGEL": 1.57,
+   "BANKBARODA": 1.55,
+   "CDSL": 1.54,
+   "CESC": 1.41,
+   "GROWW": 1.0,
+   "INDIAMART": 0.97,
+   "SARDAEN": 0.87,
+   "AEGISVOPAK": 0.83,
+   "POWERGRID": 0.82,
+   "PETRONET": 0.75
+  },
   "oh": {
    "ECLERX": 7.92,
    "JSWDULUX": 1.95,
@@ -51,12 +67,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 3,
+  "open_count": 6,
   "closed_count": 193,
-  "trades_today": 3,
+  "trades_today": 6,
   "today_pnl": 0,
   "realized_total": -1913.57,
-  "unrealized": 0,
+  "unrealized": -73.18,
   "wins": 91,
   "losses": 102,
   "win_rate": 47.2,
@@ -96,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": -75.04,
    "feed": "angel",
-   "ltp": 68.6,
-   "pnl_pct": -0.0
+   "ltp": 69.16,
+   "pnl_pct": -0.82
   },
   {
    "id": 202,
@@ -115,10 +131,67 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
+   "pnl": 1.86,
    "feed": "angel",
-   "ltp": 88.84,
-   "pnl_pct": -0.0
+   "ltp": 88.81,
+   "pnl_pct": 0.03
+  },
+  {
+   "id": 203,
+   "date": "2026-10-29",
+   "setup": "ol",
+   "symbol": "CUB",
+   "side": "BUY",
+   "qty": 14,
+   "entry_time": "09:24:07",
+   "entry_price": 224.93,
+   "candle_stop": 219.1,
+   "sl_price": 218.0,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 224.93,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 204,
+   "date": "2026-10-29",
+   "setup": "ol",
+   "symbol": "UNITDSPR",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "09:24:07",
+   "entry_price": 1260.9,
+   "candle_stop": 1228.2,
+   "sl_price": 1222.06,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 1260.9,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 205,
+   "date": "2026-10-29",
+   "setup": "ol",
+   "symbol": "ZENTEC",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "09:24:07",
+   "entry_price": 1597.0,
+   "candle_stop": 1569.0,
+   "sl_price": 1561.15,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 1597.0,
+   "pnl_pct": 0.0
   }
  ],
  "closed": [
@@ -3547,8 +3620,8 @@
   },
   {
    "date": "2026-10-29",
-   "trades": 3,
-   "ol": 0,
+   "trades": 6,
+   "ol": 3,
    "oh": 3,
    "wins": 0,
    "losses": 0,
