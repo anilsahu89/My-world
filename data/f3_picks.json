@@ -1,7 +1,41 @@
 {
- "date": "2026-10-28",
- "scanned_at": "15:05:47",
+ "date": "2026-10-29",
+ "scanned_at": "12:22:31",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
- "signals": []
+ "signals": [
+  {
+   "symbol": "ZENSARTECH",
+   "drive_pct": 9.97,
+   "qty": 1,
+   "entry": 540.4,
+   "sl": 488.74,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "RPOWER",
+   "drive_pct": 6.34,
+   "qty": 65,
+   "entry": 18.86,
+   "sl": 17.33,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "ELECON",
+   "drive_pct": 4.17,
+   "qty": 6,
+   "entry": 441.95,
+   "sl": 425.96,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  }
+ ]
 }

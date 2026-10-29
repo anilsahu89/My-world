@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 207,
+ "next_id": 210,
  "trades": [
   {
    "id": 1,
@@ -3511,10 +3511,64 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 207,
+   "date": "2026-10-29",
+   "setup": "f3",
+   "symbol": "ZENSARTECH",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:21:33",
+   "entry_price": 540.4,
+   "sl_price": 488.74,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 9.97
+  },
+  {
+   "id": 208,
+   "date": "2026-10-29",
+   "setup": "f3",
+   "symbol": "RPOWER",
+   "side": "BUY",
+   "qty": 65,
+   "entry_time": "12:21:33",
+   "entry_price": 18.86,
+   "sl_price": 17.33,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 6.34
+  },
+  {
+   "id": 209,
+   "date": "2026-10-29",
+   "setup": "f3",
+   "symbol": "ELECON",
+   "side": "BUY",
+   "qty": 6,
+   "entry_time": "12:21:33",
+   "entry_price": 441.95,
+   "sl_price": 425.96,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 4.17
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-10-28",
+ "f3_done_date": "2026-10-29",
  "reentry_watch": [
   {
    "symbol": "JSWDULUX",
