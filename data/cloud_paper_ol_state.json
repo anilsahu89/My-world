@@ -3387,16 +3387,7 @@
  ],
  "seeded": true,
  "f3_done_date": "2026-10-28",
- "reentry_watch": [
-  {
-   "symbol": "LTFOODS",
-   "setup": "oh",
-   "side": "SELL",
-   "level": 382.1,
-   "stopped_at": "13:55:00",
-   "date": "2026-10-28"
-  }
- ],
+ "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-10-28",
   "ol": {
