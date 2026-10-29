@@ -3413,11 +3413,11 @@
    "entry_price": 68.6,
    "candle_stop": 69.0,
    "sl_price": 69.34,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "09:25:46",
+   "exit_price": 69.34,
+   "reason": "SL",
+   "pnl": -99.16,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {
@@ -3495,7 +3495,16 @@
  ],
  "seeded": true,
  "f3_done_date": "2026-10-28",
- "reentry_watch": [],
+ "reentry_watch": [
+  {
+   "symbol": "ZEEL",
+   "setup": "oh",
+   "side": "SELL",
+   "level": 69.0,
+   "stopped_at": "09:25:46",
+   "date": "2026-10-29"
+  }
+ ],
  "vol_blocked": {
   "date": "2026-10-29",
   "ol": {
