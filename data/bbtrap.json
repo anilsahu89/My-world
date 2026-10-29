@@ -1,9 +1,9 @@
 {
- "fetched_at": "2026-10-29 15:55:19",
- "latest_date": "2026-10-28",
+ "fetched_at": "2026-10-29 17:31:29",
+ "latest_date": "2026-10-29",
  "universe_count": 197,
  "shorts_count": 1,
- "longs_count": 8,
+ "longs_count": 7,
  "shorts": [
   {
    "kind": "bb",
@@ -74,23 +74,6 @@
    "primary_date": "2026-10-22",
    "alert_date": "2026-10-23",
    "score": 29.7
-  },
-  {
-   "kind": "bb",
-   "type": "LONG",
-   "symbol": "ALKEM",
-   "entry_price": 5015.0,
-   "sl_price": 4953.0,
-   "target_price": 5139.0,
-   "rr": 2.0,
-   "wick_pct": 55,
-   "vol_multiple": 2.9,
-   "rsi": 36,
-   "rsi_pass": false,
-   "primary_range": 124.0,
-   "primary_date": "2026-10-19",
-   "alert_date": "2026-10-21",
-   "score": 28.6
   },
   {
    "kind": "bb",
