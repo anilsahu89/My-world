@@ -1,6 +1,6 @@
 {
  "date": "2026-10-29",
- "scanned_at": "14:59:03",
+ "scanned_at": "15:02:34",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
  "signals": [
@@ -10,10 +10,10 @@
    "qty": 1,
    "entry": 540.4,
    "sl": 488.74,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 538.15,
+   "reason": "EOD",
+   "pnl": -2.25
   },
   {
    "symbol": "RPOWER",
@@ -21,10 +21,10 @@
    "qty": 65,
    "entry": 18.86,
    "sl": 17.33,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 18.79,
+   "reason": "EOD",
+   "pnl": -4.55
   },
   {
    "symbol": "ELECON",
@@ -32,10 +32,10 @@
    "qty": 6,
    "entry": 441.95,
    "sl": 425.96,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 436.0,
+   "reason": "EOD",
+   "pnl": -35.7
   }
  ]
 }
