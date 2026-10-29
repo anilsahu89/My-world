@@ -3395,11 +3395,11 @@
    "entry_price": 270.4,
    "candle_stop": 276.0,
    "sl_price": 277.38,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "10:47:29",
+   "exit_price": 277.38,
+   "reason": "SL",
+   "pnl": -97.72,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {
@@ -3449,11 +3449,11 @@
    "entry_price": 224.93,
    "candle_stop": 219.1,
    "sl_price": 218.0,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "10:47:29",
+   "exit_price": 224.55,
+   "reason": "TSTOP",
+   "pnl": -5.32,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {
@@ -3467,11 +3467,11 @@
    "entry_price": 1260.9,
    "candle_stop": 1228.2,
    "sl_price": 1222.06,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "10:47:29",
+   "exit_price": 1259.9,
+   "reason": "TSTOP",
+   "pnl": -2.0,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {
@@ -3515,7 +3515,16 @@
  ],
  "seeded": true,
  "f3_done_date": "2026-10-28",
- "reentry_watch": [],
+ "reentry_watch": [
+  {
+   "symbol": "JSWDULUX",
+   "setup": "oh",
+   "side": "SELL",
+   "level": 276.0,
+   "stopped_at": "10:47:29",
+   "date": "2026-10-29"
+  }
+ ],
  "vol_blocked": {
   "date": "2026-10-29",
   "ol": {
