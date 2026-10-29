@@ -1,5 +1,5 @@
 {
- "updated_at": "29 Oct 2026 06:22:28 IST",
+ "updated_at": "29 Oct 2026 06:23:05 IST",
  "status": "RUNNING",
  "summary": {
   "open_count": 1,
@@ -18,14 +18,14 @@
    "symbol": "BTC",
    "side": "SELL",
    "qty": 0.0007,
-   "entry_time": "06:22:27",
-   "entry_price": 81067.31,
-   "sl_price": 81694.54,
+   "entry_time": "06:23:03",
+   "entry_price": 81042.17,
+   "sl_price": 81696.17,
    "exit_time": null,
    "exit_price": null,
    "reason": null,
    "pnl": -0.0,
-   "ltp": 81067.31
+   "ltp": 81042.17
   }
  ],
  "closed": [
