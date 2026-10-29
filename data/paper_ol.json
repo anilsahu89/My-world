@@ -1,5 +1,5 @@
 {
- "updated_at": "29 Oct 2026 09:32:22 IST",
+ "updated_at": "29 Oct 2026 09:34:04 IST",
  "feed": "yahoo",
  "feed_note": "Cloud engine (GitHub Actions + Yahoo, no Mac needed)",
  "status": "RUNNING",
@@ -72,7 +72,7 @@
   "trades_today": 6,
   "today_pnl": -99.16,
   "realized_total": -2012.73,
-  "unrealized": -4.7,
+  "unrealized": 10.14,
   "wins": 91,
   "losses": 103,
   "win_rate": 46.9,
@@ -112,10 +112,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -19.84,
+   "pnl": -14.26,
    "feed": "angel",
-   "ltp": 89.16,
-   "pnl_pct": -0.36
+   "ltp": 89.07,
+   "pnl_pct": -0.26
   },
   {
    "id": 203,
@@ -131,10 +131,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 18.34,
+   "pnl": 8.4,
    "feed": "angel",
-   "ltp": 226.24,
-   "pnl_pct": 0.58
+   "ltp": 225.53,
+   "pnl_pct": 0.27
   },
   {
    "id": 204,
@@ -150,10 +150,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -13.8,
+   "pnl": -13.4,
    "feed": "angel",
-   "ltp": 1254.0,
-   "pnl_pct": -0.55
+   "ltp": 1254.2,
+   "pnl_pct": -0.53
   },
   {
    "id": 205,
@@ -169,10 +169,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 10.6,
+   "pnl": 29.4,
    "feed": "angel",
-   "ltp": 1602.3,
-   "pnl_pct": 0.33
+   "ltp": 1611.7,
+   "pnl_pct": 0.92
   }
  ],
  "closed": [
