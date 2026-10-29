@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 206,
+ "next_id": 207,
  "trades": [
   {
    "id": 1,
@@ -3491,20 +3491,31 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 206,
+   "date": "2026-10-29",
+   "setup": "oh",
+   "symbol": "ZEEL",
+   "side": "SELL",
+   "qty": 145,
+   "entry_time": "10:05:13",
+   "entry_price": 68.92,
+   "candle_stop": 70.69,
+   "sl_price": 71.04,
+   "reentry_seq": 1,
+   "reentry_level": 69.0,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
   }
  ],
  "seeded": true,
  "f3_done_date": "2026-10-28",
- "reentry_watch": [
-  {
-   "symbol": "ZEEL",
-   "setup": "oh",
-   "side": "SELL",
-   "level": 69.0,
-   "stopped_at": "09:25:46",
-   "date": "2026-10-29"
-  }
- ],
+ "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-10-29",
   "ol": {
