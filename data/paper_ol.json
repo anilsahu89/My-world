@@ -1,9 +1,9 @@
 {
- "updated_at": "29 Oct 2026 15:06:04 IST",
+ "updated_at": "30 Oct 2026 09:23:04 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
- "today": "2026-10-29",
+ "today": "2026-10-30",
  "strategy": {
   "rule": "first 5-min candle O=L -> BUY / O=H -> SELL (entries from 09:20, opening candle complete), ₹10,000/stock",
   "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
@@ -21,64 +21,125 @@
  },
  "vol_blocked": {
   "ol": {
-   "low_vol": 39,
+   "low_vol": 0,
    "no_vol_data": 0
   },
   "oh": {
-   "low_vol": 36,
+   "low_vol": 88,
    "no_vol_data": 0
   }
  },
  "vol_audit": {
-  "ol": {
-   "JWL": 18.52,
-   "CUB": 10.37,
-   "UNITDSPR": 3.21,
-   "SYRMA": 2.59,
-   "ZENTEC": 1.65,
-   "PGEL": 1.57,
-   "BANKBARODA": 1.55,
-   "CDSL": 1.54,
-   "CESC": 1.41,
-   "GROWW": 1.0,
-   "INDIAMART": 0.97,
-   "SARDAEN": 0.87,
-   "AEGISVOPAK": 0.83,
-   "POWERGRID": 0.82,
-   "PETRONET": 0.75
-  },
+  "ol": {},
   "oh": {
-   "ECLERX": 7.92,
-   "JSWDULUX": 1.95,
-   "ZEEL": 1.71,
-   "CRAFTSMAN": 1.55,
-   "SBFC": 1.54,
-   "JBMA": 1.41,
-   "MUTHOOTFIN": 1.37,
-   "PCBL": 1.32,
-   "UBL": 1.28,
-   "CHALET": 1.19,
-   "DEEPAKNTR": 1.14,
-   "RAILTEL": 1.13,
-   "BOSCHLTD": 0.95,
-   "ASHOKLEY": 0.9,
-   "MRF": 0.87
+   "GODREJCP": 17.25,
+   "COALINDIA": 11.02,
+   "ECLERX": 7.78,
+   "BLUESTARCO": 7.68,
+   "CARTRADE": 4.65,
+   "VOLTAS": 3.06,
+   "APARINDS": 2.97,
+   "EMMVEE": 2.31,
+   "INDGN": 2.24,
+   "SWIGGY": 2.06,
+   "RRKABEL": 2.0,
+   "COCHINSHIP": 1.94,
+   "JSWDULUX": 1.79,
+   "WAAREEENER": 1.66,
+   "IEX": 1.65
   }
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 0,
+  "open_count": 4,
   "closed_count": 204,
-  "trades_today": 11,
-  "today_pnl": -385.77,
+  "trades_today": 4,
+  "today_pnl": 0,
   "realized_total": -2299.34,
   "unrealized": 0,
   "wins": 93,
   "losses": 111,
   "win_rate": 45.6,
-  "days": 26
+  "days": 27
  },
- "open": [],
+ "open": [
+  {
+   "id": 211,
+   "date": "2026-10-30",
+   "setup": "oh",
+   "symbol": "GODREJCP",
+   "side": "SELL",
+   "qty": 4,
+   "entry_time": "09:22:17",
+   "entry_price": 796.5,
+   "candle_stop": 815.0,
+   "sl_price": 819.07,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 796.5,
+   "pnl_pct": -0.0
+  },
+  {
+   "id": 212,
+   "date": "2026-10-30",
+   "setup": "oh",
+   "symbol": "COALINDIA",
+   "side": "SELL",
+   "qty": 7,
+   "entry_time": "09:22:17",
+   "entry_price": 386.25,
+   "candle_stop": 398.05,
+   "sl_price": 400.04,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 386.25,
+   "pnl_pct": -0.0
+  },
+  {
+   "id": 213,
+   "date": "2026-10-30",
+   "setup": "oh",
+   "symbol": "BLUESTARCO",
+   "side": "SELL",
+   "qty": 1,
+   "entry_time": "09:22:17",
+   "entry_price": 1589.0,
+   "candle_stop": 1633.5,
+   "sl_price": 1641.67,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 1589.0,
+   "pnl_pct": -0.0
+  },
+  {
+   "id": 214,
+   "date": "2026-10-30",
+   "setup": "oh",
+   "symbol": "CARTRADE",
+   "side": "SELL",
+   "qty": 1,
+   "entry_time": "09:22:17",
+   "entry_price": 2256.2,
+   "candle_stop": 2325.1,
+   "sl_price": 2336.73,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": -0.0,
+   "feed": "angel",
+   "ltp": 2256.2,
+   "pnl_pct": -0.0
+  }
+ ],
  "closed": [
   {
    "id": 210,
@@ -3699,6 +3760,16 @@
    "wins": 2,
    "losses": 9,
    "pnl": -385.77,
+   "cum": -2299.34
+  },
+  {
+   "date": "2026-10-30",
+   "trades": 4,
+   "ol": 0,
+   "oh": 4,
+   "wins": 0,
+   "losses": 0,
+   "pnl": 0,
    "cum": -2299.34
   }
  ]

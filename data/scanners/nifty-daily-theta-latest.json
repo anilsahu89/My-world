@@ -1,7 +1,7 @@
 {
   "strategy": "nifty-daily-theta",
-  "scanned_at": "2026-10-29 09:20:13 IST",
-  "scan_date": "2026-10-29",
+  "scanned_at": "2026-10-30 09:23:04 IST",
+  "scan_date": "2026-10-30",
   "trades": [
     {
       "entry_date": "2026-10-06",
@@ -188,9 +188,9 @@
       "holding_days": "",
       "spot_exit": "",
       "notes": "",
-      "mark_credit": "22.65",
-      "live_pnl": "686.25",
-      "mark_date": "2026-10-29"
+      "mark_credit": "40.2",
+      "live_pnl": "-630.0",
+      "mark_date": "2026-10-30"
     }
   ],
   "trade_count": 7,
@@ -199,5 +199,5 @@
     "open_position": "",
     "net_pnl": "6 trades | WR 83% | Net P&L \u20b91,346"
   },
-  "text_report": "===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA UPDATE \u2014 Thu, 29 Oct 2026\n===============================================================================================\n\n  Checking open positions...\ntheta: angel chain fallback 592 rows\n  No exits today.\n\n  Checking for new signal...\n  \u23f8\ufe0f  Open position exists \u2014 waiting for exit before new entry\n\n===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA \u2014 PAPER TRADES\n  Rules: Mon/Tue/Wed/Fri 1PM | VIX<22 (regime recorded) | 300OTM | 100pt spread | 50% target\n===============================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit  DTE Expiry         VIX\n  --------------------------------------------------------------------------------\n  2026-10-27   BEAR_CALL  23000.0 23100.0 CE   \u20b9  31.8    7 2026-11-03   17.4\n\n  \ud83d\udd34 CLOSED TRADES (6):\n  Entry        Exit         Dir        Reason          Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-10-06   2026-10-07   BEAR_CALL  profit_50pct   \u20b9  13.4 \u20b9     698    1d \u2705\n  2026-10-07   2026-10-13   BEAR_CALL  expiry         \u20b9  10.6 \u20b9     791    6d \u2705\n  2026-10-16   2026-10-19   BEAR_CALL  expiry         \u20b9   7.5 \u20b9     562    3d \u2705\n  2026-10-19   2026-10-22   BULL_PUT   sl_strike_hit  \u20b9  19.5 \u20b9   -3120    3d \u274c\n  2026-10-23   2026-10-26   BEAR_CALL  profit_50pct   \u20b9  20.8 \u20b9    1361    3d \u2705\n  2026-10-26   2026-10-27   BEAR_CALL  expiry         \u20b9  14.1 \u20b9    1054    1d \u2705\n\n  \ud83d\udcc8 SUMMARY: 6 trades | WR 83% | Net P&L \u20b91,346"
+  "text_report": "===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA UPDATE \u2014 Fri, 30 Oct 2026\n===============================================================================================\n\n  Checking open positions...\ntheta: angel chain fallback 592 rows\n  No exits today.\n\n  Checking for new signal...\n  \u23f8\ufe0f  Open position exists \u2014 waiting for exit before new entry\n\n===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA \u2014 PAPER TRADES\n  Rules: Mon/Tue/Wed/Fri 1PM | VIX<22 (regime recorded) | 300OTM | 100pt spread | 50% target\n===============================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit  DTE Expiry         VIX\n  --------------------------------------------------------------------------------\n  2026-10-27   BEAR_CALL  23000.0 23100.0 CE   \u20b9  31.8    7 2026-11-03   17.4\n\n  \ud83d\udd34 CLOSED TRADES (6):\n  Entry        Exit         Dir        Reason          Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-10-06   2026-10-07   BEAR_CALL  profit_50pct   \u20b9  13.4 \u20b9     698    1d \u2705\n  2026-10-07   2026-10-13   BEAR_CALL  expiry         \u20b9  10.6 \u20b9     791    6d \u2705\n  2026-10-16   2026-10-19   BEAR_CALL  expiry         \u20b9   7.5 \u20b9     562    3d \u2705\n  2026-10-19   2026-10-22   BULL_PUT   sl_strike_hit  \u20b9  19.5 \u20b9   -3120    3d \u274c\n  2026-10-23   2026-10-26   BEAR_CALL  profit_50pct   \u20b9  20.8 \u20b9    1361    3d \u2705\n  2026-10-26   2026-10-27   BEAR_CALL  expiry         \u20b9  14.1 \u20b9    1054    1d \u2705\n\n  \ud83d\udcc8 SUMMARY: 6 trades | WR 83% | Net P&L \u20b91,346"
 }
