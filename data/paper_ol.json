@@ -1,5 +1,5 @@
 {
- "updated_at": "30 Oct 2026 12:44:49 IST",
+ "updated_at": "30 Oct 2026 12:48:19 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,15 +51,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 6,
-  "closed_count": 204,
+  "open_count": 5,
+  "closed_count": 205,
   "trades_today": 6,
-  "today_pnl": 0,
-  "realized_total": -2299.34,
-  "unrealized": -142.15,
+  "today_pnl": -80.53,
+  "realized_total": -2379.87,
+  "unrealized": -87.1,
   "wins": 93,
-  "losses": 111,
-  "win_rate": 45.6,
+  "losses": 112,
+  "win_rate": 45.4,
   "days": 27
  },
  "open": [
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -45.8,
+   "pnl": -44.4,
    "feed": "angel",
-   "ltp": 807.95,
-   "pnl_pct": -1.44
+   "ltp": 807.6,
+   "pnl_pct": -1.39
   },
   {
    "id": 212,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -10.15,
+   "pnl": -11.55,
    "feed": "angel",
-   "ltp": 387.7,
-   "pnl_pct": -0.38
+   "ltp": 387.9,
+   "pnl_pct": -0.43
   },
   {
    "id": 213,
@@ -115,29 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -25.4,
+   "pnl": -26.2,
    "feed": "angel",
-   "ltp": 1614.4,
-   "pnl_pct": -1.6
-  },
-  {
-   "id": 214,
-   "date": "2026-10-30",
-   "setup": "oh",
-   "symbol": "CARTRADE",
-   "side": "SELL",
-   "qty": 1,
-   "entry_time": "09:22:17",
-   "entry_price": 2256.2,
-   "candle_stop": 2325.1,
-   "sl_price": 2336.73,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -63.3,
-   "feed": "angel",
-   "ltp": 2319.5,
-   "pnl_pct": -2.81
+   "ltp": 1615.2,
+   "pnl_pct": -1.65
   },
   {
    "id": 215,
@@ -152,11 +133,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -1.1,
+   "pnl": -1.8,
    "feed": "angel-f3",
    "drive_pct": 3.37,
-   "ltp": 1241.5,
-   "pnl_pct": -0.09
+   "ltp": 1240.8,
+   "pnl_pct": -0.14
   },
   {
    "id": 216,
@@ -171,14 +152,31 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 3.6,
+   "pnl": -3.15,
    "feed": "angel-f3",
    "drive_pct": 2.37,
-   "ltp": 317.65,
-   "pnl_pct": 0.13
+   "ltp": 316.9,
+   "pnl_pct": -0.11
   }
  ],
  "closed": [
+  {
+   "id": 214,
+   "date": "2026-10-30",
+   "setup": "oh",
+   "symbol": "CARTRADE",
+   "side": "SELL",
+   "qty": 1,
+   "entry_time": "09:22:17",
+   "entry_price": 2256.2,
+   "candle_stop": 2325.1,
+   "sl_price": 2336.73,
+   "exit_time": "12:47:51",
+   "exit_price": 2336.73,
+   "reason": "SL",
+   "pnl": -80.53,
+   "feed": "angel"
+  },
   {
    "id": 210,
    "date": "2026-10-29",
@@ -3806,9 +3804,9 @@
    "ol": 0,
    "oh": 4,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -2299.34
+   "losses": 1,
+   "pnl": -80.53,
+   "cum": -2379.87
   }
  ]
 }
