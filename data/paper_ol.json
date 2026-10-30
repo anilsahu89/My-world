@@ -1,5 +1,5 @@
 {
- "updated_at": "30 Oct 2026 12:19:52 IST",
+ "updated_at": "30 Oct 2026 12:23:46 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,12 +51,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 4,
+  "open_count": 6,
   "closed_count": 204,
-  "trades_today": 4,
+  "trades_today": 6,
   "today_pnl": 0,
   "realized_total": -2299.34,
-  "unrealized": -98.8,
+  "unrealized": -94.9,
   "wins": 93,
   "losses": 111,
   "win_rate": 45.6,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -44.6,
+   "pnl": -44.2,
    "feed": "angel",
-   "ltp": 807.65,
-   "pnl_pct": -1.4
+   "ltp": 807.55,
+   "pnl_pct": -1.39
   },
   {
    "id": 212,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -4.2,
+   "pnl": -5.6,
    "feed": "angel",
-   "ltp": 386.85,
-   "pnl_pct": -0.16
+   "ltp": 387.05,
+   "pnl_pct": -0.21
   },
   {
    "id": 213,
@@ -115,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -40.5,
+   "pnl": -37.5,
    "feed": "angel",
-   "ltp": 1629.5,
-   "pnl_pct": -2.55
+   "ltp": 1626.5,
+   "pnl_pct": -2.36
   },
   {
    "id": 214,
@@ -134,10 +134,48 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -9.5,
+   "pnl": -7.6,
    "feed": "angel",
-   "ltp": 2265.7,
-   "pnl_pct": -0.42
+   "ltp": 2263.8,
+   "pnl_pct": -0.34
+  },
+  {
+   "id": 215,
+   "date": "2026-10-30",
+   "setup": "f3",
+   "symbol": "ZYDUSLIFE",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:22:53",
+   "entry_price": 1242.6,
+   "sl_price": 1181.16,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 3.37,
+   "ltp": 1242.6,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 216,
+   "date": "2026-10-30",
+   "setup": "f3",
+   "symbol": "NTPC",
+   "side": "BUY",
+   "qty": 9,
+   "entry_time": "12:22:53",
+   "entry_price": 317.25,
+   "sl_price": 306.61,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 2.37,
+   "ltp": 317.25,
+   "pnl_pct": 0.0
   }
  ],
  "closed": [
@@ -3764,7 +3802,7 @@
   },
   {
    "date": "2026-10-30",
-   "trades": 4,
+   "trades": 6,
    "ol": 0,
    "oh": 4,
    "wins": 0,

@@ -1,41 +1,30 @@
 {
- "date": "2026-10-29",
- "scanned_at": "15:06:04",
+ "date": "2026-10-30",
+ "scanned_at": "12:23:46",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
  "signals": [
   {
-   "symbol": "ZENSARTECH",
-   "drive_pct": 9.97,
+   "symbol": "ZYDUSLIFE",
+   "drive_pct": 3.37,
    "qty": 1,
-   "entry": 540.4,
-   "sl": 488.74,
-   "status": "CLOSED",
-   "exit": 538.15,
-   "reason": "EOD",
-   "pnl": -2.25
+   "entry": 1242.6,
+   "sl": 1181.16,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
   },
   {
-   "symbol": "RPOWER",
-   "drive_pct": 6.34,
-   "qty": 65,
-   "entry": 18.86,
-   "sl": 17.33,
-   "status": "CLOSED",
-   "exit": 18.79,
-   "reason": "EOD",
-   "pnl": -4.55
-  },
-  {
-   "symbol": "ELECON",
-   "drive_pct": 4.17,
-   "qty": 6,
-   "entry": 441.95,
-   "sl": 425.96,
-   "status": "CLOSED",
-   "exit": 436.0,
-   "reason": "EOD",
-   "pnl": -35.7
+   "symbol": "NTPC",
+   "drive_pct": 2.37,
+   "qty": 9,
+   "entry": 317.25,
+   "sl": 306.61,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
   }
  ]
 }

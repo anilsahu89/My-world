@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 215,
+ "next_id": 217,
  "trades": [
   {
    "id": 1,
@@ -3657,10 +3657,46 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 215,
+   "date": "2026-10-30",
+   "setup": "f3",
+   "symbol": "ZYDUSLIFE",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:22:53",
+   "entry_price": 1242.6,
+   "sl_price": 1181.16,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 3.37
+  },
+  {
+   "id": 216,
+   "date": "2026-10-30",
+   "setup": "f3",
+   "symbol": "NTPC",
+   "side": "BUY",
+   "qty": 9,
+   "entry_time": "12:22:53",
+   "entry_price": 317.25,
+   "sl_price": 306.61,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 2.37
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-10-29",
+ "f3_done_date": "2026-10-30",
  "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-10-30",
