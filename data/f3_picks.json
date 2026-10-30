@@ -1,6 +1,6 @@
 {
  "date": "2026-10-30",
- "scanned_at": "14:57:31",
+ "scanned_at": "15:01:04",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
  "signals": [
@@ -10,10 +10,10 @@
    "qty": 1,
    "entry": 1242.6,
    "sl": 1181.16,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 1236.4,
+   "reason": "EOD",
+   "pnl": -6.2
   },
   {
    "symbol": "NTPC",
@@ -21,10 +21,10 @@
    "qty": 9,
    "entry": 317.25,
    "sl": 306.61,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 316.05,
+   "reason": "EOD",
+   "pnl": -10.8
   }
  ]
 }
