@@ -1,5 +1,5 @@
 {
- "updated_at": "30 Oct 2026 19:16 IST",
+ "updated_at": "30 Oct 2026 19:31 IST",
  "desk": "Future Arbitrage",
  "status": "RUNNING",
  "preset": "r1",
@@ -9,21 +9,38 @@
  },
  "situation": [
   {
-   "symbol": "PAGEIND",
-   "spot": 34150.0,
-   "current": 34015.0,
-   "next": 33995.0,
-   "basis": 135.0,
-   "spread": 20.0,
-   "basis_pct": 0.4,
-   "spread_value": 400,
-   "lot": 20,
-   "vol_curr": 928,
-   "vol_next": 14,
-   "dte": 25,
+   "symbol": "PREMIERENE",
+   "spot": 876.0,
+   "current": 855.95,
+   "next": 846.9,
+   "basis": 20.05,
+   "spread": 9.05,
+   "basis_pct": 2.29,
+   "spread_value": 5883,
+   "lot": 650,
+   "vol_curr": 2795,
+   "vol_next": 192,
+   "dte": 24,
    "preset": "R1 relaxed",
    "preset_pass": false,
-   "verdict": "rejected: basis<1%; nextvol<250 (14); dte 25"
+   "verdict": "rejected: nextvol<250 (192); dte 24"
+  },
+  {
+   "symbol": "BLUESTARCO",
+   "spot": 1627.9,
+   "current": 1609.2,
+   "next": 1587.6,
+   "basis": 18.7,
+   "spread": 21.6,
+   "basis_pct": 1.15,
+   "spread_value": 7020,
+   "lot": 325,
+   "vol_curr": 9013,
+   "vol_next": 197,
+   "dte": 24,
+   "preset": "R1 relaxed",
+   "preset_pass": false,
+   "verdict": "rejected: spread>0.6x-basis; nextvol<250 (197); dte 24"
   }
  ],
  "open": [],
@@ -45,5 +62,5 @@
   "entered_today": [],
   "kill_switch": false
  },
- "bhav_date": "2026-10-29"
+ "bhav_date": "2026-10-30"
 }
