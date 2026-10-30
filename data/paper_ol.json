@@ -1,5 +1,5 @@
 {
- "updated_at": "30 Oct 2026 12:51:47 IST",
+ "updated_at": "30 Oct 2026 12:55:17 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,12 +51,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 5,
+  "open_count": 6,
   "closed_count": 205,
-  "trades_today": 6,
+  "trades_today": 7,
   "today_pnl": -80.53,
   "realized_total": -2379.87,
-  "unrealized": -84.6,
+  "unrealized": -83.8,
   "wins": 93,
   "losses": 112,
   "win_rate": 45.4,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -10.5,
+   "pnl": -10.15,
    "feed": "angel",
-   "ltp": 387.75,
-   "pnl_pct": -0.39
+   "ltp": 387.7,
+   "pnl_pct": -0.38
   },
   {
    "id": 213,
@@ -115,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -24.2,
+   "pnl": -24.6,
    "feed": "angel",
-   "ltp": 1613.2,
-   "pnl_pct": -1.52
+   "ltp": 1613.6,
+   "pnl_pct": -1.55
   },
   {
    "id": 215,
@@ -133,11 +133,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -1.2,
+   "pnl": -2.0,
    "feed": "angel-f3",
    "drive_pct": 3.37,
-   "ltp": 1241.4,
-   "pnl_pct": -0.1
+   "ltp": 1240.6,
+   "pnl_pct": -0.16
   },
   {
    "id": 216,
@@ -152,11 +152,32 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -2.7,
+   "pnl": -2.25,
    "feed": "angel-f3",
    "drive_pct": 2.37,
-   "ltp": 316.95,
-   "pnl_pct": -0.09
+   "ltp": 317.0,
+   "pnl_pct": -0.08
+  },
+  {
+   "id": 217,
+   "date": "2026-10-30",
+   "setup": "oh",
+   "symbol": "CARTRADE",
+   "side": "SELL",
+   "qty": 4,
+   "entry_time": "12:54:48",
+   "entry_price": 2313.5,
+   "candle_stop": 2337.5,
+   "sl_price": 2349.19,
+   "reentry_seq": 1,
+   "reentry_level": 2325.1,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 1.2,
+   "feed": "angel",
+   "ltp": 2313.2,
+   "pnl_pct": 0.01
   }
  ],
  "closed": [
@@ -3800,9 +3821,9 @@
   },
   {
    "date": "2026-10-30",
-   "trades": 6,
+   "trades": 7,
    "ol": 0,
-   "oh": 4,
+   "oh": 5,
    "wins": 0,
    "losses": 1,
    "pnl": -80.53,
