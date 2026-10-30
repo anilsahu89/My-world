@@ -1,6 +1,6 @@
 {
- "date": "2026-10-29",
- "updated_at": "29 Oct 2026 17:29:27 IST",
+ "date": "2026-10-30",
+ "updated_at": "30 Oct 2026 17:28:49 IST",
  "nifty_gate": {
   "hm_buy_state": false,
   "above_sma20": true,
@@ -9,139 +9,103 @@
  "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM buy state) · 52-week closing high (vol ≥1.5x) · BB Blast squeeze on daily/weekly/monthly (NIFTY > SMA20) · 50-day return must beat NIFTY (RS-50 gate) · NIFTY-500 · ₹5cr turnover · entries capped 2/day by the desk",
  "signals": [
   {
-   "sym": "GESHIP",
-   "setup": "QM-BBd",
-   "rsi": 82.9,
-   "note": "BB squeeze rank 2% blast on d bars",
-   "close": 1618.8,
-   "date": "2026-10-29",
-   "rs50": 1.27
+   "sym": "BSE",
+   "setup": "QM-BBw",
+   "rsi": 54.8,
+   "note": "BB squeeze rank 14% blast on w bars",
+   "close": 3510.4,
+   "date": "2026-10-30",
+   "rs50": 1.061
   },
   {
-   "sym": "LTTS",
+   "sym": "ADANIPORTS",
+   "setup": "QM-BBw",
+   "rsi": 66.5,
+   "note": "BB squeeze rank 5% blast on w bars",
+   "close": 1850.0,
+   "date": "2026-10-30",
+   "rs50": 1.1
+  },
+  {
+   "sym": "ZYDUSLIFE",
+   "setup": "QM-BBw",
+   "rsi": 57.3,
+   "note": "BB squeeze rank 11% blast on w bars",
+   "close": 1245.5,
+   "date": "2026-10-30",
+   "rs50": 1.116
+  },
+  {
+   "sym": "COFORGE",
    "setup": "QM-HM",
-   "rsi": 73.7,
-   "note": "RSI9 74 V-turn above rising SMA20",
-   "close": 4182.6,
-   "date": "2026-10-29",
-   "rs50": 1.185
+   "rsi": 64.6,
+   "note": "RSI9 65 V-turn above rising SMA20",
+   "close": 2045.0,
+   "date": "2026-10-30",
+   "rs50": 1.153
   },
   {
-   "sym": "MPHASIS",
+   "sym": "HCLTECH",
    "setup": "QM-HM",
-   "rsi": 60.8,
-   "note": "RSI9 61 V-turn above rising SMA20",
-   "close": 2561.3,
-   "date": "2026-10-29",
-   "rs50": 1.02
+   "rsi": 73.4,
+   "note": "RSI9 73 V-turn above rising SMA20",
+   "close": 1428.1,
+   "date": "2026-10-30",
+   "rs50": 1.1
   },
   {
-   "sym": "ANURAS",
-   "setup": "QM-HM",
-   "rsi": 55.8,
-   "note": "RSI9 56 V-turn above rising SMA20",
-   "close": 1182.0,
-   "date": "2026-10-29",
-   "rs50": 0.988
-  },
-  {
-   "sym": "INFY",
-   "setup": "QM-HM",
-   "rsi": 58.6,
-   "note": "RSI9 59 V-turn above rising SMA20",
-   "close": 1146.5,
-   "date": "2026-10-29",
-   "rs50": 1.006
-  },
-  {
-   "sym": "INDIANB",
-   "setup": "QM-HM",
-   "rsi": 66.6,
-   "note": "RSI9 67 V-turn above rising SMA20",
-   "close": 864.1,
-   "date": "2026-10-29",
-   "rs50": 0.981
-  },
-  {
-   "sym": "DLF",
-   "setup": "QM-HM",
-   "rsi": 67.2,
-   "note": "RSI9 67 V-turn above rising SMA20",
-   "close": 694.35,
-   "date": "2026-10-29",
-   "rs50": 1.035
-  },
-  {
-   "sym": "ZENSARTECH",
-   "setup": "QM-HM",
-   "rsi": 67.6,
-   "note": "RSI9 68 V-turn above rising SMA20",
-   "close": 537.3,
-   "date": "2026-10-29",
-   "rs50": 1.095
-  },
-  {
-   "sym": "BSOFT",
-   "setup": "QM-HM",
-   "rsi": 70.8,
-   "note": "RSI9 71 V-turn above rising SMA20",
-   "close": 342.5,
-   "date": "2026-10-29",
-   "rs50": 1.102
-  },
-  {
-   "sym": "WIPRO",
-   "setup": "QM-HM",
-   "rsi": 74.8,
-   "note": "RSI9 75 V-turn above rising SMA20",
-   "close": 190.1,
-   "date": "2026-10-29",
-   "rs50": 1.045
-  },
-  {
-   "sym": "PNB",
-   "setup": "QM-HM",
-   "rsi": 79.4,
-   "note": "RSI9 79 V-turn above rising SMA20",
-   "close": 123.9,
-   "date": "2026-10-29",
-   "rs50": 1.056
-  },
-  {
-   "sym": "ACUTAAS",
+   "sym": "DIVISLAB",
    "setup": "QM-52W",
-   "rsi": 80.9,
-   "note": "new 52w closing high 3976.7, vol 3.6x",
-   "close": 3976.7,
-   "date": "2026-10-29",
-   "rs50": 1.243
+   "rsi": 75.8,
+   "note": "new 52w closing high 9780.0, vol 1.7x",
+   "close": 9780.0,
+   "date": "2026-10-30",
+   "rs50": 1.139
   },
   {
    "sym": "LAURUSLABS",
    "setup": "QM-52W",
-   "rsi": 76.6,
-   "note": "new 52w closing high 2244.0, vol 1.8x",
-   "close": 2244.0,
-   "date": "2026-10-29",
-   "rs50": 1.24
+   "rsi": 81.8,
+   "note": "new 52w closing high 2405.5, vol 4.0x",
+   "close": 2405.5,
+   "date": "2026-10-30",
+   "rs50": 1.326
   },
   {
-   "sym": "PVRINOX",
+   "sym": "COFORGE",
    "setup": "QM-52W",
-   "rsi": 77.9,
-   "note": "new 52w closing high 1490.3, vol 1.7x",
-   "close": 1490.3,
-   "date": "2026-10-29",
-   "rs50": 1.25
+   "rsi": 64.6,
+   "note": "new 52w closing high 2045.0, vol 2.2x",
+   "close": 2045.0,
+   "date": "2026-10-30",
+   "rs50": 1.153
   },
   {
-   "sym": "THELEELA",
+   "sym": "ATHERENERG",
    "setup": "QM-52W",
-   "rsi": 64.2,
-   "note": "new 52w closing high 639.9, vol 1.8x",
-   "close": 639.9,
-   "date": "2026-10-29",
-   "rs50": 1.272
+   "rsi": 77.8,
+   "note": "new 52w closing high 1756.0, vol 2.1x",
+   "close": 1756.0,
+   "date": "2026-10-30",
+   "rs50": 1.198
+  },
+  {
+   "sym": "ZYDUSLIFE",
+   "setup": "QM-52W",
+   "rsi": 90.3,
+   "note": "new 52w closing high 1245.5, vol 2.5x",
+   "close": 1245.5,
+   "date": "2026-10-30",
+   "rs50": 1.116
+  },
+  {
+   "sym": "PPLPHARMA",
+   "setup": "QM-52W",
+   "rsi": 81.1,
+   "note": "new 52w closing high 238.9, vol 2.6x",
+   "close": 238.91,
+   "date": "2026-10-30",
+   "rs50": 1.135
   }
  ]
 }
