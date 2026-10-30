@@ -1,9 +1,9 @@
 {
- "fetched_at": "2026-10-30 15:58:07",
- "latest_date": "2026-10-29",
+ "fetched_at": "2026-10-30 17:30:55",
+ "latest_date": "2026-10-30",
  "universe_count": 197,
  "shorts_count": 1,
- "longs_count": 7,
+ "longs_count": 8,
  "shorts": [
   {
    "kind": "bb",
@@ -24,23 +24,6 @@
   }
  ],
  "longs": [
-  {
-   "kind": "bb",
-   "type": "LONG",
-   "symbol": "M&MFIN",
-   "entry_price": 287.6,
-   "sl_price": 281.28,
-   "target_price": 300.25,
-   "rr": 2.0,
-   "wick_pct": 89,
-   "vol_multiple": 5.2,
-   "rsi": 28,
-   "rsi_pass": false,
-   "primary_range": 12.65,
-   "primary_date": "2026-10-21",
-   "alert_date": "2026-10-22",
-   "score": 34.9
-  },
   {
    "kind": "bb",
    "type": "LONG",
@@ -95,6 +78,23 @@
   {
    "kind": "bb",
    "type": "LONG",
+   "symbol": "SWIGGY",
+   "entry_price": 185.25,
+   "sl_price": 182.3,
+   "target_price": 191.15,
+   "rr": 2.0,
+   "wick_pct": 62,
+   "vol_multiple": 1.9,
+   "rsi": 24,
+   "rsi_pass": false,
+   "primary_range": 5.9,
+   "primary_date": "2026-10-28",
+   "alert_date": "2026-10-29",
+   "score": 26.9
+  },
+  {
+   "kind": "bb",
+   "type": "LONG",
    "symbol": "CONCOR",
    "entry_price": 411.6,
    "sl_price": 402.23,
@@ -125,6 +125,23 @@
    "primary_date": "2026-10-23",
    "alert_date": "2026-10-26",
    "score": 26.2
+  },
+  {
+   "kind": "bb",
+   "type": "LONG",
+   "symbol": "COALINDIA",
+   "entry_price": 393.1,
+   "sl_price": 389.5,
+   "target_price": 400.3,
+   "rr": 2.0,
+   "wick_pct": 51,
+   "vol_multiple": 1.7,
+   "rsi": 37,
+   "rsi_pass": false,
+   "primary_range": 7.2,
+   "primary_date": "2026-10-28",
+   "alert_date": "2026-10-29",
+   "score": 26.1
   },
   {
    "kind": "bb",
