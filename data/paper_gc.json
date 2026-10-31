@@ -1,10 +1,10 @@
 {
- "updated_at": "31 Oct 2026 23:28:56 IST",
+ "updated_at": "31 Oct 2026 23:48:37 IST",
  "status": "DONE",
  "summary": {
   "open_count": 0,
   "closed_count": 44,
-  "realized_total": -3.71,
+  "realized_total": -3.67,
   "unrealized": 0,
   "wins": 11,
   "losses": 33,
@@ -22,10 +22,10 @@
    "entry_time": "06:00:14",
    "entry_price": 77170.94,
    "sl_price": 76735.51,
-   "exit_time": "22:48:52",
-   "exit_price": 77521.34,
+   "exit_time": "23:48:36",
+   "exit_price": 77575.17,
    "reason": "EOD",
-   "pnl": 0.28
+   "pnl": 0.32
   },
   {
    "id": 43,

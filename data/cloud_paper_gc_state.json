@@ -701,10 +701,10 @@
    "entry_time": "06:00:14",
    "entry_price": 77170.94,
    "sl_price": 76735.51,
-   "exit_time": "22:48:52",
-   "exit_price": 77521.34,
+   "exit_time": "23:48:36",
+   "exit_price": 77575.17,
    "reason": "EOD",
-   "pnl": 0.28,
+   "pnl": 0.32,
    "status": "CLOSED"
   }
  ],
