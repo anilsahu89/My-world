@@ -463,6 +463,50 @@ def admin_notify(text: str) -> None:
         print(f"watchdog: admin notify failed: {e}", flush=True)
 
 
+def build_market_pulse() -> str:
+    """Refresh data/market_pulse.json — indices, sectors, VIX, global assets.
+    Best effort: any ticker that fails is skipped; the file still lands."""
+    import yfinance as yf
+    out = {"updated_at": now().strftime("%d %b %Y %H:%M:%S IST"),
+           "indices": [], "global": [], "vix": None}
+    defs = [
+        ("^NSEI", "NIFTY 50", "indices"), ("^NSEBANK", "BANK NIFTY", "indices"),
+        ("^CNXIT", "NIFTY IT", "indices"), ("^CNXAUTO", "NIFTY AUTO", "indices"),
+        ("^CNXPHARMA", "NIFTY PHARMA", "indices"), ("^CNXMETAL", "NIFTY METAL", "indices"),
+        ("^CNXFMCG", "NIFTY FMCG", "indices"),
+        ("BTC-USD", "BTC", "global"), ("GC=F", "GOLD", "global"),
+        ("^DJI", "DOW", "global"), ("^GSPC", "S&P 500", "global"),
+    ]
+    for sym, name, bucket in defs:
+        try:
+            hist = yf.Ticker(sym).history(period="3mo", interval="1d").dropna(subset=["Close"])
+            if hist is None or len(hist) < 5:
+                continue
+            closes = [round(float(x), 2) for x in hist["Close"].tail(40).tolist()]
+            ltp = closes[-1]
+            prev = closes[-2] if len(closes) > 1 else ltp
+            sma20 = sum(closes[-20:]) / min(20, len(closes))
+            entry = {"sym": sym, "name": name, "ltp": ltp,
+                     "chg_pct": round((ltp / prev - 1) * 100, 2) if prev else 0.0,
+                     "spark": closes, "above_dma20": bool(ltp > sma20)}
+            out[bucket].append(entry)
+        except Exception:
+            continue
+    try:
+        vh = yf.Ticker("^INDIAVIX").history(period="3mo", interval="1d").dropna(subset=["Close"])
+        if vh is not None and len(vh) >= 2:
+            vc = [round(float(x), 2) for x in vh["Close"].tail(40).tolist()]
+            out["vix"] = {"ltp": vc[-1],
+                          "chg_pct": round((vc[-1] / vc[-2] - 1) * 100, 2) if len(vc) > 1 else 0.0,
+                          "spark": vc}
+    except Exception:
+        pass
+    DATA.mkdir(parents=True, exist_ok=True)
+    (DATA / "market_pulse.json").write_text(json.dumps(out, indent=1) + "\n")
+    n = len(out["indices"]) + len(out["global"]) + (1 if out["vix"] else 0)
+    return f"market_pulse.json written ({n} quotes)"
+
+
 def run(check_only: bool = False, force: str | None = None) -> dict:
     moment = now()
     checks: list[dict] = []
@@ -485,6 +529,12 @@ def run(check_only: bool = False, force: str | None = None) -> dict:
     checks.append(check_feeds())
     for tab in TABS:
         checks.append(check_tab(tab, moment))
+
+    try:
+        pulse_msg = build_market_pulse()
+        print("  [pulse]", pulse_msg, flush=True)
+    except Exception as e:
+        print("  [pulse] skipped:", e, flush=True)
 
     broken = [c for c in checks if c.get("needs_fix")]
     if not check_only:
