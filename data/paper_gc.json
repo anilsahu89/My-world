@@ -1,5 +1,5 @@
 {
- "updated_at": "02 Nov 2026 22:32:27 IST",
+ "updated_at": "02 Nov 2026 22:32:58 IST",
  "status": "DONE",
  "summary": {
   "open_count": 0,
@@ -37,7 +37,7 @@
    "entry_time": "05:48:28",
    "entry_price": 3910.6,
    "sl_price": 3881.4,
-   "exit_time": "22:32:26",
+   "exit_time": "22:32:57",
    "exit_price": 3979.0,
    "reason": "EOD",
    "pnl": 1.05
