@@ -599,12 +599,14 @@
         btc = res[5], qm = res[6], sw = res[7], gc = res[8], ls = res[9],
         ihm = res[10], hmb = res[11];
     var rows = [];
-    // October tally — the exact same month-filter the October Race uses,
+    // Month race tally — the exact same month-filter the Monthly Race uses,
     // so the dashboard and the race can never disagree
+    var RACE_MONTH = new Date().getFullYear() + "-" + String(new Date().getMonth() + 1).padStart(2, "0");
+    var RACE_MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][new Date().getMonth()];
     function octTally(rows_, dk, pk) {
       var pnl = 0, w = 0, l = 0;
       (rows_ || []).forEach(function (t) {
-        if (String((dk(t) || "")).indexOf("2026-10") !== 0) return;
+        if (String((dk(t) || "")).indexOf(RACE_MONTH) !== 0) return;
         var v = Number(pk(t) || 0); pnl += v;
         if (v > 0) w++; else l++;
       });
@@ -825,7 +827,7 @@
 
     document.getElementById("plWrap").innerHTML =
       "<table><thead><tr><th>Book</th><th>Open</th><th>Closed</th><th>W / L</th>" +
-      "<th>Win %</th><th>October P&L</th><th>All-time Realized</th><th>Unrealized (open)</th><th>Net P&L</th>" +
+      "<th>Win %</th><th>" + RACE_MON + " P&L</th><th>All-time Realized</th><th>Unrealized (open)</th><th>Net P&L</th>" +
       "</tr></thead><tbody>" + body + "</tbody><tfoot>" +
       (function () {
         var o = { open: 0, closed: 0, wins: 0, losses: 0, oct: 0 };
@@ -837,7 +839,7 @@
           o.oct += r.oct;
         });
         var wr = (o.wins + o.losses) ? Math.round(o.wins / (o.wins + o.losses) * 1000) / 10 + "%" : "—";
-        return '<tr class="pl-total"><td>Σ OCTOBER — ₹ books</td>' +
+        return '<tr class="pl-total"><td>Σ ' + RACE_MON.toUpperCase() + ' — ₹ books</td>' +
           "<td>" + o.open + "</td><td>" + o.closed + "</td>" +
           "<td>" + o.wins + "W / " + o.losses + "L</td><td>" + wr + "</td>" +
           '<td class="' + cls(o.oct) + '"><strong>' + money("₹", o.oct, true) + "</strong></td>" +
