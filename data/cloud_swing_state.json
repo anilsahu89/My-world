@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 39,
+ "next_id": 40,
  "trades": [
   {
    "id": 1,
@@ -611,7 +611,7 @@
    "entry": 1850.0,
    "sl": 1679.46,
    "tgt": 2191.08,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -629,7 +629,7 @@
    "entry": 3524.9,
    "sl": 3174.05,
    "tgt": 4226.6,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -647,7 +647,7 @@
    "entry": 1627.0,
    "sl": 1472.7,
    "tgt": 1935.6,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -665,7 +665,7 @@
    "entry": 2065.0,
    "sl": 1803.14,
    "tgt": 2588.72,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -687,7 +687,25 @@
    "exit": null,
    "reason": null,
    "pnl": null
+  },
+  {
+   "id": 39,
+   "signal_date": "2026-11-02",
+   "market": "NSE",
+   "symbol": "ACUTAAS",
+   "setup": "HM-BUY",
+   "side": "BUY",
+   "status": "PENDING",
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "sl": 3047.09,
+   "tgt": null,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null
   }
  ],
- "done_date": "2026-11-02"
+ "done_date": "2026-11-03"
 }
