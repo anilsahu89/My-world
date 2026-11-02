@@ -1,9 +1,9 @@
 {
- "updated_at": "30 Oct 2026 15:08:02 IST",
+ "updated_at": "02 Nov 2026 09:30:02 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
- "today": "2026-10-30",
+ "today": "2026-11-02",
  "strategy": {
   "rule": "first 5-min candle O=L -> BUY / O=H -> SELL (entries from 09:20, opening candle complete), ₹10,000/stock",
   "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
@@ -21,48 +21,87 @@
  },
  "vol_blocked": {
   "ol": {
-   "low_vol": 0,
+   "low_vol": 65,
    "no_vol_data": 0
   },
   "oh": {
-   "low_vol": 88,
+   "low_vol": 0,
    "no_vol_data": 0
   }
  },
  "vol_audit": {
-  "ol": {},
-  "oh": {
-   "GODREJCP": 17.25,
-   "COALINDIA": 11.02,
-   "ECLERX": 7.78,
-   "BLUESTARCO": 7.68,
-   "CARTRADE": 4.65,
-   "VOLTAS": 3.06,
-   "APARINDS": 2.97,
-   "EMMVEE": 2.31,
-   "INDGN": 2.24,
-   "SWIGGY": 2.06,
-   "RRKABEL": 2.0,
-   "COCHINSHIP": 1.94,
-   "JSWDULUX": 1.79,
-   "WAAREEENER": 1.66,
-   "IEX": 1.65
-  }
+  "ol": {
+   "LATENTVIEW": 40.59,
+   "ZENTEC": 21.61,
+   "AARTIIND": 7.27,
+   "BANKBARODA": 5.05,
+   "CHOICEIN": 4.58,
+   "MAXHEALTH": 3.22,
+   "TATASTEEL": 2.43,
+   "MEDANTA": 2.32,
+   "PHOENIXLTD": 1.95,
+   "MARUTI": 1.94,
+   "DALBHARAT": 1.81,
+   "VTL": 1.79,
+   "CARBORUNIV": 1.72,
+   "JKTYRE": 1.67,
+   "GLENMARK": 1.66
+  },
+  "oh": {}
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 0,
+  "open_count": 2,
   "closed_count": 211,
-  "trades_today": 7,
-  "today_pnl": 193.47,
+  "trades_today": 2,
+  "today_pnl": 0,
   "realized_total": -2105.87,
   "unrealized": 0,
   "wins": 94,
   "losses": 117,
   "win_rate": 44.5,
-  "days": 27
+  "days": 28
  },
- "open": [],
+ "open": [
+  {
+   "id": 218,
+   "date": "2026-11-02",
+   "setup": "ol",
+   "symbol": "BANKBARODA",
+   "side": "BUY",
+   "qty": 14,
+   "entry_time": "09:29:13",
+   "entry_price": 248.66,
+   "candle_stop": 243.0,
+   "sl_price": 241.78,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 248.66,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 219,
+   "date": "2026-11-02",
+   "setup": "ol",
+   "symbol": "CHOICEIN",
+   "side": "BUY",
+   "qty": 4,
+   "entry_time": "09:29:13",
+   "entry_price": 742.65,
+   "candle_stop": 721.95,
+   "sl_price": 718.34,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 742.65,
+   "pnl_pct": 0.0
+  }
+ ],
  "closed": [
   {
    "id": 217,
@@ -3812,6 +3851,16 @@
    "wins": 1,
    "losses": 6,
    "pnl": 193.47,
+   "cum": -2105.87
+  },
+  {
+   "date": "2026-11-02",
+   "trades": 2,
+   "ol": 2,
+   "oh": 0,
+   "wins": 0,
+   "losses": 0,
+   "pnl": 0,
    "cum": -2105.87
   }
  ]
