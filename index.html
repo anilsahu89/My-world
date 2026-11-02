@@ -283,6 +283,14 @@
 
     
 
+<!-- ===================== VAULT KNOWLEDGE DESK — setups, verdicts, lessons ===================== -->
+<section id="vkSection" style="margin-top:2.5rem">
+  <h2>📚 Vault Knowledge Desk
+    <span class="muted" style="font-size:0.75rem">— what we tested, what actually works, and what the vault taught us · verdicts from real backtests and live books · <span id="vkHeadline"></span></span>
+  </h2>
+  <div id="vkBody" class="flash">Loading vault knowledge…</div>
+</section>
+
 <!-- ===================== PORTFOLIO ANALYTICS — every book, one picture ===================== -->
 <section id="paSection" style="margin-top:2.5rem">
   <h2 style="color:var(--accent)">📊 Portfolio Analytics
@@ -875,6 +883,174 @@
   })).then(renderPA).catch(function () {
     var el = document.getElementById("paBody");
     if (el) el.textContent = "Could not load desk ledgers.";
+  });
+})();
+</script>
+<script>
+/* ===== Vault Knowledge Desk — setup scorecards + lessons + month headline.
+   Vault Globe untouched. Revert: git revert <commit>. ===== */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  function getJSON(p) {
+    return fetch(base + p + "?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+  }
+  function esc(s) { var d = document.createElement("div"); d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function inr(n) {
+    if (n == null || isNaN(n)) return "—";
+    var s = Math.abs(Number(n)).toLocaleString("en-IN", { maximumFractionDigits: 0 });
+    return (n < 0 ? "−₹" : "+₹") + s;
+  }
+  function num(x) { var v = Number(x); return isNaN(v) ? 0 : v; }
+
+  var VERDICTS = {
+    validated: { badge: "badge-green", label: "✅ Validated" },
+    refuted:   { badge: "badge-red",   label: "❌ Refuted" },
+    warning:   { badge: "badge-grey",  label: "⚠️ Warning only" },
+    live:      { badge: "badge-grey",  label: "🟦 Live (paper)" }
+  };
+  var SETUPS = [
+    { name: "HM Positional — weekly momentum phase", v: "validated",
+      stats: "PF 2.19 · weekly bars", rule: "Buy only the full momentum separation (RSI > 50, red below RSI, green above red) on the weekly.", note: "Hilega Milega (HM)" },
+    { name: "NIFTY Daily Theta — DTE-anchored", v: "validated",
+      stats: "PF 1.58 · 1-yr real-premium backtest", rule: "Sell hedged premium at 1–8 DTE, VIX 10–18, ~250 OTM, Tuesday expiries.", note: "Nifty Daily Theta — Sell Premium Every Day with Hedge" },
+    { name: "Future Arbitrage — preset R1", v: "validated",
+      stats: "WR 71% · 34 trades · +₹1.37L backtest", rule: "Spot > current > next · basis ≥ 1% · next-month volume ≥ 250 · 7–21 DTE window.", note: "Arbitrage 2.0 (Future Arbitrage V2)" },
+    { name: "HM Swing — weekly flip", v: "validated",
+      stats: "PF 1.39 · max 5 concurrent", rule: "Weekly HM flip, next-open entry, 3-week-extreme stop, 2R target.", note: null },
+    { name: "RSI-86 exhaustion booking", v: "validated",
+      stats: "68–81% dip follows overheat", rule: "Book longs when RSI 9 ≥ 86 — the stretch cools almost every time.", note: "Hilega Milega (HM)" },
+    { name: "New Low Trick — red-line fake-up short", v: "refuted",
+      stats: "WR 15–27% · prior low breaks only 39–49%", rule: "Black crosses above red ≤ 5 bars then fails → short the new low. Tested at every dwell: net negative.", note: "Hilega Milega (HM)" },
+    { name: "NK's old-low-break '8 out of 10'", v: "refuted",
+      stats: "breaks 46% · forward +0.18% vs +3.6%", rule: "Failed buy-flip predicting a fast crash — it actually predicts chop. Stand aside instead.", note: "Hilega Milega (HM)" },
+    { name: "Gap-Angle BUY on stocks (1h/daily/weekly)", v: "refuted",
+      stats: "NIFTY-100 1-year — net negative", rule: "Red below green+black with a gap and rising angle → buy. Only survives on BTC/Gold paper desks.", note: "NK Hilega Milega — ChartIQ Setup Guide" },
+    { name: "TOP/BOTTOM-FORMING anticipation states", v: "warning",
+      stats: "defensive value only", rule: "Failed-flip states drift below baseline — tighten stops on longs; do not short them.", note: "Hilega Milega (HM)" },
+    { name: "Intraday O=L / O=H", v: "live",
+      stats: "212 trades · thin edge (−₹2.1k all-time)", rule: "First-hour open=low / open=high break with volume gate; MIS square-off 15:20.", note: null }
+  ];
+  var LESSONS = [
+    { date: "2026-10-30", title: "QM's never-book-losses design tripped its own breaker",
+      lesson: "₹64k of the ₹1L book sat underwater with no exit mechanism — settling cost −₹7,946 and the desk froze for two weeks. A hard stop beats averaging-down hope." },
+    { date: "2026-10-13", title: "The New Low Trick failed every backtest",
+      lesson: "Dwell filters did not separate healthy dips from failed breakouts — the prior low broke only ~46% of the time (claimed 8/10). Now a chart-warning only." },
+    { date: "2026-10-07", title: "BLUESTARCO taught the volume rule",
+      lesson: "A thin next-month contract means wide spreads — the Future-Arbitrage loser class. Preset R1 now demands next-month volume ≥ 250 and basis ≥ 1%." },
+    { date: "2026-10-30", title: "Alert discipline is a feature, not a setting",
+      lesson: "10–20 duplicate Telegram pings for a single position nearly drowned the real signals. Bots now speak only when a trade opens or closes." },
+    { date: "2026-11-02", title: "Self-healing beats babysitting",
+      lesson: "Watchdog + retry chains revived every frozen desk (HM tick guard, subprocess timeouts, tolerant rebases). The portal now runs with no Mac attached." }
+  ];
+
+  function card(s, noteIdx) {
+    var v = VERDICTS[s.v];
+    var link = noteIdx != null && noteIdx.url ? '<a href="' + esc(noteIdx.url) + '" style="font-size:0.75rem">vault note ↗</a>' : "";
+    return '<div class="sum-card" style="min-width:240px">' +
+      '<span class="sum-label"><strong>' + esc(s.name) + "</strong></span>" +
+      '<span style="display:block;margin:2px 0"><span class="badge ' + v.badge + '">' + v.label + "</span> " +
+      '<span class="muted" style="font-size:0.75rem">' + esc(s.stats) + "</span></span>" +
+      '<span class="muted" style="font-size:0.78rem;display:block;line-height:1.35">' + esc(s.rule) + "</span>" +
+      (link ? '<span style="display:block;margin-top:3px">' + link + "</span>" : "") +
+      "</div>";
+  }
+
+  function render(g, books) {
+    var el = document.getElementById("vkBody");
+    if (!el) return;
+    /* note lookup for vault links */
+    var byTitle = {};
+    ((g && g.nodes) || []).forEach(function (n) { byTitle[n.title] = n; });
+
+    /* November headline */
+    var trades = 0, wins = 0, net = 0, green = 0, active = 0;
+    books.forEach(function (b) {
+      var nov = b.rows.filter(function (t) { return (t.date || "").slice(0, 7) === "2026-11"; });
+      if (!nov.length) return;
+      active++;
+      var n = 0, s = 0, w = 0;
+      nov.forEach(function (t) { n++; s += t.pnl; if (t.pnl > 0) w++; });
+      trades += n; wins += w; net += s;
+      if (s > 0) green++;
+    });
+    document.getElementById("vkHeadline").innerHTML =
+      "November so far: <strong>" + trades + "</strong> trades · <strong>" + wins + "W</strong> · net " +
+      '<span class="' + (net >= 0 ? "ok" : "bad") + '"><strong>' + inr(net) + "</strong></span> · " +
+      green + "/" + active + " books green";
+
+    var html = "";
+    /* scorecards */
+    html += '<h3 style="margin:0 0 6px">Setup scorecards <span class="muted" style="font-size:0.75rem">(verdicts from backtests and live books — the vault remembers)</span></h3>';
+    html += '<div class="summary-cards">';
+    SETUPS.forEach(function (s) {
+      html += card(s, s.note ? byTitle[s.note] : null);
+    });
+    html += "</div>";
+    /* lessons timeline */
+    html += '<h3 style="margin:14px 0 6px">Lessons the vault taught us <span class="muted" style="font-size:0.75rem">(newest first)</span></h3>';
+    html += '<div class="summary-cards">';
+    LESSONS.forEach(function (l2) {
+      html += '<div class="sum-card" style="min-width:240px">' +
+        '<span class="sum-label"><span class="muted" style="font-size:0.72rem">' + esc(l2.date) + "</span> · <strong>" + esc(l2.title) + "</strong></span>" +
+        '<span class="muted" style="font-size:0.78rem;display:block;line-height:1.35">' + esc(l2.lesson) + "</span></div>";
+    });
+    html += "</div>";
+    el.innerHTML = html;
+    el.className = "";
+  }
+
+  /* desk ledger fetch — November headline only needs date+pnl */
+  function approxExit(t) {
+    if (t.exit_date) return t.exit_date;
+    try { var d = new Date(t.entry_date); d.setDate(d.getDate() + (t.sessions || 0));
+      return isNaN(d) ? null : d.toISOString().slice(0, 10); } catch (e) { return null; }
+  }
+  var DESKS = [
+    { name: "⚡ OL/OH", src: "/data/paper_ol.json", rows: function (d) {
+        return ((d && d.closed) || []).map(function (t) { return { date: t.date, pnl: num(t.pnl) }; }); } },
+    { name: "🧮 QM", src: "/data/paper_qm.json", rows: function (d) {
+        return ((d && d.closed) || []).map(function (t) { return { date: approxExit(t), pnl: num(t.pnl) }; }); } },
+    { name: "🕯️ HM Swing", src: "/data/cloud_swing_state.json", rows: function (d) {
+        return ((d && d.trades) || []).filter(function (t) { return t.status === "CLOSED"; }).map(function (t) {
+          return { date: approxExit(t), pnl: num(t.pnl) }; }); } },
+    { name: "🛡️ Theta", src: "/data/scanners/nifty-daily-theta-latest.json", rows: function (d) {
+        return ((d && d.trades) || []).filter(function (t) { return (t.status || "") === "CLOSED"; }).map(function (t) {
+          return { date: t.exit_date, pnl: num(t.pnl) }; }); } },
+    { name: "🏭 Mill", src: "/data/scanners/nifty-premium-mill-latest.json", rows: function (d) {
+        return ((d && d.trades) || []).filter(function (t) { return (t.status || "") === "CLOSED"; }).map(function (t) {
+          return { date: t.exit_date, pnl: num(t.pnl) }; }); } },
+    { name: "🎯 FA", src: "/data/paper_future_arb.json", rows: function (d) {
+        return ((d && d.closed) || []).map(function (t) { return { date: t.exit_date, pnl: num(t.pnl) }; }); } },
+    { name: "💎 LTP", src: "/data/paper_nifty_ltp.json", rows: function (d) {
+        return ((d && d.trades) || []).filter(function (t) { return t.exit; }).map(function (t) {
+          return { date: t.exit, pnl: num(t.pnl) }; }); } },
+    { name: "₿ BTC Theta", src: "/data/paper_btc_theta.json", rows: function (d) {
+        return ((d && d.closed) || []).map(function (t) {
+          return { date: String(t.exit_at || "").slice(0, 10), pnl: num(t.pnl_inr) }; }); } },
+    { name: "📈 Intraday HM", src: "/data/scanners/htf-hm-latest.json", rows: function (d) {
+        return ((d && d.closed) || []).map(function (t) { return { date: t.exit_date, pnl: num(t.pnl) }; }); } },
+    { name: "🔗 HM BTC/Gold", src: "/data/scanners/hm-btc-gold-latest.json", rows: function (d) {
+        return ((d && d.closed) || []).map(function (t) {
+          return { date: t.exit_date, pnl: num(t.pnl_inr != null ? t.pnl_inr : t.pnl) }; }); } },
+    { name: "🥇 GC", src: "/data/cloud_paper_gc_state.json", rows: function (d) {
+        return ((d && d.trades) || []).filter(function (t) { return t.status === "CLOSED"; }).map(function (t) {
+          return { date: t.session, pnl: num(t.pnl) * 83 }; }); } }
+  ];
+
+  Promise.all([
+    getJSON("/data/graph.json"),
+    Promise.all(DESKS.map(function (dsk) {
+      return getJSON(dsk.src).then(function (d) { return { name: dsk.name, rows: dsk.rows(d) }; });
+    }))
+  ]).then(function (res) { render(res[0], res[1]); }).catch(function () {
+    var el = document.getElementById("vkBody");
+    if (el) el.textContent = "Could not load vault knowledge.";
   });
 })();
 </script>
