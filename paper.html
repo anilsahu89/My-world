@@ -1785,8 +1785,17 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         open: (d && d.open) ? d.open.length : 0, ok: !!d }; } },
     { name: "🧮 QM Swing", cap: 100000, src: "/data/paper_qm.json",
       adapt: function (d) { var c = (d && d.closed) || [];
-        return { t: tally(c, function (x) { return x.exit_date || x.date; }, function (x) { return x.pnl; }),
-          last: lastClose(c, function (x) { return x.exit_date || x.date; }, function (x) { return x.pnl; }),
+        /* older closed rows lack exit_date — approximate entry + sessions
+           days (same convention the HM Swing desk uses) */
+        function qmExit(x) {
+          if (x.exit_date) return x.exit_date;
+          try { var dt = new Date(x.entry_date);
+            dt.setDate(dt.getDate() + (x.sessions || 0));
+            return isNaN(dt) ? null : dt.toISOString().slice(0, 10);
+          } catch (e) { return null; }
+        }
+        return { t: tally(c, qmExit, function (x) { return x.pnl; }),
+          last: lastClose(c, qmExit, function (x) { return x.pnl; }),
           open: d && d.open ? d.open.length + ((d.pending || []).length) : 0, ok: !!d }; } },
     { name: "📈 Intraday HM", cap: 100000, src: "/data/scanners/htf-hm-latest.json",
       adapt: function (d) { return { t: tally((d && d.closed) || [], function (x) { return x.exit_date; }, function (x) { return x.pnl; }),

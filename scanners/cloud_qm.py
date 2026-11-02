@@ -433,7 +433,7 @@ def export(state: dict) -> dict:
     fields = ("id", "signal_date", "symbol", "setup", "side", "status",
               "ref_close", "entry_date", "qty", "entry", "invested", "booked",
               "avg_count", "trail", "sessions", "mark", "exit", "reason",
-              "pnl", "note")
+              "exit_date", "pnl", "note")
 
     def row(t): return {k: t.get(k) for k in fields}
 
