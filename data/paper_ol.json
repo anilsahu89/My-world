@@ -1,5 +1,5 @@
 {
- "updated_at": "02 Nov 2026 09:30:02 IST",
+ "updated_at": "02 Nov 2026 09:32:09 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -31,21 +31,21 @@
  },
  "vol_audit": {
   "ol": {
-   "LATENTVIEW": 40.59,
+   "LATENTVIEW": 40.97,
    "ZENTEC": 21.61,
-   "AARTIIND": 7.27,
+   "AARTIIND": 7.4,
    "BANKBARODA": 5.05,
    "CHOICEIN": 4.58,
-   "MAXHEALTH": 3.22,
+   "MAXHEALTH": 3.32,
    "TATASTEEL": 2.43,
    "MEDANTA": 2.32,
+   "MARUTI": 2.2,
+   "VTL": 2.1,
    "PHOENIXLTD": 1.95,
-   "MARUTI": 1.94,
+   "GLENMARK": 1.94,
    "DALBHARAT": 1.81,
-   "VTL": 1.79,
    "CARBORUNIV": 1.72,
-   "JKTYRE": 1.67,
-   "GLENMARK": 1.66
+   "JKTYRE": 1.67
   },
   "oh": {}
  },
@@ -56,7 +56,7 @@
   "trades_today": 2,
   "today_pnl": 0,
   "realized_total": -2105.87,
-  "unrealized": 0,
+  "unrealized": -8.68,
   "wins": 94,
   "losses": 117,
   "win_rate": 44.5,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -5.88,
    "feed": "angel",
-   "ltp": 248.66,
-   "pnl_pct": 0.0
+   "ltp": 248.24,
+   "pnl_pct": -0.17
   },
   {
    "id": 219,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -2.8,
    "feed": "angel",
-   "ltp": 742.65,
-   "pnl_pct": 0.0
+   "ltp": 741.95,
+   "pnl_pct": -0.09
   }
  ],
  "closed": [
