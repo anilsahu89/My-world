@@ -368,6 +368,7 @@ main h3 .collapse-btn {
 <!-- ===== desk tabs: one click per category, lists collapsed by default ===== -->
 <div class="pt-tabs">
   <button class="pt-tab active" data-panel="raceSection">🏆 Monthly Race</button>
+  <button class="pt-tab" data-panel="auditSection">🔬 Setup Audit</button>
   <button class="pt-tab" data-panel="autoSection">⚡ Intraday O=L/O=H</button>
   <button class="pt-tab" data-panel="qmSection">🧮 QM Swing</button>
   <button class="pt-tab" data-panel="hmHtfSection">📈 Intraday HM</button>
@@ -381,6 +382,35 @@ main h3 .collapse-btn {
   <button class="pt-tab" data-panel="gcSection">🥇 Gold/BTC</button>
   <button class="pt-tab" data-panel="manualPanel">✋ Manual</button>
 </div>
+
+<!-- ===================== SETUP AUDIT — per-desk trade dashboard ===================== -->
+<section id="auditSection" class="pt-panel">
+  <h2 style="color:#7fd4ff">
+    🔬 Setup Audit — one desk, every trade
+    <span class="muted" style="font-size:0.75rem">— pick any desk (defaults to the most profitable book), filter by month / outcome / exit reason, click a trade to inspect it · equity curve and monthly P&amp;L recompute live from each desk's published JSON · added 2 Nov 2026</span>
+  </h2>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin:10px 0">
+    <label style="font-size:0.8rem">Desk<br><select id="auditDesk" style="max-width:340px"></select></label>
+    <label style="font-size:0.8rem">Outcome<br><select id="auditOutcome"><option value="all">All</option><option value="win">Wins</option><option value="loss">Losses</option></select></label>
+    <label style="font-size:0.8rem">Exit reason<br><select id="auditReason"><option value="all">Any</option></select></label>
+    <label style="font-size:0.8rem">From month<br><select id="auditFrom"></select></label>
+    <label style="font-size:0.8rem">To month<br><select id="auditTo"></select></label>
+    <button id="auditReset" class="btn" type="button" style="align-self:flex-end">Reset</button>
+  </div>
+  <div class="summary-cards" id="auditKpis"></div>
+  <div id="auditEquity"></div>
+  <div id="auditMonthly"></div>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start;margin-top:10px">
+    <div style="flex:1 1 300px;min-width:280px">
+      <h3 style="margin:4px 0">Trades <span class="muted" style="font-size:0.8rem" id="auditCount"></span></h3>
+      <div id="auditList" style="max-height:380px;overflow-y:auto;border:1px solid var(--border);border-radius:6px"></div>
+    </div>
+    <div style="flex:1 1 320px;min-width:300px">
+      <h3 style="margin:4px 0">Selected trade</h3>
+      <div id="auditDetail" class="flash">Click any trade on the left to inspect it.</div>
+    </div>
+  </div>
+</section>
 
 <!-- ===================== AUTO O=L / O=H STRATEGY (LIVE) ===================== -->
 <!-- ===================== MONTHLY RACE — DESK LEADERBOARD ===================== -->
@@ -2881,6 +2911,316 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       apply(body.classList.contains("collapsed"));
     });
   });
+})();
+</script>
+<script>
+/* ===== Setup Audit — per-desk trade dashboard (added 2 Nov 2026, one commit).
+   Revert the whole feature with: git revert <commit> ===== */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  function esc(s) { var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function inr(n) {
+    if (n == null || isNaN(n)) return "—";
+    var s = Math.abs(Number(n)).toLocaleString("en-IN", { maximumFractionDigits: 0 });
+    return (n < 0 ? "−₹" : "+₹") + s;
+  }
+  function num(x) { var v = Number(x); return isNaN(v) ? 0 : v; }
+  function getJSON(path) {
+    return fetch(base + path + "?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+  }
+  function approxExit(t) {
+    if (t.exit_date) return t.exit_date;
+    try { var d = new Date(t.entry_date); d.setDate(d.getDate() + (t.sessions || 0));
+      return isNaN(d) ? null : d.toISOString().slice(0, 10); } catch (e) { return null; }
+  }
+  var DESKS = [
+    { name: "💎 NIFTY Long-Term Premium — most profitable book", src: "/data/paper_nifty_ltp.json",
+      adapt: function (d) { return ((d && d.trades) || []).filter(function (t) { return t.exit; }).map(function (t) {
+        return { date: t.exit, edate: t.entry, sym: "NIFTY " + String(t.side || "").toUpperCase(),
+                 side: String(t.side || "").toUpperCase(), pnl: num(t.pnl), reason: t.reason || "—",
+                 meta: [["Points", t.points], ["Discount at entry", t.discount_at_entry]] }; }); } },
+    { name: "⚡ Intraday O=L / O=H (212 trades)", src: "/data/paper_ol.json",
+      adapt: function (d) { return ((d && d.closed) || []).map(function (t) {
+        return { date: t.date, edate: t.date, sym: t.symbol + " " + String(t.setup || "").toUpperCase(),
+                 side: t.side, entry: t.entry_price, exit: t.exit_price, pnl: num(t.pnl), reason: t.reason || "—",
+                 meta: [["Qty", t.qty], ["Entry time", t.entry_time], ["Exit time", t.exit_time], ["Feed", t.feed]] }; }); } },
+    { name: "🧮 QM Swing", src: "/data/paper_qm.json",
+      adapt: function (d) { return ((d && d.closed) || []).map(function (t) {
+        return { date: approxExit(t), edate: t.entry_date, sym: t.symbol + " " + String(t.setup || "").toUpperCase(),
+                 side: t.side, entry: t.entry, exit: t.exit, pnl: num(t.pnl), reason: t.reason || "—",
+                 meta: [["Qty", t.qty], ["Sessions", t.sessions], ["Signal date", t.signal_date]] }; }); } },
+    { name: "🕯️ HM Swing", src: "/data/cloud_swing_state.json",
+      adapt: function (d) { return ((d && d.trades) || []).filter(function (t) { return t.status === "CLOSED"; }).map(function (t) {
+        return { date: approxExit(t), edate: t.entry_date, sym: t.symbol + " " + String(t.setup || "").toUpperCase(),
+                 side: t.side, entry: t.entry, exit: t.exit, pnl: num(t.pnl), reason: t.reason || "—",
+                 meta: [["Qty", t.qty], ["Sessions", t.sessions], ["Stop", t.sl], ["Target", t.tgt]] }; }); } },
+    { name: "🛡️ NIFTY Theta", src: "/data/scanners/nifty-daily-theta-latest.json",
+      adapt: function (d) { return ((d && d.trades) || []).filter(function (t) { return (t.status || "") === "CLOSED"; }).map(function (t) {
+        return { date: t.exit_date, edate: t.entry_date, sym: "NIFTY " + String(t.direction || "").toUpperCase() + " " + t.short_strike + "/" + t.long_strike,
+                 side: "SELL", pnl: num(t.pnl), reason: t.exit_reason || "—",
+                 meta: [["DTE", t.dte], ["VIX at entry", t.vix_entry], ["Net credit", t.net_credit], ["Spot entry", t.spot_entry]] }; }); } },
+    { name: "🏭 Premium Mill", src: "/data/scanners/nifty-premium-mill-latest.json",
+      adapt: function (d) { return ((d && d.trades) || []).filter(function (t) { return (t.status || "") === "CLOSED"; }).map(function (t) {
+        return { date: t.exit_date, edate: t.entry_date, sym: "NIFTY " + String(t.direction || t.strategy || "MILL").toUpperCase(),
+                 side: "SELL", pnl: num(t.pnl), reason: t.exit_reason || "—",
+                 meta: [["DTE", t.dte], ["VIX at entry", t.vix_entry], ["Net credit", t.net_credit]] }; }); } },
+    { name: "🎯 Future Arbitrage", src: "/data/paper_future_arb.json",
+      adapt: function (d) { return ((d && d.closed) || []).map(function (t) {
+        return { date: t.exit_date, edate: t.entry_date, sym: t.symbol, side: "CARRY",
+                 pnl: num(t.pnl), reason: t.reason || "—",
+                 meta: [["Lot", t.lot], ["Basis", t.basis]] }; }); } },
+    { name: "₿ BTC Theta", src: "/data/paper_btc_theta.json",
+      adapt: function (d) { return ((d && d.closed) || []).map(function (t) {
+        return { date: String(t.exit_at || "").slice(0, 10), edate: String(t.entered_at || t.entry_at || "").slice(0, 10),
+                 sym: t.symbol || t.instrument || "BTC", side: t.side || "SELL",
+                 pnl: num(t.pnl_inr), reason: t.exit_reason || t.reason || "—",
+                 meta: [["Entered", t.entered_at || t.entry_at], ["Exited", t.exit_at]] }; }); } },
+    { name: "📈 Intraday HM", src: "/data/scanners/htf-hm-latest.json",
+      adapt: function (d) { return ((d && d.closed) || []).map(function (t) {
+        return { date: t.exit_date, edate: t.entry_date, sym: t.symbol + " " + String(t.setup || "").toUpperCase(),
+                 side: t.side, entry: t.entry, exit: t.exit, pnl: num(t.pnl), reason: t.reason || "—",
+                 meta: [["Qty", t.qty], ["Entry time", t.entry_time], ["HTF weekly", t.htf_weekly], ["HTF daily", t.htf_daily]] }; }); } },
+    { name: "🔗 HM BTC/Gold", src: "/data/scanners/hm-btc-gold-latest.json",
+      adapt: function (d) { return ((d && d.closed) || []).map(function (t) {
+        return { date: t.exit_date, edate: t.entry_date, sym: t.asset + " " + t.frame + " " + String(t.setup || "").toUpperCase(),
+                 side: t.side, entry: t.entry_price, exit: t.exit_price,
+                 pnl: num(t.pnl_inr != null ? t.pnl_inr : t.pnl), reason: t.exit_reason || "—",
+                 meta: [["Frame", t.frame], ["Setup", t.setup]] }; }); } },
+    { name: "🥇 Gold/BTC GC — USD ×83 like the race", src: "/data/cloud_paper_gc_state.json",
+      adapt: function (d) { return ((d && d.trades) || []).filter(function (t) { return t.status === "CLOSED"; }).map(function (t) {
+        return { date: t.session, edate: t.session, sym: String(t.asset || t.symbol || "GC").toUpperCase() + " " + String(t.side || ""),
+                 side: t.side, pnl: num(t.pnl) * 83, reason: t.reason || t.exit_reason || "—",
+                 meta: [["Session", t.session], ["USD P&L", t.pnl]] }; }); } },
+    { name: "✋ Manual", src: null,
+      adapt: function () { var ts = [];
+        try { ts = JSON.parse(localStorage.getItem("mahi_paper_trades") || "[]"); } catch (e) {}
+        return ts.filter(function (t) { return t.exit_date; }).map(function (t) {
+          return { date: t.exit_date, edate: t.entry_date, sym: t.symbol || "—", side: t.side,
+                   entry: t.entry_price, exit: t.exit_price, pnl: num(t.pnl), reason: t.reason || "—",
+                   meta: [["Qty", t.qty]] }; }); } }
+  ];
+
+  var elDesk = document.getElementById("auditDesk"),
+      elOutcome = document.getElementById("auditOutcome"),
+      elReason = document.getElementById("auditReason"),
+      elFrom = document.getElementById("auditFrom"),
+      elTo = document.getElementById("auditTo"),
+      elKpis = document.getElementById("auditKpis"),
+      elEquity = document.getElementById("auditEquity"),
+      elMonthly = document.getElementById("auditMonthly"),
+      elList = document.getElementById("auditList"),
+      elDetail = document.getElementById("auditDetail"),
+      elCount = document.getElementById("auditCount");
+  var MONS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  var all = [], curList = [], sel = null, curDesk = DESKS[0];
+
+  DESKS.forEach(function (d, i) {
+    var o = document.createElement("option");
+    o.value = i; o.textContent = d.name;
+    elDesk.appendChild(o);
+  });
+
+  function holdDays(t) {
+    try { var a = new Date(t.edate), b = new Date(t.date);
+      if (isNaN(a) || isNaN(b)) return null;
+      return Math.max(0, Math.round((b - a) / 86400000)); } catch (e) { return null; }
+  }
+  function fmtDay(iso) {
+    if (!iso) return "—";
+    var d = new Date(iso + "T00:00:00");
+    return isNaN(d) ? iso : d.getDate() + " " + MONS[d.getMonth()] + " " + d.getFullYear();
+  }
+  function compute(list) {
+    var w = 0, l = 0, gw = 0, gl = 0, sum = 0, best = null, worst = null, holds = [];
+    list.forEach(function (t) {
+      var p = t.pnl; sum += p;
+      if (p > 0) { w++; gw += p; } else { l++; gl -= p; }
+      if (!best || p > best.pnl) best = t;
+      if (!worst || p < worst.pnl) worst = t;
+      var h = holdDays(t); if (h != null) holds.push(h);
+    });
+    var eq = 0, peak = 0, maxDD = 0, curve = [];
+    list.slice().sort(function (a, b) { return (a.date || "").localeCompare(b.date || ""); })
+      .forEach(function (t) { eq += t.pnl; if (eq > peak) peak = eq;
+        if (peak - eq > maxDD) maxDD = peak - eq; curve.push(eq); });
+    var avgW = w ? gw / w : 0, avgL = l ? gl / l : 0;
+    return { n: list.length, w: w, l: l, sum: sum,
+      wr: (w + l) ? Math.round(w / (w + l) * 1000) / 10 : null,
+      exp: n ? sum / n : 0,
+      pf: gl > 0 ? gw / gl : null,
+      payoff: (w && l) ? avgW / avgL : null,
+      maxDD: maxDD, curve: curve, best: best, worst: worst,
+      avgHold: holds.length ? Math.round(holds.reduce(function (a, b) { return a + b; }, 0) / holds.length * 10) / 10 : null };
+  }
+  function kpi(label, val, sub, cls) {
+    return '<div class="sum-card"><span class="sum-label">' + label + '</span><span class="sum-value ' +
+      (cls || "") + '">' + val + "</span>" +
+      (sub ? '<span class="muted" style="font-size:0.72rem">' + sub + "</span>" : "") + "</div>";
+  }
+  function render() {
+    var from = elFrom.value, to = elTo.value, out = elOutcome.value, re = elReason.value;
+    curList = all.filter(function (t) {
+      var m = (t.date || "").slice(0, 7);
+      if (from && m < from) return false;
+      if (to && m > to) return false;
+      if (out === "win" && !(t.pnl > 0)) return false;
+      if (out === "loss" && !(t.pnl <= 0)) return false;
+      if (re !== "all" && (t.reason || "—") !== re) return false;
+      return true;
+    });
+    var k = compute(curList);
+    elKpis.innerHTML =
+      kpi("TOTAL TRADES", k.n, k.w + " wins · " + k.l + " losses") +
+      kpi("WIN RATE", k.wr == null ? "—" : k.wr + "%", "Expectancy ₹" + k.exp.toFixed(0) + " / trade") +
+      kpi("NET P&L", '<span class="' + (k.sum >= 0 ? "pos" : "neg") + '">' + inr(k.sum) + "</span>", "Max drawdown " + inr(k.maxDD)) +
+      kpi("PROFIT FACTOR", k.pf == null ? "—" : k.pf.toFixed(2), k.payoff ? "Payoff ratio " + k.payoff.toFixed(2) : "") +
+      kpi("BEST TRADE", k.best ? inr(k.best.pnl) : "—", k.best ? esc(k.best.sym) + " · " + esc(k.best.date || "") : "") +
+      kpi("WORST TRADE", k.worst ? inr(k.worst.pnl) : "—", k.worst ? esc(k.worst.sym) + " · " + esc(k.worst.date || "") : "") +
+      kpi("AVG HOLD", k.avgHold == null ? "—" : k.avgHold + " days", "calendar days, entry → exit");
+    renderEquity(k);
+    renderMonthly(curList);
+    renderList();
+    renderDetail();
+  }
+  function renderEquity(k) {
+    var W = Math.max(320, elEquity.clientWidth || 700), H = 170, padL = 64, padR = 16, padT = 14, padB = 16;
+    var head = '<div class="muted" style="font-size:0.8rem;margin:12px 0 2px">Equity curve — cumulative closed P&amp;L, ' +
+      esc(curDesk.name) + "</div>";
+    var n = k.curve.length;
+    if (!n) { elEquity.innerHTML = head + '<div class="muted">No trades match the filters.</div>'; return; }
+    var lo = 0, hi = 0;
+    k.curve.forEach(function (v) { if (v < lo) lo = v; if (v > hi) hi = v; });
+    if (hi === lo) hi = lo + 1;
+    function y(v) { return padT + (hi - v) / (hi - lo) * (H - padT - padB); }
+    function x(i) { return padL + (n === 1 ? (W - padL - padR) / 2 : i * (W - padL - padR) / (n - 1)); }
+    var svg = '<svg viewBox="0 0 ' + W + " " + H + '" width="100%" height="' + H + '" role="img" aria-label="equity curve">';
+    svg += '<rect x="' + padL + '" y="' + padT + '" width="' + (W - padL - padR) + '" height="' + (H - padT - padB) + '" fill="none" stroke="var(--border)"/>';
+    [lo, lo + (hi - lo) / 3, lo + 2 * (hi - lo) / 3, hi].forEach(function (v) {
+      svg += '<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="var(--border)" opacity="0.45"/>';
+      svg += '<text x="' + (padL - 6) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-size="11" fill="var(--muted)">' + Math.round(v).toLocaleString("en-IN") + "</text>";
+    });
+    if (lo < 0 && hi > 0)
+      svg += '<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + y(0) + '" y2="' + y(0) + '" stroke="var(--muted)" stroke-dasharray="4 4" opacity="0.7"/>';
+    var pts = k.curve.map(function (v, i) { return x(i).toFixed(1) + "," + y(v).toFixed(1); }).join(" ");
+    var last = k.curve[n - 1];
+    svg += '<polyline points="' + pts + '" fill="none" stroke="' + (last >= 0 ? "var(--green)" : "var(--red)") + '" stroke-width="2"/>';
+    svg += '<text x="' + (W - padR) + '" y="' + Math.max(12, y(last) - 6) + '" text-anchor="end" font-size="12" font-weight="600" fill="var(--text)">' + inr(last) + "</text>";
+    svg += "</svg>";
+    elEquity.innerHTML = head + svg;
+  }
+  function renderMonthly(list) {
+    var sums = {};
+    list.forEach(function (t) {
+      var m = (t.date || "").slice(0, 7);
+      if (m) sums[m] = (sums[m] || 0) + t.pnl;
+    });
+    var keys = Object.keys(sums).sort();
+    var head = '<div class="muted" style="font-size:0.8rem;margin:12px 0 2px">Monthly P&amp;L — ' + esc(curDesk.name) + "</div>";
+    if (!keys.length) { elMonthly.innerHTML = head + '<div class="muted">No trades match the filters.</div>'; return; }
+    var W = Math.max(320, elMonthly.clientWidth || 700), H = 120, padL = 64, padR = 16, padT = 10, padB = 22;
+    var lo = Math.min(0, Math.min.apply(null, keys.map(function (k2) { return sums[k2]; })));
+    var hi = Math.max(0, Math.max.apply(null, keys.map(function (k2) { return sums[k2]; })));
+    if (hi === lo) hi = lo + 1;
+    function y(v) { return padT + (hi - v) / (hi - lo) * (H - padT - padB); }
+    var bw = Math.min(46, (W - padL - padR) / keys.length * 0.6);
+    var svg = '<svg viewBox="0 0 ' + W + " " + H + '" width="100%" height="' + H + '" role="img" aria-label="monthly pnl">';
+    svg += '<line x1="' + padL + '" x2="' + (W - 8) + '" y1="' + y(0) + '" y2="' + y(0) + '" stroke="var(--border)"/>';
+    keys.forEach(function (k2, i) {
+      var v = sums[k2], cx = padL + (i + 0.5) * (W - padL - padR) / keys.length;
+      var y0 = y(0), y1 = y(v);
+      svg += '<rect x="' + (cx - bw / 2).toFixed(1) + '" y="' + Math.min(y0, y1).toFixed(1) + '" width="' + bw.toFixed(1) +
+        '" height="' + Math.max(1, Math.abs(y0 - y1)).toFixed(1) + '" fill="' + (v >= 0 ? "var(--green)" : "var(--red)") + '" opacity="0.85">';
+      svg += "<title>" + k2 + ": " + inr(v) + "</title></rect>";
+      if (keys.length <= 14 || i % 2 === 0)
+        svg += '<text x="' + cx + '" y="' + (H - 6) + '" text-anchor="middle" font-size="10.5" fill="var(--muted)">' + k2.slice(2) + "</text>";
+    });
+    svg += "</svg>";
+    elMonthly.innerHTML = head + svg;
+  }
+  function renderList() {
+    elCount.textContent = "(" + curList.length + ")";
+    var sorted = curList.slice().sort(function (a, b) {
+      return (b.date || "").localeCompare(a.date || "") || b.pnl - a.pnl;
+    });
+    curList = sorted;
+    var html = "", lastDate = null;
+    sorted.forEach(function (t, i) {
+      if ((t.date || "") !== lastDate) {
+        lastDate = t.date || "";
+        html += '<div style="padding:3px 10px;background:rgba(255,255,255,0.05);font-size:0.72rem;color:var(--muted)">' + esc(fmtDay(lastDate)) + "</div>";
+      }
+      html += '<div data-ti="' + i + '" class="cursorInteract" style="display:flex;justify-content:space-between;gap:8px;padding:5px 10px;border-bottom:1px solid var(--border);cursor:pointer">' +
+        '<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><strong>' + esc(t.sym) + "</strong> " +
+        (t.side ? '<span class="muted" style="font-size:0.75rem">' + esc(t.side) + "</span> " : "") +
+        '<span class="muted" style="font-size:0.75rem">' + esc(t.reason || "") + "</span></span>" +
+        '<span class="' + (t.pnl >= 0 ? "ok" : "bad") + '" style="white-space:nowrap">' + inr(t.pnl) + "</span></div>";
+    });
+    elList.innerHTML = html || '<div class="muted" style="padding:10px">No trades match the filters.</div>';
+  }
+  function renderDetail() {
+    if (!sel) { elDetail.innerHTML = "Click any trade on the left to inspect it."; return; }
+    var h = '<div style="font-size:1.4rem;font-weight:700" class="' + (sel.pnl >= 0 ? "ok" : "bad") + '">' + inr(sel.pnl) + "</div>" +
+      '<div style="margin:6px 0"><strong>' + esc(sel.sym) + "</strong>" +
+      (sel.side ? ' <span class="badge">' + esc(sel.side) + "</span>" : "") + "</div>";
+    var rows = [["Entry date", sel.edate || "—"], ["Exit date", sel.date || "—"], ["Hold (calendar)", holdDays(sel)],
+      ["Entry price", sel.entry != null ? sel.entry : "—"], ["Exit price", sel.exit != null ? sel.exit : "—"],
+      ["Exit reason", sel.reason || "—"]].concat(sel.meta || []);
+    h += '<table style="width:100%;font-size:0.85rem">';
+    rows.forEach(function (r) {
+      h += "<tr><td class=\"muted\">" + esc(r[0]) + '</td><td style="text-align:right">' + esc(r[1] == null ? "—" : r[1]) + "</td></tr>";
+    });
+    h += "</table>";
+    elDetail.innerHTML = h;
+  }
+  function loadDesk() {
+    curDesk = DESKS[+elDesk.value || 0];
+    elKpis.innerHTML = '<div class="flash">Loading ' + esc(curDesk.name) + "…</div>";
+    var p = curDesk.src ? getJSON(curDesk.src) : Promise.resolve(null);
+    p.then(function (d) {
+      all = curDesk.adapt(d).filter(function (t) { return t.date; });
+      sel = null;
+      // reason + month filter options
+      var reasons = {};
+      var months = {};
+      all.forEach(function (t) {
+        reasons[t.reason || "—"] = 1;
+        var m = (t.date || "").slice(0, 7); if (m) months[m] = 1;
+      });
+      var rk = Object.keys(reasons).sort();
+      elReason.innerHTML = '<option value="all">Any</option>' + rk.map(function (r) {
+        return '<option value="' + esc(r) + '">' + esc(r) + "</option>"; }).join("");
+      var mk = Object.keys(months).sort();
+      var opts = '<option value="">All</option>' + mk.map(function (m) {
+        return '<option value="' + m + '">' + m + "</option>"; }).join("");
+      elFrom.innerHTML = opts; elTo.innerHTML = opts;
+      elFrom.value = ""; elTo.value = "";
+      render();
+    });
+  }
+  elDesk.addEventListener("change", loadDesk);
+  [elOutcome, elReason, elFrom, elTo].forEach(function (el) {
+    el.addEventListener("change", render);
+  });
+  document.getElementById("auditReset").addEventListener("click", function () {
+    elOutcome.value = "all"; elReason.value = "all";
+    elFrom.value = ""; elTo.value = "";
+    render();
+  });
+  elList.addEventListener("click", function (e) {
+    var row = e.target.closest("[data-ti]");
+    if (!row) return;
+    sel = curList[+row.getAttribute("data-ti")];
+    renderDetail();
+  });
+  elDesk.value = "0";
+  loadDesk();
 })();
 </script>
 </body>
