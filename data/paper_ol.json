@@ -1,5 +1,5 @@
 {
- "updated_at": "02 Nov 2026 14:58:15 IST",
+ "updated_at": "02 Nov 2026 15:01:42 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,37 +51,19 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 3,
-  "closed_count": 212,
+  "open_count": 0,
+  "closed_count": 215,
   "trades_today": 4,
-  "today_pnl": -20.02,
-  "realized_total": -2125.89,
-  "unrealized": 36.2,
-  "wins": 94,
-  "losses": 118,
-  "win_rate": 44.3,
+  "today_pnl": 7.18,
+  "realized_total": -2098.69,
+  "unrealized": 0,
+  "wins": 96,
+  "losses": 119,
+  "win_rate": 44.7,
   "days": 28
  },
- "open": [
-  {
-   "id": 219,
-   "date": "2026-11-02",
-   "setup": "ol",
-   "symbol": "CHOICEIN",
-   "side": "BUY",
-   "qty": 4,
-   "entry_time": "09:29:13",
-   "entry_price": 742.65,
-   "candle_stop": 721.95,
-   "sl_price": 718.34,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 35.2,
-   "feed": "angel",
-   "ltp": 751.45,
-   "pnl_pct": 1.18
-  },
+ "open": [],
+ "closed": [
   {
    "id": 220,
    "date": "2026-11-02",
@@ -92,14 +74,11 @@
    "entry_time": "12:23:14",
    "entry_price": 1793.3,
    "sl_price": 1695.58,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 12.5,
-   "feed": "angel-f3",
-   "drive_pct": 4.31,
-   "ltp": 1805.8,
-   "pnl_pct": 0.7
+   "exit_time": "15:01:16",
+   "exit_price": 1805.1,
+   "reason": "EOD",
+   "pnl": 11.8,
+   "feed": "angel-f3"
   },
   {
    "id": 221,
@@ -111,17 +90,12 @@
    "entry_time": "12:23:14",
    "entry_price": 869.6,
    "sl_price": 826.85,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -11.5,
-   "feed": "angel-f3",
-   "drive_pct": 3.75,
-   "ltp": 863.85,
-   "pnl_pct": -0.66
-  }
- ],
- "closed": [
+   "exit_time": "15:01:16",
+   "exit_price": 863.1,
+   "reason": "EOD",
+   "pnl": -13.0,
+   "feed": "angel-f3"
+  },
   {
    "id": 218,
    "date": "2026-11-02",
@@ -137,6 +111,23 @@
    "exit_price": 247.23,
    "reason": "TSTOP",
    "pnl": -20.02,
+   "feed": "angel"
+  },
+  {
+   "id": 219,
+   "date": "2026-11-02",
+   "setup": "ol",
+   "symbol": "CHOICEIN",
+   "side": "BUY",
+   "qty": 4,
+   "entry_time": "09:29:13",
+   "entry_price": 742.65,
+   "candle_stop": 721.95,
+   "sl_price": 718.34,
+   "exit_time": "15:01:16",
+   "exit_price": 749.75,
+   "reason": "EOD",
+   "pnl": 28.4,
    "feed": "angel"
   },
   {
@@ -3894,10 +3885,10 @@
    "trades": 4,
    "ol": 2,
    "oh": 0,
-   "wins": 0,
-   "losses": 1,
-   "pnl": -20.02,
-   "cum": -2125.89
+   "wins": 2,
+   "losses": 2,
+   "pnl": 7.18,
+   "cum": -2098.69
   }
  ]
 }
