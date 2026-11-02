@@ -1,5 +1,5 @@
 {
- "updated_at": "02 Nov 2026 09:41:11 IST",
+ "updated_at": "02 Nov 2026 09:42:44 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -41,10 +41,10 @@
    "TATASTEEL": 2.43,
    "GLENMARK": 2.41,
    "MEDANTA": 2.32,
+   "JKTYRE": 2.29,
    "MARUTI": 2.28,
    "VTL": 2.1,
    "DALBHARAT": 1.81,
-   "JKTYRE": 1.76,
    "CARBORUNIV": 1.72
   },
   "oh": {}
@@ -56,7 +56,7 @@
   "trades_today": 2,
   "today_pnl": 0,
   "realized_total": -2105.87,
-  "unrealized": -29.42,
+  "unrealized": -31.0,
   "wins": 94,
   "losses": 117,
   "win_rate": 44.5,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -25.62,
+   "pnl": -30.8,
    "feed": "angel",
-   "ltp": 246.83,
-   "pnl_pct": -0.74
+   "ltp": 246.46,
+   "pnl_pct": -0.88
   },
   {
    "id": 219,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -3.8,
+   "pnl": -0.2,
    "feed": "angel",
-   "ltp": 741.7,
-   "pnl_pct": -0.13
+   "ltp": 742.6,
+   "pnl_pct": -0.01
   }
  ],
  "closed": [
