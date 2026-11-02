@@ -1,5 +1,5 @@
 {
- "updated_at": "02 Nov 2026 05:47:49 IST",
+ "updated_at": "02 Nov 2026 05:48:29 IST",
  "status": "RUNNING",
  "summary": {
   "open_count": 1,
@@ -18,14 +18,14 @@
    "symbol": "GOLD",
    "side": "BUY",
    "qty": 0.0153,
-   "entry_time": "05:47:48",
-   "entry_price": 3910.9,
+   "entry_time": "05:48:28",
+   "entry_price": 3910.6,
    "sl_price": 3881.4,
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.0,
-   "ltp": 3910.9
+   "pnl": 0.0,
+   "ltp": 3910.6
   }
  ],
  "closed": [
