@@ -1,5 +1,5 @@
 {
- "updated_at": "02 Nov 2026 11:21:51 IST",
+ "updated_at": "02 Nov 2026 11:25:17 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -56,7 +56,7 @@
   "trades_today": 2,
   "today_pnl": -20.02,
   "realized_total": -2125.89,
-  "unrealized": 47.4,
+  "unrealized": 55.2,
   "wins": 94,
   "losses": 118,
   "win_rate": 44.3,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 47.4,
+   "pnl": 55.2,
    "feed": "angel",
-   "ltp": 754.5,
-   "pnl_pct": 1.6
+   "ltp": 756.45,
+   "pnl_pct": 1.86
   }
  ],
  "closed": [
