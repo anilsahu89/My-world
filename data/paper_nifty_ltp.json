@@ -1,6 +1,6 @@
 {
- "updated_at": "30 Oct 2026 19:31 IST",
- "bhav_date": "2026-10-30",
+ "updated_at": "02 Nov 2026 20:00 IST",
+ "bhav_date": "2026-11-02",
  "desk": "NIFTY Long-Term Premium",
  "status": "RUNNING",
  "strategy": {
@@ -11,36 +11,157 @@
   "source": "NK Stock Talk session 2026-10-03; rules doc NK_NIFTY_PREMIUM_RULES.md"
  },
  "levels": {
-  "spot": 23025.6,
-  "weekly_20sma": 23696.0,
-  "near_iv": 0.121,
+  "spot": 23328.5,
+  "weekly_20sma": 23667.4,
+  "near_iv": 0.158,
   "bias": "below (put side)"
  },
- "board": [],
+ "board": [
+  {
+   "expiry": "2026-12-29",
+   "strike": 24450.0,
+   "opt": "CE",
+   "dte": 57,
+   "price": 143.55,
+   "vol": 312,
+   "fair": 253.0,
+   "discount": 0.433,
+   "edge_pts": 109.4,
+   "own_iv": 0.121
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 24400.0,
+   "opt": "CE",
+   "dte": 57,
+   "price": 156.15,
+   "vol": 2181,
+   "fair": 266.4,
+   "discount": 0.414,
+   "edge_pts": 110.3,
+   "own_iv": 0.121
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 24350.0,
+   "opt": "CE",
+   "dte": 57,
+   "price": 169.6,
+   "vol": 227,
+   "fair": 280.5,
+   "discount": 0.395,
+   "edge_pts": 110.9,
+   "own_iv": 0.122
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 24300.0,
+   "opt": "CE",
+   "dte": 57,
+   "price": 182.6,
+   "vol": 2370,
+   "fair": 295.1,
+   "discount": 0.381,
+   "edge_pts": 112.5,
+   "own_iv": 0.122
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 24250.0,
+   "opt": "CE",
+   "dte": 57,
+   "price": 194.5,
+   "vol": 162,
+   "fair": 310.2,
+   "discount": 0.373,
+   "edge_pts": 115.7,
+   "own_iv": 0.122
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 24250.0,
+   "opt": "CE",
+   "dte": 84,
+   "price": 295.0,
+   "vol": 9,
+   "fair": 465.7,
+   "discount": 0.367,
+   "edge_pts": 170.7,
+   "own_iv": 0.117
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 24450.0,
+   "opt": "CE",
+   "dte": 84,
+   "price": 253.6,
+   "vol": 18,
+   "fair": 398.3,
+   "discount": 0.363,
+   "edge_pts": 144.7,
+   "own_iv": 0.122
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 24350.0,
+   "opt": "CE",
+   "dte": 84,
+   "price": 274.65,
+   "vol": 12,
+   "fair": 431.1,
+   "discount": 0.363,
+   "edge_pts": 156.4,
+   "own_iv": 0.12
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 24400.0,
+   "opt": "CE",
+   "dte": 84,
+   "price": 268.35,
+   "vol": 134,
+   "fair": 414.5,
+   "discount": 0.353,
+   "edge_pts": 146.1,
+   "own_iv": 0.122
+  },
+  {
+   "expiry": "2026-12-29",
+   "strike": 24200.0,
+   "opt": "CE",
+   "dte": 57,
+   "price": 212.85,
+   "vol": 2914,
+   "fair": 325.9,
+   "discount": 0.347,
+   "edge_pts": 113.1,
+   "own_iv": 0.123
+  }
+ ],
  "blocked": [],
  "open": [
   {
-   "id": 5,
+   "id": 6,
    "side": "call",
-   "entry": "2026-10-29",
-   "days": 2,
-   "points": 58.3,
+   "entry": "2026-11-02",
+   "days": 1,
+   "points": 0.0,
    "far": {
-    "expiry": "2027-01-25",
-    "strike": 24050.0,
+    "expiry": "2026-12-29",
+    "strike": 24450.0,
     "qty": 225,
-    "entry": 263.4,
-    "mark": 320.2,
+    "entry": 143.55,
+    "mark": 143.55,
     "exit": null,
     "exit_date": null
    },
    "shorts": [
     {
      "expiry": "2026-11-03",
-     "strike": 23250.0,
+     "strike": 23600.0,
      "qty": 225,
-     "entry": 35.2,
-     "mark": 33.75,
+     "entry": 8.95,
+     "mark": 8.95,
      "exit": null,
      "exit_date": null
     }
@@ -82,21 +203,31 @@
    "id": 5,
    "side": "call",
    "entry": "2026-10-29",
+   "exit": "2026-11-02",
+   "reason": "MOMENTUM",
+   "points": 9.8,
+   "pnl": 2205.0,
+   "discount_at_entry": 0.125
+  },
+  {
+   "id": 6,
+   "side": "call",
+   "entry": "2026-11-02",
    "exit": null,
    "reason": null,
    "points": null,
    "pnl": null,
-   "discount_at_entry": 0.125
+   "discount_at_entry": 0.433
   }
  ],
  "summary": {
-  "trades": 4,
-  "closed": 3,
+  "trades": 5,
+  "closed": 4,
   "open": 1,
-  "this_month": 4,
-  "wins": 1,
-  "win_rate": 33.3,
-  "realized": 10035.0,
-  "unrealized": 13106.25
+  "this_month": 1,
+  "wins": 2,
+  "win_rate": 50.0,
+  "realized": 12240.0,
+  "unrealized": 0.0
  }
 }
