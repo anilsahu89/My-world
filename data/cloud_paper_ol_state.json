@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 220,
+ "next_id": 222,
  "trades": [
   {
    "id": 1,
@@ -3749,10 +3749,46 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 220,
+   "date": "2026-11-02",
+   "setup": "f3",
+   "symbol": "NUVAMA",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:23:14",
+   "entry_price": 1793.3,
+   "sl_price": 1695.58,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 4.31
+  },
+  {
+   "id": 221,
+   "date": "2026-11-02",
+   "setup": "f3",
+   "symbol": "SHRIRAMFIN",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "12:23:14",
+   "entry_price": 869.6,
+   "sl_price": 826.85,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 3.75
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-10-30",
+ "f3_done_date": "2026-11-02",
  "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-11-02",
