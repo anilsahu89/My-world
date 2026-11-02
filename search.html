@@ -183,8 +183,14 @@
   .broken-link { color: var(--grey); border-bottom: 1px dashed var(--grey); cursor: default; }
   </style>
   <!-- UI-V2 START (undo with: bash ui-v2.sh off) -->
-  <script>try{var q=new URLSearchParams(location.search);if(q.get("classic")==="1")localStorage.setItem("ui_v2_off","1");if(q.get("classic")==="0")localStorage.removeItem("ui_v2_off");if(localStorage.getItem("ui_v2_off")!=="1")document.documentElement.classList.add("ui-v2")}catch(e){document.documentElement.classList.add("ui-v2")}</script>
+  <script>try{var q=new URLSearchParams(location.search);if(q.get("classic")==="1")localStorage.setItem("ui_v2_off","1");if(q.get("classic")==="0")localStorage.removeItem("ui_v2_off");if(localStorage.getItem("ui_v2_off")!=="1")document.documentElement.classList.add("ui-v2","theme-light");else document.documentElement.classList.remove("theme-light")}catch(e){document.documentElement.classList.add("ui-v2","theme-light")}</script>
   <link rel="stylesheet" href="static/ui-v2.css?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <!-- THEME-LIGHT START (undo with: git revert <commit>) -->
+  <link rel="stylesheet" href="static/theme-light.css?v=1">
+  <!-- THEME-LIGHT END -->
   <script defer src="static/ui-v2.js?v=2"></script>
   <!-- UI-V2 END -->
 </head>
@@ -261,6 +267,6 @@
   <script src="static/gc-scan.js"></script>
   <script src="static/f3-scan.js"></script>
   <script src="static/app.js?v=4"></script>
-  <script defer src="static/decor.js?v=1"></script>
+  <script defer src="static/decor.js?v=2"></script>
 </body>
 </html>

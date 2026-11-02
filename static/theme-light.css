@@ -235,3 +235,7 @@ html.ui-v2.theme-light .modal-card {
 
 /* ---------- softer scroll on light ---------- */
 html.ui-v2.theme-light ::-webkit-scrollbar-thumb { background: #c9d3e4; border-radius: 8px; }
+
+/* ---------- cross-page additions (theme rollout 2 Nov) ---------- */
+html.ui-v2.theme-light #plWrap tr.pl-total td { background: #eef4ff; }
+html.ui-v2.theme-light .trade-action { border-top-color: var(--border); }
