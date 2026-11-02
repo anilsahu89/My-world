@@ -3725,11 +3725,11 @@
    "entry_price": 248.66,
    "candle_stop": 243.0,
    "sl_price": 241.78,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "10:46:49",
+   "exit_price": 247.23,
+   "reason": "TSTOP",
+   "pnl": -20.02,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {

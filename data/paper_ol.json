@@ -1,5 +1,5 @@
 {
- "updated_at": "02 Nov 2026 10:43:48 IST",
+ "updated_at": "02 Nov 2026 10:47:16 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,37 +51,18 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 2,
-  "closed_count": 211,
+  "open_count": 1,
+  "closed_count": 212,
   "trades_today": 2,
-  "today_pnl": 0,
-  "realized_total": -2105.87,
-  "unrealized": -16.4,
+  "today_pnl": -20.02,
+  "realized_total": -2125.89,
+  "unrealized": 13.0,
   "wins": 94,
-  "losses": 117,
-  "win_rate": 44.5,
+  "losses": 118,
+  "win_rate": 44.3,
   "days": 28
  },
  "open": [
-  {
-   "id": 218,
-   "date": "2026-11-02",
-   "setup": "ol",
-   "symbol": "BANKBARODA",
-   "side": "BUY",
-   "qty": 14,
-   "entry_time": "09:29:13",
-   "entry_price": 248.66,
-   "candle_stop": 243.0,
-   "sl_price": 241.78,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -29.4,
-   "feed": "angel",
-   "ltp": 246.56,
-   "pnl_pct": -0.84
-  },
   {
    "id": 219,
    "date": "2026-11-02",
@@ -103,6 +84,23 @@
   }
  ],
  "closed": [
+  {
+   "id": 218,
+   "date": "2026-11-02",
+   "setup": "ol",
+   "symbol": "BANKBARODA",
+   "side": "BUY",
+   "qty": 14,
+   "entry_time": "09:29:13",
+   "entry_price": 248.66,
+   "candle_stop": 243.0,
+   "sl_price": 241.78,
+   "exit_time": "10:46:49",
+   "exit_price": 247.23,
+   "reason": "TSTOP",
+   "pnl": -20.02,
+   "feed": "angel"
+  },
   {
    "id": 217,
    "date": "2026-10-30",
@@ -3859,9 +3857,9 @@
    "ol": 2,
    "oh": 0,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -2105.87
+   "losses": 1,
+   "pnl": -20.02,
+   "cum": -2125.89
   }
  ]
 }
