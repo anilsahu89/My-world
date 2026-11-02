@@ -1366,12 +1366,14 @@ window.TradeTable = (function () {
     opts = opts || {};
     var cur = opts.cur;
     var preH = (opts.preHeaders || []).map(function (h) { return "<th>" + h + "</th>"; }).join("");
-    var head = "<table><thead><tr><th>Entry</th><th>Asset / Symbol</th><th>Kind</th><th>Side</th><th>Qty</th>" +
+    var head = '<table class="tt-open"><thead><tr><th>Entry</th><th>Asset / Symbol</th><th>Kind</th><th>Side</th><th>Qty</th>' +
       "<th>Entry</th><th>LTP / Mark</th><th>Live P&L</th><th>SL</th><th>TGT</th><th>Invested</th>" +
       preH + "<th></th></tr></thead><tbody>";
     var body = rows.map(function (r) {
       var pre = (opts.preCells || []).map(function (f) { return "<td>" + f(r) + "</td>"; }).join("");
-      return "<tr>" +
+      var sideCls = String(r.side || "").toUpperCase().indexOf("BUY") === 0 ||
+        String(r.side || "").toUpperCase() === "LONG" ? "r-buy" : "r-sell";
+      return '<tr class="' + sideCls + '">' +
         "<td>" + esc(r.when || "—") + "</td>" +
         "<td><strong>" + esc(r.sym || "—") + "</strong>" +
           (r.symNote ? '<div class="muted" style="font-size:0.72rem">' + esc(r.symNote) + "</div>" : "") + "</td>" +
@@ -1392,7 +1394,7 @@ window.TradeTable = (function () {
     opts = opts || {};
     var cur = opts.cur;
     var preH = (opts.preHeaders || []).map(function (h) { return "<th>" + h + "</th>"; }).join("");
-    var head = "<table><thead><tr><th>Entry</th><th>Exit</th><th>Asset / Symbol</th><th>Kind</th><th>Side</th><th>Qty</th>" +
+    var head = '<table class="tt-closed"><thead><tr><th>Entry</th><th>Exit</th><th>Asset / Symbol</th><th>Kind</th><th>Side</th><th>Qty</th>' +
       "<th>Entry</th><th>Exit</th><th>Reason</th><th>P&L</th><th>Result</th>" +
       preH + (opts.delBtn ? "<th></th>" : "") + "</tr></thead><tbody>";
     var body = rows.map(function (r) {
