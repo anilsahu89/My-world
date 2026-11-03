@@ -1,5 +1,5 @@
 {
- "updated_at": "03 Nov 2026 12:40:31 IST",
+ "updated_at": "03 Nov 2026 12:43:57 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,37 +51,18 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 4,
-  "closed_count": 217,
+  "open_count": 3,
+  "closed_count": 218,
   "trades_today": 6,
-  "today_pnl": -50.14,
-  "realized_total": -2148.83,
-  "unrealized": 16.05,
+  "today_pnl": -50.84,
+  "realized_total": -2149.53,
+  "unrealized": 0.95,
   "wins": 96,
-  "losses": 121,
-  "win_rate": 44.2,
+  "losses": 122,
+  "win_rate": 44.0,
   "days": 29
  },
  "open": [
-  {
-   "id": 223,
-   "date": "2026-11-03",
-   "setup": "ol",
-   "symbol": "360ONE",
-   "side": "BUY",
-   "qty": 2,
-   "entry_time": "09:31:54",
-   "entry_price": 1050.05,
-   "candle_stop": 1021.0,
-   "sl_price": 1015.89,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 4.9,
-   "feed": "angel",
-   "ltp": 1052.5,
-   "pnl_pct": 0.23
-  },
   {
    "id": 225,
    "date": "2026-11-03",
@@ -95,11 +76,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 15.1,
+   "pnl": 5.1,
    "feed": "angel-f3",
    "drive_pct": 6.52,
-   "ltp": 1195.5,
-   "pnl_pct": 1.28
+   "ltp": 1185.5,
+   "pnl_pct": 0.43
   },
   {
    "id": 226,
@@ -114,11 +95,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -3.55,
+   "pnl": -5.05,
    "feed": "angel-f3",
    "drive_pct": 4.82,
-   "ltp": 660.0,
-   "pnl_pct": -0.54
+   "ltp": 658.5,
+   "pnl_pct": -0.76
   },
   {
    "id": 227,
@@ -133,11 +114,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -0.4,
+   "pnl": 0.9,
    "feed": "angel-f3",
    "drive_pct": 4.73,
-   "ltp": 2429.0,
-   "pnl_pct": -0.02
+   "ltp": 2430.3,
+   "pnl_pct": 0.04
   }
  ],
  "closed": [
@@ -156,6 +137,23 @@
    "exit_price": 180.27,
    "reason": "TSTOP",
    "pnl": -23.94,
+   "feed": "angel"
+  },
+  {
+   "id": 223,
+   "date": "2026-11-03",
+   "setup": "ol",
+   "symbol": "360ONE",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "09:31:54",
+   "entry_price": 1050.05,
+   "candle_stop": 1021.0,
+   "sl_price": 1015.89,
+   "exit_time": "12:43:33",
+   "exit_price": 1049.7,
+   "reason": "TSTOP",
+   "pnl": -0.7,
    "feed": "angel"
   },
   {
@@ -4007,9 +4005,9 @@
    "ol": 3,
    "oh": 0,
    "wins": 0,
-   "losses": 2,
-   "pnl": -50.14,
-   "cum": -2148.83
+   "losses": 3,
+   "pnl": -50.84,
+   "cum": -2149.53
   }
  ]
 }

@@ -3815,11 +3815,11 @@
    "entry_price": 1050.05,
    "candle_stop": 1021.0,
    "sl_price": 1015.89,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "12:43:33",
+   "exit_price": 1049.7,
+   "reason": "TSTOP",
+   "pnl": -0.7,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {
