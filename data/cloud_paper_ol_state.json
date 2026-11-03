@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 224,
+ "next_id": 225,
  "trades": [
   {
    "id": 1,
@@ -3821,6 +3821,24 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 224,
+   "date": "2026-11-03",
+   "setup": "ol",
+   "symbol": "GAIL",
+   "side": "BUY",
+   "qty": 18,
+   "entry_time": "09:33:27",
+   "entry_price": 181.6,
+   "candle_stop": 177.0,
+   "sl_price": 176.12,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
   }
  ],
  "seeded": true,
@@ -3868,7 +3886,7 @@
  "vol_audit": {
   "date": "2026-11-03",
   "ol": {
-   "ACC": 2.13,
+   "ACC": 2.57,
    "360ONE": 2.24,
    "3MINDIA": 0.52,
    "ALKEM": 0.24,
@@ -3876,16 +3894,16 @@
    "ANURAS": 0.05,
    "AFFLE": 6.3,
    "AFCONS": 0.6,
-   "ABSLAMC": 0.54,
+   "ABSLAMC": 0.56,
    "BIKAJI": 0.38,
    "BLUEDART": 0.42,
-   "ASTERDM": 0.21,
+   "ASTERDM": 0.24,
    "CARBORUNIV": 7.14,
    "GMRAIRPORT": 0.93,
    "GILLETTE": 0.29,
    "DCMSHRIRAM": 0.16,
    "EIHOTEL": 0.3,
-   "GAIL": 1.7,
+   "GAIL": 2.12,
    "GLAXO": 0.54,
    "HINDUNILVR": 1.04,
    "GODREJIND": 0.83,
@@ -3894,13 +3912,13 @@
    "LLOYDSME": 0.58,
    "LATENTVIEW": 1.8,
    "LINDEINDIA": 0.89,
-   "MOTILALOFS": 1.98,
+   "MOTILALOFS": 2.0,
    "SUNDARMFIN": 0.44,
    "TATACONSUM": 0.9,
    "SPLPETRO": 0.63,
-   "SOLARINDS": 1.26,
+   "SOLARINDS": 1.36,
    "VTL": 0.48,
-   "UTIAMC": 0.72,
+   "UTIAMC": 0.75,
    "ZYDUSWELL": 1.2
   },
   "oh": {}
