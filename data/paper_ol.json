@@ -1,9 +1,9 @@
 {
- "updated_at": "02 Nov 2026 15:08:31 IST",
+ "updated_at": "03 Nov 2026 09:28:45 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
- "today": "2026-11-02",
+ "today": "2026-11-03",
  "strategy": {
   "rule": "first 5-min candle O=L -> BUY / O=H -> SELL (entries from 09:20, opening candle complete), ₹10,000/stock",
   "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
@@ -21,7 +21,7 @@
  },
  "vol_blocked": {
   "ol": {
-   "low_vol": 67,
+   "low_vol": 27,
    "no_vol_data": 0
   },
   "oh": {
@@ -31,38 +31,58 @@
  },
  "vol_audit": {
   "ol": {
-   "LATENTVIEW": 41.2,
-   "ZENTEC": 21.72,
-   "AARTIIND": 7.4,
-   "BANKBARODA": 5.05,
-   "CHOICEIN": 4.58,
-   "MAXHEALTH": 3.6,
-   "PHOENIXLTD": 2.55,
-   "TATASTEEL": 2.43,
-   "GLENMARK": 2.41,
-   "MEDANTA": 2.32,
-   "JKTYRE": 2.29,
-   "MARUTI": 2.28,
-   "VTL": 2.1,
-   "DALBHARAT": 1.81,
-   "CARBORUNIV": 1.72
+   "CARBORUNIV": 6.94,
+   "AFFLE": 6.3,
+   "ACC": 2.08,
+   "MOTILALOFS": 1.98,
+   "360ONE": 1.92,
+   "LATENTVIEW": 1.8,
+   "GAIL": 1.7,
+   "ZYDUSWELL": 1.2,
+   "SOLARINDS": 1.15,
+   "HINDUNILVR": 1.04,
+   "GMRAIRPORT": 0.92,
+   "LINDEINDIA": 0.89,
+   "MANAPPURAM": 0.86,
+   "GODREJIND": 0.73,
+   "TATACONSUM": 0.73
   },
   "oh": {}
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 0,
+  "open_count": 1,
   "closed_count": 215,
-  "trades_today": 4,
-  "today_pnl": 7.18,
+  "trades_today": 1,
+  "today_pnl": 0,
   "realized_total": -2098.69,
   "unrealized": 0,
   "wins": 96,
   "losses": 119,
   "win_rate": 44.7,
-  "days": 28
+  "days": 29
  },
- "open": [],
+ "open": [
+  {
+   "id": 222,
+   "date": "2026-11-03",
+   "setup": "ol",
+   "symbol": "AFFLE",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "09:28:03",
+   "entry_price": 1539.0,
+   "candle_stop": 1504.0,
+   "sl_price": 1496.48,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 1539.0,
+   "pnl_pct": 0.0
+  }
+ ],
  "closed": [
   {
    "id": 220,
@@ -3888,6 +3908,16 @@
    "wins": 2,
    "losses": 2,
    "pnl": 7.18,
+   "cum": -2098.69
+  },
+  {
+   "date": "2026-11-03",
+   "trades": 1,
+   "ol": 1,
+   "oh": 0,
+   "wins": 0,
+   "losses": 0,
+   "pnl": 0,
    "cum": -2098.69
   }
  ]
