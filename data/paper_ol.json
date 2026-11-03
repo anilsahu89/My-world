@@ -1,5 +1,5 @@
 {
- "updated_at": "03 Nov 2026 09:40:08 IST",
+ "updated_at": "03 Nov 2026 09:41:37 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -31,7 +31,7 @@
  },
  "vol_audit": {
   "ol": {
-   "CARBORUNIV": 7.14,
+   "CARBORUNIV": 7.17,
    "AFFLE": 6.3,
    "ACC": 2.57,
    "MOTILALOFS": 2.37,
@@ -41,9 +41,9 @@
    "SOLARINDS": 1.43,
    "ZYDUSWELL": 1.2,
    "HINDUNILVR": 1.04,
+   "GODREJIND": 0.98,
    "GMRAIRPORT": 0.93,
    "3MINDIA": 0.92,
-   "GODREJIND": 0.91,
    "TATACONSUM": 0.9,
    "LINDEINDIA": 0.89
   },
@@ -56,7 +56,7 @@
   "trades_today": 3,
   "today_pnl": 0,
   "realized_total": -2098.69,
-  "unrealized": 1.08,
+  "unrealized": -14.46,
   "wins": 96,
   "losses": 119,
   "win_rate": 44.7,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 7.2,
+   "pnl": -9.8,
    "feed": "angel",
-   "ltp": 1542.6,
-   "pnl_pct": 0.23
+   "ltp": 1534.1,
+   "pnl_pct": -0.32
   },
   {
    "id": 223,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.9,
+   "pnl": 2.0,
    "feed": "angel",
-   "ltp": 1050.5,
-   "pnl_pct": 0.04
+   "ltp": 1051.05,
+   "pnl_pct": 0.1
   },
   {
    "id": 224,
@@ -115,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -7.02,
+   "pnl": -6.66,
    "feed": "angel",
-   "ltp": 181.21,
-   "pnl_pct": -0.21
+   "ltp": 181.23,
+   "pnl_pct": -0.2
   }
  ],
  "closed": [
