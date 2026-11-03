@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 225,
+ "next_id": 228,
  "trades": [
   {
    "id": 1,
@@ -3839,10 +3839,64 @@
    "pnl": -23.94,
    "status": "CLOSED",
    "feed": "angel"
+  },
+  {
+   "id": 225,
+   "date": "2026-11-03",
+   "setup": "f3",
+   "symbol": "AEGISLOG",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:22:34",
+   "entry_price": 1180.4,
+   "sl_price": 1079.67,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 6.52
+  },
+  {
+   "id": 226,
+   "date": "2026-11-03",
+   "setup": "f3",
+   "symbol": "BALRAMCHIN",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:22:34",
+   "entry_price": 663.55,
+   "sl_price": 604.36,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 4.82
+  },
+  {
+   "id": 227,
+   "date": "2026-11-03",
+   "setup": "f3",
+   "symbol": "CARTRADE",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:22:34",
+   "entry_price": 2429.4,
+   "sl_price": 2239.45,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 4.73
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-11-02",
+ "f3_done_date": "2026-11-03",
  "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-11-03",

@@ -1,30 +1,41 @@
 {
- "date": "2026-11-02",
- "scanned_at": "15:08:31",
+ "date": "2026-11-03",
+ "scanned_at": "12:23:21",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
  "signals": [
   {
-   "symbol": "NUVAMA",
-   "drive_pct": 4.31,
+   "symbol": "AEGISLOG",
+   "drive_pct": 6.52,
    "qty": 1,
-   "entry": 1793.3,
-   "sl": 1695.58,
-   "status": "CLOSED",
-   "exit": 1805.1,
-   "reason": "EOD",
-   "pnl": 11.8
+   "entry": 1180.4,
+   "sl": 1079.67,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
   },
   {
-   "symbol": "SHRIRAMFIN",
-   "drive_pct": 3.75,
-   "qty": 2,
-   "entry": 869.6,
-   "sl": 826.85,
-   "status": "CLOSED",
-   "exit": 863.1,
-   "reason": "EOD",
-   "pnl": -13.0
+   "symbol": "BALRAMCHIN",
+   "drive_pct": 4.82,
+   "qty": 1,
+   "entry": 663.55,
+   "sl": 604.36,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "CARTRADE",
+   "drive_pct": 4.73,
+   "qty": 1,
+   "entry": 2429.4,
+   "sl": 2239.45,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
   }
  ]
 }
