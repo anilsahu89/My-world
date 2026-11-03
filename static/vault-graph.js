@@ -376,6 +376,14 @@
         ctx.globalAlpha = 1;
         ctx.fillStyle = rgba(ncol, a);
         ctx.beginPath(); ctx.arc(n.px, n.py, r, 0, Math.PI * 2); ctx.fill();
+        var vd = window.__VG_VERDICTS && window.__VG_VERDICTS[n.title];
+        if (n.category === "Strategy" && vd) {
+          ctx.globalAlpha = a * 0.95;
+          ctx.strokeStyle = vd.c;
+          ctx.lineWidth = 1.6;
+          ctx.beginPath(); ctx.arc(n.px, n.py, r + 3.4, 0, Math.PI * 2); ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
       }
       if (n === picked || (focus && focus[n.id] && searchSet)) {
         ctx.strokeStyle = "rgba(255,255,255," + (n === picked ? 0.95 : 0.55) + ")";
@@ -515,9 +523,10 @@
       isDragging = false;
       pinchD = 0;
       if (wasTap && picked) {
-        var url = siteBase() + picked.url;
-        if (e.ctrlKey || e.metaKey) window.open(url, "_blank");
-        else window.location.href = url;
+        if (e.ctrlKey || e.metaKey) { window.open(siteBase() + picked.url, "_blank"); }
+        else if (!(window.vgOpenNote && window.vgOpenNote(picked))) {
+          window.location.href = siteBase() + picked.url;
+        }
       }
     }
   }
@@ -547,6 +556,8 @@
     var catEl = tipEl.children[1];
     var catTxt = "● " + n.category;
     if (n.live) catTxt += "  ·  ⚡ live scanner";
+    var vdMeta = window.__VG_VERDICTS && window.__VG_VERDICTS[n.title];
+    if (vdMeta) catTxt += "  ·  " + vdMeta.label;
     if (n.updated) catTxt += "  ·  up " + n.updated.slice(5);
     if (n.words) catTxt += "  ·  " + n.words + "w";
     catEl.textContent = catTxt;

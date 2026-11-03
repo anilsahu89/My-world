@@ -535,6 +535,12 @@ def run(check_only: bool = False, force: str | None = None) -> dict:
         print("  [pulse]", pulse_msg, flush=True)
     except Exception as e:
         print("  [pulse] skipped:", e, flush=True)
+    try:
+        import build_vault_notes
+        build_vault_notes.main()
+        print("  [vault-notes] refreshed", flush=True)
+    except Exception as e:
+        print("  [vault-notes] skipped:", e, flush=True)
 
     broken = [c for c in checks if c.get("needs_fix")]
     if not check_only:
