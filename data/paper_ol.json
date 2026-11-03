@@ -1,5 +1,5 @@
 {
- "updated_at": "03 Nov 2026 10:42:49 IST",
+ "updated_at": "03 Nov 2026 10:46:23 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -51,37 +51,18 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 3,
-  "closed_count": 215,
+  "open_count": 1,
+  "closed_count": 217,
   "trades_today": 3,
-  "today_pnl": 0,
-  "realized_total": -2098.69,
-  "unrealized": -32.16,
+  "today_pnl": -50.14,
+  "realized_total": -2148.83,
+  "unrealized": 17.3,
   "wins": 96,
-  "losses": 119,
-  "win_rate": 44.7,
+  "losses": 121,
+  "win_rate": 44.2,
   "days": 29
  },
  "open": [
-  {
-   "id": 222,
-   "date": "2026-11-03",
-   "setup": "ol",
-   "symbol": "AFFLE",
-   "side": "BUY",
-   "qty": 2,
-   "entry_time": "09:28:03",
-   "entry_price": 1539.0,
-   "candle_stop": 1504.0,
-   "sl_price": 1496.48,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -30.8,
-   "feed": "angel",
-   "ltp": 1523.6,
-   "pnl_pct": -1.0
-  },
   {
    "id": 223,
    "date": "2026-11-03",
@@ -96,11 +77,13 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 13.4,
+   "pnl": 17.3,
    "feed": "angel",
-   "ltp": 1056.75,
-   "pnl_pct": 0.64
-  },
+   "ltp": 1058.7,
+   "pnl_pct": 0.82
+  }
+ ],
+ "closed": [
   {
    "id": 224,
    "date": "2026-11-03",
@@ -112,16 +95,29 @@
    "entry_price": 181.6,
    "candle_stop": 177.0,
    "sl_price": 176.12,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -14.76,
-   "feed": "angel",
-   "ltp": 180.78,
-   "pnl_pct": -0.45
-  }
- ],
- "closed": [
+   "exit_time": "10:45:50",
+   "exit_price": 180.27,
+   "reason": "TSTOP",
+   "pnl": -23.94,
+   "feed": "angel"
+  },
+  {
+   "id": 222,
+   "date": "2026-11-03",
+   "setup": "ol",
+   "symbol": "AFFLE",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "09:28:03",
+   "entry_price": 1539.0,
+   "candle_stop": 1504.0,
+   "sl_price": 1496.48,
+   "exit_time": "10:45:50",
+   "exit_price": 1525.9,
+   "reason": "TSTOP",
+   "pnl": -26.2,
+   "feed": "angel"
+  },
   {
    "id": 220,
    "date": "2026-11-02",
@@ -3954,9 +3950,9 @@
    "ol": 3,
    "oh": 0,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -2098.69
+   "losses": 2,
+   "pnl": -50.14,
+   "cum": -2148.83
   }
  ]
 }
