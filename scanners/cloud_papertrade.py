@@ -20,6 +20,9 @@ NSE rules = the tuned local engine (parity since 2026-09-20):
     5-min candle CLOSE beyond the opening low/high captured at entry
     (CANDLE-CLOSE); the buffered tick SL stays as backstop
   long time-stop 10:45 (scratch O=L longs not back above entry)
+  stock-trend filter: O=L only above the stock's own 20-SMA,
+    O=H only below it (owner fix 3 Nov); re-entry only after
+    CANDLE-CLOSE exits, never after a hard SL
   F3 first-3-candle scan 12:20-13:30, NIFTY-gated, top 5 by drive
 """
 from __future__ import annotations
@@ -329,6 +332,13 @@ def _yahoo_quotes() -> dict[str, dict]:
         quote["vol_src"] = source
         quote["vol_ratio"] = (quote["volume"] / (average * session_fraction)
                               if quote["vol_known"] else 0.0)
+        # stock-level 20-SMA (excl. today's forming bar) for the entry
+        # trend filter — owner fix 3 Nov: October's worst OH shorts (ZEEL
+        # -324, ABDL -246, JSWDULUX -166) were shorts into stocks already
+        # in their own uptrend
+        closes_hist = frame["Close"].iloc[:-1].tail(20)
+        if len(closes_hist) >= 10:
+            quote["sma20"] = round(float(closes_hist.mean()), 2)
     if cache_dirty:
         write_json(VOL_AVG_CACHE, vol_cache)
     return quotes
@@ -354,8 +364,9 @@ def close(trade: dict, price: float, reason: str, stamp: str) -> None:
 
 
 def _watch_reentry(state: dict, trade: dict, today: str, stamp: str) -> None:
-    """Arm a re-entry watch after a stopped O=L/O=H trade. SL-type exits only
-    (CANDLE-CLOSE primary stop, SL backstop) — TSTOP/EOD never re-enter. The
+    """Arm a re-entry watch after a CANDLE-CLOSE exit only. Owner fix 3 Nov:
+    a hard SL no longer arms re-entry (re-entering a stopped trade doubled
+    October losses). TSTOP/EOD never re-enter. The
     watch level is the stopped trade's candle_stop (the opening O=L/O=H price
     for a fresh trade). Owner-approved 2026-10-01; backtested in
     papertrade_ol/analysis (see REENTRY_TEST_NOTES.md)."""
@@ -452,8 +463,9 @@ def manage_nse(state: dict, quotes: dict, moment: datetime) -> None:
         sl_hit = quote["low"] <= trade["sl_price"] if trade["side"] == "BUY" \
             else quote["high"] >= trade["sl_price"]
         if sl_hit:
+            # no re-entry after a hard SL (owner fix 3 Nov: re-entering a
+            # stopped trade doubled October losses — ZEEL -99 then -224)
             close(trade, trade["sl_price"], "SL", stamp)
-            _watch_reentry(state, trade, today, stamp)
         elif moment.time() >= NSE_SQUARE_OFF:
             close(trade, quote["ltp"], "EOD", stamp)
         elif (moment.time() >= NSE_TIME_STOP and trade["setup"] == "ol"
@@ -539,6 +551,19 @@ def _vol_audit(state: dict, today: str, setup: str, symbol: str, rvol: float) ->
     bucket[symbol] = round(max(float(rvol or 0), bucket.get(symbol, 0.0)), 2)
 
 
+def _trend_block(state: dict, today: str, setup: str, symbol: str) -> None:
+    """Record an O=L/O=H pick rejected by the stock-trend filter (owner
+    fix 3 Nov: only long O=L above the stock's own 20-SMA, only short
+    O=H below it). Daily, deduped; surfaced in the snapshot."""
+    tb = state.get("trend_blocked") or {}
+    if tb.get("date") != today:
+        tb = {"date": today, "ol": [], "oh": []}
+        state["trend_blocked"] = tb
+    bucket = tb.setdefault(setup, [])
+    if symbol not in bucket:
+        bucket.append(symbol)
+
+
 def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
     today, stamp = moment.date().isoformat(), moment.strftime("%H:%M:%S")
     # 2026-09-28 opening-candle rules: entries start once the FIRST 5-min
@@ -585,6 +610,17 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
             if quote.get("vol_ratio", 0) < min_vol:
                 _vol_block(state, today, setup, symbol, "low_vol")
                 continue
+            # stock-trend filter: only long above the stock's own 20-SMA,
+            # only short below it (NIFTY gate alone let October's worst
+            # shorts ride against their own uptrends)
+            sma = quote.get("sma20")
+            if sma:
+                if setup == "ol" and quote["ltp"] <= sma:
+                    _trend_block(state, today, setup, symbol)
+                    continue
+                if setup == "oh" and quote["ltp"] >= sma:
+                    _trend_block(state, today, setup, symbol)
+                    continue
             eligible.append((quote.get("vol_ratio", 0), symbol, quote))
         already = sum(1 for t in state["trades"] if t.get("date") == today and t.get("setup") == setup
                       and not t.get("reentry_seq"))   # re-entries don't consume fresh slots
@@ -1015,6 +1051,9 @@ def nse_snapshot(state: dict, quotes: dict, today: str) -> dict:
     vol_blocked = ({s: {r: len(vb.get(s, {}).get(r, [])) for r in ("low_vol", "no_vol_data")}
                     for s in ("ol", "oh")}
                    if vb.get("date") == today else {})
+    tb = state.get("trend_blocked") or {}
+    trend_blocked = ({s: len(tb.get(s, [])) for s in ("ol", "oh")}
+                     if tb.get("date") == today else {})
     return {"updated_at": now().strftime("%d %b %Y %H:%M:%S IST"), "feed": FEED_NAME,
             "feed_note": ("Angel SmartAPI live feed (cloud, no Mac)"
                           if FEED_NAME == "angel" else
@@ -1030,6 +1069,7 @@ def nse_snapshot(state: dict, quotes: dict, today: str) -> dict:
                          "vol_note": "15 Oct: volume gate = RVOL (cumulative volume vs time-of-day expectation, 1.0 = normal day) — O=L >= "
                                      f"{NSE_RVOL_OL}, O=H >= {NSE_RVOL_OH}; deliberately low, tuned from vol_audit"},
             "vol_blocked": vol_blocked,
+            "trend_blocked": trend_blocked,
             "vol_audit": ({s: dict(sorted(((state.get("vol_audit") or {}).get(s) or {}).items(),
                                           key=lambda kv: -kv[1])[:15])
                            for s in ("ol", "oh")}

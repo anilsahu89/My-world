@@ -12,7 +12,8 @@ old "Tuesday entry" is re-anchored on days-to-expiry; calibration from the
   - VIX gate: 10-18 (the old 12-16 goldilocks skipped half the year)
   - Direction: Above 20 SMA → Bull Put | Below → Bear Call
   - Sell 250 OTM, Buy 350 OTM (100pt spread)
-  - Exit: 50% profit OR strike hit (SL) OR expiry (settled at the
+  - Exit: 50% profit OR premium SL (spread >= credit — caps the
+    loss near 1x credit) OR strike hit (backstop) OR expiry (settled at the
     EXPIRY-DAY spot, not today's — a July trade once sat unmanaged and
     would have settled at the wrong price)
 """
@@ -404,7 +405,14 @@ def update_positions(day):
             exit_reason = "profit_target"
             exit_pnl = (credit - current_spread) * NIFTY_LOT
 
-        # SL: strike hit
+        # SL 1: premium — spread costs 100% of the credit received
+        # (owner fix 3 Nov: strike-touch SLs averaged -2.6k each in Oct;
+        # capping the loss at 1x credit instead. Fires BEFORE the strike line.)
+        elif current_spread >= credit and credit > 0:
+            exit_reason = "sl_premium_hit"
+            exit_pnl = (credit - current_spread) * NIFTY_LOT
+
+        # SL 2: strike hit (backstop — premium SL normally fires first)
         elif spot and t["opt_type"] == "PE" and spot <= float(t["short_strike"]):
             exit_reason = "sl_strike_hit"
             exit_pnl = (credit - current_spread) * NIFTY_LOT

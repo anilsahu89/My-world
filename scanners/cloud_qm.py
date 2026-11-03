@@ -19,7 +19,7 @@ signals come from "your own system". Three signal families feed the desk:
 Money management (the class, verbatim):
   ₹1L paper capital (Oct race) · ₹5k (5%) lots · max 2 NEW entries/day
   +12% -> book half, trail rest at cost · RSI9>=86 -> exit all at close
-  never book losses: -50% -> average ONE more lot
+  hard stop: -7% from entry -> exit (STOP7; owner fix 3 Nov)
   circuit breaker: >50% of capital stuck in losers -> no new entries
 Also writes data/qm_picks.json for the Alerts page 🧮 QM tab (all today's
 candidates, not just the ones taken).
@@ -47,10 +47,13 @@ IST = ZoneInfo("Asia/Kolkata")
 CAPITAL = 100_000.0   # October race mandate (1 Oct 2026): every desk Rs1L
 LOT = 5_000.0          # 5% lots — max 16 open x Rs5k = Rs80k fits the Rs1L book
 MAX_NEW_PER_DAY = 2
-MAX_OPEN = 10               # win-rate/capital tune 15 Oct (was 16)
+MAX_OPEN = 8                # owner tune 3 Nov (was 10, before that 16) — fewer names, better watch
 BOOK_AT = 0.12
 RSI_EXIT = 86
 TIME_STOP_SESSIONS = 45      # free capital if stuck underwater this long
+STOP_AT = 0.07               # owner fix 3 Nov: hard stop at -7% (was "never
+                             # book losses" — October: 13 losers held all
+                             # month, -7.9k dumped in one day)
 AVG_AT = 0.50
 COST = 0.003
 MIN_TURNOVER = 5e7
@@ -305,6 +308,9 @@ def run_day(dry: bool = False) -> dict:
         elif int(t.get("sessions") or 0) >= TIME_STOP_SESSIONS and float(t.get("pnl") or 0) < 0:
             _close(t, c, "TIME45")
             continue
+        elif c <= entry * (1 - STOP_AT):
+            _close(t, c, "STOP7")
+            continue
         if not t.get("trail") and c >= entry * (1 + BOOK_AT):
             half = t["qty"] / 2
             t["booked"] = round(t["booked"] + half * (c - entry)
@@ -453,8 +459,8 @@ def export(state: dict) -> dict:
         "rule": "QM (Quantity Model, NK's 'Trading as a Business'): signals "
                 "from HM-buy / 52W-high / BB-Blast(d,w,m) on NIFTY-500 · "
                 "₹5k (5% of ₹1L) lots · max 2 new/day · +12% book half & "
-                "trail at cost · RSI9≥86 exit all · never book losses, "
-                "average once at −50% · 50%-blocked circuit breaker",
+                "trail at cost · RSI9≥86 exit all · hard stop −7% (STOP7), "
+                "max 8 open · 50%-blocked circuit breaker",
         "note": "Daily-bar desk, scans after 17:30 IST. Position sizing is "
                 "the edge — fills at next open.",
         "summary": {

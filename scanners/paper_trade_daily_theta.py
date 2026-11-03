@@ -17,7 +17,8 @@ Monday = 1 DTE and Friday = 4 DTE under the new calendar):
   - Sell 300 OTM, Buy 400 OTM (100pt spread)
   - Nearest expiry 1-4 DTE
   - Credit ≥ ₹3
-  - Exit: 50% profit OR strike hit (SL) OR expiry
+  - Exit: 50% profit OR premium SL (spread >= credit; 75% credit
+    when VIX was rising at entry) OR strike hit (backstop) OR expiry
   - Max 1 open position at a time
 """
 
@@ -420,6 +421,13 @@ def update_exits(day):
             exit_pnl = (credit - current_spread) * NIFTY_LOT
 
         exp_date = parse_date(t["expiry"])
+        # SL 1 (premium line): exit when the spread costs the credit
+        # received — or 75% of it when VIX was RISING at entry (rising-VIX
+        # months carried both October strike-SL losers, so they get the
+        # tighter line). Owner fix 3 Nov — caps the loss near 1x credit
+        # instead of the full width the strike-touch SL used to pay.
+        sl_mult = 0.75 if t.get("vix_regime") == "rising" else 1.0
+
         if day >= exp_date and spot and exit_reason != "MANUAL":
             exit_reason = "expiry"
             if t["opt_type"] == "PE":
@@ -434,6 +442,11 @@ def update_exits(day):
             exit_reason = "profit_50pct"
             exit_pnl = (credit - current_spread) * NIFTY_LOT
 
+        elif current_spread >= credit * sl_mult and credit > 0:
+            exit_reason = "sl_premium"
+            exit_pnl = (credit - current_spread) * NIFTY_LOT
+
+        # SL 2: strike hit (backstop — the premium line fires first)
         elif spot and t["opt_type"] == "PE" and spot <= float(t["short_strike"]):
             exit_reason = "sl_strike_hit"
             exit_pnl = (credit - current_spread) * NIFTY_LOT
