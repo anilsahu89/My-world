@@ -1,5 +1,5 @@
 {
- "updated_at": "03 Nov 2026 09:38:37 IST",
+ "updated_at": "03 Nov 2026 09:40:08 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -34,7 +34,7 @@
    "CARBORUNIV": 7.14,
    "AFFLE": 6.3,
    "ACC": 2.57,
-   "MOTILALOFS": 2.27,
+   "MOTILALOFS": 2.37,
    "360ONE": 2.24,
    "GAIL": 2.12,
    "LATENTVIEW": 1.8,
@@ -56,7 +56,7 @@
   "trades_today": 3,
   "today_pnl": 0,
   "realized_total": -2098.69,
-  "unrealized": -13.32,
+  "unrealized": 1.08,
   "wins": 96,
   "losses": 119,
   "win_rate": 44.7,
@@ -77,10 +77,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -9.6,
+   "pnl": 7.2,
    "feed": "angel",
-   "ltp": 1534.2,
-   "pnl_pct": -0.31
+   "ltp": 1542.6,
+   "pnl_pct": 0.23
   },
   {
    "id": 223,
@@ -96,10 +96,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -2.1,
+   "pnl": 0.9,
    "feed": "angel",
-   "ltp": 1049.0,
-   "pnl_pct": -0.1
+   "ltp": 1050.5,
+   "pnl_pct": 0.04
   },
   {
    "id": 224,
@@ -115,10 +115,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -1.62,
+   "pnl": -7.02,
    "feed": "angel",
-   "ltp": 181.51,
-   "pnl_pct": -0.05
+   "ltp": 181.21,
+   "pnl_pct": -0.21
   }
  ],
  "closed": [
