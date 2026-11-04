@@ -3923,11 +3923,11 @@
    "entry_price": 429.2,
    "candle_stop": 419.4,
    "sl_price": 417.3,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "11:09:58",
+   "exit_price": 428.95,
+   "reason": "TSTOP",
+   "pnl": -2.0,
+   "status": "CLOSED",
    "feed": "angel"
   }
  ],
