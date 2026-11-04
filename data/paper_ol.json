@@ -1,5 +1,5 @@
 {
- "updated_at": "04 Nov 2026 09:42:39 IST",
+ "updated_at": "04 Nov 2026 09:44:08 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -40,13 +40,13 @@
    "OFSS": 1.28,
    "NIVABUPA": 1.2,
    "JSWINFRA": 1.17,
-   "NATCOPHARM": 1.01,
+   "NATCOPHARM": 1.04,
    "ZYDUSLIFE": 0.92,
    "KAYNES": 0.78,
    "ABDL": 0.69,
    "IPCALAB": 0.64,
-   "3MINDIA": 0.57,
-   "DELHIVERY": 0.57
+   "3MINDIA": 0.62,
+   "DELHIVERY": 0.59
   },
   "oh": {}
  },
@@ -57,7 +57,7 @@
   "trades_today": 2,
   "today_pnl": 0,
   "realized_total": -2079.08,
-  "unrealized": -7.25,
+  "unrealized": 8.4,
   "wins": 98,
   "losses": 123,
   "win_rate": 44.3,
@@ -78,10 +78,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -19.25,
+   "pnl": -14.0,
    "feed": "angel",
-   "ltp": 473.25,
-   "pnl_pct": -0.58
+   "ltp": 474.0,
+   "pnl_pct": -0.42
   },
   {
    "id": 229,
@@ -97,10 +97,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 12.0,
+   "pnl": 22.4,
    "feed": "angel",
-   "ltp": 430.7,
-   "pnl_pct": 0.35
+   "ltp": 432.0,
+   "pnl_pct": 0.65
   }
  ],
  "closed": [
