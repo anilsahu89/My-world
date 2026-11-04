@@ -1,5 +1,5 @@
 {
- "updated_at": "04 Nov 2026 09:33:37 IST",
+ "updated_at": "04 Nov 2026 09:35:09 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -45,8 +45,8 @@
    "KAYNES": 0.78,
    "ABDL": 0.69,
    "IPCALAB": 0.64,
-   "DELHIVERY": 0.53,
-   "SAIL": 0.42
+   "3MINDIA": 0.54,
+   "DELHIVERY": 0.53
   },
   "oh": {}
  },
@@ -57,7 +57,7 @@
   "trades_today": 2,
   "today_pnl": 0,
   "realized_total": -2079.08,
-  "unrealized": -20.95,
+  "unrealized": -11.95,
   "wins": 98,
   "losses": 123,
   "win_rate": 44.3,
@@ -78,10 +78,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -26.95,
+   "pnl": -17.15,
    "feed": "angel",
-   "ltp": 472.15,
-   "pnl_pct": -0.81
+   "ltp": 473.55,
+   "pnl_pct": -0.51
   },
   {
    "id": 229,
@@ -97,10 +97,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 6.0,
+   "pnl": 5.2,
    "feed": "angel",
-   "ltp": 429.95,
-   "pnl_pct": 0.17
+   "ltp": 429.85,
+   "pnl_pct": 0.15
   }
  ],
  "closed": [
