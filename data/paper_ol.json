@@ -1,5 +1,5 @@
 {
- "updated_at": "04 Nov 2026 10:43:05 IST",
+ "updated_at": "04 Nov 2026 10:46:33 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -52,37 +52,18 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 2,
-  "closed_count": 221,
+  "open_count": 1,
+  "closed_count": 222,
   "trades_today": 2,
-  "today_pnl": 0,
-  "realized_total": -2079.08,
-  "unrealized": -9.2,
+  "today_pnl": -22.4,
+  "realized_total": -2101.48,
+  "unrealized": 6.4,
   "wins": 98,
-  "losses": 123,
-  "win_rate": 44.3,
+  "losses": 124,
+  "win_rate": 44.1,
   "days": 30
  },
  "open": [
-  {
-   "id": 228,
-   "date": "2026-11-04",
-   "setup": "ol",
-   "symbol": "BIKAJI",
-   "side": "BUY",
-   "qty": 7,
-   "entry_time": "09:22:58",
-   "entry_price": 476.0,
-   "candle_stop": 465.0,
-   "sl_price": 462.68,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -19.6,
-   "feed": "angel",
-   "ltp": 473.2,
-   "pnl_pct": -0.59
-  },
   {
    "id": 229,
    "date": "2026-11-04",
@@ -97,13 +78,30 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 10.4,
+   "pnl": 6.4,
    "feed": "angel",
-   "ltp": 430.5,
-   "pnl_pct": 0.3
+   "ltp": 430.0,
+   "pnl_pct": 0.19
   }
  ],
  "closed": [
+  {
+   "id": 228,
+   "date": "2026-11-04",
+   "setup": "ol",
+   "symbol": "BIKAJI",
+   "side": "BUY",
+   "qty": 7,
+   "entry_time": "09:22:58",
+   "entry_price": 476.0,
+   "candle_stop": 465.0,
+   "sl_price": 462.68,
+   "exit_time": "10:46:07",
+   "exit_price": 472.8,
+   "reason": "TSTOP",
+   "pnl": -22.4,
+   "feed": "angel"
+  },
   {
    "id": 225,
    "date": "2026-11-03",
@@ -4045,9 +4043,9 @@
    "ol": 2,
    "oh": 0,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -2079.08
+   "losses": 1,
+   "pnl": -22.4,
+   "cum": -2101.48
   }
  ]
 }
