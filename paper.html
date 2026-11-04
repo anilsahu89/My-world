@@ -1383,14 +1383,18 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     var olX = sv.ol != null ? sv.ol : 1.5, ohX = sv.oh != null ? sv.oh : ((d.strategy || {}).min_vol_mult || 1.2);
     var tb = d.trend_blocked || {};
     var trendN = (tb.ol || 0) + (tb.oh || 0);
-    var vcap = ' &nbsp;·&nbsp; <span class="badge badge-grey" title="volume gate (RVOL = volume so far vs a normal ' +
-      'day at this time, 1.0 = normal): O=L needs ≥ ' + olX + '×, O=H ≥ ' + ohX + '× — tuned from vol_audit. ' +
-      'Trend filter added 3 Nov: O=L only above the stock\u2019s own 20-SMA, O=H only below it.">' +
-      (lowVol || noData || trendN
+    var vwb = d.vwap_blocked || {};
+    var vwapN = (vwb.ol || 0) + (vwb.oh || 0);
+    var vcap = ' &nbsp;·&nbsp; <span class="badge badge-grey" title="GATES (4 Nov): ' +
+      'RVOL ≥ ' + olX + '× (O=L) / ' + ohX + '× (O=H) · absolute volume ≥ 500k · ' +
+      'VWAP extreme gate (O=L only below VWAP, O=H only above — the OH/OL condition must still be holding) · ' +
+      'SL widened to 1%, TSTOP removed.">' +
+      (lowVol || noData || trendN || vwapN
         ? "GATES: " + lowVol + " low-vol" +
           (noData ? " · " + noData + " no-data" : "") +
-          (trendN ? " · " + trendN + " trend" : "")
-        : "GATES ON · O=L " + olX + "× vol / trend-20SMA") + "</span>";
+          (trendN ? " · " + trendN + " trend" : "") +
+          (vwapN ? " · " + vwapN + " vwap" : "")
+        : "GATES ON · RVOL " + olX + "×/" + ohX + "× · 500k · VWAP") + "</span>";
     el.innerHTML = "Updated " + esc(d.updated_at) + " &nbsp;·&nbsp; " + feed +
       " &nbsp;·&nbsp; " + st + vcap +
       ' &nbsp;·&nbsp; <span class="muted">auto-refreshes every 60s' +

@@ -19,10 +19,13 @@ NSE rules = the tuned local engine (parity since 2026-09-20):
     entries from 09:20 (first 5-min candle complete) · primary stop is a
     5-min candle CLOSE beyond the opening low/high captured at entry
     (CANDLE-CLOSE); the buffered tick SL stays as backstop
-  long time-stop 10:45 (scratch O=L longs not back above entry)
-  stock-trend filter: O=L only above the stock's own 20-SMA,
-    O=H only below it (owner fix 3 Nov); re-entry only after
-    CANDLE-CLOSE exits, never after a hard SL
+  VWAP extreme gate: O=L only while price is still BELOW VWAP, O=H only
+    while still ABOVE it — a stock that crossed VWAP has failed the OH/OL
+    condition (owner fix 4 Nov; October: -1,755 -> +1,150 on the same trades)
+  SL widened 0.5% -> 1.0% beyond the day extreme; TSTOP (10:45) removed —
+    hold to the 15:00 square-off (NK's original hold-to-close design)
+  stock-trend AUDIT only (blocks removed 4 Nov — forfeited winners);
+  re-entry only after CANDLE-CLOSE exits, never after a hard SL
   F3 first-3-candle scan 12:20-13:30, NIFTY-gated, top 5 by drive
 """
 from __future__ import annotations
@@ -339,6 +342,9 @@ def _yahoo_quotes() -> dict[str, dict]:
         closes_hist = frame["Close"].iloc[:-1].tail(20)
         if len(closes_hist) >= 10:
             quote["sma20"] = round(float(closes_hist.mean()), 2)
+        vols_hist = frame["Volume"].iloc[:-1].tail(20)
+        if len(vols_hist) >= 10:
+            quote["avg_vol20"] = round(float(vols_hist.mean()), 0)
     if cache_dirty:
         write_json(VOL_AVG_CACHE, vol_cache)
     return quotes
@@ -468,9 +474,8 @@ def manage_nse(state: dict, quotes: dict, moment: datetime) -> None:
             close(trade, trade["sl_price"], "SL", stamp)
         elif moment.time() >= NSE_SQUARE_OFF:
             close(trade, quote["ltp"], "EOD", stamp)
-        elif (moment.time() >= NSE_TIME_STOP and trade["setup"] == "ol"
-              and trade["side"] == "BUY" and quote["ltp"] <= trade["entry_price"]):
-            close(trade, quote["ltp"], "TSTOP", stamp)
+        # TSTOP (10:45 scratch) removed — owner fix 4 Nov: it cost -135 in
+        # October and scratched longs that sometimes closed positive at EOD
 
 
 def candle_close_exits(state: dict, moment: datetime) -> None:
@@ -564,6 +569,45 @@ def _trend_block(state: dict, today: str, setup: str, symbol: str) -> None:
         bucket.append(symbol)
 
 
+def _vwap_map(symbols: list) -> dict:
+    """VWAP (09:15 -> now) from today's 5-min bars, per symbol. The O=L/O=H
+    extreme gate needs the intraday anchor; bars come from the same source
+    candle_close_exits already uses."""
+    try:
+        px = yf.download([f"{s}.NS" for s in symbols], period="1d",
+                         interval="5m", group_by="ticker", progress=False,
+                         threads=True, auto_adjust=False, prepost=False)
+        out = {}
+        for s in symbols:
+            try:
+                day = px[f"{s}.NS"].dropna(subset=["Close"]).between_time("09:15", "15:30")
+                if len(day) < 2:
+                    continue
+                tp = (day["High"] + day["Low"] + day["Close"]) / 3
+                tv = day["Volume"].sum()
+                if tv and tv > 0:
+                    out[s] = float((tp * tv).sum() / tv)
+            except Exception:
+                continue
+        return out
+    except Exception:
+        return {}
+
+
+def _vwap_block(state: dict, today: str, setup: str, symbol: str) -> None:
+    """Record an O=L/O=H pick rejected by the VWAP extreme gate (owner fix
+    4 Nov: the trade is only valid while the stock is still beyond VWAP —
+    a stock that already crossed VWAP has failed the OH/OL condition).
+    Daily, deduped; surfaced in the snapshot."""
+    vb = state.get("vwap_blocked") or {}
+    if vb.get("date") != today:
+        vb = {"date": today, "ol": [], "oh": []}
+        state["vwap_blocked"] = vb
+    bucket = vb.setdefault(setup, [])
+    if symbol not in bucket:
+        bucket.append(symbol)
+
+
 def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
     today, stamp = moment.date().isoformat(), moment.strftime("%H:%M:%S")
     # 2026-09-28 opening-candle rules: entries start once the FIRST 5-min
@@ -610,28 +654,46 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
             if quote.get("vol_ratio", 0) < min_vol:
                 _vol_block(state, today, setup, symbol, "low_vol")
                 continue
-            # stock-trend filter: only long above the stock's own 20-SMA,
-            # only short below it (NIFTY gate alone let October's worst
-            # shorts ride against their own uptrends)
+            # stock-trend AUDIT (was a hard filter, added + reverted 3 Nov:
+            # October data showed it forfeits more winners than it saves —
+            # logged for tuning, no longer blocks)
             sma = quote.get("sma20")
             if sma:
                 if setup == "ol" and quote["ltp"] <= sma:
                     _trend_block(state, today, setup, symbol)
-                    continue
                 if setup == "oh" and quote["ltp"] >= sma:
                     _trend_block(state, today, setup, symbol)
-                    continue
+            # absolute liquidity floor (vault rule: volume > 500k shares)
+            if quote.get("avg_vol20", 0) < 500_000:
+                continue
             eligible.append((quote.get("vol_ratio", 0), symbol, quote))
+        # VWAP extreme gate (owner fix 4 Nov, October-tested +1,275 pts):
+        # an O=L is only valid while the stock is still BELOW VWAP (the low
+        # is holding); an O=H only while still ABOVE it. Stocks that already
+        # crossed VWAP have FAILED the OH/OL condition — October: those
+        # entries lost -2,779 while the pinned ones made +1,024.
+        vw = _vwap_map([q[1] for q in eligible]) if eligible else {}
+        final_eligible = []
+        for vr, symbol, quote in eligible:
+            v = vw.get(symbol)
+            if v is not None:
+                if setup == "ol" and quote["ltp"] >= v:
+                    _vwap_block(state, today, setup, symbol)
+                    continue
+                if setup == "oh" and quote["ltp"] <= v:
+                    _vwap_block(state, today, setup, symbol)
+                    continue
+            final_eligible.append((vr, symbol, quote))
         already = sum(1 for t in state["trades"] if t.get("date") == today and t.get("setup") == setup
                       and not t.get("reentry_seq"))   # re-entries don't consume fresh slots
-        for _, symbol, quote in sorted(eligible, reverse=True)[:max(0, NSE_MAX_PER_SETUP - already)]:
+        for _, symbol, quote in sorted(final_eligible, reverse=True)[:max(0, NSE_MAX_PER_SETUP - already)]:
             # don't chase >3% beyond the open
             ext = quote["ltp"] / quote["open"]
             if (setup == "ol" and ext > 1.03) or (setup == "oh" and ext < 0.97):
                 continue
             entry_px = quote["ltp"]
             sl_px = (quote["low"] if side == "BUY" else quote["high"]) * (
-                0.995 if side == "BUY" else 1.005)
+                0.99 if side == "BUY" else 1.01)   # widened 0.5 -> 1.0% (owner fix 4 Nov: 0.5% got churned)
             qty = int(NSE_CAPITAL / entry_px) if entry_px > 0 else 0
             risk = abs(entry_px - sl_px)
             if risk > 0 and NSE_MAX_LOSS > 0:
@@ -1054,6 +1116,9 @@ def nse_snapshot(state: dict, quotes: dict, today: str) -> dict:
     tb = state.get("trend_blocked") or {}
     trend_blocked = ({s: len(tb.get(s, [])) for s in ("ol", "oh")}
                      if tb.get("date") == today else {})
+    vwb = state.get("vwap_blocked") or {}
+    vwap_blocked = ({s: len(vwb.get(s, [])) for s in ("ol", "oh")}
+                    if vwb.get("date") == today else {})
     return {"updated_at": now().strftime("%d %b %Y %H:%M:%S IST"), "feed": FEED_NAME,
             "feed_note": ("Angel SmartAPI live feed (cloud, no Mac)"
                           if FEED_NAME == "angel" else
@@ -1070,6 +1135,7 @@ def nse_snapshot(state: dict, quotes: dict, today: str) -> dict:
                                      f"{NSE_RVOL_OL}, O=H >= {NSE_RVOL_OH}; deliberately low, tuned from vol_audit"},
             "vol_blocked": vol_blocked,
             "trend_blocked": trend_blocked,
+            "vwap_blocked": vwap_blocked,
             "vol_audit": ({s: dict(sorted(((state.get("vol_audit") or {}).get(s) or {}).items(),
                                           key=lambda kv: -kv[1])[:15])
                            for s in ("ol", "oh")}
