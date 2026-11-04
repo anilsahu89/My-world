@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 23,
+ "next_id": 24,
  "trades": [
   {
    "id": 17,
@@ -40,11 +40,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 2,
+   "sessions": 3,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1866.9000244140625,
+   "mark": 1910.0,
    "note": "BB squeeze rank 5% blast on w bars"
   },
   {
@@ -62,11 +62,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1759.199951171875,
+   "mark": 1754.5999755859375,
    "note": "BB squeeze rank 6% blast on d bars"
   },
   {
@@ -84,11 +84,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 303.0,
+   "mark": 311.0,
    "note": "BB squeeze rank 12% blast on d bars"
   },
   {
@@ -97,20 +97,20 @@
    "symbol": "INDUSTOWER",
    "setup": "QM-BBd",
    "side": "BUY",
-   "status": "PENDING",
+   "status": "OPEN",
    "ref_close": 390.0,
-   "entry_date": null,
-   "qty": null,
-   "entry": null,
-   "invested": null,
+   "entry_date": "2026-11-04",
+   "qty": 13.0,
+   "entry": 390.0,
+   "invested": 5070.0,
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": null,
+   "mark": 387.0,
    "note": "BB squeeze rank 0% blast on d bars"
   },
   {
@@ -119,8 +119,30 @@
    "symbol": "BSE",
    "setup": "QM-BBw",
    "side": "BUY",
-   "status": "PENDING",
+   "status": "OPEN",
    "ref_close": 3665.7,
+   "entry_date": "2026-11-04",
+   "qty": 1.0,
+   "entry": 3665.699951171875,
+   "invested": 3665.7,
+   "booked": 0.0,
+   "avg_count": 0,
+   "trail": false,
+   "sessions": 1,
+   "exit": null,
+   "reason": null,
+   "pnl": null,
+   "mark": 3601.5,
+   "note": "BB squeeze rank 14% blast on w bars"
+  },
+  {
+   "id": 23,
+   "signal_date": "2026-11-04",
+   "symbol": "ZYDUSLIFE",
+   "setup": "QM-BBw",
+   "side": "BUY",
+   "status": "PENDING",
+   "ref_close": 1188.1,
    "entry_date": null,
    "qty": null,
    "entry": null,
@@ -133,9 +155,9 @@
    "reason": null,
    "pnl": null,
    "mark": null,
-   "note": "BB squeeze rank 14% blast on w bars"
+   "note": "BB squeeze rank 11% blast on w bars"
   }
  ],
- "done_date": "2026-11-03",
+ "done_date": "2026-11-04",
  "circuit_breaker": false
 }
