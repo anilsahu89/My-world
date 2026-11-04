@@ -1,5 +1,5 @@
 {
- "updated_at": "04 Nov 2026 09:27:24 IST",
+ "updated_at": "04 Nov 2026 09:29:02 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -32,19 +32,19 @@
  "trend_blocked": {},
  "vol_audit": {
   "ol": {
-   "FACT": 94.65,
+   "FACT": 99.19,
    "LINDEINDIA": 10.35,
    "NEULANDLAB": 9.57,
    "BIKAJI": 1.84,
-   "CONCOR": 1.23,
+   "CONCOR": 1.26,
    "NIVABUPA": 1.14,
+   "OFSS": 1.12,
    "JSWINFRA": 1.09,
    "NATCOPHARM": 1.01,
-   "OFSS": 1.0,
    "ZYDUSLIFE": 0.88,
-   "KAYNES": 0.7,
+   "KAYNES": 0.73,
+   "ABDL": 0.65,
    "IPCALAB": 0.64,
-   "ABDL": 0.62,
    "DELHIVERY": 0.51,
    "SAIL": 0.42
   },
@@ -57,7 +57,7 @@
   "trades_today": 1,
   "today_pnl": 0,
   "realized_total": -2079.08,
-  "unrealized": -24.15,
+  "unrealized": -25.9,
   "wins": 98,
   "losses": 123,
   "win_rate": 44.3,
@@ -78,10 +78,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -24.15,
+   "pnl": -25.9,
    "feed": "angel",
-   "ltp": 472.55,
-   "pnl_pct": -0.72
+   "ltp": 472.3,
+   "pnl_pct": -0.78
   }
  ],
  "closed": [
