@@ -1,5 +1,5 @@
 {
- "updated_at": "04 Nov 2026 09:32:06 IST",
+ "updated_at": "04 Nov 2026 09:33:37 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -37,12 +37,12 @@
    "NEULANDLAB": 9.57,
    "BIKAJI": 1.84,
    "CONCOR": 1.32,
-   "OFSS": 1.22,
+   "OFSS": 1.28,
    "NIVABUPA": 1.14,
    "JSWINFRA": 1.11,
    "NATCOPHARM": 1.01,
    "ZYDUSLIFE": 0.91,
-   "KAYNES": 0.75,
+   "KAYNES": 0.78,
    "ABDL": 0.69,
    "IPCALAB": 0.64,
    "DELHIVERY": 0.53,
@@ -57,7 +57,7 @@
   "trades_today": 2,
   "today_pnl": 0,
   "realized_total": -2079.08,
-  "unrealized": -14.6,
+  "unrealized": -20.95,
   "wins": 98,
   "losses": 123,
   "win_rate": 44.3,
@@ -78,10 +78,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -26.6,
+   "pnl": -26.95,
    "feed": "angel",
-   "ltp": 472.2,
-   "pnl_pct": -0.8
+   "ltp": 472.15,
+   "pnl_pct": -0.81
   },
   {
    "id": 229,
@@ -97,10 +97,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 12.0,
+   "pnl": 6.0,
    "feed": "angel",
-   "ltp": 430.7,
-   "pnl_pct": 0.35
+   "ltp": 429.95,
+   "pnl_pct": 0.17
   }
  ],
  "closed": [
