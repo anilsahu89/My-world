@@ -3966,13 +3966,13 @@
  "vol_audit": {
   "date": "2026-11-04",
   "ol": {
-   "3MINDIA": 0.54,
+   "3MINDIA": 0.57,
    "ABDL": 0.69,
    "BIKAJI": 1.84,
    "CONCOR": 1.32,
    "CASTROLIND": 0.13,
    "CAPLIPOINT": 0.23,
-   "DELHIVERY": 0.54,
+   "DELHIVERY": 0.57,
    "FACT": 99.19,
    "JSWINFRA": 1.17,
    "IPCALAB": 0.64,
@@ -3984,7 +3984,7 @@
    "NIVABUPA": 1.2,
    "SBILIFE": 0.41,
    "STARHEALTH": 0.17,
-   "SAIL": 0.51,
+   "SAIL": 0.54,
    "SIGNATURE": 0.18,
    "ZYDUSLIFE": 0.92
   },
