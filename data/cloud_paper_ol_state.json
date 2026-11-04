@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 229,
+ "next_id": 230,
  "trades": [
   {
    "id": 1,
@@ -3911,6 +3911,24 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 229,
+   "date": "2026-11-04",
+   "setup": "ol",
+   "symbol": "CONCOR",
+   "side": "BUY",
+   "qty": 8,
+   "entry_time": "09:30:04",
+   "entry_price": 429.2,
+   "candle_stop": 419.4,
+   "sl_price": 417.3,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel"
   }
  ],
  "seeded": true,
@@ -3949,26 +3967,26 @@
   "date": "2026-11-04",
   "ol": {
    "3MINDIA": 0.41,
-   "ABDL": 0.65,
+   "ABDL": 0.69,
    "BIKAJI": 1.84,
-   "CONCOR": 1.26,
+   "CONCOR": 1.32,
    "CASTROLIND": 0.13,
    "CAPLIPOINT": 0.23,
-   "DELHIVERY": 0.51,
+   "DELHIVERY": 0.53,
    "FACT": 99.19,
-   "JSWINFRA": 1.09,
+   "JSWINFRA": 1.11,
    "IPCALAB": 0.64,
-   "KAYNES": 0.73,
+   "KAYNES": 0.75,
    "LINDEINDIA": 10.35,
-   "OFSS": 1.12,
+   "OFSS": 1.22,
    "NATCOPHARM": 1.01,
    "NEULANDLAB": 9.57,
    "NIVABUPA": 1.14,
-   "SBILIFE": 0.33,
+   "SBILIFE": 0.36,
    "STARHEALTH": 0.15,
    "SAIL": 0.42,
    "SIGNATURE": 0.18,
-   "ZYDUSLIFE": 0.88
+   "ZYDUSLIFE": 0.9
   },
   "oh": {}
  },
