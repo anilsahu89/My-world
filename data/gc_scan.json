@@ -1,5 +1,5 @@
 {
- "updated_at": "04 Nov 2026 10:36:17 IST",
+ "updated_at": "04 Nov 2026 10:39:42 IST",
  "engine": "cloud gc desk (GitHub Actions relay — no Mac needed)",
  "markets": [
   {
@@ -9,8 +9,8 @@
    "open": 3932.699951171875,
    "high": 3981.699951171875,
    "low": 3904.10009765625,
-   "ltp": 3960.300048828125,
-   "chg_pct": 0.7,
+   "ltp": 3966.60009765625,
+   "chg_pct": 0.86,
    "minutes_since_open": null,
    "entry_window_open": false,
    "ol": false,
@@ -26,8 +26,8 @@
    "open": 77342.390625,
    "high": 77458.2734375,
    "low": 75607.4609375,
-   "ltp": 77206.921875,
-   "chg_pct": -0.18,
+   "ltp": 77287.8671875,
+   "chg_pct": -0.07,
    "minutes_since_open": null,
    "entry_window_open": false,
    "ol": false,
