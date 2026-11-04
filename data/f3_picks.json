@@ -1,41 +1,41 @@
 {
- "date": "2026-11-03",
- "scanned_at": "15:08:06",
+ "date": "2026-11-04",
+ "scanned_at": "12:22:09",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
  "signals": [
   {
-   "symbol": "AEGISLOG",
-   "drive_pct": 6.52,
-   "qty": 1,
-   "entry": 1180.4,
-   "sl": 1079.67,
-   "status": "CLOSED",
-   "exit": 1205.4,
-   "reason": "EOD",
-   "pnl": 25.0
+   "symbol": "ZEEL",
+   "drive_pct": 3.77,
+   "qty": 25,
+   "entry": 64.28,
+   "sl": 60.3,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
   },
   {
-   "symbol": "BALRAMCHIN",
-   "drive_pct": 4.82,
-   "qty": 1,
-   "entry": 663.55,
-   "sl": 604.36,
-   "status": "CLOSED",
-   "exit": 653.8,
-   "reason": "EOD",
-   "pnl": -9.75
+   "symbol": "HSCL",
+   "drive_pct": 3.42,
+   "qty": 2,
+   "entry": 559.4,
+   "sl": 522.03,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
   },
   {
-   "symbol": "CARTRADE",
-   "drive_pct": 4.73,
-   "qty": 1,
-   "entry": 2429.4,
-   "sl": 2239.45,
-   "status": "CLOSED",
-   "exit": 2484.6,
-   "reason": "EOD",
-   "pnl": 55.2
+   "symbol": "HINDZINC",
+   "drive_pct": 3.03,
+   "qty": 4,
+   "entry": 539.0,
+   "sl": 514.91,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
   }
  ]
 }
