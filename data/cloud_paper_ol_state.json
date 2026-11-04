@@ -3948,18 +3948,18 @@
  "vol_audit": {
   "date": "2026-11-04",
   "ol": {
-   "3MINDIA": 0.29,
+   "3MINDIA": 0.32,
    "ABDL": 0.62,
    "BIKAJI": 1.84,
    "CONCOR": 1.19,
    "CASTROLIND": 0.13,
    "CAPLIPOINT": 0.23,
    "DELHIVERY": 0.51,
-   "FACT": 83.24,
-   "JSWINFRA": 0.99,
+   "FACT": 92.07,
+   "JSWINFRA": 1.09,
    "IPCALAB": 0.64,
-   "KAYNES": 0.56,
-   "LINDEINDIA": 9.7,
+   "KAYNES": 0.7,
+   "LINDEINDIA": 10.14,
    "OFSS": 1.0,
    "NATCOPHARM": 0.8,
    "NEULANDLAB": 9.57,
@@ -3968,7 +3968,7 @@
    "STARHEALTH": 0.14,
    "SAIL": 0.42,
    "SIGNATURE": 0.18,
-   "ZYDUSLIFE": 0.82
+   "ZYDUSLIFE": 0.88
   },
   "oh": {}
  },
