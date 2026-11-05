@@ -1,5 +1,5 @@
 {
- "updated_at": "05 Nov 2026 12:24:41 IST",
+ "updated_at": "05 Nov 2026 12:28:22 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -69,15 +69,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 3,
-  "closed_count": 226,
+  "open_count": 2,
+  "closed_count": 227,
   "trades_today": 3,
-  "today_pnl": 0,
-  "realized_total": -2126.34,
-  "unrealized": 0,
+  "today_pnl": -178.53,
+  "realized_total": -2304.87,
+  "unrealized": -3.3,
   "wins": 100,
-  "losses": 126,
-  "win_rate": 44.2,
+  "losses": 127,
+  "win_rate": 44.1,
   "days": 31
  },
  "open": [
@@ -94,30 +94,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -3.1,
    "feed": "angel-f3",
    "drive_pct": 4.96,
-   "ltp": 1810.2,
-   "pnl_pct": 0.0
-  },
-  {
-   "id": 234,
-   "date": "2026-11-05",
-   "setup": "f3",
-   "symbol": "SUNDARMFIN",
-   "side": "BUY",
-   "qty": 1,
-   "entry_time": "12:23:17",
-   "entry_price": 4205.0,
-   "sl_price": 4026.47,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 0.0,
-   "feed": "angel-f3",
-   "drive_pct": 2.36,
-   "ltp": 4205.0,
-   "pnl_pct": 0.0
+   "ltp": 1807.1,
+   "pnl_pct": -0.17
   },
   {
    "id": 235,
@@ -132,14 +113,30 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -0.2,
    "feed": "angel-f3",
    "drive_pct": 2.06,
-   "ltp": 908.05,
-   "pnl_pct": 0.0
+   "ltp": 907.95,
+   "pnl_pct": -0.01
   }
  ],
  "closed": [
+  {
+   "id": 234,
+   "date": "2026-11-05",
+   "setup": "f3",
+   "symbol": "SUNDARMFIN",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:23:17",
+   "entry_price": 4205.0,
+   "sl_price": 4026.47,
+   "exit_time": "12:27:43",
+   "exit_price": 4026.47,
+   "reason": "SL",
+   "pnl": -178.53,
+   "feed": "angel-f3"
+  },
   {
    "id": 230,
    "date": "2026-11-04",
@@ -4173,9 +4170,9 @@
    "ol": 0,
    "oh": 0,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -2126.34
+   "losses": 1,
+   "pnl": -178.53,
+   "cum": -2304.87
   }
  ]
 }

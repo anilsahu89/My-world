@@ -1,6 +1,6 @@
 {
  "date": "2026-11-05",
- "scanned_at": "12:24:41",
+ "scanned_at": "12:28:22",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
  "signals": [
@@ -21,10 +21,10 @@
    "qty": 1,
    "entry": 4205.0,
    "sl": 4026.47,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 4026.47,
+   "reason": "SL",
+   "pnl": -178.53
   },
   {
    "symbol": "SONACOMS",
