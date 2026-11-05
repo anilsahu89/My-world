@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 233,
+ "next_id": 236,
  "trades": [
   {
    "id": 1,
@@ -3983,10 +3983,64 @@
    "status": "CLOSED",
    "feed": "angel-f3",
    "drive_pct": 3.03
+  },
+  {
+   "id": 233,
+   "date": "2026-11-05",
+   "setup": "f3",
+   "symbol": "LGEINDIA",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:23:17",
+   "entry_price": 1810.2,
+   "sl_price": 1697.47,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 4.96
+  },
+  {
+   "id": 234,
+   "date": "2026-11-05",
+   "setup": "f3",
+   "symbol": "SUNDARMFIN",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:23:17",
+   "entry_price": 4205.0,
+   "sl_price": 4026.47,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 2.36
+  },
+  {
+   "id": 235,
+   "date": "2026-11-05",
+   "setup": "f3",
+   "symbol": "SONACOMS",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "12:23:17",
+   "entry_price": 908.05,
+   "sl_price": 874.31,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 2.06
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-11-04",
+ "f3_done_date": "2026-11-05",
  "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-11-05",
