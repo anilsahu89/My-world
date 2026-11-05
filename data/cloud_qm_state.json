@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 24,
+ "next_id": 26,
  "trades": [
   {
    "id": 17,
@@ -40,11 +40,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 3,
+   "sessions": 4,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1910.0,
+   "mark": 1884.5999755859375,
    "note": "BB squeeze rank 5% blast on w bars"
   },
   {
@@ -62,11 +62,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 2,
+   "sessions": 3,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1754.5999755859375,
+   "mark": 1713.699951171875,
    "note": "BB squeeze rank 6% blast on d bars"
   },
   {
@@ -84,11 +84,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 2,
+   "sessions": 3,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 311.0,
+   "mark": 317.0,
    "note": "BB squeeze rank 12% blast on d bars"
   },
   {
@@ -106,11 +106,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 387.0,
+   "mark": 383.20001220703125,
    "note": "BB squeeze rank 0% blast on d bars"
   },
   {
@@ -119,7 +119,7 @@
    "symbol": "BSE",
    "setup": "QM-BBw",
    "side": "BUY",
-   "status": "OPEN",
+   "status": "CLOSED",
    "ref_close": 3665.7,
    "entry_date": "2026-11-04",
    "qty": 1.0,
@@ -128,12 +128,13 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 1,
-   "exit": null,
-   "reason": null,
-   "pnl": null,
-   "mark": 3601.5,
-   "note": "BB squeeze rank 14% blast on w bars"
+   "sessions": 2,
+   "exit": 3790.0,
+   "reason": "RSI86",
+   "pnl": 113.3,
+   "mark": 3790.0,
+   "note": "BB squeeze rank 14% blast on w bars",
+   "exit_date": "2026-11-05"
   },
   {
    "id": 23,
@@ -141,8 +142,30 @@
    "symbol": "ZYDUSLIFE",
    "setup": "QM-BBw",
    "side": "BUY",
-   "status": "PENDING",
+   "status": "OPEN",
    "ref_close": 1188.1,
+   "entry_date": "2026-11-05",
+   "qty": 4.0,
+   "entry": 1200.0,
+   "invested": 4800.0,
+   "booked": 0.0,
+   "avg_count": 0,
+   "trail": false,
+   "sessions": 1,
+   "exit": null,
+   "reason": null,
+   "pnl": null,
+   "mark": 1193.0,
+   "note": "BB squeeze rank 11% blast on w bars"
+  },
+  {
+   "id": 24,
+   "signal_date": "2026-11-05",
+   "symbol": "BSE",
+   "setup": "QM-BBw",
+   "side": "BUY",
+   "status": "PENDING",
+   "ref_close": 3790.0,
    "entry_date": null,
    "qty": null,
    "entry": null,
@@ -155,9 +178,31 @@
    "reason": null,
    "pnl": null,
    "mark": null,
-   "note": "BB squeeze rank 11% blast on w bars"
+   "note": "BB squeeze rank 14% blast on w bars"
+  },
+  {
+   "id": 25,
+   "signal_date": "2026-11-05",
+   "symbol": "ANANDRATHI",
+   "setup": "QM-HM",
+   "side": "BUY",
+   "status": "PENDING",
+   "ref_close": 2370.0,
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "invested": null,
+   "booked": 0.0,
+   "avg_count": 0,
+   "trail": false,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null,
+   "mark": null,
+   "note": "RSI9 87 V-turn above rising SMA20"
   }
  ],
- "done_date": "2026-11-04",
+ "done_date": "2026-11-05",
  "circuit_breaker": false
 }
