@@ -1,5 +1,5 @@
 {
- "updated_at": "05 Nov 2026 09:42:38 IST",
+ "updated_at": "05 Nov 2026 09:44:17 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -21,7 +21,7 @@
  },
  "vol_blocked": {
   "ol": {
-   "low_vol": 0,
+   "low_vol": 20,
    "no_vol_data": 0
   },
   "oh": {
@@ -32,7 +32,23 @@
  "trend_blocked": {},
  "vwap_blocked": {},
  "vol_audit": {
-  "ol": {},
+  "ol": {
+   "APOLLOTYRE": 7.52,
+   "JKTYRE": 7.27,
+   "HINDPETRO": 7.05,
+   "HDFCAMC": 5.4,
+   "BAJFINANCE": 4.96,
+   "IRCON": 4.36,
+   "HUDCO": 4.24,
+   "VBL": 4.21,
+   "SHRIRAMFIN": 3.77,
+   "TMPV": 3.25,
+   "BLUEDART": 2.94,
+   "LTF": 2.87,
+   "M&MFIN": 2.83,
+   "SBIN": 2.83,
+   "GROWW": 2.56
+  },
   "oh": {
    "MGL": 4.47,
    "MAPMYINDIA": 4.05,
