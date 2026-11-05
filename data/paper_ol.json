@@ -1,5 +1,5 @@
 {
- "updated_at": "05 Nov 2026 09:31:10 IST",
+ "updated_at": "05 Nov 2026 09:32:47 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -46,9 +46,9 @@
    "BAJAJ-AUTO": 2.01,
    "RKFORGE": 1.99,
    "ASTERDM": 1.88,
-   "GAIL": 1.73,
+   "GAIL": 1.79,
    "PNB": 1.71,
-   "SIEMENS": 1.64
+   "NEULANDLAB": 1.69
   }
  },
  "engine_errors": [],
