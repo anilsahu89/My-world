@@ -1,0 +1,65 @@
+{
+ "updated_at": "05 Nov 2026 13:01:22 IST",
+ "rule": "Top-5 Chartink setups by 20-day win rate (5y backtest, 124,578 trades) · entry next open · +4% target / -2% stop / 20-session time exit · ₹10,000/trade · max 10 open, 5 new/day · EOD scan 17:50 IST",
+ "note": "Signals scanned directly from completed NSE-500 daily bars (same conditions as the Chartink MAHI dashboard scans; setup column shows which rule fired). First scan 5 Nov 2026.",
+ "end_date": "2027-03-31",
+ "summary": {
+  "open": 0,
+  "pending": 0,
+  "closed": 0,
+  "wins": 0,
+  "losses": 0,
+  "win_rate": 0,
+  "pnl_inr": 0
+ },
+ "by_setup": [
+  {
+   "setup": "BB-STACK",
+   "label": "BB Stack (M+W+D)",
+   "rule": "Monthly+Weekly+Daily close all above their upper Bollinger band(20,2) and above the prior bar, close <= open*1.16, prior turnover >= 40L",
+   "open": 0,
+   "closed": 0,
+   "win_rate": null,
+   "pnl": 0
+  },
+  {
+   "setup": "ABV-MBB",
+   "label": "Above Monthly BB",
+   "rule": "Daily close >= monthly upper BB(20,2) while the previous 2 monthly closes were below their BBs",
+   "open": 0,
+   "closed": 0,
+   "win_rate": null,
+   "pnl": 0
+  },
+  {
+   "setup": "SWING-SH",
+   "label": "Swing Shashi",
+   "rule": "Weekly WMA(RSI9,21) < weekly EMA(RSI9,3) and < RSI9, close >= SMA20 for 6 days, 1-month-ago close above 1-month-ago upper BB, RSI14 >= 60",
+   "open": 0,
+   "closed": 0,
+   "win_rate": null,
+   "pnl": 0
+  },
+  {
+   "setup": "GAP-UP",
+   "label": "Gap-up > Prev-High",
+   "rule": "Open >= previous day high, RSI14 >= RSI50, volume >= 10L, day change > 3%",
+   "open": 0,
+   "closed": 0,
+   "win_rate": null,
+   "pnl": 0
+  },
+  {
+   "setup": "HM-POS",
+   "label": "HM Positional",
+   "rule": "Monthly+Weekly+Daily WMA(RSI9,21) < RSI9, all three RSI9 > 50 and rising vs prior bar",
+   "open": 0,
+   "closed": 0,
+   "win_rate": null,
+   "pnl": 0
+  }
+ ],
+ "open": [],
+ "pending": [],
+ "closed": []
+}

@@ -1341,7 +1341,7 @@ def maybe_start_poller() -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("desk", choices=("nse", "gc", "swing", "poller", "ltp", "all"))
+    parser.add_argument("desk", choices=("nse", "gc", "swing", "chartlink", "poller", "ltp", "all"))
     args = parser.parse_args()
     DATA.mkdir(exist_ok=True)
     if args.desk == "poller":
@@ -1363,6 +1363,9 @@ def main() -> None:
     if args.desk in ("swing", "all"):
         import cloud_swing
         cloud_swing.run_day()
+    if args.desk in ("chartlink", "all"):
+        import cloud_chartlink
+        cloud_chartlink.run_day()
     if args.desk in ("ltp", "all"):
         import cloud_nifty_ltp
         cloud_nifty_ltp.run_day()

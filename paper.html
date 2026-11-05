@@ -379,6 +379,7 @@ main h3 .collapse-btn {
   <button class="pt-tab" data-panel="qmSection">🧮 QM Swing</button>
   <button class="pt-tab" data-panel="hmHtfSection">📈 Intraday HM</button>
   <button class="pt-tab" data-panel="swingSection">🕯️ HM Swing</button>
+  <button class="pt-tab" data-panel="chartlinkSection">📊 ChartLink</button>
   <button class="pt-tab" data-panel="thetaSection">🛡️ NIFTY Theta</button>
   <button class="pt-tab" data-panel="millSection">🏭 Premium Mill</button>
   <button class="pt-tab" data-panel="ltpSection">💎 NIFTY Long-Term Premium</button>
@@ -1170,6 +1171,31 @@ main h3 .collapse-btn {
 
   <h3 style="margin-top:2rem">🔴 Closed Trades <span class="muted" id="swClosedCount">(0)</span></h3>
   <div class="table-wrap" id="swClosedWrap"><div class="flash">No closed HM Swing trades yet.</div></div>
+</section>
+
+<!-- ===================== CHARTLINK: TOP-5 CHARTINK SETUPS (PAPER) ===================== -->
+<section id="chartlinkSection" class="pt-panel">
+  <h2 style="color:#00bfa5">
+    📊 ChartLink — top-5 Chartink setups (paper)
+    <span class="muted" style="font-size:0.75rem">— rules ported 1:1 from the 5y / 124,578-trade backtest, EOD scan 17:50 IST</span>
+  </h2>
+  <div id="clStatus" class="flash">Loading ChartLink desk…</div>
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">Open</span><span class="sum-value" style="color:var(--green)" id="clOpen">—</span></div>
+    <div class="sum-card"><span class="sum-label">Pending (fills next open)</span><span class="sum-value" id="clPend">—</span></div>
+    <div class="sum-card"><span class="sum-label">Closed</span><span class="sum-value" id="clClosed">—</span></div>
+    <div class="sum-card"><span class="sum-label">P&amp;L (₹)</span><span class="sum-value" id="clInr">—</span></div>
+    <div class="sum-card"><span class="sum-label">Win Rate</span><span class="sum-value" id="clWin">—</span></div>
+  </div>
+
+  <h3 style="color:var(--green);margin-top:1.5rem">🧩 The 5 setups <span class="muted" style="font-size:0.8rem">— click a row's setup badge to see its rule; live per-setup stats below</span></h3>
+  <div class="table-wrap" id="clSetupWrap"><div class="flash">Loading setups…</div></div>
+
+  <h3 style="color:var(--green);margin-top:1.5rem">🟢 Open Positions <span class="muted" id="clOpenCount">(0)</span></h3>
+  <div class="table-wrap" id="clOpenWrap"><div class="flash">No open ChartLink positions.</div></div>
+
+  <h3 style="margin-top:2rem">🔴 Closed Trades <span class="muted" id="clClosedCount">(0)</span></h3>
+  <div class="table-wrap" id="clClosedWrap"><div class="flash">No closed ChartLink trades yet.</div></div>
 </section>
 
 <!-- ===================== MANUAL: SEARCH & TAKE + BOOK ===================== -->
@@ -2579,6 +2605,146 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
 })();
 </script>
 
+<script>
+/* ChartLink desk — top-5 Chartink setups (data/chartink_picks.json) */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  function esc(s) { var d = document.createElement("div"); d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function cls(n) { return n > 0 ? "ok" : (n < 0 ? "bad" : ""); }
+  function fmt(n) {
+    if (n == null || isNaN(n)) return "—";
+    var s = Math.abs(n).toLocaleString("en-IN", {maximumFractionDigits: 0});
+    return (n < 0 ? "−" : "+") + "₹" + s;
+  }
+  var SETUP_COLOR = {"BB-STACK": "#7c4dff", "ABV-MBB": "#00bfa5", "SWING-SH": "#ff9800",
+                     "GAP-UP": "#2196f3", "HM-POS": "#e91e63"};
+  function badge(code, name) {
+    var c = SETUP_COLOR[code] || "#888";
+    return '<span class="badge" style="background:' + c + '1a;color:' + c +
+      ';border:1px solid ' + c + '55" title="' + esc(name || code) + '">' + esc(name || code) + '</span>';
+  }
+  var ltpMap = {};
+  function loadQuotes() {
+    fetch(base + "/data/live_stocks.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !d.stocks) return;
+        d.stocks.forEach(function (q) { ltpMap[q.symbol] = parseFloat(q.ltp); });
+        if (window.__lastCl) render(window.__lastCl);
+      }).catch(function () {});
+  }
+
+  function render(d) {
+    window.__lastCl = d;
+    var s = d.summary || {};
+    var el = document.getElementById("clStatus");
+    el.className = "flash";
+    el.innerHTML = "Desk updated " + esc(d.updated_at) + " · " + esc(d.rule) +
+      " · <span class='muted'>" + esc(d.note || "") + "</span>";
+    document.getElementById("clOpen").textContent = s.open || 0;
+    document.getElementById("clPend").textContent = s.pending || 0;
+    document.getElementById("clClosed").textContent = s.closed || 0;
+    var a = document.getElementById("clInr"), w = document.getElementById("clWin");
+    a.textContent = fmt(s.pnl_inr); a.className = "sum-value " + ((s.pnl_inr || 0) >= 0 ? "pos" : "neg");
+    w.textContent = (s.win_rate || 0) + "% (" + (s.wins || 0) + "W/" + (s.losses || 0) + "L)";
+
+    // per-setup stats
+    var setups = d.by_setup || [];
+    var sw = document.getElementById("clSetupWrap");
+    if (setups.length) {
+      var hs = "<table><thead><tr><th>Setup</th><th>Rule (as tested)</th><th>Open+Pending</th>" +
+        "<th>Closed</th><th>Win rate</th><th>P&amp;L (₹)</th></tr></thead><tbody>";
+      setups.forEach(function (u) {
+        var c = SETUP_COLOR[u.setup] || "#888";
+        hs += '<tr><td><strong style="color:' + c + '">' + esc(u.label) + '</strong><br>' +
+          '<span class="muted" style="font-size:0.72rem">' + esc(u.setup) + '</span></td>' +
+          '<td style="font-size:0.78rem;max-width:420px">' + esc(u.rule) + '</td>' +
+          "<td>" + (u.open || 0) + "</td><td>" + (u.closed || 0) + "</td>" +
+          "<td>" + (u.win_rate != null ? u.win_rate + "%" : "—") + "</td>" +
+          '<td class="' + cls(u.pnl) + '">' + fmt(u.pnl) + "</td></tr>";
+      });
+      sw.innerHTML = hs + "</tbody></table>";
+    }
+
+    // open + pending
+    var pend = d.pending || [], open = d.open || [];
+    document.getElementById("clOpenCount").textContent =
+      "(" + open.length + (pend.length ? " + " + pend.length + " pending" : "") + ")";
+    var ow = document.getElementById("clOpenWrap");
+    if (!pend.length && !open.length) {
+      ow.innerHTML = '<div class="flash">No open ChartLink positions — the EOD scan (17:50 IST) queues signals, they fill at the next session open.</div>';
+    } else {
+      var h = "<table><thead><tr><th>Signal</th><th>Symbol</th><th>Setup</th>" +
+        "<th>Side</th><th>Status</th><th>Entry</th><th>TGT (+4%)</th><th>SL (−2%)</th><th>Sess</th><th>Live P&L</th><th></th>" +
+        "</tr></thead><tbody>";
+      pend.concat(open).forEach(function (t) {
+        var pnlShow = t.pnl;
+        if (t.status === "OPEN" && t.entry != null) {
+          var live = ltpMap[t.symbol];
+          if (isFinite(live) && live > 0) pnlShow = (t.qty || 0) * (live - t.entry);
+        }
+        h += "<tr><td>" + esc(t.signal_date) + "</td>" +
+          "<td><strong>" + esc(t.symbol) + "</strong></td>" +
+          "<td>" + badge(t.setup, t.setup_name) + "</td>" +
+          "<td>" + esc(t.side) + "</td>" +
+          "<td>" + (t.status === "PENDING" ? '<span class="badge badge-grey">PENDING</span>' : esc(t.status)) + "</td>" +
+          "<td>" + (t.entry != null ? t.entry + (t.entry_date ? " (" + esc(t.entry_date).slice(5) + ")" : "") : "next open") + "</td>" +
+          "<td>" + (t.tgt != null ? t.tgt : "—") + "</td>" +
+          "<td>" + (t.sl != null ? t.sl : "—") + "</td>" +
+          "<td>" + (t.sessions || 0) + "</td>" +
+          '<td class="' + cls(pnlShow) + '">' + (pnlShow != null ? fmt(pnlShow) : "—") + "</td>" +
+          (t.status === "OPEN" ? "<td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next 17:50 scan price\" onclick=\"return requestDeskClose('chartlink','" + t.id + "','" + esc(t.symbol) + "')\">✕ close</button></td>" : "<td></td>") +
+          "</tr>";
+      });
+      ow.innerHTML = h + "</tbody></table>";
+    }
+
+    // closed
+    var closed = (d.closed || []).slice(-40).reverse();
+    document.getElementById("clClosedCount").textContent = "(" + (d.closed || []).length + ")";
+    var cw = document.getElementById("clClosedWrap");
+    if (!closed.length) {
+      cw.innerHTML = '<div class="flash">No closed ChartLink trades yet.</div>';
+    } else {
+      var h2 = "<table><thead><tr><th>Signal</th><th>Symbol</th><th>Setup</th><th>Side</th>" +
+        "<th>Entry</th><th>Exit</th><th>Reason</th><th>Sess</th><th>P&L</th><th></th>" +
+        "</tr></thead><tbody>";
+      closed.forEach(function (t) {
+        var win = Number(t.pnl) > 0;
+        h2 += '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
+          "<td>" + esc(t.signal_date) + "</td>" +
+          "<td><strong>" + esc(t.symbol) + "</strong></td>" +
+          "<td>" + badge(t.setup, t.setup_name) + "</td>" +
+          "<td>" + esc(t.side) + "</td>" +
+          "<td>" + (t.entry != null ? t.entry : "—") + "</td>" +
+          "<td>" + (t.exit != null ? t.exit : "—") + "</td>" +
+          "<td>" + esc(t.reason || "—") + "</td>" +
+          "<td>" + (t.sessions || 0) + "</td>" +
+          '<td class="' + cls(Number(t.pnl)) + '">' + fmt(Number(t.pnl)) + "</td>" +
+          '<td><span class="badge ' + (win ? "badge-green" : "badge-red") + '">' +
+          (win ? "WIN" : "LOSS") + "</span></td></tr>";
+      });
+      cw.innerHTML = h2 + "</tbody></table>";
+    }
+  }
+  function load() {
+    fetch(base + "/data/chartink_picks.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) render(d); })
+      .catch(function () {});
+  }
+  load();
+  loadQuotes();
+  setInterval(load, 60000);
+  setInterval(loadQuotes, 60000);
+})();
+</script>
+
   <!-- Client-side app: search, paper trades, alerts, link fixing -->
   <script src="static/direct-scan.js"></script>
   <script src="static/gc-scan.js"></script>
@@ -2975,6 +3141,11 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
         return { date: approxExit(t), edate: t.entry_date, sym: t.symbol + " " + String(t.setup || "").toUpperCase(),
                  side: t.side, entry: t.entry, exit: t.exit, pnl: num(t.pnl), reason: t.reason || "—",
                  meta: [["Qty", t.qty], ["Sessions", t.sessions], ["Stop", t.sl], ["Target", t.tgt]] }; }); } },
+    { name: "📊 ChartLink — top-5 Chartink setups", src: "/data/cloud_chartlink_state.json",
+      adapt: function (d) { return ((d && d.trades) || []).filter(function (t) { return t.status === "CLOSED"; }).map(function (t) {
+        return { date: t.exit_date || approxExit(t), edate: t.entry_date, sym: t.symbol + " " + String(t.setup_name || t.setup || "").toUpperCase(),
+                 side: t.side, entry: t.entry, exit: t.exit, pnl: num(t.pnl), reason: t.reason || "—",
+                 meta: [["Setup", t.setup_name], ["Qty", t.qty], ["Sessions", t.sessions], ["Stop", t.sl], ["Target", t.tgt]] }; }); } },
     { name: "🛡️ NIFTY Theta", src: "/data/scanners/nifty-daily-theta-latest.json",
       adapt: function (d) { return ((d && d.trades) || []).filter(function (t) { return (t.status || "") === "CLOSED"; }).map(function (t) {
         return { date: t.exit_date, edate: t.entry_date, sym: "NIFTY " + String(t.direction || "").toUpperCase() + " " + t.short_strike + "/" + t.long_strike,
