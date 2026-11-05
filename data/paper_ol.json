@@ -1,5 +1,5 @@
 {
- "updated_at": "05 Nov 2026 09:27:56 IST",
+ "updated_at": "05 Nov 2026 09:29:32 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -37,7 +37,7 @@
    "MGL": 4.47,
    "MAPMYINDIA": 4.05,
    "NLCINDIA": 3.65,
-   "GESHIP": 3.38,
+   "GESHIP": 3.51,
    "SOLARINDS": 2.86,
    "POWERINDIA": 2.25,
    "CGPOWER": 2.22,
@@ -45,7 +45,7 @@
    "BLUEJET": 2.06,
    "BAJAJ-AUTO": 2.01,
    "RKFORGE": 1.99,
-   "ASTERDM": 1.73,
+   "ASTERDM": 1.88,
    "PNB": 1.71,
    "SIEMENS": 1.64,
    "COCHINSHIP": 1.55
