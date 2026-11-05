@@ -1,5 +1,5 @@
 {
- "updated_at": "05 Nov 2026 09:32:47 IST",
+ "updated_at": "05 Nov 2026 09:34:21 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -39,7 +39,7 @@
    "NLCINDIA": 3.65,
    "GESHIP": 3.52,
    "SOLARINDS": 2.86,
-   "POWERINDIA": 2.25,
+   "POWERINDIA": 2.32,
    "CGPOWER": 2.22,
    "PETRONET": 2.12,
    "BLUEJET": 2.06,
@@ -47,8 +47,8 @@
    "RKFORGE": 1.99,
    "ASTERDM": 1.88,
    "GAIL": 1.79,
-   "PNB": 1.71,
-   "NEULANDLAB": 1.69
+   "NEULANDLAB": 1.73,
+   "PNB": 1.71
   }
  },
  "engine_errors": [],
