@@ -1,5 +1,5 @@
 {
- "updated_at": "05 Nov 2026 15:07:41 IST",
+ "updated_at": "05 Nov 2026 15:09:05 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -72,8 +72,8 @@
   "open_count": 0,
   "closed_count": 229,
   "trades_today": 3,
-  "today_pnl": -197.03,
-  "realized_total": -2323.37,
+  "today_pnl": -197.43,
+  "realized_total": -2323.77,
   "unrealized": 0,
   "wins": 101,
   "losses": 128,
@@ -92,10 +92,10 @@
    "entry_time": "12:23:17",
    "entry_price": 1810.2,
    "sl_price": 1697.47,
-   "exit_time": "15:03:19",
-   "exit_price": 1784.7,
+   "exit_time": "15:08:14",
+   "exit_price": 1785.0,
    "reason": "EOD",
-   "pnl": -25.5,
+   "pnl": -25.2,
    "feed": "angel-f3"
   },
   {
@@ -124,10 +124,10 @@
    "entry_time": "12:23:17",
    "entry_price": 908.05,
    "sl_price": 874.31,
-   "exit_time": "15:03:19",
-   "exit_price": 911.55,
+   "exit_time": "15:08:14",
+   "exit_price": 911.2,
    "reason": "EOD",
-   "pnl": 7.0,
+   "pnl": 6.3,
    "feed": "angel-f3"
   },
   {
@@ -4164,8 +4164,8 @@
    "oh": 0,
    "wins": 1,
    "losses": 2,
-   "pnl": -197.03,
-   "cum": -2323.37
+   "pnl": -197.43,
+   "cum": -2323.77
   }
  ]
 }
