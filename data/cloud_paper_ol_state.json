@@ -4028,7 +4028,9 @@
     "USHAMART",
     "MARICO",
     "KOTAKBANK",
-    "ETERNAL"
+    "ETERNAL",
+    "CGCL",
+    "TORNTPHARM"
    ],
    "no_vol_data": []
   }
@@ -4043,7 +4045,7 @@
    "AARTIIND": 0.92,
    "BLUEJET": 2.06,
    "BHARTIHEXA": 0.36,
-   "ASTRAL": 1.64,
+   "ASTRAL": 1.7,
    "BHARTIARTL": 1.5,
    "ASTERDM": 1.88,
    "BAJAJ-AUTO": 2.01,
