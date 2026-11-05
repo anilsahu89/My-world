@@ -1,5 +1,5 @@
 {
- "updated_at": "05 Nov 2026 09:40:53 IST",
+ "updated_at": "05 Nov 2026 09:42:38 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -36,8 +36,8 @@
   "oh": {
    "MGL": 4.47,
    "MAPMYINDIA": 4.05,
+   "GESHIP": 3.71,
    "NLCINDIA": 3.65,
-   "GESHIP": 3.52,
    "SOLARINDS": 2.86,
    "POWERINDIA": 2.32,
    "CGPOWER": 2.22,
@@ -48,7 +48,7 @@
    "ASTERDM": 1.88,
    "GAIL": 1.79,
    "NEULANDLAB": 1.75,
-   "PNB": 1.71
+   "ASTRAL": 1.74
   }
  },
  "engine_errors": [],
