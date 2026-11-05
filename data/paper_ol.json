@@ -1,5 +1,5 @@
 {
- "updated_at": "05 Nov 2026 09:37:35 IST",
+ "updated_at": "05 Nov 2026 09:39:12 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -43,8 +43,8 @@
    "CGPOWER": 2.22,
    "PETRONET": 2.12,
    "BLUEJET": 2.06,
+   "RKFORGE": 2.04,
    "BAJAJ-AUTO": 2.01,
-   "RKFORGE": 1.99,
    "ASTERDM": 1.88,
    "GAIL": 1.79,
    "NEULANDLAB": 1.75,
