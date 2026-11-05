@@ -1,5 +1,5 @@
 {
- "updated_at": "05 Nov 2026 09:34:21 IST",
+ "updated_at": "05 Nov 2026 09:36:00 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -47,7 +47,7 @@
    "RKFORGE": 1.99,
    "ASTERDM": 1.88,
    "GAIL": 1.79,
-   "NEULANDLAB": 1.73,
+   "NEULANDLAB": 1.75,
    "PNB": 1.71
   }
  },
