@@ -1,7 +1,7 @@
 {
- "updated_at": "06 Nov 2026 11:08:10 IST",
- "feed": "yahoo",
- "feed_note": "Cloud engine (GitHub Actions + Yahoo, no Mac needed)",
+ "updated_at": "06 Nov 2026 12:36:39 IST",
+ "feed": "angel",
+ "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
  "today": "2026-11-06",
  "strategy": {
@@ -25,18 +25,76 @@
  "vol_audit": {},
  "engine_errors": [],
  "summary": {
-  "open_count": 0,
+  "open_count": 3,
   "closed_count": 229,
-  "trades_today": 0,
+  "trades_today": 3,
   "today_pnl": 0,
   "realized_total": -2323.77,
   "unrealized": 0,
   "wins": 101,
   "losses": 128,
   "win_rate": 44.1,
-  "days": 31
+  "days": 32
  },
- "open": [],
+ "open": [
+  {
+   "id": 236,
+   "date": "2026-11-06",
+   "setup": "f3",
+   "symbol": "STARHEALTH",
+   "side": "BUY",
+   "qty": 4,
+   "entry_time": "12:35:39",
+   "entry_price": 556.5,
+   "sl_price": 534.22,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 2.6,
+   "ltp": 556.5,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 237,
+   "date": "2026-11-06",
+   "setup": "f3",
+   "symbol": "ABB",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:35:39",
+   "entry_price": 6644.0,
+   "sl_price": 6401.33,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 2.1,
+   "ltp": 6644.0,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 238,
+   "date": "2026-11-06",
+   "setup": "f3",
+   "symbol": "HAVELLS",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "12:35:39",
+   "entry_price": 1083.6,
+   "sl_price": 1043.36,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 1.7,
+   "ltp": 1083.6,
+   "pnl_pct": 0.0
+  }
+ ],
  "closed": [
   {
    "id": 233,
@@ -4121,6 +4179,16 @@
    "wins": 1,
    "losses": 2,
    "pnl": -197.43,
+   "cum": -2323.77
+  },
+  {
+   "date": "2026-11-06",
+   "trades": 3,
+   "ol": 0,
+   "oh": 0,
+   "wins": 0,
+   "losses": 0,
+   "pnl": 0,
    "cum": -2323.77
   }
  ]

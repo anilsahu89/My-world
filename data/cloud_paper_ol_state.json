@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 236,
+ "next_id": 239,
  "trades": [
   {
    "id": 1,
@@ -4037,10 +4037,64 @@
    "status": "CLOSED",
    "feed": "angel-f3",
    "drive_pct": 2.06
+  },
+  {
+   "id": 236,
+   "date": "2026-11-06",
+   "setup": "f3",
+   "symbol": "STARHEALTH",
+   "side": "BUY",
+   "qty": 4,
+   "entry_time": "12:35:39",
+   "entry_price": 556.5,
+   "sl_price": 534.22,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 2.6
+  },
+  {
+   "id": 237,
+   "date": "2026-11-06",
+   "setup": "f3",
+   "symbol": "ABB",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:35:39",
+   "entry_price": 6644.0,
+   "sl_price": 6401.33,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 2.1
+  },
+  {
+   "id": 238,
+   "date": "2026-11-06",
+   "setup": "f3",
+   "symbol": "HAVELLS",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "12:35:39",
+   "entry_price": 1083.6,
+   "sl_price": 1043.36,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 1.7
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-11-05",
+ "f3_done_date": "2026-11-06",
  "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-11-05",

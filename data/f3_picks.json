@@ -1,41 +1,41 @@
 {
- "date": "2026-11-05",
- "scanned_at": "15:09:05",
+ "date": "2026-11-06",
+ "scanned_at": "12:36:39",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
  "signals": [
   {
-   "symbol": "LGEINDIA",
-   "drive_pct": 4.96,
-   "qty": 1,
-   "entry": 1810.2,
-   "sl": 1697.47,
-   "status": "CLOSED",
-   "exit": 1785.0,
-   "reason": "EOD",
-   "pnl": -25.2
+   "symbol": "STARHEALTH",
+   "drive_pct": 2.6,
+   "qty": 4,
+   "entry": 556.5,
+   "sl": 534.22,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
   },
   {
-   "symbol": "SUNDARMFIN",
-   "drive_pct": 2.36,
+   "symbol": "ABB",
+   "drive_pct": 2.1,
    "qty": 1,
-   "entry": 4205.0,
-   "sl": 4026.47,
-   "status": "CLOSED",
-   "exit": 4026.47,
-   "reason": "SL",
-   "pnl": -178.53
+   "entry": 6644.0,
+   "sl": 6401.33,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
   },
   {
-   "symbol": "SONACOMS",
-   "drive_pct": 2.06,
+   "symbol": "HAVELLS",
+   "drive_pct": 1.7,
    "qty": 2,
-   "entry": 908.05,
-   "sl": 874.31,
-   "status": "CLOSED",
-   "exit": 911.2,
-   "reason": "EOD",
-   "pnl": 6.3
+   "entry": 1083.6,
+   "sl": 1043.36,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
   }
  ]
 }
