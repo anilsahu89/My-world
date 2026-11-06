@@ -498,8 +498,14 @@ def run_day() -> dict:
     # ---- new entry? (max 1 open, max 4/month; side follows the DISCOUNT —
     # video: both a put spread AND a call ratio were taken the same day in a
     # falling market; the 1:2 call ratio is built to profit either way) ----
+    # OWNER PAUSE 6 Nov 2026: 8 trades, 28.6% WR, -Rs 63,101 realized after
+    # the 6 Oct gate drop (20% -> 5%). New entries stopped; the open trade
+    # keeps being managed. Reopen = set NEW_ENTRIES_PAUSED to False.
+    NEW_ENTRIES_PAUSED = True
     blocked = []
-    if open_trade(trades) is None:
+    if NEW_ENTRIES_PAUSED:
+        blocked.append("entries paused by owner 6 Nov (28.6% WR, -63k) — gate review pending")
+    elif open_trade(trades) is None:
         month = bhav_date[:7]
         if _month_count(trades, month) >= MAX_TRADES_MONTH:
             blocked.append(f"month cap ({MAX_TRADES_MONTH}/month)")
