@@ -14,8 +14,11 @@ the tested edge.
   5     HM-POS       HM Positional            56.5%   +2.6%
 
 Signal on day D completed bar -> entry D+1 open, 10,000 INR/trade.
-Exits (backtest "TS" business exit): +4% target / -2% stop (stop first,
-conservative), else time exit at the 20th session close.
+Exits (exit-optimization study, chartink_rules/REPORT_OPT.md): hold while the
+daily close >= SMA20; exit at the first close BELOW SMA20; 30-session time
+stop; -10% catastrophic backstop (gap-aware: fills at the open if the day
+opens through it). The original +4%/-2% target/stop tested at PF 0.71-0.79
+(value-destructive) vs PF 1.70-2.34 for the SMA20 trail.
 Universe: NSE-500 (EQ series) via yfinance daily bars.
 """
 from __future__ import annotations
@@ -39,8 +42,8 @@ OUT = DATA / "chartink_picks.json"
 IST = ZoneInfo("Asia/Kolkata")
 
 CFG = {"end_date": "2027-03-31", "capital_inr": 10_000.0,
-       "max_open": 10, "max_new_per_day": 5, "tgt_pct": 0.04,
-       "sl_pct": 0.02, "max_sessions": 20, "fetch_period": "5y"}
+       "max_open": 10, "max_new_per_day": 5, "max_sessions": 30,
+       "sl_backstop": 0.10, "fetch_period": "5y"}
 
 # priority = backtest rank (lower scans first when slots are scarce)
 SETUPS = {
@@ -249,23 +252,30 @@ def run_day(dry: bool = False) -> dict:
     except Exception:
         manual_refs = set()
 
-    # 1) manage open positions on the latest completed bar (stop first)
+    # 1) manage open positions on the latest completed bar
+    #    SMA20 trail: exit at close < SMA20; -10% backstop is gap-aware
+    #    (open through it -> fill at the open); 30-session time stop.
     for t in [x for x in trades if x["status"] == "OPEN"]:
         df = fetch_daily(f"{t['symbol']}.NS")
-        if df is None or len(df) < 2:
+        if df is None or len(df) < 22:
             continue
         last = df.iloc[-1]
-        px_hi, px_lo, px_cl = float(last["High"]), float(last["Low"]), float(last["Close"])
+        px_op, px_hi, px_lo, px_cl = (float(last["Open"]), float(last["High"]),
+                                      float(last["Low"]), float(last["Close"]))
+        sma20 = float(df["Close"].rolling(20).mean().iloc[-1])
+        bs = t["sl"]
         t["sessions"] = (t.get("sessions") or 0) + 1
         exit_px = reason = None
         if str(t.get("id")) in manual_refs:
             exit_px, reason = px_cl, "MANUAL"
-        elif px_lo <= t["sl"]:
-            exit_px, reason = t["sl"], "SL-2%"
-        elif px_hi >= t["tgt"]:
-            exit_px, reason = t["tgt"], "TGT+4%"
+        elif px_op <= bs:
+            exit_px, reason = px_op, "BACKSTOP-gap"
+        elif px_lo <= bs:
+            exit_px, reason = bs, "BACKSTOP"
+        elif not np.isnan(sma20) and px_cl < sma20:
+            exit_px, reason = px_cl, "SMA20x"
         if exit_px is None and t["sessions"] >= CFG["max_sessions"]:
-            exit_px, reason = px_cl, "TIME20"
+            exit_px, reason = px_cl, "TIME30"
         if exit_px is not None:
             t.update(status="CLOSED", exit=round(exit_px, 2), reason=reason,
                      exit_date=df.index[-1].strftime("%Y-%m-%d"),
@@ -286,12 +296,11 @@ def run_day(dry: bool = False) -> dict:
             t["status"] = "SKIP"
             continue
         t.update(status="OPEN", entry_date=today, qty=qty, entry=round(entry, 2),
-                 tgt=round(entry * (1 + CFG["tgt_pct"]), 2),
-                 sl=round(entry * (1 - CFG["sl_pct"]), 2), sessions=0)
+                 sl=round(entry * (1 - CFG["sl_backstop"]), 2), sessions=0)
         _notify("\U0001F4C8 OPEN \u00b7 ChartLink (" + SETUPS[t["setup"]]["label"] + ")\n"
                 + t["symbol"] + " BUY qty " + str(qty)
-                + "\nentry \u20b9{:,.2f} \u00b7 tgt \u20b9{:,.2f} \u00b7 sl \u20b9{:,.2f}"
-                .format(entry, t["tgt"], t["sl"]))
+                + "\nentry \u20b9{:,.2f} \u00b7 trail: daily close vs SMA20 \u00b7 backstop \u20b9{:,.2f}"
+                .format(entry, t["sl"]))
 
     # 3) scan the day's completed bars for NEW signals (fill tomorrow)
     open_n = sum(1 for t in trades if t["status"] == "OPEN")
@@ -322,7 +331,7 @@ def run_day(dry: bool = False) -> dict:
                        "setup": setup, "setup_name": SETUPS[setup]["label"],
                        "side": "BUY", "status": "PENDING", "entry_date": None,
                        "qty": None, "entry": None,
-                       "tgt": None, "sl": None, "sessions": 0,
+                       "sl": None, "sessions": 0,
                        "exit": None, "exit_date": None, "reason": None,
                        "pnl": None})
         state["next_id"] += 1
@@ -337,7 +346,7 @@ def run_day(dry: bool = False) -> dict:
 def export(state: dict) -> dict:
     trades = state["trades"]
     fields = ("id", "signal_date", "symbol", "setup", "setup_name", "side",
-              "status", "entry_date", "qty", "entry", "tgt", "sl",
+              "status", "entry_date", "qty", "entry", "sl",
               "sessions", "exit", "exit_date", "reason", "pnl")
 
     def row(t: dict) -> dict:
@@ -363,9 +372,10 @@ def export(state: dict) -> dict:
     payload = {
         "updated_at": now().strftime("%d %b %Y %H:%M:%S IST"),
         "rule": "Top-5 Chartink setups by 20-day win rate (5y backtest, "
-                "124,578 trades) \u00b7 entry next open \u00b7 +4% target / "
-                "-2% stop / 20-session time exit \u00b7 \u20b910,000/trade "
-                "\u00b7 max 10 open, 5 new/day \u00b7 EOD scan 17:50 IST",
+                "124,578 trades) \u00b7 entry next open \u00b7 exit: daily "
+                "close < SMA20 \u00b7 30-session time stop \u00b7 -10% "
+                "backstop \u00b7 \u20b910,000/trade \u00b7 max 10 open, 5 "
+                "new/day \u00b7 EOD scan 17:50 IST",
         "note": "Signals scanned directly from completed NSE-500 daily bars "
                 "(same conditions as the Chartink MAHI dashboard scans; "
                 "setup column shows which rule fired). First scan 5 Nov 2026.",

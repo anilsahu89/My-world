@@ -1,6 +1,6 @@
 {
- "updated_at": "05 Nov 2026 13:01:22 IST",
- "rule": "Top-5 Chartink setups by 20-day win rate (5y backtest, 124,578 trades) · entry next open · +4% target / -2% stop / 20-session time exit · ₹10,000/trade · max 10 open, 5 new/day · EOD scan 17:50 IST",
+ "updated_at": "06 Nov 2026 11:35:21 IST",
+ "rule": "Top-5 Chartink setups by 20-day win rate (5y backtest, 124,578 trades) · entry next open · exit: daily close < SMA20 · 30-session time stop · -10% backstop · ₹10,000/trade · max 10 open, 5 new/day · EOD scan 17:50 IST",
  "note": "Signals scanned directly from completed NSE-500 daily bars (same conditions as the Chartink MAHI dashboard scans; setup column shows which rule fired). First scan 5 Nov 2026.",
  "end_date": "2027-03-31",
  "summary": {

@@ -26,10 +26,10 @@ on:
     - cron: "7,22,37,52 5-9 * * 1-5"
     # NSE square-off: final closes at 15:37 / 15:52 IST (bars complete).
     - cron: "7,22 10 * * 1-5"
-      # Swing desk: scan the day's completed daily bars, 17:35 IST weekdays.
-      - cron: "5 12 * * 1-5"
-      # ChartLink desk: top-5 Chartink setups on completed bars, 17:50 IST weekdays.
-      - cron: "20 12 * * 1-5"
+    # Swing desk: scan the day's completed daily bars, 17:35 IST weekdays.
+    - cron: "5 12 * * 1-5"
+    # ChartLink desk: top-5 Chartink setups on completed bars, 17:50 IST weekdays.
+    - cron: "20 12 * * 1-5"
     # Gold/BTC: 15-minute cloud polling; Gold simply has no session on weekends.
     - cron: "11,26,41,56 0-23 * * *"
 

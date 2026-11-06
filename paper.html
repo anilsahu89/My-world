@@ -2680,7 +2680,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       ow.innerHTML = '<div class="flash">No open ChartLink positions — the EOD scan (17:50 IST) queues signals, they fill at the next session open.</div>';
     } else {
       var h = "<table><thead><tr><th>Signal</th><th>Symbol</th><th>Setup</th>" +
-        "<th>Side</th><th>Status</th><th>Entry</th><th>TGT (+4%)</th><th>SL (−2%)</th><th>Sess</th><th>Live P&L</th><th></th>" +
+        "<th>Side</th><th>Status</th><th>Entry</th><th>Backstop SL (−10%)</th><th>Trail</th><th>Sess</th><th>Live P&L</th><th></th>" +
         "</tr></thead><tbody>";
       pend.concat(open).forEach(function (t) {
         var pnlShow = t.pnl;
@@ -2694,8 +2694,8 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
           "<td>" + esc(t.side) + "</td>" +
           "<td>" + (t.status === "PENDING" ? '<span class="badge badge-grey">PENDING</span>' : esc(t.status)) + "</td>" +
           "<td>" + (t.entry != null ? t.entry + (t.entry_date ? " (" + esc(t.entry_date).slice(5) + ")" : "") : "next open") + "</td>" +
-          "<td>" + (t.tgt != null ? t.tgt : "—") + "</td>" +
           "<td>" + (t.sl != null ? t.sl : "—") + "</td>" +
+          "<td><span class='muted' style='font-size:0.75rem'>close &lt; SMA20</span></td>" +
           "<td>" + (t.sessions || 0) + "</td>" +
           '<td class="' + cls(pnlShow) + '">' + (pnlShow != null ? fmt(pnlShow) : "—") + "</td>" +
           (t.status === "OPEN" ? "<td><button class=\"btn\" style=\"padding:1px 8px;font-size:0.72rem\" title=\"close at the next 17:50 scan price\" onclick=\"return requestDeskClose('chartlink','" + t.id + "','" + esc(t.symbol) + "')\">✕ close</button></td>" : "<td></td>") +
@@ -3145,7 +3145,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
       adapt: function (d) { return ((d && d.trades) || []).filter(function (t) { return t.status === "CLOSED"; }).map(function (t) {
         return { date: t.exit_date || approxExit(t), edate: t.entry_date, sym: t.symbol + " " + String(t.setup_name || t.setup || "").toUpperCase(),
                  side: t.side, entry: t.entry, exit: t.exit, pnl: num(t.pnl), reason: t.reason || "—",
-                 meta: [["Setup", t.setup_name], ["Qty", t.qty], ["Sessions", t.sessions], ["Stop", t.sl], ["Target", t.tgt]] }; }); } },
+                 meta: [["Setup", t.setup_name], ["Qty", t.qty], ["Sessions", t.sessions], ["Backstop", t.sl]] }; }); } },
     { name: "🛡️ NIFTY Theta", src: "/data/scanners/nifty-daily-theta-latest.json",
       adapt: function (d) { return ((d && d.trades) || []).filter(function (t) { return (t.status || "") === "CLOSED"; }).map(function (t) {
         return { date: t.exit_date, edate: t.entry_date, sym: "NIFTY " + String(t.direction || "").toUpperCase() + " " + t.short_strike + "/" + t.long_strike,
