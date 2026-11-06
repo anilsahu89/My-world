@@ -1,6 +1,6 @@
 {
  "date": "2026-11-06",
- "scanned_at": "14:51:51",
+ "scanned_at": "15:04:26",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
  "signals": [
@@ -10,10 +10,10 @@
    "qty": 4,
    "entry": 556.25,
    "sl": 534.22,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 568.95,
+   "reason": "EOD",
+   "pnl": 50.8
   },
   {
    "symbol": "ABB",
@@ -21,10 +21,10 @@
    "qty": 1,
    "entry": 6647.0,
    "sl": 6401.33,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 6745.0,
+   "reason": "EOD",
+   "pnl": 98.0
   },
   {
    "symbol": "HAVELLS",
@@ -32,10 +32,10 @@
    "qty": 2,
    "entry": 1084.6,
    "sl": 1043.36,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 1122.8,
+   "reason": "EOD",
+   "pnl": 76.4
   }
  ]
 }
