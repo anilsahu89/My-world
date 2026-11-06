@@ -1,0 +1,88 @@
+name: Cloud Keepalive
+
+# Replaces the Mac-side dispatcher (mac_dispatcher.sh). GitHub `schedule`
+# events drop most slots on this repo (proven 5-6 Nov: watchdog 72/day cron
+# fires 2-4x/day), but `workflow_dispatch` events are 100% reliable. So this
+# workflow runs a ~5h shift, dispatching each trading desk on the IST
+# timetable, then dispatches ITSELF to start the next shift — an unbroken
+# chain. The hourly schedule below only exists to re-seed the chain if it
+# ever dies (even a single rare fire restarts it).
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 * * * *"
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: cloud-keepalive
+  cancel-in-progress: false
+
+jobs:
+  shift:
+    runs-on: ubuntu-latest
+    timeout-minutes: 335
+    env:
+      TZ: Asia/Kolkata
+    steps:
+      - name: Trading timetable shift (~5h)
+        timeout-minutes: 315
+        run: |
+          API="$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/workflows"
+          dispatch() {
+            local desk="$1" code
+            code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 -X POST \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github+json" \
+              "$API/cloud-papertrade.yml/dispatches" \
+              -d "{\"ref\":\"main\",\"inputs\":{\"desk\":\"$desk\",\"mode\":\"day\"}}")
+            echo "$(date '+%d %b %H:%M:%S') dispatch $desk -> HTTP $code"
+          }
+          END=$((SECONDS + 310 * 60))
+          LAST_GC=0
+          LAST_NSE=0
+          SWING_DONE=""
+          CL_DONE=""
+          while [ $SECONDS -lt $END ]; do
+            DOW=$(date +%u)          # 1=Mon .. 7=Sun
+            HHMM=$((10#$(date +%H%M)))
+            NOW=$(date +%s)
+            TODAY=$(date +%F)
+            # GC desk: every ~15 min, 24/7 (piggybacks theta/mill/btc/ltp/arb ticks)
+            if [ $((NOW - LAST_GC)) -ge 840 ]; then
+              dispatch gc
+              LAST_GC=$NOW
+            fi
+            # Weekday-only desks
+            if [ "$DOW" -le 5 ]; then
+              NSE_WIN=0
+              if [ "$HHMM" -ge 916 ] && [ "$HHMM" -le 951 ]; then NSE_WIN=1; fi
+              if [ "$HHMM" -ge 1034 ] && [ "$HHMM" -le 1453 ]; then NSE_WIN=1; fi
+              if [ "$HHMM" -ge 1537 ] && [ "$HHMM" -le 1553 ]; then NSE_WIN=1; fi
+              if [ "$NSE_WIN" = 1 ] && [ $((NOW - LAST_NSE)) -ge 780 ]; then
+                dispatch nse
+                LAST_NSE=$NOW
+              fi
+              if [ "$HHMM" -ge 1736 ] && [ "$HHMM" -le 1741 ] && [ "$SWING_DONE" != "$TODAY" ]; then
+                dispatch swing
+                SWING_DONE=$TODAY
+              fi
+              if [ "$HHMM" -ge 1751 ] && [ "$HHMM" -le 1756 ] && [ "$CL_DONE" != "$TODAY" ]; then
+                dispatch chartlink
+                CL_DONE=$TODAY
+              fi
+            fi
+            sleep 300
+          done
+      - name: Chain the next shift
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/workflows/cloud-keepalive.yml/dispatches" \
+            -d '{"ref":"main"}')
+          echo "chain dispatch -> HTTP $code"
+          [ "$code" = "204" ] || exit 1
