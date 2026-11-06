@@ -25,7 +25,7 @@ dispatch() {  # $1 = desk
 }
 
 # ---- GC desk: every 15 minutes, 24/7 (piggybacks theta/mill/btc/ltp/arb ticks)
-LAST_GC=$(grep "^gc_last=" "$STATE" | cut -d= -f2)
+LAST_GC=$(grep "^gc_last=" "$STATE" | tail -1 | cut -d= -f2)
 if [ -z "$LAST_GC" ] || [ $((NOW_EPOCH - LAST_GC)) -ge 840 ]; then
   dispatch gc
   echo "gc_last=$NOW_EPOCH" >> "$STATE"
@@ -38,7 +38,7 @@ NSE_WINDOW=0
 if [ "$HHMM" -ge 0916 ] && [ "$HHMM" -le 0951 ]; then NSE_WINDOW=1; fi
 if [ "$HHMM" -ge 1034 ] && [ "$HHMM" -le 1453 ]; then NSE_WINDOW=1; fi
 if [ "$HHMM" -ge 1537 ] && [ "$HHMM" -le 1553 ]; then NSE_WINDOW=1; fi
-LAST_NSE=$(grep "^nse_${DATE_TODAY}=" "$STATE" | cut -d= -f2)
+LAST_NSE=$(grep "^nse_${DATE_TODAY}=" "$STATE" | tail -1 | cut -d= -f2)
 if [ "$NSE_WINDOW" = 1 ]; then
   if [ -z "$LAST_NSE" ] || [ $((NOW_EPOCH - LAST_NSE)) -ge 780 ]; then   # >=13 min
     dispatch nse

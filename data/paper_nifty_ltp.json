@@ -139,125 +139,17 @@
   }
  ],
  "blocked": [],
- "open": [
-  {
-   "id": 9,
-   "side": "call",
-   "entry": "2026-11-06",
-   "days": 1,
-   "points": 0.0,
-   "far": {
-    "expiry": "2026-12-29",
-    "strike": 26200.0,
-    "qty": 225,
-    "entry": 147.4,
-    "mark": 147.4,
-    "exit": null,
-    "exit_date": null
-   },
-   "shorts": [
-    {
-     "expiry": "2026-11-09",
-     "strike": 25250.0,
-     "qty": 225,
-     "entry": 79.15,
-     "mark": 79.15,
-     "exit": null,
-     "exit_date": null
-    }
-   ]
-  }
- ],
- "trades": [
-  {
-   "id": 2,
-   "side": "call",
-   "entry": "2026-10-15",
-   "exit": "2026-10-21",
-   "reason": "TIME",
-   "points": -11.2,
-   "pnl": -2520.0,
-   "discount_at_entry": 0.099
-  },
-  {
-   "id": 3,
-   "side": "call",
-   "entry": "2026-10-21",
-   "exit": "2026-10-26",
-   "reason": "TIME",
-   "points": 63.3,
-   "pnl": 14242.5,
-   "discount_at_entry": 0.158
-  },
-  {
-   "id": 4,
-   "side": "call",
-   "entry": "2026-10-26",
-   "exit": "2026-10-29",
-   "reason": "TIME",
-   "points": -7.5,
-   "pnl": -1687.5,
-   "discount_at_entry": 0.494
-  },
-  {
-   "id": 5,
-   "side": "call",
-   "entry": "2026-10-29",
-   "exit": "2026-11-02",
-   "reason": "MOMENTUM",
-   "points": 9.8,
-   "pnl": 2205.0,
-   "discount_at_entry": 0.125
-  },
-  {
-   "id": 6,
-   "side": "call",
-   "entry": "2026-11-02",
-   "exit": "2026-11-03",
-   "reason": "MOMENTUM",
-   "points": -45.1,
-   "pnl": -10147.5,
-   "discount_at_entry": 0.433
-  },
-  {
-   "id": 7,
-   "side": "call",
-   "entry": "2026-11-03",
-   "exit": "2026-11-05",
-   "reason": "STOP",
-   "points": -228.1,
-   "pnl": -51322.5,
-   "discount_at_entry": 0.472
-  },
-  {
-   "id": 8,
-   "side": "call",
-   "entry": "2026-11-05",
-   "exit": "2026-11-06",
-   "reason": "MOMENTUM",
-   "points": -61.7,
-   "pnl": -13871.25,
-   "discount_at_entry": 0.475
-  },
-  {
-   "id": 9,
-   "side": "call",
-   "entry": "2026-11-06",
-   "exit": null,
-   "reason": null,
-   "points": null,
-   "pnl": null,
-   "discount_at_entry": 0.577
-  }
- ],
+ "open": [],
+ "trades": [],
  "summary": {
-  "trades": 8,
-  "closed": 7,
-  "open": 1,
-  "this_month": 4,
-  "wins": 2,
-  "win_rate": 28.6,
-  "realized": -63101.25,
-  "unrealized": 0.0
+  "trades": 0,
+  "closed": 0,
+  "open": 0,
+  "this_month": 0,
+  "wins": 0,
+  "win_rate": 0,
+  "realized": 0.0,
+  "unrealized": 0.0,
+  "losses": 0
  }
 }
