@@ -31,6 +31,8 @@ ROOT = BASE.parent
 STATE_FILE = ROOT / "data" / "cloud_future_arb_state.json"
 SNAPSHOT_FILE = ROOT / "data" / "paper_future_arb.json"
 NSE200 = BASE / "data" / "nse200_symbols.csv"
+SHADOW_FILE = ROOT / "data" / "future_arb_shadow.json"
+SHADOW_MAX_OPEN = 3
 
 
 def _now_ist() -> datetime:
@@ -210,6 +212,131 @@ def _ledger_rows():
     return rows
 
 
+# ------------------------------------------------------- R2 shadow book ----
+# Exploratory paper book: same exit rules as the real desk (convergence or
+# expiry; pnl = (curr_exit - entry_curr)*lot + (entry_next - nxt_exit)*lot)
+# but LOOSER R2 entry gates, tracked separately so a few weeks of live stats
+# can justify or kill a frequency-first rule change. Never touches the real
+# ledger or the Rs 1L pilot equity.
+
+def _shadow_load() -> dict:
+    book = _read(SHADOW_FILE, None)
+    if not isinstance(book, dict) or "open" not in book:
+        return {"version": 1, "open": [], "closed": []}
+    book.setdefault("open", [])
+    book.setdefault("closed", [])
+    # dates round-trip as ISO strings through JSON
+    from datetime import date as _date
+    for pos in book["open"]:
+        pos["curr_expiry"] = (_date.fromisoformat(pos["curr_expiry"])
+                              if isinstance(pos["curr_expiry"], str)
+                              else pos["curr_expiry"])
+        pos["next_expiry"] = (_date.fromisoformat(pos["next_expiry"])
+                              if isinstance(pos["next_expiry"], str)
+                              else pos["next_expiry"])
+    return book
+
+
+def _shadow_save(book: dict) -> None:
+    _write(SHADOW_FILE, book)
+
+
+def shadow_book(bhav_day: date, enter_new: bool, real_open_symbols: set) -> dict:
+    import presets as presets_mod
+
+    rl2 = presets_mod.R2
+    book = _shadow_load()
+    loaded = _load_day(bhav_day)
+    spots, futs = (loaded if loaded else ({}, {}))
+
+    # 1) manage exits on the latest available bhav
+    still_open = []
+    for pos in book["open"]:
+        sym = pos["symbol"]
+        spot = spots.get(sym)
+        quotes = {q["exp"]: q for q in futs.get(sym, [])}
+        curr_q = quotes.get(pos["curr_expiry"])
+        nxt_q = quotes.get(pos["next_expiry"])
+        if spot is None or curr_q is None or nxt_q is None:
+            still_open.append(pos)      # no data today — stays open
+            continue
+        reason = None
+        if curr_q["close"] >= spot:
+            reason = "convergence"
+        elif bhav_day >= pos["curr_expiry"]:
+            reason = "expiry"
+        if reason:
+            pnl = ((curr_q["close"] - pos["entry_curr"]) * pos["lot"]
+                   + (pos["entry_next"] - nxt_q["close"]) * pos["lot"])
+            book["closed"].append({
+                "symbol": sym, "entry_date": pos["entry_date"],
+                "exit_date": bhav_day.isoformat(), "reason": reason,
+                "pnl": round(pnl, 2),
+                "basis_at_entry": pos["basis"], "spread_at_entry": pos["spread"],
+            })
+            continue
+        # refresh mark-to-market fields
+        pos["last_spot"] = spot
+        pos["last_curr"] = curr_q["close"]
+        pos["last_next"] = nxt_q["close"]
+        pos["last_spread"] = round(curr_q["close"] - nxt_q["close"], 2)
+        pos["last_date"] = bhav_day.isoformat()
+        still_open.append(pos)
+    book["open"] = still_open
+
+    # 2) fresh R2 entries (only on a same-day bhav; one entry per symbol/day)
+    entered = []
+    if enter_new and spots and len(book["open"]) < SHADOW_MAX_OPEN:
+        import scanner as arb_scanner
+        skip = ({p["symbol"] for p in book["open"]}
+                | set(real_open_symbols)
+                | {c["symbol"] for c in book["closed"]
+                   if c["exit_date"] >= bhav_day.isoformat()})
+        try:
+            cands = arb_scanner.scan_day(
+                bhav_day, rl2, BASE / "data" / "raw", exclude=skip)
+        except Exception:
+            cands = []
+        for c in cands:
+            if len(book["open"]) >= SHADOW_MAX_OPEN:
+                break
+            lot = 1
+            for q in futs.get(c.symbol, []):
+                if q["exp"] == c.curr_expiry and q.get("lot"):
+                    lot = int(q["lot"])
+                    break
+            book["open"].append({
+                "symbol": c.symbol, "entry_date": bhav_day.isoformat(),
+                "spot": c.spot, "curr_expiry": c.curr_expiry,
+                "next_expiry": c.next_expiry,
+                "entry_curr": c.curr_future, "entry_next": c.next_future,
+                "basis": round(c.basis, 2), "spread": round(c.spread, 2),
+                "lot": lot, "preset": rl2.name,
+            })
+            entered.append(c.symbol)
+
+    wins = [c for c in book["closed"] if (c.get("pnl") or 0) > 0]
+    _shadow_save(book)
+    return {
+        "rule": (f"R2 shadow (exploratory): basis>={rl2.min_basis:g} & >="
+                 f"{rl2.min_basis_pct:g}% of spot, spread<={rl2.max_spread_to_basis:g}x basis, "
+                 f"next-vol>={rl2.min_next_volume:g}, {rl2.min_days_to_expiry}-"
+                 f"{rl2.max_days_to_expiry}d to expiry \u00b7 same exits as the real book "
+                 f"\u00b7 1 lot \u00b7 max {SHADOW_MAX_OPEN} open \u00b7 tracked for rule "
+                 f"learning only — not in the pilot equity"),
+        "entered_today": entered,
+        "open": [{"symbol": p["symbol"], "entry_date": p["entry_date"],
+                  "basis": p["basis"], "spread": p["spread"],
+                  "last_spread": p.get("last_spread"), "dte_exp": str(p["curr_expiry"])}
+                 for p in book["open"]],
+        "closed": book["closed"][-30:],
+        "summary": {"open": len(book["open"]), "closed": len(book["closed"]),
+                    "wins": len(wins), "losses": len(book["closed"]) - len(wins),
+                    "win_rate": round(100 * len(wins) / len(book["closed"]), 1) if book["closed"] else 0,
+                    "pnl": round(sum(c.get("pnl") or 0 for c in book["closed"]), 2)},
+    }
+
+
 def _book():
     rows = _ledger_rows()
     opens = [r for r in rows if r.get("status") == "OPEN"]
@@ -306,6 +433,14 @@ def run_day() -> dict:
                     "entered_today": result.get("entered", []),
                     "kill_switch": result.get("kill_switch_tripped", False)},
     }
+
+    # R2 shadow book (rule-learning, never in the pilot equity)
+    try:
+        snap["shadow"] = shadow_book(
+            bhav_day, enter_new=(bhav_day == today),
+            real_open_symbols={r["symbol"] for r in opens})
+    except Exception as e:
+        snap["shadow"] = {"error": f"{type(e).__name__}: {str(e)[:120]}"}
     if result.get("error"):
         snap["status"] = "DEGRADED"
         snap["blocked"] = [result["error"]]

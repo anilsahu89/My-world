@@ -753,6 +753,16 @@ main h3 .collapse-btn {
 
   <h3 style="margin-top:1.5rem">🔴 Closed <span class="muted" id="arbClosedCount">(0)</span></h3>
   <div class="table-wrap" id="arbClosedWrap"><div class="flash">No closed trades yet.</div></div>
+
+  <h3 style="margin-top:2rem;color:#ff9800">🧪 R2 Shadow Book <span class="muted" style="font-size:0.75rem">— looser gates (basis ≥ 0.4%, spread ≤ 0.8×), same exits, tracked separately to learn the win-rate trade-off; never in the pilot equity</span></h3>
+  <div id="arbShadowStatus" class="flash">Shadow book loading…</div>
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">Shadow Open</span><span class="sum-value" style="color:var(--green)" id="arbShOpen">—</span></div>
+    <div class="sum-card"><span class="sum-label">Shadow Closed</span><span class="sum-value" id="arbShClosed">—</span></div>
+    <div class="sum-card"><span class="sum-label">Shadow Win Rate</span><span class="sum-value" id="arbShWin">—</span></div>
+    <div class="sum-card"><span class="sum-label">Shadow P&amp;L ₹</span><span class="sum-value" id="arbShPnl">—</span></div>
+  </div>
+  <div class="table-wrap" id="arbShadowWrap"><div class="flash">No shadow trades yet.</div></div>
 </section>
 
 <script>
@@ -844,6 +854,48 @@ main h3 .collapse-btn {
       }).join("");
       cw.innerHTML = "<table><thead><tr><th>Stock</th><th>Entered</th><th>Exited</th>" +
         "<th>Reason</th><th>P&L ₹</th></tr></thead><tbody>" + rows + "</tbody></table>";
+    }
+
+    // R2 shadow book (rule-learning)
+    var sh = d.shadow || {};
+    var shEl = document.getElementById("arbShadowStatus");
+    shEl.className = "flash";
+    if (sh.error) {
+      shEl.innerHTML = "Shadow book error: " + esc(sh.error);
+    } else {
+      shEl.innerHTML = esc(sh.rule || "");
+      var ss = sh.summary || {};
+      set("arbShOpen", ss.open != null ? ss.open : "—");
+      set("arbShClosed", ss.closed != null ? ss.closed : "—");
+      set("arbShWin", ss.closed ? (ss.win_rate + "% (" + ss.wins + "W/" + ss.losses + "L)") : "—");
+      var shp = document.getElementById("arbShPnl");
+      shp.textContent = inr(ss.pnl);
+      shp.className = "sum-value " + ((ss.pnl || 0) >= 0 ? "pos" : "neg");
+      var shOpen = sh.open || [], shClosed = sh.closed || [];
+      var shRows = shOpen.map(function (o) {
+        return '<tr><td><strong>' + esc(o.symbol) + "</strong></td><td>" + esc(o.entry_date) + "</td>" +
+          '<td><span class="badge badge-grey">OPEN</span></td>' +
+          "<td>" + o.basis + "</td><td>" + o.spread + "</td>" +
+          "<td>" + (o.last_spread != null ? o.last_spread : "—") + "</td>" +
+          "<td>" + esc(String(o.dte_exp || "").slice(0, 10)) + "</td><td>—</td></tr>";
+      }).concat(shClosed.slice().reverse().map(function (t) {
+        var win = (t.pnl || 0) > 0;
+        return '<tr class="' + (win ? "row-win" : "row-loss") + '">' +
+          "<td><strong>" + esc(t.symbol) + "</strong></td>" +
+          "<td>" + esc(t.entry_date) + "</td>" +
+          '<td><span class="badge ' + (win ? "badge-green" : "badge-red") + '">' + (win ? "WIN" : "LOSS") + "</span></td>" +
+          "<td>" + t.basis_at_entry + "</td><td>" + t.spread_at_entry + "</td><td>—</td>" +
+          "<td>" + esc(t.exit_date) + "</td>" +
+          '<td class="' + cls(t.pnl) + '">' + inr(t.pnl) + "</td></tr>";
+      }));
+      var shw = document.getElementById("arbShadowWrap");
+      if (!shRows.length) {
+        shw.innerHTML = '<div class="flash">No R2-grade gaps since the shadow book started — it fills as the market offers looser setups.</div>';
+      } else {
+        shw.innerHTML = "<table><thead><tr><th>Stock</th><th>Entered</th><th>Status</th>" +
+          "<th>Basis</th><th>Spread</th><th>Spread now</th><th>Current expiry</th><th>P&L ₹</th></tr></thead><tbody>" +
+          shRows.join("") + "</tbody></table>";
+      }
     }
   }
 

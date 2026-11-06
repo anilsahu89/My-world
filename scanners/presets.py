@@ -64,8 +64,26 @@ R1 = bt.StrategyRules(
     max_days_to_expiry=21,
 )
 
+# R2 — exploratory "shadow book" preset (6 Nov 2026). LOOSER than R1 on
+# purpose: the shadow book in cloud_future_arb.py paper-tracks R2-grade gaps
+# alongside the real R1 book so a few weeks of live stats can justify (or
+# kill) a frequency-first rule change with data instead of hunches.
+# NOT for the real ledger.
+R2 = bt.StrategyRules(
+    name="R2 shadow",
+    min_basis=8.0,
+    min_basis_pct=0.4,
+    max_spread_to_basis=0.8,
+    min_spread_value=500.0,
+    min_current_volume=100,
+    min_next_volume=100,
+    min_days_to_expiry=5,
+    max_days_to_expiry=21,
+)
+
 _PRESETS = {"v2.0": V20, "v2": V20, "2.0": V20, "v2.1": V21, "v21": V21,
-            "2.1": V21, "r1": R1, "v2.2": R1, "2.2": R1}
+            "2.1": V21, "r1": R1, "v2.2": R1, "2.2": R1,
+            "r2": R2, "shadow": R2}
 
 
 def get_preset(name: str | None = None) -> bt.StrategyRules:
