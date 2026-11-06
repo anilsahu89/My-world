@@ -1,5 +1,5 @@
 {
- "updated_at": "06 Nov 2026 12:36:39 IST",
+ "updated_at": "06 Nov 2026 12:37:57 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -44,8 +44,8 @@
    "symbol": "STARHEALTH",
    "side": "BUY",
    "qty": 4,
-   "entry_time": "12:35:39",
-   "entry_price": 556.5,
+   "entry_time": "12:37:09",
+   "entry_price": 556.25,
    "sl_price": 534.22,
    "exit_time": null,
    "exit_price": null,
@@ -53,7 +53,7 @@
    "pnl": 0.0,
    "feed": "angel-f3",
    "drive_pct": 2.6,
-   "ltp": 556.5,
+   "ltp": 556.25,
    "pnl_pct": 0.0
   },
   {
@@ -63,8 +63,8 @@
    "symbol": "ABB",
    "side": "BUY",
    "qty": 1,
-   "entry_time": "12:35:39",
-   "entry_price": 6644.0,
+   "entry_time": "12:37:09",
+   "entry_price": 6647.0,
    "sl_price": 6401.33,
    "exit_time": null,
    "exit_price": null,
@@ -72,7 +72,7 @@
    "pnl": 0.0,
    "feed": "angel-f3",
    "drive_pct": 2.1,
-   "ltp": 6644.0,
+   "ltp": 6647.0,
    "pnl_pct": 0.0
   },
   {
@@ -82,8 +82,8 @@
    "symbol": "HAVELLS",
    "side": "BUY",
    "qty": 2,
-   "entry_time": "12:35:39",
-   "entry_price": 1083.6,
+   "entry_time": "12:37:09",
+   "entry_price": 1084.6,
    "sl_price": 1043.36,
    "exit_time": null,
    "exit_price": null,
@@ -91,7 +91,7 @@
    "pnl": 0.0,
    "feed": "angel-f3",
    "drive_pct": 1.7,
-   "ltp": 1083.6,
+   "ltp": 1084.6,
    "pnl_pct": 0.0
   }
  ],
