@@ -1,0 +1,68 @@
+name: Cloud Paper Trade Dispatcher
+
+# Workaround (6 Nov 2026): scheduled triggers of cloud-papertrade.yml stopped
+# firing entirely (invalid-YAML window broke their registration and they never
+# recovered — dispatch/push events work fine). This workflow carries the same
+# cron pattern, minute-shifted +2, and re-triggers the main workflow via
+# workflow_dispatch, which GITHUB_TOKEN is allowed to create.
+
+on:
+  workflow_dispatch:
+    inputs:
+      desk:
+        description: "Desk to dispatch"
+        required: true
+        default: all
+        type: choice
+        options: [all, nse, gc, swing, chartlink, poller]
+  schedule:
+    # Morning ignition (desk=nse starts the day poller via the main workflow).
+    - cron: "48 3 * * 1-5"
+    - cron: "56 3 * * 1-5"
+    - cron: "4 4 * * 1-5"
+    # NSE entry window.
+    - cron: "4,9,14,19 4 * * 1-5"
+    # NSE management.
+    - cron: "9,24,39,54 5-9 * * 1-5"
+    # NSE square-off.
+    - cron: "9,24 10 * * 1-5"
+    # Swing EOD: 17:37 IST weekdays.
+    - cron: "7 12 * * 1-5"
+    # ChartLink EOD: 17:52 IST weekdays.
+    - cron: "22 12 * * 1-5"
+    # Gold/BTC: every 15 minutes.
+    - cron: "13,28,43,58 0-23 * * *"
+
+concurrency:
+  group: cloud-papertrade-dispatcher
+  cancel-in-progress: true
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Choose desk
+        id: desk
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "value=${{ inputs.desk }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "7 12 * * 1-5" ]; then
+            echo "value=swing" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "22 12 * * 1-5" ]; then
+            echo "value=chartlink" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "13,28,43,58 0-23 * * *" ]; then
+            echo "value=gc" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=nse" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Dispatch main workflow
+        run: |
+          curl -s -o /dev/null -w "dispatch HTTP %{http_code}\n" -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/workflows/cloud-papertrade.yml/dispatches" \
+            -d "{\"ref\":\"main\",\"inputs\":{\"desk\":\"${{ steps.desk.outputs.value }}\",\"mode\":\"day\"}}"
