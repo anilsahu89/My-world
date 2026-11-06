@@ -1,6 +1,6 @@
 {
- "date": "2026-11-05",
- "updated_at": "05 Nov 2026 16:59:52 IST",
+ "date": "2026-11-06",
+ "updated_at": "06 Nov 2026 18:43:46 IST",
  "nifty_gate": {
   "hm_buy_state": false,
   "above_sma20": true,
@@ -9,121 +9,76 @@
  "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM buy state) · 52-week closing high (vol ≥1.5x) · BB Blast squeeze on daily/weekly/monthly (NIFTY > SMA20) · 50-day return must beat NIFTY (RS-50 gate) · NIFTY-500 · ₹5cr turnover · entries capped 2/day by the desk",
  "signals": [
   {
-   "sym": "BSE",
+   "sym": "AUROPHARMA",
    "setup": "QM-BBw",
-   "rsi": 54.8,
-   "note": "BB squeeze rank 14% blast on w bars",
-   "close": 3790.0,
-   "date": "2026-11-05",
-   "rs50": 1.144
+   "rsi": 64.6,
+   "note": "BB squeeze rank 15% blast on w bars",
+   "close": 1800.0,
+   "date": "2026-11-06",
+   "rs50": 1.113
   },
   {
-   "sym": "ANANDRATHI",
-   "setup": "QM-HM",
-   "rsi": 87.3,
-   "note": "RSI9 87 V-turn above rising SMA20",
-   "close": 2370.0,
-   "date": "2026-11-05",
-   "rs50": 1.093
+   "sym": "ASAHIINDIA",
+   "setup": "QM-BBw",
+   "rsi": 64.8,
+   "note": "BB squeeze rank 9% blast on w bars",
+   "close": 1034.45,
+   "date": "2026-11-06",
+   "rs50": 1.082
   },
   {
-   "sym": "TECHM",
-   "setup": "QM-HM",
-   "rsi": 62.0,
-   "note": "RSI9 62 V-turn above rising SMA20",
-   "close": 1822.7,
-   "date": "2026-11-05",
-   "rs50": 1.151
+   "sym": "MCX",
+   "setup": "QM-52W",
+   "rsi": 74.1,
+   "note": "new 52w closing high 3528.0, vol 1.9x",
+   "close": 3528.0,
+   "date": "2026-11-06",
+   "rs50": 1.076
+  },
+  {
+   "sym": "GLENMARK",
+   "setup": "QM-52W",
+   "rsi": 87.1,
+   "note": "new 52w closing high 2590.0, vol 6.0x",
+   "close": 2590.0,
+   "date": "2026-11-06",
+   "rs50": 1.079
   },
   {
    "sym": "SAILIFE",
-   "setup": "QM-HM",
-   "rsi": 89.2,
-   "note": "RSI9 89 V-turn above rising SMA20",
-   "close": 1594.5,
-   "date": "2026-11-05",
-   "rs50": 1.11
-  },
-  {
-   "sym": "UNIONBANK",
-   "setup": "QM-HM",
-   "rsi": 74.0,
-   "note": "RSI9 74 V-turn above rising SMA20",
-   "close": 188.0,
-   "date": "2026-11-05",
-   "rs50": 1.024
-  },
-  {
-   "sym": "BOSCHLTD",
    "setup": "QM-52W",
-   "rsi": 95.4,
-   "note": "new 52w closing high 52475.0, vol 1.9x",
-   "close": 52475.0,
-   "date": "2026-11-05",
-   "rs50": 1.091
-  },
-  {
-   "sym": "ANANDRATHI",
-   "setup": "QM-52W",
-   "rsi": 87.3,
-   "note": "new 52w closing high 2370.0, vol 1.6x",
-   "close": 2370.0,
-   "date": "2026-11-05",
-   "rs50": 1.093
-  },
-  {
-   "sym": "EMCURE",
-   "setup": "QM-52W",
-   "rsi": 97.9,
-   "note": "new 52w closing high 2245.0, vol 2.5x",
-   "close": 2245.0,
-   "date": "2026-11-05",
-   "rs50": 1.211
-  },
-  {
-   "sym": "AUROPHARMA",
-   "setup": "QM-52W",
-   "rsi": 100.0,
-   "note": "new 52w closing high 1785.0, vol 3.1x",
-   "close": 1785.0,
-   "date": "2026-11-05",
-   "rs50": 1.11
+   "rsi": 93.1,
+   "note": "new 52w closing high 1785.1, vol 11.8x",
+   "close": 1785.1,
+   "date": "2026-11-06",
+   "rs50": 1.226
   },
   {
    "sym": "ICICIBANK",
    "setup": "QM-52W",
-   "rsi": 79.6,
-   "note": "new 52w closing high 1500.0, vol 2.8x",
-   "close": 1500.0,
-   "date": "2026-11-05",
-   "rs50": 1.06
+   "rsi": 84.9,
+   "note": "new 52w closing high 1571.2, vol 2.7x",
+   "close": 1571.2,
+   "date": "2026-11-06",
+   "rs50": 1.104
   },
   {
-   "sym": "JSWSTEEL",
+   "sym": "SHYAMMETL",
    "setup": "QM-52W",
-   "rsi": 87.5,
-   "note": "new 52w closing high 1355.6, vol 1.9x",
-   "close": 1355.6,
-   "date": "2026-11-05",
-   "rs50": 1.022
+   "rsi": 93.9,
+   "note": "new 52w closing high 1300.6, vol 2.3x",
+   "close": 1300.6,
+   "date": "2026-11-06",
+   "rs50": 1.293
   },
   {
    "sym": "MOTILALOFS",
    "setup": "QM-52W",
    "rsi": 82.6,
-   "note": "new 52w closing high 1095.0, vol 2.8x",
-   "close": 1095.0,
-   "date": "2026-11-05",
-   "rs50": 1.106
-  },
-  {
-   "sym": "SONACOMS",
-   "setup": "QM-52W",
-   "rsi": 90.9,
-   "note": "new 52w closing high 915.2, vol 1.7x",
-   "close": 915.25,
-   "date": "2026-11-05",
-   "rs50": 1.125
+   "note": "new 52w closing high 1102.0, vol 1.7x",
+   "close": 1102.0,
+   "date": "2026-11-06",
+   "rs50": 1.089
   }
  ]
 }
