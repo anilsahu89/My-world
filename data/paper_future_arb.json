@@ -1,5 +1,5 @@
 {
- "updated_at": "06 Nov 2026 18:45 IST",
+ "updated_at": "06 Nov 2026 19:40 IST",
  "desk": "Future Arbitrage",
  "status": "RUNNING",
  "preset": "r1",
@@ -9,72 +9,38 @@
  },
  "situation": [
   {
-   "symbol": "PATANJALI",
-   "spot": 410.7,
-   "current": 406.15,
-   "next": 405.75,
-   "basis": 4.55,
-   "spread": 0.4,
-   "basis_pct": 1.11,
-   "spread_value": 430,
-   "lot": 1075,
-   "vol_curr": 14160,
-   "vol_next": 296,
-   "dte": 18,
+   "symbol": "PAGEIND",
+   "spot": 35930.0,
+   "current": 35435.0,
+   "next": 35425.0,
+   "basis": 495.0,
+   "spread": 10.0,
+   "basis_pct": 1.38,
+   "spread_value": 200,
+   "lot": 20,
+   "vol_curr": 1036,
+   "vol_next": 66,
+   "dte": 17,
    "preset": "R1 relaxed",
    "preset_pass": false,
-   "verdict": "rejected: basis<10 (4.6)"
+   "verdict": "rejected: nextvol<250 (66)"
   },
   {
-   "symbol": "NYKAA",
-   "spot": 350.3,
-   "current": 348.3,
-   "next": 348.05,
-   "basis": 2.0,
-   "spread": 0.25,
-   "basis_pct": 0.57,
-   "spread_value": 781,
-   "lot": 3125,
-   "vol_curr": 6795,
-   "vol_next": 535,
-   "dte": 18,
+   "symbol": "PREMIERENE",
+   "spot": 890.0,
+   "current": 887.1,
+   "next": 883.0,
+   "basis": 2.9,
+   "spread": 4.1,
+   "basis_pct": 0.33,
+   "spread_value": 2665,
+   "lot": 650,
+   "vol_curr": 1522,
+   "vol_next": 229,
+   "dte": 17,
    "preset": "R1 relaxed",
    "preset_pass": false,
-   "verdict": "rejected: basis<10 (2.0); basis<1%"
-  },
-  {
-   "symbol": "GODFRYPHLP",
-   "spot": 1794.0,
-   "current": 1787.4,
-   "next": 1785.6,
-   "basis": 6.6,
-   "spread": 1.8,
-   "basis_pct": 0.37,
-   "spread_value": 495,
-   "lot": 275,
-   "vol_curr": 1013,
-   "vol_next": 211,
-   "dte": 18,
-   "preset": "R1 relaxed",
-   "preset_pass": false,
-   "verdict": "rejected: basis<10 (6.6); basis<1%; nextvol<250 (211)"
-  },
-  {
-   "symbol": "VMM",
-   "spot": 93.9,
-   "current": 93.55,
-   "next": 93.24,
-   "basis": 0.35,
-   "spread": 0.31,
-   "basis_pct": 0.37,
-   "spread_value": 1504,
-   "lot": 4850,
-   "vol_curr": 1884,
-   "vol_next": 129,
-   "dte": 18,
-   "preset": "R1 relaxed",
-   "preset_pass": false,
-   "verdict": "rejected: basis<10 (0.4); basis<1%; spread>0.6x-basis"
+   "verdict": "rejected: basis<10 (2.9); basis<1%; spread>0.6x-basis"
   }
  ],
  "open": [],
@@ -105,7 +71,7 @@
     "entry_date": "2026-11-05",
     "basis": 71.1,
     "spread": 10.6,
-    "last_spread": 10.6,
+    "last_spread": 23.6,
     "dte_exp": "2026-11-23"
    }
   ],
@@ -119,5 +85,5 @@
    "pnl": 0
   }
  },
- "bhav_date": "2026-11-05"
+ "bhav_date": "2026-11-06"
 }
