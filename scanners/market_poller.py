@@ -401,6 +401,20 @@ def run_evening() -> None:
                 print("bbtrap scan done", flush=True)
         except Exception as e:
             print(f"bbtrap scan failed: {e}", flush=True)
+        # ChartLink desk (top-5 Chartink setups on completed daily bars).
+        # Its own 17:50 IST cron / dispatcher runs land in this job's
+        # concurrency group, sit pending and get displaced by the next
+        # dispatch -- the same starvation that froze ltp/arb -- so run it
+        # here like the other EOD desks. run_day() is done_date-guarded, so
+        # a surviving cron is a cheap no-op.
+        try:
+            import cloud_chartink
+            out = cloud_chartink.run_day()
+            print(f"chartlink scan: {json.dumps(out.get('summary', {}))}",
+                  flush=True)
+            commit_and_push()
+        except Exception as e:
+            print(f"chartlink run failed: {e}", flush=True)
     last_eod = 0.0
     while cp.now().time() < EVE_END:
         errs = []

@@ -1364,8 +1364,11 @@ def main() -> None:
         import cloud_swing
         cloud_swing.run_day()
     if args.desk in ("chartlink", "all"):
-        import cloud_chartlink
-        cloud_chartlink.run_day()
+        # module file is cloud_chartink.py (Chartink = the screener site);
+        # the desk/dispatch name stays "chartlink". A wrong module name here
+        # killed the desk's first-ever run (6 Nov, ModuleNotFoundError).
+        import cloud_chartink
+        cloud_chartink.run_day()
     if args.desk in ("ltp", "all"):
         import cloud_nifty_ltp
         cloud_nifty_ltp.run_day()

@@ -24,9 +24,10 @@ Universe: NSE-500 (EQ series) via yfinance daily bars.
 from __future__ import annotations
 
 import json
+import math
 import time
 import warnings
-from datetime import datetime
+from datetime import datetime, time as dtime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -78,8 +79,46 @@ def read_state() -> dict:
         return {"version": 1, "next_id": 1, "trades": [], "done_date": ""}
 
 
+def _json_default(o):
+    """numpy scalars are not JSON-serialisable by the stdlib encoder."""
+    if isinstance(o, np.integer):
+        return int(o)
+    if isinstance(o, np.floating):
+        f = float(o)
+        return f if math.isfinite(f) else None
+    if isinstance(o, np.bool_):
+        return bool(o)
+    return str(o)
+
+
+def _num(x):
+    """Numeric field -> plain Python number; NaN/inf -> None (NaN is not
+    valid JSON and breaks the portal's fetch)."""
+    if x is None or isinstance(x, (bool, str)):
+        return x
+    if isinstance(x, (int, np.integer)):
+        return int(x)
+    try:
+        f = float(x)
+    except (TypeError, ValueError):
+        return x
+    return f if math.isfinite(f) else None
+
+
+def _finite(*vals) -> bool:
+    return all(isinstance(v, (int, float)) and math.isfinite(v) for v in vals)
+
+
+NUMERIC_FIELDS = ("id", "qty", "entry", "sl", "sessions", "exit", "pnl")
+
+
 def write_state(state: dict) -> None:
-    STATE_FILE.write_text(json.dumps(state, indent=1, ensure_ascii=False) + "\n")
+    for t in state.get("trades", []):
+        for k in NUMERIC_FIELDS:
+            if k in t:
+                t[k] = _num(t[k])
+    STATE_FILE.write_text(json.dumps(state, indent=1, ensure_ascii=False,
+                                     default=_json_default) + "\n")
 
 
 # ---------------------------------------------------------------- indicators
@@ -235,15 +274,26 @@ def _notify(msg: str) -> None:
         pass
 
 
+def _current_payload(state: dict) -> dict:
+    try:
+        return json.loads(OUT.read_text())
+    except (FileNotFoundError, json.JSONDecodeError):
+        return export(state)
+
+
 def run_day(dry: bool = False) -> dict:
     state = read_state()
-    today = now().date().isoformat()
-    if not dry and (today > CFG["end_date"] or now().weekday() >= 5
+    moment = now()
+    today = moment.date().isoformat()
+    if not dry and (today > CFG["end_date"] or moment.weekday() >= 5
                     or state.get("done_date") == today):
-        try:
-            return json.loads(OUT.read_text())
-        except (FileNotFoundError, json.JSONDecodeError):
-            return export(state)
+        return _current_payload(state)
+    if not dry and moment.weekday() < 5 and moment.time() < dtime(15, 35):
+        # Daily bars are still forming (yfinance serves the partial candle
+        # intraday). The rules are defined on COMPLETED bars: never manage,
+        # fill or scan on a partial bar, and don't mark the day done so the
+        # evening run still happens.
+        return _current_payload(state)
     trades = state["trades"]
 
     try:
@@ -255,69 +305,97 @@ def run_day(dry: bool = False) -> dict:
     # 1) manage open positions on the latest completed bar
     #    SMA20 trail: exit at close < SMA20; -10% backstop is gap-aware
     #    (open through it -> fill at the open); 30-session time stop.
+    #    One bad symbol must never kill the run: stale bar (yfinance not yet
+    #    updated for today) or NaN prices -> skip that trade for today.
     for t in [x for x in trades if x["status"] == "OPEN"]:
-        df = fetch_daily(f"{t['symbol']}.NS")
-        if df is None or len(df) < 22:
-            continue
-        last = df.iloc[-1]
-        px_op, px_hi, px_lo, px_cl = (float(last["Open"]), float(last["High"]),
-                                      float(last["Low"]), float(last["Close"]))
-        sma20 = float(df["Close"].rolling(20).mean().iloc[-1])
-        bs = t["sl"]
-        t["sessions"] = (t.get("sessions") or 0) + 1
-        exit_px = reason = None
-        if str(t.get("id")) in manual_refs:
-            exit_px, reason = px_cl, "MANUAL"
-        elif px_op <= bs:
-            exit_px, reason = px_op, "BACKSTOP-gap"
-        elif px_lo <= bs:
-            exit_px, reason = bs, "BACKSTOP"
-        elif not np.isnan(sma20) and px_cl < sma20:
-            exit_px, reason = px_cl, "SMA20x"
-        if exit_px is None and t["sessions"] >= CFG["max_sessions"]:
-            exit_px, reason = px_cl, "TIME30"
-        if exit_px is not None:
-            t.update(status="CLOSED", exit=round(exit_px, 2), reason=reason,
-                     exit_date=df.index[-1].strftime("%Y-%m-%d"),
-                     pnl=round((exit_px - t["entry"]) * t["qty"], 2))
-            _notify(("\u2705" if t["pnl"] > 0 else "\U0001F6D1")
-                    + " CLOSE \u00b7 ChartLink (" + SETUPS[t["setup"]]["label"] + " / " + reason + ")\n"
-                    + t["symbol"] + " BUY qty " + str(t["qty"])
-                    + "\nP&L \u20b9{:,.0f}".format(t["pnl"]))
+        try:
+            df = fetch_daily(f"{t['symbol']}.NS")
+            if df is None or len(df) < 22:
+                continue
+            last = df.iloc[-1]
+            px_op, px_hi, px_lo, px_cl = (float(last["Open"]), float(last["High"]),
+                                          float(last["Low"]), float(last["Close"]))
+            if not _finite(px_op, px_hi, px_lo, px_cl) or px_cl <= 0:
+                continue
+            manual = str(t.get("id")) in manual_refs
+            if not manual and df.index[-1].strftime("%Y-%m-%d") != today:
+                continue        # stale bar: rules wait; a manual close still honoured
+            sma20 = float(df["Close"].rolling(20).mean().iloc[-1])
+            bs = float(t["sl"])
+            t["sessions"] = (t.get("sessions") or 0) + 1
+            exit_px = reason = None
+            if manual:
+                exit_px, reason = px_cl, "MANUAL"
+            elif px_op <= bs:
+                exit_px, reason = px_op, "BACKSTOP-gap"
+            elif px_lo <= bs:
+                exit_px, reason = bs, "BACKSTOP"
+            elif math.isfinite(sma20) and px_cl < sma20:
+                exit_px, reason = px_cl, "SMA20x"
+            if exit_px is None and t["sessions"] >= CFG["max_sessions"]:
+                exit_px, reason = px_cl, "TIME30"
+            if exit_px is not None:
+                t.update(status="CLOSED", exit=round(exit_px, 2), reason=reason,
+                         exit_date=df.index[-1].strftime("%Y-%m-%d"),
+                         pnl=round((exit_px - float(t["entry"])) * int(t["qty"]), 2))
+                _notify(("\u2705" if t["pnl"] > 0 else "\U0001F6D1")
+                        + " CLOSE \u00b7 ChartLink (" + SETUPS[t["setup"]]["label"] + " / " + reason + ")\n"
+                        + t["symbol"] + " BUY qty " + str(t["qty"])
+                        + "\nP&L \u20b9{:,.0f}".format(t["pnl"]))
+        except Exception as e:
+            print(f"chartlink manage {t.get('symbol')}: {e}", flush=True)
 
-    # 2) fill yesterday's signals at TODAY's open
+    # 2) fill yesterday's signals at TODAY's open (skip gracefully when the
+    #    bar is stale or the open is NaN/zero; the signal stays PENDING)
     for t in [x for x in trades if x["status"] == "PENDING"]:
-        df = fetch_daily(f"{t['symbol']}.NS")
-        if df is None or df.index[-1].strftime("%Y-%m-%d") != today:
-            continue
-        entry = float(df.iloc[-1]["Open"])
-        qty = int(CFG["capital_inr"] / entry)
-        if qty < 1:
-            t["status"] = "SKIP"
-            continue
-        t.update(status="OPEN", entry_date=today, qty=qty, entry=round(entry, 2),
-                 sl=round(entry * (1 - CFG["sl_backstop"]), 2), sessions=0)
-        _notify("\U0001F4C8 OPEN \u00b7 ChartLink (" + SETUPS[t["setup"]]["label"] + ")\n"
-                + t["symbol"] + " BUY qty " + str(qty)
-                + "\nentry \u20b9{:,.2f} \u00b7 trail: daily close vs SMA20 \u00b7 backstop \u20b9{:,.2f}"
-                .format(entry, t["sl"]))
+        try:
+            df = fetch_daily(f"{t['symbol']}.NS")
+            if df is None or df.index[-1].strftime("%Y-%m-%d") != today:
+                continue
+            entry = float(df.iloc[-1]["Open"])
+            if not _finite(entry) or entry <= 0:
+                continue
+            qty = int(CFG["capital_inr"] / entry)
+            if qty < 1:
+                t["status"] = "SKIP"
+                continue
+            t.update(status="OPEN", entry_date=today, qty=qty, entry=round(entry, 2),
+                     sl=round(entry * (1 - CFG["sl_backstop"]), 2), sessions=0)
+            _notify("\U0001F4C8 OPEN \u00b7 ChartLink (" + SETUPS[t["setup"]]["label"] + ")\n"
+                    + t["symbol"] + " BUY qty " + str(qty)
+                    + "\nentry \u20b9{:,.2f} \u00b7 trail: daily close vs SMA20 \u00b7 backstop \u20b9{:,.2f}"
+                    .format(entry, t["sl"]))
+        except Exception as e:
+            print(f"chartlink fill {t.get('symbol')}: {e}", flush=True)
 
     # 3) scan the day's completed bars for NEW signals (fill tomorrow)
     open_n = sum(1 for t in trades if t["status"] == "OPEN")
     existing = {(t["symbol"], t["setup"], t["signal_date"]) for t in trades}
     cands = []
-    for k, s in enumerate(nifty500()):
+    universe = nifty500()
+    n_ok = n_fail = 0
+    for k, s in enumerate(universe):
         try:
             df = fetch_daily(f"{s}.NS")
-            if df is not None:
+            if df is None or len(df) < 2:
+                n_fail += 1
+            else:
+                n_ok += 1
                 d = df.index[-1].strftime("%Y-%m-%d")
                 for setup in detect(df):
                     if (s, setup, d) not in existing:
                         cands.append((SETUPS[setup]["prio"], s, setup, d))
-        except Exception:
-            pass
+        except Exception as e:
+            n_fail += 1
+            print(f"chartlink scan {s}: {e}", flush=True)
         if (k + 1) % 50 == 0:
             time.sleep(0.8)
+    print(f"chartlink scan: {n_ok} symbols ok, {n_fail} failed/empty, "
+          f"{len(cands)} raw signals", flush=True)
+    if universe and n_ok < len(universe) // 2 and not dry:
+        _notify("\u26A0\uFE0F ChartLink scan: market data thin today -- "
+                f"only {n_ok}/{len(universe)} symbols fetched (yfinance "
+                "throttled?). Signals may be incomplete.")
     if dry:
         return {"dry_signals": cands}
 
@@ -348,9 +426,10 @@ def export(state: dict) -> dict:
     fields = ("id", "signal_date", "symbol", "setup", "setup_name", "side",
               "status", "entry_date", "qty", "entry", "sl",
               "sessions", "exit", "exit_date", "reason", "pnl")
+    numeric = set(NUMERIC_FIELDS)
 
     def row(t: dict) -> dict:
-        return {k: t.get(k) for k in fields}
+        return {k: (_num(t.get(k)) if k in numeric else t.get(k)) for k in fields}
 
     opens = [row(t) for t in trades if t["status"] == "OPEN"]
     pend = [row(t) for t in trades if t["status"] == "PENDING"]
@@ -387,7 +466,8 @@ def export(state: dict) -> dict:
                     "pnl_inr": round(sum(t["pnl"] or 0 for t in closed), 2)},
         "by_setup": by_setup, "open": opens, "pending": pend, "closed": closed,
     }
-    OUT.write_text(json.dumps(payload, indent=1, ensure_ascii=False) + "\n")
+    OUT.write_text(json.dumps(payload, indent=1, ensure_ascii=False,
+                              default=_json_default) + "\n")
     return payload
 
 
