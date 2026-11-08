@@ -1,16 +1,16 @@
 {
- "updated_at": "08 Nov 2026 22:24:30 IST",
+ "updated_at": "08 Nov 2026 22:39:26 IST",
  "engine": "cloud gc desk (GitHub Actions relay — no Mac needed)",
  "markets": [
   {
    "symbol": "GOLD",
    "yahoo": "GC=F",
    "session": "2026-11-06",
-   "open": 4053.60009765625,
+   "open": 4053.800048828125,
    "high": 4090.699951171875,
    "low": 4035.10009765625,
    "ltp": 4074.89990234375,
-   "chg_pct": 0.53,
+   "chg_pct": 0.52,
    "minutes_since_open": null,
    "entry_window_open": false,
    "ol": false,
@@ -23,24 +23,16 @@
    "symbol": "BTC",
    "yahoo": "BTC-USD",
    "session": "2026-11-08",
-   "open": 75742.7890625,
+   "open": 75743.953125,
    "high": 76094.953125,
    "low": 75545.34375,
-   "ltp": 75668.21875,
-   "chg_pct": -0.1,
+   "ltp": 75687.5703125,
+   "chg_pct": -0.07,
    "minutes_since_open": null,
    "entry_window_open": false,
    "ol": false,
    "oh": false,
-   "position": {
-    "side": "SELL",
-    "setup": "oh",
-    "qty": 0.0008,
-    "entry_price": 75622.83,
-    "entry_time": "06:07:39",
-    "sl_price": 76125.62,
-    "pnl": null
-   },
+   "position": null,
    "square_off": "22:30",
    "capital_usd": 60.0
   }
