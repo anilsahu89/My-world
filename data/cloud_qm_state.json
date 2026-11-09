@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 27,
+ "next_id": 29,
  "trades": [
   {
    "id": 17,
@@ -40,11 +40,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 5,
+   "sessions": 6,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1936.5999755859375,
+   "mark": 1942.699951171875,
    "note": "BB squeeze rank 5% blast on w bars"
   },
   {
@@ -62,11 +62,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 4,
+   "sessions": 5,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1704.800048828125,
+   "mark": 1700.4000244140625,
    "note": "BB squeeze rank 6% blast on d bars"
   },
   {
@@ -84,11 +84,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 4,
+   "sessions": 5,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 317.0,
+   "mark": 320.45001220703125,
    "note": "BB squeeze rank 12% blast on d bars"
   },
   {
@@ -106,11 +106,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 3,
+   "sessions": 4,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 383.1000061035156,
+   "mark": 383.54998779296875,
    "note": "BB squeeze rank 0% blast on d bars"
   },
   {
@@ -151,11 +151,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 2,
+   "sessions": 3,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1197.9000244140625,
+   "mark": 1215.9000244140625,
    "note": "BB squeeze rank 11% blast on w bars"
   },
   {
@@ -210,8 +210,31 @@
    "symbol": "AUROPHARMA",
    "setup": "QM-BBw",
    "side": "BUY",
-   "status": "PENDING",
+   "status": "CLOSED",
    "ref_close": 1800.0,
+   "entry_date": "2026-11-09",
+   "qty": 3.0,
+   "entry": 1804.0,
+   "invested": 5412.0,
+   "booked": 0.0,
+   "avg_count": 0,
+   "trail": false,
+   "sessions": 1,
+   "exit": 1855.3,
+   "reason": "RSI86",
+   "pnl": 137.66,
+   "mark": 1855.300048828125,
+   "note": "BB squeeze rank 15% blast on w bars",
+   "exit_date": "2026-11-09"
+  },
+  {
+   "id": 27,
+   "signal_date": "2026-11-09",
+   "symbol": "DRREDDY",
+   "setup": "QM-HM",
+   "side": "BUY",
+   "status": "PENDING",
+   "ref_close": 1385.0,
    "entry_date": null,
    "qty": null,
    "entry": null,
@@ -224,9 +247,31 @@
    "reason": null,
    "pnl": null,
    "mark": null,
-   "note": "BB squeeze rank 15% blast on w bars"
+   "note": "RSI9 84 V-turn above rising SMA20"
+  },
+  {
+   "id": 28,
+   "signal_date": "2026-11-09",
+   "symbol": "WELSPUNLIV",
+   "setup": "QM-HM",
+   "side": "BUY",
+   "status": "PENDING",
+   "ref_close": 252.21,
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "invested": null,
+   "booked": 0.0,
+   "avg_count": 0,
+   "trail": false,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null,
+   "mark": null,
+   "note": "RSI9 71 V-turn above rising SMA20"
   }
  ],
- "done_date": "2026-11-06",
+ "done_date": "2026-11-09",
  "circuit_breaker": false
 }

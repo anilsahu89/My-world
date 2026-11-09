@@ -1,5 +1,5 @@
 {
- "updated_at": "06 Nov 2026 23:49 IST",
+ "updated_at": "09 Nov 2026 21:57 IST",
  "desk": "Future Arbitrage",
  "status": "RUNNING",
  "preset": "r1",
@@ -9,38 +9,21 @@
  },
  "situation": [
   {
-   "symbol": "PAGEIND",
-   "spot": 35930.0,
-   "current": 35435.0,
-   "next": 35425.0,
-   "basis": 495.0,
-   "spread": 10.0,
-   "basis_pct": 1.38,
-   "spread_value": 200,
-   "lot": 20,
-   "vol_curr": 1036,
-   "vol_next": 66,
-   "dte": 17,
+   "symbol": "VMM",
+   "spot": 92.62,
+   "current": 91.61,
+   "next": 91.23,
+   "basis": 1.01,
+   "spread": 0.38,
+   "basis_pct": 1.09,
+   "spread_value": 1843,
+   "lot": 4850,
+   "vol_curr": 1271,
+   "vol_next": 195,
+   "dte": 14,
    "preset": "R1 relaxed",
    "preset_pass": false,
-   "verdict": "rejected: nextvol<250 (66)"
-  },
-  {
-   "symbol": "PREMIERENE",
-   "spot": 890.0,
-   "current": 887.1,
-   "next": 883.0,
-   "basis": 2.9,
-   "spread": 4.1,
-   "basis_pct": 0.33,
-   "spread_value": 2665,
-   "lot": 650,
-   "vol_curr": 1522,
-   "vol_next": 229,
-   "dte": 17,
-   "preset": "R1 relaxed",
-   "preset_pass": false,
-   "verdict": "rejected: basis<10 (2.9); basis<1%; spread>0.6x-basis"
+   "verdict": "rejected: basis<10 (1.0); nextvol<250 (195)"
   }
  ],
  "open": [],
@@ -71,7 +54,7 @@
     "entry_date": "2026-11-05",
     "basis": 71.1,
     "spread": 10.6,
-    "last_spread": 23.6,
+    "last_spread": 37.0,
     "dte_exp": "2026-11-23"
    }
   ],
@@ -85,5 +68,5 @@
    "pnl": 0
   }
  },
- "bhav_date": "2026-11-06"
+ "bhav_date": "2026-11-09"
 }
