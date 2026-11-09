@@ -1304,6 +1304,9 @@ def commit_state() -> None:
              "data/paper_nifty_ltp.json",
              "data/cloud_future_arb_state.json",
              "data/paper_future_arb.json",
+             "data/chartink_picks.json",
+             "data/cloud_chartlink_state.json",
+             "data/relay_status.json",
              "scanners/papertrades/future_arbitaage_open_*.csv"]
     for f in files:
         subprocess.run(["git", "add", "--", f], cwd=ROOT,
