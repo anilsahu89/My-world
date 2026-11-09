@@ -335,6 +335,17 @@ def run_day() -> None:
                 print(f"day tick: {name} failed: {e}\n"
                       f"{traceback.format_exc()[-500:]}", flush=True)
                 errs.append(f"{cp.now().strftime('%H:%M')} {name}: {str(e)[:160]}")
+        # ChartLink morning fill: pending signals open at TODAY's open
+        # (the Open is fixed at 09:15, so this books the same fill the
+        # 17:50 EOD run would make — just hours earlier, so the tab shows
+        # live positions on the fill day). No-op outside 09:20-15:00,
+        # weekends, or when nothing is pending.
+        try:
+            import cloud_chartink
+            if cloud_chartink.fill_pending():
+                commit_and_push()
+        except Exception as e:
+            print(f"chartlink morning fill failed: {e}", flush=True)
         write_status("day", errs)
         commit_and_push()
         dense = dtime(9, 14) <= now.time() <= dtime(9, 50)

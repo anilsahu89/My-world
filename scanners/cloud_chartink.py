@@ -421,6 +421,55 @@ def run_day(dry: bool = False) -> dict:
     return export(state)
 
 
+def fill_pending() -> int:
+    """Morning fill pass: flip yesterday's PENDING signals to OPEN at
+    TODAY's open price, during the live session.
+
+    Safe against the completed-bars rule: the Open of the forming daily
+    bar is fixed at 09:15 and never changes, so this uses the exact price
+    the 17:50 EOD run would fill at — it just books it at ~09:20 so the
+    tab shows live positions (and live P&L) on the fill day itself.
+    Managing exits and scanning for NEW signals stay evening-only —
+    those genuinely need completed bars."""
+    state = read_state()
+    moment = now()
+    today = moment.date().isoformat()
+    if moment.weekday() >= 5 or today > CFG["end_date"]:
+        return 0
+    if moment.time() < dtime(9, 20) or moment.time() > dtime(15, 0):
+        return 0
+    trades = state["trades"]
+    pending = [t for t in trades if t["status"] == "PENDING"]
+    if not pending:
+        return 0
+    filled = 0
+    for t in pending:
+        try:
+            df = fetch_daily(f"{t['symbol']}.NS")
+            if df is None or df.index[-1].strftime("%Y-%m-%d") != today:
+                continue            # today's bar not published yet — retry next tick
+            entry = float(df.iloc[-1]["Open"])
+            if not _finite(entry) or entry <= 0:
+                continue
+            qty = int(CFG["capital_inr"] / entry)
+            if qty < 1:
+                t["status"] = "SKIP"
+                continue
+            t.update(status="OPEN", entry_date=today, qty=qty, entry=round(entry, 2),
+                     sl=round(entry * (1 - CFG["sl_backstop"]), 2), sessions=0)
+            filled += 1
+            _notify("\U0001F4C8 OPEN \u00b7 ChartLink (" + SETUPS[t["setup"]]["label"] + ")\n"
+                    + t["symbol"] + " BUY qty " + str(qty)
+                    + "\nentry \u20b9{:,.2f} \u00b7 morning fill at open".format(entry))
+        except Exception as e:
+            print(f"chartlink morning fill {t.get('symbol')}: {e}", flush=True)
+    if filled:
+        write_state(state)
+        OUT.write_text(json.dumps(export(state), indent=1, ensure_ascii=False) + "\n")
+        print(f"chartlink morning fill: {filled} opened at today's open", flush=True)
+    return filled
+
+
 def export(state: dict) -> dict:
     trades = state["trades"]
     fields = ("id", "signal_date", "symbol", "setup", "setup_name", "side",
