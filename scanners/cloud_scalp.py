@@ -335,6 +335,144 @@ def evaluate(df: pd.DataFrame, state: dict, today: str) -> dict:
     return {"open": open_tr, "trades": trades, "decisions": log}
 
 
+
+
+# ================= BTC CATEGORY — Donchian(24) + 1h EMA50 regime (R1) =================
+# The only BTC setup that passed the deployment bar (PF 1.46 full year, positive
+# both halves, 844 trades, net of 0.2% costs). BTC-native rules — NOT a NIFTY port.
+# Long: close > 24-bar high while close > 1h EMA50. Short: mirror below.
+# Exits: 0.8% chandelier from peak close · 2% target · 0.7% stop. One position.
+# Sizing: Rs 1,00,000 notional per trade; P&L tracked in % and Rs.
+
+BTC_URL = ("https://api.binance.com/api/v3/klines?symbol=BTCUSDT"
+           "&interval=15m&limit=2000")
+BTC_CFG = {"notional_inr": 100_000.0, "usdinr": 90.0,
+           "target_pct": 2.0, "chandelier_pct": 0.8, "stop_pct": 0.7,
+           "donchian_n": 24, "cost_pct": 0.2}
+
+
+def fetch_btc_bars() -> pd.DataFrame | None:
+    """Last 2000 completed 15-min Binance BTCUSDT candles (~20 days) — enough
+    for Donchian(24) and a warm 1h EMA50. The still-forming candle is dropped."""
+    import urllib.request
+    try:
+        with urllib.request.urlopen(BTC_URL, timeout=30) as r:
+            kl = json.loads(r.read())
+    except Exception:
+        return None
+    rows = []
+    for k in kl[:-1]:
+        ts = datetime.fromtimestamp(k[0] / 1000, IST)
+        rows.append({"ts": ts, "open": float(k[1]), "high": float(k[2]),
+                     "low": float(k[3]), "close": float(k[4])})
+    df = pd.DataFrame(rows)
+    return df if len(df) >= 60 else None
+
+
+def btc_evaluate(state: dict) -> dict:
+    btc = state.setdefault("btc", {"position": None, "trades": [],
+                                   "decisions": [], "peak": None,
+                                   "trough": None})
+    log = btc.setdefault("decisions", [])
+    df = fetch_btc_bars()
+    if df is None or len(df) < 60:
+        return btc
+
+    df["roll_hi"] = df["high"].rolling(BTC_CFG["donchian_n"]).max().shift(1)
+    df["roll_lo"] = df["low"].rolling(BTC_CFG["donchian_n"]).min().shift(1)
+    s1h = df.set_index("ts")["close"].resample("1h").last().dropna()
+    ema1h = s1h.ewm(span=50, adjust=False).mean().shift(1) \
+        .reindex(df.set_index("ts").index, method="ffill")
+    df["ema1h"] = ema1h.values
+
+    i = len(df) - 1
+    b = df.iloc[i]
+    px = b["close"]
+    nowt = now()
+    pos = btc.get("position")
+
+    def btclog(t: str, d: str) -> None:
+        log.append({"time": nowt.strftime("%d %b %H:%M"), "decision": t,
+                    "detail": d})
+        if len(log) > 80:
+            del log[: len(log) - 80]
+
+    def close_btc(exit_px: float, reason: str) -> None:
+        nonlocal pos
+        gross = ((exit_px / pos["entry"] - 1) if pos["side"] == "LONG"
+                 else (1 - exit_px / pos["entry"]))
+        net = gross - BTC_CFG["cost_pct"] / 100
+        pnl_inr = round(net * BTC_CFG["notional_inr"], 2)
+        pos.update(status="CLOSED", exit_ts=str(b["ts"]), exit_px=round(exit_px, 2),
+                   exit_reason=reason, pnl_pct=round(100 * net, 2), pnl=pnl_inr)
+        btc["trades"].append(pos)
+        if len(btc["trades"]) > 60:
+            del btc["trades"][: len(btc["trades"]) - 60]
+        btc["position"] = None
+        pos = None
+        btclog("EXIT", f"{reason} @ {exit_px:.0f} -> {net * 100:+.2f}% (₹{pnl_inr:+,.0f})")
+        _notify(("✅" if pnl_inr > 0 else "🛑") + " CLOSE · BTC Scalp ("
+                + reason + ")\n" + pos_or_none_text(pos) + "P&L ₹"
+                + "{:+,.0f}".format(pnl_inr))
+
+    def pos_or_none_text(_p):
+        return ""
+
+    gate_up = not (isinstance(b["ema1h"], float) and math.isnan(b["ema1h"])) \
+        and px > b["ema1h"]
+    gate_dn = not (isinstance(b["ema1h"], float) and math.isnan(b["ema1h"])) \
+        and px < b["ema1h"]
+
+    if pos:
+        if pos["side"] == "LONG":
+            btc["peak"] = max(btc.get("peak") or px, px)
+            exit_px = reason = None
+            if px <= btc["peak"] * (1 - BTC_CFG["chandelier_pct"] / 100):
+                exit_px, reason = px, "CHANDELIER"
+            elif px >= pos["entry"] * (1 + BTC_CFG["target_pct"] / 100):
+                exit_px, reason = pos["entry"] * (1 + BTC_CFG["target_pct"] / 100), "TARGET"
+            elif px <= pos["entry"] * (1 - BTC_CFG["stop_pct"] / 100):
+                exit_px, reason = px, "STOP"
+            if exit_px is not None:
+                close_btc(exit_px, reason)
+            return btc
+        else:
+            btc["trough"] = min(btc.get("trough") or px, px)
+            exit_px = reason = None
+            if px >= btc["trough"] * (1 + BTC_CFG["chandelier_pct"] / 100):
+                exit_px, reason = px, "CHANDELIER"
+            elif px <= pos["entry"] * (1 - BTC_CFG["target_pct"] / 100):
+                exit_px, reason = pos["entry"] * (1 - BTC_CFG["target_pct"] / 100), "TARGET"
+            elif px >= pos["entry"] * (1 + BTC_CFG["stop_pct"] / 100):
+                exit_px, reason = px, "STOP"
+            if exit_px is not None:
+                close_btc(exit_px, reason)
+            return btc
+
+    # entries (fills approximated at the completed-bar close; tick lands
+    # 60-180s after the close — execution drift ignored on paper)
+    if not (isinstance(b["roll_hi"], float) and not math.isnan(b["roll_hi"])):
+        return btc
+    if px > b["roll_hi"] and gate_up:
+        side, entry = "LONG", px
+        btc["peak"] = px
+    elif px < b["roll_lo"] and gate_dn:
+        side, entry = "SHORT", px
+        btc["trough"] = px
+    else:
+        return btc
+    qty_btc = round(BTC_CFG["notional_inr"] / (BTC_CFG["usdinr"] * entry), 6)
+    pos = dict(side=side, entry=round(entry, 2), entry_ts=str(b["ts"]),
+               qty_btc=qty_btc, notional_inr=BTC_CFG["notional_inr"],
+               status="OPEN", opened=str(nowt))
+    btc["position"] = pos
+    btclog("ENTRY", f"{side} @ {entry:.0f} (notional ₹1L ≈ {qty_btc} BTC)")
+    _notify("⚡ OPEN · BTC Scalp (Donchian+1h trend, " + side + ")\n"
+            + "notional ₹1L @ $" + "{:,.0f}".format(entry) + " · chandelier 0.8% · "
+            "target 2% · stop 0.7%")
+    return btc
+
+
 def publish(state: dict) -> dict:
     trades = state["trades"]
     closed = [t for t in trades if t["status"] == "CLOSED"]
@@ -356,6 +494,25 @@ def publish(state: dict) -> dict:
                     "win_rate": round(100 * len(wins) / len(closed), 1) if closed else 0,
                     "pnl": round(sum(t.get("pnl") or 0 for t in closed), 2)},
     }
+    # BTC category
+    btc = state.get("btc", {})
+    bt = btc.get("trades", [])
+    bt_closed = [t for t in bt if t.get("status") == "CLOSED"]
+    bt_wins = [t for t in bt_closed if (t.get("pnl") or 0) > 0]
+    payload["btc"] = {
+        "rule": ("Donchian(24) breakout + 1h EMA50 regime filter · 15-min Binance "
+                 "BTCUSDT · 1-year backtest: PF 1.46, 844 trades, +131% net of "
+                 "0.2% costs · both directions · chandelier 0.8% / target 2% / "
+                 "stop 0.7% · Rs 1L notional per trade"),
+        "position": btc.get("position"),
+        "decisions": btc.get("decisions", [])[-40:],
+        "closed": bt_closed[-20:],
+        "summary": {"open": 1 if btc.get("position") else 0,
+                    "closed": len(bt_closed), "wins": len(bt_wins),
+                    "losses": len(bt_closed) - len(bt_wins),
+                    "win_rate": round(100 * len(bt_wins) / len(bt_closed), 1) if bt_closed else 0,
+                    "pnl": round(sum(t.get("pnl") or 0 for t in bt_closed), 2)},
+    }
     OUT.write_text(json.dumps(payload, indent=1, default=str) + "\n")
     return payload
 
@@ -375,8 +532,16 @@ def tick() -> None:
         state["day"] = today
     df = fetch_bars()
     if df is None:
+        publish(state)
         return
     evaluate(df, state, today)
+    # BTC category (Donchian + 1h trend — independent feed, own state key)
+    try:
+        btc_evaluate(state)
+    except Exception as e:
+        import traceback
+        print(f"btc evaluate failed: {e}\n{traceback.format_exc()[-400:]}", flush=True)
+    write_state(state)
     publish(state)
 
 
