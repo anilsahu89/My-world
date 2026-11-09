@@ -71,6 +71,9 @@ MOMENTUM_PTS = 0.0        # close through the short strike = exit at cost
                           # (14-month replay: +150 buffer let the 1:2 ratio
                           # lose up to -873 pts — NK's spec is a COST exit)
 MOMENTUM_BUFFER = 25.0    # small buffer past the strike to avoid same-day noise
+REGIME_TREND_RET = 0.015  # S4 (replay 7 Nov): NIFTY spot 3-day return above this =
+                          # trending rally -> enter FAR-ONLY (no short leg). Calendars
+                          # in this regime caused the -75k Nov 2-6 losses.
 HARD_STOP_PTS = 70.0      # risk = target ("risk defined before entry");
                           # replay: one-day gaps blow through any EOD exit
 SHORT_MULT = 1            # 1:1 spread both sides. The video's call side was a
@@ -383,15 +386,20 @@ def _notify(state, tr, event):
     try:
         import telegram_notify
         emoji = {"OPEN": "⚡", "TARGET": "✅", "TIME": "⏱", "MOMENTUM": "🛑"}.get(event, "•")
-        side = "CALL RATIO" if tr["side"] == "call" else "PUT SPREAD"
+        structure = tr.get("structure", "calendar")
+        side = ("CALL RATIO" if tr["side"] == "call" else "PUT SPREAD") \
+            if structure == "calendar" else \
+            (f"FAR-ONLY {'CALL' if tr['side'] == 'call' else 'PUT'} (trend regime)")
         if event == "OPEN":
-            far, s0 = tr["far"], tr["shorts"][0]
-            telegram_notify.notify(
-                f"{emoji} OPEN · NIFTY Long-Term Premium ({side})\n"
-                f"BUY {far['qty']} {far['expiry']} {far['strike']}{'CE' if tr['side']=='call' else 'PE'} @ ₹{far['entry']:.1f}"
-                f" (discount {tr['discount_at_entry']*100:.0f}%)\n"
-                f"SELL {s0['qty']}×{len(tr['shorts'])} {s0['expiry']} {s0['strike']} @ ₹{s0['entry']:.1f}\n"
-                f"target +{TARGET_PTS:.0f} pts · time-stop {TIME_STOP_DAYS}d · trade #{tr['id']}")
+            far = tr["far"]
+            msg = (f"{emoji} OPEN · NIFTY Long-Term Premium ({side})\n"
+                   f"BUY {far['qty']} {far['expiry']} {far['strike']}{'CE' if tr['side']=='call' else 'PE'} @ ₹{far['entry']:.1f}"
+                   f" (discount {tr['discount_at_entry']*100:.0f}%)\n")
+            if tr.get("shorts"):
+                s0 = tr["shorts"][0]
+                msg += (f"SELL {s0['qty']}×{len(tr['shorts'])} {s0['expiry']} {s0['strike']} @ ₹{s0['entry']:.1f}\n")
+            msg += f"target +{TARGET_PTS:.0f} pts · time-stop {TIME_STOP_DAYS}d · trade #{tr['id']}"
+            telegram_notify.notify(msg)
         else:
             telegram_notify.notify(
                 f"{emoji} CLOSE · NIFTY LTP {side} ({event})\n"
@@ -453,6 +461,13 @@ def run_day() -> dict:
 
     spot = parity_spot(opts, day)
     iv = near_iv(opts, day, spot)
+    # S4 regime memory: 3-trading-day NIFTY spot return (spot_history persisted
+    # across runs; needs 4 points before the trend flag is trusted)
+    hist = [h for h in state.get("spot_history", []) if h[0] != bhav_date]
+    hist.append([bhav_date, spot])
+    hist = hist[-15:]
+    state["spot_history"] = hist
+    trending = len(hist) >= 4 and spot / hist[-4][1] - 1 > REGIME_TREND_RET
     wk_spot, wk20 = weekly_20sma()
     bias = 0
     if wk_spot and wk20:
@@ -470,17 +485,17 @@ def run_day() -> dict:
             if s.get("exit") is None and s["expiry"] <= bhav_date:
                 s["exit"] = s.get("mark", s["entry"])
                 s["exit_date"] = bhav_date
-        live_short = tr["shorts"][-1]
+        live_short = tr["shorts"][-1] if tr.get("shorts") else None
         if tr["days_seen"] >= TIME_STOP_DAYS:
             _close_trade(state, tr, "TIME", bhav_date, spot)
         elif pts >= TARGET_PTS:
             _close_trade(state, tr, "TARGET", bhav_date, spot)
         elif pts <= -HARD_STOP_PTS:
             _close_trade(state, tr, "STOP", bhav_date, spot)
-        elif (tr["side"] == "call" and spot
+        elif (live_short and tr["side"] == "call" and spot
                 and spot >= live_short["strike"] + MOMENTUM_BUFFER):
             _close_trade(state, tr, "MOMENTUM", bhav_date, spot)
-        elif (tr["side"] == "put" and spot
+        elif (live_short and tr["side"] == "put" and spot
                 and spot <= live_short["strike"] - MOMENTUM_BUFFER):
             _close_trade(state, tr, "MOMENTUM", bhav_date, spot)
         else:
@@ -529,22 +544,25 @@ def run_day() -> dict:
             else:
                 best = cands[0]
                 want = "call" if best["opt"] == "CE" else "put"
-                leg = _near_leg(opts, day, spot, want)
-                if not leg:
+                # S4 structure switch: trending rally -> FAR-ONLY (no short leg);
+                # range -> calendar (far + near-weekly short) as before
+                structure = "far-only" if trending else "calendar"
+                leg = _near_leg(opts, day, spot, want) if structure == "calendar" else None
+                if structure == "calendar" and not leg:
                     blocked.append("no liquid near-weekly short strike")
                 else:
-                    exp, k, px = leg
-                    q_short = QTY * SHORT_MULT
                     tr = dict(
                         id=state.get("next_id", 1), side=want,
                         entry_date=bhav_date, days_seen=1, status="OPEN",
                         spot_entry=spot, iv_near_entry=round(iv, 3),
                         discount_at_entry=best["discount"],
+                        structure=structure,
                         far=dict(expiry=best["expiry"], strike=best["strike"],
                                  qty=QTY, entry=best["price"], mark=best["price"],
                                  exit=None, exit_date=None),
-                        shorts=[dict(expiry=exp, strike=k, qty=q_short,
-                                     entry=px, mark=px, exit=None, exit_date=None)],
+                        shorts=([dict(expiry=leg[0], strike=leg[1], qty=QTY * SHORT_MULT,
+                                      entry=leg[2], mark=leg[2], exit=None,
+                                      exit_date=None)] if leg else []),
                         pnl=None, points=None, exit_reason=None)
                     trades.append(tr)
                     state["next_id"] = tr["id"] + 1
@@ -576,6 +594,9 @@ def snapshot(state, board, spot, iv, wk_spot, wk20, bias, blocked, bhav_date):
                      "buyer at discount + seller at price. Discounted CALL -> 1:2 ratio "
                      "(profits if market falls OR rises; only fast momentum hurts). "
                      "Discounted PUT -> spread. Shorts 1:1 (defined risk). "
+                     "S4 regime switch (7 Nov replay): when the NIFTY spot 3-day return "
+                     "> +1.5% (trending rally) the desk enters the FAR LEG ONLY — the "
+                     "Nov 2-6 -75k came from call calendars re-entered daily into a rally. "
                      "3 lots (225 qty) per Rs 5L model book."),
             "exits": (f"target +{TARGET_PTS:.0f} pts · time-stop {TIME_STOP_DAYS} trading days · "
                       f"momentum exit on close through the short strike +/-{MOMENTUM_BUFFER:.0f} pt buffer · "
@@ -593,10 +614,12 @@ def snapshot(state, board, spot, iv, wk_spot, wk20, bias, blocked, bhav_date):
         "blocked": blocked,
         "open": [{"id": t["id"], "side": t["side"], "entry": t["entry_date"],
                   "days": t["days_seen"], "points": round(_trade_points(t), 1),
+                  "structure": t.get("structure", "calendar"),
                   "far": t["far"], "shorts": t["shorts"]} for t in opens],
         "trades": [{"id": t["id"], "side": t["side"], "entry": t["entry_date"],
                     "exit": t.get("exit_date"), "reason": t.get("exit_reason"),
                     "points": t.get("points"), "pnl": t.get("pnl"),
+                    "structure": t.get("structure", "calendar"),
                     "discount_at_entry": t.get("discount_at_entry")}
                    for t in trades[-30:]],
         "summary": {"trades": len(trades), "closed": len(closed),

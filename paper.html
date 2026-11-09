@@ -624,7 +624,9 @@ main h3 .collapse-btn {
     var el = document.getElementById("ltpStatus");
     el.innerHTML = "Updated " + esc(d.updated_at) + " (bhav " + esc(d.bhav_date) + ") &nbsp;·&nbsp; " +
       "BUY the discounted far expiry (≤5% OTM, 225 qty) + SELL the nearest weekly against it 1:1 · " +
-      "+70-pt target · 4-day time-stop · close-through-short = cost exit · −70-pt hard stop · shorts roll weekly · max 4/month";
+      "+70-pt target · 4-day time-stop · close-through-short = cost exit · −70-pt hard stop · shorts roll weekly · max 10/month · " +
+      "<strong>S4 regime switch:</strong> 3-day NIFTY return &gt; +1.5% ⇒ FAR-ONLY entry (no short leg) · " +
+      "<strong>entries paused by owner 7 Nov</strong> (28.6% WR, −₹63k — gate review pending)";
     el.classList.remove("flash");
     var op = d.open || [];
     set("ltpOpen", op.length ? (op[0].side.toUpperCase() + " · " +
