@@ -195,9 +195,43 @@
    "exit_reason": "TARGET",
    "exit_date": "2026-11-09",
    "exit_spot": 25016.399999999998
+  },
+  {
+   "id": 10,
+   "side": "call",
+   "entry_date": "2026-11-09",
+   "days_seen": 1,
+   "status": "OPEN",
+   "spot_entry": 25016.399999999998,
+   "iv_near_entry": 0.168,
+   "discount_at_entry": 0.456,
+   "structure": "calendar",
+   "far": {
+    "expiry": "2026-12-29",
+    "strike": 26250.0,
+    "qty": 225,
+    "entry": 138.5,
+    "mark": 138.5,
+    "exit": null,
+    "exit_date": null
+   },
+   "shorts": [
+    {
+     "expiry": "2026-11-17",
+     "strike": 25300.0,
+     "qty": 225,
+     "entry": 136.45,
+     "mark": 136.45,
+     "exit": null,
+     "exit_date": null
+    }
+   ],
+   "pnl": null,
+   "points": null,
+   "exit_reason": null
   }
  ],
- "next_id": 10,
+ "next_id": 11,
  "spot_history": [
   [
    "2026-11-09",

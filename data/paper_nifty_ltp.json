@@ -1,5 +1,5 @@
 {
- "updated_at": "09 Nov 2026 21:42 IST",
+ "updated_at": "09 Nov 2026 23:47 IST",
  "bhav_date": "2026-11-09",
  "desk": "NIFTY Long-Term Premium",
  "status": "RUNNING",
@@ -138,10 +138,37 @@
    "own_iv": 0.122
   }
  ],
- "blocked": [
-  "entries paused by owner 6 Nov (28.6% WR, -63k) \u2014 gate review pending"
+ "blocked": [],
+ "open": [
+  {
+   "id": 10,
+   "side": "call",
+   "entry": "2026-11-09",
+   "days": 1,
+   "points": 0.0,
+   "structure": "calendar",
+   "far": {
+    "expiry": "2026-12-29",
+    "strike": 26250.0,
+    "qty": 225,
+    "entry": 138.5,
+    "mark": 138.5,
+    "exit": null,
+    "exit_date": null
+   },
+   "shorts": [
+    {
+     "expiry": "2026-11-17",
+     "strike": 25300.0,
+     "qty": 225,
+     "entry": 136.45,
+     "mark": 136.45,
+     "exit": null,
+     "exit_date": null
+    }
+   ]
+  }
  ],
- "open": [],
  "trades": [
   {
    "id": 2,
@@ -197,16 +224,27 @@
    "pnl": 18303.75,
    "structure": "calendar",
    "discount_at_entry": 0.577
+  },
+  {
+   "id": 10,
+   "side": "call",
+   "entry": "2026-11-09",
+   "exit": null,
+   "reason": null,
+   "points": null,
+   "pnl": null,
+   "structure": "calendar",
+   "discount_at_entry": 0.456
   }
  ],
  "summary": {
-  "trades": 5,
+  "trades": 6,
   "closed": 5,
-  "open": 0,
-  "this_month": 1,
+  "open": 1,
+  "this_month": 2,
   "wins": 3,
   "win_rate": 60.0,
   "realized": 30543.75,
-  "unrealized": 0
+  "unrealized": 0.0
  }
 }

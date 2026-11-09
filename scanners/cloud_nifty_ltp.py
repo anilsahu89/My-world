@@ -515,8 +515,10 @@ def run_day() -> dict:
     # falling market; the 1:2 call ratio is built to profit either way) ----
     # OWNER PAUSE 6 Nov 2026: 8 trades, 28.6% WR, -Rs 63,101 realized after
     # the 6 Oct gate drop (20% -> 5%). New entries stopped; the open trade
-    # keeps being managed. Reopen = set NEW_ENTRIES_PAUSED to False.
-    NEW_ENTRIES_PAUSED = True
+    # kept being managed (+Rs 18,304 on exit 9 Nov).
+    # REOPENED by owner 9 Nov 2026 with the S4 regime switch (far-only
+    # entries in trending rallies) as the new gate.
+    NEW_ENTRIES_PAUSED = False
     blocked = []
     if NEW_ENTRIES_PAUSED:
         blocked.append("entries paused by owner 6 Nov (28.6% WR, -63k) — gate review pending")
