@@ -11,7 +11,7 @@
  ],
  "day": "2026-11-09",
  "day_losses": 0,
- "done_date": "",
+ "done_date": "2026-11-06",
  "btc": {
   "position": {
    "side": "LONG",
@@ -23,7 +23,13 @@
    "opened": "2026-11-09"
   },
   "trades": [],
-  "decisions": [],
+  "decisions": [
+   {
+    "time": "09 Nov 21:25",
+    "decision": "ENTRY",
+    "detail": "LONG @ 75421 (notional \u20b91L \u2248 0.014732 BTC)"
+   }
+  ],
   "peak": 75420.61,
   "trough": null
  }
