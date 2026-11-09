@@ -1,8 +1,8 @@
 {
- "fetched_at": "2026-11-06 23:33:52",
- "latest_date": "2026-11-06",
+ "fetched_at": "2026-11-09 17:20:09",
+ "latest_date": "2026-11-09",
  "universe_count": 197,
- "shorts_count": 3,
+ "shorts_count": 4,
  "longs_count": 0,
  "shorts": [
   {
@@ -55,6 +55,23 @@
    "primary_date": "2026-11-04",
    "alert_date": "2026-11-05",
    "score": 36.3
+  },
+  {
+   "kind": "bb",
+   "type": "SHORT",
+   "symbol": "HYUNDAI",
+   "entry_price": 2130.0,
+   "sl_price": 2147.37,
+   "target_price": 2083.68,
+   "rr": 2.7,
+   "wick_pct": 64,
+   "vol_multiple": 2.3,
+   "rsi": 66,
+   "rsi_pass": false,
+   "primary_range": 57.9,
+   "primary_date": "2026-11-05",
+   "alert_date": "2026-11-06",
+   "score": 34.6
   }
  ],
  "longs": []
