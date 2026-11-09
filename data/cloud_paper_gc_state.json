@@ -813,11 +813,11 @@
    "entry_time": "05:35:10",
    "entry_price": 4067.6,
    "sl_price": 4102.61,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN"
+   "exit_time": "06:20:14",
+   "exit_price": 4102.61,
+   "reason": "SL",
+   "pnl": -0.52,
+   "status": "CLOSED"
   },
   {
    "id": 52,
