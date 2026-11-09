@@ -380,6 +380,7 @@ main h3 .collapse-btn {
   <button class="pt-tab" data-panel="hmHtfSection">📈 Intraday HM</button>
   <button class="pt-tab" data-panel="swingSection">🕯️ HM Swing</button>
   <button class="pt-tab" data-panel="chartlinkSection">📊 ChartLink</button>
+  <button class="pt-tab" data-panel="scalpSection">⚡ Scalp Monitor</button>
   <button class="pt-tab" data-panel="thetaSection">🛡️ NIFTY Theta</button>
   <button class="pt-tab" data-panel="millSection">🏭 Premium Mill</button>
   <button class="pt-tab" data-panel="ltpSection">💎 NIFTY Long-Term Premium</button>
@@ -1250,6 +1251,30 @@ main h3 .collapse-btn {
 
   <h3 style="margin-top:2rem">🔴 Closed Trades <span class="muted" id="clClosedCount">(0)</span></h3>
   <div class="table-wrap" id="clClosedWrap"><div class="flash">No closed ChartLink trades yet.</div></div>
+</section>
+
+<!-- ===================== SCALP MONITOR: NIFTY 15-min adaptive scalps (paper) ===================== -->
+<section id="scalpSection" class="pt-panel">
+  <h2 style="color:#ff7043">
+    ⚡ Scalp Monitor — NIFTY 15-min adaptive scalps (paper)
+    <span class="muted" style="font-size:0.75rem">— First-3 Morning Drive + VWAP Station Bounce · live decision tree · relay ticks 60-180s</span>
+  </h2>
+  <div id="scalpStatus" class="flash">Loading Scalp Monitor…</div>
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">Open</span><span class="sum-value" style="color:var(--green)" id="scOpen">—</span></div>
+    <div class="sum-card"><span class="sum-label">Closed Today</span><span class="sum-value" id="scClosed">—</span></div>
+    <div class="sum-card"><span class="sum-label">Win Rate</span><span class="sum-value" id="scWin">—</span></div>
+    <div class="sum-card"><span class="sum-label">Paper P&amp;L ₹</span><span class="sum-value" id="scPnl">—</span></div>
+  </div>
+
+  <h3 style="color:var(--green);margin-top:1.5rem">🧠 Live Decision Log <span class="muted" style="font-size:0.75rem">— every adaptive call: entries, tactical exits, re-entries, reversals, guards</span></h3>
+  <div class="table-wrap" id="scalpDecisionsWrap"><div class="flash">No decisions yet — monitor arms at 09:16 IST on market days.</div></div>
+
+  <h3 style="color:var(--green);margin-top:1.5rem">🟢 Open Position</h3>
+  <div class="table-wrap" id="scalpOpenWrap"><div class="flash">No open scalp.</div></div>
+
+  <h3 style="margin-top:2rem">🔴 Closed Trades <span class="muted" id="scalpClosedCount">(0)</span></h3>
+  <div class="table-wrap" id="scalpClosedWrap"><div class="flash">No closed scalp trades yet.</div></div>
 </section>
 
 <!-- ===================== MANUAL: SEARCH & TAKE + BOOK ===================== -->
@@ -2796,6 +2821,89 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
   loadQuotes();
   setInterval(load, 60000);
   setInterval(loadQuotes, 60000);
+})();
+</script>
+
+<script>
+/* Scalp Monitor — NIFTY 15-min adaptive scalps (data/scalp_picks.json) */
+(function () {
+  "use strict";
+  var base = "";
+  if (location.hostname.endsWith(".github.io")) {
+    var seg = location.pathname.replace(/^\/+/, "").split("/")[0];
+    if (seg && !/\.html?$/i.test(seg)) base = "/" + seg;
+  }
+  function esc(s) { var d = document.createElement("div"); d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function fmt(n) {
+    if (n == null || isNaN(n)) return "—";
+    var s = Math.abs(n).toLocaleString("en-IN", {maximumFractionDigits: 0});
+    return (n < 0 ? "−" : "+") + "₹" + s;
+  }
+  function render(d) {
+    var s = d.summary || {};
+    var el = document.getElementById("scalpStatus");
+    el.className = "flash";
+    el.innerHTML = "Updated " + esc(d.updated_at) + " · " + esc(d.rule);
+    document.getElementById("scOpen").textContent = s.open || 0;
+    document.getElementById("scClosed").textContent = s.closed || 0;
+    document.getElementById("scWin").textContent = (s.closed ? s.win_rate + "% (" + s.wins + "W/" + s.losses + "L)" : "—");
+    var pn = document.getElementById("scPnl");
+    pn.textContent = fmt(s.pnl);
+    pn.className = "sum-value " + ((s.pnl || 0) >= 0 ? "pos" : "neg");
+
+    var dec = d.decisions || [];
+    var dw = document.getElementById("scalpDecisionsWrap");
+    if (!dec.length) {
+      dw.innerHTML = '<div class="flash">Monitor armed — first decisions appear from 09:50 IST on market days.</div>';
+    } else {
+      var h = "<table><thead><tr><th>Time</th><th>Decision</th><th>Detail</th></tr></thead><tbody>";
+      dec.slice().reverse().forEach(function (x) {
+        var c = /ENTRY|REVERSAL/.test(x.decision) ? "badge-green" : (/EXIT/.test(x.decision) ? "badge-red" : "badge-grey");
+        h += '<tr><td>' + esc(x.time) + '</td><td><span class="badge ' + c + '">' + esc(x.decision) + '</span></td>' +
+             '<td style="font-size:0.8rem">' + esc(x.detail) + '</td></tr>';
+      });
+      dw.innerHTML = h + "</tbody></table>";
+    }
+
+    var open = d.open || [];
+    var ow = document.getElementById("scalpOpenWrap");
+    if (!open.length) {
+      ow.innerHTML = '<div class="flash">No open scalp — signals: First-3 stack ~10:00, VWAP bounce 10:20-14:15.</div>';
+    } else {
+      var h = "<table><thead><tr><th>Setup</th><th>Side</th><th>Entry</th><th>SL</th><th>Target</th><th>Lots</th></tr></thead><tbody>";
+      open.forEach(function (t) {
+        h += "<tr><td><strong>" + esc(t.setup) + "</strong>" + (t.reversal ? ' <span class="badge badge-red">REVERSAL</span>' : "") + "</td>" +
+          "<td>" + esc(t.side) + "</td><td>" + t.entry_idx + "</td><td>" + t.stop_idx + "</td><td>" + t.target_idx + "</td><td>" + t.lots + "</td></tr>";
+      });
+      ow.innerHTML = h + "</tbody></table>";
+    }
+
+    var closed = d.closed || [];
+    document.getElementById("scalpClosedCount").textContent = "(" + closed.length + ")";
+    var cw = document.getElementById("scalpClosedWrap");
+    if (!closed.length) {
+      cw.innerHTML = '<div class="flash">No closed scalp trades yet.</div>';
+    } else {
+      var h2 = "<table><thead><tr><th>Setup</th><th>Side</th><th>Entry</th><th>Exit</th><th>Reason</th><th>Pts</th><th>P&L ₹</th></tr></thead><tbody>";
+      closed.forEach(function (t) {
+        var win = Number(t.pnl) > 0;
+        h2 += '<tr class="' + (win ? "row-win" : "row-loss") + '"><td><strong>' + esc(t.setup) + "</strong></td>" +
+          "<td>" + esc(t.side) + "</td><td>" + esc(t.entry_date) + "</td><td>" + esc(t.exit_date || "") + "</td>" +
+          "<td>" + esc(t.exit_reason || "—") + "</td>" +
+          '<td class="' + (Number(t.pnl_pts) > 0 ? "ok" : "bad") + '">' + (t.pnl_pts != null ? t.pnl_pts + " pts" : "—") + "</td>" +
+          '<td class="' + (win ? "ok" : "bad") + '">' + fmt(Number(t.pnl)) + "</td></tr>";
+      });
+      cw.innerHTML = h2 + "</tbody></table>";
+    }
+  }
+  function load() {
+    fetch(base + "/data/scalp_picks.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) render(d); })
+      .catch(function () {});
+  }
+  load();
+  setInterval(load, 60000);
 })();
 </script>
 

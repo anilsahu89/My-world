@@ -183,6 +183,18 @@ def btc_tick() -> None:
         print(f"btc theta tick failed: {e}", flush=True)
 
 
+def scalp_tick() -> None:
+    """NIFTY Scalp Monitor — First-3 + VWAP-bounce paper desk with the
+    adaptive decision tree (cloud_scalp.py). Isolated: its failure never
+    skips the other desks or the commit."""
+    try:
+        import cloud_scalp
+        cloud_scalp.tick()
+    except Exception as e:
+        import traceback
+        print(f"scalp tick failed: {e}\n{traceback.format_exc()[-400:]}", flush=True)
+
+
 def nse_tick(gc_too: bool = True) -> None:
     state = cp.read_json(cp.NSE_STATE, cp.empty_state())
     snap = cp.update_nse(state)
@@ -327,7 +339,8 @@ def run_day() -> None:
         # froze the board for two days (13-15 Oct)
         errs = []
         for name, step in (("nse", nse_tick), ("theta", theta_tick),
-                           ("mill", mill_tick), ("btc", btc_tick)):
+                           ("mill", mill_tick), ("btc", btc_tick),
+                           ("scalp", scalp_tick)):
             try:
                 step()
             except Exception as e:

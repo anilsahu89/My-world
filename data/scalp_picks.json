@@ -1,0 +1,10 @@
+{
+ "updated_at": "07 Nov 2026 (setup deployed) · first live tick: Monday 09:16 IST",
+ "desk": "NIFTY Scalp Monitor",
+ "rule": "First-3 Morning Drive + VWAP Station Bounce (15-min bars, ATM option paper · premium = delta 0.5 × 75 × 2 lots approx) · entry 09:50-14:15 · targets 1.5R/2R · tactical VWAP exit · re-entry + once-daily reversal (half size) · 2-loss day stop · square-off 15:20",
+ "note": "Rules backtested 101 sessions (Jun-Nov): First-3 80% WR +223 pts; VWAP bounce 34.9% WR +149 pts. Decisions log shows every adaptive call the monitor makes live.",
+ "decisions": [],
+ "open": [],
+ "closed": [],
+ "summary": {"open": 0, "closed": 0, "wins": 0, "losses": 0, "win_rate": 0, "pnl": 0}
+}
