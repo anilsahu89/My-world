@@ -1306,6 +1306,9 @@ def commit_state() -> None:
              "data/paper_future_arb.json",
              "data/chartink_picks.json",
              "data/cloud_chartlink_state.json",
+             "data/scalp_picks.json",
+             "data/cloud_scalp_state.json",
+             "data/future_arb_shadow.json",
              "data/relay_status.json",
              "scanners/papertrades/future_arbitaage_open_*.csv"]
     for f in files:

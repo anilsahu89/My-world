@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "next_id": 2,
+ "trades": [],
+ "decisions": [
+  {
+   "time": "09 Nov 21:25",
+   "decision": "ENTRY",
+   "detail": "BTC Donchian breakout: LONG @ 75421 (notional \u20b91L \u2248 0.014732 BTC)"
+  }
+ ],
+ "day": "2026-11-09",
+ "day_losses": 0,
+ "done_date": "",
+ "btc": {
+  "position": {
+   "side": "LONG",
+   "entry": 75420.61,
+   "entry_ts": "2026-11-09 21:00:00+05:30",
+   "qty_btc": 0.014732,
+   "notional_inr": 100000.0,
+   "status": "OPEN",
+   "opened": "2026-11-09"
+  },
+  "trades": [],
+  "decisions": [],
+  "peak": 75420.61,
+  "trough": null
+ }
+}

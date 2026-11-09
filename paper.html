@@ -1275,6 +1275,19 @@ main h3 .collapse-btn {
 
   <h3 style="margin-top:2rem">🔴 Closed Trades <span class="muted" id="scalpClosedCount">(0)</span></h3>
   <div class="table-wrap" id="scalpClosedWrap"><div class="flash">No closed scalp trades yet.</div></div>
+
+  <h3 style="margin-top:2rem;color:#f7931a">₿ BTC — Donchian + 1h trend <span class="muted" style="font-size:0.75rem">— BTC-native rules (NOT a NIFTY port) · 1-yr backtest PF 1.46, 844 trades, +131% net · ₹1L notional/trade · chandelier 0.8% · target 2% · stop 0.7% · 24/7 bars, managed on relay ticks</span></h3>
+  <div class="summary-cards">
+    <div class="sum-card"><span class="sum-label">BTC Open</span><span class="sum-value" style="color:var(--green)" id="btcOpen">—</span></div>
+    <div class="sum-card"><span class="sum-label">BTC Closed</span><span class="sum-value" id="btcClosed">—</span></div>
+    <div class="sum-card"><span class="sum-label">BTC Win Rate</span><span class="sum-value" id="btcWin">—</span></div>
+    <div class="sum-card"><span class="sum-label">BTC Paper P&amp;L ₹</span><span class="sum-value" id="btcPnl">—</span></div>
+  </div>
+  <div class="table-wrap" id="btcPositionWrap"><div class="flash">No open BTC position.</div></div>
+  <h3 style="margin-top:1rem">₿ BTC Closed Trades <span class="muted" id="btcClosedCount">(0)</span></h3>
+  <div class="table-wrap" id="btcClosedWrap"><div class="flash">No closed BTC trades yet.</div></div>
+  <h3 style="margin-top:1rem">₿ BTC Decision Log</h3>
+  <div class="table-wrap" id="btcDecisionsWrap"><div class="flash">No BTC decisions yet.</div></div>
 </section>
 
 <!-- ===================== MANUAL: SEARCH & TAKE + BOOK ===================== -->
@@ -2876,6 +2889,56 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
           "<td>" + esc(t.side) + "</td><td>" + t.entry_idx + "</td><td>" + t.stop_idx + "</td><td>" + t.target_idx + "</td><td>" + t.lots + "</td></tr>";
       });
       ow.innerHTML = h + "</tbody></table>";
+    }
+
+    // BTC category
+    var bt = d.btc || {};
+    var bs = bt.summary || {};
+    set("btcOpen", bs.open != null ? bs.open : "—");
+    set("btcClosed", bs.closed != null ? bs.closed : "—");
+    set("btcWin", bs.closed ? bs.win_rate + "% (" + bs.wins + "W/" + bs.losses + "L)" : "—");
+    var bp = document.getElementById("btcPnl");
+    bp.textContent = fmt(bs.pnl);
+    bp.className = "sum-value " + ((bs.pnl || 0) >= 0 ? "pos" : "neg");
+    var bpw = document.getElementById("btcPositionWrap");
+    if (bt.position) {
+      var q = bt.position;
+      bpw.innerHTML = "<table><tbody><tr><td><strong>" + esc(q.side) + "</strong></td>" +
+        "<td>entry $" + esc(q.entry) + "</td><td>" + esc(q.qty_btc) + " BTC</td>" +
+        "<td>notional ₹" + Number(q.notional_inr).toLocaleString("en-IN") + "</td>" +
+        "<td>since " + esc(String(q.entry_ts || "").slice(0, 16)) + " UTC+5:30</td></tr></tbody></table>";
+    } else {
+      bpw.innerHTML = '<div class="flash">No open BTC position.</div>';
+    }
+    var bc = bt.closed || [];
+    document.getElementById("btcClosedCount").textContent = "(" + bc.length + ")";
+    var bcw = document.getElementById("btcClosedWrap");
+    if (!bc.length) {
+      bcw.innerHTML = '<div class="flash">No closed BTC trades yet.</div>';
+    } else {
+      var bh = "<table><thead><tr><th>Side</th><th>Entry</th><th>Exit</th><th>Reason</th><th>P&L %</th><th>P&L ₹</th></tr></thead><tbody>";
+      bc.slice().reverse().forEach(function (t) {
+        var win = Number(t.pnl) > 0;
+        bh += '<tr class="' + (win ? "row-win" : "row-loss") + '"><td><strong>' + esc(t.side) + "</strong></td>" +
+          "<td>$" + esc(t.entry) + "</td><td>$" + esc(t.exit_px) + "</td>" +
+          "<td>" + esc(t.exit_reason || "—") + "</td>" +
+          '<td class="' + (Number(t.pnl_pct) > 0 ? "ok" : "bad") + '">' + (t.pnl_pct != null ? t.pnl_pct + "%" : "—") + "</td>" +
+          '<td class="' + (win ? "ok" : "bad") + '">' + fmt(Number(t.pnl)) + "</td></tr>";
+      });
+      bcw.innerHTML = bh + "</tbody></table>";
+    }
+    var bd = bt.decisions || [];
+    var bdw = document.getElementById("btcDecisionsWrap");
+    if (!bd.length) {
+      bdw.innerHTML = '<div class="flash">No BTC decisions yet.</div>';
+    } else {
+      var bhd = "<table><thead><tr><th>Time</th><th>Decision</th><th>Detail</th></tr></thead><tbody>";
+      bd.slice().reverse().forEach(function (x) {
+        var c = /ENTRY/.test(x.decision) ? "badge-green" : (/EXIT/.test(x.decision) ? "badge-red" : "badge-grey");
+        bhd += '<tr><td>' + esc(x.time) + '</td><td><span class="badge ' + c + '">' + esc(x.decision) + '</span></td>' +
+               '<td style="font-size:0.8rem">' + esc(x.detail) + '</td></tr>';
+      });
+      bdw.innerHTML = bhd + "</tbody></table>";
     }
 
     var closed = d.closed || [];
