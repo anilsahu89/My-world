@@ -1,5 +1,5 @@
 {
- "updated_at": "10 Nov 2026 09:19:46 IST",
+ "updated_at": "10 Nov 2026 09:34:51 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -22,7 +22,26 @@
  "vol_blocked": {},
  "trend_blocked": {},
  "vwap_blocked": {},
- "vol_audit": {},
+ "vol_audit": {
+  "ol": {},
+  "oh": {
+   "AMBER": 17.2,
+   "RRKABEL": 16.99,
+   "BLUEDART": 12.54,
+   "EMCURE": 9.14,
+   "ESCORTS": 8.99,
+   "STARHEALTH": 7.84,
+   "HONAUT": 7.43,
+   "INDUSTOWER": 7.28,
+   "ITC": 7.12,
+   "BHARTIHEXA": 7.04,
+   "BERGEPAINT": 6.95,
+   "UTIAMC": 6.32,
+   "HCLTECH": 6.16,
+   "ENDURANCE": 5.98,
+   "GODFRYPHLP": 5.41
+  }
+ },
  "engine_errors": [],
  "summary": {
   "open_count": 0,
