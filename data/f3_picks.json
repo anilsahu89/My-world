@@ -1,41 +1,7 @@
 {
- "date": "2026-11-06",
- "scanned_at": "15:34:19",
+ "date": "2026-11-10",
+ "scanned_at": "12:21:52",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
- "signals": [
-  {
-   "symbol": "STARHEALTH",
-   "drive_pct": 2.6,
-   "qty": 4,
-   "entry": 556.25,
-   "sl": 534.22,
-   "status": "CLOSED",
-   "exit": 568.95,
-   "reason": "EOD",
-   "pnl": 50.8
-  },
-  {
-   "symbol": "ABB",
-   "drive_pct": 2.1,
-   "qty": 1,
-   "entry": 6647.0,
-   "sl": 6401.33,
-   "status": "CLOSED",
-   "exit": 6745.0,
-   "reason": "EOD",
-   "pnl": 98.0
-  },
-  {
-   "symbol": "HAVELLS",
-   "drive_pct": 1.7,
-   "qty": 2,
-   "entry": 1084.6,
-   "sl": 1043.36,
-   "status": "CLOSED",
-   "exit": 1122.8,
-   "reason": "EOD",
-   "pnl": 76.4
-  }
- ]
+ "signals": []
 }
