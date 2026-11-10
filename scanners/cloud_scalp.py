@@ -353,20 +353,37 @@ BTC_CFG = {"notional_inr": 100_000.0, "usdinr": 90.0,
 
 def fetch_btc_bars() -> pd.DataFrame | None:
     """Last 2000 completed 15-min Binance BTCUSDT candles (~20 days) — enough
-    for Donchian(24) and a warm 1h EMA50. The still-forming candle is dropped."""
+    for Donchian(24) and a warm 1h EMA50. The still-forming candle is dropped.
+    Fallback: yfinance BTC-USD 15m (Binance geo-blocks GitHub Actions runner
+    IPs with HTTP 451 — 10 Nov: that silently starved btc_evaluate for ~15h
+    and left a triggered chandelier stop unexecuted)."""
     import urllib.request
+    rows = []
     try:
         with urllib.request.urlopen(BTC_URL, timeout=30) as r:
             kl = json.loads(r.read())
+        for k in kl[:-1]:
+            ts = datetime.fromtimestamp(k[0] / 1000, IST)
+            rows.append({"ts": ts, "open": float(k[1]), "high": float(k[2]),
+                         "low": float(k[3]), "close": float(k[4])})
     except Exception:
-        return None
-    rows = []
-    for k in kl[:-1]:
-        ts = datetime.fromtimestamp(k[0] / 1000, IST)
-        rows.append({"ts": ts, "open": float(k[1]), "high": float(k[2]),
-                     "low": float(k[3]), "close": float(k[4])})
+        rows = []
+    if len(rows) < 60:
+        try:
+            import yfinance as yf
+            raw = yf.Ticker("BTC-USD").history(period="20d", interval="15m")
+            raw = raw.dropna(subset=["Close"])
+            for ts, b in raw.iloc[:-1].iterrows():   # drop forming candle
+                rows.append({"ts": ts.tz_convert(IST),
+                             "open": float(b["Open"]), "high": float(b["High"]),
+                             "low": float(b["Low"]), "close": float(b["Close"])})
+        except Exception:
+            pass
     df = pd.DataFrame(rows)
-    return df if len(df) >= 60 else None
+    if len(df) >= 60:
+        df = df.drop_duplicates(subset="ts").sort_values("ts").reset_index(drop=True)
+        return df
+    return None
 
 
 def btc_evaluate(state: dict) -> dict:
