@@ -1,6 +1,6 @@
 {
- "date": "2026-11-09",
- "updated_at": "09 Nov 2026 21:57:22 IST",
+ "date": "2026-11-10",
+ "updated_at": "10 Nov 2026 17:27:39 IST",
  "nifty_gate": {
   "hm_buy_state": false,
   "above_sma20": true,
@@ -9,22 +9,22 @@
  "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM buy state) · 52-week closing high (vol ≥1.5x) · BB Blast squeeze on daily/weekly/monthly (NIFTY > SMA20) · 50-day return must beat NIFTY (RS-50 gate) · NIFTY-500 · ₹5cr turnover · entries capped 2/day by the desk",
  "signals": [
   {
-   "sym": "DRREDDY",
-   "setup": "QM-HM",
-   "rsi": 83.8,
-   "note": "RSI9 84 V-turn above rising SMA20",
-   "close": 1385.0,
+   "sym": "AUROPHARMA",
+   "setup": "QM-BBw",
+   "rsi": 64.6,
+   "note": "BB squeeze rank 15% blast on w bars",
+   "close": 1855.3,
    "date": "2026-11-09",
-   "rs50": 1.172
+   "rs50": 1.143
   },
   {
-   "sym": "WELSPUNLIV",
-   "setup": "QM-HM",
-   "rsi": 70.6,
-   "note": "RSI9 71 V-turn above rising SMA20",
-   "close": 252.21,
+   "sym": "ASAHIINDIA",
+   "setup": "QM-BBw",
+   "rsi": 64.8,
+   "note": "BB squeeze rank 9% blast on w bars",
+   "close": 1055.8,
    "date": "2026-11-09",
-   "rs50": 1.323
+   "rs50": 1.11
   },
   {
    "sym": "DIVISLAB",
@@ -47,11 +47,11 @@
   {
    "sym": "GLENMARK",
    "setup": "QM-52W",
-   "rsi": 89.9,
-   "note": "new 52w closing high 3302.4, vol 5.2x",
-   "close": 3302.4,
+   "rsi": 88.1,
+   "note": "new 52w closing high 2671.1, vol 2.0x",
+   "close": 2671.1,
    "date": "2026-11-09",
-   "rs50": 1.138
+   "rs50": 1.095
   },
   {
    "sym": "MANKIND",
@@ -70,6 +70,33 @@
    "close": 2454.0,
    "date": "2026-11-09",
    "rs50": 1.3
+  },
+  {
+   "sym": "AUROPHARMA",
+   "setup": "QM-52W",
+   "rsi": 100.0,
+   "note": "new 52w closing high 1855.3, vol 2.1x",
+   "close": 1855.3,
+   "date": "2026-11-09",
+   "rs50": 1.143
+  },
+  {
+   "sym": "SAILIFE",
+   "setup": "QM-52W",
+   "rsi": 93.3,
+   "note": "new 52w closing high 1836.8, vol 6.3x",
+   "close": 1836.8,
+   "date": "2026-11-09",
+   "rs50": 1.257
+  },
+  {
+   "sym": "ICICIBANK",
+   "setup": "QM-52W",
+   "rsi": 91.6,
+   "note": "new 52w closing high 1589.0, vol 1.7x",
+   "close": 1589.0,
+   "date": "2026-11-09",
+   "rs50": 1.111
   },
   {
    "sym": "ANTHEM",
