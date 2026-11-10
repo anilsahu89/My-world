@@ -845,11 +845,11 @@
    "entry_time": "05:43:48",
    "entry_price": 75222.29,
    "sl_price": 74828.08,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN"
+   "exit_time": "07:13:57",
+   "exit_price": 74828.08,
+   "reason": "SL",
+   "pnl": -0.32,
+   "status": "CLOSED"
   }
  ],
  "seeded": true
