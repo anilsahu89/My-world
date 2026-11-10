@@ -1,17 +1,44 @@
 {
  "version": 1,
- "next_id": 2,
- "trades": [],
- "decisions": [
+ "next_id": 3,
+ "trades": [
   {
-   "time": "09 Nov 21:25",
-   "decision": "ENTRY",
-   "detail": "BTC Donchian breakout: LONG @ 75421 (notional \u20b91L \u2248 0.014732 BTC)"
+   "id": 2,
+   "setup": "FIRST3",
+   "side": "CE",
+   "symbol": "NIFTY ATM CE",
+   "entry_date": "2026-11-10",
+   "entry_bar": 10,
+   "entry_idx": 24995.85,
+   "stop_idx": 24851.85,
+   "target_idx": 25211.85,
+   "driver_low": 24851.849609375,
+   "r_multiple": 0.0,
+   "lots": 2,
+   "status": "CLOSED",
+   "structure": "trend-continuation",
+   "exit_bar": 16,
+   "exit_reason": "SL",
+   "exit_idx": 24851.85,
+   "pnl_pts": -144.0,
+   "pnl": -10800.0
   }
  ],
- "day": "2026-11-09",
- "day_losses": 0,
- "done_date": "2026-11-06",
+ "decisions": [
+  {
+   "time": "10:27:04",
+   "decision": "ENTRY",
+   "detail": "FIRST3 stack @ 24995.8 SL 24851.8 TGT 25211.8"
+  },
+  {
+   "time": "10:27:04",
+   "decision": "EXIT",
+   "detail": "NIFTY ATM CE SL @ 24851.8 -> -144.0 pts"
+  }
+ ],
+ "day": "2026-11-10",
+ "day_losses": 1,
+ "done_date": "2026-11-10",
  "btc": {
   "position": {
    "side": "LONG",
