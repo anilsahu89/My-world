@@ -1,6 +1,6 @@
 {
- "date": "2026-11-04",
- "updated_at": "04 Nov 2026 17:27:27 IST",
+ "date": "2026-11-10",
+ "updated_at": "10 Nov 2026 17:27:40 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
