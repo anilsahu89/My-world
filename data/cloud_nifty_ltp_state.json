@@ -1,5 +1,5 @@
 {
- "done_date": "2026-11-09",
+ "done_date": "2026-11-11",
  "trades": [
   {
    "id": 2,
@@ -200,7 +200,7 @@
    "id": 10,
    "side": "call",
    "entry_date": "2026-11-09",
-   "days_seen": 1,
+   "days_seen": 2,
    "status": "OPEN",
    "spot_entry": 25016.399999999998,
    "iv_near_entry": 0.168,
@@ -211,7 +211,7 @@
     "strike": 26250.0,
     "qty": 225,
     "entry": 138.5,
-    "mark": 138.5,
+    "mark": 187.95,
     "exit": null,
     "exit_date": null
    },
@@ -221,7 +221,7 @@
      "strike": 25300.0,
      "qty": 225,
      "entry": 136.45,
-     "mark": 136.45,
+     "mark": 183.7,
      "exit": null,
      "exit_date": null
     }
@@ -236,6 +236,10 @@
   [
    "2026-11-09",
    25016.399999999998
+  ],
+  [
+   "2026-11-11",
+   25195.65
   ]
  ]
 }

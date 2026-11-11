@@ -1,5 +1,5 @@
 {
- "updated_at": "11 Nov 2026 18:48 IST",
+ "updated_at": "11 Nov 2026 19:04 IST",
  "desk": "Future Arbitrage",
  "status": "RUNNING",
  "preset": "r1",
@@ -9,21 +9,106 @@
  },
  "situation": [
   {
-   "symbol": "VMM",
-   "spot": 92.62,
-   "current": 91.61,
-   "next": 91.23,
-   "basis": 1.01,
-   "spread": 0.38,
-   "basis_pct": 1.09,
-   "spread_value": 1843,
-   "lot": 4850,
-   "vol_curr": 1271,
-   "vol_next": 195,
-   "dte": 14,
+   "symbol": "PRESTIGE",
+   "spot": 1625.0,
+   "current": 1592.4,
+   "next": 1586.8,
+   "basis": 32.6,
+   "spread": 5.6,
+   "basis_pct": 2.01,
+   "spread_value": 2520,
+   "lot": 450,
+   "vol_curr": 1336,
+   "vol_next": 53,
+   "dte": 12,
    "preset": "R1 relaxed",
    "preset_pass": false,
-   "verdict": "rejected: basis<10 (1.0); nextvol<250 (195)"
+   "verdict": "rejected: nextvol<250 (53)"
+  },
+  {
+   "symbol": "VMM",
+   "spot": 96.79,
+   "current": 94.97,
+   "next": 94.46,
+   "basis": 1.82,
+   "spread": 0.51,
+   "basis_pct": 1.88,
+   "spread_value": 2474,
+   "lot": 4850,
+   "vol_curr": 2326,
+   "vol_next": 883,
+   "dte": 12,
+   "preset": "R1 relaxed",
+   "preset_pass": false,
+   "verdict": "rejected: basis<10 (1.8)"
+  },
+  {
+   "symbol": "COCHINSHIP",
+   "spot": 1202.0,
+   "current": 1185.5,
+   "next": 1181.0,
+   "basis": 16.5,
+   "spread": 4.5,
+   "basis_pct": 1.37,
+   "spread_value": 1800,
+   "lot": 400,
+   "vol_curr": 14324,
+   "vol_next": 3716,
+   "dte": 12,
+   "preset": "R1 relaxed",
+   "preset_pass": false,
+   "verdict": "rejected: "
+  },
+  {
+   "symbol": "NYKAA",
+   "spot": 356.8,
+   "current": 352.9,
+   "next": 351.75,
+   "basis": 3.9,
+   "spread": 1.15,
+   "basis_pct": 1.09,
+   "spread_value": 3594,
+   "lot": 3125,
+   "vol_curr": 2253,
+   "vol_next": 290,
+   "dte": 12,
+   "preset": "R1 relaxed",
+   "preset_pass": false,
+   "verdict": "rejected: basis<10 (3.9)"
+  },
+  {
+   "symbol": "PHOENIXLTD",
+   "spot": 2171.0,
+   "current": 2149.8,
+   "next": 2149.1,
+   "basis": 21.2,
+   "spread": 0.7,
+   "basis_pct": 0.98,
+   "spread_value": 245,
+   "lot": 350,
+   "vol_curr": 2364,
+   "vol_next": 391,
+   "dte": 12,
+   "preset": "R1 relaxed",
+   "preset_pass": false,
+   "verdict": "rejected: basis<1%"
+  },
+  {
+   "symbol": "DIXON",
+   "spot": 12896.0,
+   "current": 12795.0,
+   "next": 12773.0,
+   "basis": 101.0,
+   "spread": 22.0,
+   "basis_pct": 0.78,
+   "spread_value": 1100,
+   "lot": 50,
+   "vol_curr": 4444,
+   "vol_next": 1054,
+   "dte": 12,
+   "preset": "R1 relaxed",
+   "preset_pass": false,
+   "verdict": "rejected: basis<1%"
   }
  ],
  "open": [],
@@ -47,20 +132,39 @@
  },
  "shadow": {
   "rule": "R2 shadow (exploratory): basis>=8 & >=0.4% of spot, spread<=0.8x basis, next-vol>=100, 5-21d to expiry \u00b7 same exits as the real book \u00b7 1 lot \u00b7 max 3 open \u00b7 tracked for rule learning only \u2014 not in the pilot equity",
-  "entered_today": [],
+  "entered_today": [
+   "DIXON",
+   "COCHINSHIP"
+  ],
   "open": [
    {
     "symbol": "DATAPATTNS",
     "entry_date": "2026-11-05",
     "basis": 71.1,
     "spread": 10.6,
-    "last_spread": 37.0,
+    "last_spread": 42.5,
+    "dte_exp": "2026-11-23"
+   },
+   {
+    "symbol": "DIXON",
+    "entry_date": "2026-11-11",
+    "basis": 101.0,
+    "spread": 22.0,
+    "last_spread": null,
+    "dte_exp": "2026-11-23"
+   },
+   {
+    "symbol": "COCHINSHIP",
+    "entry_date": "2026-11-11",
+    "basis": 16.5,
+    "spread": 4.5,
+    "last_spread": null,
     "dte_exp": "2026-11-23"
    }
   ],
   "closed": [],
   "summary": {
-   "open": 1,
+   "open": 3,
    "closed": 0,
    "wins": 0,
    "losses": 0,
@@ -68,5 +172,5 @@
    "pnl": 0
   }
  },
- "bhav_date": "2026-11-09"
+ "bhav_date": "2026-11-11"
 }
