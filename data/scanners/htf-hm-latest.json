@@ -1,121 +1,20 @@
 {
  "date": "2026-11-11",
- "updated_at": "11 Nov 2026 11:03:12 IST",
+ "updated_at": "11 Nov 2026 11:31:59 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 3,
-  "invested": 25654.65,
+  "open": 0,
+  "invested": 0,
   "realized": 782.35,
   "wins": 3,
   "losses": 0,
   "win_rate": 100.0
  },
- "signals": [
-  {
-   "symbol": "HYUNDAI",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY-MOMENTUM",
-   "setup": "IHM-BUY"
-  },
-  {
-   "symbol": "IOC",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY-MOMENTUM",
-   "setup": "IHM-BUY"
-  },
-  {
-   "symbol": "MCX",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY-MOMENTUM",
-   "setup": "IHM-BUY"
-  }
- ],
+ "signals": [],
  "monthly_watchlist": [],
- "open": [
-  {
-   "id": 4,
-   "symbol": "HYUNDAI",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-11",
-   "entry_date": "2026-11-11",
-   "entry_time": "11:02",
-   "entry": 2136.0,
-   "qty": 4,
-   "invested": 8544.0,
-   "rsi_entry": 58.8,
-   "sl": 2103.88,
-   "tgt": 2184.17,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY-MOMENTUM",
-   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 2136.0,
-   "live_pnl": 0.0
-  },
-  {
-   "id": 5,
-   "symbol": "IOC",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-11",
-   "entry_date": "2026-11-11",
-   "entry_time": "11:02",
-   "entry": 148.15,
-   "qty": 67,
-   "invested": 9926.05,
-   "rsi_entry": 77.4,
-   "sl": 146.56,
-   "tgt": 150.54,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY-MOMENTUM",
-   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 148.15,
-   "live_pnl": 0.0
-  },
-  {
-   "id": 6,
-   "symbol": "MCX",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-11",
-   "entry_date": "2026-11-11",
-   "entry_time": "11:02",
-   "entry": 3592.3,
-   "qty": 2,
-   "invested": 7184.6,
-   "rsi_entry": 73.0,
-   "sl": 3526.53,
-   "tgt": 3690.95,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY-MOMENTUM",
-   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 3592.3,
-   "live_pnl": 0.0
-  }
- ],
+ "open": [],
  "closed": [
   {
    "id": 1,
@@ -196,5 +95,5 @@
    "live_pnl": 404.6
   }
  ],
- "entered_this_run": 3
+ "entered_this_run": 0
 }
