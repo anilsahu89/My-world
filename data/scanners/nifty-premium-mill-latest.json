@@ -1,7 +1,7 @@
 {
   "strategy": "nifty-premium-mill",
-  "scanned_at": "2026-11-10 10:27:02 IST",
-  "scan_date": "2026-11-10",
+  "scanned_at": "2026-11-11 10:26:35 IST",
+  "scan_date": "2026-11-11",
   "trades": [
     {
       "entry_date": "2026-10-12",
@@ -354,12 +354,38 @@
       "long_premium": "105.5",
       "net_credit": "30.65",
       "sma": "23034.9",
-      "status": "OPEN",
-      "exit_date": "",
-      "exit_reason": "",
+      "status": "CLOSED",
+      "exit_date": "2026-11-11",
+      "exit_reason": "profit_target",
       "mark_credit": "30.65",
       "live_pnl": "0.0",
       "mark_date": "2026-11-10",
+      "exit_short_prem": "46.8",
+      "exit_long_prem": "35.5",
+      "pnl": "1451.25",
+      "holding_days": "1",
+      "spot_exit": "25353.0",
+      "notes": ""
+    },
+    {
+      "entry_date": "2026-11-11",
+      "direction": "BULL_PUT",
+      "opt_type": "PE",
+      "short_strike": "25100.0",
+      "long_strike": "25000.0",
+      "expiry": "2026-11-17",
+      "spot_entry": "25353.0",
+      "vix_entry": "17.6",
+      "short_premium": "121.0",
+      "long_premium": "95.4",
+      "net_credit": "25.6",
+      "sma": "23159.3",
+      "status": "OPEN",
+      "exit_date": "",
+      "exit_reason": "",
+      "mark_credit": "25.6",
+      "live_pnl": "0.0",
+      "mark_date": "2026-11-11",
       "exit_short_prem": "",
       "exit_long_prem": "",
       "pnl": "",
@@ -372,7 +398,7 @@
   "status": "new_signal",
   "report": {
     "open_position": "",
-    "net_pnl": "13 trades | WR 77% | Net P&L \u20b92,190"
+    "net_pnl": "14 trades | WR 79% | Net P&L \u20b93,641"
   },
-  "text_report": "==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL UPDATE \u2014 Tue, 10 Nov 2026\n==========================================================================================\n\n  Checking open positions...\n  \u2705 EXIT: BULL_PUT 24400.0/24300.0 \u2192 expiry | P&L \u20b91,372\n\n  Checking for new signal...\n  \u2705 SIGNAL: BULL_PUT 24750.0/24650.0 PE | Credit \u20b930.7 | VIX 17.4\n\n  \u2705 ENTERED: BULL_PUT\n     Sell 24750.0 PE @ \u20b9136.15\n     Buy  24650.0 PE @ \u20b9105.5\n     Net credit: \u20b930.65 | Expiry: 2026-11-17\n\n==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL \u2014 PAPER TRADES\n  Rules: Tuesday entry | VIX 10.0-18.0 | 250OTM | 100pt spread | 50% target\n==========================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit Expiry         VIX     Spot\n  -------------------------------------------------------------------------------------\n  2026-11-10   BULL_PUT   24750.0 24650.0 PE   \u20b9  30.6 2026-11-17   17.4  25044.7\n\n  \ud83d\udd34 CLOSED TRADES (13):\n  Entry        Exit         Dir        Reason            Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-10-12   2026-10-13   BEAR_CALL  expiry           \u20b9   3.8 \u20b9     281    1d \u2705\n  2026-10-13   2026-10-16   BEAR_CALL  sl_strike_hit    \u20b9  29.8 \u20b9   -3458    3d \u274c\n  2026-10-16   2026-10-19   BEAR_CALL  expiry           \u20b9   9.0 \u20b9     675    3d \u2705\n  2026-10-19   2026-10-22   BULL_PUT   sl_strike_hit    \u20b9  20.9 \u20b9   -3548    3d \u274c\n  2026-10-22   2026-10-26   BEAR_CALL  profit_target    \u20b9  23.4 \u20b9    1099    4d \u2705\n  2026-10-26   2026-10-27   BEAR_CALL  expiry           \u20b9  18.4 \u20b9    1384    1d \u2705\n  2026-10-27   2026-10-30   BEAR_CALL  sl_strike_hit    \u20b9  35.7 \u20b9    -821    3d \u274c\n  2026-10-30   2026-11-02   BULL_PUT   profit_target    \u20b9  19.6 \u20b9    1309    3d \u2705\n  2026-11-02   2026-11-03   BULL_PUT   expiry           \u20b9   9.7 \u20b9     728    1d \u2705\n  2026-11-03   2026-11-04   BULL_PUT   profit_target    \u20b9  23.1 \u20b9     892    1d \u2705\n  2026-11-04   2026-11-05   BULL_PUT   profit_target    \u20b9  22.1 \u20b9    1451    1d \u2705\n  2026-11-05   2026-11-06   BULL_PUT   profit_target    \u20b9  16.2 \u20b9     825    1d \u2705\n  2026-11-06   2026-11-10   BULL_PUT   expiry           \u20b9  18.3 \u20b9    1372    4d \u2705\n\n  \ud83d\udcc8 SUMMARY: 13 trades | WR 77% | Net P&L \u20b92,190"
+  "text_report": "==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL UPDATE \u2014 Wed, 11 Nov 2026\n==========================================================================================\n\n  Checking open positions...\n  \u2705 EXIT: BULL_PUT 24750.0/24650.0 \u2192 profit_target | P&L \u20b91,451\n\n  Checking for new signal...\n  \u2705 SIGNAL: BULL_PUT 25100.0/25000.0 PE | Credit \u20b925.6 | VIX 17.6\n\n  \u2705 ENTERED: BULL_PUT\n     Sell 25100.0 PE @ \u20b9121.0\n     Buy  25000.0 PE @ \u20b995.4\n     Net credit: \u20b925.6 | Expiry: 2026-11-17\n\n==========================================================================================\n  \ud83d\udcca NIFTY PREMIUM MILL \u2014 PAPER TRADES\n  Rules: Tuesday entry | VIX 10.0-18.0 | 250OTM | 100pt spread | 50% target\n==========================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit Expiry         VIX     Spot\n  -------------------------------------------------------------------------------------\n  2026-11-11   BULL_PUT   25100.0 25000.0 PE   \u20b9  25.6 2026-11-17   17.6  25353.0\n\n  \ud83d\udd34 CLOSED TRADES (14):\n  Entry        Exit         Dir        Reason            Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-10-12   2026-10-13   BEAR_CALL  expiry           \u20b9   3.8 \u20b9     281    1d \u2705\n  2026-10-13   2026-10-16   BEAR_CALL  sl_strike_hit    \u20b9  29.8 \u20b9   -3458    3d \u274c\n  2026-10-16   2026-10-19   BEAR_CALL  expiry           \u20b9   9.0 \u20b9     675    3d \u2705\n  2026-10-19   2026-10-22   BULL_PUT   sl_strike_hit    \u20b9  20.9 \u20b9   -3548    3d \u274c\n  2026-10-22   2026-10-26   BEAR_CALL  profit_target    \u20b9  23.4 \u20b9    1099    4d \u2705\n  2026-10-26   2026-10-27   BEAR_CALL  expiry           \u20b9  18.4 \u20b9    1384    1d \u2705\n  2026-10-27   2026-10-30   BEAR_CALL  sl_strike_hit    \u20b9  35.7 \u20b9    -821    3d \u274c\n  2026-10-30   2026-11-02   BULL_PUT   profit_target    \u20b9  19.6 \u20b9    1309    3d \u2705\n  2026-11-02   2026-11-03   BULL_PUT   expiry           \u20b9   9.7 \u20b9     728    1d \u2705\n  2026-11-03   2026-11-04   BULL_PUT   profit_target    \u20b9  23.1 \u20b9     892    1d \u2705\n  2026-11-04   2026-11-05   BULL_PUT   profit_target    \u20b9  22.1 \u20b9    1451    1d \u2705\n  2026-11-05   2026-11-06   BULL_PUT   profit_target    \u20b9  16.2 \u20b9     825    1d \u2705\n  2026-11-06   2026-11-10   BULL_PUT   expiry           \u20b9  18.3 \u20b9    1372    4d \u2705\n  2026-11-10   2026-11-11   BULL_PUT   profit_target    \u20b9  30.6 \u20b9    1451    1d \u2705\n\n  \ud83d\udcc8 SUMMARY: 14 trades | WR 79% | Net P&L \u20b93,641"
 }
