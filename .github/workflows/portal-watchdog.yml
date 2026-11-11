@@ -15,6 +15,10 @@ on:
         required: false
         default: ""
 
+concurrency:
+  group: portal-watchdog
+  cancel-in-progress: false
+
 jobs:
   watchdog:
     runs-on: ubuntu-latest
@@ -28,7 +32,7 @@ jobs:
           python-version: "3.12"
       - name: Dependencies
         run: |
-          pip install -q yfinance pandas requests pytz
+          pip install -q yfinance pandas requests pytz pyotp
           pip install -q SmartAPI || pip install -q smartapi-python || true
       - name: Run watchdog
         env:
@@ -65,6 +69,12 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "chore: portal watchdog $(date -u +%Y-%m-%dT%H:%MZ)"
-            git pull --rebase --autostash origin main || true
-            git push origin HEAD:main || git push
+            # retry loop: a lost rebase/push race used to leave the checkout
+            # mid-rebase and the health file silently unpublished
+            for i in 1 2 3 4; do
+              git rebase --abort >/dev/null 2>&1 || true
+              git pull --rebase -X theirs origin main && git push origin HEAD:main && exit 0
+              sleep $((i * 4))
+            done
+            echo "::warning::watchdog push failed after 4 attempts"
           fi

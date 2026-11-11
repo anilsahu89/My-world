@@ -59,10 +59,15 @@ jobs:
             # Weekday-only desks
             if [ "$DOW" -le 5 ]; then
               NSE_WIN=0
+              NSE_GAP=780
               if [ "$HHMM" -ge 916 ] && [ "$HHMM" -le 951 ]; then NSE_WIN=1; fi
               if [ "$HHMM" -ge 1034 ] && [ "$HHMM" -le 1453 ]; then NSE_WIN=1; fi
               if [ "$HHMM" -ge 1537 ] && [ "$HHMM" -le 1553 ]; then NSE_WIN=1; fi
-              if [ "$NSE_WIN" = 1 ] && [ $((NOW - LAST_NSE)) -ge 780 ]; then
+              # Open-candle entry window: entries are only valid 09:20-09:45
+              # IST (enter_nse), so poll every ~4 min then instead of every
+              # 13 (a 13-min gap left a single valid poll before cutoff).
+              if [ "$HHMM" -ge 919 ] && [ "$HHMM" -le 946 ]; then NSE_WIN=1; NSE_GAP=230; fi
+              if [ "$NSE_WIN" = 1 ] && [ $((NOW - LAST_NSE)) -ge "$NSE_GAP" ]; then
                 dispatch nse
                 LAST_NSE=$NOW
               fi
@@ -75,7 +80,9 @@ jobs:
                 CL_DONE=$TODAY
               fi
             fi
-            sleep 300
+            # 60s ticks around the open so the 09:19-09:46 polls are not
+            # quantised to a 5-min loop; 5-min ticks the rest of the day
+            if [ "$HHMM" -ge 914 ] && [ "$HHMM" -le 950 ]; then sleep 60; else sleep 300; fi
           done
       - name: Chain the next shift
         run: |

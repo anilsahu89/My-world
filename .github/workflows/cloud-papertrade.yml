@@ -101,4 +101,13 @@ jobs:
           git pull --rebase origin main \
             || { git rebase --abort >/dev/null 2>&1 || true; git pull --rebase -X theirs origin main; } \
             || { git rebase --abort >/dev/null 2>&1 || true; git reset --hard origin/main; }
-          git push || { git pull --rebase -X theirs origin main && git push; } || true
+          # retry the push a few times (other workflows commit data/ too);
+          # fail the run loudly instead of `|| true` so a lost ledger push is visible
+          for i in 1 2 3 4 5; do
+            git push && exit 0
+            git rebase --abort >/dev/null 2>&1 || true
+            sleep $((i * 3))
+            git pull --rebase -X theirs origin main || { git rebase --abort >/dev/null 2>&1 || true; }
+          done
+          echo "::error::state push failed after 5 attempts"
+          exit 1
