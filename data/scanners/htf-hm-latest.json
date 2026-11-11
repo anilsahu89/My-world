@@ -1,20 +1,121 @@
 {
  "date": "2026-11-11",
- "updated_at": "11 Nov 2026 13:32:25 IST",
+ "updated_at": "11 Nov 2026 14:04:06 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 0,
-  "invested": 0,
+  "open": 3,
+  "invested": 25864.48,
   "realized": 782.35,
   "wins": 3,
   "losses": 0,
   "win_rate": 100.0
  },
- "signals": [],
+ "signals": [
+  {
+   "symbol": "APOLLOHOSP",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
+  },
+  {
+   "symbol": "PNB",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
+  },
+  {
+   "symbol": "SIEMENS",
+   "side": "BUY",
+   "weekly": "BUY",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
+  }
+ ],
  "monthly_watchlist": [],
- "open": [],
+ "open": [
+  {
+   "id": 4,
+   "symbol": "APOLLOHOSP",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-11",
+   "entry_date": "2026-11-11",
+   "entry_time": "14:03",
+   "entry": 8522.0,
+   "qty": 1,
+   "invested": 8522.0,
+   "rsi_entry": 59.4,
+   "sl": 8460.05,
+   "tgt": 8614.93,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 8522.0,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 5,
+   "symbol": "PNB",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-11",
+   "entry_date": "2026-11-11",
+   "entry_time": "14:03",
+   "entry": 138.09,
+   "qty": 72,
+   "invested": 9942.48,
+   "rsi_entry": 87.7,
+   "sl": 136.23,
+   "tgt": 140.88,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 138.09,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 6,
+   "symbol": "SIEMENS",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-11",
+   "entry_date": "2026-11-11",
+   "entry_time": "14:03",
+   "entry": 3700.0,
+   "qty": 2,
+   "invested": 7400.0,
+   "rsi_entry": 71.9,
+   "sl": 3672.74,
+   "tgt": 3740.89,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 3700.0,
+   "live_pnl": 0.0
+  }
+ ],
  "closed": [
   {
    "id": 1,
@@ -95,5 +196,5 @@
    "live_pnl": 404.6
   }
  ],
- "entered_this_run": 0
+ "entered_this_run": 3
 }
