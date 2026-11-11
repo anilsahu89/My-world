@@ -179,7 +179,8 @@ def run(output: Path):
                     import telegram_notify
                     telegram_notify.notify(f"⚡ OPEN · Intraday HM\n{bias} {sym} qty {qty}\nentry ₹{entry:,.2f} · {setup}")
                 except Exception: pass
-            except Exception: pass
+            except Exception as e:
+                print(f"  HM skip {sym}: {type(e).__name__}: {e}", flush=True)
             if (i+1)%25==0: time.sleep(0.4)
     out=publish()
     return out

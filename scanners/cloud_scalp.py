@@ -534,25 +534,24 @@ def publish(state: dict) -> dict:
     return payload
 
 
-def tick() -> None:
+def tick(nse: bool = True) -> None:
     n = now()
-    if n.weekday() >= 5:
-        return
-    if n.time() < datetime.strptime("09:15", "%H:%M").time():
-        return
     state = read_state()
     today = n.date().isoformat()
-    if state.get("day") != today:
-        state["trades"] = []
-        state["decisions"] = []
-        state["day_losses"] = 0
-        state["day"] = today
-    df = fetch_bars()
-    if df is None:
-        publish(state)
-        return
-    evaluate(df, state, today)
-    # BTC category (Donchian + 1h trend — independent feed, own state key)
+    nse_live = (nse and n.weekday() < 5
+                and n.time() >= datetime.strptime("09:15", "%H:%M").time())
+    if nse_live:
+        if state.get("day") != today:
+            state["trades"] = []
+            state["decisions"] = []
+            state["day_losses"] = 0
+            state["day"] = today
+        df = fetch_bars()
+        if df is not None:
+            evaluate(df, state, today)
+    # BTC category (Donchian + 1h trend — independent feed, own state key).
+    # 24x7: must NOT be gated by the NSE session or by the NIFTY feed
+    # succeeding (previously a weekend/pre-open/yfinance miss skipped it).
     try:
         btc_evaluate(state)
     except Exception as e:

@@ -35,6 +35,7 @@ import io
 import json
 import math
 import subprocess
+import sys
 from datetime import datetime, time
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -225,6 +226,10 @@ def _attach_volume(quotes: dict[str, dict]) -> None:
             if 0 <= age <= 10 and avg > 0:
                 q["vol_known"], q["vol_src"] = True, "cache"
                 q["vol_ratio"] = float(q.get("volume") or 0) / (avg * frac)
+                # entry liquidity floor (avg_vol20 >= 500k) reads this key;
+                # Kite/Angel quotes never carried it, so every O=L/O=H pick
+                # was silently dropped after the RVOL gate
+                q["avg_vol20"] = round(avg, 0)
     except Exception as e:
         print(f"attach volume failed: {e}", flush=True)
 
@@ -1423,6 +1428,14 @@ def main() -> None:
             cloud_btc_theta.tick()
         except Exception as e:
             print(f"btc theta tick failed: {e}", flush=True)
+        # Scalp desk, BTC only (nse=False): BTC is 24x7 but the weekday-only
+        # day poller left it unmanaged evenings/weekends. NSE scalp stays
+        # with the day poller so two runners never evaluate the same bar.
+        try:
+            import cloud_scalp
+            cloud_scalp.tick(nse=False)
+        except Exception as e:
+            print(f"scalp tick failed: {e}", flush=True)
         # NIFTY Long-Term Premium desk (NK video rules, 2026-10-03): EOD
         # bhavcopy cadence — first weekday tick >= 18:45 IST scans far-expiry
         # discounts, opens/manages the structures; done_date-guarded

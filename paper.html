@@ -2685,9 +2685,25 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     }
   }
   function load() {
+    /* HM Swing tab also lists the ChartLink desk's PENDING signals (shown
+       read-only as "CL <setup>"; they fill at the next open in the ChartLink
+       ledger, data/cloud_chartlink_state.json) */
+    var chartink = fetch(base + "/data/chartink_picks.json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; });
     fetch(base + "/data/swing_picks.json?t=" + Date.now())
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) { if (d) render(d); })
+      .then(function (d) {
+        return chartink.then(function (c) {
+          if (!d) return;
+          var cp = ((c && c.pending) || []).map(function (t) {
+            return Object.assign({}, t, {market: "NSE", setup: "CL " + (t.setup || "")});
+          });
+          d = Object.assign({}, d, {pending: (d.pending || []).concat(cp)});
+          d.summary = Object.assign({}, d.summary, {pending: d.pending.length});
+          render(d);
+        });
+      })
       .catch(function () {});
   }
   load();
@@ -2852,6 +2868,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     var s = Math.abs(n).toLocaleString("en-IN", {maximumFractionDigits: 0});
     return (n < 0 ? "−" : "+") + "₹" + s;
   }
+  function set(id, v) { var e = document.getElementById(id); if (e) e.textContent = v; }
   function render(d) {
     var s = d.summary || {};
     var el = document.getElementById("scalpStatus");
@@ -2963,7 +2980,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     fetch(base + "/data/scalp_picks.json?t=" + Date.now())
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) { if (d) render(d); })
-      .catch(function () {});
+      .catch(function (e) { if (window.console) console.error("scalp render failed", e); });
   }
   load();
   setInterval(load, 60000);

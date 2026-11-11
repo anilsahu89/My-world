@@ -281,6 +281,45 @@ def _current_payload(state: dict) -> dict:
         return export(state)
 
 
+def _fill_pending_trades(trades: list, today: str) -> int:
+    """Flip PENDING -> OPEN at TODAY's open (the 09:15 candle open from the
+    daily bar). Returns how many were opened. A trade stays PENDING when
+    today's bar is missing/stale or the open is NaN. It is SKIPped when the
+    symbol already has an OPEN position or max_open is reached. Both
+    decisions are only taken once today's bar exists, so a holiday or feed
+    lag never discards a signal."""
+    filled = 0
+    for t in [x for x in trades if x["status"] == "PENDING"]:
+        try:
+            df = fetch_daily(f"{t['symbol']}.NS")
+            if df is None or df.index[-1].strftime("%Y-%m-%d") != today:
+                continue            # today's bar not published yet -- retry next tick
+            entry = float(df.iloc[-1]["Open"])
+            if not _finite(entry) or entry <= 0:
+                continue
+            open_syms = {x["symbol"] for x in trades if x["status"] == "OPEN"}
+            if t["symbol"] in open_syms:
+                t["status"], t["reason"] = "SKIP", "dup-open"
+                continue
+            if len(open_syms) >= CFG["max_open"]:
+                t["status"], t["reason"] = "SKIP", "max-open"
+                continue
+            qty = int(CFG["capital_inr"] / entry)
+            if qty < 1:
+                t["status"], t["reason"] = "SKIP", "qty<1"
+                continue
+            t.update(status="OPEN", entry_date=today, qty=qty, entry=round(entry, 2),
+                     sl=round(entry * (1 - CFG["sl_backstop"]), 2), sessions=0)
+            filled += 1
+            _notify("\U0001F4C8 OPEN \u00b7 ChartLink (" + SETUPS[t["setup"]]["label"] + ")\n"
+                    + t["symbol"] + " BUY qty " + str(qty)
+                    + "\nentry \u20b9{:,.2f} \u00b7 filled at today's open \u00b7 backstop \u20b9{:,.2f}"
+                    .format(entry, t["sl"]))
+        except Exception as e:
+            print(f"chartlink fill {t.get('symbol')}: {e}", flush=True)
+    return filled
+
+
 def run_day(dry: bool = False) -> dict:
     state = read_state()
     moment = now()
@@ -345,32 +384,31 @@ def run_day(dry: bool = False) -> dict:
         except Exception as e:
             print(f"chartlink manage {t.get('symbol')}: {e}", flush=True)
 
-    # 2) fill yesterday's signals at TODAY's open (skip gracefully when the
-    #    bar is stale or the open is NaN/zero; the signal stays PENDING)
-    for t in [x for x in trades if x["status"] == "PENDING"]:
-        try:
-            df = fetch_daily(f"{t['symbol']}.NS")
-            if df is None or df.index[-1].strftime("%Y-%m-%d") != today:
-                continue
-            entry = float(df.iloc[-1]["Open"])
-            if not _finite(entry) or entry <= 0:
-                continue
-            qty = int(CFG["capital_inr"] / entry)
-            if qty < 1:
-                t["status"] = "SKIP"
-                continue
-            t.update(status="OPEN", entry_date=today, qty=qty, entry=round(entry, 2),
-                     sl=round(entry * (1 - CFG["sl_backstop"]), 2), sessions=0)
-            _notify("\U0001F4C8 OPEN \u00b7 ChartLink (" + SETUPS[t["setup"]]["label"] + ")\n"
-                    + t["symbol"] + " BUY qty " + str(qty)
-                    + "\nentry \u20b9{:,.2f} \u00b7 trail: daily close vs SMA20 \u00b7 backstop \u20b9{:,.2f}"
-                    .format(entry, t["sl"]))
-        except Exception as e:
-            print(f"chartlink fill {t.get('symbol')}: {e}", flush=True)
+    # 2) fill pending signals at TODAY's open (stale bar / NaN open -> stays
+    #    PENDING; duplicates of an OPEN symbol and max-open overflow -> SKIP)
+    _fill_pending_trades(trades, today)
+
+    # 2b) market-holiday / stale-feed guard: if even a liquid benchmark has no
+    #     bar dated today (e.g. Diwali-Balipratipada 10 Nov 2026 -- NSE shut but
+    #     it is a weekday), scanning would re-read the PREVIOUS bar, re-label
+    #     its signals and bypass the per-day cap. Do nothing and do not mark the
+    #     day done; the next dispatch retries.
+    if not dry:
+        probe = fetch_daily("RELIANCE.NS")
+        if probe is None or probe.index[-1].strftime("%Y-%m-%d") != today:
+            print("chartlink: no bar dated today (holiday or feed lag) -- "
+                  "scan skipped, will retry", flush=True)
+            write_state(state)
+            return _current_payload(state)
 
     # 3) scan the day's completed bars for NEW signals (fill tomorrow)
-    open_n = sum(1 for t in trades if t["status"] == "OPEN")
+    # pending signals are committed capacity too (they fill at the next open)
+    open_n = sum(1 for t in trades if t["status"] in ("OPEN", "PENDING"))
     existing = {(t["symbol"], t["setup"], t["signal_date"]) for t in trades}
+    held = {t["symbol"] for t in trades if t["status"] in ("OPEN", "PENDING")}
+    per_date: dict = {}
+    for t in trades:
+        per_date[t["signal_date"]] = per_date.get(t["signal_date"], 0) + 1
     cands = []
     universe = nifty500()
     n_ok = n_fail = 0
@@ -401,10 +439,12 @@ def run_day(dry: bool = False) -> dict:
 
     cands.sort(key=lambda x: x[0])
     queued = 0
-    per_day = 0
     for _, sym, setup, d in cands:
-        if open_n + queued >= CFG["max_open"] or per_day >= CFG["max_new_per_day"]:
+        if open_n + queued >= CFG["max_open"] or per_date.get(d, 0) >= CFG["max_new_per_day"]:
             break
+        if sym in held:         # one position per symbol (BB-STACK + ABV-MBB overlap)
+            continue
+        held.add(sym)
         trades.append({"id": state["next_id"], "signal_date": d, "symbol": sym,
                        "setup": setup, "setup_name": SETUPS[setup]["label"],
                        "side": "BUY", "status": "PENDING", "entry_date": None,
@@ -414,7 +454,7 @@ def run_day(dry: bool = False) -> dict:
                        "pnl": None})
         state["next_id"] += 1
         queued += 1
-        per_day += 1
+        per_date[d] = per_date.get(d, 0) + 1
 
     state["done_date"] = today
     write_state(state)
@@ -439,33 +479,13 @@ def fill_pending() -> int:
     if moment.time() < dtime(9, 20) or moment.time() > dtime(15, 0):
         return 0
     trades = state["trades"]
-    pending = [t for t in trades if t["status"] == "PENDING"]
-    if not pending:
+    if not any(t["status"] == "PENDING" for t in trades):
         return 0
-    filled = 0
-    for t in pending:
-        try:
-            df = fetch_daily(f"{t['symbol']}.NS")
-            if df is None or df.index[-1].strftime("%Y-%m-%d") != today:
-                continue            # today's bar not published yet — retry next tick
-            entry = float(df.iloc[-1]["Open"])
-            if not _finite(entry) or entry <= 0:
-                continue
-            qty = int(CFG["capital_inr"] / entry)
-            if qty < 1:
-                t["status"] = "SKIP"
-                continue
-            t.update(status="OPEN", entry_date=today, qty=qty, entry=round(entry, 2),
-                     sl=round(entry * (1 - CFG["sl_backstop"]), 2), sessions=0)
-            filled += 1
-            _notify("\U0001F4C8 OPEN \u00b7 ChartLink (" + SETUPS[t["setup"]]["label"] + ")\n"
-                    + t["symbol"] + " BUY qty " + str(qty)
-                    + "\nentry \u20b9{:,.2f} \u00b7 morning fill at open".format(entry))
-        except Exception as e:
-            print(f"chartlink morning fill {t.get('symbol')}: {e}", flush=True)
-    if filled:
+    before = [t["status"] for t in trades]
+    filled = _fill_pending_trades(trades, today)
+    if [t["status"] for t in trades] != before:     # fills and/or SKIPs
         write_state(state)
-        OUT.write_text(json.dumps(export(state), indent=1, ensure_ascii=False) + "\n")
+        export(state)                               # export() writes OUT
         print(f"chartlink morning fill: {filled} opened at today's open", flush=True)
     return filled
 

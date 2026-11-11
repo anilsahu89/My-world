@@ -325,6 +325,24 @@ def htf_hm_tick() -> None:
             pass
 
 
+_HTF_THREAD = None
+
+
+def _start_htf_hm_bg() -> None:
+    """Run htf_hm_tick() off the main loop; skip if a previous run is alive."""
+    global _HTF_THREAD
+    import threading
+    if _HTF_THREAD is not None and _HTF_THREAD.is_alive():
+        return
+    def _work():
+        try:
+            htf_hm_tick()
+        except Exception as e:
+            print(f"htf-hm tick failed: {e}", flush=True)
+    _HTF_THREAD = threading.Thread(target=_work, daemon=True)
+    _HTF_THREAD.start()
+
+
 def run_day() -> None:
     print("relay: day poller starting", flush=True)
     if another_poller_running():
@@ -359,6 +377,20 @@ def run_day() -> None:
                 commit_and_push()
         except Exception as e:
             print(f"chartlink morning fill failed: {e}", flush=True)
+        # HM Swing morning fill: pending signals open at today's open
+        try:
+            import cloud_swing
+            if cloud_swing.fill_pending():
+                commit_and_push()
+        except Exception as e:
+            print(f"swing morning fill failed: {e}", flush=True)
+        # Intraday HM (1H flips, 30-min buckets). It shells out for up to
+        # 30 min, so run it on a background thread — never block the 60s
+        # NSE loop — and only one at a time.
+        try:
+            _start_htf_hm_bg()
+        except Exception as e:
+            print(f"htf-hm bg start failed: {e}", flush=True)
         write_status("day", errs)
         commit_and_push()
         dense = dtime(9, 14) <= now.time() <= dtime(9, 50)

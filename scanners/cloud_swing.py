@@ -17,7 +17,7 @@ from __future__ import annotations
 import json
 import time
 import warnings
-from datetime import datetime
+from datetime import datetime, time as dtime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -33,7 +33,7 @@ IST = ZoneInfo("Asia/Kolkata")
 
 MARKETS = {"GOLD": "GC=F", "BTC": "BTC-USD"}
 CFG = {"end_date": "2026-12-31", "capital_inr": 10_000.0,
-       "max_open": 5, "rr": 2.0, "max_sessions": 15, "min_spread": 3.0,
+       "capital_usd": 60.0, "max_open": 5, "rr": 2.0, "max_sessions": 15, "min_spread": 3.0,
        "max_new_per_day": 3}
 ENABLED_SETUPS = {"HM-BUY", "HM-SELL"}  # CS-MARU paused (0/6 live)
 
@@ -131,6 +131,71 @@ def _ticker_for(t: dict) -> str:
     return MARKETS[t["market"]] if t["market"] in MARKETS else f"{t['symbol']}.NS"
 
 
+def _fill_pending_trades(trades: list, today: str) -> int:
+    """PENDING -> OPEN at TODAY's open (09:15 candle open of the daily bar).
+    Stays PENDING while today's bar is missing/NaN; SKIP only for bad risk
+    geometry or max_open overflow, decided once today's bar exists."""
+    filled = 0
+    for t in [x for x in trades if x["status"] == "PENDING"]:
+        try:
+            df = fetch_daily(_ticker_for(t))
+            if df is None or df.iloc[-1].name.strftime("%Y-%m-%d") != today:
+                continue
+            entry = float(df.iloc[-1]["Open"])
+            if not (entry == entry) or entry <= 0:
+                continue
+            if sum(1 for x in trades if x["status"] == "OPEN") >= CFG["max_open"]:
+                t["status"], t["reason"] = "SKIP", "max-open"
+                continue
+            risk = abs(entry - t["sl"])
+            wrong_side = (entry <= t["sl"]) if t["side"] == "BUY" else (entry >= t["sl"])
+            if risk <= 0 or wrong_side or risk / entry > 0.15:
+                t["status"], t["reason"] = "SKIP", "risk"
+                continue
+            tgt = entry + (1 if t["side"] == "BUY" else -1) * CFG["rr"] * risk
+            cap = CFG["capital_usd"] if t["market"] in MARKETS else CFG["capital_inr"]
+            qty = round(cap / entry, 4) if t["market"] in MARKETS else int(cap / entry)
+            if qty < (0.0001 if t["market"] in MARKETS else 1):
+                t["status"], t["reason"] = "SKIP", "qty"
+                continue
+            t.update(status="OPEN", entry_date=today, qty=qty,
+                     entry=round(entry, 2), tgt=round(tgt, 2), sessions=0)
+            filled += 1
+            try:
+                import telegram_notify
+                cur = "$" if t.get("market") != "NSE" else "\u20b9"
+                telegram_notify.notify(
+                    "\U0001F486 OPEN \u00b7 HM Swing\n"
+                    + t["symbol"] + " " + t["side"] + " qty " + str(qty)
+                    + "\nentry " + cur + "{:,.2f}".format(entry))
+            except Exception:
+                pass
+        except Exception as e:
+            print(f"swing fill {t.get('symbol')}: {e}", flush=True)
+    return filled
+
+
+def fill_pending() -> int:
+    """Morning pass (call 09:20-15:00 IST from the poller): book pending HM
+    Swing signals at today's open. No scans, no exits (those need completed
+    bars). Returns number opened."""
+    state = read_state()
+    m = now()
+    today = m.date().isoformat()
+    if m.weekday() >= 5 or today > CFG["end_date"]:
+        return 0
+    if m.time() < dtime(9, 20) or m.time() > dtime(15, 0):
+        return 0
+    trades = state["trades"]
+    before = [t["status"] for t in trades]
+    filled = _fill_pending_trades(trades, today)
+    if [t["status"] for t in trades] != before:
+        write_state(state)
+        export(state)
+        print(f"swing morning fill: {filled} opened at today's open", flush=True)
+    return filled
+
+
 def run_day() -> dict:
     state = read_state()
     today = now().date().isoformat()
@@ -138,6 +203,13 @@ def run_day() -> dict:
     # and the piggyback ticks would bump the timestamp 20x a day
     if today > CFG["end_date"] or now().weekday() >= 5 \
             or state.get("done_date") == today:
+        try:
+            return json.loads(OUT.read_text())
+        except (FileNotFoundError, json.JSONDecodeError):
+            return export(state)
+    if now().time() < dtime(15, 35):
+        # daily bar still forming: never manage/scan on a partial candle and
+        # never mark the day done (the morning fill_pending() handles opens)
         try:
             return json.loads(OUT.read_text())
         except (FileNotFoundError, json.JSONDecodeError):
@@ -154,6 +226,9 @@ def run_day() -> dict:
         df = fetch_daily(_ticker_for(t))
         if df is None or len(df) < 2:
             continue
+        manual = str(t.get("id")) in _swing_refs
+        if not manual and df.index[-1].strftime("%Y-%m-%d") != today:
+            continue                # stale bar: never count a session twice
         last = df.iloc[-1]
         px_hi, px_lo, px_cl = float(last["High"]), float(last["Low"]), float(last["Close"])
         t["sessions"] = (t.get("sessions") or 0) + 1
@@ -187,33 +262,16 @@ def run_day() -> dict:
             except Exception:
                 pass
 
-    # 2) fill yesterday's signals at TODAY's open
-    for t in [x for x in trades if x["status"] == "PENDING"]:
-        df = fetch_daily(_ticker_for(t))
-        if df is None or df.iloc[-1].name.strftime("%Y-%m-%d") != today:
-            continue
-        entry = float(df.iloc[-1]["Open"])
-        risk = abs(entry - t["sl"])
-        if risk <= 0 or risk / entry > 0.15:
-            t["status"] = "SKIP"
-            continue
-        tgt = entry + (1 if t["side"] == "BUY" else -1) * CFG["rr"] * risk
-        cap = CFG["capital_usd"] if t["market"] in MARKETS else CFG["capital_inr"]
-        qty = round(cap / entry, 4) if t["market"] in MARKETS else int(cap / entry)
-        if qty < (0.0001 if t["market"] in MARKETS else 1):
-            t["status"] = "SKIP"
-            continue
-        t.update(status="OPEN", entry_date=today, qty=qty,
-                 entry=round(entry, 2), tgt=round(tgt, 2), sessions=0)
-        try:
-            import telegram_notify
-            cur = "$" if t.get("market") != "NSE" else "\u20b9"
-            telegram_notify.notify(
-                "\U0001F486 OPEN \u00b7 HM Swing\n"
-                + t["symbol"] + " " + t["side"] + " qty " + str(qty)
-                + "\nentry " + cur + "{:,.2f}".format(entry))
-        except Exception:
-            pass
+    # 2) fill pending signals at TODAY's open
+    _fill_pending_trades(trades, today)
+
+    # 2b) holiday / stale-feed guard (10 Nov 2026 was a weekday market holiday):
+    #     no bar dated today -> nothing to scan; do not mark the day done.
+    probe = fetch_daily("RELIANCE.NS")
+    if probe is None or probe.index[-1].strftime("%Y-%m-%d") != today:
+        print("swing: no bar dated today (holiday or feed lag) -- scan skipped", flush=True)
+        write_state(state)
+        return export(state)
 
     # 3) scan today's completed bars for NEW signals (fill tomorrow at open)
     open_n = sum(1 for t in trades if t["status"] == "OPEN")
