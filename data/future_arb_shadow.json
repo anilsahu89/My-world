@@ -30,7 +30,12 @@
    "basis": 101.0,
    "spread": 22.0,
    "lot": 50,
-   "preset": "R2 shadow"
+   "preset": "R2 shadow",
+   "last_spot": 12896.0,
+   "last_curr": 12795.0,
+   "last_next": 12773.0,
+   "last_spread": 22.0,
+   "last_date": "2026-11-11"
   },
   {
    "symbol": "COCHINSHIP",
@@ -43,7 +48,12 @@
    "basis": 16.5,
    "spread": 4.5,
    "lot": 400,
-   "preset": "R2 shadow"
+   "preset": "R2 shadow",
+   "last_spot": 1202.0,
+   "last_curr": 1185.5,
+   "last_next": 1181.0,
+   "last_spread": 4.5,
+   "last_date": "2026-11-11"
   }
  ],
  "closed": []
