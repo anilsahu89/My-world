@@ -1,11 +1,11 @@
 {
- "updated_at": "10 Nov 2026 17:27:19 IST",
+ "updated_at": "11 Nov 2026 10:26:45 IST",
  "rule": "HM Swing (weekly): BUY RSI9>50 red<RSI green>red · SELL RSI9<50 red>RSI green<red · next open · 3w extreme SL · 2R · 15 sessions · max 5PF 1.39 · ShootingStar+VOL SELL PF 1.15 · Engulf-at-low BUY PF 1.13 | entry next open, SL=pattern extreme, target 2R, 10-session stop | max 5 concurrent",
  "note": "Candlestick CS-MARU/PINS/ENGF retired 15 Oct 2026. Same HM lines as HM Positional.Runs in the cloud (GitHub Actions) — no Mac required.",
  "end_date": "2026-12-31",
  "summary": {
   "open": 4,
-  "pending": 2,
+  "pending": 0,
   "closed": 30,
   "wins": 7,
   "losses": 23,
@@ -87,44 +87,7 @@
    "pnl": null
   }
  ],
- "pending": [
-  {
-   "id": 42,
-   "signal_date": "2026-11-09",
-   "market": "NSE",
-   "symbol": "360ONE",
-   "setup": "HM-BUY",
-   "side": "BUY",
-   "status": "PENDING",
-   "entry_date": null,
-   "qty": null,
-   "entry": null,
-   "sl": 960.87,
-   "tgt": null,
-   "sessions": 0,
-   "exit": null,
-   "reason": null,
-   "pnl": null
-  },
-  {
-   "id": 43,
-   "signal_date": "2026-11-09",
-   "market": "NSE",
-   "symbol": "ABBOTINDIA",
-   "setup": "HM-BUY",
-   "side": "BUY",
-   "status": "PENDING",
-   "entry_date": null,
-   "qty": null,
-   "entry": null,
-   "sl": 24680.97,
-   "tgt": null,
-   "sessions": 0,
-   "exit": null,
-   "reason": null,
-   "pnl": null
-  }
- ],
+ "pending": [],
  "closed": [
   {
    "id": 1,
