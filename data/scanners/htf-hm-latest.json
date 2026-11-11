@@ -1,88 +1,20 @@
 {
  "date": "2026-11-11",
- "updated_at": "11 Nov 2026 12:03:51 IST",
+ "updated_at": "11 Nov 2026 12:32:10 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 2,
-  "invested": 19275.9,
+  "open": 0,
+  "invested": 0,
   "realized": 782.35,
   "wins": 3,
   "losses": 0,
   "win_rate": 100.0
  },
- "signals": [
-  {
-   "symbol": "HINDALCO",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY-MOMENTUM",
-   "setup": "IHM-BUY"
-  },
-  {
-   "symbol": "VBL",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY-MOMENTUM",
-   "setup": "IHM-BUY"
-  }
- ],
+ "signals": [],
  "monthly_watchlist": [],
- "open": [
-  {
-   "id": 4,
-   "symbol": "HINDALCO",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-11",
-   "entry_date": "2026-11-11",
-   "entry_time": "12:02",
-   "entry": 962.45,
-   "qty": 10,
-   "invested": 9624.5,
-   "rsi_entry": 64.2,
-   "sl": 944.81,
-   "tgt": 988.92,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY-MOMENTUM",
-   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 962.45,
-   "live_pnl": 0.0
-  },
-  {
-   "id": 5,
-   "symbol": "VBL",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-11",
-   "entry_date": "2026-11-11",
-   "entry_time": "12:02",
-   "entry": 438.7,
-   "qty": 22,
-   "invested": 9651.4,
-   "rsi_entry": 68.6,
-   "sl": 435.38,
-   "tgt": 443.68,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY-MOMENTUM",
-   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 438.7,
-   "live_pnl": 0.0
-  }
- ],
+ "open": [],
  "closed": [
   {
    "id": 1,
@@ -163,5 +95,5 @@
    "live_pnl": 404.6
   }
  ],
- "entered_this_run": 2
+ "entered_this_run": 0
 }
