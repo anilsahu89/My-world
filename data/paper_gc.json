@@ -1,8 +1,8 @@
 {
- "updated_at": "11 Nov 2026 05:30:33 IST",
+ "updated_at": "11 Nov 2026 05:42:27 IST",
  "status": "RUNNING",
  "summary": {
-  "open_count": 0,
+  "open_count": 1,
   "closed_count": 53,
   "realized_total": -4.5,
   "unrealized": 0,
@@ -10,7 +10,24 @@
   "losses": 40,
   "win_rate": 24.5
  },
- "open": [],
+ "open": [
+  {
+   "id": 54,
+   "session": "2026-11-11",
+   "setup": "oh",
+   "symbol": "BTC",
+   "side": "SELL",
+   "qty": 0.0008,
+   "entry_time": "05:42:26",
+   "entry_price": 73582.33,
+   "sl_price": 74089.26,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "ltp": 73582.33
+  }
+ ],
  "closed": [
   {
    "id": 53,
