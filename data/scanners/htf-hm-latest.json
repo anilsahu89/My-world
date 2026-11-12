@@ -1,88 +1,20 @@
 {
  "date": "2026-11-12",
- "updated_at": "12 Nov 2026 15:01:38 IST",
+ "updated_at": "12 Nov 2026 17:27:53 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 2,
-  "invested": 18398.9,
+  "open": 0,
+  "invested": 0,
   "realized": 782.35,
   "wins": 3,
   "losses": 0,
   "win_rate": 100.0
  },
- "signals": [
-  {
-   "symbol": "DRREDDY",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY-MOMENTUM",
-   "setup": "IHM-BUY"
-  },
-  {
-   "symbol": "TATACOMM",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY-MOMENTUM",
-   "setup": "IHM-BUY"
-  }
- ],
+ "signals": [],
  "monthly_watchlist": [],
- "open": [
-  {
-   "id": 4,
-   "symbol": "DRREDDY",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-12",
-   "entry_date": "2026-11-12",
-   "entry_time": "15:00",
-   "entry": 1381.2,
-   "qty": 7,
-   "invested": 9668.4,
-   "rsi_entry": 56.4,
-   "sl": 1369.95,
-   "tgt": 1398.07,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY-MOMENTUM",
-   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 1381.2,
-   "live_pnl": 0.0
-  },
-  {
-   "id": 5,
-   "symbol": "TATACOMM",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-12",
-   "entry_date": "2026-11-12",
-   "entry_time": "15:00",
-   "entry": 1746.1,
-   "qty": 5,
-   "invested": 8730.5,
-   "rsi_entry": 60.2,
-   "sl": 1729.33,
-   "tgt": 1771.25,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY-MOMENTUM",
-   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 1746.1,
-   "live_pnl": 0.0
-  }
- ],
+ "open": [],
  "closed": [
   {
    "id": 1,
@@ -163,5 +95,5 @@
    "live_pnl": 404.6
   }
  ],
- "entered_this_run": 2
+ "entered_this_run": 0
 }
