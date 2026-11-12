@@ -1,5 +1,5 @@
 {
- "updated_at": "12 Nov 2026 14:19:47 IST",
+ "updated_at": "12 Nov 2026 14:23:12 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -58,7 +58,7 @@
   "trades_today": 7,
   "today_pnl": 0,
   "realized_total": -2098.57,
-  "unrealized": 150.92,
+  "unrealized": 149.46,
   "wins": 104,
   "losses": 128,
   "win_rate": 44.8,
@@ -79,10 +79,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 71.04,
+   "pnl": 68.45,
    "feed": "angel",
-   "ltp": 120.6,
-   "pnl_pct": 1.62
+   "ltp": 120.53,
+   "pnl_pct": 1.56
   },
   {
    "id": 240,
@@ -98,10 +98,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 43.0,
+   "pnl": 43.75,
    "feed": "angel",
-   "ltp": 595.65,
-   "pnl_pct": 1.46
+   "ltp": 595.8,
+   "pnl_pct": 1.49
   },
   {
    "id": 241,
@@ -117,10 +117,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 26.85,
+   "pnl": 26.25,
    "feed": "angel",
-   "ltp": 222.24,
-   "pnl_pct": 0.81
+   "ltp": 222.2,
+   "pnl_pct": 0.79
   },
   {
    "id": 242,
@@ -136,10 +136,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -19.37,
+   "pnl": -21.19,
    "feed": "angel",
-   "ltp": 236.16,
-   "pnl_pct": -0.63
+   "ltp": 236.02,
+   "pnl_pct": -0.69
   },
   {
    "id": 243,
@@ -154,11 +154,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -21.0,
+   "pnl": -19.2,
    "feed": "angel-f3",
    "drive_pct": 6.94,
-   "ltp": 569.1,
-   "pnl_pct": -1.81
+   "ltp": 570.0,
+   "pnl_pct": -1.66
   },
   {
    "id": 244,
@@ -173,11 +173,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -5.6,
+   "pnl": -6.8,
    "feed": "angel-f3",
    "drive_pct": 2.42,
-   "ltp": 1628.2,
-   "pnl_pct": -0.34
+   "ltp": 1627.0,
+   "pnl_pct": -0.42
   },
   {
    "id": 245,
@@ -192,11 +192,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 56.0,
+   "pnl": 58.2,
    "feed": "angel-f3",
    "drive_pct": 1.8,
-   "ltp": 1620.4,
-   "pnl_pct": 1.76
+   "ltp": 1621.5,
+   "pnl_pct": 1.83
   }
  ],
  "closed": [
