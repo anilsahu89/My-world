@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 31,
+ "next_id": 33,
  "trades": [
   {
    "id": 17,
@@ -40,11 +40,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 8,
+   "sessions": 9,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1907.0,
+   "mark": 1930.0,
    "note": "BB squeeze rank 5% blast on w bars"
   },
   {
@@ -62,11 +62,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 7,
+   "sessions": 8,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1746.9000244140625,
+   "mark": 1743.4000244140625,
    "note": "BB squeeze rank 6% blast on d bars"
   },
   {
@@ -107,11 +107,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 6,
+   "sessions": 7,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 397.5,
+   "mark": 386.95001220703125,
    "note": "BB squeeze rank 0% blast on d bars"
   },
   {
@@ -152,11 +152,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 5,
+   "sessions": 6,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1199.5,
+   "mark": 1206.0,
    "note": "BB squeeze rank 11% blast on w bars"
   },
   {
@@ -243,11 +243,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1377.0,
+   "mark": 1386.5999755859375,
    "note": "RSI9 84 V-turn above rising SMA20"
   },
   {
@@ -265,11 +265,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 255.72999572753906,
+   "mark": 247.6199951171875,
    "note": "RSI9 71 V-turn above rising SMA20"
   },
   {
@@ -317,8 +317,52 @@
    "mark": 1088.050048828125,
    "note": "BB squeeze rank 9% blast on w bars",
    "exit_date": "2026-11-11"
+  },
+  {
+   "id": 31,
+   "signal_date": "2026-11-12",
+   "symbol": "AUROPHARMA",
+   "setup": "QM-BBw",
+   "side": "BUY",
+   "status": "PENDING",
+   "ref_close": 1807.2,
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "invested": null,
+   "booked": 0.0,
+   "avg_count": 0,
+   "trail": false,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null,
+   "mark": null,
+   "note": "BB squeeze rank 15% blast on w bars"
+  },
+  {
+   "id": 32,
+   "signal_date": "2026-11-12",
+   "symbol": "ASAHIINDIA",
+   "setup": "QM-BBw",
+   "side": "BUY",
+   "status": "PENDING",
+   "ref_close": 1103.9,
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "invested": null,
+   "booked": 0.0,
+   "avg_count": 0,
+   "trail": false,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null,
+   "mark": null,
+   "note": "BB squeeze rank 9% blast on w bars"
   }
  ],
- "done_date": "2026-11-11",
+ "done_date": "2026-11-12",
  "circuit_breaker": false
 }
