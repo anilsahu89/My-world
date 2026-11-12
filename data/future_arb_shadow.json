@@ -48,7 +48,12 @@
    "basis": 260.0,
    "spread": 35.0,
    "lot": 20,
-   "preset": "R2 shadow"
+   "preset": "R2 shadow",
+   "last_spot": 31850.0,
+   "last_curr": 31590.0,
+   "last_next": 31555.0,
+   "last_spread": 35.0,
+   "last_date": "2026-11-12"
   }
  ],
  "closed": [

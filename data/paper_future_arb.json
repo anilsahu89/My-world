@@ -1,5 +1,5 @@
 {
- "updated_at": "12 Nov 2026 20:04 IST",
+ "updated_at": "12 Nov 2026 20:19 IST",
  "desk": "Future Arbitrage",
  "status": "RUNNING",
  "preset": "r1",
@@ -144,16 +144,12 @@
   "realized": -2502.5,
   "mtm": 0.0,
   "equity": 97497.5,
-  "entered_today": [
-   "Candidate(rank=1, symbol='PHOENIXLTD', scan_date=datetime.date(2026, 11, 12), spot=2292.0, curr_expiry=datetime.date(2026, 11, 23), next_expiry=datetime.date(2026, 12, 29), curr_future=2257.4, next_future=2249.4, basis=34.59999999999991, spread=8.0, basis_spread_ratio=4.324999999999989, basis_pct=1.5095986038394376, spread_value=2800.0, lot=350, curr_volume=2209, next_volume=589, days_to_expiry=11)"
-  ],
+  "entered_today": [],
   "kill_switch": false
  },
  "shadow": {
   "rule": "R2 shadow (exploratory): basis>=8 & >=0.4% of spot, spread<=0.8x basis, next-vol>=100, 5-21d to expiry \u00b7 same exits as the real book \u00b7 1 lot \u00b7 max 3 open \u00b7 tracked for rule learning only \u2014 not in the pilot equity",
-  "entered_today": [
-   "PAGEIND"
-  ],
+  "entered_today": [],
   "open": [
    {
     "symbol": "DATAPATTNS",
@@ -176,7 +172,7 @@
     "entry_date": "2026-11-12",
     "basis": 260.0,
     "spread": 35.0,
-    "last_spread": null,
+    "last_spread": 35.0,
     "dte_exp": "2026-11-23"
    }
   ],
