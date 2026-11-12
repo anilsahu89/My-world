@@ -1,12 +1,12 @@
 {
  "date": "2026-11-12",
- "updated_at": "12 Nov 2026 13:33:04 IST",
+ "updated_at": "12 Nov 2026 14:03:45 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 1,
-  "invested": 7721.1,
+  "open": 3,
+  "invested": 27445.4,
   "realized": 782.35,
   "wins": 3,
   "losses": 0,
@@ -14,7 +14,21 @@
  },
  "signals": [
   {
-   "symbol": "WAAREEENER",
+   "symbol": "ASTRAL",
+   "side": "SELL",
+   "weekly": "SELL-MOMENTUM",
+   "daily": "SELL-MOMENTUM",
+   "setup": "IHM-SELL"
+  },
+  {
+   "symbol": "PIIND",
+   "side": "SELL",
+   "weekly": "SELL-MOMENTUM",
+   "daily": "SELL-MOMENTUM",
+   "setup": "IHM-SELL"
+  },
+  {
+   "symbol": "SBIN",
    "side": "BUY",
    "weekly": "BUY-MOMENTUM",
    "daily": "BUY-MOMENTUM",
@@ -25,18 +39,70 @@
  "open": [
   {
    "id": 4,
-   "symbol": "WAAREEENER",
+   "symbol": "ASTRAL",
+   "side": "SELL",
+   "setup": "IHM-SELL",
+   "signal_date": "2026-11-12",
+   "entry_date": "2026-11-12",
+   "entry_time": "14:02",
+   "entry": 1274.3,
+   "qty": 7,
+   "invested": 8920.1,
+   "rsi_entry": 42.7,
+   "sl": 1291.18,
+   "tgt": 1248.98,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "SELL-MOMENTUM",
+   "htf_daily": "SELL-MOMENTUM",
+   "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
+   "ltp": 1274.3,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 5,
+   "symbol": "PIIND",
+   "side": "SELL",
+   "setup": "IHM-SELL",
+   "signal_date": "2026-11-12",
+   "entry_date": "2026-11-12",
+   "entry_time": "14:02",
+   "entry": 1751.7,
+   "qty": 5,
+   "invested": 8758.5,
+   "rsi_entry": 41.6,
+   "sl": 1782.06,
+   "tgt": 1706.16,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "SELL-MOMENTUM",
+   "htf_daily": "SELL-MOMENTUM",
+   "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
+   "ltp": 1751.7,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 6,
+   "symbol": "SBIN",
    "side": "BUY",
    "setup": "IHM-BUY",
    "signal_date": "2026-11-12",
    "entry_date": "2026-11-12",
-   "entry_time": "13:32",
-   "entry": 2573.7,
-   "qty": 3,
-   "invested": 7721.1,
-   "rsi_entry": 66.0,
-   "sl": 2553.98,
-   "tgt": 2603.28,
+   "entry_time": "14:02",
+   "entry": 1085.2,
+   "qty": 9,
+   "invested": 9766.8,
+   "rsi_entry": 78.7,
+   "sl": 1071.85,
+   "tgt": 1105.22,
    "status": "OPEN",
    "exit_date": "",
    "exit_time": "",
@@ -46,7 +112,7 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 2573.7,
+   "ltp": 1085.2,
    "live_pnl": 0.0
   }
  ],
@@ -130,5 +196,5 @@
    "live_pnl": 404.6
   }
  ],
- "entered_this_run": 1
+ "entered_this_run": 3
 }
