@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 243,
+ "next_id": 246,
  "trades": [
   {
    "id": 1,
@@ -4163,10 +4163,64 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel"
+  },
+  {
+   "id": 243,
+   "date": "2026-11-12",
+   "setup": "f3",
+   "symbol": "NAVA",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "12:23:13",
+   "entry_price": 579.6,
+   "sl_price": 545.76,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 6.94
+  },
+  {
+   "id": 244,
+   "date": "2026-11-12",
+   "setup": "f3",
+   "symbol": "INDIAMART",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:23:13",
+   "entry_price": 1633.8,
+   "sl_price": 1544.24,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 2.42
+  },
+  {
+   "id": 245,
+   "date": "2026-11-12",
+   "setup": "f3",
+   "symbol": "TBOTEK",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "12:23:13",
+   "entry_price": 1592.4,
+   "sl_price": 1556.88,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 1.8
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-11-11",
+ "f3_done_date": "2026-11-12",
  "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-11-12",

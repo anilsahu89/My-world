@@ -1,5 +1,5 @@
 {
- "updated_at": "12 Nov 2026 12:20:10 IST",
+ "updated_at": "12 Nov 2026 12:23:49 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -53,12 +53,12 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 4,
+  "open_count": 7,
   "closed_count": 232,
-  "trades_today": 4,
+  "trades_today": 7,
   "today_pnl": 0,
   "realized_total": -2098.57,
-  "unrealized": 95.54,
+  "unrealized": 103.91,
   "wins": 104,
   "losses": 128,
   "win_rate": 44.8,
@@ -79,10 +79,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 46.99,
+   "pnl": 45.14,
    "feed": "angel",
-   "ltp": 119.95,
-   "pnl_pct": 1.07
+   "ltp": 119.9,
+   "pnl_pct": 1.03
   },
   {
    "id": 240,
@@ -98,10 +98,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 40.75,
+   "pnl": 42.25,
    "feed": "angel",
-   "ltp": 595.2,
-   "pnl_pct": 1.39
+   "ltp": 595.5,
+   "pnl_pct": 1.44
   },
   {
    "id": 241,
@@ -117,10 +117,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 15.6,
+   "pnl": 22.5,
    "feed": "angel",
-   "ltp": 221.49,
-   "pnl_pct": 0.47
+   "ltp": 221.95,
+   "pnl_pct": 0.68
   },
   {
    "id": 242,
@@ -136,10 +136,67 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -7.8,
+   "pnl": -5.98,
    "feed": "angel",
-   "ltp": 237.05,
-   "pnl_pct": -0.25
+   "ltp": 237.19,
+   "pnl_pct": -0.19
+  },
+  {
+   "id": 243,
+   "date": "2026-11-12",
+   "setup": "f3",
+   "symbol": "NAVA",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "12:23:13",
+   "entry_price": 579.6,
+   "sl_price": 545.76,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 6.94,
+   "ltp": 579.6,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 244,
+   "date": "2026-11-12",
+   "setup": "f3",
+   "symbol": "INDIAMART",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:23:13",
+   "entry_price": 1633.8,
+   "sl_price": 1544.24,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 2.42,
+   "ltp": 1633.8,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 245,
+   "date": "2026-11-12",
+   "setup": "f3",
+   "symbol": "TBOTEK",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "12:23:13",
+   "entry_price": 1592.4,
+   "sl_price": 1556.88,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 1.8,
+   "ltp": 1592.4,
+   "pnl_pct": 0.0
   }
  ],
  "closed": [
@@ -4288,7 +4345,7 @@
   },
   {
    "date": "2026-11-12",
-   "trades": 4,
+   "trades": 7,
    "ol": 4,
    "oh": 0,
    "wins": 0,
