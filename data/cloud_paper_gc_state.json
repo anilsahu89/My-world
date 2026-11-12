@@ -877,11 +877,11 @@
    "entry_time": "05:35:48",
    "entry_price": 73890.97,
    "sl_price": 73521.51,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN"
+   "exit_time": "07:05:52",
+   "exit_price": 73521.51,
+   "reason": "SL",
+   "pnl": -0.3,
+   "status": "CLOSED"
   }
  ],
  "seeded": true
