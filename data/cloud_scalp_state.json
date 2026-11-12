@@ -1,11 +1,34 @@
 {
  "version": 1,
- "next_id": 3,
- "trades": [],
- "decisions": [],
- "day": "2026-11-11",
+ "next_id": 4,
+ "trades": [
+  {
+   "id": 3,
+   "setup": "FIRST3",
+   "side": "CE",
+   "symbol": "NIFTY ATM CE",
+   "entry_date": "2026-11-12",
+   "entry_bar": 3,
+   "entry_idx": 25371.95,
+   "stop_idx": 25145.0,
+   "target_idx": 25712.37,
+   "driver_low": 25145.0,
+   "r_multiple": 0.0,
+   "lots": 2,
+   "status": "OPEN",
+   "structure": "trend-continuation"
+  }
+ ],
+ "decisions": [
+  {
+   "time": "10:20:09",
+   "decision": "ENTRY",
+   "detail": "FIRST3 stack @ 25371.9 SL 25145.0 TGT 25712.4"
+  }
+ ],
+ "day": "2026-11-12",
  "day_losses": 0,
- "done_date": "2026-11-11",
+ "done_date": "2026-11-12",
  "btc": {
   "position": null,
   "trades": [

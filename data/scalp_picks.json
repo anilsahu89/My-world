@@ -1,12 +1,35 @@
 {
- "updated_at": "12 Nov 2026 09:01:14 IST",
+ "updated_at": "12 Nov 2026 10:20:09 IST",
  "desk": "NIFTY Scalp Monitor",
  "rule": "First-3 Morning Drive + VWAP Station Bounce (15-min, index ATM options, paper \u00b7 premium = delta approx 0.5 \u00d7 75 \u00d7 2 lots) \u00b7 entry 09:50-14:15 \u00b7 +70pt-class targets (1.5R / 2R) \u00b7 tactical VWAP exit \u00b7 re-entry + once-daily reversal \u00b7 square-off 15:20 \u00b7 2-loss day stop",
- "decisions": [],
- "open": [],
+ "decisions": [
+  {
+   "time": "10:20:09",
+   "decision": "ENTRY",
+   "detail": "FIRST3 stack @ 25371.9 SL 25145.0 TGT 25712.4"
+  }
+ ],
+ "open": [
+  {
+   "id": 3,
+   "setup": "FIRST3",
+   "side": "CE",
+   "symbol": "NIFTY ATM CE",
+   "entry_date": "2026-11-12",
+   "entry_bar": 3,
+   "entry_idx": 25371.95,
+   "stop_idx": 25145.0,
+   "target_idx": 25712.37,
+   "driver_low": 25145.0,
+   "r_multiple": 0.0,
+   "lots": 2,
+   "status": "OPEN",
+   "structure": "trend-continuation"
+  }
+ ],
  "closed": [],
  "summary": {
-  "open": 0,
+  "open": 1,
   "closed": 0,
   "wins": 0,
   "losses": 0,
