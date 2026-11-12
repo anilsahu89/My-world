@@ -1,20 +1,88 @@
 {
- "date": "2026-11-11",
- "updated_at": "11 Nov 2026 17:28:43 IST",
+ "date": "2026-11-12",
+ "updated_at": "12 Nov 2026 10:21:08 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 0,
-  "invested": 0,
+  "open": 2,
+  "invested": 16624.4,
   "realized": 782.35,
   "wins": 3,
   "losses": 0,
   "win_rate": 100.0
  },
- "signals": [],
+ "signals": [
+  {
+   "symbol": "MCX",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
+  },
+  {
+   "symbol": "RELIANCE",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
+  }
+ ],
  "monthly_watchlist": [],
- "open": [],
+ "open": [
+  {
+   "id": 4,
+   "symbol": "MCX",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-12",
+   "entry_date": "2026-11-12",
+   "entry_time": "10:20",
+   "entry": 3622.2,
+   "qty": 2,
+   "invested": 7244.4,
+   "rsi_entry": 72.6,
+   "sl": 3581.72,
+   "tgt": 3682.92,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 3622.2,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 5,
+   "symbol": "RELIANCE",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-12",
+   "entry_date": "2026-11-12",
+   "entry_time": "10:20",
+   "entry": 1340.0,
+   "qty": 7,
+   "invested": 9380.0,
+   "rsi_entry": 65.9,
+   "sl": 1326.54,
+   "tgt": 1360.19,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 1340.0,
+   "live_pnl": 0.0
+  }
+ ],
  "closed": [
   {
    "id": 1,
@@ -95,5 +163,5 @@
    "live_pnl": 404.6
   }
  ],
- "entered_this_run": 0
+ "entered_this_run": 2
 }

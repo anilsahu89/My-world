@@ -1,5 +1,5 @@
 {
- "updated_at": "12 Nov 2026 10:20:09 IST",
+ "updated_at": "12 Nov 2026 10:23:35 IST",
  "desk": "NIFTY Scalp Monitor",
  "rule": "First-3 Morning Drive + VWAP Station Bounce (15-min, index ATM options, paper \u00b7 premium = delta approx 0.5 \u00d7 75 \u00d7 2 lots) \u00b7 entry 09:50-14:15 \u00b7 +70pt-class targets (1.5R / 2R) \u00b7 tactical VWAP exit \u00b7 re-entry + once-daily reversal \u00b7 square-off 15:20 \u00b7 2-loss day stop",
  "decisions": [
@@ -7,9 +7,15 @@
    "time": "10:20:09",
    "decision": "ENTRY",
    "detail": "FIRST3 stack @ 25371.9 SL 25145.0 TGT 25712.4"
+  },
+  {
+   "time": "10:23:34",
+   "decision": "EXIT",
+   "detail": "NIFTY ATM CE SL @ 25145.0 -> -227.0 pts"
   }
  ],
- "open": [
+ "open": [],
+ "closed": [
   {
    "id": 3,
    "setup": "FIRST3",
@@ -23,18 +29,22 @@
    "driver_low": 25145.0,
    "r_multiple": 0.0,
    "lots": 2,
-   "status": "OPEN",
-   "structure": "trend-continuation"
+   "status": "CLOSED",
+   "structure": "trend-continuation",
+   "exit_bar": 0,
+   "exit_reason": "SL",
+   "exit_idx": 25145.0,
+   "pnl_pts": -227.0,
+   "pnl": -17021.25
   }
  ],
- "closed": [],
  "summary": {
-  "open": 1,
-  "closed": 0,
+  "open": 0,
+  "closed": 1,
   "wins": 0,
-  "losses": 0,
-  "win_rate": 0,
-  "pnl": 0
+  "losses": 1,
+  "win_rate": 0.0,
+  "pnl": -17021.25
  },
  "btc": {
   "rule": "Donchian(24) breakout + 1h EMA50 regime filter \u00b7 15-min Binance BTCUSDT \u00b7 1-year backtest: PF 1.46, 844 trades, +131% net of 0.2% costs \u00b7 both directions \u00b7 chandelier 0.8% / target 2% / stop 0.7% \u00b7 Rs 1L notional per trade",
