@@ -13,29 +13,11 @@
    "spread": 10.6,
    "lot": 125,
    "preset": "R2 shadow",
-   "last_spot": 4052.0,
-   "last_curr": 4042.4,
-   "last_next": 3999.9,
-   "last_spread": 42.5,
-   "last_date": "2026-11-11"
-  },
-  {
-   "symbol": "DIXON",
-   "entry_date": "2026-11-11",
-   "spot": 12896.0,
-   "curr_expiry": "2026-11-23",
-   "next_expiry": "2026-12-29",
-   "entry_curr": 12795.0,
-   "entry_next": 12773.0,
-   "basis": 101.0,
-   "spread": 22.0,
-   "lot": 50,
-   "preset": "R2 shadow",
-   "last_spot": 12896.0,
-   "last_curr": 12795.0,
-   "last_next": 12773.0,
-   "last_spread": 22.0,
-   "last_date": "2026-11-11"
+   "last_spot": 4231.0,
+   "last_curr": 4221.7,
+   "last_next": 4174.4,
+   "last_spread": 47.3,
+   "last_date": "2026-11-12"
   },
   {
    "symbol": "COCHINSHIP",
@@ -49,12 +31,35 @@
    "spread": 4.5,
    "lot": 400,
    "preset": "R2 shadow",
-   "last_spot": 1202.0,
-   "last_curr": 1185.5,
-   "last_next": 1181.0,
-   "last_spread": 4.5,
-   "last_date": "2026-11-11"
+   "last_spot": 1196.0,
+   "last_curr": 1186.3,
+   "last_next": 1180.3,
+   "last_spread": 6.0,
+   "last_date": "2026-11-12"
+  },
+  {
+   "symbol": "PAGEIND",
+   "entry_date": "2026-11-12",
+   "spot": 31850.0,
+   "curr_expiry": "2026-11-23",
+   "next_expiry": "2026-12-29",
+   "entry_curr": 31590.0,
+   "entry_next": 31555.0,
+   "basis": 260.0,
+   "spread": 35.0,
+   "lot": 20,
+   "preset": "R2 shadow"
   }
  ],
- "closed": []
+ "closed": [
+  {
+   "symbol": "DIXON",
+   "entry_date": "2026-11-11",
+   "exit_date": "2026-11-12",
+   "reason": "convergence",
+   "pnl": 500.0,
+   "basis_at_entry": 101.0,
+   "spread_at_entry": 22.0
+  }
+ ]
 }
