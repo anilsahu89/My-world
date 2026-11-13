@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 5,
+ "next_id": 6,
  "trades": [
   {
    "id": 4,
@@ -21,6 +21,22 @@
    "exit_idx": 25172.6,
    "pnl_pts": -56.9,
    "pnl": -4263.75
+  },
+  {
+   "id": 5,
+   "setup": "VWAPBOUNCE",
+   "side": "PE",
+   "symbol": "NIFTY ATM PE",
+   "entry_date": "2026-11-13",
+   "entry_bar": 9,
+   "entry_idx": 25160.3,
+   "stop_idx": 25195.95,
+   "target_idx": 25089.0,
+   "r_multiple": 0.0,
+   "lots": 1,
+   "status": "OPEN",
+   "structure": "trend-pullback",
+   "reversal": true
   }
  ],
  "decisions": [
@@ -33,6 +49,11 @@
    "time": "10:50:04",
    "decision": "EXIT",
    "detail": "NIFTY ATM CE SL @ 25172.6 -> -56.9 pts"
+  },
+  {
+   "time": "11:47:05",
+   "decision": "REVERSAL",
+   "detail": "trend flip -> PE @ 25160.3 (half size)"
   }
  ],
  "day": "2026-11-13",
@@ -155,5 +176,6 @@
   ],
   "peak": 75420.61,
   "trough": 68052.96875
- }
+ },
+ "reversal_used": true
 }
