@@ -39,7 +39,15 @@
  "day_losses": 1,
  "done_date": "2026-11-13",
  "btc": {
-  "position": null,
+  "position": {
+   "side": "SHORT",
+   "entry": 68052.97,
+   "entry_ts": "2026-11-13 11:15:00+05:30",
+   "qty_btc": 0.016327,
+   "notional_inr": 100000.0,
+   "status": "OPEN",
+   "opened": "2026-11-13 11:32:50.469679+05:30"
+  },
   "trades": [
    {
     "side": "LONG",
@@ -138,9 +146,14 @@
     "time": "13 Nov 08:59",
     "decision": "EXIT",
     "detail": "TARGET @ 69785 -> +1.80% (\u20b9+1,800)"
+   },
+   {
+    "time": "13 Nov 11:32",
+    "decision": "ENTRY",
+    "detail": "SHORT @ 68053 (notional \u20b91L \u2248 0.016327 BTC)"
    }
   ],
   "peak": 75420.61,
-  "trough": 69709.828125
+  "trough": 68052.96875
  }
 }
