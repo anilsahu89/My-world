@@ -2,24 +2,6 @@
  "version": 1,
  "open": [
   {
-   "symbol": "DATAPATTNS",
-   "entry_date": "2026-11-05",
-   "spot": 3959.9,
-   "curr_expiry": "2026-11-23",
-   "next_expiry": "2026-12-29",
-   "entry_curr": 3888.8,
-   "entry_next": 3878.2,
-   "basis": 71.1,
-   "spread": 10.6,
-   "lot": 125,
-   "preset": "R2 shadow",
-   "last_spot": 4231.0,
-   "last_curr": 4221.7,
-   "last_next": 4174.4,
-   "last_spread": 47.3,
-   "last_date": "2026-11-12"
-  },
-  {
    "symbol": "COCHINSHIP",
    "entry_date": "2026-11-11",
    "spot": 1202.0,
@@ -31,29 +13,37 @@
    "spread": 4.5,
    "lot": 400,
    "preset": "R2 shadow",
-   "last_spot": 1196.0,
-   "last_curr": 1186.3,
-   "last_next": 1180.3,
-   "last_spread": 6.0,
-   "last_date": "2026-11-12"
+   "last_spot": 1178.0,
+   "last_curr": 1177.4,
+   "last_next": 1170.7,
+   "last_spread": 6.7,
+   "last_date": "2026-11-13"
   },
   {
-   "symbol": "PAGEIND",
-   "entry_date": "2026-11-12",
-   "spot": 31850.0,
+   "symbol": "CHOLAFIN",
+   "entry_date": "2026-11-13",
+   "spot": 1850.0,
    "curr_expiry": "2026-11-23",
    "next_expiry": "2026-12-29",
-   "entry_curr": 31590.0,
-   "entry_next": 31555.0,
-   "basis": 260.0,
-   "spread": 35.0,
-   "lot": 20,
-   "preset": "R2 shadow",
-   "last_spot": 31850.0,
-   "last_curr": 31590.0,
-   "last_next": 31555.0,
-   "last_spread": 35.0,
-   "last_date": "2026-11-12"
+   "entry_curr": 1836.4,
+   "entry_next": 1834.0,
+   "basis": 13.6,
+   "spread": 2.4,
+   "lot": 625,
+   "preset": "R2 shadow"
+  },
+  {
+   "symbol": "PHOENIXLTD",
+   "entry_date": "2026-11-13",
+   "spot": 2255.0,
+   "curr_expiry": "2026-11-23",
+   "next_expiry": "2026-12-29",
+   "entry_curr": 2233.0,
+   "entry_next": 2215.6,
+   "basis": 22.0,
+   "spread": 17.4,
+   "lot": 350,
+   "preset": "R2 shadow"
   }
  ],
  "closed": [
@@ -65,6 +55,24 @@
    "pnl": 500.0,
    "basis_at_entry": 101.0,
    "spread_at_entry": 22.0
+  },
+  {
+   "symbol": "DATAPATTNS",
+   "entry_date": "2026-11-05",
+   "exit_date": "2026-11-13",
+   "reason": "convergence",
+   "pnl": 4037.5,
+   "basis_at_entry": 71.1,
+   "spread_at_entry": 10.6
+  },
+  {
+   "symbol": "PAGEIND",
+   "entry_date": "2026-11-12",
+   "exit_date": "2026-11-13",
+   "reason": "convergence",
+   "pnl": -4100.0,
+   "basis_at_entry": 260.0,
+   "spread_at_entry": 35.0
   }
  ]
 }
