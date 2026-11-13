@@ -1,5 +1,5 @@
 {
- "updated_at": "13 Nov 2026 09:37:55 IST",
+ "updated_at": "13 Nov 2026 09:41:42 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -49,9 +49,9 @@
    "SHRIRAMFIN": 1.74,
    "CHOLAFIN": 1.71,
    "INDUSINDBK": 1.61,
+   "DLF": 1.53,
    "PHOENIXLTD": 1.5,
-   "ANANTRAJ": 1.48,
-   "KAYNES": 1.48
+   "ANANTRAJ": 1.48
   }
  },
  "engine_errors": [],
