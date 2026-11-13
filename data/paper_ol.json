@@ -1,5 +1,5 @@
 {
- "updated_at": "13 Nov 2026 09:17:54 IST",
+ "updated_at": "13 Nov 2026 09:22:03 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -19,10 +19,41 @@
   },
   "vol_note": "15 Oct: volume gate = RVOL (cumulative volume vs time-of-day expectation, 1.0 = normal day) — O=L >= 1.3, O=H >= 1.0; deliberately low, tuned from vol_audit"
  },
- "vol_blocked": {},
+ "vol_blocked": {
+  "ol": {
+   "low_vol": 0,
+   "no_vol_data": 0
+  },
+  "oh": {
+   "low_vol": 140,
+   "no_vol_data": 0
+  }
+ },
  "trend_blocked": {},
- "vwap_blocked": {},
- "vol_audit": {},
+ "vwap_blocked": {
+  "ol": 0,
+  "oh": 25
+ },
+ "vol_audit": {
+  "ol": {},
+  "oh": {
+   "ZEEL": 8.35,
+   "TECHNOE": 8.03,
+   "KALYANKJIL": 6.52,
+   "GABRIEL": 4.62,
+   "BDL": 3.52,
+   "NMDC": 2.91,
+   "COCHINSHIP": 2.76,
+   "RVNL": 2.39,
+   "SHRIRAMFIN": 1.74,
+   "INDUSINDBK": 1.61,
+   "MUTHOOTFIN": 1.6,
+   "PHOENIXLTD": 1.5,
+   "KAYNES": 1.48,
+   "SARDAEN": 1.48,
+   "EIHOTEL": 1.44
+  }
+ },
  "engine_errors": [],
  "summary": {
   "open_count": 0,
