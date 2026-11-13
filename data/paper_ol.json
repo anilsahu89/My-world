@@ -1,5 +1,5 @@
 {
- "updated_at": "13 Nov 2026 09:41:42 IST",
+ "updated_at": "13 Nov 2026 09:45:41 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -32,7 +32,7 @@
  "trend_blocked": {},
  "vwap_blocked": {
   "ol": 0,
-  "oh": 30
+  "oh": 31
  },
  "vol_audit": {
   "ol": {},
@@ -49,7 +49,7 @@
    "SHRIRAMFIN": 1.74,
    "CHOLAFIN": 1.71,
    "INDUSINDBK": 1.61,
-   "DLF": 1.53,
+   "DLF": 1.54,
    "PHOENIXLTD": 1.5,
    "ANANTRAJ": 1.48
   }

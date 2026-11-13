@@ -4395,7 +4395,7 @@
    "ACC": 0.57,
    "ABLBL": 0.38,
    "AAVAS": 0.37,
-   "AIAENG": 0.71,
+   "AIAENG": 0.74,
    "ANANTRAJ": 1.48,
    "AFFLE": 0.13,
    "ABDL": 1.4,
@@ -4446,7 +4446,7 @@
    "EXIDEIND": 0.68,
    "DCMSHRIRAM": 0.16,
    "EICHERMOT": 1.3,
-   "DLF": 1.53,
+   "DLF": 1.54,
    "ELECON": 0.25,
    "DEEPAKNTR": 0.24,
    "EIDPARRY": 0.78,
@@ -4524,7 +4524,7 @@
    "SJVN": 0.41,
    "SBICARD": 1.2,
    "RVNL": 2.39,
-   "PETRONET": 0.75,
+   "PETRONET": 1.03,
    "POLYCAB": 0.35,
    "SRF": 0.35,
    "SAPPHIRE": 0.11,
@@ -4601,7 +4601,8 @@
    "KPITTECH",
    "BELRISE",
    "ABCAPITAL",
-   "DLF"
+   "DLF",
+   "PETRONET"
   ]
  }
 }
