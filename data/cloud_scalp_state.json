@@ -34,9 +34,14 @@
    "target_idx": 25089.0,
    "r_multiple": 0.0,
    "lots": 1,
-   "status": "OPEN",
+   "status": "CLOSED",
    "structure": "trend-pullback",
-   "reversal": true
+   "reversal": true,
+   "exit_bar": 0,
+   "exit_reason": "SL",
+   "exit_idx": 25195.95,
+   "pnl_pts": -35.7,
+   "pnl": -2673.75
   }
  ],
  "decisions": [
@@ -54,10 +59,15 @@
    "time": "11:47:05",
    "decision": "REVERSAL",
    "detail": "trend flip -> PE @ 25160.3 (half size)"
+  },
+  {
+   "time": "11:50:36",
+   "decision": "EXIT",
+   "detail": "NIFTY ATM PE SL @ 25196.0 -> -35.7 pts"
   }
  ],
  "day": "2026-11-13",
- "day_losses": 1,
+ "day_losses": 2,
  "done_date": "2026-11-13",
  "btc": {
   "position": {
