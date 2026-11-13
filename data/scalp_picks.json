@@ -1,5 +1,5 @@
 {
- "updated_at": "13 Nov 2026 08:44:36 IST",
+ "updated_at": "13 Nov 2026 08:59:41 IST",
  "desk": "NIFTY Scalp Monitor",
  "rule": "First-3 Morning Drive + VWAP Station Bounce (15-min, index ATM options, paper \u00b7 premium = delta approx 0.5 \u00d7 75 \u00d7 2 lots) \u00b7 entry 09:50-14:15 \u00b7 +70pt-class targets (1.5R / 2R) \u00b7 tactical VWAP exit \u00b7 re-entry + once-daily reversal \u00b7 square-off 15:20 \u00b7 2-loss day stop",
  "decisions": [
@@ -48,15 +48,7 @@
  },
  "btc": {
   "rule": "Donchian(24) breakout + 1h EMA50 regime filter \u00b7 15-min Binance BTCUSDT \u00b7 1-year backtest: PF 1.46, 844 trades, +131% net of 0.2% costs \u00b7 both directions \u00b7 chandelier 0.8% / target 2% / stop 0.7% \u00b7 Rs 1L notional per trade",
-  "position": {
-   "side": "SHORT",
-   "entry": 71209.0,
-   "entry_ts": "2026-11-13 05:30:00+05:30",
-   "qty_btc": 0.015604,
-   "notional_inr": 100000.0,
-   "status": "OPEN",
-   "opened": "2026-11-13 05:59:27.210951+05:30"
-  },
+  "position": null,
   "decisions": [
    {
     "time": "09 Nov 21:25",
@@ -92,6 +84,11 @@
     "time": "13 Nov 05:59",
     "decision": "ENTRY",
     "detail": "SHORT @ 71209 (notional \u20b91L \u2248 0.015604 BTC)"
+   },
+   {
+    "time": "13 Nov 08:59",
+    "decision": "EXIT",
+    "detail": "TARGET @ 69785 -> +1.80% (\u20b9+1,800)"
    }
   ],
   "closed": [
@@ -136,15 +133,29 @@
     "exit_reason": "TARGET",
     "pnl_pct": 1.8,
     "pnl": 1800.0
+   },
+   {
+    "side": "SHORT",
+    "entry": 71209.0,
+    "entry_ts": "2026-11-13 05:30:00+05:30",
+    "qty_btc": 0.015604,
+    "notional_inr": 100000.0,
+    "status": "CLOSED",
+    "opened": "2026-11-13 05:59:27.210951+05:30",
+    "exit_ts": "2026-11-13 08:30:00+05:30",
+    "exit_px": 69784.82,
+    "exit_reason": "TARGET",
+    "pnl_pct": 1.8,
+    "pnl": 1800.0
    }
   ],
   "summary": {
-   "open": 1,
-   "closed": 3,
-   "wins": 1,
+   "open": 0,
+   "closed": 4,
+   "wins": 2,
    "losses": 2,
-   "win_rate": 33.3,
-   "pnl": -124.57
+   "win_rate": 50.0,
+   "pnl": 1675.43
   }
  }
 }
