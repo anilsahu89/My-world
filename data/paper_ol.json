@@ -1,5 +1,5 @@
 {
- "updated_at": "13 Nov 2026 09:22:03 IST",
+ "updated_at": "13 Nov 2026 09:25:42 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -25,14 +25,14 @@
    "no_vol_data": 0
   },
   "oh": {
-   "low_vol": 140,
+   "low_vol": 147,
    "no_vol_data": 0
   }
  },
  "trend_blocked": {},
  "vwap_blocked": {
   "ol": 0,
-  "oh": 25
+  "oh": 27
  },
  "vol_audit": {
   "ol": {},
@@ -45,9 +45,9 @@
    "NMDC": 2.91,
    "COCHINSHIP": 2.76,
    "RVNL": 2.39,
+   "MUTHOOTFIN": 2.09,
    "SHRIRAMFIN": 1.74,
    "INDUSINDBK": 1.61,
-   "MUTHOOTFIN": 1.6,
    "PHOENIXLTD": 1.5,
    "KAYNES": 1.48,
    "SARDAEN": 1.48,
