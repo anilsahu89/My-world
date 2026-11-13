@@ -1,41 +1,7 @@
 {
- "date": "2026-11-12",
- "scanned_at": "15:07:28",
+ "date": "2026-11-13",
+ "scanned_at": "12:22:54",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
- "signals": [
-  {
-   "symbol": "NAVA",
-   "drive_pct": 6.94,
-   "qty": 2,
-   "entry": 579.6,
-   "sl": 545.76,
-   "status": "CLOSED",
-   "exit": 571.9,
-   "reason": "EOD",
-   "pnl": -15.4
-  },
-  {
-   "symbol": "INDIAMART",
-   "drive_pct": 2.42,
-   "qty": 1,
-   "entry": 1633.8,
-   "sl": 1544.24,
-   "status": "CLOSED",
-   "exit": 1636.0,
-   "reason": "EOD",
-   "pnl": 2.2
-  },
-  {
-   "symbol": "TBOTEK",
-   "drive_pct": 1.8,
-   "qty": 2,
-   "entry": 1592.4,
-   "sl": 1556.88,
-   "status": "CLOSED",
-   "exit": 1620.5,
-   "reason": "EOD",
-   "pnl": 56.2
-  }
- ]
+ "signals": []
 }
