@@ -1,8 +1,30 @@
 {
  "version": 1,
- "next_id": 4,
- "trades": [],
- "decisions": [],
+ "next_id": 5,
+ "trades": [
+  {
+   "id": 4,
+   "setup": "VWAPBOUNCE",
+   "side": "CE",
+   "symbol": "NIFTY ATM CE",
+   "entry_date": "2026-11-13",
+   "entry_bar": 5,
+   "entry_idx": 25229.45,
+   "stop_idx": 25172.6,
+   "target_idx": 25343.15,
+   "r_multiple": 0.0,
+   "lots": 2,
+   "status": "OPEN",
+   "structure": "trend-pullback"
+  }
+ ],
+ "decisions": [
+  {
+   "time": "10:46:31",
+   "decision": "ENTRY",
+   "detail": "VWAP bounce @ 25229.4 SL 25172.6 TGT 25343.1"
+  }
+ ],
  "day": "2026-11-13",
  "day_losses": 0,
  "done_date": "2026-11-13",
