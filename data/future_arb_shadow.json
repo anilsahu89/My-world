@@ -30,7 +30,12 @@
    "basis": 13.6,
    "spread": 2.4,
    "lot": 625,
-   "preset": "R2 shadow"
+   "preset": "R2 shadow",
+   "last_spot": 1850.0,
+   "last_curr": 1836.4,
+   "last_next": 1834.0,
+   "last_spread": 2.4,
+   "last_date": "2026-11-13"
   },
   {
    "symbol": "PHOENIXLTD",
@@ -43,7 +48,12 @@
    "basis": 22.0,
    "spread": 17.4,
    "lot": 350,
-   "preset": "R2 shadow"
+   "preset": "R2 shadow",
+   "last_spot": 2255.0,
+   "last_curr": 2233.0,
+   "last_next": 2215.6,
+   "last_spread": 17.4,
+   "last_date": "2026-11-13"
   }
  ],
  "closed": [

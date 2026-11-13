@@ -1,5 +1,5 @@
 {
- "updated_at": "13 Nov 2026 20:03 IST",
+ "updated_at": "13 Nov 2026 20:18 IST",
  "desk": "Future Arbitrage",
  "status": "RUNNING",
  "preset": "r1",
@@ -115,10 +115,7 @@
  },
  "shadow": {
   "rule": "R2 shadow (exploratory): basis>=8 & >=0.4% of spot, spread<=0.8x basis, next-vol>=100, 5-21d to expiry \u00b7 same exits as the real book \u00b7 1 lot \u00b7 max 3 open \u00b7 tracked for rule learning only \u2014 not in the pilot equity",
-  "entered_today": [
-   "CHOLAFIN",
-   "PHOENIXLTD"
-  ],
+  "entered_today": [],
   "open": [
    {
     "symbol": "COCHINSHIP",
@@ -133,7 +130,7 @@
     "entry_date": "2026-11-13",
     "basis": 13.6,
     "spread": 2.4,
-    "last_spread": null,
+    "last_spread": 2.4,
     "dte_exp": "2026-11-23"
    },
    {
@@ -141,7 +138,7 @@
     "entry_date": "2026-11-13",
     "basis": 22.0,
     "spread": 17.4,
-    "last_spread": null,
+    "last_spread": 17.4,
     "dte_exp": "2026-11-23"
    }
   ],
