@@ -70,15 +70,7 @@
  "day_losses": 2,
  "done_date": "2026-11-13",
  "btc": {
-  "position": {
-   "side": "SHORT",
-   "entry": 68052.97,
-   "entry_ts": "2026-11-13 11:15:00+05:30",
-   "qty_btc": 0.016327,
-   "notional_inr": 100000.0,
-   "status": "OPEN",
-   "opened": "2026-11-13 11:32:50.469679+05:30"
-  },
+  "position": null,
   "trades": [
    {
     "side": "LONG",
@@ -135,6 +127,20 @@
     "exit_reason": "TARGET",
     "pnl_pct": 1.8,
     "pnl": 1800.0
+   },
+   {
+    "side": "SHORT",
+    "entry": 68052.97,
+    "entry_ts": "2026-11-13 11:15:00+05:30",
+    "qty_btc": 0.016327,
+    "notional_inr": 100000.0,
+    "status": "CLOSED",
+    "opened": "2026-11-13 11:32:50.469679+05:30",
+    "exit_ts": "2026-11-13 11:45:00+05:30",
+    "exit_px": 68666.01,
+    "exit_reason": "CHANDELIER",
+    "pnl_pct": -1.1,
+    "pnl": -1100.82
    }
   ],
   "decisions": [
@@ -182,6 +188,11 @@
     "time": "13 Nov 11:32",
     "decision": "ENTRY",
     "detail": "SHORT @ 68053 (notional \u20b91L \u2248 0.016327 BTC)"
+   },
+   {
+    "time": "13 Nov 12:01",
+    "decision": "EXIT",
+    "detail": "CHANDELIER @ 68666 -> -1.10% (\u20b9-1,101)"
    }
   ],
   "peak": 75420.61,
