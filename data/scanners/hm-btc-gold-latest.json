@@ -1,6 +1,6 @@
 {
   "strategy": "hm-btc-gold",
-  "scanned_at": "2026-11-15 03:11:36 IST",
+  "scanned_at": "2026-11-15 03:26:38 IST",
   "status": "success",
   "signals": 2,
   "open": [
@@ -211,10 +211,10 @@
         "1h",
         "2026-11-14 20:00",
         23.6,
-        28.2,
+        28.1,
         27.4,
         -4.5,
-        -2.83,
+        -2.81,
         "GAP-ANGLE-SELL, NEW-LOW-TRICK-SHORT"
       ],
       [
@@ -252,5 +252,5 @@
       ]
     ]
   },
-  "text_report": "HM BTC/GOLD desk \u2014 Sun 15 Nov 2026 03:11\n\nBTC  1h      2026-11-14 20:00  RSI  23.6 red  28.2 green  27.4 gap   -4.5 ang  -2.83  GAP-ANGLE-SELL + NEW-LOW-TRICK-SHORT\nBTC  daily   2026-11-13 00:00  RSI  19.6 red  33.4 green  23.9 gap  -13.8 ang  -3.98  (state, not fresh)\nBTC  weekly  2026-11-13 00:00  RSI  34.0 red  55.9 green  41.2 gap  -21.9 ang  -9.12  (state, not fresh)\nGOLD weekly  2026-11-13 00:00  RSI  33.9 red  42.1 green  35.4 gap   -8.2 ang   0.54   \u26a0\n\n  GOLD (weekly): fast line touched RSI after separation \u2014 exhaustion warning\n\nOpen paper positions: 3\n  2026-10-09 00:00 GOLD weekly  GAP-ANGLE-SELL          SHORT @ 4216.3 (25,000)\n  2026-11-13 22:00 BTC  1h      GAP-ANGLE-SELL          SHORT @ 68194.16 (25,000)\n  2026-11-14 20:00 BTC  1h      NEW-LOW-TRICK-SHORT     SHORT @ 64710.88 (25,000)"
+  "text_report": "HM BTC/GOLD desk \u2014 Sun 15 Nov 2026 03:26\n\nBTC  1h      2026-11-14 20:00  RSI  23.6 red  28.1 green  27.4 gap   -4.5 ang  -2.81  GAP-ANGLE-SELL + NEW-LOW-TRICK-SHORT\nBTC  daily   2026-11-13 00:00  RSI  19.6 red  33.4 green  23.9 gap  -13.8 ang  -3.98  (state, not fresh)\nBTC  weekly  2026-11-13 00:00  RSI  34.0 red  55.9 green  41.2 gap  -21.9 ang  -9.12  (state, not fresh)\nGOLD weekly  2026-11-13 00:00  RSI  33.9 red  42.1 green  35.4 gap   -8.2 ang   0.54   \u26a0\n\n  GOLD (weekly): fast line touched RSI after separation \u2014 exhaustion warning\n\nOpen paper positions: 3\n  2026-10-09 00:00 GOLD weekly  GAP-ANGLE-SELL          SHORT @ 4216.3 (25,000)\n  2026-11-13 22:00 BTC  1h      GAP-ANGLE-SELL          SHORT @ 68194.16 (25,000)\n  2026-11-14 20:00 BTC  1h      NEW-LOW-TRICK-SHORT     SHORT @ 64710.88 (25,000)"
 }
