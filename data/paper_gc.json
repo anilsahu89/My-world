@@ -1,16 +1,17 @@
 {
- "updated_at": "14 Nov 2026 07:48:57 IST",
+ "updated_at": "14 Nov 2026 08:03:59 IST",
  "status": "RUNNING",
  "summary": {
-  "open_count": 1,
-  "closed_count": 56,
-  "realized_total": -3.15,
-  "unrealized": -0.25,
+  "open_count": 0,
+  "closed_count": 57,
+  "realized_total": -3.59,
+  "unrealized": 0,
   "wins": 14,
-  "losses": 42,
-  "win_rate": 25.0
+  "losses": 43,
+  "win_rate": 24.6
  },
- "open": [
+ "open": [],
+ "closed": [
   {
    "id": 57,
    "session": "2026-11-14",
@@ -21,14 +22,11 @@
    "entry_time": "05:38:32",
    "entry_price": 68372.77,
    "sl_price": 67885.06,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -0.25,
-   "ltp": 68099.1
-  }
- ],
- "closed": [
+   "exit_time": "08:03:58",
+   "exit_price": 67885.06,
+   "reason": "SL",
+   "pnl": -0.44
+  },
   {
    "id": 56,
    "session": "2026-11-13",
