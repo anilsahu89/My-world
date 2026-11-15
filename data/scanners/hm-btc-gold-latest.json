@@ -1,8 +1,8 @@
 {
   "strategy": "hm-btc-gold",
-  "scanned_at": "2026-11-16 03:19:19 IST",
+  "scanned_at": "2026-11-16 03:34:21 IST",
   "status": "success",
-  "signals": 1,
+  "signals": 0,
   "open": [
     {
       "asset": "GOLD",
@@ -258,13 +258,13 @@
       [
         "BTC",
         "1h",
-        "2026-11-15 20:00",
-        53.8,
-        48.7,
-        51.2,
-        5.0,
-        3.84,
-        "GAP-ANGLE-BUY"
+        "2026-11-15 21:00",
+        51.1,
+        49.2,
+        51.9,
+        2.0,
+        1.81,
+        ""
       ],
       [
         "BTC",
@@ -301,5 +301,5 @@
       ]
     ]
   },
-  "text_report": "HM BTC/GOLD desk \u2014 Mon 16 Nov 2026 03:19\n\nBTC  1h      2026-11-15 20:00  RSI  53.8 red  48.7 green  51.2 gap    5.0 ang   3.84  GAP-ANGLE-BUY\nBTC  daily   2026-11-14 00:00  RSI  14.5 red  31.6 green  18.1 gap  -17.1 ang  -6.24  (state, not fresh)\nBTC  weekly  2026-11-13 00:00  RSI  34.0 red  55.9 green  41.2 gap  -21.9 ang  -9.12  (state, not fresh)\nGOLD weekly  2026-11-13 00:00  RSI  33.9 red  42.1 green  35.4 gap   -8.2 ang   0.54   \u26a0\n\n  GOLD (weekly): fast line touched RSI after separation \u2014 exhaustion warning\n\nOpen paper positions: 2\n  2026-10-09 00:00 GOLD weekly  GAP-ANGLE-SELL          SHORT @ 4216.3 (25,000)\n  2026-11-15 20:00 BTC  1h      GAP-ANGLE-BUY           LONG  @ 65093.08 (25,000)"
+  "text_report": "HM BTC/GOLD desk \u2014 Mon 16 Nov 2026 03:34\n\nBTC  1h      2026-11-15 21:00  RSI  51.1 red  49.2 green  51.9 gap    2.0 ang   1.81  \nBTC  daily   2026-11-14 00:00  RSI  14.5 red  31.6 green  18.1 gap  -17.1 ang  -6.24  (state, not fresh)\nBTC  weekly  2026-11-13 00:00  RSI  34.0 red  55.9 green  41.2 gap  -21.9 ang  -9.12  (state, not fresh)\nGOLD weekly  2026-11-13 00:00  RSI  33.9 red  42.1 green  35.4 gap   -8.2 ang   0.54   \u26a0\n\n  GOLD (weekly): fast line touched RSI after separation \u2014 exhaustion warning\n\nOpen paper positions: 2\n  2026-10-09 00:00 GOLD weekly  GAP-ANGLE-SELL          SHORT @ 4216.3 (25,000)\n  2026-11-15 20:00 BTC  1h      GAP-ANGLE-BUY           LONG  @ 65093.08 (25,000)"
 }
