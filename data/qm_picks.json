@@ -1,6 +1,6 @@
 {
- "date": "2026-11-13",
- "updated_at": "13 Nov 2026 17:28:25 IST",
+ "date": "2026-11-16",
+ "updated_at": "16 Nov 2026 17:30:13 IST",
  "nifty_gate": {
   "hm_buy_state": false,
   "above_sma20": true,
@@ -9,94 +9,76 @@
  "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM buy state) · 52-week closing high (vol ≥1.5x) · BB Blast squeeze on daily/weekly/monthly (NIFTY > SMA20) · 50-day return must beat NIFTY (RS-50 gate) · NIFTY-500 · ₹5cr turnover · entries capped 2/day by the desk",
  "signals": [
   {
-   "sym": "THELEELA",
+   "sym": "TRENT",
    "setup": "QM-HM",
-   "rsi": 61.0,
-   "note": "RSI9 61 V-turn above rising SMA20",
-   "close": 666.35,
-   "date": "2026-11-13",
-   "rs50": 1.168
+   "rsi": 76.0,
+   "note": "RSI9 76 V-turn above rising SMA20",
+   "close": 3203.7,
+   "date": "2026-11-16",
+   "rs50": 1.122
   },
   {
-   "sym": "IGIL",
+   "sym": "TATACONSUM",
    "setup": "QM-HM",
-   "rsi": 87.4,
-   "note": "RSI9 87 V-turn above rising SMA20",
-   "close": 438.9,
-   "date": "2026-11-13",
-   "rs50": 1.287
+   "rsi": 83.7,
+   "note": "RSI9 84 V-turn above rising SMA20",
+   "close": 1117.5,
+   "date": "2026-11-16",
+   "rs50": 1.084
   },
   {
-   "sym": "NYKAA",
+   "sym": "SAREGAMA",
    "setup": "QM-HM",
-   "rsi": 74.7,
-   "note": "RSI9 75 V-turn above rising SMA20",
-   "close": 365.2,
-   "date": "2026-11-13",
-   "rs50": 1.045
-  },
-  {
-   "sym": "ENGINERSIN",
-   "setup": "QM-HM",
-   "rsi": 85.6,
-   "note": "RSI9 86 V-turn above rising SMA20",
-   "close": 312.45,
-   "date": "2026-11-13",
-   "rs50": 1.193
-  },
-  {
-   "sym": "ITC",
-   "setup": "QM-HM",
-   "rsi": 80.0,
-   "note": "RSI9 80 V-turn above rising SMA20",
-   "close": 285.0,
-   "date": "2026-11-13",
-   "rs50": 1.115
-  },
-  {
-   "sym": "GROWW",
-   "setup": "QM-HM",
-   "rsi": 81.7,
+   "rsi": 82.0,
    "note": "RSI9 82 V-turn above rising SMA20",
-   "close": 224.95,
-   "date": "2026-11-13",
-   "rs50": 1.171
+   "close": 670.0,
+   "date": "2026-11-16",
+   "rs50": 1.357
   },
   {
-   "sym": "MSUMI",
+   "sym": "KOTAKBANK",
    "setup": "QM-HM",
-   "rsi": 87.7,
-   "note": "RSI9 88 V-turn above rising SMA20",
-   "close": 39.02,
-   "date": "2026-11-13",
-   "rs50": 1.061
+   "rsi": 85.1,
+   "note": "RSI9 85 V-turn above rising SMA20",
+   "close": 494.2,
+   "date": "2026-11-16",
+   "rs50": 1.163
   },
   {
-   "sym": "UNOMINDA",
-   "setup": "QM-52W",
-   "rsi": 97.2,
-   "note": "new 52w closing high 1388.0, vol 1.6x",
-   "close": 1388.0,
-   "date": "2026-11-13",
-   "rs50": 1.088
+   "sym": "ETERNAL",
+   "setup": "QM-HM",
+   "rsi": 81.4,
+   "note": "RSI9 81 V-turn above rising SMA20",
+   "close": 371.1,
+   "date": "2026-11-16",
+   "rs50": 1.132
   },
   {
-   "sym": "INDGN",
+   "sym": "ASAHIINDIA",
    "setup": "QM-52W",
-   "rsi": 87.0,
-   "note": "new 52w closing high 666.2, vol 1.9x",
-   "close": 666.2,
-   "date": "2026-11-13",
-   "rs50": 1.089
+   "rsi": 96.7,
+   "note": "new 52w closing high 1165.1, vol 2.3x",
+   "close": 1165.05,
+   "date": "2026-11-16",
+   "rs50": 1.225
   },
   {
-   "sym": "PNB",
+   "sym": "ABDL",
    "setup": "QM-52W",
-   "rsi": 91.3,
-   "note": "new 52w closing high 142.8, vol 1.9x",
-   "close": 142.81,
-   "date": "2026-11-13",
-   "rs50": 1.25
+   "rsi": 86.5,
+   "note": "new 52w closing high 784.2, vol 1.8x",
+   "close": 784.25,
+   "date": "2026-11-16",
+   "rs50": 1.271
+  },
+  {
+   "sym": "LICHSGFIN",
+   "setup": "QM-52W",
+   "rsi": 100.0,
+   "note": "new 52w closing high 605.5, vol 2.3x",
+   "close": 605.5,
+   "date": "2026-11-16",
+   "rs50": 1.132
   }
  ]
 }

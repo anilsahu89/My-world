@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 33,
+ "next_id": 34,
  "trades": [
   {
    "id": 17,
@@ -40,11 +40,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 10,
+   "sessions": 11,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1903.300048828125,
+   "mark": 1893.0,
    "note": "BB squeeze rank 5% blast on w bars"
   },
   {
@@ -62,11 +62,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 9,
+   "sessions": 10,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1772.9000244140625,
+   "mark": 1850.5,
    "note": "BB squeeze rank 6% blast on d bars"
   },
   {
@@ -107,11 +107,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 8,
+   "sessions": 9,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 396.0,
+   "mark": 396.20001220703125,
    "note": "BB squeeze rank 0% blast on d bars"
   },
   {
@@ -152,11 +152,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 7,
+   "sessions": 8,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1189.9000244140625,
+   "mark": 1192.0,
    "note": "BB squeeze rank 11% blast on w bars"
   },
   {
@@ -243,11 +243,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 3,
+   "sessions": 4,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1380.0,
+   "mark": 1377.9000244140625,
    "note": "RSI9 84 V-turn above rising SMA20"
   },
   {
@@ -265,11 +265,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 3,
+   "sessions": 4,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 250.13999938964844,
+   "mark": 246.1300048828125,
    "note": "RSI9 71 V-turn above rising SMA20"
   },
   {
@@ -333,11 +333,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1823.199951171875,
+   "mark": 1794.0,
    "note": "BB squeeze rank 15% blast on w bars"
   },
   {
@@ -362,8 +362,30 @@
    "mark": 1110.25,
    "note": "BB squeeze rank 9% blast on w bars",
    "exit_date": "2026-11-13"
+  },
+  {
+   "id": 33,
+   "signal_date": "2026-11-16",
+   "symbol": "TRENT",
+   "setup": "QM-HM",
+   "side": "BUY",
+   "status": "PENDING",
+   "ref_close": 3203.7,
+   "entry_date": null,
+   "qty": null,
+   "entry": null,
+   "invested": null,
+   "booked": 0.0,
+   "avg_count": 0,
+   "trail": false,
+   "sessions": 0,
+   "exit": null,
+   "reason": null,
+   "pnl": null,
+   "mark": null,
+   "note": "RSI9 76 V-turn above rising SMA20"
   }
  ],
- "done_date": "2026-11-13",
+ "done_date": "2026-11-16",
  "circuit_breaker": false
 }
