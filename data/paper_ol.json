@@ -1,5 +1,5 @@
 {
- "updated_at": "16 Nov 2026 09:21:51 IST",
+ "updated_at": "16 Nov 2026 09:25:58 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -39,32 +39,53 @@
    "UNIONBANK": 1.15,
    "GMRAIRPORT": 0.95,
    "NAVINFLUOR": 0.94,
-   "JMFINANCIL": 0.66,
+   "JMFINANCIL": 0.78,
    "ALKEM": 0.61,
    "PERSISTENT": 0.59,
-   "TORNTPOWER": 0.54,
+   "TORNTPOWER": 0.56,
    "BRITANNIA": 0.52,
    "WIPRO": 0.46,
    "LTM": 0.44,
-   "RBLBANK": 0.41,
-   "MARUTI": 0.38
+   "FORTIS": 0.43,
+   "RBLBANK": 0.41
   },
   "oh": {}
  },
  "engine_errors": [],
  "summary": {
   "open_count": 1,
-  "closed_count": 239,
-  "trades_today": 1,
-  "today_pnl": 0,
-  "realized_total": -1946.51,
+  "closed_count": 240,
+  "trades_today": 2,
+  "today_pnl": -92.61,
+  "realized_total": -2039.12,
   "unrealized": 0,
   "wins": 109,
-  "losses": 130,
-  "win_rate": 45.6,
+  "losses": 131,
+  "win_rate": 45.4,
   "days": 34
  },
  "open": [
+  {
+   "id": 247,
+   "date": "2026-11-16",
+   "setup": "ol",
+   "symbol": "NATCOPHARM",
+   "side": "BUY",
+   "qty": 3,
+   "entry_time": "09:25:03",
+   "entry_price": 848.0,
+   "candle_stop": 825.0,
+   "sl_price": 816.75,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 848.0,
+   "pnl_pct": 0.0
+  }
+ ],
+ "closed": [
   {
    "id": 246,
    "date": "2026-11-16",
@@ -76,16 +97,12 @@
    "entry_price": 3087.0,
    "candle_stop": 3087.0,
    "sl_price": 3056.13,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 0.0,
-   "feed": "angel",
-   "ltp": 3087.0,
-   "pnl_pct": 0.0
-  }
- ],
- "closed": [
+   "exit_time": "09:25:03",
+   "exit_price": 3056.13,
+   "reason": "SL",
+   "pnl": -92.61,
+   "feed": "angel"
+  },
   {
    "id": 243,
    "date": "2026-11-12",
@@ -4357,13 +4374,13 @@
   },
   {
    "date": "2026-11-16",
-   "trades": 1,
-   "ol": 1,
+   "trades": 2,
+   "ol": 2,
    "oh": 0,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -1946.51
+   "losses": 1,
+   "pnl": -92.61,
+   "cum": -2039.12
   }
  ]
 }
