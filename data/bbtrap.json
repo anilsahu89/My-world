@@ -1,8 +1,8 @@
 {
- "fetched_at": "2026-11-14 00:05:10",
- "latest_date": "2026-11-13",
+ "fetched_at": "2026-11-16 17:14:39",
+ "latest_date": "2026-11-16",
  "universe_count": 197,
- "shorts_count": 14,
+ "shorts_count": 11,
  "longs_count": 0,
  "shorts": [
   {
@@ -55,23 +55,6 @@
    "primary_date": "2026-11-09",
    "alert_date": "2026-11-11",
    "score": 46.8
-  },
-  {
-   "kind": "bb",
-   "type": "SHORT",
-   "symbol": "JSWSTEEL",
-   "entry_price": 1355.6,
-   "sl_price": 1364.3,
-   "target_price": 1332.4,
-   "rr": 2.7,
-   "wick_pct": 59,
-   "vol_multiple": 2.8,
-   "rsi": 74,
-   "rsi_pass": true,
-   "primary_range": 29.0,
-   "primary_date": "2026-11-04",
-   "alert_date": "2026-11-05",
-   "score": 45.3
   },
   {
    "kind": "bb",
@@ -144,23 +127,6 @@
   {
    "kind": "bb",
    "type": "SHORT",
-   "symbol": "ASIANPAINT",
-   "entry_price": 2523.8,
-   "sl_price": 2532.62,
-   "target_price": 2500.28,
-   "rr": 2.7,
-   "wick_pct": 60,
-   "vol_multiple": 1.8,
-   "rsi": 70,
-   "rsi_pass": true,
-   "primary_range": 29.4,
-   "primary_date": "2026-11-04",
-   "alert_date": "2026-11-05",
-   "score": 43.2
-  },
-  {
-   "kind": "bb",
-   "type": "SHORT",
    "symbol": "TVSMOTOR",
    "entry_price": 4560.0,
    "sl_price": 4587.87,
@@ -191,23 +157,6 @@
    "primary_date": "2026-11-09",
    "alert_date": "2026-11-11",
    "score": 39.4
-  },
-  {
-   "kind": "bb",
-   "type": "SHORT",
-   "symbol": "HINDPETRO",
-   "entry_price": 380.05,
-   "sl_price": 383.7,
-   "target_price": 370.33,
-   "rr": 2.7,
-   "wick_pct": 75,
-   "vol_multiple": 2.9,
-   "rsi": 69,
-   "rsi_pass": false,
-   "primary_range": 12.15,
-   "primary_date": "2026-11-04",
-   "alert_date": "2026-11-05",
-   "score": 36.3
   },
   {
    "kind": "bb",
