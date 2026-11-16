@@ -1,5 +1,5 @@
 {
- "updated_at": "16 Nov 2026 18:22:05 IST",
+ "updated_at": "16 Nov 2026 18:27:37 IST",
  "status": "RUNNING",
  "summary": {
   "open_count": 1,
@@ -25,7 +25,7 @@
    "exit_price": null,
    "reason": null,
    "pnl": 1.11,
-   "ltp": 64073.71
+   "ltp": 64084.14
   }
  ],
  "closed": [
