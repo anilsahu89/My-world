@@ -1,6 +1,6 @@
 {
   "strategy": "hm-btc-gold",
-  "scanned_at": "2026-11-16 07:26:51 IST",
+  "scanned_at": "2026-11-16 07:34:44 IST",
   "status": "success",
   "signals": 1,
   "open": [
@@ -23,6 +23,17 @@
       "entry_date": "2026-11-16 00:00",
       "entry_price": 64885.55,
       "stop_ref": 64885.55,
+      "lots": 1.0,
+      "capital": 25000.0
+    },
+    {
+      "asset": "BTC",
+      "frame": "1h",
+      "setup": "GAP-ANGLE-SELL",
+      "side": "SELL",
+      "entry_date": "2026-11-16 01:00",
+      "entry_price": 64592.89,
+      "stop_ref": 64592.89,
       "lots": 1.0,
       "capital": 25000.0
     }
@@ -259,7 +270,7 @@
     }
   ],
   "book": {
-    "open": 2,
+    "open": 3,
     "open_pnl_inr": 0.0,
     "realized_pnl_inr": -2518.48,
     "net_pnl_inr": -2518.48,
@@ -282,13 +293,13 @@
       [
         "BTC",
         "1h",
-        "2026-11-16 00:00",
-        49.1,
-        49.2,
-        50.3,
-        -0.1,
-        -0.34,
-        "NEW-LOW-TRICK-SHORT"
+        "2026-11-16 01:00",
+        42.7,
+        48.6,
+        46.1,
+        -5.9,
+        -3.69,
+        "GAP-ANGLE-SELL"
       ],
       [
         "BTC",
@@ -325,5 +336,5 @@
       ]
     ]
   },
-  "text_report": "HM BTC/GOLD desk \u2014 Mon 16 Nov 2026 07:26\n\nBTC  1h      2026-11-16 00:00  RSI  49.1 red  49.2 green  50.3 gap   -0.1 ang  -0.34  NEW-LOW-TRICK-SHORT\nBTC  daily   2026-11-14 00:00  RSI  14.5 red  31.6 green  18.1 gap  -17.1 ang  -6.24  (state, not fresh)\nBTC  weekly  2026-11-13 00:00  RSI  34.0 red  55.9 green  41.2 gap  -21.9 ang  -9.11  (state, not fresh)\nGOLD weekly  2026-11-13 00:00  RSI  33.9 red  42.1 green  35.4 gap   -8.2 ang   0.54   \u26a0\n\n  GOLD (weekly): fast line touched RSI after separation \u2014 exhaustion warning\n\nOpen paper positions: 2\n  2026-10-09 00:00 GOLD weekly  GAP-ANGLE-SELL          SHORT @ 4216.3 (25,000)\n  2026-11-16 00:00 BTC  1h      NEW-LOW-TRICK-SHORT     SHORT @ 64885.55 (25,000)"
+  "text_report": "HM BTC/GOLD desk \u2014 Mon 16 Nov 2026 07:34\n\nBTC  1h      2026-11-16 01:00  RSI  42.7 red  48.6 green  46.1 gap   -5.9 ang  -3.69  GAP-ANGLE-SELL\nBTC  daily   2026-11-14 00:00  RSI  14.5 red  31.6 green  18.1 gap  -17.1 ang  -6.24  (state, not fresh)\nBTC  weekly  2026-11-13 00:00  RSI  34.0 red  55.9 green  41.2 gap  -21.9 ang  -9.11  (state, not fresh)\nGOLD weekly  2026-11-13 00:00  RSI  33.9 red  42.1 green  35.4 gap   -8.2 ang   0.54   \u26a0\n\n  GOLD (weekly): fast line touched RSI after separation \u2014 exhaustion warning\n\nOpen paper positions: 3\n  2026-10-09 00:00 GOLD weekly  GAP-ANGLE-SELL          SHORT @ 4216.3 (25,000)\n  2026-11-16 00:00 BTC  1h      NEW-LOW-TRICK-SHORT     SHORT @ 64885.55 (25,000)\n  2026-11-16 01:00 BTC  1h      GAP-ANGLE-SELL          SHORT @ 64592.89 (25,000)"
 }

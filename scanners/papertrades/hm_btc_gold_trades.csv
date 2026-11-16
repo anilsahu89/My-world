@@ -20,3 +20,4 @@ entry_date,asset,frame,setup,side,entry_price,lots,capital,gap_rsi,angle_rsi,rsi
 2026-11-15 20:00,BTC,1h,GAP-ANGLE-BUY,LONG,65093.08,1.0,25000.0,5.0,3.84,53.8,48.7,51.2,65093.08,CLOSED,2026-11-15 21:00,TREND-END,64895.81,-150.76,-0.6,gap+angle
 2026-11-16 00:00,BTC,1h,NEW-LOW-TRICK-SHORT,SHORT,64885.55,1.0,25000.0,-0.1,-0.34,49.1,49.2,50.3,64885.55,CLOSED,2026-11-16 00:00,INVALIDATED,64888.25,-76.04,-0.3,short; SL = failed-attempt high; target = prior low break
 2026-11-16 00:00,BTC,1h,NEW-LOW-TRICK-SHORT,SHORT,64885.55,1.0,25000.0,-0.1,-0.34,49.1,49.2,50.3,64885.55,OPEN,,,,,,short; SL = failed-attempt high; target = prior low break
+2026-11-16 01:00,BTC,1h,GAP-ANGLE-SELL,SHORT,64592.89,1.0,25000.0,-5.9,-3.69,42.7,48.6,46.1,64592.89,OPEN,,,,,,gap+angle
