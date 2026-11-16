@@ -13,11 +13,11 @@
    "spread": 4.5,
    "lot": 400,
    "preset": "R2 shadow",
-   "last_spot": 1178.0,
-   "last_curr": 1177.4,
-   "last_next": 1170.7,
-   "last_spread": 6.7,
-   "last_date": "2026-11-13"
+   "last_spot": 1158.0,
+   "last_curr": 1150.0,
+   "last_next": 1138.6,
+   "last_spread": 11.4,
+   "last_date": "2026-11-16"
   },
   {
    "symbol": "CHOLAFIN",
@@ -31,29 +31,24 @@
    "spread": 2.4,
    "lot": 625,
    "preset": "R2 shadow",
-   "last_spot": 1850.0,
-   "last_curr": 1836.4,
-   "last_next": 1834.0,
-   "last_spread": 2.4,
-   "last_date": "2026-11-13"
+   "last_spot": 1849.8,
+   "last_curr": 1837.6,
+   "last_next": 1837.5,
+   "last_spread": 0.1,
+   "last_date": "2026-11-16"
   },
   {
-   "symbol": "PHOENIXLTD",
-   "entry_date": "2026-11-13",
-   "spot": 2255.0,
+   "symbol": "NAVINFLUOR",
+   "entry_date": "2026-11-16",
+   "spot": 9890.0,
    "curr_expiry": "2026-11-23",
    "next_expiry": "2026-12-29",
-   "entry_curr": 2233.0,
-   "entry_next": 2215.6,
-   "basis": 22.0,
-   "spread": 17.4,
-   "lot": 350,
-   "preset": "R2 shadow",
-   "last_spot": 2255.0,
-   "last_curr": 2233.0,
-   "last_next": 2215.6,
-   "last_spread": 17.4,
-   "last_date": "2026-11-13"
+   "entry_curr": 9813.5,
+   "entry_next": 9790.0,
+   "basis": 76.5,
+   "spread": 23.5,
+   "lot": 75,
+   "preset": "R2 shadow"
   }
  ],
  "closed": [
@@ -83,6 +78,15 @@
    "pnl": -4100.0,
    "basis_at_entry": 260.0,
    "spread_at_entry": 35.0
+  },
+  {
+   "symbol": "PHOENIXLTD",
+   "entry_date": "2026-11-13",
+   "exit_date": "2026-11-16",
+   "reason": "convergence",
+   "pnl": 420.0,
+   "basis_at_entry": 22.0,
+   "spread_at_entry": 17.4
   }
  ]
 }
