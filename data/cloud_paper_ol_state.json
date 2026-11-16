@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 248,
+ "next_id": 251,
  "trades": [
   {
    "id": 1,
@@ -4253,10 +4253,64 @@
    "pnl": -72.45,
    "status": "CLOSED",
    "feed": "angel"
+  },
+  {
+   "id": 248,
+   "date": "2026-11-16",
+   "setup": "f3",
+   "symbol": "KIMS",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "12:20:40",
+   "entry_price": 762.8,
+   "sl_price": 719.04,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 2.35
+  },
+  {
+   "id": 249,
+   "date": "2026-11-16",
+   "setup": "f3",
+   "symbol": "ASTERDM",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "12:20:40",
+   "entry_price": 754.95,
+   "sl_price": 719.09,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 2.31
+  },
+  {
+   "id": 250,
+   "date": "2026-11-16",
+   "setup": "f3",
+   "symbol": "GODFRYPHLP",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:20:40",
+   "entry_price": 1828.4,
+   "sl_price": 1774.18,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 1.81
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-11-13",
+ "f3_done_date": "2026-11-16",
  "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-11-16",
