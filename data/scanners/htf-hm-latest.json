@@ -1,12 +1,12 @@
 {
  "date": "2026-11-16",
- "updated_at": "16 Nov 2026 12:32:04 IST",
+ "updated_at": "16 Nov 2026 13:03:25 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 1,
-  "invested": 9922.41,
+  "open": 3,
+  "invested": 29602.34,
   "realized": 782.35,
   "wins": 3,
   "losses": 0,
@@ -17,6 +17,20 @@
    "symbol": "IDFCFIRSTB",
    "side": "BUY",
    "weekly": "BUY",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
+  },
+  {
+   "symbol": "SBIN",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
+  },
+  {
+   "symbol": "TITAN",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
    "daily": "BUY-MOMENTUM",
    "setup": "IHM-BUY"
   }
@@ -30,13 +44,13 @@
    "setup": "IHM-BUY",
    "signal_date": "2026-11-16",
    "entry_date": "2026-11-16",
-   "entry_time": "12:31",
-   "entry": 80.67,
+   "entry_time": "13:03",
+   "entry": 81.18,
    "qty": 123,
-   "invested": 9922.41,
-   "rsi_entry": 59.6,
+   "invested": 9985.14,
+   "rsi_entry": 65.7,
    "sl": 79.74,
-   "tgt": 82.06,
+   "tgt": 83.34,
    "status": "OPEN",
    "exit_date": "",
    "exit_time": "",
@@ -46,7 +60,59 @@
    "htf_weekly": "BUY",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 80.67,
+   "ltp": 81.18,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 5,
+   "symbol": "SBIN",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-16",
+   "entry_date": "2026-11-16",
+   "entry_time": "13:03",
+   "entry": 1092.4,
+   "qty": 9,
+   "invested": 9831.6,
+   "rsi_entry": 68.6,
+   "sl": 1084.38,
+   "tgt": 1104.43,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 1092.4,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 6,
+   "symbol": "TITAN",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-16",
+   "entry_date": "2026-11-16",
+   "entry_time": "13:03",
+   "entry": 4892.8,
+   "qty": 2,
+   "invested": 9785.6,
+   "rsi_entry": 52.5,
+   "sl": 4842.8,
+   "tgt": 4967.81,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 4892.8,
    "live_pnl": 0.0
   }
  ],
@@ -130,5 +196,5 @@
    "live_pnl": 404.6
   }
  ],
- "entered_this_run": 1
+ "entered_this_run": 3
 }
