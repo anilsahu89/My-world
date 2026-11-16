@@ -1,5 +1,5 @@
 {
- "updated_at": "16 Nov 2026 09:38:06 IST",
+ "updated_at": "16 Nov 2026 09:41:57 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -33,15 +33,15 @@
  "vwap_blocked": {},
  "vol_audit": {
   "ol": {
+   "DEEPAKFERT": 26.54,
    "NATCOPHARM": 26.26,
-   "DEEPAKFERT": 26.22,
    "KAYNES": 3.08,
    "UNIONBANK": 1.15,
    "GMRAIRPORT": 0.95,
    "NAVINFLUOR": 0.94,
    "JMFINANCIL": 0.78,
-   "FORTIS": 0.65,
-   "ALKEM": 0.61,
+   "FORTIS": 0.76,
+   "ALKEM": 0.69,
    "PERSISTENT": 0.59,
    "TORNTPOWER": 0.56,
    "BRITANNIA": 0.52,
@@ -58,7 +58,7 @@
   "trades_today": 2,
   "today_pnl": -92.61,
   "realized_total": -2039.12,
-  "unrealized": -32.7,
+  "unrealized": -39.6,
   "wins": 109,
   "losses": 131,
   "win_rate": 45.4,
@@ -79,10 +79,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -32.7,
+   "pnl": -39.6,
    "feed": "angel",
-   "ltp": 837.1,
-   "pnl_pct": -1.29
+   "ltp": 834.8,
+   "pnl_pct": -1.56
   }
  ],
  "closed": [
