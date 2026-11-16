@@ -821,7 +821,7 @@
    "symbol": "360ONE",
    "setup": "HM-BUY",
    "side": "BUY",
-   "status": "PENDING",
+   "status": "SKIP",
    "entry_date": null,
    "qty": null,
    "entry": null,
@@ -829,7 +829,7 @@
    "tgt": null,
    "sessions": 0,
    "exit": null,
-   "reason": null,
+   "reason": "risk",
    "pnl": null
   }
  ],

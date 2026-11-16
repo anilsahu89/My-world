@@ -1,5 +1,5 @@
 {
- "updated_at": "16 Nov 2026 09:45:54 IST",
+ "updated_at": "16 Nov 2026 10:14:46 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -53,18 +53,19 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 1,
-  "closed_count": 240,
+  "open_count": 0,
+  "closed_count": 241,
   "trades_today": 2,
-  "today_pnl": -92.61,
-  "realized_total": -2039.12,
-  "unrealized": -48.6,
+  "today_pnl": -165.06,
+  "realized_total": -2111.57,
+  "unrealized": 0,
   "wins": 109,
-  "losses": 131,
-  "win_rate": 45.4,
+  "losses": 132,
+  "win_rate": 45.2,
   "days": 34
  },
- "open": [
+ "open": [],
+ "closed": [
   {
    "id": 247,
    "date": "2026-11-16",
@@ -76,16 +77,12 @@
    "entry_price": 848.0,
    "candle_stop": 825.0,
    "sl_price": 816.75,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -48.6,
-   "feed": "angel",
-   "ltp": 831.8,
-   "pnl_pct": -1.91
-  }
- ],
- "closed": [
+   "exit_time": "10:10:00",
+   "exit_price": 823.85,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -72.45,
+   "feed": "angel"
+  },
   {
    "id": 246,
    "date": "2026-11-16",
@@ -4378,9 +4375,9 @@
    "ol": 2,
    "oh": 0,
    "wins": 0,
-   "losses": 1,
-   "pnl": -92.61,
-   "cum": -2039.12
+   "losses": 2,
+   "pnl": -165.06,
+   "cum": -2111.57
   }
  ]
 }
