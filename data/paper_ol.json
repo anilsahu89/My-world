@@ -1,5 +1,5 @@
 {
- "updated_at": "16 Nov 2026 09:25:58 IST",
+ "updated_at": "16 Nov 2026 09:31:49 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -43,10 +43,10 @@
    "ALKEM": 0.61,
    "PERSISTENT": 0.59,
    "TORNTPOWER": 0.56,
+   "FORTIS": 0.53,
    "BRITANNIA": 0.52,
    "WIPRO": 0.46,
    "LTM": 0.44,
-   "FORTIS": 0.43,
    "RBLBANK": 0.41
   },
   "oh": {}
@@ -58,7 +58,7 @@
   "trades_today": 2,
   "today_pnl": -92.61,
   "realized_total": -2039.12,
-  "unrealized": 0,
+  "unrealized": -21.6,
   "wins": 109,
   "losses": 131,
   "win_rate": 45.4,
@@ -79,10 +79,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -21.6,
    "feed": "angel",
-   "ltp": 848.0,
-   "pnl_pct": 0.0
+   "ltp": 840.8,
+   "pnl_pct": -0.85
   }
  ],
  "closed": [
