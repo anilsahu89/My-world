@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 59,
+ "next_id": 60,
  "trades": [
   {
    "session": "2026-09-04",
@@ -930,6 +930,22 @@
    "reason": "SL",
    "pnl": -0.29,
    "status": "CLOSED"
+  },
+  {
+   "id": 59,
+   "session": "2026-11-16",
+   "setup": "oh",
+   "symbol": "BTC",
+   "side": "SELL",
+   "qty": 0.0009,
+   "entry_time": "05:34:27",
+   "entry_price": 65312.53,
+   "sl_price": 65652.47,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN"
   }
  ],
  "seeded": true
