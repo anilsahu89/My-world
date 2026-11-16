@@ -1,5 +1,5 @@
 {
- "updated_at": "16 Nov 2026 18:54 IST",
+ "updated_at": "16 Nov 2026 19:10 IST",
  "desk": "Future Arbitrage",
  "status": "RUNNING",
  "preset": "r1",
@@ -98,9 +98,7 @@
  },
  "shadow": {
   "rule": "R2 shadow (exploratory): basis>=8 & >=0.4% of spot, spread<=0.8x basis, next-vol>=100, 5-21d to expiry \u00b7 same exits as the real book \u00b7 1 lot \u00b7 max 3 open \u00b7 tracked for rule learning only \u2014 not in the pilot equity",
-  "entered_today": [
-   "NAVINFLUOR"
-  ],
+  "entered_today": [],
   "open": [
    {
     "symbol": "COCHINSHIP",
@@ -123,7 +121,7 @@
     "entry_date": "2026-11-16",
     "basis": 76.5,
     "spread": 23.5,
-    "last_spread": null,
+    "last_spread": 23.5,
     "dte_exp": "2026-11-23"
    }
   ],
