@@ -4343,7 +4343,8 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel",
-   "mark_1200": 385.55
+   "mark_1200": 385.55,
+   "mark_1230": 384.75
   },
   {
    "id": 253,
@@ -4362,7 +4363,8 @@
    "pnl": null,
    "status": "OPEN",
    "feed": "angel",
-   "mark_1200": 94.22
+   "mark_1200": 94.22,
+   "mark_1230": 94.39
   },
   {
    "id": 254,
