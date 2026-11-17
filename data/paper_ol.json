@@ -1,5 +1,5 @@
 {
- "updated_at": "17 Nov 2026 09:22:16 IST",
+ "updated_at": "17 Nov 2026 09:26:07 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -25,12 +25,15 @@
    "no_vol_data": 0
   },
   "oh": {
-   "low_vol": 0,
+   "low_vol": 25,
    "no_vol_data": 0
   }
  },
  "trend_blocked": {},
- "vwap_blocked": {},
+ "vwap_blocked": {
+  "ol": 0,
+  "oh": 3
+ },
  "vol_audit": {
   "ol": {
    "AFCONS": 22.8,
@@ -49,7 +52,23 @@
    "MRPL": 0.77,
    "MARUTI": 0.7
   },
-  "oh": {}
+  "oh": {
+   "CONCORDBIO": 1.1,
+   "GICRE": 1.08,
+   "SAILIFE": 1.07,
+   "NIACL": 1.06,
+   "PTCIL": 0.92,
+   "SAMMAANCAP": 0.88,
+   "BHARTIARTL": 0.82,
+   "KIMS": 0.81,
+   "GPIL": 0.79,
+   "IGL": 0.72,
+   "NEWGEN": 0.72,
+   "TATACOMM": 0.71,
+   "ESCORTS": 0.53,
+   "CHALET": 0.39,
+   "INDUSINDBK": 0.39
+  }
  },
  "engine_errors": [],
  "summary": {
@@ -58,7 +77,7 @@
   "trades_today": 3,
   "today_pnl": 0,
   "realized_total": -2142.77,
-  "unrealized": 0,
+  "unrealized": -14.23,
   "wins": 109,
   "losses": 135,
   "win_rate": 44.7,
@@ -79,10 +98,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -13.3,
    "feed": "angel",
-   "ltp": 171.96,
-   "pnl_pct": 0.0
+   "ltp": 171.26,
+   "pnl_pct": -0.41
   },
   {
    "id": 252,
@@ -98,10 +117,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -5.25,
    "feed": "angel",
-   "ltp": 388.75,
-   "pnl_pct": 0.0
+   "ltp": 388.0,
+   "pnl_pct": -0.19
   },
   {
    "id": 253,
@@ -117,10 +136,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": 4.32,
    "feed": "angel",
-   "ltp": 92.91,
-   "pnl_pct": 0.0
+   "ltp": 92.99,
+   "pnl_pct": 0.09
   }
  ],
  "closed": [
