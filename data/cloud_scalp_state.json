@@ -35,8 +35,13 @@
    "driver_low": 25381.25,
    "r_multiple": 0.0,
    "lots": 2,
-   "status": "OPEN",
-   "structure": "trend-continuation"
+   "status": "CLOSED",
+   "structure": "trend-continuation",
+   "exit_bar": 0,
+   "exit_reason": "SL",
+   "exit_idx": 25381.25,
+   "pnl_pts": -57.2,
+   "pnl": -4290.0
   }
  ],
  "decisions": [
@@ -54,10 +59,15 @@
    "time": "11:47:01",
    "decision": "ENTRY",
    "detail": "FIRST3 stack @ 25438.4 SL 25381.2 TGT 25524.2"
+  },
+  {
+   "time": "11:50:25",
+   "decision": "EXIT",
+   "detail": "NIFTY ATM CE SL @ 25381.2 -> -57.2 pts"
   }
  ],
  "day": "2026-11-17",
- "day_losses": 1,
+ "day_losses": 2,
  "done_date": "2026-11-17",
  "btc": {
   "position": null,
