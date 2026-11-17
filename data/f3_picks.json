@@ -1,6 +1,6 @@
 {
  "date": "2026-11-17",
- "scanned_at": "14:57:11",
+ "scanned_at": "15:00:38",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
  "signals": [
@@ -10,10 +10,10 @@
    "qty": 2,
    "entry": 377.0,
    "sl": 342.88,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 355.1,
+   "reason": "EOD",
+   "pnl": -43.8
   },
   {
    "symbol": "CAMS",
@@ -21,10 +21,10 @@
    "qty": 2,
    "entry": 766.65,
    "sl": 719.38,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 747.2,
+   "reason": "EOD",
+   "pnl": -38.9
   },
   {
    "symbol": "SIGNATURE",
@@ -32,10 +32,10 @@
    "qty": 1,
    "entry": 818.6,
    "sl": 761.32,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 830.1,
+   "reason": "EOD",
+   "pnl": 11.5
   }
  ]
 }
