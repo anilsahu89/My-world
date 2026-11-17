@@ -1,20 +1,121 @@
 {
- "date": "2026-11-16",
- "updated_at": "16 Nov 2026 17:30:23 IST",
+ "date": "2026-11-17",
+ "updated_at": "17 Nov 2026 10:15:02 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 0,
-  "invested": 0,
+  "open": 3,
+  "invested": 25796.4,
   "realized": 782.35,
   "wins": 3,
   "losses": 0,
   "win_rate": 100.0
  },
- "signals": [],
+ "signals": [
+  {
+   "symbol": "ABB",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
+  },
+  {
+   "symbol": "BAJFINANCE",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
+  },
+  {
+   "symbol": "BANKBARODA",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
+  }
+ ],
  "monthly_watchlist": [],
- "open": [],
+ "open": [
+  {
+   "id": 4,
+   "symbol": "ABB",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-17",
+   "entry_date": "2026-11-17",
+   "entry_time": "10:14",
+   "entry": 6990.0,
+   "qty": 1,
+   "invested": 6990.0,
+   "rsi_entry": 59.1,
+   "sl": 6786.4,
+   "tgt": 7295.4,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 6990.0,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 5,
+   "symbol": "BAJFINANCE",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-17",
+   "entry_date": "2026-11-17",
+   "entry_time": "10:14",
+   "entry": 1118.25,
+   "qty": 8,
+   "invested": 8946.0,
+   "rsi_entry": 68.9,
+   "sl": 1101.14,
+   "tgt": 1143.91,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 1118.25,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 6,
+   "symbol": "BANKBARODA",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-17",
+   "entry_date": "2026-11-17",
+   "entry_time": "10:14",
+   "entry": 273.9,
+   "qty": 36,
+   "invested": 9860.4,
+   "rsi_entry": 61.4,
+   "sl": 268.96,
+   "tgt": 281.31,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 273.9,
+   "live_pnl": 0.0
+  }
+ ],
  "closed": [
   {
    "id": 1,
@@ -95,5 +196,5 @@
    "live_pnl": 404.6
   }
  ],
- "entered_this_run": 0
+ "entered_this_run": 3
 }
