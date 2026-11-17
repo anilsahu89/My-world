@@ -957,11 +957,11 @@
    "entry_time": "05:44:58",
    "entry_price": 64611.19,
    "sl_price": 65193.03,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN"
+   "exit_time": "20:07:40",
+   "exit_price": 65193.03,
+   "reason": "SL",
+   "pnl": -0.52,
+   "status": "CLOSED"
   }
  ],
  "seeded": true
