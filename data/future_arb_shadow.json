@@ -13,11 +13,11 @@
    "spread": 4.5,
    "lot": 400,
    "preset": "R2 shadow",
-   "last_spot": 1158.0,
-   "last_curr": 1150.0,
-   "last_next": 1138.6,
-   "last_spread": 11.4,
-   "last_date": "2026-11-16"
+   "last_spot": 1147.0,
+   "last_curr": 1144.7,
+   "last_next": 1139.3,
+   "last_spread": 5.4,
+   "last_date": "2026-11-17"
   },
   {
    "symbol": "CHOLAFIN",
@@ -31,11 +31,11 @@
    "spread": 2.4,
    "lot": 625,
    "preset": "R2 shadow",
-   "last_spot": 1849.8,
-   "last_curr": 1837.6,
-   "last_next": 1837.5,
-   "last_spread": 0.1,
-   "last_date": "2026-11-16"
+   "last_spot": 1884.7,
+   "last_curr": 1870.1,
+   "last_next": 1873.6,
+   "last_spread": -3.5,
+   "last_date": "2026-11-17"
   },
   {
    "symbol": "NAVINFLUOR",
@@ -49,11 +49,11 @@
    "spread": 23.5,
    "lot": 75,
    "preset": "R2 shadow",
-   "last_spot": 9890.0,
-   "last_curr": 9813.5,
-   "last_next": 9790.0,
-   "last_spread": 23.5,
-   "last_date": "2026-11-16"
+   "last_spot": 9815.0,
+   "last_curr": 9810.5,
+   "last_next": 9819.0,
+   "last_spread": -8.5,
+   "last_date": "2026-11-17"
   }
  ],
  "closed": [
