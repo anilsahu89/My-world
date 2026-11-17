@@ -1,5 +1,5 @@
 {
- "updated_at": "17 Nov 2026 14:43:36 IST",
+ "updated_at": "17 Nov 2026 14:47:00 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -82,7 +82,7 @@
   "trades_today": 7,
   "today_pnl": -139.69,
   "realized_total": -2282.46,
-  "unrealized": 40.53,
+  "unrealized": 45.67,
   "wins": 109,
   "losses": 137,
   "win_rate": 44.3,
@@ -103,13 +103,13 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -31.15,
+   "pnl": -32.2,
    "feed": "angel",
    "mark_1200": 385.55,
    "mark_1230": 384.75,
    "mark_1300": 384.35,
-   "ltp": 384.3,
-   "pnl_pct": -1.14
+   "ltp": 384.15,
+   "pnl_pct": -1.18
   },
   {
    "id": 253,
@@ -125,13 +125,13 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 144.18,
+   "pnl": 150.12,
    "feed": "angel",
    "mark_1200": 94.22,
    "mark_1230": 94.39,
    "mark_1300": 94.4,
-   "ltp": 95.58,
-   "pnl_pct": 2.87
+   "ltp": 95.69,
+   "pnl_pct": 2.99
   },
   {
    "id": 255,
@@ -146,11 +146,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -47.9,
+   "pnl": -47.0,
    "feed": "angel-f3",
    "drive_pct": 4.98,
-   "ltp": 353.05,
-   "pnl_pct": -6.35
+   "ltp": 353.5,
+   "pnl_pct": -6.23
   },
   {
    "id": 256,
@@ -165,11 +165,11 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -37.5,
+   "pnl": -38.2,
    "feed": "angel-f3",
    "drive_pct": 3.96,
-   "ltp": 747.9,
-   "pnl_pct": -2.45
+   "ltp": 747.55,
+   "pnl_pct": -2.49
   },
   {
    "id": 257,
@@ -184,10 +184,10 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 12.9,
+   "pnl": 12.95,
    "feed": "angel-f3",
    "drive_pct": 2.49,
-   "ltp": 831.5,
+   "ltp": 831.55,
    "pnl_pct": 1.58
   }
  ],
