@@ -40,11 +40,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 11,
+   "sessions": 12,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1893.0,
+   "mark": 1917.0,
    "note": "BB squeeze rank 5% blast on w bars"
   },
   {
@@ -62,11 +62,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 10,
+   "sessions": 11,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1850.5,
+   "mark": 1802.199951171875,
    "note": "BB squeeze rank 6% blast on d bars"
   },
   {
@@ -107,11 +107,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 9,
+   "sessions": 10,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 396.20001220703125,
+   "mark": 392.6000061035156,
    "note": "BB squeeze rank 0% blast on d bars"
   },
   {
@@ -152,11 +152,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 8,
+   "sessions": 9,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1192.0,
+   "mark": 1204.199951171875,
    "note": "BB squeeze rank 11% blast on w bars"
   },
   {
@@ -243,11 +243,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 4,
+   "sessions": 5,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1377.9000244140625,
+   "mark": 1388.0,
    "note": "RSI9 84 V-turn above rising SMA20"
   },
   {
@@ -265,11 +265,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 4,
+   "sessions": 5,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 246.1300048828125,
+   "mark": 265.6199951171875,
    "note": "RSI9 71 V-turn above rising SMA20"
   },
   {
@@ -333,11 +333,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 2,
+   "sessions": 3,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1794.0,
+   "mark": 1794.0999755859375,
    "note": "BB squeeze rank 15% blast on w bars"
   },
   {
@@ -369,23 +369,23 @@
    "symbol": "TRENT",
    "setup": "QM-HM",
    "side": "BUY",
-   "status": "PENDING",
+   "status": "OPEN",
    "ref_close": 3203.7,
-   "entry_date": null,
-   "qty": null,
-   "entry": null,
-   "invested": null,
+   "entry_date": "2026-11-17",
+   "qty": 2.0,
+   "entry": 3210.0,
+   "invested": 6420.0,
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 0,
+   "sessions": 1,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": null,
+   "mark": 3176.300048828125,
    "note": "RSI9 76 V-turn above rising SMA20"
   }
  ],
- "done_date": "2026-11-16",
+ "done_date": "2026-11-17",
  "circuit_breaker": false
 }

@@ -1,6 +1,6 @@
 {
- "date": "2026-11-16",
- "updated_at": "16 Nov 2026 17:30:13 IST",
+ "date": "2026-11-17",
+ "updated_at": "17 Nov 2026 17:27:59 IST",
  "nifty_gate": {
   "hm_buy_state": false,
   "above_sma20": true,
@@ -9,76 +9,166 @@
  "rule": "QM entry families: HM-buy (RSI9>55 V-turn, NIFTY in HM buy state) · 52-week closing high (vol ≥1.5x) · BB Blast squeeze on daily/weekly/monthly (NIFTY > SMA20) · 50-day return must beat NIFTY (RS-50 gate) · NIFTY-500 · ₹5cr turnover · entries capped 2/day by the desk",
  "signals": [
   {
-   "sym": "TRENT",
+   "sym": "M&M",
    "setup": "QM-HM",
-   "rsi": 76.0,
-   "note": "RSI9 76 V-turn above rising SMA20",
-   "close": 3203.7,
-   "date": "2026-11-16",
-   "rs50": 1.122
+   "rsi": 82.5,
+   "note": "RSI9 83 V-turn above rising SMA20",
+   "close": 3399.0,
+   "date": "2026-11-17",
+   "rs50": 1.066
   },
   {
-   "sym": "TATACONSUM",
+   "sym": "PVRINOX",
    "setup": "QM-HM",
-   "rsi": 83.7,
+   "rsi": 84.2,
    "note": "RSI9 84 V-turn above rising SMA20",
-   "close": 1117.5,
-   "date": "2026-11-16",
-   "rs50": 1.084
+   "close": 1677.4,
+   "date": "2026-11-17",
+   "rs50": 1.386
   },
   {
-   "sym": "SAREGAMA",
+   "sym": "ADANIGREEN",
    "setup": "QM-HM",
-   "rsi": 82.0,
-   "note": "RSI9 82 V-turn above rising SMA20",
-   "close": 670.0,
-   "date": "2026-11-16",
-   "rs50": 1.357
+   "rsi": 70.3,
+   "note": "RSI9 70 V-turn above rising SMA20",
+   "close": 1429.9,
+   "date": "2026-11-17",
+   "rs50": 1.103
   },
   {
-   "sym": "KOTAKBANK",
+   "sym": "UNOMINDA",
    "setup": "QM-HM",
-   "rsi": 85.1,
-   "note": "RSI9 85 V-turn above rising SMA20",
-   "close": 494.2,
-   "date": "2026-11-16",
-   "rs50": 1.163
+   "rsi": 86.4,
+   "note": "RSI9 86 V-turn above rising SMA20",
+   "close": 1388.1,
+   "date": "2026-11-17",
+   "rs50": 1.123
   },
   {
-   "sym": "ETERNAL",
+   "sym": "CEMPRO",
    "setup": "QM-HM",
-   "rsi": 81.4,
-   "note": "RSI9 81 V-turn above rising SMA20",
-   "close": 371.1,
-   "date": "2026-11-16",
-   "rs50": 1.132
+   "rsi": 69.2,
+   "note": "RSI9 69 V-turn above rising SMA20",
+   "close": 1352.3,
+   "date": "2026-11-17",
+   "rs50": 1.094
   },
   {
-   "sym": "ASAHIINDIA",
+   "sym": "BAJFINANCE",
+   "setup": "QM-HM",
+   "rsi": 85.8,
+   "note": "RSI9 86 V-turn above rising SMA20",
+   "close": 1121.1,
+   "date": "2026-11-17",
+   "rs50": 1.062
+  },
+  {
+   "sym": "INDHOTEL",
+   "setup": "QM-HM",
+   "rsi": 79.4,
+   "note": "RSI9 79 V-turn above rising SMA20",
+   "close": 901.55,
+   "date": "2026-11-17",
+   "rs50": 1.239
+  },
+  {
+   "sym": "DLF",
+   "setup": "QM-HM",
+   "rsi": 75.7,
+   "note": "RSI9 76 V-turn above rising SMA20",
+   "close": 765.95,
+   "date": "2026-11-17",
+   "rs50": 1.137
+  },
+  {
+   "sym": "THELEELA",
+   "setup": "QM-HM",
+   "rsi": 61.7,
+   "note": "RSI9 62 V-turn above rising SMA20",
+   "close": 676.3,
+   "date": "2026-11-17",
+   "rs50": 1.187
+  },
+  {
+   "sym": "ENGINERSIN",
+   "setup": "QM-HM",
+   "rsi": 74.6,
+   "note": "RSI9 75 V-turn above rising SMA20",
+   "close": 312.9,
+   "date": "2026-11-17",
+   "rs50": 1.131
+  },
+  {
+   "sym": "BANKBARODA",
+   "setup": "QM-HM",
+   "rsi": 86.3,
+   "note": "RSI9 86 V-turn above rising SMA20",
+   "close": 274.89,
+   "date": "2026-11-17",
+   "rs50": 1.14
+  },
+  {
+   "sym": "ITCHOTELS",
+   "setup": "QM-HM",
+   "rsi": 65.4,
+   "note": "RSI9 65 V-turn above rising SMA20",
+   "close": 177.81,
+   "date": "2026-11-17",
+   "rs50": 1.121
+  },
+  {
+   "sym": "MOTILALOFS",
    "setup": "QM-52W",
-   "rsi": 96.7,
-   "note": "new 52w closing high 1165.1, vol 2.3x",
-   "close": 1165.05,
-   "date": "2026-11-16",
-   "rs50": 1.225
+   "rsi": 98.7,
+   "note": "new 52w closing high 1240.2, vol 1.7x",
+   "close": 1240.25,
+   "date": "2026-11-17",
+   "rs50": 1.219
   },
   {
    "sym": "ABDL",
    "setup": "QM-52W",
-   "rsi": 86.5,
-   "note": "new 52w closing high 784.2, vol 1.8x",
-   "close": 784.25,
-   "date": "2026-11-16",
-   "rs50": 1.271
+   "rsi": 99.7,
+   "note": "new 52w closing high 791.7, vol 4.5x",
+   "close": 791.65,
+   "date": "2026-11-17",
+   "rs50": 1.31
   },
   {
    "sym": "LICHSGFIN",
    "setup": "QM-52W",
    "rsi": 100.0,
-   "note": "new 52w closing high 605.5, vol 2.3x",
-   "close": 605.5,
-   "date": "2026-11-16",
-   "rs50": 1.132
+   "note": "new 52w closing high 622.5, vol 2.6x",
+   "close": 622.5,
+   "date": "2026-11-17",
+   "rs50": 1.15
+  },
+  {
+   "sym": "HONASA",
+   "setup": "QM-52W",
+   "rsi": 82.7,
+   "note": "new 52w closing high 517.8, vol 1.8x",
+   "close": 517.8,
+   "date": "2026-11-17",
+   "rs50": 1.102
+  },
+  {
+   "sym": "PNB",
+   "setup": "QM-52W",
+   "rsi": 100.0,
+   "note": "new 52w closing high 150.0, vol 1.6x",
+   "close": 150.0,
+   "date": "2026-11-17",
+   "rs50": 1.282
+  },
+  {
+   "sym": "MAHABANK",
+   "setup": "QM-52W",
+   "rsi": 93.8,
+   "note": "new 52w closing high 96.0, vol 1.8x",
+   "close": 95.99,
+   "date": "2026-11-17",
+   "rs50": 1.165
   }
  ]
 }
