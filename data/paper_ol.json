@@ -1,5 +1,5 @@
 {
- "updated_at": "17 Nov 2026 09:18:37 IST",
+ "updated_at": "17 Nov 2026 09:22:16 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -19,24 +19,110 @@
   },
   "vol_note": "15 Oct: volume gate = RVOL (cumulative volume vs time-of-day expectation, 1.0 = normal day) — O=L >= 1.3, O=H >= 1.0; deliberately low, tuned from vol_audit"
  },
- "vol_blocked": {},
+ "vol_blocked": {
+  "ol": {
+   "low_vol": 29,
+   "no_vol_data": 0
+  },
+  "oh": {
+   "low_vol": 0,
+   "no_vol_data": 0
+  }
+ },
  "trend_blocked": {},
  "vwap_blocked": {},
- "vol_audit": {},
+ "vol_audit": {
+  "ol": {
+   "AFCONS": 22.8,
+   "ASHOKLEY": 4.85,
+   "EXIDEIND": 3.0,
+   "DABUR": 2.17,
+   "ALKEM": 2.02,
+   "MAHABANK": 1.63,
+   "EICHERMOT": 1.45,
+   "CEATLTD": 1.3,
+   "INDIGO": 1.11,
+   "KARURVYSYA": 1.11,
+   "SBIN": 1.11,
+   "GROWW": 1.01,
+   "IDFCFIRSTB": 0.91,
+   "MRPL": 0.77,
+   "MARUTI": 0.7
+  },
+  "oh": {}
+ },
  "engine_errors": [],
  "summary": {
-  "open_count": 0,
+  "open_count": 3,
   "closed_count": 244,
-  "trades_today": 0,
+  "trades_today": 3,
   "today_pnl": 0,
   "realized_total": -2142.77,
   "unrealized": 0,
   "wins": 109,
   "losses": 135,
   "win_rate": 44.7,
-  "days": 34
+  "days": 35
  },
- "open": [],
+ "open": [
+  {
+   "id": 251,
+   "date": "2026-11-17",
+   "setup": "ol",
+   "symbol": "ASHOKLEY",
+   "side": "BUY",
+   "qty": 19,
+   "entry_time": "09:21:32",
+   "entry_price": 171.96,
+   "candle_stop": 168.51,
+   "sl_price": 166.82,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 171.96,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 252,
+   "date": "2026-11-17",
+   "setup": "ol",
+   "symbol": "DABUR",
+   "side": "BUY",
+   "qty": 7,
+   "entry_time": "09:21:32",
+   "entry_price": 388.75,
+   "candle_stop": 379.95,
+   "sl_price": 376.15,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 388.75,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 253,
+   "date": "2026-11-17",
+   "setup": "ol",
+   "symbol": "MAHABANK",
+   "side": "BUY",
+   "qty": 54,
+   "entry_time": "09:21:32",
+   "entry_price": 92.91,
+   "candle_stop": 92.0,
+   "sl_price": 91.08,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "ltp": 92.91,
+   "pnl_pct": 0.0
+  }
+ ],
  "closed": [
   {
    "id": 248,
@@ -4397,6 +4483,16 @@
    "wins": 0,
    "losses": 5,
    "pnl": -196.26,
+   "cum": -2142.77
+  },
+  {
+   "date": "2026-11-17",
+   "trades": 3,
+   "ol": 3,
+   "oh": 0,
+   "wins": 0,
+   "losses": 0,
+   "pnl": 0,
    "cum": -2142.77
   }
  ]
