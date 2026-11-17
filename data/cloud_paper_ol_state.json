@@ -4319,11 +4319,11 @@
    "entry_price": 171.96,
    "candle_stop": 168.51,
    "sl_price": 166.82,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "09:55:00",
+   "exit_price": 167.85,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -78.09,
+   "status": "CLOSED",
    "feed": "angel"
   },
   {
@@ -4373,11 +4373,11 @@
    "entry_price": 223.75,
    "candle_stop": 220.0,
    "sl_price": 217.8,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "10:05:00",
+   "exit_price": 219.9,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -61.6,
+   "status": "CLOSED",
    "feed": "angel"
   }
  ],
