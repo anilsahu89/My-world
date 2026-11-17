@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 255,
+ "next_id": 258,
  "trades": [
   {
    "id": 1,
@@ -4381,10 +4381,64 @@
    "pnl": -61.6,
    "status": "CLOSED",
    "feed": "angel"
+  },
+  {
+   "id": 255,
+   "date": "2026-11-17",
+   "setup": "f3",
+   "symbol": "ANGELONE",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "12:20:42",
+   "entry_price": 377.0,
+   "sl_price": 342.88,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 4.98
+  },
+  {
+   "id": 256,
+   "date": "2026-11-17",
+   "setup": "f3",
+   "symbol": "CAMS",
+   "side": "BUY",
+   "qty": 2,
+   "entry_time": "12:20:42",
+   "entry_price": 766.65,
+   "sl_price": 719.38,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 3.96
+  },
+  {
+   "id": 257,
+   "date": "2026-11-17",
+   "setup": "f3",
+   "symbol": "SIGNATURE",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:20:42",
+   "entry_price": 818.6,
+   "sl_price": 761.32,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 2.49
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-11-16",
+ "f3_done_date": "2026-11-17",
  "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-11-17",
