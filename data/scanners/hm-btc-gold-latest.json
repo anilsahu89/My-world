@@ -1,8 +1,8 @@
 {
   "strategy": "hm-btc-gold",
-  "scanned_at": "2026-11-18 04:29:20 IST",
+  "scanned_at": "2026-11-18 04:44:15 IST",
   "status": "success",
-  "signals": 1,
+  "signals": 0,
   "open": [
     {
       "asset": "GOLD",
@@ -330,12 +330,12 @@
       [
         "BTC",
         "1h",
-        "2026-11-17 21:00",
-        50.6,
-        43.6,
+        "2026-11-17 22:00",
+        58.1,
         44.7,
-        7.0,
-        5.43,
+        52.8,
+        13.4,
+        8.06,
         "GAP-ANGLE-BUY"
       ],
       [
@@ -373,5 +373,5 @@
       ]
     ]
   },
-  "text_report": "HM BTC/GOLD desk \u2014 Wed 18 Nov 2026 04:29\n\nBTC  1h      2026-11-17 21:00  RSI  50.6 red  43.6 green  44.7 gap    7.0 ang   5.43  GAP-ANGLE-BUY\nBTC  daily   2026-11-16 00:00  RSI  20.4 red  29.3 green  19.7 gap   -8.8 ang   0.27  \nBTC  weekly  2026-11-13 00:00  RSI  34.0 red  55.9 green  41.2 gap  -21.9 ang  -9.11  (state, not fresh)\nGOLD weekly  2026-11-13 00:00  RSI  33.9 red  42.1 green  35.4 gap   -8.2 ang   0.54   \u26a0\n\n  GOLD (weekly): fast line touched RSI after separation \u2014 exhaustion warning\n\nOpen paper positions: 2\n  2026-10-09 00:00 GOLD weekly  GAP-ANGLE-SELL          SHORT @ 4216.3 (25,000)\n  2026-11-17 21:00 BTC  1h      GAP-ANGLE-BUY           LONG  @ 64289.27 (25,000)"
+  "text_report": "HM BTC/GOLD desk \u2014 Wed 18 Nov 2026 04:44\n\nBTC  1h      2026-11-17 22:00  RSI  58.1 red  44.7 green  52.8 gap   13.4 ang   8.06  (state, not fresh)\nBTC  daily   2026-11-16 00:00  RSI  20.4 red  29.3 green  19.7 gap   -8.8 ang   0.27  \nBTC  weekly  2026-11-13 00:00  RSI  34.0 red  55.9 green  41.2 gap  -21.9 ang  -9.11  (state, not fresh)\nGOLD weekly  2026-11-13 00:00  RSI  33.9 red  42.1 green  35.4 gap   -8.2 ang   0.54   \u26a0\n\n  GOLD (weekly): fast line touched RSI after separation \u2014 exhaustion warning\n\nOpen paper positions: 2\n  2026-10-09 00:00 GOLD weekly  GAP-ANGLE-SELL          SHORT @ 4216.3 (25,000)\n  2026-11-17 21:00 BTC  1h      GAP-ANGLE-BUY           LONG  @ 64289.27 (25,000)"
 }
