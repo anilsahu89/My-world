@@ -16,7 +16,7 @@ NSE rules = the tuned local engine (parity since 2026-09-20):
   snapshot (vol_blocked) instead of silently zeroing vol_ratio.
   SL = 0.5% beyond day low/high · NIFTY-direction gate on both legs
   2026-09-28 opening-candle experiment (monitored for a week):
-    entries from 09:20 (first 5-min candle complete) · primary stop is a
+    entries 09:30-09:45 (v3 17 Nov; was 09:20) · primary stop is a
     5-min candle CLOSE beyond the opening low/high captured at entry
     (CANDLE-CLOSE); the buffered tick SL stays as backstop
   VWAP extreme gate: O=L only while price is still BELOW VWAP, O=H only
@@ -67,13 +67,18 @@ NSE_MIN_VOL_OL = 3.0           # legacy value, no longer used for entries
 # day's volume expected by this time). 1.0 = a normal session. Deliberately
 # LOW to start trading again; vol_audit in the snapshot logs every
 # candidate's RVOL so the thresholds can be tuned from real data.
-NSE_RVOL_OL = 1.3              # O=L long — stricter (win-rate tune 15 Oct)              # O=L long  (was 3.0 on the old scale)
-NSE_RVOL_OH = 1.0              # O=H short — moderate (win-rate tune 15 Oct)              # O=H short (was 1.5 on the old scale)
+NSE_RVOL_OL = 1.5              # v3 17 Nov: raised 1.3 -> 1.5 (strategy-page backtest edge needs >=1.5x)
+NSE_RVOL_OH = 1.5              # v3 17 Nov: raised 1.0 -> 1.5 (1.0 was ~no filter)
 # cumulative share of a normal day's volume traded N minutes after 09:15
 # IST — an ASSUMED U-shaped NSE profile (tune with vol_audit data)
 VOL_PROFILE = [(0, 0.0), (5, 0.05), (10, 0.08), (15, 0.11), (30, 0.17),
                (45, 0.22), (60, 0.26), (120, 0.40), (240, 0.65), (375, 1.0)]
-NSE_MAX_PER_SETUP = 5
+NSE_MAX_PER_SETUP = 3          # v3 17 Nov: top-3 by RVOL per setup (was 5)
+# v3 17 Nov (ledger deep-dive, 165 O=L/O=H trades): entries before 09:30 lost
+# ~-1,700 of the -2,292 total; stops (median 1.55% away) cost ~2x the avg win.
+NSE_ENTRY_START = time(9, 30)  # was 09:20
+NSE_MAX_STOP_PCT = 1.5         # skip setups whose candle stop is > this % from entry
+RULES_VERSION = "v3-17nov"     # tagged on every new trade so before/after is separable
 NSE_ENTRY_CUTOFF = time(9, 45)
 NSE_TIME_STOP = time(10, 45)  # scratch ol longs not in profit by now
 NSE_SQUARE_OFF = time(15, 0)
@@ -479,6 +484,13 @@ def manage_nse(state: dict, quotes: dict, moment: datetime) -> None:
             close(trade, trade["sl_price"], "SL", stamp)
         elif moment.time() >= NSE_SQUARE_OFF:
             close(trade, quote["ltp"], "EOD", stamp)
+        elif trade.get("setup") in ("ol", "oh"):
+            # v3: record the price at the first tick >= 12:00/12:30/13:00 so a
+            # midday exit can be replayed from real fills (observation only)
+            for key, hhmm in (("mark_1200", time(12, 0)), ("mark_1230", time(12, 30)),
+                              ("mark_1300", time(13, 0))):
+                if moment.time() >= hhmm and key not in trade and quote.get("ltp"):
+                    trade[key] = round(float(quote["ltp"]), 2)
         # TSTOP (10:45 scratch) removed — owner fix 4 Nov: it cost -135 in
         # October and scratched longs that sometimes closed positive at EOD
 
@@ -574,6 +586,17 @@ def _trend_block(state: dict, today: str, setup: str, symbol: str) -> None:
         bucket.append(symbol)
 
 
+def _stop_block(state: dict, today: str, setup: str, symbol: str, stop_pct: float) -> None:
+    """v3: O=L/O=H pick skipped because its candle stop is wider than
+    NSE_MAX_STOP_PCT from the entry price. Daily, deduped; surfaced in the
+    snapshot with the stop distance so the cap can be tuned."""
+    sb = state.get("stop_blocked") or {}
+    if sb.get("date") != today:
+        sb = {"date": today, "ol": {}, "oh": {}}
+        state["stop_blocked"] = sb
+    sb.setdefault(setup, {})[symbol] = round(stop_pct, 2)
+
+
 def _vwap_map(symbols: list) -> dict:
     """VWAP (09:15 -> now) from today's 5-min bars, per symbol. The O=L/O=H
     extreme gate needs the intraday anchor; bars come from the same source
@@ -618,7 +641,7 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
     # 2026-09-28 opening-candle rules: entries start once the FIRST 5-min
     # candle of the day has completed (09:20 IST) — a fresh day O=L/O=H at
     # that point is an opening-candle setup, not an intraday drift
-    if not (time(9, 20) <= moment.time() <= NSE_ENTRY_CUTOFF):
+    if not (NSE_ENTRY_START <= moment.time() <= NSE_ENTRY_CUTOFF):
         return
     if moment.weekday() >= 5:
         return
@@ -688,6 +711,11 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
                 if setup == "oh" and quote["ltp"] <= v:
                     _vwap_block(state, today, setup, symbol)
                     continue
+            stop_ref = quote["low"] if side == "BUY" else quote["high"]
+            stop_pct = abs(quote["ltp"] - stop_ref) / quote["ltp"] * 100 if quote["ltp"] else 99.0
+            if stop_pct > NSE_MAX_STOP_PCT:
+                _stop_block(state, today, setup, symbol, stop_pct)
+                continue
             final_eligible.append((vr, symbol, quote))
         already = sum(1 for t in state["trades"] if t.get("date") == today and t.get("setup") == setup
                       and not t.get("reentry_seq"))   # re-entries don't consume fresh slots
@@ -711,7 +739,11 @@ def enter_nse(state: dict, quotes: dict, moment: datetime) -> None:
                 "candle_stop": round(quote["low"] if side == "BUY" else quote["high"], 2),
                 "sl_price": round(sl_px, 2),
                 "exit_time": None, "exit_price": None, "reason": None, "pnl": None,
-                "status": "OPEN", "feed": FEED_NAME})
+                "status": "OPEN", "feed": FEED_NAME,
+                "rules": RULES_VERSION, "vol_ratio": round(float(quote.get("vol_ratio", 0) or 0), 2),
+                "stop_pct": round(abs(entry_px - (quote["low"] if side == "BUY" else quote["high"])) / entry_px * 100, 2)
+                            if entry_px else None,
+                "open_px": round(quote["open"], 2)})
             state["next_id"] += 1
             try:
                 telegram_notify.notify(
@@ -1124,23 +1156,29 @@ def nse_snapshot(state: dict, quotes: dict, today: str) -> dict:
     vwb = state.get("vwap_blocked") or {}
     vwap_blocked = ({s: len(vwb.get(s, [])) for s in ("ol", "oh")}
                     if vwb.get("date") == today else {})
+    sbk = state.get("stop_blocked") or {}
+    stop_blocked = ({s: dict(sorted((sbk.get(s) or {}).items(), key=lambda kv: -kv[1])[:15])
+                     for s in ("ol", "oh")} if sbk.get("date") == today else {})
     return {"updated_at": now().strftime("%d %b %Y %H:%M:%S IST"), "feed": FEED_NAME,
             "feed_note": ("Angel SmartAPI live feed (cloud, no Mac)"
                           if FEED_NAME == "angel" else
                           "Cloud engine (GitHub Actions + Yahoo, no Mac needed)"),
             "status": "DONE" if now().time() >= time(15, 30) else "RUNNING", "today": today,
-            "strategy": {"rule": "first 5-min candle O=L -> BUY / O=H -> SELL (entries from 09:20, opening candle complete), ₹10,000/stock",
+            "strategy": {"rule": "first 5-min candle O=L -> BUY / O=H -> SELL (v3 17 Nov: entries 09:30-09:45 only, RVOL >= 1.5, top-3 per setup, candle stop <= 1.5% away), ₹10,000/stock",
                          "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
                          "reentry": "after a candle-close/backstop stop: re-enter same side when a completed 5-min candle closes back beyond the stopped level (fill at candle close, stops recomputed) — max 2 per stock/day; TSTOP/EOD never re-enter",
                          "square_off": "15:00", "entry_cutoff": "09:45",
                          "time_stop_long": "10:45", "nifty_gate": True,
                          "min_vol_mult": NSE_RVOL_OH,
                          "min_vol_mult_by_setup": {"ol": NSE_RVOL_OL, "oh": NSE_RVOL_OH},
-                         "vol_note": "15 Oct: volume gate = RVOL (cumulative volume vs time-of-day expectation, 1.0 = normal day) — O=L >= "
-                                     f"{NSE_RVOL_OL}, O=H >= {NSE_RVOL_OH}; deliberately low, tuned from vol_audit"},
+                         "vol_note": "RVOL gate (cumulative volume vs time-of-day expectation, 1.0 = normal day) — O=L >= "
+                                     f"{NSE_RVOL_OL}, O=H >= {NSE_RVOL_OH}; rules version {RULES_VERSION}",
+                         "rules_version": RULES_VERSION, "entry_start": "09:30", "max_stop_pct": NSE_MAX_STOP_PCT,
+                         "max_per_setup": NSE_MAX_PER_SETUP},
             "vol_blocked": vol_blocked,
             "trend_blocked": trend_blocked,
             "vwap_blocked": vwap_blocked,
+            "stop_blocked": stop_blocked,
             "vol_audit": ({s: dict(sorted(((state.get("vol_audit") or {}).get(s) or {}).items(),
                                           key=lambda kv: -kv[1])[:15])
                            for s in ("ol", "oh")}
