@@ -1,5 +1,5 @@
 {
- "updated_at": "18 Nov 2026 09:33:33 IST",
+ "updated_at": "18 Nov 2026 09:37:38 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -42,21 +42,21 @@
  "vol_audit": {
   "ol": {},
   "oh": {
+   "MANAPPURAM": 3.15,
    "MUTHOOTFIN": 2.88,
    "UPL": 2.71,
-   "MANAPPURAM": 2.35,
    "RAINBOW": 1.31,
    "BANKINDIA": 1.21,
    "OIL": 1.19,
-   "SIEMENS": 1.05,
+   "SIEMENS": 1.1,
    "PIIND": 1.02,
    "RRKABEL": 1.02,
+   "FIVESTAR": 0.99,
    "IRCTC": 0.96,
-   "FIVESTAR": 0.92,
    "PREMIERENE": 0.89,
    "BANKBARODA": 0.88,
    "NEWGEN": 0.87,
-   "TATACHEM": 0.86
+   "NMDC": 0.86
   }
  },
  "engine_errors": [],
