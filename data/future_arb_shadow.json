@@ -2,24 +2,6 @@
  "version": 1,
  "open": [
   {
-   "symbol": "COCHINSHIP",
-   "entry_date": "2026-11-11",
-   "spot": 1202.0,
-   "curr_expiry": "2026-11-23",
-   "next_expiry": "2026-12-29",
-   "entry_curr": 1185.5,
-   "entry_next": 1181.0,
-   "basis": 16.5,
-   "spread": 4.5,
-   "lot": 400,
-   "preset": "R2 shadow",
-   "last_spot": 1147.0,
-   "last_curr": 1144.7,
-   "last_next": 1139.3,
-   "last_spread": 5.4,
-   "last_date": "2026-11-17"
-  },
-  {
    "symbol": "CHOLAFIN",
    "entry_date": "2026-11-13",
    "spot": 1850.0,
@@ -31,29 +13,11 @@
    "spread": 2.4,
    "lot": 625,
    "preset": "R2 shadow",
-   "last_spot": 1884.7,
-   "last_curr": 1870.1,
-   "last_next": 1873.6,
-   "last_spread": -3.5,
-   "last_date": "2026-11-17"
-  },
-  {
-   "symbol": "NAVINFLUOR",
-   "entry_date": "2026-11-16",
-   "spot": 9890.0,
-   "curr_expiry": "2026-11-23",
-   "next_expiry": "2026-12-29",
-   "entry_curr": 9813.5,
-   "entry_next": 9790.0,
-   "basis": 76.5,
-   "spread": 23.5,
-   "lot": 75,
-   "preset": "R2 shadow",
-   "last_spot": 9815.0,
-   "last_curr": 9810.5,
-   "last_next": 9819.0,
-   "last_spread": -8.5,
-   "last_date": "2026-11-17"
+   "last_spot": 1875.0,
+   "last_curr": 1863.3,
+   "last_next": 1866.0,
+   "last_spread": -2.7,
+   "last_date": "2026-11-18"
   }
  ],
  "closed": [
@@ -92,6 +56,24 @@
    "pnl": 420.0,
    "basis_at_entry": 22.0,
    "spread_at_entry": 17.4
+  },
+  {
+   "symbol": "COCHINSHIP",
+   "entry_date": "2026-11-11",
+   "exit_date": "2026-11-18",
+   "reason": "convergence",
+   "pnl": 2440.0,
+   "basis_at_entry": 16.5,
+   "spread_at_entry": 4.5
+  },
+  {
+   "symbol": "NAVINFLUOR",
+   "entry_date": "2026-11-16",
+   "exit_date": "2026-11-18",
+   "reason": "convergence",
+   "pnl": -1912.5,
+   "basis_at_entry": 76.5,
+   "spread_at_entry": 23.5
   }
  ]
 }

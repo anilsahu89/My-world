@@ -1,5 +1,5 @@
 {
- "updated_at": "18 Nov 2026 18:49 IST",
+ "updated_at": "18 Nov 2026 19:04 IST",
  "desk": "Future Arbitrage",
  "status": "RUNNING",
  "preset": "r1",
@@ -7,42 +7,7 @@
   "rule": "Vault Arbitage 2.x (ARBITAGE_2_0_RULES.md): when spot > current-month future > next-month future and the gaps pass the filters, BUY the current-month future and SELL the next-month \u2014 collect the basis as it converges. Direction-immune. Exit: current future closes back at/above spot, or expiry. Live preset r1: basis>=10 & >=1% of spot, spread<=0.6x basis, next-vol>=250, entries 7-21 days before expiry. Rs 1L pilot, 1 lot, max 3 concurrent, Rs 15k/day kill-switch.",
   "source": "video SMky9fADQZw: 'not every gap is arbitrage \u2014 track the pair's history'"
  },
- "situation": [
-  {
-   "symbol": "PRESTIGE",
-   "spot": 1691.5,
-   "current": 1674.5,
-   "next": 1670.8,
-   "basis": 17.0,
-   "spread": 3.7,
-   "basis_pct": 1.01,
-   "spread_value": 1665,
-   "lot": 450,
-   "vol_curr": 1414,
-   "vol_next": 640,
-   "dte": 6,
-   "preset": "R1 relaxed",
-   "preset_pass": false,
-   "verdict": "rejected: dte 6"
-  },
-  {
-   "symbol": "IRFC",
-   "spot": 82.65,
-   "current": 82.24,
-   "next": 82.03,
-   "basis": 0.41,
-   "spread": 0.21,
-   "basis_pct": 0.5,
-   "spread_value": 1139,
-   "lot": 5425,
-   "vol_curr": 2823,
-   "vol_next": 2392,
-   "dte": 6,
-   "preset": "R1 relaxed",
-   "preset_pass": false,
-   "verdict": "rejected: basis<10 (0.4); basis<1%; dte 6"
-  }
- ],
+ "situation": [],
  "open": [],
  "closed": [
   {
@@ -67,27 +32,11 @@
   "entered_today": [],
   "open": [
    {
-    "symbol": "COCHINSHIP",
-    "entry_date": "2026-11-11",
-    "basis": 16.5,
-    "spread": 4.5,
-    "last_spread": 5.4,
-    "dte_exp": "2026-11-23"
-   },
-   {
     "symbol": "CHOLAFIN",
     "entry_date": "2026-11-13",
     "basis": 13.6,
     "spread": 2.4,
-    "last_spread": -3.5,
-    "dte_exp": "2026-11-23"
-   },
-   {
-    "symbol": "NAVINFLUOR",
-    "entry_date": "2026-11-16",
-    "basis": 76.5,
-    "spread": 23.5,
-    "last_spread": -8.5,
+    "last_spread": -2.7,
     "dte_exp": "2026-11-23"
    }
   ],
@@ -127,16 +76,34 @@
     "pnl": 420.0,
     "basis_at_entry": 22.0,
     "spread_at_entry": 17.4
+   },
+   {
+    "symbol": "COCHINSHIP",
+    "entry_date": "2026-11-11",
+    "exit_date": "2026-11-18",
+    "reason": "convergence",
+    "pnl": 2440.0,
+    "basis_at_entry": 16.5,
+    "spread_at_entry": 4.5
+   },
+   {
+    "symbol": "NAVINFLUOR",
+    "entry_date": "2026-11-16",
+    "exit_date": "2026-11-18",
+    "reason": "convergence",
+    "pnl": -1912.5,
+    "basis_at_entry": 76.5,
+    "spread_at_entry": 23.5
    }
   ],
   "summary": {
-   "open": 3,
-   "closed": 4,
-   "wins": 3,
-   "losses": 1,
-   "win_rate": 75.0,
-   "pnl": 857.5
+   "open": 1,
+   "closed": 6,
+   "wins": 4,
+   "losses": 2,
+   "win_rate": 66.7,
+   "pnl": 1385.0
   }
  },
- "bhav_date": "2026-11-17"
+ "bhav_date": "2026-11-18"
 }
