@@ -1,18 +1,25 @@
 {
  "date": "2026-11-18",
- "updated_at": "18 Nov 2026 11:32:12 IST",
+ "updated_at": "18 Nov 2026 12:03:22 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 2,
-  "invested": 19033.0,
+  "open": 3,
+  "invested": 28362.6,
   "realized": 782.35,
   "wins": 3,
   "losses": 0,
   "win_rate": 100.0
  },
  "signals": [
+  {
+   "symbol": "KOTAKBANK",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
+  },
   {
    "symbol": "SUNPHARMA",
    "side": "BUY",
@@ -21,7 +28,7 @@
    "setup": "IHM-BUY"
   },
   {
-   "symbol": "TRENT",
+   "symbol": "TATACONSUM",
    "side": "BUY",
    "weekly": "BUY-MOMENTUM",
    "daily": "BUY-MOMENTUM",
@@ -32,18 +39,44 @@
  "open": [
   {
    "id": 4,
+   "symbol": "KOTAKBANK",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-18",
+   "entry_date": "2026-11-18",
+   "entry_time": "12:02",
+   "entry": 498.9,
+   "qty": 20,
+   "invested": 9978.0,
+   "rsi_entry": 66.2,
+   "sl": 491.47,
+   "tgt": 510.05,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 498.9,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 5,
    "symbol": "SUNPHARMA",
    "side": "BUY",
    "setup": "IHM-BUY",
    "signal_date": "2026-11-18",
    "entry_date": "2026-11-18",
-   "entry_time": "11:31",
-   "entry": 1883.0,
+   "entry_time": "12:02",
+   "entry": 1882.2,
    "qty": 5,
-   "invested": 9415.0,
-   "rsi_entry": 57.3,
+   "invested": 9411.0,
+   "rsi_entry": 56.6,
    "sl": 1857.58,
-   "tgt": 1921.13,
+   "tgt": 1919.13,
    "status": "OPEN",
    "exit_date": "",
    "exit_time": "",
@@ -53,23 +86,23 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 1883.0,
+   "ltp": 1882.2,
    "live_pnl": 0.0
   },
   {
-   "id": 5,
-   "symbol": "TRENT",
+   "id": 6,
+   "symbol": "TATACONSUM",
    "side": "BUY",
    "setup": "IHM-BUY",
    "signal_date": "2026-11-18",
    "entry_date": "2026-11-18",
-   "entry_time": "11:31",
-   "entry": 3206.0,
-   "qty": 3,
-   "invested": 9618.0,
-   "rsi_entry": 55.7,
-   "sl": 3140.51,
-   "tgt": 3304.24,
+   "entry_time": "12:02",
+   "entry": 1121.7,
+   "qty": 8,
+   "invested": 8973.6,
+   "rsi_entry": 69.3,
+   "sl": 1100.49,
+   "tgt": 1153.51,
    "status": "OPEN",
    "exit_date": "",
    "exit_time": "",
@@ -79,7 +112,7 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 3206.0,
+   "ltp": 1121.7,
    "live_pnl": 0.0
   }
  ],
@@ -163,5 +196,5 @@
    "live_pnl": 404.6
   }
  ],
- "entered_this_run": 2
+ "entered_this_run": 3
 }
