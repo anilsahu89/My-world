@@ -1,12 +1,12 @@
 {
  "date": "2026-11-18",
- "updated_at": "18 Nov 2026 14:00:57 IST",
+ "updated_at": "18 Nov 2026 14:32:34 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 3,
-  "invested": 28881.72,
+  "open": 1,
+  "invested": 8636.6,
   "realized": 782.35,
   "wins": 3,
   "losses": 0,
@@ -14,21 +14,7 @@
  },
  "signals": [
   {
-   "symbol": "360ONE",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY-MOMENTUM",
-   "setup": "IHM-BUY"
-  },
-  {
-   "symbol": "BAJAJFINSV",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY-MOMENTUM",
-   "setup": "IHM-BUY"
-  },
-  {
-   "symbol": "GMRAIRPORT",
+   "symbol": "GVT&D",
    "side": "BUY",
    "weekly": "BUY-MOMENTUM",
    "daily": "BUY-MOMENTUM",
@@ -39,18 +25,18 @@
  "open": [
   {
    "id": 4,
-   "symbol": "360ONE",
+   "symbol": "GVT&D",
    "side": "BUY",
    "setup": "IHM-BUY",
    "signal_date": "2026-11-18",
    "entry_date": "2026-11-18",
-   "entry_time": "14:00",
-   "entry": 1210.4,
-   "qty": 8,
-   "invested": 9683.2,
-   "rsi_entry": 64.1,
-   "sl": 1199.05,
-   "tgt": 1227.43,
+   "entry_time": "14:31",
+   "entry": 4318.3,
+   "qty": 2,
+   "invested": 8636.6,
+   "rsi_entry": 54.5,
+   "sl": 4212.56,
+   "tgt": 4476.91,
    "status": "OPEN",
    "exit_date": "",
    "exit_time": "",
@@ -60,59 +46,7 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 1210.4,
-   "live_pnl": 0.0
-  },
-  {
-   "id": 5,
-   "symbol": "BAJAJFINSV",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-18",
-   "entry_date": "2026-11-18",
-   "entry_time": "14:00",
-   "entry": 1859.5,
-   "qty": 5,
-   "invested": 9297.5,
-   "rsi_entry": 52.1,
-   "sl": 1839.11,
-   "tgt": 1890.08,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY-MOMENTUM",
-   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 1859.5,
-   "live_pnl": 0.0
-  },
-  {
-   "id": 6,
-   "symbol": "GMRAIRPORT",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-18",
-   "entry_date": "2026-11-18",
-   "entry_time": "14:00",
-   "entry": 105.33,
-   "qty": 94,
-   "invested": 9901.02,
-   "rsi_entry": 74.9,
-   "sl": 104.43,
-   "tgt": 106.68,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY-MOMENTUM",
-   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 105.33,
+   "ltp": 4318.3,
    "live_pnl": 0.0
   }
  ],
@@ -196,5 +130,5 @@
    "live_pnl": 404.6
   }
  ],
- "entered_this_run": 3
+ "entered_this_run": 1
 }
