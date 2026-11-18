@@ -1,9 +1,9 @@
 {
- "updated_at": "17 Nov 2026 15:07:25 IST",
+ "updated_at": "18 Nov 2026 09:17:48 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
- "today": "2026-11-17",
+ "today": "2026-11-18",
  "strategy": {
   "rule": "first 5-min candle O=L -> BUY / O=H -> SELL (v3 17 Nov: entries 09:30-09:45 only, RVOL >= 1.5, top-3 per setup, candle stop <= 1.5% away), ₹10,000/stock",
   "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
@@ -23,64 +23,17 @@
   "max_stop_pct": 1.5,
   "max_per_setup": 3
  },
- "vol_blocked": {
-  "ol": {
-   "low_vol": 29,
-   "no_vol_data": 0
-  },
-  "oh": {
-   "low_vol": 25,
-   "no_vol_data": 0
-  }
- },
+ "vol_blocked": {},
  "trend_blocked": {},
- "vwap_blocked": {
-  "ol": 0,
-  "oh": 3
- },
+ "vwap_blocked": {},
  "stop_blocked": {},
- "vol_audit": {
-  "ol": {
-   "AFCONS": 32.79,
-   "EXIDEIND": 6.04,
-   "ASHOKLEY": 4.85,
-   "DABUR": 2.17,
-   "ALKEM": 2.03,
-   "MAHABANK": 1.63,
-   "EICHERMOT": 1.45,
-   "CEATLTD": 1.4,
-   "INDIGO": 1.11,
-   "KARURVYSYA": 1.11,
-   "SBIN": 1.11,
-   "GROWW": 1.01,
-   "IDFCFIRSTB": 0.91,
-   "MRPL": 0.77,
-   "HOMEFIRST": 0.71
-  },
-  "oh": {
-   "CONCORDBIO": 1.1,
-   "GICRE": 1.08,
-   "SAILIFE": 1.07,
-   "NIACL": 1.06,
-   "PTCIL": 0.92,
-   "SAMMAANCAP": 0.88,
-   "BHARTIARTL": 0.82,
-   "KIMS": 0.81,
-   "GPIL": 0.79,
-   "IGL": 0.72,
-   "NEWGEN": 0.72,
-   "TATACOMM": 0.71,
-   "ESCORTS": 0.53,
-   "CHALET": 0.39,
-   "INDUSINDBK": 0.39
-  }
- },
+ "vol_audit": {},
  "engine_errors": [],
  "summary": {
   "open_count": 0,
   "closed_count": 251,
-  "trades_today": 7,
-  "today_pnl": -85.82,
+  "trades_today": 0,
+  "today_pnl": 0,
   "realized_total": -2228.59,
   "unrealized": 0,
   "wins": 111,
