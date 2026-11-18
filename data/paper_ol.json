@@ -1,5 +1,5 @@
 {
- "updated_at": "18 Nov 2026 09:29:33 IST",
+ "updated_at": "18 Nov 2026 09:33:33 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -23,11 +23,42 @@
   "max_stop_pct": 1.5,
   "max_per_setup": 3
  },
- "vol_blocked": {},
+ "vol_blocked": {
+  "ol": {
+   "low_vol": 0,
+   "no_vol_data": 0
+  },
+  "oh": {
+   "low_vol": 80,
+   "no_vol_data": 0
+  }
+ },
  "trend_blocked": {},
- "vwap_blocked": {},
+ "vwap_blocked": {
+  "ol": 0,
+  "oh": 3
+ },
  "stop_blocked": {},
- "vol_audit": {},
+ "vol_audit": {
+  "ol": {},
+  "oh": {
+   "MUTHOOTFIN": 2.88,
+   "UPL": 2.71,
+   "MANAPPURAM": 2.35,
+   "RAINBOW": 1.31,
+   "BANKINDIA": 1.21,
+   "OIL": 1.19,
+   "SIEMENS": 1.05,
+   "PIIND": 1.02,
+   "RRKABEL": 1.02,
+   "IRCTC": 0.96,
+   "FIVESTAR": 0.92,
+   "PREMIERENE": 0.89,
+   "BANKBARODA": 0.88,
+   "NEWGEN": 0.87,
+   "TATACHEM": 0.86
+  }
+ },
  "engine_errors": [],
  "summary": {
   "open_count": 0,
