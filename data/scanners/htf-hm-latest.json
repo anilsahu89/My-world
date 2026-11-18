@@ -1,12 +1,12 @@
 {
  "date": "2026-11-18",
- "updated_at": "18 Nov 2026 12:31:07 IST",
+ "updated_at": "18 Nov 2026 13:02:25 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 2,
-  "invested": 19173.75,
+  "open": 1,
+  "invested": 9685.2,
   "realized": 782.35,
   "wins": 3,
   "losses": 0,
@@ -15,13 +15,6 @@
  "signals": [
   {
    "symbol": "360ONE",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY-MOMENTUM",
-   "setup": "IHM-BUY"
-  },
-  {
-   "symbol": "UPL",
    "side": "BUY",
    "weekly": "BUY-MOMENTUM",
    "daily": "BUY-MOMENTUM",
@@ -37,13 +30,13 @@
    "setup": "IHM-BUY",
    "signal_date": "2026-11-18",
    "entry_date": "2026-11-18",
-   "entry_time": "12:30",
-   "entry": 1212.35,
+   "entry_time": "13:01",
+   "entry": 1210.65,
    "qty": 8,
-   "invested": 9698.8,
-   "rsi_entry": 65.1,
+   "invested": 9685.2,
+   "rsi_entry": 63.9,
    "sl": 1200.19,
-   "tgt": 1230.58,
+   "tgt": 1226.33,
    "status": "OPEN",
    "exit_date": "",
    "exit_time": "",
@@ -53,33 +46,7 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 1212.35,
-   "live_pnl": 0.0
-  },
-  {
-   "id": 5,
-   "symbol": "UPL",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-18",
-   "entry_date": "2026-11-18",
-   "entry_time": "12:30",
-   "entry": 557.35,
-   "qty": 17,
-   "invested": 9474.95,
-   "rsi_entry": 52.1,
-   "sl": 543.91,
-   "tgt": 577.51,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY-MOMENTUM",
-   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 557.35,
+   "ltp": 1210.65,
    "live_pnl": 0.0
   }
  ],
@@ -163,5 +130,5 @@
    "live_pnl": 404.6
   }
  ],
- "entered_this_run": 2
+ "entered_this_run": 1
 }
