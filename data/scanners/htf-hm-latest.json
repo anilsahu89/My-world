@@ -1,12 +1,12 @@
 {
  "date": "2026-11-18",
- "updated_at": "18 Nov 2026 11:00:54 IST",
+ "updated_at": "18 Nov 2026 11:32:12 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 1,
-  "invested": 9877.32,
+  "open": 2,
+  "invested": 19033.0,
   "realized": 782.35,
   "wins": 3,
   "losses": 0,
@@ -14,7 +14,14 @@
  },
  "signals": [
   {
-   "symbol": "BANKBARODA",
+   "symbol": "SUNPHARMA",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
+  },
+  {
+   "symbol": "TRENT",
    "side": "BUY",
    "weekly": "BUY-MOMENTUM",
    "daily": "BUY-MOMENTUM",
@@ -25,18 +32,18 @@
  "open": [
   {
    "id": 4,
-   "symbol": "BANKBARODA",
+   "symbol": "SUNPHARMA",
    "side": "BUY",
    "setup": "IHM-BUY",
    "signal_date": "2026-11-18",
    "entry_date": "2026-11-18",
-   "entry_time": "11:00",
-   "entry": 274.37,
-   "qty": 36,
-   "invested": 9877.32,
-   "rsi_entry": 57.2,
-   "sl": 271.5,
-   "tgt": 278.68,
+   "entry_time": "11:31",
+   "entry": 1883.0,
+   "qty": 5,
+   "invested": 9415.0,
+   "rsi_entry": 57.3,
+   "sl": 1857.58,
+   "tgt": 1921.13,
    "status": "OPEN",
    "exit_date": "",
    "exit_time": "",
@@ -46,7 +53,33 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 274.37,
+   "ltp": 1883.0,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 5,
+   "symbol": "TRENT",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-18",
+   "entry_date": "2026-11-18",
+   "entry_time": "11:31",
+   "entry": 3206.0,
+   "qty": 3,
+   "invested": 9618.0,
+   "rsi_entry": 55.7,
+   "sl": 3140.51,
+   "tgt": 3304.24,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 3206.0,
    "live_pnl": 0.0
   }
  ],
@@ -130,5 +163,5 @@
    "live_pnl": 404.6
   }
  ],
- "entered_this_run": 1
+ "entered_this_run": 2
 }
