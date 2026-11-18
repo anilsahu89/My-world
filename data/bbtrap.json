@@ -1,8 +1,8 @@
 {
- "fetched_at": "2026-11-18 01:25:00",
- "latest_date": "2026-11-17",
+ "fetched_at": "2026-11-18 17:27:13",
+ "latest_date": "2026-11-18",
  "universe_count": 197,
- "shorts_count": 11,
+ "shorts_count": 12,
  "longs_count": 0,
  "shorts": [
   {
@@ -55,6 +55,23 @@
    "primary_date": "2026-11-09",
    "alert_date": "2026-11-11",
    "score": 46.8
+  },
+  {
+   "kind": "bb",
+   "type": "SHORT",
+   "symbol": "CANBK",
+   "entry_price": 134.0,
+   "sl_price": 134.83,
+   "target_price": 131.78,
+   "rr": 2.7,
+   "wick_pct": 61,
+   "vol_multiple": 2.8,
+   "rsi": 78,
+   "rsi_pass": true,
+   "primary_range": 2.78,
+   "primary_date": "2026-11-16",
+   "alert_date": "2026-11-17",
+   "score": 45.4
   },
   {
    "kind": "bb",
