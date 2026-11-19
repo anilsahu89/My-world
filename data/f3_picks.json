@@ -1,6 +1,6 @@
 {
  "date": "2026-11-19",
- "scanned_at": "14:58:59",
+ "scanned_at": "15:02:23",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
  "signals": [
@@ -10,10 +10,10 @@
    "qty": 1,
    "entry": 713.5,
    "sl": 645.11,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 704.0,
+   "reason": "EOD",
+   "pnl": -9.5
   },
   {
    "symbol": "AMBER",
@@ -21,10 +21,10 @@
    "qty": 1,
    "entry": 6675.0,
    "sl": 6209.8,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 6723.5,
+   "reason": "EOD",
+   "pnl": 48.5
   },
   {
    "symbol": "PWL",
@@ -32,10 +32,10 @@
    "qty": 12,
    "entry": 137.71,
    "sl": 129.73,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 136.68,
+   "reason": "EOD",
+   "pnl": -12.36
   }
  ]
 }
