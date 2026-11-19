@@ -1,5 +1,5 @@
 {
- "updated_at": "19 Nov 2026 09:29:54 IST",
+ "updated_at": "19 Nov 2026 09:36:41 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -23,11 +23,42 @@
   "max_stop_pct": 1.5,
   "max_per_setup": 3
  },
- "vol_blocked": {},
+ "vol_blocked": {
+  "ol": {
+   "low_vol": 0,
+   "no_vol_data": 0
+  },
+  "oh": {
+   "low_vol": 46,
+   "no_vol_data": 0
+  }
+ },
  "trend_blocked": {},
- "vwap_blocked": {},
+ "vwap_blocked": {
+  "ol": 0,
+  "oh": 4
+ },
  "stop_blocked": {},
- "vol_audit": {},
+ "vol_audit": {
+  "ol": {},
+  "oh": {
+   "POLICYBZR": 3.35,
+   "PINELABS": 2.98,
+   "SCI": 1.72,
+   "MCX": 1.56,
+   "COFORGE": 1.25,
+   "MOTILALOFS": 1.23,
+   "JUBLPHARMA": 1.11,
+   "RAILTEL": 0.99,
+   "CHALET": 0.98,
+   "SONATSOFTW": 0.95,
+   "CANHLIFE": 0.7,
+   "KPITTECH": 0.7,
+   "SPLPETRO": 0.69,
+   "M&MFIN": 0.59,
+   "SWIGGY": 0.59
+  }
+ },
  "engine_errors": [],
  "summary": {
   "open_count": 0,
