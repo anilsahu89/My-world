@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 258,
+ "next_id": 261,
  "trades": [
   {
    "id": 1,
@@ -4439,10 +4439,64 @@
    "status": "CLOSED",
    "feed": "angel-f3",
    "drive_pct": 2.49
+  },
+  {
+   "id": 258,
+   "date": "2026-11-19",
+   "setup": "f3",
+   "symbol": "TATATECH",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:22:32",
+   "entry_price": 713.5,
+   "sl_price": 645.11,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 8.16
+  },
+  {
+   "id": 259,
+   "date": "2026-11-19",
+   "setup": "f3",
+   "symbol": "AMBER",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:22:32",
+   "entry_price": 6675.0,
+   "sl_price": 6209.8,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 3.88
+  },
+  {
+   "id": 260,
+   "date": "2026-11-19",
+   "setup": "f3",
+   "symbol": "PWL",
+   "side": "BUY",
+   "qty": 12,
+   "entry_time": "12:22:32",
+   "entry_price": 137.71,
+   "sl_price": 129.73,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 3.74
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-11-18",
+ "f3_done_date": "2026-11-19",
  "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-11-19",

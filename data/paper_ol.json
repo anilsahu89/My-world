@@ -1,5 +1,5 @@
 {
- "updated_at": "19 Nov 2026 12:19:30 IST",
+ "updated_at": "19 Nov 2026 12:23:06 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -86,18 +86,76 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 0,
+  "open_count": 3,
   "closed_count": 251,
-  "trades_today": 0,
+  "trades_today": 3,
   "today_pnl": 0,
   "realized_total": -2228.59,
   "unrealized": 0,
   "wins": 111,
   "losses": 140,
   "win_rate": 44.2,
-  "days": 35
+  "days": 36
  },
- "open": [],
+ "open": [
+  {
+   "id": 258,
+   "date": "2026-11-19",
+   "setup": "f3",
+   "symbol": "TATATECH",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:22:32",
+   "entry_price": 713.5,
+   "sl_price": 645.11,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 8.16,
+   "ltp": 713.5,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 259,
+   "date": "2026-11-19",
+   "setup": "f3",
+   "symbol": "AMBER",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:22:32",
+   "entry_price": 6675.0,
+   "sl_price": 6209.8,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 3.88,
+   "ltp": 6675.0,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 260,
+   "date": "2026-11-19",
+   "setup": "f3",
+   "symbol": "PWL",
+   "side": "BUY",
+   "qty": 12,
+   "entry_time": "12:22:32",
+   "entry_price": 137.71,
+   "sl_price": 129.73,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 3.74,
+   "ltp": 137.71,
+   "pnl_pct": 0.0
+  }
+ ],
  "closed": [
   {
    "id": 255,
@@ -4590,6 +4648,16 @@
    "wins": 2,
    "losses": 5,
    "pnl": -85.82,
+   "cum": -2228.59
+  },
+  {
+   "date": "2026-11-19",
+   "trades": 3,
+   "ol": 0,
+   "oh": 0,
+   "wins": 0,
+   "losses": 0,
+   "pnl": 0,
    "cum": -2228.59
   }
  ]
