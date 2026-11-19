@@ -1,5 +1,5 @@
 {
- "updated_at": "20 Nov 2026 03:54:09 IST",
+ "updated_at": "20 Nov 2026 04:09:03 IST",
  "desk": "NIFTY Scalp Monitor",
  "rule": "First-3 Morning Drive + VWAP Station Bounce (15-min, index ATM options, paper \u00b7 premium = delta approx 0.5 \u00d7 75 \u00d7 2 lots) \u00b7 entry 09:50-14:15 \u00b7 +70pt-class targets (1.5R / 2R) \u00b7 tactical VWAP exit \u00b7 re-entry + once-daily reversal \u00b7 square-off 15:20 \u00b7 2-loss day stop",
  "decisions": [
@@ -78,15 +78,7 @@
  },
  "btc": {
   "rule": "Donchian(24) breakout + 1h EMA50 regime filter \u00b7 15-min Binance BTCUSDT \u00b7 1-year backtest: PF 1.46, 844 trades, +131% net of 0.2% costs \u00b7 both directions \u00b7 chandelier 0.8% / target 2% / stop 0.7% \u00b7 Rs 1L notional per trade",
-  "position": {
-   "side": "SHORT",
-   "entry": 61568.96,
-   "entry_ts": "2026-11-20 02:45:00+05:30",
-   "qty_btc": 0.018047,
-   "notional_inr": 100000.0,
-   "status": "OPEN",
-   "opened": "2026-11-20 03:06:42.342883+05:30"
-  },
+  "position": null,
   "decisions": [
    {
     "time": "09 Nov 21:25",
@@ -262,6 +254,11 @@
     "time": "20 Nov 03:06",
     "decision": "ENTRY",
     "detail": "SHORT @ 61569 (notional \u20b91L \u2248 0.018047 BTC)"
+   },
+   {
+    "time": "20 Nov 04:09",
+    "decision": "EXIT",
+    "detail": "CHANDELIER @ 62135 -> -1.12% (\u20b9-1,120)"
    }
   ],
   "closed": [
@@ -502,15 +499,29 @@
     "exit_reason": "CHANDELIER",
     "pnl_pct": -1.05,
     "pnl": -1054.64
+   },
+   {
+    "side": "SHORT",
+    "entry": 61568.96,
+    "entry_ts": "2026-11-20 02:45:00+05:30",
+    "qty_btc": 0.018047,
+    "notional_inr": 100000.0,
+    "status": "CLOSED",
+    "opened": "2026-11-20 03:06:42.342883+05:30",
+    "exit_ts": "2026-11-20 03:45:00+05:30",
+    "exit_px": 62135.46,
+    "exit_reason": "CHANDELIER",
+    "pnl_pct": -1.12,
+    "pnl": -1120.11
    }
   ],
   "summary": {
-   "open": 1,
-   "closed": 17,
+   "open": 0,
+   "closed": 18,
    "wins": 3,
-   "losses": 14,
-   "win_rate": 17.6,
-   "pnl": -10319.19
+   "losses": 15,
+   "win_rate": 16.7,
+   "pnl": -11439.3
   }
  }
 }
