@@ -1013,8 +1013,9 @@ def refresh_hm_quotes() -> None:
             if not px or not math.isfinite(px) or px <= 0:
                 return False
             t["ltp"] = round(px, 2)
-            t["live_pnl"] = round(t["qty"] * (px - t["entry"]), 2)
-            t["live_pct"] = round((px / t["entry"] - 1) * 100, 2)
+            sgn = -1 if str(t.get("side", "BUY")).upper() == "SELL" else 1   # shorts gain when price falls
+            t["live_pnl"] = round(sgn * t["qty"] * (px - t["entry"]), 2)
+            t["live_pct"] = round(sgn * (px / t["entry"] - 1) * 100, 2)
             return True
 
         changed = False

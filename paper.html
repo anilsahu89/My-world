@@ -2233,7 +2233,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
        "Qty", "Entry ₹",
        '<span title="last traded price — engine refreshes it every market-hours tick; post-close it is the day\'s close (Yahoo, ~15 min delayed)">LTP ₹</span>',
        '<span title="unrealised, at the LTP shown">Live P&L</span>',
-       "SL", "TGT", "Invested ₹"],
+       "SL", "TGT", "Invested ₹", ""],
       open.map(function (t) {
         var ltp = Number(t.ltp), pnl = Number(t.live_pnl), pct = Number(t.live_pct);
         var hasLive = t.ltp != null && isFinite(ltp) && ltp > 0;
@@ -2256,7 +2256,7 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
             : '<span class="muted">—</span>') + '</td><td class="' +
           (hasLive ? cls(pnl) : "") + '">' +
           (hasLive ? inr(pnl) + " <span class='muted' style='font-size:0.75em'>(" +
-                     (pct > 0 ? "+" : "") + pct.toFixed(2) + "%)</span>"
+                     (isFinite(pct) ? (pct > 0 ? "+" : "") + pct.toFixed(2) + "%" : "") + ")</span>"
                    : '<span class="muted">—</span>') +
           "</td><td>" + (t.sl != null ? t.sl : "—") + "</td><td>" +
           (t.tgt != null ? t.tgt : "—") + "</td><td>" + esc(t.invested) +
@@ -2271,12 +2271,15 @@ document.getElementById('closeModal').addEventListener('click', function(e) {
     document.getElementById("hmClosedCount").textContent = "(" + closed.length + ")";
     var cw = document.getElementById("hmClosedWrap");
     cw.innerHTML = closed.length ? tbl(
-      ["Entry", "Exit", "Symbol", "Reason", "Weeks", "P&L"],
+      ["Entry", "Exit", "Symbol", "Kind", "Qty", "Entry ₹", "Exit ₹", "Reason", "P&L"],
       closed.map(function (t) {
+        var kd = String(t.side || (String(t.setup || "").indexOf("SELL") >= 0 ? "SELL" : "BUY"));
         return '<tr class="' + (Number(t.pnl) > 0 ? "row-win" : "row-loss") + '">' +
-          "<td>" + esc(t.entry_date) + "</td><td>" + esc(t.exit_date || "—") +
-          "</td><td><strong>" + esc(t.symbol) + "</strong></td><td>" + esc(t.reason || "—") +
-          "</td><td>" + esc(t.weeks_held) + '</td><td class="' + cls(Number(t.pnl)) + '">' +
+          "<td>" + esc(t.entry_date) + " " + esc(t.entry_time || "") + "</td><td>" + esc(t.exit_date || "—") + " " + esc(t.exit_time || "") +
+          "</td><td><strong>" + esc(t.symbol) + "</strong></td><td>" +
+          '<span class="badge ' + (kd === "BUY" ? "badge-green" : "badge-red") + '">' + esc(kd) + "</span></td><td>" +
+          esc(t.qty) + "</td><td>" + esc(t.entry) + "</td><td>" + esc(t.exit) + "</td><td>" + esc(t.reason || "—") +
+          '</td><td class="' + cls(Number(t.pnl)) + '">' +
           inr(Number(t.pnl)) + "</td></tr>";
       })) : '<div class="flash">No closed HM trades yet.</div>';
 

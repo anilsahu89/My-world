@@ -86,14 +86,25 @@ def save_csv(trades):
     with TRADES_FILE.open("w",newline="") as f:
         w=csv.DictWriter(f,fieldnames=FIELDS,extrasaction="ignore"); w.writeheader(); w.writerows(trades)
 def manage_open(trades, moment):
+    today=moment.date().isoformat()
+    try:   # portal "✕ close" button -> data/close_requests/hm.json (ids / symbols / "open")
+        import close_requests
+        refs=set(close_requests.consume("hm"))
+    except Exception: refs=set()
     for t in [x for x in trades if x.get("status")=="OPEN"]:
         h1=attach_hm(fetch_1h(t["symbol"]))
         if h1 is None or len(h1)<2: continue
         last=h1.iloc[-1]; px=float(last["Close"]); hi,lo=float(last["High"]),float(last["Low"])
         t["ltp"]=round(px,2); sign=1 if t["side"]=="BUY" else -1
         t["live_pnl"]=round(sign*(px-float(t["entry"]))*float(t["qty"]),2)
+        t["live_pct"]=round(sign*(px/float(t["entry"])-1)*100,2)
+        stale=str(t.get("entry_date") or today)!=today
+        manual=bool(refs) and ("open" in refs or str(t.get("id")) in refs or t["symbol"] in refs)
         exit_px=reason=None
-        if moment.time()>=EOD: exit_px,reason=px,"EOD"
+        # intraday desk: a position from an earlier session must never be carried on
+        if stale: exit_px,reason=px,"EOD-LATE"
+        elif manual: exit_px,reason=px,"MANUAL"
+        elif moment.time()>=EOD: exit_px,reason=px,"EOD"
         elif t["side"]=="BUY":
             if lo<=float(t["sl"]): exit_px,reason=float(t["sl"]),"SL"
             elif hi>=float(t["tgt"]): exit_px,reason=float(t["tgt"]),"TGT"
@@ -112,7 +123,7 @@ def manage_open(trades, moment):
                 telegram_notify.notify(f"{'✅' if pnl>0 else '🛑'} CLOSE · Intraday HM ({reason})\n{t['side']} {t['symbol']} P&L ₹{pnl:,.0f}")
             except Exception: pass
 def run(output: Path):
-    moment=now(); today=moment.date(); state=load_state(); trades=state.get("trades") or []
+    moment=now(); today=moment.date(); state=load_state(); trades=state.setdefault("trades",[])   # same list object as state["trades"] (an empty list is falsy: `or []` detached it)
     manage_open(trades, moment)
     entered=0
     def publish():
@@ -175,6 +186,10 @@ def run(output: Path):
                     "notes":f"HTF {w_st}/{d_st} → 1H {setup}","ltp":round(entry,2),"live_pnl":0.0})
                 open_syms.add(sym); entered+=1
                 print(f"  ENTER {bias} {sym} @{entry:.1f}", flush=True)
+                # persist BEFORE alerting: the scan can run for many minutes (or be killed
+                # by the caller's timeout) and the next run reloads state from disk, so a
+                # trade that only lives in memory vanishes while its Telegram alert stays
+                save_state(state); save_csv(trades); publish()
                 try:
                     import telegram_notify
                     telegram_notify.notify(f"⚡ OPEN · Intraday HM\n{bias} {sym} qty {qty}\nentry ₹{entry:,.2f} · {setup}")
@@ -182,6 +197,7 @@ def run(output: Path):
             except Exception as e:
                 print(f"  HM skip {sym}: {type(e).__name__}: {e}", flush=True)
             if (i+1)%25==0: time.sleep(0.4)
+    save_state(state); save_csv(trades)   # final write — entries must outlive this process
     out=publish()
     return out
 if __name__=="__main__":
