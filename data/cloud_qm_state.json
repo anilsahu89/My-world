@@ -40,11 +40,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 13,
+   "sessions": 14,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1902.5999755859375,
+   "mark": 1917.0999755859375,
    "note": "BB squeeze rank 5% blast on w bars"
   },
   {
@@ -62,11 +62,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 12,
+   "sessions": 13,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1767.300048828125,
+   "mark": 1751.699951171875,
    "note": "BB squeeze rank 6% blast on d bars"
   },
   {
@@ -107,11 +107,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 11,
+   "sessions": 12,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 391.6000061035156,
+   "mark": 387.6499938964844,
    "note": "BB squeeze rank 0% blast on d bars"
   },
   {
@@ -152,11 +152,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 10,
+   "sessions": 11,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1202.0,
+   "mark": 1202.9000244140625,
    "note": "BB squeeze rank 11% blast on w bars"
   },
   {
@@ -243,11 +243,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 6,
+   "sessions": 7,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1398.199951171875,
+   "mark": 1400.9000244140625,
    "note": "RSI9 84 V-turn above rising SMA20"
   },
   {
@@ -265,11 +265,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 6,
+   "sessions": 7,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 255.97000122070312,
+   "mark": 253.13999938964844,
    "note": "RSI9 71 V-turn above rising SMA20"
   },
   {
@@ -333,11 +333,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 4,
+   "sessions": 5,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1796.300048828125,
+   "mark": 1805.699951171875,
    "note": "BB squeeze rank 15% blast on w bars"
   },
   {
@@ -378,14 +378,14 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 2,
+   "sessions": 3,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 3190.0,
+   "mark": 3225.0,
    "note": "RSI9 76 V-turn above rising SMA20"
   }
  ],
- "done_date": "2026-11-18",
+ "done_date": "2026-11-19",
  "circuit_breaker": false
 }
