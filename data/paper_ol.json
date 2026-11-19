@@ -1,5 +1,5 @@
 {
- "updated_at": "19 Nov 2026 09:36:41 IST",
+ "updated_at": "19 Nov 2026 09:38:04 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -25,7 +25,7 @@
  },
  "vol_blocked": {
   "ol": {
-   "low_vol": 0,
+   "low_vol": 29,
    "no_vol_data": 0
   },
   "oh": {
@@ -38,9 +38,34 @@
   "ol": 0,
   "oh": 4
  },
- "stop_blocked": {},
+ "stop_blocked": {
+  "ol": {
+   "PGEL": 4.46,
+   "VOLTAS": 4.06,
+   "IDFCFIRSTB": 2.76,
+   "HINDALCO": 2.47,
+   "BDL": 2.4
+  },
+  "oh": {}
+ },
  "vol_audit": {
-  "ol": {},
+  "ol": {
+   "BLUESTARCO": 8.4,
+   "PGEL": 4.66,
+   "VOLTAS": 4.36,
+   "HINDALCO": 3.33,
+   "IDFCFIRSTB": 2.02,
+   "BDL": 1.82,
+   "RHIM": 1.34,
+   "DABUR": 1.27,
+   "CANBK": 1.21,
+   "HINDUNILVR": 1.04,
+   "BANKINDIA": 0.74,
+   "ADANIENSOL": 0.72,
+   "ASIANPAINT": 0.69,
+   "UNIONBANK": 0.63,
+   "ANTHEM": 0.59
+  },
   "oh": {
    "POLICYBZR": 3.35,
    "PINELABS": 2.98,
