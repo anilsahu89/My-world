@@ -1,5 +1,5 @@
 {
- "updated_at": "20 Nov 2026 09:29:24 IST",
+ "updated_at": "20 Nov 2026 09:38:15 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -23,25 +23,83 @@
   "max_stop_pct": 1.5,
   "max_per_setup": 3
  },
- "vol_blocked": {},
+ "vol_blocked": {
+  "ol": {
+   "low_vol": 24,
+   "no_vol_data": 0
+  },
+  "oh": {
+   "low_vol": 0,
+   "no_vol_data": 0
+  }
+ },
  "trend_blocked": {},
  "vwap_blocked": {},
- "stop_blocked": {},
- "vol_audit": {},
+ "stop_blocked": {
+  "ol": {
+   "FSL": 3.32,
+   "TATACHEM": 2.19
+  },
+  "oh": {}
+ },
+ "vol_audit": {
+  "ol": {
+   "FSL": 18.58,
+   "TBOTEK": 5.41,
+   "TATACHEM": 2.25,
+   "HDFCBANK": 1.8,
+   "LTTS": 1.52,
+   "HINDALCO": 1.41,
+   "WIPRO": 1.24,
+   "PTCIL": 1.12,
+   "NAVINFLUOR": 1.09,
+   "KOTAKBANK": 0.84,
+   "NETWEB": 0.83,
+   "MEDANTA": 0.72,
+   "NESTLEIND": 0.64,
+   "CONCORDBIO": 0.6,
+   "RBLBANK": 0.56
+  },
+  "oh": {}
+ },
  "engine_errors": [],
  "summary": {
-  "open_count": 0,
+  "open_count": 1,
   "closed_count": 254,
-  "trades_today": 0,
+  "trades_today": 1,
   "today_pnl": 0,
   "realized_total": -2201.95,
   "unrealized": 0,
   "wins": 112,
   "losses": 142,
   "win_rate": 44.1,
-  "days": 36
+  "days": 37
  },
- "open": [],
+ "open": [
+  {
+   "id": 261,
+   "date": "2026-11-20",
+   "setup": "ol",
+   "symbol": "HDFCBANK",
+   "side": "BUY",
+   "qty": 6,
+   "entry_time": "09:37:34",
+   "entry_price": 823.75,
+   "candle_stop": 815.5,
+   "sl_price": 807.35,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "rules": "v3-17nov",
+   "vol_ratio": 1.8,
+   "stop_pct": 1.0,
+   "open_px": 815.5,
+   "ltp": 823.75,
+   "pnl_pct": 0.0
+  }
+ ],
  "closed": [
   {
    "id": 258,
@@ -4592,6 +4650,16 @@
    "wins": 1,
    "losses": 2,
    "pnl": 26.64,
+   "cum": -2201.95
+  },
+  {
+   "date": "2026-11-20",
+   "trades": 1,
+   "ol": 1,
+   "oh": 0,
+   "wins": 0,
+   "losses": 0,
+   "pnl": 0,
    "cum": -2201.95
   }
  ]
