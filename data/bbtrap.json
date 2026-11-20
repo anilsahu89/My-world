@@ -1,9 +1,9 @@
 {
- "fetched_at": "2026-11-20 01:02:01",
- "latest_date": "2026-11-19",
+ "fetched_at": "2026-11-20 17:25:58",
+ "latest_date": "2026-11-20",
  "universe_count": 197,
  "shorts_count": 2,
- "longs_count": 0,
+ "longs_count": 3,
  "shorts": [
   {
    "kind": "bb",
@@ -40,5 +40,57 @@
    "score": 33.2
   }
  ],
- "longs": []
+ "longs": [
+  {
+   "kind": "bb",
+   "type": "LONG",
+   "symbol": "INFY",
+   "entry_price": 1091.9,
+   "sl_price": 1081.3,
+   "target_price": 1113.1,
+   "rr": 2.0,
+   "wick_pct": 79,
+   "vol_multiple": 1.9,
+   "rsi": 39,
+   "rsi_pass": false,
+   "primary_range": 21.2,
+   "primary_date": "2026-11-18",
+   "alert_date": "2026-11-19",
+   "score": 27.8
+  },
+  {
+   "kind": "bb",
+   "type": "LONG",
+   "symbol": "HCLTECH",
+   "entry_price": 1332.9,
+   "sl_price": 1318.6,
+   "target_price": 1361.5,
+   "rr": 2.0,
+   "wick_pct": 71,
+   "vol_multiple": 2.1,
+   "rsi": 34,
+   "rsi_pass": false,
+   "primary_range": 28.6,
+   "primary_date": "2026-11-18",
+   "alert_date": "2026-11-19",
+   "score": 27.7
+  },
+  {
+   "kind": "bb",
+   "type": "LONG",
+   "symbol": "NAUKRI",
+   "entry_price": 1157.7,
+   "sl_price": 1146.3,
+   "target_price": 1180.5,
+   "rr": 2.0,
+   "wick_pct": 52,
+   "vol_multiple": 1.7,
+   "rsi": 46,
+   "rsi_pass": false,
+   "primary_range": 22.8,
+   "primary_date": "2026-11-18",
+   "alert_date": "2026-11-19",
+   "score": 26.1
+  }
+ ]
 }
