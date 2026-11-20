@@ -1,6 +1,6 @@
 {
  "date": "2026-11-20",
- "scanned_at": "14:59:58",
+ "scanned_at": "15:03:22",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
  "signals": [
@@ -10,10 +10,10 @@
    "qty": 7,
    "entry": 243.41,
    "sl": 229.61,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 250.0,
+   "reason": "EOD",
+   "pnl": 46.13
   },
   {
    "symbol": "INDUSINDBK",
@@ -21,10 +21,10 @@
    "qty": 1,
    "entry": 991.15,
    "sl": 905.45,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 996.3,
+   "reason": "EOD",
+   "pnl": 5.15
   },
   {
    "symbol": "UNIONBANK",
@@ -32,10 +32,10 @@
    "qty": 9,
    "entry": 216.8,
    "sl": 205.94,
-   "status": "OPEN",
-   "exit": null,
-   "reason": null,
-   "pnl": null
+   "status": "CLOSED",
+   "exit": 216.61,
+   "reason": "EOD",
+   "pnl": -1.71
   }
  ]
 }
