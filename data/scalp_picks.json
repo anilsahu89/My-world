@@ -1,5 +1,5 @@
 {
- "updated_at": "20 Nov 2026 12:16:15 IST",
+ "updated_at": "20 Nov 2026 12:19:38 IST",
  "desk": "NIFTY Scalp Monitor",
  "rule": "First-3 Morning Drive + VWAP Station Bounce (15-min, index ATM options, paper \u00b7 premium = delta approx 0.5 \u00d7 75 \u00d7 2 lots) \u00b7 entry 09:50-14:15 \u00b7 +70pt-class targets (1.5R / 2R) \u00b7 tactical VWAP exit \u00b7 re-entry + once-daily reversal \u00b7 square-off 15:20 \u00b7 2-loss day stop",
  "decisions": [
@@ -17,26 +17,14 @@
    "time": "12:16:14",
    "decision": "ENTRY",
    "detail": "FIRST3 stack @ 25617.9 SL 25525.9 TGT 25755.8"
-  }
- ],
- "open": [
+  },
   {
-   "id": 13,
-   "setup": "FIRST3",
-   "side": "CE",
-   "symbol": "NIFTY ATM CE",
-   "entry_date": "2026-11-20",
-   "entry_bar": 11,
-   "entry_idx": 25617.9,
-   "stop_idx": 25525.95,
-   "target_idx": 25755.83,
-   "driver_low": 25525.94921875,
-   "r_multiple": 0.0,
-   "lots": 2,
-   "status": "OPEN",
-   "structure": "trend-continuation"
+   "time": "12:19:38",
+   "decision": "EXIT",
+   "detail": "NIFTY ATM CE SL @ 25526.0 -> -92.0 pts"
   }
  ],
+ "open": [],
  "closed": [
   {
    "id": 12,
@@ -57,15 +45,36 @@
    "exit_idx": 25469.55,
    "pnl_pts": -81.5,
    "pnl": -6108.75
+  },
+  {
+   "id": 13,
+   "setup": "FIRST3",
+   "side": "CE",
+   "symbol": "NIFTY ATM CE",
+   "entry_date": "2026-11-20",
+   "entry_bar": 11,
+   "entry_idx": 25617.9,
+   "stop_idx": 25525.95,
+   "target_idx": 25755.83,
+   "driver_low": 25525.94921875,
+   "r_multiple": 0.0,
+   "lots": 2,
+   "status": "CLOSED",
+   "structure": "trend-continuation",
+   "exit_bar": 0,
+   "exit_reason": "SL",
+   "exit_idx": 25525.95,
+   "pnl_pts": -92.0,
+   "pnl": -6896.25
   }
  ],
  "summary": {
-  "open": 1,
-  "closed": 1,
+  "open": 0,
+  "closed": 2,
   "wins": 0,
-  "losses": 1,
+  "losses": 2,
   "win_rate": 0.0,
-  "pnl": -6108.75
+  "pnl": -13005.0
  },
  "btc": {
   "rule": "Donchian(24) breakout + 1h EMA50 regime filter \u00b7 15-min Binance BTCUSDT \u00b7 1-year backtest: PF 1.46, 844 trades, +131% net of 0.2% costs \u00b7 both directions \u00b7 chandelier 0.8% / target 2% / stop 0.7% \u00b7 Rs 1L notional per trade",
