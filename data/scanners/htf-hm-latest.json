@@ -1,20 +1,88 @@
 {
- "date": "2026-11-19",
- "updated_at": "19 Nov 2026 17:34:59 IST",
+ "date": "2026-11-20",
+ "updated_at": "20 Nov 2026 10:20:49 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 0,
-  "invested": 0,
+  "open": 2,
+  "invested": 19668.7,
   "realized": 846.82,
   "wins": 5,
   "losses": 1,
   "win_rate": 83.3
  },
- "signals": [],
+ "signals": [
+  {
+   "symbol": "ASTRAL",
+   "side": "SELL",
+   "weekly": "SELL-MOMENTUM",
+   "daily": "SELL-MOMENTUM",
+   "setup": "IHM-SELL"
+  },
+  {
+   "symbol": "COALINDIA",
+   "side": "SELL",
+   "weekly": "SELL",
+   "daily": "SELL-MOMENTUM",
+   "setup": "IHM-SELL"
+  }
+ ],
  "monthly_watchlist": [],
- "open": [],
+ "open": [
+  {
+   "id": 7,
+   "symbol": "ASTRAL",
+   "side": "SELL",
+   "setup": "IHM-SELL",
+   "signal_date": "2026-11-20",
+   "entry_date": "2026-11-20",
+   "entry_time": "10:19",
+   "entry": 1241.4,
+   "qty": 8,
+   "invested": 9931.2,
+   "rsi_entry": 44.1,
+   "sl": 1256.91,
+   "tgt": 1218.14,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "SELL-MOMENTUM",
+   "htf_daily": "SELL-MOMENTUM",
+   "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
+   "ltp": 1241.4,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 8,
+   "symbol": "COALINDIA",
+   "side": "SELL",
+   "setup": "IHM-SELL",
+   "signal_date": "2026-11-20",
+   "entry_date": "2026-11-20",
+   "entry_time": "10:19",
+   "entry": 389.5,
+   "qty": 25,
+   "invested": 9737.5,
+   "rsi_entry": 41.0,
+   "sl": 394.79,
+   "tgt": 381.57,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "SELL",
+   "htf_daily": "SELL-MOMENTUM",
+   "notes": "HTF SELL/SELL-MOMENTUM → 1H IHM-SELL",
+   "ltp": 389.5,
+   "live_pnl": 0.0
+  }
+ ],
  "closed": [
   {
    "id": 1,
@@ -176,5 +244,5 @@
    "live_pct": 0.02
   }
  ],
- "entered_this_run": 0
+ "entered_this_run": 2
 }
