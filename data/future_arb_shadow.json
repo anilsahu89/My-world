@@ -1,25 +1,6 @@
 {
  "version": 1,
- "open": [
-  {
-   "symbol": "CHOLAFIN",
-   "entry_date": "2026-11-13",
-   "spot": 1850.0,
-   "curr_expiry": "2026-11-23",
-   "next_expiry": "2026-12-29",
-   "entry_curr": 1836.4,
-   "entry_next": 1834.0,
-   "basis": 13.6,
-   "spread": 2.4,
-   "lot": 625,
-   "preset": "R2 shadow",
-   "last_spot": 1875.0,
-   "last_curr": 1867.5,
-   "last_next": 1872.7,
-   "last_spread": -5.2,
-   "last_date": "2026-11-19"
-  }
- ],
+ "open": [],
  "closed": [
   {
    "symbol": "DIXON",
@@ -74,6 +55,15 @@
    "pnl": -1912.5,
    "basis_at_entry": 76.5,
    "spread_at_entry": 23.5
+  },
+  {
+   "symbol": "CHOLAFIN",
+   "entry_date": "2026-11-13",
+   "exit_date": "2026-11-20",
+   "reason": "convergence",
+   "pnl": -6375.0,
+   "basis_at_entry": 13.6,
+   "spread_at_entry": 2.4
   }
  ]
 }
