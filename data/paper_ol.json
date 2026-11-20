@@ -1,5 +1,5 @@
 {
- "updated_at": "20 Nov 2026 09:41:43 IST",
+ "updated_at": "20 Nov 2026 09:45:35 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -37,8 +37,8 @@
  "vwap_blocked": {},
  "stop_blocked": {
   "ol": {
-   "FSL": 2.79,
-   "TATACHEM": 1.92
+   "TATACHEM": 3.84,
+   "FSL": 2.05
   },
   "oh": {}
  },
@@ -46,16 +46,16 @@
   "ol": {
    "FSL": 18.58,
    "TBOTEK": 5.41,
-   "TATACHEM": 2.25,
+   "TATACHEM": 2.42,
    "HDFCBANK": 1.8,
    "LTTS": 1.52,
-   "HINDALCO": 1.41,
+   "HINDALCO": 1.43,
+   "NAVINFLUOR": 1.32,
    "WIPRO": 1.26,
    "PTCIL": 1.12,
-   "NAVINFLUOR": 1.1,
+   "MEDANTA": 1.01,
    "KOTAKBANK": 0.84,
    "NETWEB": 0.83,
-   "MEDANTA": 0.82,
    "NESTLEIND": 0.64,
    "CONCORDBIO": 0.6,
    "RBLBANK": 0.56
@@ -69,7 +69,7 @@
   "trades_today": 1,
   "today_pnl": 0,
   "realized_total": -2201.95,
-  "unrealized": 9.9,
+  "unrealized": 24.9,
   "wins": 112,
   "losses": 142,
   "win_rate": 44.1,
@@ -90,14 +90,14 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 9.9,
+   "pnl": 24.9,
    "feed": "angel",
    "rules": "v3-17nov",
    "vol_ratio": 1.8,
    "stop_pct": 1.0,
    "open_px": 815.5,
-   "ltp": 825.4,
-   "pnl_pct": 0.2
+   "ltp": 827.9,
+   "pnl_pct": 0.5
   }
  ],
  "closed": [
