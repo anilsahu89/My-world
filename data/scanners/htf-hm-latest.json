@@ -1,12 +1,12 @@
 {
  "date": "2026-11-20",
- "updated_at": "20 Nov 2026 10:20:49 IST",
+ "updated_at": "20 Nov 2026 10:30:26 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 2,
-  "invested": 19668.7,
+  "open": 3,
+  "invested": 29070.2,
   "realized": 846.82,
   "wins": 5,
   "losses": 1,
@@ -26,6 +26,13 @@
    "weekly": "SELL",
    "daily": "SELL-MOMENTUM",
    "setup": "IHM-SELL"
+  },
+  {
+   "symbol": "BAJAJFINSV",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
   }
  ],
  "monthly_watchlist": [],
@@ -53,8 +60,9 @@
    "htf_weekly": "SELL-MOMENTUM",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 1241.4,
-   "live_pnl": 0.0
+   "ltp": 1242.7,
+   "live_pnl": -10.4,
+   "live_pct": -0.1
   },
   {
    "id": 8,
@@ -79,7 +87,34 @@
    "htf_weekly": "SELL",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 389.5,
+   "ltp": 389.1,
+   "live_pnl": 10.0,
+   "live_pct": 0.1
+  },
+  {
+   "id": 9,
+   "symbol": "BAJAJFINSV",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-20",
+   "entry_date": "2026-11-20",
+   "entry_time": "10:30",
+   "entry": 1880.3,
+   "qty": 5,
+   "invested": 9401.5,
+   "rsi_entry": 58.4,
+   "sl": 1854.58,
+   "tgt": 1918.87,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 1880.3,
    "live_pnl": 0.0
   }
  ],
@@ -244,5 +279,5 @@
    "live_pct": 0.02
   }
  ],
- "entered_this_run": 2
+ "entered_this_run": 1
 }
