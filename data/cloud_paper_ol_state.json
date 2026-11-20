@@ -4514,7 +4514,8 @@
    "rules": "v3-17nov",
    "vol_ratio": 1.8,
    "stop_pct": 1.0,
-   "open_px": 815.5
+   "open_px": 815.5,
+   "mark_1200": 834.7
   }
  ],
  "seeded": true,
