@@ -1,5 +1,5 @@
 {
- "updated_at": "19 Nov 2026 17:33:46 IST",
+ "updated_at": "20 Nov 2026 17:26:44 IST",
  "rule": "HM Swing (weekly): BUY RSI9>50 red<RSI green>red · SELL RSI9<50 red>RSI green<red · next open · 3w extreme SL · 2R · 15 sessions · max 5PF 1.39 · ShootingStar+VOL SELL PF 1.15 · Engulf-at-low BUY PF 1.13 | entry next open, SL=pattern extreme, target 2R, 10-session stop | max 5 concurrent",
  "note": "Candlestick CS-MARU/PINS/ENGF retired 15 Oct 2026. Same HM lines as HM Positional.Runs in the cloud (GitHub Actions) — no Mac required.",
  "end_date": "2026-12-31",
@@ -27,7 +27,7 @@
    "entry": 1850.0,
    "sl": 1679.46,
    "tgt": 2191.08,
-   "sessions": 12,
+   "sessions": 13,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -45,7 +45,7 @@
    "entry": 3524.9,
    "sl": 3174.05,
    "tgt": 4226.6,
-   "sessions": 12,
+   "sessions": 13,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -63,7 +63,7 @@
    "entry": 1627.0,
    "sl": 1472.7,
    "tgt": 1935.6,
-   "sessions": 12,
+   "sessions": 13,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -81,7 +81,7 @@
    "entry": 2065.0,
    "sl": 1803.14,
    "tgt": 2588.72,
-   "sessions": 12,
+   "sessions": 13,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -99,7 +99,7 @@
    "entry": 750.3,
    "sl": 668.64,
    "tgt": 913.62,
-   "sessions": 3,
+   "sessions": 4,
    "exit": null,
    "reason": null,
    "pnl": null
