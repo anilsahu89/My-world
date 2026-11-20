@@ -4547,7 +4547,8 @@
     "NCC",
     "RBLBANK",
     "PPLPHARMA",
-    "WIPRO"
+    "WIPRO",
+    "LTTS"
    ],
    "no_vol_data": []
   },
@@ -4562,9 +4563,9 @@
    "ANANDRATHI": 0.21,
    "AJANTPHARM": 0.29,
    "AFCONS": 0.3,
-   "AUROPHARMA": 0.25,
+   "AUROPHARMA": 0.32,
    "BLUEDART": 0.42,
-   "AIIL": 0.16,
+   "AIIL": 0.19,
    "CEATLTD": 0.39,
    "CONCORDBIO": 0.6,
    "CARTRADE": 0.22,
@@ -4573,11 +4574,11 @@
    "HINDALCO": 1.41,
    "HONAUT": 0.18,
    "HDFCBANK": 1.8,
-   "MEDANTA": 0.72,
+   "MEDANTA": 0.82,
    "LICHSGFIN": 0.43,
    "LTTS": 1.52,
    "KOTAKBANK": 0.84,
-   "NAVINFLUOR": 1.09,
+   "NAVINFLUOR": 1.1,
    "ONESOURCE": 0.17,
    "NESTLEIND": 0.64,
    "PTCIL": 1.12,
@@ -4587,7 +4588,7 @@
    "PPLPHARMA": 0.21,
    "TBOTEK": 5.41,
    "TATACHEM": 2.25,
-   "WIPRO": 1.24
+   "WIPRO": 1.26
   },
   "oh": {}
  },
@@ -4605,8 +4606,8 @@
  "stop_blocked": {
   "date": "2026-11-20",
   "ol": {
-   "FSL": 3.32,
-   "TATACHEM": 2.19
+   "FSL": 2.79,
+   "TATACHEM": 1.92
   },
   "oh": {}
  }
