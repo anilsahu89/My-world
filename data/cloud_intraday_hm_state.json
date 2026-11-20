@@ -175,18 +175,18 @@
    "rsi_entry": 44.1,
    "sl": 1256.91,
    "tgt": 1218.14,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
+   "status": "CLOSED",
+   "exit_date": "2026-11-20",
+   "exit_time": "12:02",
+   "exit": 1246.9,
+   "reason": "HM-FLIP",
+   "pnl": -73.79,
    "htf_weekly": "SELL-MOMENTUM",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 1242.0,
-   "live_pnl": -4.8,
-   "live_pct": -0.05
+   "ltp": 1246.9,
+   "live_pnl": -44.0,
+   "live_pct": -0.44
   },
   {
    "id": 8,
@@ -211,9 +211,9 @@
    "htf_weekly": "SELL",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 389.1,
-   "live_pnl": 10.0,
-   "live_pct": 0.1
+   "ltp": 390.15,
+   "live_pnl": -16.25,
+   "live_pct": -0.17
   },
   {
    "id": 9,
@@ -238,9 +238,9 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 1883.1,
-   "live_pnl": 14.0,
-   "live_pct": 0.15
+   "ltp": 1890.8,
+   "live_pnl": 52.5,
+   "live_pct": 0.56
   }
  ]
 }
