@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 262,
+ "next_id": 265,
  "trades": [
   {
    "id": 1,
@@ -4516,10 +4516,64 @@
    "stop_pct": 1.0,
    "open_px": 815.5,
    "mark_1200": 834.7
+  },
+  {
+   "id": 262,
+   "date": "2026-11-20",
+   "setup": "f3",
+   "symbol": "CUB",
+   "side": "BUY",
+   "qty": 7,
+   "entry_time": "12:22:40",
+   "entry_price": 243.41,
+   "sl_price": 229.61,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 4.45
+  },
+  {
+   "id": 263,
+   "date": "2026-11-20",
+   "setup": "f3",
+   "symbol": "INDUSINDBK",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:22:40",
+   "entry_price": 991.15,
+   "sl_price": 905.45,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 3.67
+  },
+  {
+   "id": 264,
+   "date": "2026-11-20",
+   "setup": "f3",
+   "symbol": "UNIONBANK",
+   "side": "BUY",
+   "qty": 9,
+   "entry_time": "12:22:40",
+   "entry_price": 216.8,
+   "sl_price": 205.94,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 2.79
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-11-19",
+ "f3_done_date": "2026-11-20",
  "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-11-20",
