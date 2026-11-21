@@ -70,7 +70,15 @@
  "day_losses": 2,
  "done_date": "2026-11-20",
  "btc": {
-  "position": null,
+  "position": {
+   "side": "LONG",
+   "entry": 60317.05,
+   "entry_ts": "2026-11-21 19:00:00+05:30",
+   "qty_btc": 0.018421,
+   "notional_inr": 100000.0,
+   "status": "OPEN",
+   "opened": "2026-11-21 19:23:13.757753+05:30"
+  },
   "trades": [
    {
     "side": "LONG",
@@ -529,9 +537,14 @@
     "time": "21 Nov 10:42",
     "decision": "EXIT",
     "detail": "CHANDELIER @ 56215 -> +0.64% (\u20b9+642)"
+   },
+   {
+    "time": "21 Nov 19:23",
+    "decision": "ENTRY",
+    "detail": "LONG @ 60317 (notional \u20b91L \u2248 0.018421 BTC)"
    }
   ],
-  "peak": 64810.76171875,
+  "peak": 60317.05078125,
   "trough": 55663.33984375
  },
  "reversal_used": true
