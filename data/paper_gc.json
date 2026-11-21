@@ -1,11 +1,11 @@
 {
- "updated_at": "21 Nov 2026 10:12:10 IST",
+ "updated_at": "21 Nov 2026 10:27:12 IST",
  "status": "RUNNING",
  "summary": {
   "open_count": 1,
   "closed_count": 62,
   "realized_total": -4.97,
-  "unrealized": 2.79,
+  "unrealized": 2.56,
   "wins": 15,
   "losses": 47,
   "win_rate": 24.2
@@ -24,8 +24,8 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 2.79,
-   "ltp": 56004.71
+   "pnl": 2.56,
+   "ltp": 56234.24
   }
  ],
  "closed": [
