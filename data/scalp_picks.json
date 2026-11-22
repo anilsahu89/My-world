@@ -1,5 +1,5 @@
 {
- "updated_at": "22 Nov 2026 07:59:39 IST",
+ "updated_at": "22 Nov 2026 08:14:38 IST",
  "desk": "NIFTY Scalp Monitor",
  "rule": "First-3 Morning Drive + VWAP Station Bounce (15-min, index ATM options, paper \u00b7 premium = delta approx 0.5 \u00d7 75 \u00d7 2 lots) \u00b7 entry 09:50-14:15 \u00b7 +70pt-class targets (1.5R / 2R) \u00b7 tactical VWAP exit \u00b7 re-entry + once-daily reversal \u00b7 square-off 15:20 \u00b7 2-loss day stop",
  "decisions": [
@@ -78,13 +78,16 @@
  },
  "btc": {
   "rule": "Donchian(24) breakout + 1h EMA50 regime filter \u00b7 15-min Binance BTCUSDT \u00b7 1-year backtest: PF 1.46, 844 trades, +131% net of 0.2% costs \u00b7 both directions \u00b7 chandelier 0.8% / target 2% / stop 0.7% \u00b7 Rs 1L notional per trade",
-  "position": null,
+  "position": {
+   "side": "SHORT",
+   "entry": 59718.54,
+   "entry_ts": "2026-11-22 07:45:00+05:30",
+   "qty_btc": 0.018606,
+   "notional_inr": 100000.0,
+   "status": "OPEN",
+   "opened": "2026-11-22 08:14:37.425029+05:30"
+  },
   "decisions": [
-   {
-    "time": "09 Nov 21:25",
-    "decision": "ENTRY",
-    "detail": "LONG @ 75421 (notional \u20b91L \u2248 0.014732 BTC)"
-   },
    {
     "time": "10 Nov 12:51",
     "decision": "EXIT",
@@ -279,6 +282,11 @@
     "time": "21 Nov 21:08",
     "decision": "EXIT",
     "detail": "CHANDELIER @ 59887 -> -0.91% (\u20b9-912)"
+   },
+   {
+    "time": "22 Nov 08:14",
+    "decision": "ENTRY",
+    "detail": "SHORT @ 59719 (notional \u20b91L \u2248 0.018606 BTC)"
    }
   ],
   "closed": [
@@ -564,7 +572,7 @@
    }
   ],
   "summary": {
-   "open": 0,
+   "open": 1,
    "closed": 20,
    "wins": 4,
    "losses": 16,
