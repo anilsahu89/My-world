@@ -1,5 +1,5 @@
 {
- "updated_at": "23 Nov 2026 13:42:44 IST",
+ "updated_at": "23 Nov 2026 13:46:21 IST",
  "desk": "NIFTY Scalp Monitor",
  "rule": "First-3 Morning Drive + VWAP Station Bounce (15-min, index ATM options, paper \u00b7 premium = delta approx 0.5 \u00d7 75 \u00d7 2 lots) \u00b7 entry 09:50-14:15 \u00b7 +70pt-class targets (1.5R / 2R) \u00b7 tactical VWAP exit \u00b7 re-entry + once-daily reversal \u00b7 square-off 15:20 \u00b7 2-loss day stop",
  "decisions": [],
@@ -15,21 +15,8 @@
  },
  "btc": {
   "rule": "Donchian(24) breakout + 1h EMA50 regime filter \u00b7 15-min Binance BTCUSDT \u00b7 1-year backtest: PF 1.46, 844 trades, +131% net of 0.2% costs \u00b7 both directions \u00b7 chandelier 0.8% / target 2% / stop 0.7% \u00b7 Rs 1L notional per trade",
-  "position": {
-   "side": "LONG",
-   "entry": 61349.69,
-   "entry_ts": "2026-11-23 08:45:00+05:30",
-   "qty_btc": 0.018111,
-   "notional_inr": 100000.0,
-   "status": "OPEN",
-   "opened": "2026-11-23 09:05:49.716666+05:30"
-  },
+  "position": null,
   "decisions": [
-   {
-    "time": "13 Nov 08:59",
-    "decision": "EXIT",
-    "detail": "TARGET @ 69785 -> +1.80% (\u20b9+1,800)"
-   },
    {
     "time": "13 Nov 11:32",
     "decision": "ENTRY",
@@ -224,23 +211,14 @@
     "time": "23 Nov 09:05",
     "decision": "ENTRY",
     "detail": "LONG @ 61350 (notional \u20b91L \u2248 0.018111 BTC)"
+   },
+   {
+    "time": "23 Nov 13:46",
+    "decision": "EXIT",
+    "detail": "CHANDELIER @ 61172 -> -0.49% (\u20b9-490)"
    }
   ],
   "closed": [
-   {
-    "side": "SHORT",
-    "entry": 71209.0,
-    "entry_ts": "2026-11-13 05:30:00+05:30",
-    "qty_btc": 0.015604,
-    "notional_inr": 100000.0,
-    "status": "CLOSED",
-    "opened": "2026-11-13 05:59:27.210951+05:30",
-    "exit_ts": "2026-11-13 08:30:00+05:30",
-    "exit_px": 69784.82,
-    "exit_reason": "TARGET",
-    "pnl_pct": 1.8,
-    "pnl": 1800.0
-   },
    {
     "side": "SHORT",
     "entry": 68052.97,
@@ -506,15 +484,29 @@
     "exit_reason": "CHANDELIER",
     "pnl_pct": -0.91,
     "pnl": -909.06
+   },
+   {
+    "side": "LONG",
+    "entry": 61349.69,
+    "entry_ts": "2026-11-23 08:45:00+05:30",
+    "qty_btc": 0.018111,
+    "notional_inr": 100000.0,
+    "status": "CLOSED",
+    "opened": "2026-11-23 09:05:49.716666+05:30",
+    "exit_ts": "2026-11-23 13:30:00+05:30",
+    "exit_px": 61171.73,
+    "exit_reason": "CHANDELIER",
+    "pnl_pct": -0.49,
+    "pnl": -490.07
    }
   ],
   "summary": {
-   "open": 1,
-   "closed": 23,
+   "open": 0,
+   "closed": 24,
    "wins": 5,
-   "losses": 18,
-   "win_rate": 21.7,
-   "pnl": -13028.61
+   "losses": 19,
+   "win_rate": 20.8,
+   "pnl": -13518.68
   }
  }
 }
