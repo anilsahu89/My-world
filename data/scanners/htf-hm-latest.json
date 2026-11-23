@@ -1,12 +1,12 @@
 {
  "date": "2026-11-23",
- "updated_at": "23 Nov 2026 10:26:30 IST",
+ "updated_at": "23 Nov 2026 10:33:07 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 1,
-  "invested": 9613.0,
+  "open": 3,
+  "invested": 25999.4,
   "realized": 740.37,
   "wins": 6,
   "losses": 3,
@@ -19,6 +19,20 @@
    "weekly": "BUY-MOMENTUM",
    "daily": "BUY-MOMENTUM",
    "setup": "IHM-BUY"
+  },
+  {
+   "symbol": "ADANIENSOL",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
+  },
+  {
+   "symbol": "POLYCAB",
+   "side": "SELL",
+   "weekly": "SELL-MOMENTUM",
+   "daily": "SELL-MOMENTUM",
+   "setup": "IHM-SELL"
   }
  ],
  "monthly_watchlist": [],
@@ -46,7 +60,60 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 1922.6,
+   "ltp": 1919.0,
+   "live_pnl": -18.0,
+   "live_pct": -0.19
+  },
+  {
+   "id": 11,
+   "symbol": "ADANIENSOL",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-23",
+   "entry_date": "2026-11-23",
+   "entry_time": "10:32",
+   "entry": 1485.9,
+   "qty": 6,
+   "invested": 8915.4,
+   "rsi_entry": 54.3,
+   "sl": 1467.16,
+   "tgt": 1514.01,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 1485.9,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 12,
+   "symbol": "POLYCAB",
+   "side": "SELL",
+   "setup": "IHM-SELL",
+   "signal_date": "2026-11-23",
+   "entry_date": "2026-11-23",
+   "entry_time": "10:32",
+   "entry": 7471.0,
+   "qty": 1,
+   "invested": 7471.0,
+   "rsi_entry": 43.3,
+   "sl": 7585.14,
+   "tgt": 7299.79,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "SELL-MOMENTUM",
+   "htf_daily": "SELL-MOMENTUM",
+   "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
+   "ltp": 7471.0,
    "live_pnl": 0.0
   }
  ],
@@ -292,5 +359,5 @@
    "live_pct": 0.62
   }
  ],
- "entered_this_run": 1
+ "entered_this_run": 2
 }
