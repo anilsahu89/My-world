@@ -1,5 +1,5 @@
 {
- "updated_at": "23 Nov 2026 19:02 IST",
+ "updated_at": "23 Nov 2026 19:17 IST",
  "desk": "Future Arbitrage",
  "status": "RUNNING",
  "preset": "r1",
@@ -10,88 +10,20 @@
  "situation": [
   {
    "symbol": "HAVELLS",
-   "spot": 1211.0,
-   "current": 1197.0,
-   "next": 1195.5,
-   "basis": 14.0,
-   "spread": 1.5,
-   "basis_pct": 1.16,
-   "spread_value": 750,
+   "spot": 1184.0,
+   "current": 1178.6,
+   "next": 1178.2,
+   "basis": 5.4,
+   "spread": 0.4,
+   "basis_pct": 0.46,
+   "spread_value": 200,
    "lot": 500,
-   "vol_curr": 6484,
-   "vol_next": 8260,
-   "dte": 3,
+   "vol_curr": 3379,
+   "vol_next": 4322,
+   "dte": 0,
    "preset": "R1 relaxed",
    "preset_pass": false,
-   "verdict": "rejected: dte 3"
-  },
-  {
-   "symbol": "GMRAIRPORT",
-   "spot": 105.0,
-   "current": 104.13,
-   "next": 103.84,
-   "basis": 0.87,
-   "spread": 0.29,
-   "basis_pct": 0.83,
-   "spread_value": 2023,
-   "lot": 6975,
-   "vol_curr": 5040,
-   "vol_next": 4690,
-   "dte": 3,
-   "preset": "R1 relaxed",
-   "preset_pass": false,
-   "verdict": "rejected: basis<10 (0.9); basis<1%; dte 3"
-  },
-  {
-   "symbol": "LTM",
-   "spot": 4166.4,
-   "current": 4150.5,
-   "next": 4145.6,
-   "basis": 15.9,
-   "spread": 4.9,
-   "basis_pct": 0.38,
-   "spread_value": 735,
-   "lot": 150,
-   "vol_curr": 6342,
-   "vol_next": 8488,
-   "dte": 3,
-   "preset": "R1 relaxed",
-   "preset_pass": false,
-   "verdict": "rejected: basis<1%; dte 3"
-  },
-  {
-   "symbol": "OIL",
-   "spot": 432.0,
-   "current": 430.4,
-   "next": 429.0,
-   "basis": 1.6,
-   "spread": 1.4,
-   "basis_pct": 0.37,
-   "spread_value": 1960,
-   "lot": 1400,
-   "vol_curr": 3247,
-   "vol_next": 3161,
-   "dte": 3,
-   "preset": "R1 relaxed",
-   "preset_pass": false,
-   "verdict": "rejected: basis<10 (1.6); basis<1%; spread>0.6x-basis"
-  },
-  {
-   "symbol": "VMM",
-   "spot": 91.98,
-   "current": 91.66,
-   "next": 91.37,
-   "basis": 0.32,
-   "spread": 0.29,
-   "basis_pct": 0.35,
-   "spread_value": 1406,
-   "lot": 4850,
-   "vol_curr": 4990,
-   "vol_next": 5343,
-   "dte": 3,
-   "preset": "R1 relaxed",
-   "preset_pass": false,
-   "verdict": "rejected: basis<10 (0.3); basis<1%; spread>0.6x-basis"
+   "verdict": "rejected: basis<10 (5.4); basis<1%; dte 0"
   }
  ],
  "open": [],
@@ -191,5 +123,5 @@
    "pnl": -4990.0
   }
  },
- "bhav_date": "2026-11-20"
+ "bhav_date": "2026-11-23"
 }

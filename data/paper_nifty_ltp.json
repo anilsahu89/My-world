@@ -1,6 +1,6 @@
 {
- "updated_at": "20 Nov 2026 20:01 IST",
- "bhav_date": "2026-11-20",
+ "updated_at": "23 Nov 2026 19:17 IST",
+ "bhav_date": "2026-11-23",
  "desk": "NIFTY Long-Term Premium",
  "status": "RUNNING",
  "strategy": {
@@ -11,16 +11,164 @@
   "source": "NK Stock Talk session 2026-10-03; rules doc NK_NIFTY_PREMIUM_RULES.md"
  },
  "levels": {
-  "spot": 25769.2,
-  "weekly_20sma": 23877.8,
-  "near_iv": 0.126,
+  "spot": 25372.9,
+  "weekly_20sma": 23934.9,
+  "near_iv": 0.169,
   "bias": "above 20W-SMA (call side)"
  },
- "board": [],
- "blocked": [
-  "no discount >= 5% (best 3% of 1 scanned)"
+ "board": [
+  {
+   "expiry": "2027-01-25",
+   "strike": 26600.0,
+   "opt": "CE",
+   "dte": 63,
+   "price": 249.45,
+   "vol": 1926,
+   "fair": 350.5,
+   "discount": 0.288,
+   "edge_pts": 101.1,
+   "own_iv": 0.141
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 26500.0,
+   "opt": "CE",
+   "dte": 63,
+   "price": 278.6,
+   "vol": 8161,
+   "fair": 380.3,
+   "discount": 0.267,
+   "edge_pts": 101.7,
+   "own_iv": 0.142
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 26450.0,
+   "opt": "CE",
+   "dte": 63,
+   "price": 291.8,
+   "vol": 118,
+   "fair": 395.8,
+   "discount": 0.263,
+   "edge_pts": 104.0,
+   "own_iv": 0.141
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 26400.0,
+   "opt": "CE",
+   "dte": 63,
+   "price": 309.35,
+   "vol": 520,
+   "fair": 411.9,
+   "discount": 0.249,
+   "edge_pts": 102.5,
+   "own_iv": 0.142
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 26550.0,
+   "opt": "CE",
+   "dte": 63,
+   "price": 276.0,
+   "vol": 33,
+   "fair": 365.1,
+   "discount": 0.244,
+   "edge_pts": 89.1,
+   "own_iv": 0.145
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 26350.0,
+   "opt": "CE",
+   "dte": 63,
+   "price": 327.95,
+   "vol": 36,
+   "fair": 428.4,
+   "discount": 0.235,
+   "edge_pts": 100.5,
+   "own_iv": 0.143
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 26300.0,
+   "opt": "CE",
+   "dte": 63,
+   "price": 342.6,
+   "vol": 686,
+   "fair": 445.5,
+   "discount": 0.231,
+   "edge_pts": 102.9,
+   "own_iv": 0.143
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 26200.0,
+   "opt": "CE",
+   "dte": 63,
+   "price": 376.35,
+   "vol": 722,
+   "fair": 481.0,
+   "discount": 0.218,
+   "edge_pts": 104.7,
+   "own_iv": 0.143
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 26250.0,
+   "opt": "CE",
+   "dte": 63,
+   "price": 362.5,
+   "vol": 83,
+   "fair": 463.0,
+   "discount": 0.217,
+   "edge_pts": 100.5,
+   "own_iv": 0.144
+  },
+  {
+   "expiry": "2027-06-29",
+   "strike": 25500.0,
+   "opt": "PE",
+   "dte": 218,
+   "price": 720.5,
+   "vol": 1798,
+   "fair": 918.5,
+   "discount": 0.216,
+   "edge_pts": 198.0,
+   "own_iv": 0.142
+  }
  ],
- "open": [],
+ "blocked": [],
+ "open": [
+  {
+   "id": 13,
+   "side": "call",
+   "entry": "2026-11-23",
+   "days": 1,
+   "points": 0.0,
+   "structure": "calendar",
+   "far": {
+    "expiry": "2027-01-25",
+    "strike": 26600.0,
+    "qty": 225,
+    "entry": 249.45,
+    "mark": 249.45,
+    "exit": null,
+    "exit_date": null
+   },
+   "shorts": [
+    {
+     "expiry": "2026-12-01",
+     "strike": 25650.0,
+     "qty": 225,
+     "entry": 142.75,
+     "mark": 142.75,
+     "exit": null,
+     "exit_date": null
+    }
+   ]
+  }
+ ],
  "trades": [
   {
    "id": 2,
@@ -109,16 +257,27 @@
    "pnl": 12093.75,
    "structure": "calendar",
    "discount_at_entry": 0.236
+  },
+  {
+   "id": 13,
+   "side": "call",
+   "entry": "2026-11-23",
+   "exit": null,
+   "reason": null,
+   "points": null,
+   "pnl": null,
+   "structure": "calendar",
+   "discount_at_entry": 0.288
   }
  ],
  "summary": {
-  "trades": 8,
+  "trades": 9,
   "closed": 8,
-  "open": 0,
-  "this_month": 4,
+  "open": 1,
+  "this_month": 5,
   "wins": 6,
   "win_rate": 75.0,
   "realized": 72708.75,
-  "unrealized": 0
+  "unrealized": 0.0
  }
 }
