@@ -1,33 +1,16 @@
 {
- "updated_at": "23 Nov 2026 22:24:13 IST",
- "status": "RUNNING",
+ "updated_at": "23 Nov 2026 22:44:16 IST",
+ "status": "DONE",
  "summary": {
-  "open_count": 1,
-  "closed_count": 65,
-  "realized_total": -6.15,
-  "unrealized": 1.42,
-  "wins": 15,
+  "open_count": 0,
+  "closed_count": 66,
+  "realized_total": -4.64,
+  "unrealized": 0,
+  "wins": 16,
   "losses": 50,
-  "win_rate": 23.1
+  "win_rate": 24.2
  },
- "open": [
-  {
-   "id": 65,
-   "session": "2026-11-22",
-   "setup": "ol",
-   "symbol": "GOLD",
-   "side": "BUY",
-   "qty": 0.0168,
-   "entry_time": "05:43:54",
-   "entry_price": 3576.9,
-   "sl_price": 3548.47,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 1.42,
-   "ltp": 3661.6
-  }
- ],
+ "open": [],
  "closed": [
   {
    "id": 66,
@@ -58,6 +41,21 @@
    "exit_price": 59749.16,
    "reason": "SL",
    "pnl": -0.45
+  },
+  {
+   "id": 65,
+   "session": "2026-11-22",
+   "setup": "ol",
+   "symbol": "GOLD",
+   "side": "BUY",
+   "qty": 0.0168,
+   "entry_time": "05:43:54",
+   "entry_price": 3576.9,
+   "sl_price": 3548.47,
+   "exit_time": "22:44:15",
+   "exit_price": 3667.0,
+   "reason": "EOD",
+   "pnl": 1.51
   },
   {
    "id": 63,
