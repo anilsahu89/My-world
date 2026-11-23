@@ -1,7 +1,7 @@
 {
- "updated_at": "23 Nov 2026 09:36:57 IST",
- "feed": "yahoo",
- "feed_note": "Cloud engine (GitHub Actions + Yahoo, no Mac needed)",
+ "updated_at": "23 Nov 2026 09:40:33 IST",
+ "feed": "angel",
+ "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
  "today": "2026-11-23",
  "strategy": {
@@ -46,9 +46,9 @@
   "ol": {},
   "oh": {
    "GROWW": 8.37,
-   "AXISBANK": 2.38,
-   "RAMCOCEM": 1.9,
-   "INDUSINDBK": 1.87,
+   "RAMCOCEM": 2.81,
+   "AXISBANK": 2.49,
+   "INDUSINDBK": 1.96,
    "IREDA": 1.78,
    "VEDL": 1.68,
    "JSWSTEEL": 1.18,
@@ -56,9 +56,9 @@
    "COHANCE": 0.97,
    "POWERGRID": 0.94,
    "POWERINDIA": 0.89,
-   "SPLPETRO": 0.87,
-   "LENSKART": 0.83,
-   "BOSCHLTD": 0.82,
+   "SPLPETRO": 0.88,
+   "LENSKART": 0.85,
+   "BOSCHLTD": 0.83,
    "NAVA": 0.81
   }
  },
