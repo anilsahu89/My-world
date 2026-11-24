@@ -347,7 +347,8 @@
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
    "ltp": 1777.5,
-   "live_pnl": 0.0
+   "live_pnl": 0.0,
+   "live_pct": 0.0
   },
   {
    "id": 14,
@@ -373,7 +374,8 @@
    "htf_daily": "BUY",
    "notes": "HTF BUY-MOMENTUM/BUY → 1H IHM-BUY",
    "ltp": 1687.0,
-   "live_pnl": 0.0
+   "live_pnl": 0.0,
+   "live_pct": 0.0
   }
  ]
 }
