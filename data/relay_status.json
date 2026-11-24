@@ -1,8 +1,8 @@
 {
- "mode": "evening",
- "last_tick": "24 Nov 2026 21:00:50 IST",
+ "mode": "gcwatch",
+ "last_tick": "24 Nov 2026 21:06:25 IST",
  "errors": [],
- "last_push_ok": true,
- "last_push": "ok",
- "run_id": "45367046881"
+ "last_push_ok": null,
+ "last_push": "none yet",
+ "run_id": "45427360066"
 }
