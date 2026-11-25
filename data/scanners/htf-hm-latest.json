@@ -1,16 +1,16 @@
 {
  "date": "2026-11-25",
- "updated_at": "25 Nov 2026 11:01:35 IST",
+ "updated_at": "25 Nov 2026 11:33:08 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 3,
-  "invested": 25992.9,
-  "realized": 595.21,
-  "wins": 7,
+  "open": 2,
+  "invested": 16699.9,
+  "realized": 692.53,
+  "wins": 8,
   "losses": 7,
-  "win_rate": 50.0
+  "win_rate": 53.3
  },
  "signals": [
   {
@@ -26,13 +26,6 @@
    "weekly": "SELL-MOMENTUM",
    "daily": "SELL-MOMENTUM",
    "setup": "IHM-SELL"
-  },
-  {
-   "symbol": "OBEROIRLTY",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY-MOMENTUM",
-   "setup": "IHM-BUY"
   }
  ],
  "monthly_watchlist": [],
@@ -60,9 +53,9 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY",
    "notes": "HTF BUY-MOMENTUM/BUY → 1H IHM-BUY",
-   "ltp": 6985.5,
-   "live_pnl": 62.0,
-   "live_pct": 0.9
+   "ltp": 7025.0,
+   "live_pnl": 101.5,
+   "live_pct": 1.47
   },
   {
    "id": 16,
@@ -87,36 +80,9 @@
    "htf_weekly": "SELL-MOMENTUM",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 818.15,
-   "live_pnl": -41.4,
-   "live_pct": -0.42
-  },
-  {
-   "id": 17,
-   "symbol": "OBEROIRLTY",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-25",
-   "entry_date": "2026-11-25",
-   "entry_time": "10:30",
-   "entry": 1858.6,
-   "qty": 5,
-   "invested": 9293.0,
-   "rsi_entry": 62.6,
-   "sl": 1841.91,
-   "tgt": 1883.64,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY-MOMENTUM",
-   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 1868.5,
-   "live_pnl": 49.5,
-   "live_pct": 0.53
+   "ltp": 814.5,
+   "live_pnl": 2.4,
+   "live_pct": 0.02
   }
  ],
  "closed": [
@@ -494,6 +460,33 @@
    "ltp": 1687.0,
    "live_pnl": 0.0,
    "live_pct": 0.0
+  },
+  {
+   "id": 17,
+   "symbol": "OBEROIRLTY",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-25",
+   "entry_date": "2026-11-25",
+   "entry_time": "10:30",
+   "entry": 1858.6,
+   "qty": 5,
+   "invested": 9293.0,
+   "rsi_entry": 62.6,
+   "sl": 1841.91,
+   "tgt": 1883.64,
+   "status": "CLOSED",
+   "exit_date": "2026-11-25",
+   "exit_time": "11:33",
+   "exit": 1883.64,
+   "reason": "TGT",
+   "pnl": 97.32,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 1887.0,
+   "live_pnl": 142.0,
+   "live_pct": 1.53
   }
  ],
  "entered_this_run": 0
