@@ -1,5 +1,5 @@
 {
- "updated_at": "25 Nov 2026 09:36:12 IST",
+ "updated_at": "25 Nov 2026 09:38:06 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -37,19 +37,19 @@
  "vwap_blocked": {},
  "stop_blocked": {
   "ol": {
-   "LTF": 3.33,
-   "BLUESTARCO": 2.32,
-   "PNBHOUSING": 2.27
+   "LTF": 3.17,
+   "BLUESTARCO": 2.42,
+   "PNBHOUSING": 2.18
   },
   "oh": {}
  },
  "vol_audit": {
   "ol": {
-   "BRIGADE": 29.18,
+   "BRIGADE": 31.0,
    "LTF": 8.98,
    "GODIGIT": 3.47,
+   "CREDITACC": 2.5,
    "POLYMED": 2.5,
-   "CREDITACC": 2.42,
    "EIHOTEL": 2.13,
    "J&KBANK": 1.98,
    "PNBHOUSING": 1.97,
@@ -59,7 +59,7 @@
    "BLUESTARCO": 1.6,
    "BIKAJI": 1.59,
    "BANKINDIA": 1.48,
-   "ICICIGI": 1.35
+   "ICICIGI": 1.39
   },
   "oh": {}
  },
@@ -70,7 +70,7 @@
   "trades_today": 3,
   "today_pnl": 0,
   "realized_total": -1996.68,
-  "unrealized": 0,
+  "unrealized": 7.24,
   "wins": 115,
   "losses": 143,
   "win_rate": 44.6,
@@ -91,14 +91,14 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": 7.8,
    "feed": "angel",
    "rules": "v3-17nov",
    "vol_ratio": 2.13,
    "stop_pct": 1.43,
    "open_px": 334.0,
-   "ltp": 338.85,
-   "pnl_pct": 0.0
+   "ltp": 339.5,
+   "pnl_pct": 0.19
   },
   {
    "id": 266,
@@ -114,14 +114,14 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -5.95,
    "feed": "angel",
    "rules": "v3-17nov",
    "vol_ratio": 1.98,
    "stop_pct": 0.92,
    "open_px": 147.8,
-   "ltp": 149.17,
-   "pnl_pct": 0.0
+   "ltp": 149.0,
+   "pnl_pct": -0.11
   },
   {
    "id": 267,
@@ -137,14 +137,14 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": 5.39,
    "feed": "angel",
    "rules": "v3-17nov",
    "vol_ratio": 1.88,
    "stop_pct": 1.33,
    "open_px": 86.3,
-   "ltp": 87.44,
-   "pnl_pct": 0.0
+   "ltp": 87.55,
+   "pnl_pct": 0.13
   }
  ],
  "closed": [
