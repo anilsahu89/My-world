@@ -1,5 +1,5 @@
 {
- "done_date": "2026-11-23",
+ "done_date": "2026-11-25",
  "trades": [
   {
    "id": 2,
@@ -308,8 +308,8 @@
    "id": 13,
    "side": "call",
    "entry_date": "2026-11-23",
-   "days_seen": 1,
-   "status": "OPEN",
+   "days_seen": 2,
+   "status": "CLOSED",
    "spot_entry": 25372.9,
    "iv_near_entry": 0.169,
    "discount_at_entry": 0.288,
@@ -319,9 +319,9 @@
     "strike": 26600.0,
     "qty": 225,
     "entry": 249.45,
-    "mark": 249.45,
-    "exit": null,
-    "exit_date": null
+    "mark": 391.45,
+    "exit": 391.45,
+    "exit_date": "2026-11-25"
    },
    "shorts": [
     {
@@ -329,7 +329,43 @@
      "strike": 25650.0,
      "qty": 225,
      "entry": 142.75,
-     "mark": 142.75,
+     "mark": 323.0,
+     "exit": 323.0,
+     "exit_date": "2026-11-25"
+    }
+   ],
+   "pnl": -8606.25,
+   "points": -38.2,
+   "exit_reason": "MOMENTUM",
+   "exit_date": "2026-11-25",
+   "exit_spot": 25834.1
+  },
+  {
+   "id": 14,
+   "side": "call",
+   "entry_date": "2026-11-25",
+   "days_seen": 1,
+   "status": "OPEN",
+   "spot_entry": 25834.1,
+   "iv_near_entry": 0.166,
+   "discount_at_entry": 0.289,
+   "structure": "calendar",
+   "far": {
+    "expiry": "2027-01-25",
+    "strike": 27100.0,
+    "qty": 225,
+    "entry": 233.35,
+    "mark": 233.35,
+    "exit": null,
+    "exit_date": null
+   },
+   "shorts": [
+    {
+     "expiry": "2026-12-01",
+     "strike": 26100.0,
+     "qty": 225,
+     "entry": 112.85,
+     "mark": 112.85,
      "exit": null,
      "exit_date": null
     }
@@ -339,7 +375,7 @@
    "exit_reason": null
   }
  ],
- "next_id": 14,
+ "next_id": 15,
  "spot_history": [
   [
    "2026-11-09",
@@ -380,6 +416,10 @@
   [
    "2026-11-23",
    25372.9
+  ],
+  [
+   "2026-11-25",
+   25834.1
   ]
  ]
 }

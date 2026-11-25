@@ -1,5 +1,5 @@
 {
- "updated_at": "25 Nov 2026 18:48 IST",
+ "updated_at": "25 Nov 2026 19:03 IST",
  "desk": "Future Arbitrage",
  "status": "RUNNING",
  "preset": "r1",
@@ -9,21 +9,55 @@
  },
  "situation": [
   {
-   "symbol": "HAVELLS",
-   "spot": 1184.0,
-   "current": 1178.6,
-   "next": 1178.2,
-   "basis": 5.4,
-   "spread": 0.4,
-   "basis_pct": 0.46,
-   "spread_value": 200,
-   "lot": 500,
-   "vol_curr": 3379,
-   "vol_next": 4322,
-   "dte": 0,
+   "symbol": "HYUNDAI",
+   "spot": 2112.0,
+   "current": 2083.3,
+   "next": 2048.2,
+   "basis": 28.7,
+   "spread": 35.1,
+   "basis_pct": 1.36,
+   "spread_value": 9653,
+   "lot": 275,
+   "vol_curr": 5580,
+   "vol_next": 108,
+   "dte": 34,
    "preset": "R1 relaxed",
    "preset_pass": false,
-   "verdict": "rejected: basis<10 (5.4); basis<1%; dte 0"
+   "verdict": "rejected: spread>0.6x-basis; nextvol<250 (108); dte 34"
+  },
+  {
+   "symbol": "WAAREEENER",
+   "spot": 2379.9,
+   "current": 2364.2,
+   "next": 2361.4,
+   "basis": 15.7,
+   "spread": 2.8,
+   "basis_pct": 0.66,
+   "spread_value": 490,
+   "lot": 175,
+   "vol_curr": 2562,
+   "vol_next": 220,
+   "dte": 34,
+   "preset": "R1 relaxed",
+   "preset_pass": false,
+   "verdict": "rejected: basis<1%; nextvol<250 (220); dte 34"
+  },
+  {
+   "symbol": "DIXON",
+   "spot": 12978.0,
+   "current": 12902.0,
+   "next": 12857.0,
+   "basis": 76.0,
+   "spread": 45.0,
+   "basis_pct": 0.59,
+   "spread_value": 2250,
+   "lot": 50,
+   "vol_curr": 10567,
+   "vol_next": 1158,
+   "dte": 34,
+   "preset": "R1 relaxed",
+   "preset_pass": false,
+   "verdict": "rejected: basis<1%; dte 34"
   }
  ],
  "open": [],
@@ -123,5 +157,5 @@
    "pnl": -4990.0
   }
  },
- "bhav_date": "2026-11-23"
+ "bhav_date": "2026-11-25"
 }
