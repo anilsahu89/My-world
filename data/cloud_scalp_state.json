@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 15,
+ "next_id": 16,
  "trades": [
   {
    "id": 14,
@@ -21,6 +21,22 @@
    "exit_idx": 25713.2,
    "pnl_pts": -119.1,
    "pnl": -8936.25
+  },
+  {
+   "id": 15,
+   "setup": "FIRST3",
+   "side": "CE",
+   "symbol": "NIFTY ATM CE",
+   "entry_date": "2026-11-25",
+   "entry_bar": 6,
+   "entry_idx": 25832.35,
+   "stop_idx": 25721.1,
+   "target_idx": 25999.22,
+   "driver_low": 25721.099609375,
+   "r_multiple": 0.0,
+   "lots": 2,
+   "status": "OPEN",
+   "structure": "trend-continuation"
   }
  ],
  "decisions": [
@@ -33,6 +49,11 @@
    "time": "10:51:00",
    "decision": "EXIT",
    "detail": "NIFTY ATM CE SL @ 25713.2 -> -119.1 pts"
+  },
+  {
+   "time": "11:01:33",
+   "decision": "ENTRY",
+   "detail": "FIRST3 stack @ 25832.3 SL 25721.1 TGT 25999.2"
   }
  ],
  "day": "2026-11-25",
