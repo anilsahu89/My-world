@@ -4593,7 +4593,8 @@
    "rules": "v3-17nov",
    "vol_ratio": 2.13,
    "stop_pct": 1.43,
-   "open_px": 334.0
+   "open_px": 334.0,
+   "mark_1200": 336.45
   },
   {
    "id": 266,
@@ -4637,7 +4638,8 @@
    "rules": "v3-17nov",
    "vol_ratio": 1.88,
    "stop_pct": 1.33,
-   "open_px": 86.3
+   "open_px": 86.3,
+   "mark_1200": 87.83
   }
  ],
  "seeded": true,
