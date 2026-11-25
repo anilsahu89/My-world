@@ -1,5 +1,5 @@
 {
- "updated_at": "25 Nov 2026 09:30:13 IST",
+ "updated_at": "25 Nov 2026 09:36:12 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -23,25 +23,130 @@
   "max_stop_pct": 1.5,
   "max_per_setup": 3
  },
- "vol_blocked": {},
+ "vol_blocked": {
+  "ol": {
+   "low_vol": 30,
+   "no_vol_data": 0
+  },
+  "oh": {
+   "low_vol": 0,
+   "no_vol_data": 0
+  }
+ },
  "trend_blocked": {},
  "vwap_blocked": {},
- "stop_blocked": {},
- "vol_audit": {},
+ "stop_blocked": {
+  "ol": {
+   "LTF": 3.33,
+   "BLUESTARCO": 2.32,
+   "PNBHOUSING": 2.27
+  },
+  "oh": {}
+ },
+ "vol_audit": {
+  "ol": {
+   "BRIGADE": 29.18,
+   "LTF": 8.98,
+   "GODIGIT": 3.47,
+   "POLYMED": 2.5,
+   "CREDITACC": 2.42,
+   "EIHOTEL": 2.13,
+   "J&KBANK": 1.98,
+   "PNBHOUSING": 1.97,
+   "IDFCFIRSTB": 1.88,
+   "ZYDUSWELL": 1.73,
+   "ICICIBANK": 1.63,
+   "BLUESTARCO": 1.6,
+   "BIKAJI": 1.59,
+   "BANKINDIA": 1.48,
+   "ICICIGI": 1.35
+  },
+  "oh": {}
+ },
  "engine_errors": [],
  "summary": {
-  "open_count": 0,
+  "open_count": 3,
   "closed_count": 258,
-  "trades_today": 0,
+  "trades_today": 3,
   "today_pnl": 0,
   "realized_total": -1996.68,
   "unrealized": 0,
   "wins": 115,
   "losses": 143,
   "win_rate": 44.6,
-  "days": 37
+  "days": 38
  },
- "open": [],
+ "open": [
+  {
+   "id": 265,
+   "date": "2026-11-25",
+   "setup": "ol",
+   "symbol": "EIHOTEL",
+   "side": "BUY",
+   "qty": 12,
+   "entry_time": "09:35:23",
+   "entry_price": 338.85,
+   "candle_stop": 334.0,
+   "sl_price": 330.66,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "rules": "v3-17nov",
+   "vol_ratio": 2.13,
+   "stop_pct": 1.43,
+   "open_px": 334.0,
+   "ltp": 338.85,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 266,
+   "date": "2026-11-25",
+   "setup": "ol",
+   "symbol": "J&KBANK",
+   "side": "BUY",
+   "qty": 35,
+   "entry_time": "09:35:23",
+   "entry_price": 149.17,
+   "candle_stop": 147.8,
+   "sl_price": 146.32,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "rules": "v3-17nov",
+   "vol_ratio": 1.98,
+   "stop_pct": 0.92,
+   "open_px": 147.8,
+   "ltp": 149.17,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 267,
+   "date": "2026-11-25",
+   "setup": "ol",
+   "symbol": "IDFCFIRSTB",
+   "side": "BUY",
+   "qty": 49,
+   "entry_time": "09:35:23",
+   "entry_price": 87.44,
+   "candle_stop": 86.28,
+   "sl_price": 85.42,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel",
+   "rules": "v3-17nov",
+   "vol_ratio": 1.88,
+   "stop_pct": 1.33,
+   "open_px": 86.3,
+   "ltp": 87.44,
+   "pnl_pct": 0.0
+  }
+ ],
  "closed": [
   {
    "id": 262,
@@ -4674,6 +4779,16 @@
    "wins": 3,
    "losses": 1,
    "pnl": 205.27,
+   "cum": -1996.68
+  },
+  {
+   "date": "2026-11-25",
+   "trades": 3,
+   "ol": 3,
+   "oh": 0,
+   "wins": 0,
+   "losses": 0,
+   "pnl": 0,
    "cum": -1996.68
   }
  ]
