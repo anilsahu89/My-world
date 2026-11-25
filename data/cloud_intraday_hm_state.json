@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 15,
+ "next_id": 17,
  "trades": [
   {
    "id": 1,
@@ -376,6 +376,58 @@
    "ltp": 1687.0,
    "live_pnl": 0.0,
    "live_pct": 0.0
+  },
+  {
+   "id": 15,
+   "symbol": "ABB",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-25",
+   "entry_date": "2026-11-25",
+   "entry_time": "10:19",
+   "entry": 6923.5,
+   "qty": 1,
+   "invested": 6923.5,
+   "rsi_entry": 54.0,
+   "sl": 6845.28,
+   "tgt": 7040.83,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY",
+   "notes": "HTF BUY-MOMENTUM/BUY → 1H IHM-BUY",
+   "ltp": 6923.5,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 16,
+   "symbol": "PREMIERENE",
+   "side": "SELL",
+   "setup": "IHM-SELL",
+   "signal_date": "2026-11-25",
+   "entry_date": "2026-11-25",
+   "entry_time": "10:19",
+   "entry": 814.7,
+   "qty": 12,
+   "invested": 9776.4,
+   "rsi_entry": 39.3,
+   "sl": 821.64,
+   "tgt": 804.29,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "SELL-MOMENTUM",
+   "htf_daily": "SELL-MOMENTUM",
+   "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
+   "ltp": 814.7,
+   "live_pnl": 0.0
   }
  ]
 }

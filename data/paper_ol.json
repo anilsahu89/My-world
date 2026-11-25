@@ -1,5 +1,5 @@
 {
- "updated_at": "25 Nov 2026 10:18:56 IST",
+ "updated_at": "25 Nov 2026 10:23:04 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -65,15 +65,15 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 3,
-  "closed_count": 258,
+  "open_count": 2,
+  "closed_count": 259,
   "trades_today": 3,
-  "today_pnl": 0,
-  "realized_total": -1996.68,
-  "unrealized": -40.11,
+  "today_pnl": -66.15,
+  "realized_total": -2062.83,
+  "unrealized": -68.11,
   "wins": 115,
-  "losses": 143,
-  "win_rate": 44.6,
+  "losses": 144,
+  "win_rate": 44.4,
   "days": 38
  },
  "open": [
@@ -101,29 +101,6 @@
    "pnl_pct": -0.72
   },
   {
-   "id": 266,
-   "date": "2026-11-25",
-   "setup": "ol",
-   "symbol": "J&KBANK",
-   "side": "BUY",
-   "qty": 35,
-   "entry_time": "09:35:23",
-   "entry_price": 149.17,
-   "candle_stop": 147.8,
-   "sl_price": 146.32,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 20.65,
-   "feed": "angel",
-   "rules": "v3-17nov",
-   "vol_ratio": 1.98,
-   "stop_pct": 0.92,
-   "open_px": 147.8,
-   "ltp": 149.76,
-   "pnl_pct": 0.4
-  },
-  {
    "id": 267,
    "date": "2026-11-25",
    "setup": "ol",
@@ -137,17 +114,38 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -31.36,
+   "pnl": -38.71,
    "feed": "angel",
    "rules": "v3-17nov",
    "vol_ratio": 1.88,
    "stop_pct": 1.33,
    "open_px": 86.3,
-   "ltp": 86.8,
-   "pnl_pct": -0.73
+   "ltp": 86.65,
+   "pnl_pct": -0.9
   }
  ],
  "closed": [
+  {
+   "id": 266,
+   "date": "2026-11-25",
+   "setup": "ol",
+   "symbol": "J&KBANK",
+   "side": "BUY",
+   "qty": 35,
+   "entry_time": "09:35:23",
+   "entry_price": 149.17,
+   "candle_stop": 147.8,
+   "sl_price": 146.32,
+   "exit_time": "09:50:00",
+   "exit_price": 147.28,
+   "reason": "CANDLE-CLOSE",
+   "pnl": -66.15,
+   "feed": "angel",
+   "rules": "v3-17nov",
+   "vol_ratio": 1.98,
+   "stop_pct": 0.92,
+   "open_px": 147.8
+  },
   {
    "id": 262,
    "date": "2026-11-20",
@@ -4787,9 +4785,9 @@
    "ol": 3,
    "oh": 0,
    "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -1996.68
+   "losses": 1,
+   "pnl": -66.15,
+   "cum": -2062.83
   }
  ]
 }

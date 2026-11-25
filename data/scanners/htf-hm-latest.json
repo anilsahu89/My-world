@@ -1,20 +1,88 @@
 {
- "date": "2026-11-24",
- "updated_at": "24 Nov 2026 17:27:10 IST",
+ "date": "2026-11-25",
+ "updated_at": "25 Nov 2026 10:20:37 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 0,
-  "invested": 0,
+  "open": 2,
+  "invested": 16699.9,
   "realized": 595.21,
   "wins": 7,
   "losses": 7,
   "win_rate": 50.0
  },
- "signals": [],
+ "signals": [
+  {
+   "symbol": "ABB",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
+   "daily": "BUY",
+   "setup": "IHM-BUY"
+  },
+  {
+   "symbol": "PREMIERENE",
+   "side": "SELL",
+   "weekly": "SELL-MOMENTUM",
+   "daily": "SELL-MOMENTUM",
+   "setup": "IHM-SELL"
+  }
+ ],
  "monthly_watchlist": [],
- "open": [],
+ "open": [
+  {
+   "id": 15,
+   "symbol": "ABB",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-25",
+   "entry_date": "2026-11-25",
+   "entry_time": "10:19",
+   "entry": 6923.5,
+   "qty": 1,
+   "invested": 6923.5,
+   "rsi_entry": 54.0,
+   "sl": 6845.28,
+   "tgt": 7040.83,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY",
+   "notes": "HTF BUY-MOMENTUM/BUY → 1H IHM-BUY",
+   "ltp": 6923.5,
+   "live_pnl": 0.0
+  },
+  {
+   "id": 16,
+   "symbol": "PREMIERENE",
+   "side": "SELL",
+   "setup": "IHM-SELL",
+   "signal_date": "2026-11-25",
+   "entry_date": "2026-11-25",
+   "entry_time": "10:19",
+   "entry": 814.7,
+   "qty": 12,
+   "invested": 9776.4,
+   "rsi_entry": 39.3,
+   "sl": 821.64,
+   "tgt": 804.29,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "SELL-MOMENTUM",
+   "htf_daily": "SELL-MOMENTUM",
+   "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
+   "ltp": 814.7,
+   "live_pnl": 0.0
+  }
+ ],
  "closed": [
   {
    "id": 1,
@@ -392,5 +460,5 @@
    "live_pct": 0.0
   }
  ],
- "entered_this_run": 0
+ "entered_this_run": 2
 }
