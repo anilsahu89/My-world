@@ -14,8 +14,13 @@
    "target_idx": 26070.65,
    "r_multiple": 0.0,
    "lots": 2,
-   "status": "OPEN",
-   "structure": "trend-pullback"
+   "status": "CLOSED",
+   "structure": "trend-pullback",
+   "exit_bar": 0,
+   "exit_reason": "SL",
+   "exit_idx": 25713.2,
+   "pnl_pts": -119.1,
+   "pnl": -8936.25
   }
  ],
  "decisions": [
@@ -23,10 +28,15 @@
    "time": "10:47:31",
    "decision": "ENTRY",
    "detail": "VWAP bounce @ 25832.3 SL 25713.2 TGT 26070.7"
+  },
+  {
+   "time": "10:51:00",
+   "decision": "EXIT",
+   "detail": "NIFTY ATM CE SL @ 25713.2 -> -119.1 pts"
   }
  ],
  "day": "2026-11-25",
- "day_losses": 0,
+ "day_losses": 1,
  "done_date": "2026-11-25",
  "btc": {
   "position": {
