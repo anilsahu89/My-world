@@ -4687,11 +4687,11 @@
    "entry_time": "12:21:24",
    "entry_price": 1985.6,
    "sl_price": 1883.93,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": null,
-   "status": "OPEN",
+   "exit_time": "12:25:11",
+   "exit_price": 1883.93,
+   "reason": "SL",
+   "pnl": -101.67,
+   "status": "CLOSED",
    "feed": "angel-f3",
    "drive_pct": 3.32
   }
