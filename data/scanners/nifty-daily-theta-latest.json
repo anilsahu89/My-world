@@ -1,7 +1,7 @@
 {
   "strategy": "nifty-daily-theta",
-  "scanned_at": "2026-11-24 10:19:15 IST",
-  "scan_date": "2026-11-24",
+  "scanned_at": "2026-11-25 10:18:56 IST",
+  "scan_date": "2026-11-25",
   "trades": [
     {
       "entry_date": "2026-10-06",
@@ -531,6 +531,33 @@
       "long_premium": "80.5",
       "net_credit": "24.8",
       "sma": "24321.8",
+      "status": "CLOSED",
+      "exit_date": "2026-11-25",
+      "exit_reason": "profit_50pct",
+      "exit_credit": "6.25",
+      "pnl": "1391.25",
+      "holding_days": "1",
+      "spot_exit": "25795.8",
+      "notes": "",
+      "mark_credit": "24.8",
+      "live_pnl": "0.0",
+      "mark_date": "2026-11-24"
+    },
+    {
+      "entry_date": "2026-11-25",
+      "direction": "BULL_PUT",
+      "opt_type": "PE",
+      "short_strike": "25450.0",
+      "long_strike": "25350.0",
+      "expiry": "2026-12-01",
+      "dte": "6",
+      "spot_entry": "25795.8",
+      "vix_entry": "17.3",
+      "vix_regime": "rising",
+      "short_premium": "90.65",
+      "long_premium": "67.35",
+      "net_credit": "23.3",
+      "sma": "24469.1",
       "status": "OPEN",
       "exit_date": "",
       "exit_reason": "",
@@ -539,16 +566,16 @@
       "holding_days": "",
       "spot_exit": "",
       "notes": "",
-      "mark_credit": "24.8",
+      "mark_credit": "23.3",
       "live_pnl": "0.0",
-      "mark_date": "2026-11-24"
+      "mark_date": "2026-11-25"
     }
   ],
-  "trade_count": 20,
+  "trade_count": 21,
   "status": "new_signal",
   "report": {
     "open_position": "",
-    "net_pnl": "19 trades | WR 79% | Net P&L \u20b94,650"
+    "net_pnl": "20 trades | WR 80% | Net P&L \u20b96,041"
   },
-  "text_report": "===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA UPDATE \u2014 Tue, 24 Nov 2026\n===============================================================================================\n\n  Checking open positions...\ntheta: angel chain fallback 724 rows\n  \u274c EXIT: BULL_PUT 25300.0/25200.0 \u2192 sl_premium | P&L \u20b9-1,354\n\n  Checking for new signal...\n  \u2705 SIGNAL: BULL_PUT 25000.0/24900.0 PE | Credit \u20b924.8 | VIX 17.7 (rising) | DTE 7\n\n  \u2705 ENTERED: BULL_PUT\n     Sell 25000.0 PE @ \u20b9105.3\n     Buy  24900.0 PE @ \u20b980.5\n     Net credit: \u20b924.8 | DTE: 7 | Expiry: 2026-12-01\n     Max profit: \u20b91860 | Max loss: \u20b95640\n\n===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA \u2014 PAPER TRADES\n  Rules: Mon/Tue/Wed/Fri 1PM | VIX<22 (regime recorded) | 300OTM | 100pt spread | 50% target\n===============================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit  DTE Expiry         VIX\n  --------------------------------------------------------------------------------\n  2026-11-24   BULL_PUT   25000.0 24900.0 PE   \u20b9  24.8    7 2026-12-01   17.7\n\n  \ud83d\udd34 CLOSED TRADES (19):\n  Entry        Exit         Dir        Reason          Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-10-06   2026-10-07   BEAR_CALL  profit_50pct   \u20b9  13.4 \u20b9     698    1d \u2705\n  2026-10-07   2026-10-13   BEAR_CALL  expiry         \u20b9  10.6 \u20b9     791    6d \u2705\n  2026-10-16   2026-10-19   BEAR_CALL  expiry         \u20b9   7.5 \u20b9     562    3d \u2705\n  2026-10-19   2026-10-22   BULL_PUT   sl_strike_hit  \u20b9  19.5 \u20b9   -3120    3d \u274c\n  2026-10-23   2026-10-26   BEAR_CALL  profit_50pct   \u20b9  20.8 \u20b9    1361    3d \u2705\n  2026-10-26   2026-10-27   BEAR_CALL  expiry         \u20b9  14.1 \u20b9    1054    1d \u2705\n  2026-10-27   2026-11-02   BEAR_CALL  sl_strike_hit  \u20b9  31.8 \u20b9   -3750    6d \u274c\n  2026-11-02   2026-11-03   BULL_PUT   expiry         \u20b9   7.9 \u20b9     592    1d \u2705\n  2026-11-03   2026-11-04   BULL_PUT   profit_50pct   \u20b9  19.4 \u20b9     761    1d \u2705\n  2026-11-04   2026-11-05   BULL_PUT   profit_50pct   \u20b9  21.1 \u20b9    1406    1d \u2705\n  2026-11-06   2026-11-10   BULL_PUT   expiry         \u20b9  15.9 \u20b9    1196    4d \u2705\n  2026-11-10   2026-11-11   BULL_PUT   profit_50pct   \u20b9  27.5 \u20b9    1312    1d \u2705\n  2026-11-11   2026-11-12   BULL_PUT   sl_premium     \u20b9  24.6 \u20b9     202    1d \u2705\n  2026-11-13   2026-11-16   BULL_PUT   profit_50pct   \u20b9  16.8 \u20b9     964    3d \u2705\n  2026-11-16   2026-11-17   BULL_PUT   expiry         \u20b9   8.5 \u20b9     638    1d \u2705\n  2026-11-17   2026-11-18   BULL_PUT   sl_premium     \u20b9  17.3 \u20b9    -990    1d \u274c\n  2026-11-18   2026-11-20   BULL_PUT   profit_50pct   \u20b9  20.2 \u20b9    1181    2d \u2705\n  2026-11-20   2026-11-23   BULL_PUT   expiry         \u20b9  15.2 \u20b9    1144    3d \u2705\n  2026-11-23   2026-11-24   BULL_PUT   sl_premium     \u20b9  26.2 \u20b9   -1354    1d \u274c\n\n  \ud83d\udcc8 SUMMARY: 19 trades | WR 79% | Net P&L \u20b94,650"
+  "text_report": "===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA UPDATE \u2014 Wed, 25 Nov 2026\n===============================================================================================\n\n  Checking open positions...\ntheta: angel chain fallback 724 rows\n  \u2705 EXIT: BULL_PUT 25000.0/24900.0 \u2192 profit_50pct | P&L \u20b91,391\n\n  Checking for new signal...\n  \u2705 SIGNAL: BULL_PUT 25450.0/25350.0 PE | Credit \u20b923.3 | VIX 17.3 (rising) | DTE 6\n\n  \u2705 ENTERED: BULL_PUT\n     Sell 25450.0 PE @ \u20b990.65\n     Buy  25350.0 PE @ \u20b967.35\n     Net credit: \u20b923.3 | DTE: 6 | Expiry: 2026-12-01\n     Max profit: \u20b91748 | Max loss: \u20b95752\n\n===============================================================================================\n  \ud83d\udcb0 NIFTY DAILY THETA \u2014 PAPER TRADES\n  Rules: Mon/Tue/Wed/Fri 1PM | VIX<22 (regime recorded) | 300OTM | 100pt spread | 50% target\n===============================================================================================\n\n  \ud83d\udfe2 OPEN POSITIONS (1):\n  Entry        Dir          Short    Long Type  Credit  DTE Expiry         VIX\n  --------------------------------------------------------------------------------\n  2026-11-25   BULL_PUT   25450.0 25350.0 PE   \u20b9  23.3    6 2026-12-01   17.3\n\n  \ud83d\udd34 CLOSED TRADES (20):\n  Entry        Exit         Dir        Reason          Credit       P&L  Hold\n  ---------------------------------------------------------------------------\n  2026-10-06   2026-10-07   BEAR_CALL  profit_50pct   \u20b9  13.4 \u20b9     698    1d \u2705\n  2026-10-07   2026-10-13   BEAR_CALL  expiry         \u20b9  10.6 \u20b9     791    6d \u2705\n  2026-10-16   2026-10-19   BEAR_CALL  expiry         \u20b9   7.5 \u20b9     562    3d \u2705\n  2026-10-19   2026-10-22   BULL_PUT   sl_strike_hit  \u20b9  19.5 \u20b9   -3120    3d \u274c\n  2026-10-23   2026-10-26   BEAR_CALL  profit_50pct   \u20b9  20.8 \u20b9    1361    3d \u2705\n  2026-10-26   2026-10-27   BEAR_CALL  expiry         \u20b9  14.1 \u20b9    1054    1d \u2705\n  2026-10-27   2026-11-02   BEAR_CALL  sl_strike_hit  \u20b9  31.8 \u20b9   -3750    6d \u274c\n  2026-11-02   2026-11-03   BULL_PUT   expiry         \u20b9   7.9 \u20b9     592    1d \u2705\n  2026-11-03   2026-11-04   BULL_PUT   profit_50pct   \u20b9  19.4 \u20b9     761    1d \u2705\n  2026-11-04   2026-11-05   BULL_PUT   profit_50pct   \u20b9  21.1 \u20b9    1406    1d \u2705\n  2026-11-06   2026-11-10   BULL_PUT   expiry         \u20b9  15.9 \u20b9    1196    4d \u2705\n  2026-11-10   2026-11-11   BULL_PUT   profit_50pct   \u20b9  27.5 \u20b9    1312    1d \u2705\n  2026-11-11   2026-11-12   BULL_PUT   sl_premium     \u20b9  24.6 \u20b9     202    1d \u2705\n  2026-11-13   2026-11-16   BULL_PUT   profit_50pct   \u20b9  16.8 \u20b9     964    3d \u2705\n  2026-11-16   2026-11-17   BULL_PUT   expiry         \u20b9   8.5 \u20b9     638    1d \u2705\n  2026-11-17   2026-11-18   BULL_PUT   sl_premium     \u20b9  17.3 \u20b9    -990    1d \u274c\n  2026-11-18   2026-11-20   BULL_PUT   profit_50pct   \u20b9  20.2 \u20b9    1181    2d \u2705\n  2026-11-20   2026-11-23   BULL_PUT   expiry         \u20b9  15.2 \u20b9    1144    3d \u2705\n  2026-11-23   2026-11-24   BULL_PUT   sl_premium     \u20b9  26.2 \u20b9   -1354    1d \u274c\n  2026-11-24   2026-11-25   BULL_PUT   profit_50pct   \u20b9  24.8 \u20b9    1391    1d \u2705\n\n  \ud83d\udcc8 SUMMARY: 20 trades | WR 80% | Net P&L \u20b96,041"
 }
