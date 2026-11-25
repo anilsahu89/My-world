@@ -1,56 +1,20 @@
 {
  "date": "2026-11-25",
- "updated_at": "25 Nov 2026 15:01:22 IST",
+ "updated_at": "25 Nov 2026 17:29:21 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 1,
-  "invested": 6923.5,
-  "realized": 579.92,
-  "wins": 8,
+  "open": 0,
+  "invested": 0,
+  "realized": 664.15,
+  "wins": 9,
   "losses": 8,
-  "win_rate": 50.0
+  "win_rate": 52.9
  },
- "signals": [
-  {
-   "symbol": "ABB",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY",
-   "setup": "IHM-BUY"
-  }
- ],
+ "signals": [],
  "monthly_watchlist": [],
- "open": [
-  {
-   "id": 15,
-   "symbol": "ABB",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-25",
-   "entry_date": "2026-11-25",
-   "entry_time": "10:19",
-   "entry": 6923.5,
-   "qty": 1,
-   "invested": 6923.5,
-   "rsi_entry": 54.0,
-   "sl": 6845.28,
-   "tgt": 7040.83,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY",
-   "notes": "HTF BUY-MOMENTUM/BUY → 1H IHM-BUY",
-   "ltp": 7005.5,
-   "live_pnl": 82.0,
-   "live_pct": 1.18
-  }
- ],
+ "open": [],
  "closed": [
   {
    "id": 1,
@@ -426,6 +390,33 @@
    "ltp": 1687.0,
    "live_pnl": 0.0,
    "live_pct": 0.0
+  },
+  {
+   "id": 15,
+   "symbol": "ABB",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-25",
+   "entry_date": "2026-11-25",
+   "entry_time": "10:19",
+   "entry": 6923.5,
+   "qty": 1,
+   "invested": 6923.5,
+   "rsi_entry": 54.0,
+   "sl": 6845.28,
+   "tgt": 7040.83,
+   "status": "CLOSED",
+   "exit_date": "2026-11-25",
+   "exit_time": "17:29",
+   "exit": 7028.5,
+   "reason": "EOD",
+   "pnl": 84.23,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY",
+   "notes": "HTF BUY-MOMENTUM/BUY → 1H IHM-BUY",
+   "ltp": 7028.5,
+   "live_pnl": 105.0,
+   "live_pct": 1.52
   },
   {
    "id": 16,
