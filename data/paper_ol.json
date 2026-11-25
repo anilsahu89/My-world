@@ -1,9 +1,9 @@
 {
- "updated_at": "24 Nov 2026 15:08:00 IST",
+ "updated_at": "25 Nov 2026 09:18:14 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
- "today": "2026-11-24",
+ "today": "2026-11-25",
  "strategy": {
   "rule": "first 5-min candle O=L -> BUY / O=H -> SELL (v3 17 Nov: entries 09:30-09:45 only, RVOL >= 1.5, top-3 per setup, candle stop <= 1.5% away), ₹10,000/stock",
   "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
@@ -23,42 +23,11 @@
   "max_stop_pct": 1.5,
   "max_per_setup": 3
  },
- "vol_blocked": {
-  "ol": {
-   "low_vol": 0,
-   "no_vol_data": 0
-  },
-  "oh": {
-   "low_vol": 2,
-   "no_vol_data": 0
-  }
- },
+ "vol_blocked": {},
  "trend_blocked": {},
- "vwap_blocked": {
-  "ol": 0,
-  "oh": 21
- },
+ "vwap_blocked": {},
  "stop_blocked": {},
- "vol_audit": {
-  "ol": {},
-  "oh": {
-   "GROWW": 11.98,
-   "AXISBANK": 11.38,
-   "JSWSTEEL": 10.99,
-   "POLYCAB": 9.64,
-   "RAMCOCEM": 9.28,
-   "POWERGRID": 9.18,
-   "IREDA": 8.82,
-   "VEDL": 8.02,
-   "INDUSINDBK": 7.35,
-   "TENNIND": 7.3,
-   "LENSKART": 7.24,
-   "PFOCUS": 7.14,
-   "PAYTM": 6.98,
-   "ANANDRATHI": 6.96,
-   "ANURAS": 6.74
-  }
- },
+ "vol_audit": {},
  "engine_errors": [],
  "summary": {
   "open_count": 0,
