@@ -400,9 +400,9 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY",
    "notes": "HTF BUY-MOMENTUM/BUY → 1H IHM-BUY",
-   "ltp": 6987.0,
-   "live_pnl": 63.5,
-   "live_pct": 0.92
+   "ltp": 6984.5,
+   "live_pnl": 61.0,
+   "live_pct": 0.88
   },
   {
    "id": 16,
@@ -418,18 +418,18 @@
    "rsi_entry": 39.3,
    "sl": 821.64,
    "tgt": 804.29,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
+   "status": "CLOSED",
+   "exit_date": "2026-11-25",
+   "exit_time": "14:30",
+   "exit": 821.64,
+   "reason": "SL",
+   "pnl": -112.61,
    "htf_weekly": "SELL-MOMENTUM",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 816.75,
-   "live_pnl": -24.6,
-   "live_pct": -0.25
+   "ltp": 820.05,
+   "live_pnl": -64.2,
+   "live_pct": -0.66
   },
   {
    "id": 17,
