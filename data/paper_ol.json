@@ -1,5 +1,5 @@
 {
- "updated_at": "25 Nov 2026 09:38:06 IST",
+ "updated_at": "25 Nov 2026 09:42:10 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -37,27 +37,27 @@
  "vwap_blocked": {},
  "stop_blocked": {
   "ol": {
-   "LTF": 3.17,
-   "BLUESTARCO": 2.42,
-   "PNBHOUSING": 2.18
+   "LTF": 2.84,
+   "PNBHOUSING": 1.95,
+   "BLUESTARCO": 1.92
   },
   "oh": {}
  },
  "vol_audit": {
   "ol": {
-   "BRIGADE": 31.0,
+   "BRIGADE": 34.12,
    "LTF": 8.98,
    "GODIGIT": 3.47,
-   "CREDITACC": 2.5,
+   "CREDITACC": 3.09,
    "POLYMED": 2.5,
    "EIHOTEL": 2.13,
    "J&KBANK": 1.98,
    "PNBHOUSING": 1.97,
    "IDFCFIRSTB": 1.88,
+   "BIKAJI": 1.77,
    "ZYDUSWELL": 1.73,
    "ICICIBANK": 1.63,
    "BLUESTARCO": 1.6,
-   "BIKAJI": 1.59,
    "BANKINDIA": 1.48,
    "ICICIGI": 1.39
   },
@@ -70,7 +70,7 @@
   "trades_today": 3,
   "today_pnl": 0,
   "realized_total": -1996.68,
-  "unrealized": 7.24,
+  "unrealized": -33.55,
   "wins": 115,
   "losses": 143,
   "win_rate": 44.6,
@@ -91,14 +91,14 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 7.8,
+   "pnl": -15.0,
    "feed": "angel",
    "rules": "v3-17nov",
    "vol_ratio": 2.13,
    "stop_pct": 1.43,
    "open_px": 334.0,
-   "ltp": 339.5,
-   "pnl_pct": 0.19
+   "ltp": 337.6,
+   "pnl_pct": -0.37
   },
   {
    "id": 266,
@@ -114,14 +114,14 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -5.95,
+   "pnl": -25.9,
    "feed": "angel",
    "rules": "v3-17nov",
    "vol_ratio": 1.98,
    "stop_pct": 0.92,
    "open_px": 147.8,
-   "ltp": 149.0,
-   "pnl_pct": -0.11
+   "ltp": 148.43,
+   "pnl_pct": -0.5
   },
   {
    "id": 267,
@@ -137,14 +137,14 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 5.39,
+   "pnl": 7.35,
    "feed": "angel",
    "rules": "v3-17nov",
    "vol_ratio": 1.88,
    "stop_pct": 1.33,
    "open_px": 86.3,
-   "ltp": 87.55,
-   "pnl_pct": 0.13
+   "ltp": 87.59,
+   "pnl_pct": 0.17
   }
  ],
  "closed": [
