@@ -1,6 +1,6 @@
 {
- "updated_at": "25 Nov 2026 19:03 IST",
- "bhav_date": "2026-11-25",
+ "updated_at": "26 Nov 2026 19:51 IST",
+ "bhav_date": "2026-11-26",
  "desk": "NIFTY Long-Term Premium",
  "status": "RUNNING",
  "strategy": {
@@ -11,131 +11,131 @@
   "source": "NK Stock Talk session 2026-10-03; rules doc NK_NIFTY_PREMIUM_RULES.md"
  },
  "levels": {
-  "spot": 25834.1,
-  "weekly_20sma": 23958.4,
-  "near_iv": 0.166,
+  "spot": 25931.6,
+  "weekly_20sma": 23961.7,
+  "near_iv": 0.145,
   "bias": "above 20W-SMA (call side)"
  },
  "board": [
   {
    "expiry": "2027-01-25",
+   "strike": 27150.0,
+   "opt": "CE",
+   "dte": 60,
+   "price": 210.15,
+   "vol": 11,
+   "fair": 261.8,
+   "discount": 0.197,
+   "edge_pts": 51.6,
+   "own_iv": 0.13
+  },
+  {
+   "expiry": "2027-02-23",
    "strike": 27100.0,
    "opt": "CE",
-   "dte": 61,
-   "price": 233.35,
-   "vol": 1565,
-   "fair": 328.3,
-   "discount": 0.289,
-   "edge_pts": 94.9,
-   "own_iv": 0.139
+   "dte": 89,
+   "price": 367.95,
+   "vol": 86,
+   "fair": 437.4,
+   "discount": 0.159,
+   "edge_pts": 69.4,
+   "own_iv": 0.13
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 26550.0,
+   "opt": "CE",
+   "dte": 60,
+   "price": 387.0,
+   "vol": 27,
+   "fair": 458.4,
+   "discount": 0.156,
+   "edge_pts": 71.4,
+   "own_iv": 0.128
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 27200.0,
+   "opt": "CE",
+   "dte": 60,
+   "price": 217.1,
+   "vol": 3035,
+   "fair": 249.0,
+   "discount": 0.128,
+   "edge_pts": 31.9,
+   "own_iv": 0.136
   },
   {
    "expiry": "2027-01-25",
    "strike": 27000.0,
    "opt": "CE",
-   "dte": 61,
-   "price": 257.85,
-   "vol": 22995,
-   "fair": 357.0,
-   "discount": 0.278,
-   "edge_pts": 99.2,
-   "own_iv": 0.139
+   "dte": 60,
+   "price": 265.3,
+   "vol": 28160,
+   "fair": 303.4,
+   "discount": 0.126,
+   "edge_pts": 38.1,
+   "own_iv": 0.135
+  },
+  {
+   "expiry": "2027-01-25",
+   "strike": 27100.0,
+   "opt": "CE",
+   "dte": 60,
+   "price": 240.75,
+   "vol": 291,
+   "fair": 275.1,
+   "discount": 0.125,
+   "edge_pts": 34.4,
+   "own_iv": 0.135
   },
   {
    "expiry": "2027-01-25",
    "strike": 27050.0,
    "opt": "CE",
-   "dte": 61,
-   "price": 248.3,
-   "vol": 120,
-   "fair": 342.4,
-   "discount": 0.275,
-   "edge_pts": 94.1,
-   "own_iv": 0.14
+   "dte": 60,
+   "price": 257.0,
+   "vol": 21,
+   "fair": 289.0,
+   "discount": 0.111,
+   "edge_pts": 32.0,
+   "own_iv": 0.136
   },
   {
    "expiry": "2027-01-25",
    "strike": 26950.0,
    "opt": "CE",
-   "dte": 61,
-   "price": 273.7,
-   "vol": 78,
-   "fair": 372.1,
-   "discount": 0.264,
-   "edge_pts": 98.4,
-   "own_iv": 0.14
+   "dte": 60,
+   "price": 283.5,
+   "vol": 21,
+   "fair": 318.4,
+   "discount": 0.109,
+   "edge_pts": 34.9,
+   "own_iv": 0.136
+  },
+  {
+   "expiry": "2027-06-29",
+   "strike": 27000.0,
+   "opt": "CE",
+   "dte": 215,
+   "price": 1013.45,
+   "vol": 791,
+   "fair": 1124.6,
+   "discount": 0.099,
+   "edge_pts": 111.2,
+   "own_iv": 0.131
   },
   {
    "expiry": "2027-01-25",
    "strike": 26900.0,
    "opt": "CE",
-   "dte": 61,
-   "price": 289.5,
-   "vol": 831,
-   "fair": 387.6,
-   "discount": 0.253,
-   "edge_pts": 98.1,
-   "own_iv": 0.14
-  },
-  {
-   "expiry": "2027-01-25",
-   "strike": 26850.0,
-   "opt": "CE",
-   "dte": 61,
-   "price": 304.0,
-   "vol": 72,
-   "fair": 403.6,
-   "discount": 0.247,
-   "edge_pts": 99.6,
-   "own_iv": 0.14
-  },
-  {
-   "expiry": "2027-01-25",
-   "strike": 26800.0,
-   "opt": "CE",
-   "dte": 61,
-   "price": 319.3,
-   "vol": 1439,
-   "fair": 420.2,
-   "discount": 0.24,
-   "edge_pts": 100.9,
-   "own_iv": 0.14
-  },
-  {
-   "expiry": "2027-01-25",
-   "strike": 26750.0,
-   "opt": "CE",
-   "dte": 61,
-   "price": 337.4,
-   "vol": 73,
-   "fair": 437.2,
-   "discount": 0.228,
-   "edge_pts": 99.8,
-   "own_iv": 0.141
-  },
-  {
-   "expiry": "2027-01-25",
-   "strike": 26700.0,
-   "opt": "CE",
-   "dte": 61,
-   "price": 354.7,
-   "vol": 1404,
-   "fair": 454.7,
-   "discount": 0.22,
-   "edge_pts": 100.0,
-   "own_iv": 0.141
-  },
-  {
-   "expiry": "2027-01-25",
-   "strike": 26650.0,
-   "opt": "CE",
-   "dte": 61,
-   "price": 371.65,
-   "vol": 102,
-   "fair": 472.7,
-   "discount": 0.214,
-   "edge_pts": 101.1,
-   "own_iv": 0.141
+   "dte": 60,
+   "price": 301.3,
+   "vol": 403,
+   "fair": 333.8,
+   "discount": 0.097,
+   "edge_pts": 32.5,
+   "own_iv": 0.136
   }
  ],
  "blocked": [],
@@ -144,15 +144,15 @@
    "id": 14,
    "side": "call",
    "entry": "2026-11-25",
-   "days": 1,
-   "points": 0.0,
+   "days": 2,
+   "points": 16.9,
    "structure": "calendar",
    "far": {
     "expiry": "2027-01-25",
     "strike": 27100.0,
     "qty": 225,
     "entry": 233.35,
-    "mark": 233.35,
+    "mark": 240.75,
     "exit": null,
     "exit_date": null
    },
@@ -162,7 +162,7 @@
      "strike": 26100.0,
      "qty": 225,
      "entry": 112.85,
-     "mark": 112.85,
+     "mark": 103.35,
      "exit": null,
      "exit_date": null
     }
@@ -289,6 +289,6 @@
   "wins": 6,
   "win_rate": 66.7,
   "realized": 64102.5,
-  "unrealized": 0.0
+  "unrealized": 3802.5
  }
 }
