@@ -4750,7 +4750,8 @@
     "TRENT",
     "UNITDSPR",
     "WELSPUNLIV",
-    "VBL"
+    "VBL",
+    "SHRIRAMFIN"
    ],
    "no_vol_data": []
   }
@@ -4772,7 +4773,7 @@
    "BOSCHLTD": 0.47,
    "BRITANNIA": 2.45,
    "DALBHARAT": 0.13,
-   "DABUR": 1.9,
+   "DABUR": 1.92,
    "GMRAIRPORT": 0.37,
    "DEVYANI": 1.06,
    "HONAUT": 0.61,
@@ -4780,11 +4781,11 @@
    "IIFL": 0.32,
    "HINDPETRO": 0.38,
    "JSWCEMENT": 0.21,
-   "INDIGO": 0.65,
+   "INDIGO": 0.66,
    "IOC": 0.68,
    "INDGN": 0.36,
    "LT": 0.43,
-   "MAXHEALTH": 0.4,
+   "MAXHEALTH": 0.42,
    "LTF": 0.68,
    "NESTLEIND": 1.16,
    "NTPC": 0.25,
@@ -4801,7 +4802,7 @@
    "NIACL": 2.6,
    "VOLTAS": 0.26,
    "ZEEL": 1.07,
-   "TRENT": 0.43,
+   "TRENT": 0.44,
    "UNITDSPR": 0.33,
    "WELSPUNLIV": 0.78,
    "VBL": 0.8

@@ -1,5 +1,5 @@
 {
- "updated_at": "26 Nov 2026 09:37:27 IST",
+ "updated_at": "26 Nov 2026 09:41:31 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -29,7 +29,7 @@
    "no_vol_data": 0
   },
   "oh": {
-   "low_vol": 40,
+   "low_vol": 41,
    "no_vol_data": 0
   }
  },
@@ -46,7 +46,7 @@
    "NIACL": 2.6,
    "AXISBANK": 2.58,
    "BRITANNIA": 2.45,
-   "DABUR": 1.9,
+   "DABUR": 1.92,
    "SHRIRAMFIN": 1.62,
    "ADANIGREEN": 1.53,
    "APOLLOTYRE": 1.29,
