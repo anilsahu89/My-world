@@ -1,5 +1,5 @@
 {
- "updated_at": "26 Nov 2026 09:33:19 IST",
+ "updated_at": "26 Nov 2026 09:37:27 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -46,17 +46,17 @@
    "NIACL": 2.6,
    "AXISBANK": 2.58,
    "BRITANNIA": 2.45,
-   "DABUR": 1.88,
+   "DABUR": 1.9,
    "SHRIRAMFIN": 1.62,
    "ADANIGREEN": 1.53,
    "APOLLOTYRE": 1.29,
    "NESTLEIND": 1.16,
    "ZEEL": 1.07,
-   "DEVYANI": 1.03,
-   "GODREJCP": 0.86,
+   "DEVYANI": 1.06,
+   "GODREJCP": 0.94,
+   "VBL": 0.8,
    "WELSPUNLIV": 0.78,
-   "TMCV": 0.76,
-   "COLPAL": 0.71
+   "TMCV": 0.76
   }
  },
  "engine_errors": [],
