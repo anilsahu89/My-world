@@ -1,5 +1,5 @@
 {
- "updated_at": "26 Nov 2026 14:57:29 IST",
+ "updated_at": "26 Nov 2026 15:00:57 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -61,18 +61,19 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 3,
-  "closed_count": 264,
+  "open_count": 0,
+  "closed_count": 267,
   "trades_today": 3,
-  "today_pnl": 0,
-  "realized_total": -2140.78,
-  "unrealized": -28.0,
-  "wins": 117,
-  "losses": 147,
-  "win_rate": 44.3,
+  "today_pnl": -17.7,
+  "realized_total": -2158.48,
+  "unrealized": 0,
+  "wins": 118,
+  "losses": 149,
+  "win_rate": 44.2,
   "days": 39
  },
- "open": [
+ "open": [],
+ "closed": [
   {
    "id": 271,
    "date": "2026-11-26",
@@ -83,14 +84,11 @@
    "entry_time": "12:22:32",
    "entry_price": 465.8,
    "sl_price": 443.82,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -32.8,
-   "feed": "angel-f3",
-   "drive_pct": 3.74,
-   "ltp": 457.6,
-   "pnl_pct": -1.76
+   "exit_time": "15:00:31",
+   "exit_price": 458.0,
+   "reason": "EOD",
+   "pnl": -31.2,
+   "feed": "angel-f3"
   },
   {
    "id": 272,
@@ -102,14 +100,11 @@
    "entry_time": "12:22:32",
    "entry_price": 5188.1,
    "sl_price": 4964.45,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": -16.4,
-   "feed": "angel-f3",
-   "drive_pct": 3.47,
-   "ltp": 5171.7,
-   "pnl_pct": -0.32
+   "exit_time": "15:00:31",
+   "exit_price": 5171.6,
+   "reason": "EOD",
+   "pnl": -16.5,
+   "feed": "angel-f3"
   },
   {
    "id": 273,
@@ -121,17 +116,12 @@
    "entry_time": "12:22:32",
    "entry_price": 3812.3,
    "sl_price": 3584.99,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 21.2,
-   "feed": "angel-f3",
-   "drive_pct": 2.76,
-   "ltp": 3833.5,
-   "pnl_pct": 0.56
-  }
- ],
- "closed": [
+   "exit_time": "15:00:31",
+   "exit_price": 3842.3,
+   "reason": "EOD",
+   "pnl": 30.0,
+   "feed": "angel-f3"
+  },
   {
    "id": 268,
    "date": "2026-11-25",
@@ -4897,10 +4887,10 @@
    "trades": 3,
    "ol": 0,
    "oh": 0,
-   "wins": 0,
-   "losses": 0,
-   "pnl": 0,
-   "cum": -2140.78
+   "wins": 1,
+   "losses": 2,
+   "pnl": -17.7,
+   "cum": -2158.48
   }
  ]
 }
