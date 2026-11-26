@@ -481,9 +481,9 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 1240.75,
-   "live_pnl": 6.0,
-   "live_pct": 0.06
+   "ltp": 1238.85,
+   "live_pnl": -9.2,
+   "live_pct": -0.09
   },
   {
    "id": 19,
@@ -508,9 +508,9 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 267.9,
-   "live_pnl": 46.25,
-   "live_pct": 0.47
+   "ltp": 268.1,
+   "live_pnl": 53.65,
+   "live_pct": 0.54
   },
   {
    "id": 20,
@@ -535,8 +535,9 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 1749.5,
-   "live_pnl": 0.0
+   "ltp": 1743.2,
+   "live_pnl": -31.5,
+   "live_pct": -0.36
   }
  ]
 }
