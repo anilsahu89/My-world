@@ -1,5 +1,5 @@
 {
- "updated_at": "26 Nov 2026 09:25:24 IST",
+ "updated_at": "26 Nov 2026 09:31:45 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -23,11 +23,42 @@
   "max_stop_pct": 1.5,
   "max_per_setup": 3
  },
- "vol_blocked": {},
+ "vol_blocked": {
+  "ol": {
+   "low_vol": 0,
+   "no_vol_data": 0
+  },
+  "oh": {
+   "low_vol": 40,
+   "no_vol_data": 0
+  }
+ },
  "trend_blocked": {},
- "vwap_blocked": {},
+ "vwap_blocked": {
+  "ol": 0,
+  "oh": 5
+ },
  "stop_blocked": {},
- "vol_audit": {},
+ "vol_audit": {
+  "ol": {},
+  "oh": {
+   "PHOENIXLTD": 2.77,
+   "NIACL": 2.6,
+   "AXISBANK": 2.58,
+   "BRITANNIA": 2.45,
+   "DABUR": 1.85,
+   "SHRIRAMFIN": 1.62,
+   "ADANIGREEN": 1.46,
+   "APOLLOTYRE": 1.29,
+   "NESTLEIND": 1.16,
+   "ZEEL": 1.07,
+   "DEVYANI": 1.03,
+   "GODREJCP": 0.78,
+   "WELSPUNLIV": 0.78,
+   "TMCV": 0.76,
+   "COLPAL": 0.71
+  }
+ },
  "engine_errors": [],
  "summary": {
   "open_count": 0,
