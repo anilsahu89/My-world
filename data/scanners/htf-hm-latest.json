@@ -1,12 +1,12 @@
 {
  "date": "2026-11-26",
- "updated_at": "26 Nov 2026 10:16:37 IST",
+ "updated_at": "26 Nov 2026 10:33:49 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 2,
-  "invested": 19786.05,
+  "open": 3,
+  "invested": 28533.55,
   "realized": 664.15,
   "wins": 9,
   "losses": 8,
@@ -22,6 +22,13 @@
   },
   {
    "symbol": "POWERGRID",
+   "side": "BUY",
+   "weekly": "BUY-MOMENTUM",
+   "daily": "BUY-MOMENTUM",
+   "setup": "IHM-BUY"
+  },
+  {
+   "symbol": "ICICIGI",
    "side": "BUY",
    "weekly": "BUY-MOMENTUM",
    "daily": "BUY-MOMENTUM",
@@ -53,8 +60,9 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 1240.0,
-   "live_pnl": 0.0
+   "ltp": 1240.75,
+   "live_pnl": 6.0,
+   "live_pct": 0.06
   },
   {
    "id": 19,
@@ -79,7 +87,34 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 266.65,
+   "ltp": 267.9,
+   "live_pnl": 46.25,
+   "live_pct": 0.47
+  },
+  {
+   "id": 20,
+   "symbol": "ICICIGI",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-26",
+   "entry_date": "2026-11-26",
+   "entry_time": "10:33",
+   "entry": 1749.5,
+   "qty": 5,
+   "invested": 8747.5,
+   "rsi_entry": 64.0,
+   "sl": 1710.87,
+   "tgt": 1807.44,
+   "status": "OPEN",
+   "exit_date": "",
+   "exit_time": "",
+   "exit": 0.0,
+   "reason": "",
+   "pnl": 0.0,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 1749.5,
    "live_pnl": 0.0
   }
  ],
@@ -541,5 +576,5 @@
    "live_pct": 1.53
   }
  ],
- "entered_this_run": 2
+ "entered_this_run": 1
 }
