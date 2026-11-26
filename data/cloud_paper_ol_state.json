@@ -1,6 +1,6 @@
 {
  "version": 1,
- "next_id": 271,
+ "next_id": 274,
  "trades": [
   {
    "id": 1,
@@ -4698,10 +4698,64 @@
    "status": "CLOSED",
    "feed": "angel-f3",
    "drive_pct": 3.32
+  },
+  {
+   "id": 271,
+   "date": "2026-11-26",
+   "setup": "f3",
+   "symbol": "TRITURBINE",
+   "side": "BUY",
+   "qty": 4,
+   "entry_time": "12:22:32",
+   "entry_price": 465.8,
+   "sl_price": 443.82,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 3.74
+  },
+  {
+   "id": 272,
+   "date": "2026-11-26",
+   "setup": "f3",
+   "symbol": "BRITANNIA",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:22:32",
+   "entry_price": 5188.1,
+   "sl_price": 4964.45,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 3.47
+  },
+  {
+   "id": 273,
+   "date": "2026-11-26",
+   "setup": "f3",
+   "symbol": "MCX",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:22:32",
+   "entry_price": 3812.3,
+   "sl_price": 3584.99,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": null,
+   "status": "OPEN",
+   "feed": "angel-f3",
+   "drive_pct": 2.76
   }
  ],
  "seeded": true,
- "f3_done_date": "2026-11-25",
+ "f3_done_date": "2026-11-26",
  "reentry_watch": [],
  "vol_blocked": {
   "date": "2026-11-26",

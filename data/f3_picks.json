@@ -1,41 +1,41 @@
 {
- "date": "2026-11-25",
- "scanned_at": "15:08:16",
+ "date": "2026-11-26",
+ "scanned_at": "12:23:18",
  "rule": "day's first 3 hourly candles same-side, each closing above the previous HIGH -> BUY | SL = candle-1 low - 0.5% | square-off 15:00 | NIFTY-gated | cutoff 13:30",
  "max_trades": 3,
  "signals": [
   {
-   "symbol": "SARDAEN",
-   "drive_pct": 4.81,
+   "symbol": "TRITURBINE",
+   "drive_pct": 3.74,
    "qty": 4,
-   "entry": 470.25,
-   "sl": 446.51,
-   "status": "CLOSED",
-   "exit": 476.3,
-   "reason": "EOD",
-   "pnl": 24.2
+   "entry": 465.8,
+   "sl": 443.82,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
   },
   {
-   "symbol": "DABUR",
-   "drive_pct": 4.0,
-   "qty": 3,
-   "entry": 427.55,
-   "sl": 399.74,
-   "status": "CLOSED",
-   "exit": 426.6,
-   "reason": "EOD",
-   "pnl": -2.85
-  },
-  {
-   "symbol": "BAJAJFINSV",
-   "drive_pct": 3.32,
+   "symbol": "BRITANNIA",
+   "drive_pct": 3.47,
    "qty": 1,
-   "entry": 1985.6,
-   "sl": 1883.93,
-   "status": "CLOSED",
-   "exit": 1883.93,
-   "reason": "SL",
-   "pnl": -101.67
+   "entry": 5188.1,
+   "sl": 4964.45,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
+  },
+  {
+   "symbol": "MCX",
+   "drive_pct": 2.76,
+   "qty": 1,
+   "entry": 3812.3,
+   "sl": 3584.99,
+   "status": "OPEN",
+   "exit": null,
+   "reason": null,
+   "pnl": null
   }
  ]
 }

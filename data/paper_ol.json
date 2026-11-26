@@ -1,5 +1,5 @@
 {
- "updated_at": "26 Nov 2026 12:19:30 IST",
+ "updated_at": "26 Nov 2026 12:23:18 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -61,18 +61,76 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 0,
+  "open_count": 3,
   "closed_count": 264,
-  "trades_today": 0,
+  "trades_today": 3,
   "today_pnl": 0,
   "realized_total": -2140.78,
   "unrealized": 0,
   "wins": 117,
   "losses": 147,
   "win_rate": 44.3,
-  "days": 38
+  "days": 39
  },
- "open": [],
+ "open": [
+  {
+   "id": 271,
+   "date": "2026-11-26",
+   "setup": "f3",
+   "symbol": "TRITURBINE",
+   "side": "BUY",
+   "qty": 4,
+   "entry_time": "12:22:32",
+   "entry_price": 465.8,
+   "sl_price": 443.82,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 3.74,
+   "ltp": 465.8,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 272,
+   "date": "2026-11-26",
+   "setup": "f3",
+   "symbol": "BRITANNIA",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:22:32",
+   "entry_price": 5188.1,
+   "sl_price": 4964.45,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 3.47,
+   "ltp": 5188.1,
+   "pnl_pct": 0.0
+  },
+  {
+   "id": 273,
+   "date": "2026-11-26",
+   "setup": "f3",
+   "symbol": "MCX",
+   "side": "BUY",
+   "qty": 1,
+   "entry_time": "12:22:32",
+   "entry_price": 3812.3,
+   "sl_price": 3584.99,
+   "exit_time": null,
+   "exit_price": null,
+   "reason": null,
+   "pnl": 0.0,
+   "feed": "angel-f3",
+   "drive_pct": 2.76,
+   "ltp": 3812.3,
+   "pnl_pct": 0.0
+  }
+ ],
  "closed": [
   {
    "id": 268,
@@ -4832,6 +4890,16 @@
    "wins": 2,
    "losses": 4,
    "pnl": -144.1,
+   "cum": -2140.78
+  },
+  {
+   "date": "2026-11-26",
+   "trades": 3,
+   "ol": 0,
+   "oh": 0,
+   "wins": 0,
+   "losses": 0,
+   "pnl": 0,
    "cum": -2140.78
   }
  ]
