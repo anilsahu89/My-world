@@ -1,27 +1,20 @@
 {
  "date": "2026-11-26",
- "updated_at": "26 Nov 2026 13:33:18 IST",
+ "updated_at": "26 Nov 2026 14:01:21 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 2,
-  "invested": 18613.55,
-  "realized": 535.51,
+  "open": 1,
+  "invested": 9866.05,
+  "realized": 438.77,
   "wins": 9,
-  "losses": 9,
-  "win_rate": 50.0
+  "losses": 10,
+  "win_rate": 47.4
  },
  "signals": [
   {
    "symbol": "POWERGRID",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY-MOMENTUM",
-   "setup": "IHM-BUY"
-  },
-  {
-   "symbol": "ICICIGI",
    "side": "BUY",
    "weekly": "BUY-MOMENTUM",
    "daily": "BUY-MOMENTUM",
@@ -53,36 +46,9 @@
    "htf_weekly": "BUY-MOMENTUM",
    "htf_daily": "BUY-MOMENTUM",
    "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 266.85,
-   "live_pnl": 7.4,
-   "live_pct": 0.08
-  },
-  {
-   "id": 20,
-   "symbol": "ICICIGI",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-26",
-   "entry_date": "2026-11-26",
-   "entry_time": "10:33",
-   "entry": 1749.5,
-   "qty": 5,
-   "invested": 8747.5,
-   "rsi_entry": 64.0,
-   "sl": 1710.87,
-   "tgt": 1807.44,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY-MOMENTUM",
-   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 1739.6,
-   "live_pnl": -49.5,
-   "live_pct": -0.57
+   "ltp": 266.5,
+   "live_pnl": -5.55,
+   "live_pct": -0.06
   }
  ],
  "closed": [
@@ -568,6 +534,33 @@
    "ltp": 1226.4,
    "live_pnl": -108.8,
    "live_pct": -1.1
+  },
+  {
+   "id": 20,
+   "symbol": "ICICIGI",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-26",
+   "entry_date": "2026-11-26",
+   "entry_time": "10:33",
+   "entry": 1749.5,
+   "qty": 5,
+   "invested": 8747.5,
+   "rsi_entry": 64.0,
+   "sl": 1710.87,
+   "tgt": 1807.44,
+   "status": "CLOSED",
+   "exit_date": "2026-11-26",
+   "exit_time": "14:01",
+   "exit": 1735.4,
+   "reason": "HM-FLIP",
+   "pnl": -96.74,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 1735.4,
+   "live_pnl": -70.5,
+   "live_pct": -0.81
   }
  ],
  "entered_this_run": 0
