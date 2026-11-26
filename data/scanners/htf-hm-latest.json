@@ -1,56 +1,20 @@
 {
  "date": "2026-11-26",
- "updated_at": "26 Nov 2026 15:00:58 IST",
+ "updated_at": "26 Nov 2026 17:28:46 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 1,
-  "invested": 9866.05,
-  "realized": 438.77,
+  "open": 0,
+  "invested": 0,
+  "realized": 420.27,
   "wins": 9,
-  "losses": 10,
-  "win_rate": 47.4
+  "losses": 11,
+  "win_rate": 45.0
  },
- "signals": [
-  {
-   "symbol": "POWERGRID",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY-MOMENTUM",
-   "setup": "IHM-BUY"
-  }
- ],
+ "signals": [],
  "monthly_watchlist": [],
- "open": [
-  {
-   "id": 19,
-   "symbol": "POWERGRID",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-26",
-   "entry_date": "2026-11-26",
-   "entry_time": "10:15",
-   "entry": 266.65,
-   "qty": 37,
-   "invested": 9866.05,
-   "rsi_entry": 55.8,
-   "sl": 264.52,
-   "tgt": 269.85,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY-MOMENTUM",
-   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 267.65,
-   "live_pnl": 37.0,
-   "live_pct": 0.38
-  }
- ],
+ "open": [],
  "closed": [
   {
    "id": 1,
@@ -534,6 +498,33 @@
    "ltp": 1226.4,
    "live_pnl": -108.8,
    "live_pct": -1.1
+  },
+  {
+   "id": 19,
+   "symbol": "POWERGRID",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-26",
+   "entry_date": "2026-11-26",
+   "entry_time": "10:15",
+   "entry": 266.65,
+   "qty": 37,
+   "invested": 9866.05,
+   "rsi_entry": 55.8,
+   "sl": 264.52,
+   "tgt": 269.85,
+   "status": "CLOSED",
+   "exit_date": "2026-11-26",
+   "exit_time": "17:28",
+   "exit": 266.95,
+   "reason": "EOD",
+   "pnl": -18.5,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 266.95,
+   "live_pnl": 11.1,
+   "live_pct": 0.11
   },
   {
    "id": 20,
