@@ -1,9 +1,9 @@
 {
- "updated_at": "25 Nov 2026 15:08:16 IST",
+ "updated_at": "26 Nov 2026 09:17:33 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
- "today": "2026-11-25",
+ "today": "2026-11-26",
  "strategy": {
   "rule": "first 5-min candle O=L -> BUY / O=H -> SELL (v3 17 Nov: entries 09:30-09:45 only, RVOL >= 1.5, top-3 per setup, candle stop <= 1.5% away), ₹10,000/stock",
   "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
@@ -23,52 +23,17 @@
   "max_stop_pct": 1.5,
   "max_per_setup": 3
  },
- "vol_blocked": {
-  "ol": {
-   "low_vol": 30,
-   "no_vol_data": 0
-  },
-  "oh": {
-   "low_vol": 0,
-   "no_vol_data": 0
-  }
- },
+ "vol_blocked": {},
  "trend_blocked": {},
  "vwap_blocked": {},
- "stop_blocked": {
-  "ol": {
-   "LTF": 2.84,
-   "PNBHOUSING": 1.95,
-   "BLUESTARCO": 1.92
-  },
-  "oh": {}
- },
- "vol_audit": {
-  "ol": {
-   "BRIGADE": 34.12,
-   "LTF": 8.98,
-   "GODIGIT": 3.47,
-   "CREDITACC": 3.09,
-   "POLYMED": 2.5,
-   "EIHOTEL": 2.13,
-   "J&KBANK": 1.98,
-   "PNBHOUSING": 1.97,
-   "IDFCFIRSTB": 1.88,
-   "BIKAJI": 1.77,
-   "ZYDUSWELL": 1.73,
-   "ICICIBANK": 1.63,
-   "BLUESTARCO": 1.6,
-   "BANKINDIA": 1.48,
-   "ICICIGI": 1.39
-  },
-  "oh": {}
- },
+ "stop_blocked": {},
+ "vol_audit": {},
  "engine_errors": [],
  "summary": {
   "open_count": 0,
   "closed_count": 264,
-  "trades_today": 6,
-  "today_pnl": -144.1,
+  "trades_today": 0,
+  "today_pnl": 0,
   "realized_total": -2140.78,
   "unrealized": 0,
   "wins": 117,
