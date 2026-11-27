@@ -845,7 +845,7 @@
    "entry": 750.3,
    "sl": 668.64,
    "tgt": 913.62,
-   "sessions": 7,
+   "sessions": 8,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -863,7 +863,7 @@
    "entry": 1001.4,
    "sl": 906.05,
    "tgt": 1192.1,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -881,7 +881,7 @@
    "entry": 6933.0,
    "sl": 5970.0,
    "tgt": 8859.0,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -899,7 +899,7 @@
    "entry": 242.9,
    "sl": 211.69,
    "tgt": 305.32,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null
@@ -917,11 +917,11 @@
    "entry": 585.0,
    "sl": 533.37,
    "tgt": 688.26,
-   "sessions": 1,
+   "sessions": 2,
    "exit": null,
    "reason": null,
    "pnl": null
   }
  ],
- "done_date": "2026-11-26"
+ "done_date": "2026-11-27"
 }
