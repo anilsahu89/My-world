@@ -1,56 +1,20 @@
 {
  "date": "2026-11-27",
- "updated_at": "27 Nov 2026 15:01:19 IST",
+ "updated_at": "27 Nov 2026 17:28:23 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 1,
-  "invested": 9889.5,
-  "realized": 295.73,
-  "wins": 9,
+  "open": 0,
+  "invested": 0,
+  "realized": 351.56,
+  "wins": 10,
   "losses": 13,
-  "win_rate": 40.9
+  "win_rate": 43.5
  },
- "signals": [
-  {
-   "symbol": "TMPV",
-   "side": "SELL",
-   "weekly": "SELL",
-   "daily": "SELL-MOMENTUM",
-   "setup": "IHM-SELL"
-  }
- ],
+ "signals": [],
  "monthly_watchlist": [],
- "open": [
-  {
-   "id": 23,
-   "symbol": "TMPV",
-   "side": "SELL",
-   "setup": "IHM-SELL",
-   "signal_date": "2026-11-27",
-   "entry_date": "2026-11-27",
-   "entry_time": "10:25",
-   "entry": 260.25,
-   "qty": 38,
-   "invested": 9889.5,
-   "rsi_entry": 45.5,
-   "sl": 262.57,
-   "tgt": 256.76,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "SELL",
-   "htf_daily": "SELL-MOMENTUM",
-   "notes": "HTF SELL/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 257.95,
-   "live_pnl": 87.4,
-   "live_pct": 0.88
-  }
- ],
+ "open": [],
  "closed": [
   {
    "id": 1,
@@ -642,6 +606,33 @@
    "ltp": 1604.0,
    "live_pnl": -19.2,
    "live_pct": -0.2
+  },
+  {
+   "id": 23,
+   "symbol": "TMPV",
+   "side": "SELL",
+   "setup": "IHM-SELL",
+   "signal_date": "2026-11-27",
+   "entry_date": "2026-11-27",
+   "entry_time": "10:25",
+   "entry": 260.25,
+   "qty": 38,
+   "invested": 9889.5,
+   "rsi_entry": 45.5,
+   "sl": 262.57,
+   "tgt": 256.76,
+   "status": "CLOSED",
+   "exit_date": "2026-11-27",
+   "exit_time": "17:28",
+   "exit": 258.0,
+   "reason": "EOD",
+   "pnl": 55.83,
+   "htf_weekly": "SELL",
+   "htf_daily": "SELL-MOMENTUM",
+   "notes": "HTF SELL/SELL-MOMENTUM → 1H IHM-SELL",
+   "ltp": 258.0,
+   "live_pnl": 85.5,
+   "live_pct": 0.86
   }
  ],
  "entered_this_run": 0

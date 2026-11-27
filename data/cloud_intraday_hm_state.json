@@ -607,18 +607,18 @@
    "rsi_entry": 45.5,
    "sl": 262.57,
    "tgt": 256.76,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
+   "status": "CLOSED",
+   "exit_date": "2026-11-27",
+   "exit_time": "17:28",
+   "exit": 258.0,
+   "reason": "EOD",
+   "pnl": 55.83,
    "htf_weekly": "SELL",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 257.95,
-   "live_pnl": 87.4,
-   "live_pct": 0.88
+   "ltp": 258.0,
+   "live_pnl": 85.5,
+   "live_pct": 0.86
   }
  ]
 }
