@@ -1,5 +1,5 @@
 {
- "updated_at": "27 Nov 2026 09:34:01 IST",
+ "updated_at": "27 Nov 2026 09:38:01 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -37,13 +37,14 @@
  "vwap_blocked": {},
  "stop_blocked": {
   "ol": {
-   "MAZDOCK": 3.47,
-   "BANKINDIA": 3.39,
-   "GMDCLTD": 2.64,
-   "MMTC": 2.4,
-   "TITAN": 1.98,
-   "EMMVEE": 1.84,
-   "COFORGE": 1.6
+   "MAZDOCK": 3.82,
+   "BANKINDIA": 3.69,
+   "MMTC": 2.86,
+   "GMDCLTD": 2.52,
+   "COFORGE": 1.87,
+   "EMMVEE": 1.65,
+   "TITAN": 1.61,
+   "CHOICEIN": 1.5
   },
   "oh": {}
  },
@@ -53,16 +54,16 @@
    "MMTC": 5.46,
    "ADANIENT": 4.96,
    "TITAN": 3.24,
+   "GMDCLTD": 3.17,
+   "KEI": 3.15,
    "LLOYDSME": 3.13,
-   "GMDCLTD": 3.08,
-   "KEI": 2.93,
+   "MAZDOCK": 2.67,
    "PTCIL": 2.59,
+   "BANKINDIA": 2.48,
    "VEDL": 2.41,
    "MANAPPURAM": 2.38,
    "CHOICEIN": 2.24,
-   "BANKINDIA": 2.11,
    "COFORGE": 1.98,
-   "MAZDOCK": 1.9,
    "EMMVEE": 1.86
   },
   "oh": {}
@@ -74,7 +75,7 @@
   "trades_today": 3,
   "today_pnl": 0,
   "realized_total": -2158.48,
-  "unrealized": 0,
+  "unrealized": -23.09,
   "wins": 118,
   "losses": 149,
   "win_rate": 44.2,
@@ -95,14 +96,14 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -1.35,
    "feed": "angel",
    "rules": "v3-17nov",
    "vol_ratio": 8.78,
    "stop_pct": 1.34,
    "open_px": 430.0,
-   "ltp": 435.8,
-   "pnl_pct": 0.0
+   "ltp": 435.65,
+   "pnl_pct": -0.03
   },
   {
    "id": 275,
@@ -118,14 +119,14 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -8.4,
    "feed": "angel",
    "rules": "v3-17nov",
    "vol_ratio": 4.96,
    "stop_pct": 0.39,
    "open_px": 2660.0,
-   "ltp": 2670.5,
-   "pnl_pct": 0.0
+   "ltp": 2666.3,
+   "pnl_pct": -0.16
   },
   {
    "id": 276,
@@ -141,14 +142,14 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": 0.0,
+   "pnl": -13.34,
    "feed": "angel",
    "rules": "v3-17nov",
    "vol_ratio": 2.41,
    "stop_pct": 0.74,
    "open_px": 242.6,
-   "ltp": 244.41,
-   "pnl_pct": 0.0
+   "ltp": 243.83,
+   "pnl_pct": -0.24
   }
  ],
  "closed": [
