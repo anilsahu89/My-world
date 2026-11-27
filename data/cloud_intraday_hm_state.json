@@ -562,9 +562,9 @@
    "htf_weekly": "SELL-MOMENTUM",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 385.15,
-   "live_pnl": 8.75,
-   "live_pct": 0.09
+   "ltp": 386.6,
+   "live_pnl": -27.5,
+   "live_pct": -0.29
   },
   {
    "id": 22,
@@ -616,9 +616,9 @@
    "htf_weekly": "SELL",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 260.4,
-   "live_pnl": -5.7,
-   "live_pct": -0.06
+   "ltp": 261.0,
+   "live_pnl": -28.5,
+   "live_pct": -0.29
   }
  ]
 }
