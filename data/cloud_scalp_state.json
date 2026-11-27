@@ -1,74 +1,11 @@
 {
  "version": 1,
  "next_id": 18,
- "trades": [
-  {
-   "id": 16,
-   "setup": "FIRST3",
-   "side": "CE",
-   "symbol": "NIFTY ATM CE",
-   "entry_date": "2026-11-26",
-   "entry_bar": 7,
-   "entry_idx": 25949.6,
-   "stop_idx": 25807.4,
-   "target_idx": 26162.9,
-   "driver_low": 25807.400390625,
-   "r_multiple": 0.0,
-   "lots": 2,
-   "status": "CLOSED",
-   "structure": "trend-continuation",
-   "exit_bar": 0,
-   "exit_reason": "SL",
-   "exit_idx": 25807.4,
-   "pnl_pts": -142.2,
-   "pnl": -10665.0
-  },
-  {
-   "id": 17,
-   "setup": "VWAPBOUNCE",
-   "side": "CE",
-   "symbol": "NIFTY ATM CE",
-   "entry_date": "2026-11-26",
-   "entry_bar": 7,
-   "entry_idx": 25956.5,
-   "stop_idx": 25802.4,
-   "target_idx": 26264.7,
-   "r_multiple": 0.0,
-   "lots": 2,
-   "status": "CLOSED",
-   "structure": "trend-pullback",
-   "exit_bar": 0,
-   "exit_reason": "SL",
-   "exit_idx": 25802.4,
-   "pnl_pts": -154.1,
-   "pnl": -11557.5
-  }
- ],
- "decisions": [
-  {
-   "time": "11:16:01",
-   "decision": "ENTRY",
-   "detail": "FIRST3 stack @ 25949.6 SL 25807.4 TGT 26162.9"
-  },
-  {
-   "time": "11:19:40",
-   "decision": "EXIT",
-   "detail": "NIFTY ATM CE SL @ 25807.4 -> -142.2 pts"
-  },
-  {
-   "time": "11:19:40",
-   "decision": "ENTRY",
-   "detail": "VWAP bounce @ 25956.5 SL 25802.4 TGT 26264.7"
-  },
-  {
-   "time": "11:23:12",
-   "decision": "EXIT",
-   "detail": "NIFTY ATM CE SL @ 25802.4 -> -154.1 pts"
-  }
- ],
- "day": "2026-11-26",
- "day_losses": 2,
- "done_date": "2026-11-26",
+ "trades": [],
+ "decisions": [],
+ "day": "2026-11-27",
+ "day_losses": 0,
+ "done_date": "2026-11-27",
  "btc": {
   "position": {
    "side": "LONG",
