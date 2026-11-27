@@ -1,5 +1,5 @@
 {
- "updated_at": "27 Nov 2026 09:38:01 IST",
+ "updated_at": "27 Nov 2026 09:42:02 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -37,13 +37,14 @@
  "vwap_blocked": {},
  "stop_blocked": {
   "ol": {
-   "MAZDOCK": 3.82,
-   "BANKINDIA": 3.69,
-   "MMTC": 2.86,
-   "GMDCLTD": 2.52,
-   "COFORGE": 1.87,
-   "EMMVEE": 1.65,
+   "BANKINDIA": 4.88,
+   "MAZDOCK": 3.28,
+   "MMTC": 2.75,
+   "GMDCLTD": 2.65,
+   "COFORGE": 2.5,
+   "DATAPATTNS": 2.09,
    "TITAN": 1.61,
+   "EMMVEE": 1.52,
    "CHOICEIN": 1.5
   },
   "oh": {}
@@ -54,17 +55,17 @@
    "MMTC": 5.46,
    "ADANIENT": 4.96,
    "TITAN": 3.24,
+   "KEI": 3.22,
    "GMDCLTD": 3.17,
-   "KEI": 3.15,
+   "BANKINDIA": 3.13,
    "LLOYDSME": 3.13,
-   "MAZDOCK": 2.67,
+   "MAZDOCK": 3.1,
    "PTCIL": 2.59,
-   "BANKINDIA": 2.48,
    "VEDL": 2.41,
    "MANAPPURAM": 2.38,
    "CHOICEIN": 2.24,
-   "COFORGE": 1.98,
-   "EMMVEE": 1.86
+   "COFORGE": 2.01,
+   "DATAPATTNS": 1.9
   },
   "oh": {}
  },
@@ -75,7 +76,7 @@
   "trades_today": 3,
   "today_pnl": 0,
   "realized_total": -2158.48,
-  "unrealized": -23.09,
+  "unrealized": 14.83,
   "wins": 118,
   "losses": 149,
   "win_rate": 44.2,
@@ -96,14 +97,14 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -1.35,
+   "pnl": 15.3,
    "feed": "angel",
    "rules": "v3-17nov",
    "vol_ratio": 8.78,
    "stop_pct": 1.34,
    "open_px": 430.0,
-   "ltp": 435.65,
-   "pnl_pct": -0.03
+   "ltp": 437.5,
+   "pnl_pct": 0.39
   },
   {
    "id": 275,
@@ -119,14 +120,14 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -8.4,
+   "pnl": 1.6,
    "feed": "angel",
    "rules": "v3-17nov",
    "vol_ratio": 4.96,
    "stop_pct": 0.39,
    "open_px": 2660.0,
-   "ltp": 2666.3,
-   "pnl_pct": -0.16
+   "ltp": 2671.3,
+   "pnl_pct": 0.03
   },
   {
    "id": 276,
@@ -142,14 +143,14 @@
    "exit_time": null,
    "exit_price": null,
    "reason": null,
-   "pnl": -13.34,
+   "pnl": -2.07,
    "feed": "angel",
    "rules": "v3-17nov",
    "vol_ratio": 2.41,
    "stop_pct": 0.74,
    "open_px": 242.6,
-   "ltp": 243.83,
-   "pnl_pct": -0.24
+   "ltp": 244.32,
+   "pnl_pct": -0.04
   }
  ],
  "closed": [
