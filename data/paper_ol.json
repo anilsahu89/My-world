@@ -1,9 +1,9 @@
 {
- "updated_at": "26 Nov 2026 15:07:57 IST",
+ "updated_at": "27 Nov 2026 09:17:40 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
- "today": "2026-11-26",
+ "today": "2026-11-27",
  "strategy": {
   "rule": "first 5-min candle O=L -> BUY / O=H -> SELL (v3 17 Nov: entries 09:30-09:45 only, RVOL >= 1.5, top-3 per setup, candle stop <= 1.5% away), ₹10,000/stock",
   "sl": "primary: 5-min candle CLOSE below opening low (long) / above opening high (short) | backstop: 0.5% beyond day low/high",
@@ -23,48 +23,17 @@
   "max_stop_pct": 1.5,
   "max_per_setup": 3
  },
- "vol_blocked": {
-  "ol": {
-   "low_vol": 0,
-   "no_vol_data": 0
-  },
-  "oh": {
-   "low_vol": 41,
-   "no_vol_data": 0
-  }
- },
+ "vol_blocked": {},
  "trend_blocked": {},
- "vwap_blocked": {
-  "ol": 0,
-  "oh": 6
- },
+ "vwap_blocked": {},
  "stop_blocked": {},
- "vol_audit": {
-  "ol": {},
-  "oh": {
-   "PHOENIXLTD": 2.77,
-   "NIACL": 2.6,
-   "AXISBANK": 2.58,
-   "BRITANNIA": 2.45,
-   "DABUR": 1.92,
-   "SHRIRAMFIN": 1.62,
-   "ADANIGREEN": 1.53,
-   "INDGN": 1.49,
-   "DEVYANI": 1.4,
-   "APOLLOTYRE": 1.29,
-   "NESTLEIND": 1.16,
-   "ZEEL": 1.07,
-   "GODREJCP": 0.94,
-   "VBL": 0.8,
-   "WELSPUNLIV": 0.78
-  }
- },
+ "vol_audit": {},
  "engine_errors": [],
  "summary": {
   "open_count": 0,
   "closed_count": 267,
-  "trades_today": 3,
-  "today_pnl": -17.7,
+  "trades_today": 0,
+  "today_pnl": 0,
   "realized_total": -2158.48,
   "unrealized": 0,
   "wins": 118,
