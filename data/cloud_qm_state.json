@@ -40,11 +40,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 19,
+   "sessions": 20,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1911.300048828125,
+   "mark": 1880.0,
    "note": "BB squeeze rank 5% blast on w bars"
   },
   {
@@ -62,11 +62,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 18,
+   "sessions": 19,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1697.199951171875,
+   "mark": 1707.300048828125,
    "note": "BB squeeze rank 6% blast on d bars"
   },
   {
@@ -107,11 +107,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 17,
+   "sessions": 18,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 379.0,
+   "mark": 377.6499938964844,
    "note": "BB squeeze rank 0% blast on d bars"
   },
   {
@@ -152,11 +152,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 16,
+   "sessions": 17,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1194.199951171875,
+   "mark": 1156.9000244140625,
    "note": "BB squeeze rank 11% blast on w bars"
   },
   {
@@ -243,11 +243,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 12,
+   "sessions": 13,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1392.0,
+   "mark": 1381.699951171875,
    "note": "RSI9 84 V-turn above rising SMA20"
   },
   {
@@ -259,18 +259,18 @@
    "status": "OPEN",
    "ref_close": 252.21,
    "entry_date": "2026-11-11",
-   "qty": 20.0,
+   "qty": 10.0,
    "entry": 253.0,
    "invested": 5060.0,
-   "booked": 0.0,
+   "booked": 317.61,
    "avg_count": 0,
-   "trail": false,
-   "sessions": 12,
+   "trail": true,
+   "sessions": 13,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 280.3500061035156,
-   "note": "RSI9 71 V-turn above rising SMA20"
+   "mark": 285.5199890136719,
+   "note": "half booked @ 285.5"
   },
   {
    "id": 29,
@@ -333,11 +333,11 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 10,
+   "sessions": 11,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 1811.0,
+   "mark": 1791.800048828125,
    "note": "BB squeeze rank 15% blast on w bars"
   },
   {
@@ -378,14 +378,14 @@
    "booked": 0.0,
    "avg_count": 0,
    "trail": false,
-   "sessions": 8,
+   "sessions": 9,
    "exit": null,
    "reason": null,
    "pnl": null,
-   "mark": 3262.60009765625,
+   "mark": 3273.0,
    "note": "RSI9 76 V-turn above rising SMA20"
   }
  ],
- "done_date": "2026-11-26",
+ "done_date": "2026-11-27",
  "circuit_breaker": false
 }
