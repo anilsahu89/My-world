@@ -1,16 +1,16 @@
 {
  "date": "2026-11-27",
- "updated_at": "27 Nov 2026 10:26:02 IST",
+ "updated_at": "27 Nov 2026 10:32:28 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 3,
-  "invested": 29170.2,
-  "realized": 420.27,
+  "open": 2,
+  "invested": 19527.0,
+  "realized": 372.14,
   "wins": 9,
-  "losses": 11,
-  "win_rate": 45.0
+  "losses": 12,
+  "win_rate": 42.9
  },
  "signals": [
   {
@@ -19,13 +19,6 @@
    "weekly": "SELL-MOMENTUM",
    "daily": "SELL-MOMENTUM",
    "setup": "IHM-SELL"
-  },
-  {
-   "symbol": "PIDILITIND",
-   "side": "BUY",
-   "weekly": "BUY-MOMENTUM",
-   "daily": "BUY-MOMENTUM",
-   "setup": "IHM-BUY"
   },
   {
    "symbol": "TMPV",
@@ -60,34 +53,9 @@
    "htf_weekly": "SELL-MOMENTUM",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 385.5,
-   "live_pnl": 0.0
-  },
-  {
-   "id": 22,
-   "symbol": "PIDILITIND",
-   "side": "BUY",
-   "setup": "IHM-BUY",
-   "signal_date": "2026-11-27",
-   "entry_date": "2026-11-27",
-   "entry_time": "10:25",
-   "entry": 1607.2,
-   "qty": 6,
-   "invested": 9643.2,
-   "rsi_entry": 52.7,
-   "sl": 1584.52,
-   "tgt": 1641.21,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "BUY-MOMENTUM",
-   "htf_daily": "BUY-MOMENTUM",
-   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
-   "ltp": 1607.2,
-   "live_pnl": 0.0
+   "ltp": 385.15,
+   "live_pnl": 8.75,
+   "live_pct": 0.09
   },
   {
    "id": 23,
@@ -112,8 +80,9 @@
    "htf_weekly": "SELL",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 260.25,
-   "live_pnl": 0.0
+   "ltp": 259.55,
+   "live_pnl": 26.6,
+   "live_pct": 0.27
   }
  ],
  "closed": [
@@ -653,7 +622,34 @@
    "ltp": 1735.4,
    "live_pnl": -70.5,
    "live_pct": -0.81
+  },
+  {
+   "id": 22,
+   "symbol": "PIDILITIND",
+   "side": "BUY",
+   "setup": "IHM-BUY",
+   "signal_date": "2026-11-27",
+   "entry_date": "2026-11-27",
+   "entry_time": "10:25",
+   "entry": 1607.2,
+   "qty": 6,
+   "invested": 9643.2,
+   "rsi_entry": 52.7,
+   "sl": 1584.52,
+   "tgt": 1641.21,
+   "status": "CLOSED",
+   "exit_date": "2026-11-27",
+   "exit_time": "10:32",
+   "exit": 1604.0,
+   "reason": "HM-FLIP",
+   "pnl": -48.13,
+   "htf_weekly": "BUY-MOMENTUM",
+   "htf_daily": "BUY-MOMENTUM",
+   "notes": "HTF BUY-MOMENTUM/BUY-MOMENTUM → 1H IHM-BUY",
+   "ltp": 1604.0,
+   "live_pnl": -19.2,
+   "live_pct": -0.2
   }
  ],
- "entered_this_run": 3
+ "entered_this_run": 0
 }
