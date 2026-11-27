@@ -1,5 +1,5 @@
 {
- "updated_at": "27 Nov 2026 14:57:54 IST",
+ "updated_at": "27 Nov 2026 15:01:17 IST",
  "feed": "angel",
  "feed_note": "Angel SmartAPI live feed (cloud, no Mac)",
  "status": "RUNNING",
@@ -71,45 +71,18 @@
  },
  "engine_errors": [],
  "summary": {
-  "open_count": 1,
-  "closed_count": 269,
+  "open_count": 0,
+  "closed_count": 270,
   "trades_today": 3,
-  "today_pnl": -81.4,
-  "realized_total": -2239.88,
-  "unrealized": 23.0,
-  "wins": 118,
+  "today_pnl": -64.84,
+  "realized_total": -2223.32,
+  "unrealized": 0,
+  "wins": 119,
   "losses": 151,
-  "win_rate": 43.9,
+  "win_rate": 44.1,
   "days": 40
  },
- "open": [
-  {
-   "id": 276,
-   "date": "2026-11-27",
-   "setup": "ol",
-   "symbol": "VEDL",
-   "side": "BUY",
-   "qty": 23,
-   "entry_time": "09:33:02",
-   "entry_price": 244.41,
-   "candle_stop": 242.6,
-   "sl_price": 240.17,
-   "exit_time": null,
-   "exit_price": null,
-   "reason": null,
-   "pnl": 23.0,
-   "feed": "angel",
-   "rules": "v3-17nov",
-   "vol_ratio": 2.41,
-   "stop_pct": 0.74,
-   "open_px": 242.6,
-   "mark_1200": 244.95,
-   "mark_1230": 244.42,
-   "mark_1300": 244.2,
-   "ltp": 245.41,
-   "pnl_pct": 0.41
-  }
- ],
+ "open": [],
  "closed": [
   {
    "id": 274,
@@ -152,6 +125,30 @@
    "vol_ratio": 4.96,
    "stop_pct": 0.39,
    "open_px": 2660.0
+  },
+  {
+   "id": 276,
+   "date": "2026-11-27",
+   "setup": "ol",
+   "symbol": "VEDL",
+   "side": "BUY",
+   "qty": 23,
+   "entry_time": "09:33:02",
+   "entry_price": 244.41,
+   "candle_stop": 242.6,
+   "sl_price": 240.17,
+   "exit_time": "15:00:56",
+   "exit_price": 245.13,
+   "reason": "EOD",
+   "pnl": 16.56,
+   "feed": "angel",
+   "rules": "v3-17nov",
+   "vol_ratio": 2.41,
+   "stop_pct": 0.74,
+   "open_px": 242.6,
+   "mark_1200": 244.95,
+   "mark_1230": 244.42,
+   "mark_1300": 244.2
   },
   {
    "id": 271,
@@ -4976,10 +4973,10 @@
    "trades": 3,
    "ol": 3,
    "oh": 0,
-   "wins": 0,
+   "wins": 1,
    "losses": 2,
-   "pnl": -81.4,
-   "cum": -2239.88
+   "pnl": -64.84,
+   "cum": -2223.32
   }
  ]
 }
