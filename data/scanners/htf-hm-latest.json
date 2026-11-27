@@ -1,25 +1,18 @@
 {
  "date": "2026-11-27",
- "updated_at": "27 Nov 2026 12:32:09 IST",
+ "updated_at": "27 Nov 2026 13:02:48 IST",
  "desk": "Intraday HM",
  "rule": "Intraday HM — HTF bias (weekly+daily) then 1H entry. BUY: weekly&daily BUY → 1H momentum. SELL: weekly&daily SELL → 1H sell-zone. EOD 15:15 · SL 3×1H · 1.5R · RSI86/HM-FLIP. ₹10k · max 5 · max 3/day · NSE-200.",
  "book": {
   "capital": 100000.0,
-  "open": 2,
-  "invested": 19527.0,
-  "realized": 372.14,
+  "open": 1,
+  "invested": 9889.5,
+  "realized": 295.73,
   "wins": 9,
-  "losses": 12,
-  "win_rate": 42.9
+  "losses": 13,
+  "win_rate": 40.9
  },
  "signals": [
-  {
-   "symbol": "COALINDIA",
-   "side": "SELL",
-   "weekly": "SELL-MOMENTUM",
-   "daily": "SELL-MOMENTUM",
-   "setup": "IHM-SELL"
-  },
   {
    "symbol": "TMPV",
    "side": "SELL",
@@ -30,33 +23,6 @@
  ],
  "monthly_watchlist": [],
  "open": [
-  {
-   "id": 21,
-   "symbol": "COALINDIA",
-   "side": "SELL",
-   "setup": "IHM-SELL",
-   "signal_date": "2026-11-27",
-   "entry_date": "2026-11-27",
-   "entry_time": "10:25",
-   "entry": 385.5,
-   "qty": 25,
-   "invested": 9637.5,
-   "rsi_entry": 41.8,
-   "sl": 390.93,
-   "tgt": 377.35,
-   "status": "OPEN",
-   "exit_date": "",
-   "exit_time": "",
-   "exit": 0.0,
-   "reason": "",
-   "pnl": 0.0,
-   "htf_weekly": "SELL-MOMENTUM",
-   "htf_daily": "SELL-MOMENTUM",
-   "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 386.95,
-   "live_pnl": -36.25,
-   "live_pct": -0.38
-  },
   {
    "id": 23,
    "symbol": "TMPV",
@@ -80,9 +46,9 @@
    "htf_weekly": "SELL",
    "htf_daily": "SELL-MOMENTUM",
    "notes": "HTF SELL/SELL-MOMENTUM → 1H IHM-SELL",
-   "ltp": 260.4,
-   "live_pnl": -5.7,
-   "live_pct": -0.06
+   "ltp": 260.3,
+   "live_pnl": -1.9,
+   "live_pct": -0.02
   }
  ],
  "closed": [
@@ -622,6 +588,33 @@
    "ltp": 1735.4,
    "live_pnl": -70.5,
    "live_pct": -0.81
+  },
+  {
+   "id": 21,
+   "symbol": "COALINDIA",
+   "side": "SELL",
+   "setup": "IHM-SELL",
+   "signal_date": "2026-11-27",
+   "entry_date": "2026-11-27",
+   "entry_time": "10:25",
+   "entry": 385.5,
+   "qty": 25,
+   "invested": 9637.5,
+   "rsi_entry": 41.8,
+   "sl": 390.93,
+   "tgt": 377.35,
+   "status": "CLOSED",
+   "exit_date": "2026-11-27",
+   "exit_time": "13:02",
+   "exit": 387.4,
+   "reason": "HM-FLIP",
+   "pnl": -76.41,
+   "htf_weekly": "SELL-MOMENTUM",
+   "htf_daily": "SELL-MOMENTUM",
+   "notes": "HTF SELL-MOMENTUM/SELL-MOMENTUM → 1H IHM-SELL",
+   "ltp": 387.4,
+   "live_pnl": -47.5,
+   "live_pct": -0.49
   },
   {
    "id": 22,
