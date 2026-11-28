@@ -1,5 +1,5 @@
 {
- "updated_at": "28 Nov 2026 05:24:53 IST",
+ "updated_at": "28 Nov 2026 05:39:55 IST",
  "engine": "cloud gc desk (GitHub Actions relay — no Mac needed)",
  "markets": [
   {
@@ -12,7 +12,7 @@
    "ltp": 3674.60009765625,
    "chg_pct": 0.27,
    "minutes_since_open": null,
-   "entry_window_open": false,
+   "entry_window_open": true,
    "ol": false,
    "oh": false,
    "position": null,
@@ -22,17 +22,25 @@
   {
    "symbol": "BTC",
    "yahoo": "BTC-USD",
-   "session": "2026-11-27",
-   "open": 60494.6796875,
-   "high": 62099.98828125,
-   "low": 58723.87890625,
-   "ltp": 59825.98828125,
-   "chg_pct": -1.11,
+   "session": "2026-11-28",
+   "open": 59859.28125,
+   "high": 59937.58984375,
+   "low": 59858.1484375,
+   "ltp": 59930.51171875,
+   "chg_pct": 0.12,
    "minutes_since_open": null,
-   "entry_window_open": false,
-   "ol": false,
+   "entry_window_open": true,
+   "ol": true,
    "oh": false,
-   "position": null,
+   "position": {
+    "side": "BUY",
+    "setup": "ol",
+    "qty": 0.001,
+    "entry_price": 59930.51,
+    "entry_time": "05:39:54",
+    "sl_price": 59558.86,
+    "pnl": null
+   },
    "square_off": "22:30",
    "capital_usd": 60.0
   }
